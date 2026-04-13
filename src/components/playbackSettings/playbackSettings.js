@@ -230,6 +230,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkEnableDts').checked = appSettings.enableDts();
     context.querySelector('.chkEnableTrueHd').checked = appSettings.enableTrueHd();
     context.querySelector('.chkEnableHi10p').checked = appSettings.enableHi10p();
+    context.querySelector('.chkEnablePreloadTrickplayImages').checked = userSettings.enablePreloadTrickplayImages();
     context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
@@ -301,6 +302,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
     userSettingsInstance.limitSegmentLength(context.querySelector('.chkLimitSegmentLength').checked);
+    userSettingsInstance.enablePreloadTrickplayImages(context.querySelector('.chkEnablePreloadTrickplayImages').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
     userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
