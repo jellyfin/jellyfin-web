@@ -1852,6 +1852,61 @@ export default function (view) {
         playbackManager.setVolume(e.target.value, currentPlayer);
     });
 
+    // Firefox vol slider
+    if (browser.firefox)  {
+        let isDragging = false;
+        const updateVolumeFromMousePosition = (e) => {
+            const slider = nowPlayingVolumeSlider;
+            const rect = slider.getBoundingClientRect();
+            if (rect.width === 0) return;
+            let fraction = (e.clientX - rect.left) / rect.width;
+            if (globalize.getIsElementRTL(slider)) {
+                fraction = (rect.right - e.clientX) / rect.width;
+            }
+            fraction = Math.min(Math.max(fraction, 0), 1);
+
+            const min = parseFloat(slider.min) || 0;
+            const max = parseFloat(slider.max) || 100;
+            const volume = Math.round(min + fraction * (max - min));
+
+            slider.value = volume;
+            playbackManager.setVolume(volume, currentPlayer);
+        };
+        nowPlayingVolumeSlider.addEventListener('mo<!-- Describe your changes here in 1-5 sentences. -->usedown', (e) => {
+            isDragging = true;
+            updateVolumeFromMousePosition(e);
+        });
+        
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+            }
+        });
+        
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                updateVolumeFromMousePosition(e);
+            }
+        });
+        if (window.PointerEvent) {
+            nowPlayingVolumeSlider.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                updateVolumeFromMousePosition(e);
+            });
+            document.addEventListener('pointerup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                }
+            });
+            
+            document.addEventListener('pointermove', (e) => {
+                if (isDragging) {
+                    updateVolumeFromMousePosition(e);
+                }
+            });
+        }
+    }
+    
     nowPlayingPositionSlider.addEventListener('change', function () {
         const player = currentPlayer;
 
