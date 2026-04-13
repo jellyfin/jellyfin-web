@@ -9,6 +9,7 @@ import { appHost } from './apphost';
 import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { shouldUseOriginalTitles } from 'scripts/settings/userSettings';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export function getDisplayName(item, options = {}) {
@@ -20,7 +21,12 @@ export function getDisplayName(item, options = {}) {
         item = item.ProgramInfo || item;
     }
 
-    let name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
+    let baseName = item.Name;
+    if (shouldUseOriginalTitles() && item.OriginalTitle) {
+        baseName = item.OriginalTitle;
+    }
+
+    let name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : baseName) || '';
 
     if (item.Type === 'TvChannel') {
         if (item.ChannelNumber) {
