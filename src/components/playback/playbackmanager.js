@@ -27,6 +27,7 @@ import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
+import { TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
@@ -1343,6 +1344,10 @@ export class PlaybackManager {
                     }
                 });
             }
+        };
+
+        self.getFps = function (player) {
+            return self.currentMediaSource(player).MediaStreams.find(s => s.Type === 'Video')?.ReferenceFrameRate;
         };
 
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
@@ -3882,6 +3887,20 @@ export class PlaybackManager {
         const offsetTicks = 0 - (userSettings.skipBackLength() * 10000);
 
         this.seekRelative(offsetTicks, player);
+    }
+
+    nextFrame(player = this._currentPlayer) {
+        const fps = this.getFps(player);
+        if (fps) {
+            this.seekRelative(TICKS_PER_SECOND / fps, player);
+        }
+    }
+
+    previousFrame(player = this._currentPlayer) {
+        const fps = this.getFps(player);
+        if (fps) {
+            this.seekRelative(-TICKS_PER_SECOND / fps, player);
+        }
     }
 
     seekPercent(percent, player = this._currentPlayer) {
