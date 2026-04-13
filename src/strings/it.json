@@ -1894,5 +1894,9 @@
     "Watch": "Guarda",
     "TrickplayLoadError": "Impossibile caricare le impostazioni di trickplay",
     "LabelExternalServerUri": "URI esterno",
-    "LabelExternalServerUriHelp": "URI del server pubblicato per l'accesso esterno."
+    "LabelExternalServerUriHelp": "URI del server pubblicato per l'accesso esterno.",
+    "OnFilesystem": "Su filesystem: {0}",
+    "LabelVideoAttributes": "Attributi video",
+    "LabelVideoColors": "Colori del video",
+    "LabelVideoBitDepth": "Profondità bit del video"
 }
