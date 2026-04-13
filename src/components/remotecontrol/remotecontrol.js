@@ -5,6 +5,7 @@ import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
 import { AppFeature } from 'constants/appFeature';
 import { ItemAction } from 'constants/itemAction';
 
+import actionsheet from '../actionSheet/actionSheet';
 import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
@@ -829,6 +830,29 @@ export default function () {
                     context.querySelector('.playlistSectionButton').classList.add('playlistSectionButtonTransparent');
                 }
             }
+        });
+
+        let showPlaybackRateMenuButton = context.querySelector('.showPlaybackRateMenuButton')
+        showPlaybackRateMenuButton.addEventListener('click', function () {
+            // each has a name and id
+            const currentId = playbackManager.getPlaybackRate(currentPlayer);
+            const menuItems = playbackManager.getSupportedPlaybackRates(currentPlayer).map(i => ({
+                id: i.id,
+                name: i.name,
+                selected: i.id === currentId
+            }));
+
+            return actionsheet.show({
+                items: menuItems,
+                positionTo: showPlaybackRateMenuButton,
+            }).then(function (id) {
+                if (id) {
+                    playbackManager.setPlaybackRate(id, currentPlayer);
+                    return Promise.resolve();
+                }
+
+                return Promise.reject();
+            });
         });
     }
 
