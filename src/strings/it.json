@@ -1898,5 +1898,11 @@
     "OnFilesystem": "Su filesystem: {0}",
     "LabelVideoAttributes": "Attributi video",
     "LabelVideoColors": "Colori del video",
-    "LabelVideoBitDepth": "Profondità bit del video"
+    "LabelVideoBitDepth": "Profondità bit del video",
+    "LabelAudioAttributes": "Attributi audio",
+    "LabelTargetCodecs": "Codificatori di destinazione",
+    "LabelProgressAndSpeed": "Avanzamento / velocità",
+    "LabelReasons": "Motivi",
+    "LabelPlayerSizes": "Dimensioni del lettore",
+    "LabelPlaybackQuality": "Fotogramma scartato / danneggiato"
 }
