@@ -249,7 +249,7 @@ function onRotationInterval() {
     setTimeout(() => {
         const oldImages = getBackdropContainer().querySelectorAll(`.backdropImage:not([data-url="${currentImage}"])`);
         oldImages.forEach(img => {
-            img.parentNode?.removeChild(img);
+            img.remove();
         });
     }, 1600);
 }
