@@ -71,7 +71,12 @@ export function getDisplayDuration(ticks) {
     return result.join(' ');
 }
 
-export function getDisplayRunningTime(ticks) {
+/**
+ * Return a string in h:mm:ss format for the running time.
+ * @param {number} ticks - Running ime in ticks.
+ * @param {boolean} showZeroValues - If true, hours and minutes are always visible in resulting string, even if 0
+ */
+export function getDisplayRunningTime(ticks, showZeroValues = false) {
     const ticksPerHour = 36000000000;
     const ticksPerMinute = 600000000;
     const ticksPerSecond = 10000000;
@@ -81,7 +86,7 @@ export function getDisplayRunningTime(ticks) {
     let hours = ticks / ticksPerHour;
     hours = Math.floor(hours);
 
-    if (hours) {
+    if (hours || showZeroValues) {
         parts.push(hours.toLocaleString(globalize.getCurrentDateTimeLocale()));
     }
 
@@ -92,7 +97,7 @@ export function getDisplayRunningTime(ticks) {
 
     ticks -= (minutes * ticksPerMinute);
 
-    if (minutes < 10 && hours) {
+    if (minutes < 10 && (hours || showZeroValues)) {
         minutes = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
     } else {
         minutes = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
