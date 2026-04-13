@@ -1894,5 +1894,15 @@
     "TrickplayLoadError": "‹Échec du chargement des paramètres de Trickplay",
     "LabelExternalServerUri": "URI externe",
     "LabelExternalServerUriHelp": "URI du serveur publié pour l'accès externe.",
-    "HeaderLatestMusicVideos": "Vidéos musicales ajoutées récemment"
+    "HeaderLatestMusicVideos": "Vidéos musicales ajoutées récemment",
+    "OnFilesystem": "Sur le système de fichiers : {0}",
+    "LabelReasons": "Raisons",
+    "LabelPlaybackQuality": "Images perdues / corrompues",
+    "LabelVideoAttributes": "Illustration de personnage",
+    "LabelVideoColors": "Couleurs vidéo",
+    "LabelVideoBitDepth": "Profondeur de bits vidéo",
+    "LabelAudioAttributes": "Attributs audio",
+    "LabelTargetCodecs": "Codecs cibles",
+    "LabelProgressAndSpeed": "Progression / Vitesse",
+    "LabelPlayerSizes": "Tailles du lecteur"
 }
