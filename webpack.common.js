@@ -44,7 +44,6 @@ const Assets = [
     'libpgs/dist/libpgs.worker.js'
 ];
 
-const DEV_MODE = process.env.NODE_ENV !== 'production';
 let COMMIT_SHA = '';
 try {
     COMMIT_SHA = require('child_process')
