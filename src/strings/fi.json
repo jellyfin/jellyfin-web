@@ -1898,5 +1898,6 @@
     "ResumeLoadError": "Toisto asetusten lataaminen epäonnistui",
     "StreamingLoadError": "Suoratoisto sivun asetusten lataaminen epäonnistui",
     "Unwatch": "Katsomaton",
-    "UsersEditPageError": "Käyttäjän muokkaus sivun lataaminen epäonnistui"
+    "UsersEditPageError": "Käyttäjän muokkaus sivun lataaminen epäonnistui",
+    "Watch": "Katso"
 }
