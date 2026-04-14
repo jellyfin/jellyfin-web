@@ -29,7 +29,6 @@ const ListItemLink: FC<ListItemLinkProps> = ({
     const [ searchParams ] = useSearchParams();
 
     const [ toPath, toParams ] = to.split('?');
-    // eslint-disable-next-line compat/compat
     const toSearchParams = new URLSearchParams(`?${toParams}`);
     const selectedPaths = [ toPath, ...includePaths ];
 

@@ -5,7 +5,7 @@ import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import LinkButton from '../../../elements/emby-button/LinkButton';
-import { getDefaultBackgroundClass } from '../../cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../../cardbuilder/utils/builder';
 
 type IProps = {
     user?: UserDto;
@@ -57,7 +57,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
                     <div className='cardPadder cardPadder-square'></div>
                     <LinkButton
                         className='cardContent'
-                        href={`#/dashboard/users/profile?userId=${user.Id}`}>
+                        href={`#/dashboard/users/${user.Id}/profile`}>
                         {renderImgUrl}
                     </LinkButton>
                 </div>

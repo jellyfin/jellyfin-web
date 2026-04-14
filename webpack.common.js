@@ -11,13 +11,15 @@ const postcssPresetEnv = require('postcss-preset-env');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 
+const DEV_MODE = process.env.NODE_ENV !== 'production';
+
 const postcssOptions = {
     plugins: [
         // Explicitly specify browserslist to override ones from node_modules
         // For example, Swiper has it in its package.json
         postcssPresetEnv({ browsers: packageJson.browserslist }),
         autoprefixer({ overrideBrowserslist: packageJson.browserslist }),
-        cssnano({
+        DEV_MODE ? null : cssnano({
             presets: [
                 'default',
                 // Turn off `mergeLonghand` because it combines `padding-*` and `margin-*`,
@@ -25,7 +27,8 @@ const postcssOptions = {
                 // https://github.com/cssnano/cssnano/issues/1163
                 // https://github.com/cssnano/cssnano/issues/1192
                 { mergeLonghand: false }
-            ] })
+            ]
+        })
     ]
 };
 

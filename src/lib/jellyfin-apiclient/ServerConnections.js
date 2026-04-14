@@ -1,6 +1,3 @@
-// NOTE: This is used for jsdoc return type
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Api } from '@jellyfin/sdk';
 import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
 import { appHost } from 'components/apphost';
@@ -33,6 +30,8 @@ const getMaxBandwidth = () => {
 };
 
 class ServerConnections extends ConnectionManager {
+    firstConnection = false;
+
     constructor() {
         super(...arguments);
         this.localApiClient = null;
@@ -75,6 +74,9 @@ class ServerConnections extends ConnectionManager {
         console.debug('loaded ApiClient singleton');
     }
 
+    /**
+     * @returns {Promise<import('jellyfin-apiclient').ConnectResponse>} The result of the connection attempt.
+     */
     connect(options) {
         return super.connect({
             enableAutoLogin: appSettings.enableAutoLogin(),
@@ -113,7 +115,7 @@ class ServerConnections extends ConnectionManager {
 
     /**
      * Gets the Api that is currently connected.
-     * @returns {Api|undefined} The current Api instance.
+     * @returns {import(@jellyfin/sdk).Api|undefined} The current Api instance.
      */
     getCurrentApi() {
         const apiClient = this.currentApiClient();

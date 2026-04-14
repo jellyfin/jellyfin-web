@@ -18,7 +18,7 @@ import Dashboard from '../../../utils/dashboard';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
-import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/utils/builder';
 
 import './login.scss';
 
