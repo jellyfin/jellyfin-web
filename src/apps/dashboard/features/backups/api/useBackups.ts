@@ -1,16 +1,14 @@
-import { Api } from '@jellyfin/sdk';
-import { BackupApi } from '@jellyfin/sdk/lib/generated-client/api/backup-api';
+import type { Api } from '@jellyfin/sdk';
+import { getBackupApi } from '@jellyfin/sdk/lib/utils/api/backup-api';
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
+
 import { useApi } from 'hooks/useApi';
 
 export const QUERY_KEY = 'Backups';
 
 const fetchBackups = async (api: Api, options?: AxiosRequestConfig) => {
-    // FIXME: Replace with getBackupApi when available in SDK
-    const backupApi = new BackupApi(api.configuration, undefined, api.axiosInstance);
-
-    const response = await backupApi.listBackups(options);
+    const response = await getBackupApi(api).listBackups(options);
 
     const backups = response.data;
 

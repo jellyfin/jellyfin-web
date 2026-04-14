@@ -1872,5 +1872,13 @@
     "ConfirmDeletePlaylist": "Да ли сигурно желите да обришете ову листу за пуштање?",
     "HeaderDeleteCollection": "Обриши колекцију",
     "OptionDatePlaylistUpdated": "Датум ажурирања плејлисте",
-    "NewPlaylist": "Нова плејлиста"
+    "NewPlaylist": "Нова плејлиста",
+    "ActivitiesLoadError": "Учитавање активности није успело",
+    "ApiKeysLoadError": "Учитавање АПИ кључева није успело",
+    "Authors": "Аутори",
+    "ContinueReading": "Настави читање",
+    "DevicesLoadError": "Учитавање уређаја није успело",
+    "HeaderLatestBooks": "Недавно додате књиге",
+    "HeaderLatestMusicVideos": "Недавно додати музички видеи",
+    "LibrariesLoadError": "Учитавање библиотека није успело"
 }
