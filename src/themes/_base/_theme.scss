@@ -426,7 +426,7 @@ a[data-role=button],
 
 .ratingbutton-icon-withrating,
 .playstatebutton-icon-played {
-    @include var(color, --jf-palette-error-light, $error-light);
+    color: #ffc107;
 }
 
 .buttonActive {

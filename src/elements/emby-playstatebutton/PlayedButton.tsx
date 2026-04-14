@@ -68,7 +68,7 @@ const PlayedButton: FC<PlayedButtonProps> = ({
             onClick={onClick}
         >
             <CheckIcon
-                color={isPlayed ? 'error' : undefined}
+                sx={isPlayed ? { color: '#ffc107' } : undefined}
             />
         </IconButton>
     );
