@@ -1895,5 +1895,7 @@
     "LabelPlaybackQuality": "Kuva pudonnut / korruptoitunut",
     "BrandingLoadError": "Brändäyksen osetusten  lataaminen epäonnistui",
     "OnFilesystem": "Tiedostojärjestelmässä",
-    "ResumeLoadError": "Toisto asetusten lataaminen epäonnistui"
+    "ResumeLoadError": "Toisto asetusten lataaminen epäonnistui",
+    "StreamingLoadError": "Suoratoisto sivun asetusten lataaminen epäonnistui",
+    "Unwatch": "Katsomaton"
 }
