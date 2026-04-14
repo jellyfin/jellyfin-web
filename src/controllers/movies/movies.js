@@ -7,7 +7,7 @@ import cardBuilder from '../../components/cardbuilder/cardBuilder';
 import globalize from '../../lib/globalize';
 import Events from '../../utils/events.ts';
 import { playbackManager } from '../../components/playback/playbackmanager';
-import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { getFilterStatus, setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import '../../elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -28,6 +28,14 @@ export default function (view, params, tabContent, options) {
         isLoading = true;
         loading.show();
         return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
+    }
+
+    function playAll() {
+        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+            playbackManager.play({
+                items: [item]
+            });
+        });
     }
 
     function shuffle() {
@@ -94,6 +102,7 @@ export default function (view, params, tabContent, options) {
             elem.addEventListener('click', onPreviousPageClick);
         }
 
+        tabContent.querySelector('.btnPlayAll')?.classList.toggle('hide', result.TotalRecordCount < 1);
         tabContent.querySelector('.btnShuffle')?.classList.toggle('hide', result.TotalRecordCount < 1);
 
         isLoading = false;
@@ -266,6 +275,7 @@ export default function (view, params, tabContent, options) {
             itemsContainer.refreshItems();
         });
 
+        tabElement.querySelector('.btnPlayAll').addEventListener('click', playAll);
         tabElement.querySelector('.btnShuffle')?.addEventListener('click', shuffle);
     };
 
@@ -301,7 +311,8 @@ export default function (view, params, tabContent, options) {
             const filterDialog = new FilterDialog({
                 query: query,
                 mode: 'movies',
-                serverId: ApiClient.serverId()
+                serverId: ApiClient.serverId(),
+                hasFilters: getFilterStatus(query)
             });
             Events.on(filterDialog, 'filterchange', () => {
                 query.StartIndex = 0;

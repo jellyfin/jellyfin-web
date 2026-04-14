@@ -16,13 +16,15 @@ const __dirname = import.meta.dirname;
 
 const { DefinePlugin, IgnorePlugin } = webpack;
 
+const DEV_MODE = process.env.NODE_ENV !== 'production';
+
 const postcssOptions = {
     plugins: [
         // Explicitly specify browserslist to override ones from node_modules
         // For example, Swiper has it in its package.json
         postcssPresetEnv({ browsers: packageJson.browserslist }),
         autoprefixer({ overrideBrowserslist: packageJson.browserslist }),
-        cssnano({
+        DEV_MODE ? null : cssnano({
             presets: [
                 'default',
                 // Turn off `mergeLonghand` because it combines `padding-*` and `margin-*`,
@@ -46,7 +48,6 @@ const Assets = [
     'libpgs/dist/libpgs.worker.js'
 ];
 
-const DEV_MODE = process.env.NODE_ENV !== 'production';
 let COMMIT_SHA = '';
 try {
     COMMIT_SHA = ChildProcess

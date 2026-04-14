@@ -51,7 +51,12 @@ export enum SectionType {
     LatestRecordings = 'LatestRecordings',
     RecordingFolders = 'RecordingFolders',
     ActiveRecordings = 'ActiveRecordings',
-    UpcomingRecordings = 'UpcomingRecordings'
+    ContinueReading = 'ContinueReading',
+    LatestBooks = 'LatestBooks',
+    UpcomingRecordings = 'UpcomingRecordings',
+    LatestMusicVideos = 'latestmusicvideos',
+    RecentlyPlayedMusicVideos = 'recentlyplayedmusicvideos',
+    FrequentlyPlayedMusicVideos = 'frequentlyplayedmusicvideos'
 }
 
 export interface Section {
@@ -62,6 +67,13 @@ export interface Section {
     parametersOptions?: ParametersOptions;
     cardOptions: CardOptions;
 }
+
+export const BookSuggestionsSectionsView: SectionsView = {
+    suggestionSections: [
+        SectionType.LatestBooks,
+        SectionType.ContinueReading
+    ]
+};
 
 export const MovieSuggestionsSectionsView: SectionsView = {
     suggestionSections: [
@@ -84,6 +96,14 @@ export const MusicSuggestionsSectionsView: SectionsView = {
         SectionType.LatestMusic,
         SectionType.FrequentlyPlayedMusic,
         SectionType.RecentlyPlayedMusic
+    ]
+};
+
+export const MusicVideoSuggestionsSectionsView: SectionsView = {
+    suggestionSections: [
+        SectionType.LatestMusicVideos,
+        SectionType.FrequentlyPlayedMusicVideos,
+        SectionType.RecentlyPlayedMusicVideos
     ]
 };
 

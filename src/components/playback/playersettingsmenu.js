@@ -93,12 +93,16 @@ function getQualitySecondaryText(player) {
         return stream.Type === 'Video';
     })[0];
 
+    const videoCodec = videoStream ? videoStream.Codec : null;
+    const videoBitRate = videoStream ? videoStream.BitRate : null;
     const videoWidth = videoStream ? videoStream.Width : null;
     const videoHeight = videoStream ? videoStream.Height : null;
 
     const options = qualityoptions.getVideoQualityOptions({
         currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
         isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
+        videoCodec,
+        videoBitRate,
         videoWidth: videoWidth,
         videoHeight: videoHeight,
         enableAuto: true
