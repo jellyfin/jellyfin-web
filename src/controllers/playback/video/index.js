@@ -994,6 +994,8 @@ export default function (view) {
                 playbackManager.enableShowingSubtitleOffset(player);
                 toggleSubtitleSync();
             }
+        } else if (selectedOption === 'subtitleappearance') {
+            setTimeout(showSubtitleAppearanceDialog, 0);
         }
     }
 
@@ -1181,6 +1183,57 @@ export default function (view) {
             });
 
             setTimeout(resetIdle, 0);
+        });
+    }
+
+    function showSubtitleAppearanceDialog() {
+        const item = currentItem;
+        if (!item) return;
+
+        const appearanceKey = `subtitleappearance_${item.Id}`;
+        const apiClient = ServerConnections.getApiClient(item.ServerId);
+        const userId = apiClient.getCurrentUserId();
+
+        Promise.all([
+            import('../../../components/subtitlesettings/subtitlesettings'),
+            import('../../../components/dialogHelper/dialogHelper')
+        ]).then(([{ SubtitleSettings }, { default: dialogHelper }]) => {
+            const dlg = dialogHelper.createDialog({
+                size: 'medium',
+                removeOnClose: true,
+                scrollY: true
+            });
+
+            const container = document.createElement('div');
+            container.classList.add('formDialogContent', 'smoothScrollY');
+            dlg.appendChild(container);
+
+            document.body.appendChild(dlg);
+            dialogHelper.open(dlg);
+
+            const settingsInstance = new SubtitleSettings({
+                element: container,
+                serverId: item.ServerId,
+                userId: userId,
+                appearanceKey: appearanceKey,
+                enableSaveButton: true,
+                enableSaveConfirmation: false,
+                userSettings: userSettings.currentSettings
+            });
+
+            Events.on(settingsInstance, 'saved', () => {
+                dialogHelper.close(dlg);
+                const player = currentPlayer;
+                if (player) {
+                    const currentIndex = playbackManager.getSubtitleStreamIndex(player);
+                    playbackManager.setSubtitleStreamIndex(currentIndex, player);
+                }
+            });
+
+            dlg.addEventListener('close', () => {
+                Events.off(settingsInstance, 'saved');
+                settingsInstance.destroy();
+            });
         });
     }
 

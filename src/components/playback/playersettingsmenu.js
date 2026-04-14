@@ -232,6 +232,11 @@ function showWithUser(options, player, user) {
         });
     }
 
+    menuItems.push({
+        name: globalize.translate('HeaderSubtitleAppearance'),
+        id: 'subtitleappearance'
+    });
+
     if (options.stats) {
         menuItems.push({
             name: globalize.translate('PlaybackData'),
@@ -280,6 +285,11 @@ function handleSelectedOption(id, options, player) {
         case 'suboffset':
             if (options.onOption) {
                 options.onOption('suboffset');
+            }
+            return Promise.resolve();
+        case 'subtitleappearance':
+            if (options.onOption) {
+                options.onOption('subtitleappearance');
             }
             return Promise.resolve();
         default:

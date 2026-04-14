@@ -1368,7 +1368,7 @@ export class HtmlVideoPlayer {
             // Exit if the video element was destroyed while fetching subtitles
             if (!this.#mediaElement) return;
 
-            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
             if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
@@ -1405,11 +1405,16 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
+    #getSubtitleAppearanceItemKey(item) {
+        const itemId = item?.Id ?? this._currentPlayOptions?.item?.Id;
+        return itemId ? `subtitleappearance_${itemId}` : undefined;
+    }
+
     setSubtitleAppearance(elem, innerElem) {
         subtitleAppearanceHelper.applyStyles({
             text: innerElem,
             window: elem
-        }, userSettings.getSubtitleAppearanceSettings());
+        }, userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey()));
     }
 
     /**
@@ -1434,7 +1439,7 @@ export class HtmlVideoPlayer {
             document.getElementsByTagName('head')[0].appendChild(styleElem);
         }
 
-        styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings()), '.htmlvideoplayer');
+        styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey())), '.htmlvideoplayer');
     }
 
     /**
@@ -1487,7 +1492,7 @@ export class HtmlVideoPlayer {
 
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
-            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
             const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
             // add some cues to show the text

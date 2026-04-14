@@ -622,6 +622,19 @@ export class UserSettings {
     }
 
     /**
+     * Get subtitle appearance settings for an item, falling back to global settings if none are saved for that item.
+     * @param {string|undefined} itemKey - Per-item settings key (e.g. 'subtitleappearance_<itemId>').
+     * @return {Object} Subtitle appearance settings.
+     */
+    getSubtitleAppearanceSettingsWithFallback(itemKey) {
+        const raw = itemKey && this.get(itemKey, false);
+        if (raw) {
+            return Object.assign({}, defaultSubtitleAppearanceSettings, JSON.parse(raw));
+        }
+        return this.getSubtitleAppearanceSettings();
+    }
+
+    /**
      * Get comics player settings.
      * @param {string} mediaSourceId - Media Source Id.
      * @return {Object} Comics player settings.
