@@ -323,6 +323,15 @@ export default function (view) {
         elem.removeEventListener(transitionEndEventName, onHideAnimationComplete);
     }
 
+    function updateSubtitlePosition(osdVisible) {
+        const subtitleContainer = document.querySelector('.videoPlayerContainer .libassjs-canvas-parent')
+            || document.querySelector('.videoPlayerContainer .videoSubtitles');
+        if (!subtitleContainer) return;
+
+        subtitleContainer.style.transition = 'transform 0.3s ease';
+        subtitleContainer.style.transform = osdVisible ? 'translateY(-80px)' : '';
+    }
+
     function onHideAnimationComplete(e) {
         const elem = e.target;
         if (elem !== osdBottomElement && elem !== headerElement) return;
@@ -348,6 +357,7 @@ export default function (view) {
             clearHideAnimationEventListeners(elem);
             elem.classList.remove('hide');
             elem.classList.remove('videoOsdBottom-hidden');
+            updateSubtitlePosition(true);
 
             if (!layoutManager.mobile) {
                 _focus(focusElement);
@@ -363,6 +373,7 @@ export default function (view) {
             const elem = osdBottomElement;
             clearHideAnimationEventListeners(elem);
             elem.classList.add('videoOsdBottom-hidden');
+            updateSubtitlePosition(false);
 
             elem.addEventListener(transitionEndEventName, onHideAnimationComplete);
             currentVisibleMenu = null;

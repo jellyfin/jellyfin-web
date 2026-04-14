@@ -1383,6 +1383,11 @@ export class HtmlVideoPlayer {
                 this.#videoSubtitlesElem = subtitlesElement;
                 this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
                 videoElement.parentNode.appendChild(subtitlesContainer);
+                const osdBottom = document.querySelector('.videoOsdBottom');
+                if (osdBottom && !osdBottom.classList.contains('videoOsdBottom-hidden')) {
+                    subtitlesContainer.style.transition = 'transform 0.3s ease';
+                    subtitlesContainer.style.transform = 'translateY(-80px)';
+                }
                 this.#currentTrackEvents = subtitleData.TrackEvents;
             } else if (!this.#videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
                 const subtitlesContainer = document.querySelector('.videoSubtitles');
