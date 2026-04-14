@@ -18,7 +18,7 @@ import '../../../components/cardbuilder/card.scss';
 import '../../../elements/emby-button/emby-button';
 import Dashboard from '../../../utils/dashboard';
 import alert from '../../../components/alert';
-import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/utils/builder';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 const enableFocusTransform = !browser.slow && !browser.edge;

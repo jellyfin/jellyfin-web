@@ -471,19 +471,21 @@ export const Component = () => {
 
                             {(hardwareAccelType === 'none' || isHwaSelected) && (
                                 <>
-                                    <FormControl>
-                                        <FormControlLabel
-                                            label={globalize.translate('EnableTonemapping')}
-                                            control={
-                                                <Checkbox
-                                                    name='EnableTonemapping'
-                                                    checked={config.EnableTonemapping}
-                                                    onChange={onCheckboxChange}
-                                                />
-                                            }
-                                        />
-                                        <FormHelperText>{globalize.translate(isHwaSelected ? 'AllowTonemappingHelp' : 'AllowTonemappingSoftwareHelp')}</FormHelperText>
-                                    </FormControl>
+                                    {isHwaSelected && (
+                                        <FormControl>
+                                            <FormControlLabel
+                                                label={globalize.translate('EnableTonemapping')}
+                                                control={
+                                                    <Checkbox
+                                                        name='EnableTonemapping'
+                                                        checked={config.EnableTonemapping}
+                                                        onChange={onCheckboxChange}
+                                                    />
+                                                }
+                                            />
+                                            <FormHelperText>{globalize.translate('AllowTonemappingHelp')}</FormHelperText>
+                                        </FormControl>
+                                    )}
 
                                     <TextField
                                         name='TonemappingAlgorithm'

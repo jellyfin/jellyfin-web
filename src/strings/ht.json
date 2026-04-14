@@ -91,8 +91,12 @@
     "ButtonBack": "Tounen",
     "ButtonCancel": "Anile",
     "ButtonChangeServer": "Change Sèvè",
-    "ButtonOk": "Ok",
+    "ButtonOk": "OK",
     "EveryNDays": "Chak {0} jou",
     "MusicVideos": "Videyo Mizik",
-    "EveryXHours": "Chak {0} èdtan"
+    "EveryXHours": "Chak {0} èdtan",
+    "ButtonQuickStartGuide": "Gid Konfigirasyon",
+    "ButtonParentalControl": "Kontwòl paran",
+    "ButtonPlayer": "Pleyè",
+    "ButtonPreviousTrack": "Trak anvan"
 }

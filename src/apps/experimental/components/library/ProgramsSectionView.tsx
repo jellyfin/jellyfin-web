@@ -1,12 +1,14 @@
 import React, { type FC } from 'react';
-import { useApi } from 'hooks/useApi';
-import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
-import { appRouter } from 'components/router/appRouter';
-import globalize from 'lib/globalize';
-import Loading from 'components/loading/LoadingComponent';
+
+import { CardShape } from 'components/cardbuilder/utils/shape';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
+import Loading from 'components/loading/LoadingComponent';
+import { appRouter } from 'components/router/appRouter';
+import { ItemAction } from 'constants/itemAction';
+import { useApi } from 'hooks/useApi';
+import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
+import globalize from 'lib/globalize';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
 
@@ -92,7 +94,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         showChannelName: false,
                         cardLayout: true,
                         centerText: false,
-                        action: 'edit',
+                        action: ItemAction.Edit,
                         cardFooterAside: 'none',
                         preferThumb: true,
                         coverImage: true,

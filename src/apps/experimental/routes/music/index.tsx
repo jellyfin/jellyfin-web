@@ -32,7 +32,7 @@ const playlistsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Playlists,
     isBtnFilterEnabled: false,
     isBtnGridListEnabled: false,
-    isBtnSortEnabled: false,
+    isBtnNewPlaylistEnabled: true,
     isAlphabetPickerEnabled: false,
     itemType: [BaseItemKind.Playlist]
 };

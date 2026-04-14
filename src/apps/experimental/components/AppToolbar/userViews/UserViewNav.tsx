@@ -1,8 +1,10 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Favorite from '@mui/icons-material/Favorite';
 import Button from '@mui/material/Button/Button';
+import Icon from '@mui/material/Icon';
 import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -10,11 +12,13 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { MetaView } from 'apps/experimental/constants/metaView';
-import { isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
+import { useAncestors } from 'apps/experimental/features/libraries/hooks/api/useAncestors';
+import { isDetailsPath, isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import useCurrentTab from 'hooks/useCurrentTab';
 import { useUserViews } from 'hooks/useUserViews';
+import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'lib/globalize';
 
 import UserViewsMenu from './UserViewsMenu';
@@ -35,7 +39,7 @@ const getCurrentUserView = (
     collectionType: string | null,
     tab: number
 ) => {
-    const isUserViewPath = isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
+    const isUserViewPath = isDetailsPath(pathname) || isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
     if (!isUserViewPath) return undefined;
 
     if (collectionType === CollectionType.Livetv) {
@@ -53,23 +57,37 @@ const getCurrentUserView = (
 const UserViewNav = () => {
     const location = useLocation();
     const [ searchParams ] = useSearchParams();
+    const itemId = searchParams.get('id') || undefined;
     const libraryId = searchParams.get('topParentId') || searchParams.get('parentId');
     const collectionType = searchParams.get('collectionType');
     const { activeTab } = useCurrentTab();
+    const webConfig = useWebConfig();
 
     const isExtraLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('xl'));
     const isLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('lg'));
     const maxViews = useMemo(() => {
-        if (isExtraLargeScreen) return MAX_USER_VIEWS_XL;
-        if (isLargeScreen) return MAX_USER_VIEWS_LG;
-        return MAX_USER_VIEWS_MD;
-    }, [ isExtraLargeScreen, isLargeScreen ]);
+        let _maxViews = MAX_USER_VIEWS_MD;
+        if (isExtraLargeScreen) _maxViews = MAX_USER_VIEWS_XL;
+        else if (isLargeScreen) _maxViews = MAX_USER_VIEWS_LG;
+
+        const customLinks = (webConfig.menuLinks || []).length;
+
+        return _maxViews - customLinks;
+    }, [ isExtraLargeScreen, isLargeScreen, webConfig.menuLinks ]);
 
     const { user } = useApi();
     const {
         data: userViews,
         isPending
     } = useUserViews(user?.Id);
+
+    const {
+        data: ancestors
+    } = useAncestors({ itemId });
+
+    const ancestorLibraryId = useMemo(() => {
+        return ancestors?.find(ancestor => ancestor.Type === BaseItemKind.CollectionFolder)?.Id || null;
+    }, [ ancestors ]);
 
     const primaryViews = useMemo(() => (
         userViews?.Items?.slice(0, maxViews)
@@ -91,8 +109,8 @@ const UserViewNav = () => {
     }, []);
 
     const currentUserView = useMemo(() => (
-        getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab)
-    ), [ activeTab, collectionType, libraryId, location.pathname, userViews ]);
+        getCurrentUserView(userViews?.Items, location.pathname, libraryId || ancestorLibraryId, collectionType, activeTab)
+    ), [ activeTab, collectionType, libraryId, ancestorLibraryId, location.pathname, userViews ]);
 
     if (isPending) return null;
 
@@ -107,6 +125,21 @@ const UserViewNav = () => {
             >
                 {globalize.translate(MetaView.Favorites.Name)}
             </Button>
+
+            {webConfig.menuLinks?.map(link => (
+                <Button
+                    key={link.name}
+                    variant='text'
+                    color='inherit'
+                    startIcon={<Icon>{link.icon || 'link'}</Icon>}
+                    component='a'
+                    href={link.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                >
+                    {link.name}
+                </Button>
+            ))}
 
             {primaryViews?.map(view => (
                 <Button
