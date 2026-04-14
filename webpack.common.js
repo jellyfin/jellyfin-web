@@ -11,6 +11,27 @@ const postcssPresetEnv = require('postcss-preset-env');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 
+const babelOptions = {
+    babelrcRoots: [
+        // Keep the root as a root
+        '.'
+    ],
+    sourceType: 'unambiguous',
+    presets: [
+        [
+            '@babel/preset-env',
+            {
+                useBuiltIns: 'usage',
+                corejs: 3
+            }
+        ],
+        '@babel/preset-react'
+    ],
+    plugins: [
+    ]
+};
+
+
 const DEV_MODE = process.env.NODE_ENV !== 'production';
 
 const postcssOptions = {
@@ -267,6 +288,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -284,6 +306,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -322,6 +345,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true,
                         plugins: [
