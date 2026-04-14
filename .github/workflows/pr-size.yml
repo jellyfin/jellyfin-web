@@ -9,9 +9,6 @@ on:
     paths:
       - .github/workflows/pr-size.yml
 
-permissions:
-  contents: read
-
 jobs:
   prepare-config:
     name: Prepare PR size config
@@ -127,6 +124,7 @@ jobs:
       contents: read
       issues: read
       pull-requests: write
+
     concurrency:
       group: pr-size-${{ github.event.pull_request.number }}
       cancel-in-progress: true
