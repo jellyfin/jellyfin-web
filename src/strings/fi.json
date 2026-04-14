@@ -1897,5 +1897,6 @@
     "OnFilesystem": "Tiedostojärjestelmässä",
     "ResumeLoadError": "Toisto asetusten lataaminen epäonnistui",
     "StreamingLoadError": "Suoratoisto sivun asetusten lataaminen epäonnistui",
-    "Unwatch": "Katsomaton"
+    "Unwatch": "Katsomaton",
+    "UsersEditPageError": "Käyttäjän muokkaus sivun lataaminen epäonnistui"
 }
