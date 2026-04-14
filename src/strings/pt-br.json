@@ -1894,5 +1894,8 @@
     "Watch": "Assistir",
     "TrickplayLoadError": "Falha ao carregar as configurações do trickplay",
     "LabelExternalServerUri": "URI externa",
-    "LabelExternalServerUriHelp": "URI do servidor publicada para acesso externo."
+    "LabelExternalServerUriHelp": "URI do servidor publicada para acesso externo.",
+    "LabelVideoAttributes": "Atributos de vídeo",
+    "LabelVideoColors": "Cores do vídeo",
+    "LabelAudioAttributes": "Atributos do aúdio"
 }
