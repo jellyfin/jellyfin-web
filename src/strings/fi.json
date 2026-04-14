@@ -67,7 +67,7 @@
     "Anytime": "Milloin tahansa",
     "AroundTime": "Noin {0}",
     "Art": "Clearart",
-    "Artists": "Esittäjät",
+    "Artists": "Artistit",
     "AsManyAsPossible": "Niin monta kuin mahdollista",
     "Ascending": "Nousevassa järjestyksessä",
     "AspectRatio": "Kuvasuhde",
@@ -1892,5 +1892,8 @@
     "LabelVideoBitDepth": "Videon bittisyvyys",
     "LabelAudioAttributes": "Äänen ominaisuudet",
     "LabelTargetCodecs": "Kohdekoodekit",
-    "LabelPlaybackQuality": "Kuva pudonnut / korruptoitunut"
+    "LabelPlaybackQuality": "Kuva pudonnut / korruptoitunut",
+    "BrandingLoadError": "Brändäyksen osetusten  lataaminen epäonnistui",
+    "OnFilesystem": "Tiedostojärjestelmässä",
+    "ResumeLoadError": "Toisto asetusten lataaminen epäonnistui"
 }
