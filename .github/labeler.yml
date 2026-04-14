@@ -1,0 +1,74 @@
+# Consumed by actions/labeler@v5 in pr-labeler.yml
+# Docs: https://github.com/actions/labeler/tree/v5#pull-request-labeler
+
+"i18n":
+  - changed-files:
+    - any-glob-to-any-file: "src/strings/**"
+
+"ui & ux":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/styles/**"
+      - "src/themes/**"
+      - "**/*.scss"
+      - "src/components/**"
+      - "src/elements/**"
+
+"tests":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/**/*.test.ts"
+      - "src/**/*.test.tsx"
+      - "**/*.spec.ts"
+      - "**/*.spec.tsx"
+      - "src/**/__tests__/**"
+
+"ci":
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".github/**"
+      - "webpack.*.js"
+      - "webpack.*.ts"
+      - "vite.config.ts"
+      - "vitest.config.ts"
+      - "eslint.config.mjs"
+      - "tsconfig*.json"
+      - "babel.config.js"
+      - "postcss.config.js"
+      - "cssnano.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".nvmrc"
+
+"playback":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/plugins/htmlVideoPlayer/**"
+      - "src/plugins/htmlAudioPlayer/**"
+      - "src/plugins/chromecastPlayer/**"
+      - "src/plugins/sessionPlayer/**"
+      - "src/plugins/syncPlay/**"
+      - "src/plugins/playAccessValidation/**"
+      - "src/components/playback/**"
+      - "src/components/syncPlay/**"
+
+"accessibility":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/**/*a11y*"
+      - "src/**/*accessibility*"
+
+"build":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "webpack.*.js"
+      - "vite.config.ts"
+      - "package.json"
+      - "package-lock.json"
+      - "babel.config.js"
+      - "postcss.config.js"
+
+# "dashboard" label managed by label-sync.yml
+"dashboard":
+  - changed-files:
+    - any-glob-to-any-file: "src/apps/dashboard/**"

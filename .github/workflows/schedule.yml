@@ -14,10 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ contains(github.repository, 'jellyfin/') }}
     steps:
+      # Pass 1: Issues + conflict PRs (existing behavior, budget reduced to leave room for pass 2)
       - uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
         with:
           repo-token: ${{ secrets.JF_BOT_TOKEN }}
-          operations-per-run: 75
+          operations-per-run: 45
           # Issues receive a stale warning after 120 days and close after an additional 21 days
           days-before-stale: 120
           days-before-close: 21
@@ -36,3 +37,27 @@ jobs:
           stale-pr-label: stale
           close-pr-message: |-
             This PR has been closed due to having unresolved merge conflicts.
+      # Pass 2: Inactive PRs — stale after 60 days of no activity, closed after 30 more days.
+      # This handles the general PR backlog (conflict PRs are handled by pass 1 above).
+      - uses: actions/stale@v10
+        with:
+          repo-token: ${{ secrets.JF_BOT_TOKEN }}
+          operations-per-run: 30
+          # Do not touch issues in this pass
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          # PRs inactive for 60 days → stale warning; 30 more days → closed
+          days-before-pr-stale: 60
+          days-before-pr-close: 30
+          exempt-pr-labels: blocked,needs testing,dependencies,security,discussion needed
+          stale-pr-label: stale
+          stale-pr-message: |-
+            This pull request has been inactive for 60 days. To avoid an accumulation of abandoned PRs, it will be closed in 30 days if there is no new activity.
+
+            If you are still working on this, please leave a comment with the current status or resolve any outstanding review feedback. This applies equally to draft PRs — if you need more time, a quick comment is enough to reset the timer.
+
+            If closed, the branch is not deleted and the PR can be reopened at any time.
+          close-pr-message: |-
+            This pull request has been closed due to 90 days of inactivity (60 days to stale, 30 days to close). Your branch is not deleted — feel free to reopen if you'd like to continue this work and address any outstanding feedback.
+
+            Thank you for contributing to Jellyfin!

@@ -1,0 +1,286 @@
+name: PR Validation
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate:
+    name: Validate PR metadata
+    runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.user.login != 'renovate[bot]' &&
+      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      github.event.pull_request.user.login != 'github-actions[bot]'
+    steps:
+      # IMPORTANT: Do NOT add a checkout step here — this runs with pull_request_target
+      # and checking out PR head code would be a supply-chain security vulnerability.
+      - name: Validate PR
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const title = pr.title || '';
+            const body = pr.body || '';
+            const prNumber = pr.number;
+            const author = pr.user.login;
+
+            // 1. Conventional Commits title check (forbidden by project guidelines)
+            const ccPattern = /^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)(\(.+\))?!?:\s/i;
+            const hasCC = ccPattern.test(title);
+
+            // 2. Lowercase first letter check (titles become changelog entries)
+            const hasLowercaseTitle = title.length > 0 && title[0] === title[0].toLowerCase() && /[a-z]/.test(title[0]);
+
+            // 3. Thin description check (strip template comments first; skip drafts)
+            const bodyClean = body.replace(/<!--[\s\S]*?-->/g, '').trim();
+            const wordCount = bodyClean.split(/\s+/).filter(w => w.length > 0).length;
+            const isThinDesc = wordCount < 15 && !pr.draft;
+
+            // 4. Missing issue keyword reference (for non-draft, non-trivial PRs)
+            const hasIssueKeyword = /\b(fixes|closes|addresses|resolves)\s+#\d+/i.test(body);
+            const isNonTrivial = (pr.additions || 0) + (pr.deletions || 0) > 50;
+            const missingIssueKeyword = !hasIssueKeyword && isNonTrivial && !pr.draft;
+
+            // Large PR without discussion heuristic
+            const isLargePR = (pr.additions || 0) > 500 && !hasIssueKeyword && !/discussion/i.test(body);
+
+            // Fetch changed files (needed for translation and JS checks)
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              per_page: 100,
+            });
+
+            // 5. Direct translation file edit (non-source language, non-bot)
+            const translationViolations = files
+              .map(f => f.filename)
+              .filter(f => f.startsWith('src/strings/') && !f.endsWith('en-us.json'));
+
+            // 6. New JavaScript files (not config/tooling files)
+            const configFilePatterns = ['webpack', 'babel.config', 'postcss.config', 'cssnano.config', '.github/'];
+            const newJsFiles = files.filter(f =>
+              f.status === 'added' &&
+              (f.filename.endsWith('.js') || f.filename.endsWith('.jsx')) &&
+              !configFilePatterns.some(p => f.filename.includes(p))
+            );
+
+            // Fetch current labels and existing bot comments for deduplication
+            const [{ data: currentLabels }, { data: comments }] = await Promise.all([
+              github.rest.issues.listLabelsOnIssue({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+              }),
+              github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                per_page: 100,
+              }),
+            ]);
+            const currentLabelNames = currentLabels.map(l => l.name);
+            const botComments = comments.filter(c => c.user.login === 'github-actions[bot]');
+
+            // ── Handle translation violation (auto-close) ──────────────────────────
+            if (translationViolations.length > 0) {
+              const fileList = translationViolations.map(f => `- \`${f}\``).join('\n');
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: [
+                  '## Translation Changes Must Go Through Weblate',
+                  '',
+                  `Thank you for your contribution, @${author}!`,
+                  '',
+                  'This PR directly modifies translation files managed by our [Weblate platform](https://translate.jellyfin.org/):',
+                  '',
+                  fileList,
+                  '',
+                  'Per the [contributing guidelines](https://github.com/jellyfin/jellyfin-web/blob/master/CONTRIBUTING.md#localization), all translation changes **must** be submitted via [Weblate](https://translate.jellyfin.org/), not directly — except for `src/strings/en-us.json` (the source language).',
+                  '',
+                  'This PR is being closed automatically. Please submit your translation on Weblate instead. Your contribution is appreciated!',
+                  '',
+                  'If you believe this was closed in error, please reopen and leave a comment.',
+                ].join('\n'),
+              });
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                state: 'closed',
+              });
+              core.notice(`PR #${prNumber} auto-closed: direct translation file edits`);
+              return; // Don't add more comments to a closed PR
+            }
+
+            // ── Large PR without linked issue or discussion ────────────────────────
+            if (isLargePR) {
+              const alreadyNotified = botComments.some(c => c.body.includes('substantial changes'));
+              if (!alreadyNotified) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: [
+                    '## Large PR — Consider Opening a Discussion First',
+                    '',
+                    `Hi @${author}! This PR has a large number of changes and doesn't appear to reference an existing issue.`,
+                    '',
+                    'Per the [development guidelines](https://jellyfin.org/docs/general/contributing/development), substantial changes or new features affecting multiple areas should first be proposed as a [GitHub Discussion](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/discussions) to align on the approach before implementation.',
+                    '',
+                    'This is advisory only — your PR won\'t be blocked, but starting a discussion first often leads to faster review and reduces the chance of significant rework.',
+                  ].join('\n'),
+                });
+              }
+            }
+
+            // ── Conventional Commits title ─────────────────────────────────────────
+            if (hasCC) {
+              if (!currentLabelNames.includes('needs changes')) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  labels: ['needs changes'],
+                });
+              }
+              const alreadyNotified = botComments.some(c => c.body.includes('Conventional Commits'));
+              if (!alreadyNotified) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: [
+                    '## PR Title Uses Conventional Commits Format',
+                    '',
+                    `Hi @${author}! Your PR title (\`${title}\`) uses [Conventional Commits](https://www.conventionalcommits.org/) format. This project **does not use Conventional Commits** — see the [contributing guidelines](https://github.com/jellyfin/jellyfin-web/blob/master/CONTRIBUTING.md#pull-requests).`,
+                    '',
+                    'Please update the title to a short, descriptive sentence in the imperative mood:',
+                    '- `feat: add subtitle delay` → `Add subtitle delay control`',
+                    '- `fix: buffering on mobile` → `Fix buffering on mobile`',
+                    '',
+                    'The `needs changes` label will be removed by a maintainer after the title is updated.',
+                  ].join('\n'),
+                });
+              }
+            }
+
+            // ── Lowercase first letter ─────────────────────────────────────────────
+            // Skip if CC title already fired (CC titles start lowercase by definition)
+            if (hasLowercaseTitle && !hasCC) {
+              const alreadyNotified = botComments.some(c => c.body.includes('title capitalization'));
+              if (!alreadyNotified) {
+                const suggested = title[0].toUpperCase() + title.slice(1);
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: [
+                    '## PR Title Capitalization',
+                    '',
+                    `Hi @${author}! The PR title should start with a capital letter — titles become changelog entries. Suggested: \`${suggested}\``,
+                    '',
+                    'This is a minor style note, not a blocker.',
+                  ].join('\n'),
+                });
+              }
+            }
+
+            // ── Thin description (skip draft PRs) ──────────────────────────────────
+            if (isThinDesc) {
+              const alreadyNotified = botComments.some(c => c.body.includes('description seems incomplete'));
+              if (!alreadyNotified) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: [
+                    '## PR Description Seems Incomplete',
+                    '',
+                    `Hi @${author}! The description of this PR appears empty or very short. A good description helps maintainers review faster. Per the [PR guidelines](https://jellyfin.org/docs/general/contributing/development#pull-request-guidelines), please describe:`,
+                    '',
+                    '1. **Why** the changes are being made',
+                    '2. **How** you approached the problem (for non-trivial changes)',
+                    '',
+                    'This is advisory only — your PR won\'t be blocked, but an incomplete description may delay review.',
+                  ].join('\n'),
+                });
+              }
+            }
+
+            // ── Missing issue keyword reference ────────────────────────────────────
+            if (missingIssueKeyword) {
+              const alreadyNotified = botComments.some(c => c.body.includes('issue keyword'));
+              if (!alreadyNotified) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: [
+                    '## Link to a Related Issue',
+                    '',
+                    `Hi @${author}! This PR doesn't appear to reference a related issue using a linking keyword.`,
+                    '',
+                    'If this PR fixes or addresses an issue, please add a line like:',
+                    '```',
+                    'Fixes #1234',
+                    '```',
+                    'This auto-closes the issue on merge. Supported keywords: `fixes`, `closes`, `addresses`, `resolves`.',
+                    '',
+                    'If there\'s genuinely no related issue, you can ignore this — just note "None" in the Issues section of the PR description.',
+                  ].join('\n'),
+                });
+              }
+            }
+
+            // ── New JavaScript files ───────────────────────────────────────────────
+            if (newJsFiles.length > 0) {
+              const fileList = newJsFiles.map(f => `- \`${f.filename}\``).join('\n');
+              if (!currentLabelNames.includes('javascript')) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  labels: ['javascript'],
+                });
+              }
+              const alreadyNotified = botComments.some(c => c.body.includes('new JavaScript files'));
+              if (!alreadyNotified) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: prNumber,
+                  body: [
+                    '## New JavaScript Files Detected',
+                    '',
+                    `Hi @${author}! This PR adds new JavaScript files:`,
+                    '',
+                    fileList,
+                    '',
+                    'Per the [contributing guidelines](https://github.com/jellyfin/jellyfin-web/blob/master/CONTRIBUTING.md), **new files must be TypeScript** (`.ts`/`.tsx`). Please convert these before requesting review.',
+                    '',
+                    'The `javascript` label has been added so a maintainer is aware.',
+                  ].join('\n'),
+                });
+              }
+            }
+
+            core.info([
+              `PR #${prNumber} validation complete:`,
+              `  CC title: ${hasCC}`,
+              `  Lowercase title: ${hasLowercaseTitle}`,
+              `  Thin description: ${isThinDesc}`,
+              `  Missing issue keyword: ${missingIssueKeyword}`,
+              `  Translation violations: ${translationViolations.length}`,
+              `  New JS files: ${newJsFiles.length}`,
+              `  Large PR: ${isLargePR}`,
+            ].join('\n'));
