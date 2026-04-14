@@ -39,7 +39,7 @@ jobs:
             This PR has been closed due to having unresolved merge conflicts.
       # Pass 2: Inactive PRs — stale after 60 days of no activity, closed after 30 more days.
       # This handles the general PR backlog (conflict PRs are handled by pass 1 above).
-      - uses: actions/stale@v10
+      - uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
         with:
           repo-token: ${{ secrets.JF_BOT_TOKEN }}
           operations-per-run: 30
