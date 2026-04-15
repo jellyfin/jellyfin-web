@@ -1897,8 +1897,12 @@
     "OnFilesystem": "Tiedostojärjestelmässä: {0}",
     "ResumeLoadError": "Toisto asetusten lataaminen epäonnistui",
     "StreamingLoadError": "Suoratoisto sivun asetusten lataaminen epäonnistui",
-    "Unwatch": "Katsomaton",
+    "Unwatch": "Poista katsominen",
     "UsersEditPageError": "Käyttäjän muokkaus sivun lataaminen epäonnistui",
     "Watch": "Katso",
-    "LabelInternalServerUriHelp": "Julkaistu palvelinen URI sisäiselle käytölle."
+    "LabelInternalServerUriHelp": "Julkaistu palvelinen URI sisäiselle käytölle.",
+    "TrickplayLoadError": "Trickplayn asetusten lataaminen epäonnistui",
+    "LabelProgressAndSpeed": "Prosessi / nopeus",
+    "LabelReasons": "Syyt",
+    "LabelPlayerSizes": "Soittime koot"
 }
