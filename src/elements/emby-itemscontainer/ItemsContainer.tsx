@@ -1,15 +1,15 @@
 import type { LibraryUpdateInfo } from '@jellyfin/sdk/lib/generated-client/models/library-update-info';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { ApiClient } from 'jellyfin-apiclient';
+import { OutboundWebSocketMessageType, SocketMessageHandler } from '@jellyfin/sdk/lib/websocket';
 import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { useApi } from 'hooks/useApi';
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
-import serverNotifications from 'scripts/serverNotifications';
 import inputManager from 'scripts/inputManager';
 import dom from 'utils/dom';
 import browser from 'scripts/browser';
@@ -60,11 +60,13 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     children
 }) => {
     const queryClient = useQueryClient();
+    const { api } = useApi();
     const { mutateAsync: playlistsMoveItemMutation } = usePlaylistsMoveItemMutation();
     const itemsContainerRef = useRef<HTMLDivElement>(null);
     const multiSelectref = useRef<MultiSelect | null>(null);
     const sortableref = useRef<Sortable | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const unsubscribeRef = useRef<Array<() => void>>([]);
 
     const onClick = useCallback((e: MouseEvent) => {
         const itemsContainer = itemsContainerRef.current as HTMLDivElement;
@@ -222,22 +224,22 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     );
 
     const onLibraryChanged = useCallback(
-        (_e: Event, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
+        ({ Data }: { Data?: LibraryUpdateInfo }) => {
             if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
                 // yes this is an assumption
                 return;
             }
 
-            const itemsAdded = data.ItemsAdded ?? [];
-            const itemsRemoved = data.ItemsRemoved ?? [];
+            const itemsAdded = Data?.ItemsAdded ?? [];
+            const itemsRemoved = Data?.ItemsRemoved ?? [];
             if (!itemsAdded.length && !itemsRemoved.length) {
                 return;
             }
 
             if (parentId) {
-                const foldersAddedTo = data.FoldersAddedTo ?? [];
-                const foldersRemovedFrom = data.FoldersRemovedFrom ?? [];
-                const collectionFolders = data.CollectionFolders ?? [];
+                const foldersAddedTo = Data?.FoldersAddedTo ?? [];
+                const foldersRemovedFrom = Data?.FoldersRemovedFrom ?? [];
+                const collectionFolders = Data?.CollectionFolders ?? [];
 
                 if (
                     foldersAddedTo.indexOf(parentId) === -1
@@ -356,12 +358,22 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
         itemShortcuts.on(itemsContainer, getShortcutOptions());
 
-        Events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
-        Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-        Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
-        Events.on(serverNotifications, 'LibraryChanged', onLibraryChanged);
+        // Subscribe to websocket messages
+        if (api) {
+            const unsub1 = api.subscribe([OutboundWebSocketMessageType.UserDataChanged], onUserDataChanged);
+            const unsub2 = api.subscribe([OutboundWebSocketMessageType.TimerCreated], onTimerCreated);
+            const unsub3 = api.subscribe([OutboundWebSocketMessageType.TimerCancelled], onTimerCancelled);
+            const unsub4 = api.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], onSeriesTimerCreated);
+            const unsub5 = api.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], onSeriesTimerCancelled);
+            const unsub6 = api.subscribe([OutboundWebSocketMessageType.LibraryChanged], onLibraryChanged);
+            if (unsub1) unsubscribeRef.current.push(unsub1);
+            if (unsub2) unsubscribeRef.current.push(unsub2);
+            if (unsub3) unsubscribeRef.current.push(unsub3);
+            if (unsub4) unsubscribeRef.current.push(unsub4);
+            if (unsub5) unsubscribeRef.current.push(unsub5);
+            if (unsub6) unsubscribeRef.current.push(unsub6);
+        }
+
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
 
         return () => {
@@ -377,15 +389,14 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
-            Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
-            Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-            Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-            Events.off( serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-            Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
-            Events.off(serverNotifications, 'LibraryChanged', onLibraryChanged);
+            // Unsubscribe from websocket messages
+            unsubscribeRef.current.forEach(unsub => unsub());
+            unsubscribeRef.current = [];
+
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
         };
     }, [
+        api,
         destroyDragReordering,
         destroyMultiSelect,
         initDragReordering,
