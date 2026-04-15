@@ -1779,5 +1779,6 @@
     "SubtitleDownloadersHelp": "Uključite i rangirajte preferirane programe za preuzimanje titlova prema prioritetu.",
     "MessageSplitVersionsError": "Dogodila se greška prilikom rastavljana verzija",
     "ViewAlbumArtist": "Prikaži izvođača albuma",
-    "PreferNonstandardArtistsTag": "Preferiraj oznaku ARTISTS ako je dostupna"
+    "PreferNonstandardArtistsTag": "Preferiraj oznaku IZVOĐAČI ako je dostupna",
+    "PreferNonstandardArtistsTagHelp": "Koristite nestandardnu oznaku IZVOĐAČI umjesto oznake IZVOĐAČ kada je dostupna."
 }
