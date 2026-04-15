@@ -735,7 +735,7 @@
     "Connect": "Spoji se",
     "ClientSettings": "Postavke klijenta",
     "ButtonTogglePlaylist": "Playlista",
-    "ButtonSplit": "Odvoji",
+    "ButtonSplit": "Rastavi",
     "ButtonStop": "Prekini",
     "ButtonScanAllLibraries": "Skeniraj sve biblioteke",
     "ButtonInfo": "Info",
@@ -1733,7 +1733,7 @@
     "Unplayed": "Nereproducirano",
     "Up": "Gore",
     "Upload": "Prenesi",
-    "UseCustomTagDelimitersHelp": "Rastavi oznake umjetnika/žanra s prilagođenim znakovima.",
+    "UseCustomTagDelimitersHelp": "Rastavi oznake izvođača/žanra s prilagođenim znakovima.",
     "ValueOneAlbum": "1 album",
     "Watch": "Gledaj",
     "Watched": "Pogledano",
@@ -1776,5 +1776,6 @@
     "TheseSettingsAffectSubtitlesOnThisDevice": "Ove postavke utječu na titlove na ovom uređaju",
     "LabelFallbackFontPathHelp": "Neki klijenti koriste ove fontove za prikaz titlova. Za više informacija pogledajte dokumentaciju.",
     "EnableFallbackFontHelp": "Uključite prilagođene alternativne fontove. To može izbjeći problem netočnog prikazivanja titlova.",
-    "SubtitleDownloadersHelp": "Uključite i rangirajte preferirane programe za preuzimanje titlova prema prioritetu."
+    "SubtitleDownloadersHelp": "Uključite i rangirajte preferirane programe za preuzimanje titlova prema prioritetu.",
+    "MessageSplitVersionsError": "Dogodila se greška prilikom rastavljana verzija"
 }
