@@ -414,7 +414,7 @@
     "LabelZipCode": "Poštanski broj",
     "LabelffmpegPath": "FFmpeg putanja",
     "LabelffmpegPathHelp": "Putanja do FFmpeg aplikacijske datoteke ili mape koja sadrži FFmpeg.",
-    "LibraryAccessHelp": "Odaberite medijske mape za djeljenje sa ovim korisnikom. Administratori će moći mjenjati sve mape preko Metadata menadžera.",
+    "LibraryAccessHelp": "Odaberite mape medija za djeljenje s ovim korisnikom. Administratori će moći uređivati sve mape koristeći upravljač metapodataka.",
     "Live": "Uživo",
     "LiveBroadcasts": "Emitiranja uživo",
     "MapChannels": "Mapiraj kanale",
