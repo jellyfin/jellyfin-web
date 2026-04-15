@@ -225,6 +225,14 @@ class QueueCore {
             startPositionTicks = this.manager.getPlaybackCore().estimateCurrentTicks(oldStartPositionTicks, lastQueueUpdateDate);
         }
 
+        // Clamp to valid range to prevent seeking past the end of media.
+        // Network delay can cause estimateCurrentTicks to overshoot the video duration.
+        const currentItemDuration = this.getCurrentPlayingItemDurationTicks();
+        if (currentItemDuration > 0) {
+            startPositionTicks = Math.min(startPositionTicks, currentItemDuration);
+        }
+        startPositionTicks = Math.max(startPositionTicks, 0);
+
         const serverId = apiClient.serverInfo().Id;
 
         this.scheduleReadyRequestOnPlaybackStart(apiClient, 'startPlayback');
@@ -333,6 +341,20 @@ class QueueCore {
         } else {
             return 0;
         }
+    }
+
+    /**
+     * Gets the duration in ticks of the currently playing item, if available.
+     * @returns {number} The duration in ticks, or 0 if unavailable.
+     */
+    getCurrentPlayingItemDurationTicks() {
+        if (this.lastPlayQueueUpdate && this.playlist.length > 0) {
+            const index = this.lastPlayQueueUpdate.PlayingItemIndex;
+            if (index >= 0 && index < this.playlist.length) {
+                return this.playlist[index].RunTimeTicks || 0;
+            }
+        }
+        return 0;
     }
 
     /**

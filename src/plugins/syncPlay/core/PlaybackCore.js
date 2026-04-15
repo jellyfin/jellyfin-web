@@ -454,7 +454,8 @@ class PlaybackCore {
     }
 
     /**
-     * Seeks the local player.
+     * Seeks the local player, clamping the position to valid bounds.
+     * @param {number} positionTicks The target position in ticks.
      */
     localSeek(positionTicks) {
         // Ignore command when no player is active.
@@ -463,8 +464,21 @@ class PlaybackCore {
             return;
         }
 
+        // Clamp position to valid range to prevent seeking past the end of media.
+        // This can happen when network delay causes the estimated position to overshoot.
+        let clampedTicks = Math.max(positionTicks, 0);
+        const queueCore = this.manager.getQueueCore();
+        const durationTicks = queueCore.getCurrentPlayingItemDurationTicks();
+        if (durationTicks > 0) {
+            clampedTicks = Math.min(clampedTicks, durationTicks);
+        }
+
+        if (clampedTicks !== positionTicks) {
+            console.warn(`SyncPlay localSeek: clamped position from ${positionTicks} to ${clampedTicks} (duration: ${durationTicks}).`);
+        }
+
         const playerWrapper = this.manager.getPlayerWrapper();
-        return playerWrapper.localSeek(positionTicks);
+        return playerWrapper.localSeek(clampedTicks);
     }
 
     /**
