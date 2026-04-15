@@ -1777,5 +1777,7 @@
     "LabelFallbackFontPathHelp": "Neki klijenti koriste ove fontove za prikaz titlova. Za više informacija pogledajte dokumentaciju.",
     "EnableFallbackFontHelp": "Uključite prilagođene alternativne fontove. To može izbjeći problem netočnog prikazivanja titlova.",
     "SubtitleDownloadersHelp": "Uključite i rangirajte preferirane programe za preuzimanje titlova prema prioritetu.",
-    "MessageSplitVersionsError": "Dogodila se greška prilikom rastavljana verzija"
+    "MessageSplitVersionsError": "Dogodila se greška prilikom rastavljana verzija",
+    "ViewAlbumArtist": "Prikaži izvođača albuma",
+    "PreferNonstandardArtistsTag": "Preferiraj oznaku ARTISTS ako je dostupna"
 }
