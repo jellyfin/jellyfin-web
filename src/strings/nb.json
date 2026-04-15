@@ -1894,5 +1894,15 @@
     "Watch": "Se",
     "TrickplayLoadError": "Kunne ikke laste inn trickplay innstillingene",
     "LabelExternalServerUri": "Ekstern URI",
-    "LabelExternalServerUriHelp": "Publisert server URI for ekstern tilgang."
+    "LabelExternalServerUriHelp": "Publisert server URI for ekstern tilgang.",
+    "OnFilesystem": "På filsystem: {0}",
+    "LabelVideoAttributes": "Videoattributter",
+    "LabelVideoColors": "Videofarger",
+    "LabelVideoBitDepth": "Videobitdybde",
+    "LabelAudioAttributes": "Lydattributter",
+    "LabelTargetCodecs": "Målkodeker",
+    "LabelProgressAndSpeed": "Fremgang / hastighet",
+    "LabelReasons": "Årsaker",
+    "LabelPlayerSizes": "Spillerstørrelser",
+    "LabelPlaybackQuality": "Ramme mistet/ødelagt"
 }
