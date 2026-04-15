@@ -1902,7 +1902,7 @@
     "Watch": "Katso",
     "LabelInternalServerUriHelp": "Julkaistu palvelinen URI sisäiselle käytölle.",
     "TrickplayLoadError": "Trickplayn asetusten lataaminen epäonnistui",
-    "LabelProgressAndSpeed": "Prosessi / nopeus",
+    "LabelProgressAndSpeed": "Eteneminen / nopeus",
     "LabelReasons": "Syyt",
-    "LabelPlayerSizes": "Soittime koot"
+    "LabelPlayerSizes": "Soittimen koot"
 }
