@@ -1893,7 +1893,7 @@
     "LabelAudioAttributes": "Äänen ominaisuudet",
     "LabelTargetCodecs": "Kohdekoodekit",
     "LabelPlaybackQuality": "Kuva pudonnut / korruptoitunut",
-    "BrandingLoadError": "Brändäyksen asetusten  lataaminen epäonnistui",
+    "BrandingLoadError": "Brändäyksen asetusten lataaminen epäonnistui",
     "OnFilesystem": "Tiedostojärjestelmässä: {0}",
     "ResumeLoadError": "Toisto asetusten lataaminen epäonnistui",
     "StreamingLoadError": "Suoratoisto sivun asetusten lataaminen epäonnistui",
