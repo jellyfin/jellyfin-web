@@ -1903,5 +1903,6 @@
     "LabelAudioAttributes": "Atributos do áudio",
     "LabelTargetCodecs": "Codecs de destino",
     "LabelProgressAndSpeed": "Progresso / velocidade",
-    "LabelReasons": "Motivos"
+    "LabelReasons": "Motivos",
+    "OnFilesystem": "No sistema de ficheiros: {0}"
 }
