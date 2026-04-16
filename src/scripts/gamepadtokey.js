@@ -23,8 +23,6 @@ const REPEAT_INTERVAL = 100; // ms
 const PRESS_CONSECUTIVE_FRAMES = 1; // require this many consecutive samples to accept a press
 const SMOOTH_ALPHA = 0.2;
 
-const now = () => new Date().getTime();
-
 const isElectron = navigator.userAgent.toLowerCase().includes('electron');
 const allowInput = () => {
     if (!isElectron && document.hidden) return false;
@@ -82,65 +80,83 @@ function shouldFireRepeat(keyName, nowTs) {
     return nowTs >= next;
 }
 
-function handleKeyState(keyName, keyCode, prevPressed, newPressed, repeatsAllowed, clickOnKeyUp, oldDownEvent) {
-    const nowTs = now();
-    let producedEvent = null;
-    let logicalPressed = prevPressed;
+const RELEASE_DEBOUNCE_MS = 120;
+
+function handleRelease(keyName, keyCode, clickOnKeyUp, oldDownEvent, nowTs) {
     const pending = state.pendingReleaseAt.get(keyName) || 0;
+
+    if (!pending) {
+        state.pendingReleaseAt.set(keyName, nowTs + RELEASE_DEBOUNCE_MS);
+        return null; // no state change yet
+    }
+
+    if (nowTs < pending) {
+        return { event: null, logicalPressed: true }; // within debounce window
+    }
+
+    // Debounce elapsed: perform release
+    state.pendingReleaseAt.delete(keyName);
+    state.nextRepeatAt.delete(keyName);
+    state.nonRepeatLocked.delete(keyName);
+    const producedEvent = dispatchKeyboardEvent('keyup', keyName, keyCode);
+    if (clickOnKeyUp && !oldDownEvent?.defaultPrevented && !producedEvent?.defaultPrevented) {
+        clickActiveElement();
+    }
+    return { event: producedEvent, logicalPressed: false };
+}
+
+function handleInitialDown(keyName, keyCode, repeatsAllowed, nowTs) {
+    const producedEvent = dispatchKeyboardEvent('keydown', keyName, keyCode);
+    if (!producedEvent) return { event: null, logicalPressed: false };
+
+    if (repeatsAllowed) {
+        state.nextRepeatAt.set(keyName, nowTs + REPEAT_INITIAL_DELAY);
+    } else {
+        state.nonRepeatLocked.set(keyName, true);
+    }
+    return { event: producedEvent, logicalPressed: true };
+}
+
+function handleRepeat(keyName, keyCode, nowTs) {
+    // Defensive: if repeat schedule missing, initialize it and don't fire immediately.
+    if (!state.nextRepeatAt.has(keyName)) {
+        state.nextRepeatAt.set(keyName, nowTs + REPEAT_INITIAL_DELAY);
+        return { event: null, logicalPressed: true };
+    }
+    if (!shouldFireRepeat(keyName, nowTs)) {
+        return { event: null, logicalPressed: true };
+    }
+    const producedEvent = dispatchKeyboardEvent('keydown', keyName, keyCode);
+    if (producedEvent) state.nextRepeatAt.set(keyName, nowTs + REPEAT_INTERVAL);
+    return { event: producedEvent, logicalPressed: true };
+}
+
+function handleKeyState(keyName, keyCode, prevPressed, newPressed, repeatsAllowed, clickOnKeyUp, oldDownEvent) {
+    const nowTs = Date.now();
 
     // Non-repeating keys: if locked (we've fired a down and await keyup), ignore further downs
     if (!repeatsAllowed && state.nonRepeatLocked.get(keyName) && shouldFireInitialDown(prevPressed, newPressed)) {
         return null;
     }
 
-    if (newPressed && pending) {
+    // Re-press cancels any pending release
+    if (newPressed && state.pendingReleaseAt.has(keyName)) {
         state.pendingReleaseAt.delete(keyName);
     }
 
     if (shouldFireInitialDown(prevPressed, newPressed)) {
-        producedEvent = dispatchKeyboardEvent('keydown', keyName, keyCode);
-        // If event dispatched successfully: schedule first repeat or lock until keyup
-        if (producedEvent) {
-            if (repeatsAllowed) {
-                state.nextRepeatAt.set(keyName, nowTs + REPEAT_INITIAL_DELAY);
-            } else {
-                state.nonRepeatLocked.set(keyName, true);
-            }
-            logicalPressed = true;
-        }
-    } else if (newPressed && prevPressed && repeatsAllowed) {
-        // Held and repeating: check timer
-        // Defensive: if repeat schedule missing, initialize it and don't fire immediately.
-        if (!state.nextRepeatAt.has(keyName)) {
-            state.nextRepeatAt.set(keyName, nowTs + REPEAT_INITIAL_DELAY);
-        } else if (shouldFireRepeat(keyName, nowTs)) {
-            producedEvent = dispatchKeyboardEvent('keydown', keyName, keyCode);
-            if (producedEvent) state.nextRepeatAt.set(keyName, nowTs + REPEAT_INTERVAL);
-        }
-    } else if (!newPressed && prevPressed) {
-        // Debounce releases for axes to avoid jitter-caused up/down cycles.
-        const RELEASE_DEBOUNCE_MS = 120;
-        if (!pending) {
-            state.pendingReleaseAt.set(keyName, nowTs + RELEASE_DEBOUNCE_MS);
-            return null;
-        }
-
-        if (nowTs < pending) {
-            // still within debounce window; wait
-            return { event: null, logicalPressed: prevPressed };
-        }
-
-        // Debounce elapsed: perform release
-        state.pendingReleaseAt.delete(keyName);
-        state.nextRepeatAt.delete(keyName);
-        state.nonRepeatLocked.delete(keyName);
-        producedEvent = dispatchKeyboardEvent('keyup', keyName, keyCode);
-        logicalPressed = false;
-        // keyup
-        if (clickOnKeyUp && !oldDownEvent?.defaultPrevented && !producedEvent?.defaultPrevented) clickActiveElement();
+        return handleInitialDown(keyName, keyCode, repeatsAllowed, nowTs);
     }
 
-    return { event: producedEvent, logicalPressed };
+    if (newPressed && prevPressed && repeatsAllowed) {
+        return handleRepeat(keyName, keyCode, nowTs);
+    }
+
+    if (!newPressed && prevPressed) {
+        return handleRelease(keyName, keyCode, clickOnKeyUp, oldDownEvent, nowTs);
+    }
+
+    return { event: null, logicalPressed: prevPressed };
 }
 
 function setPressed(keyName, keyCode, newPressed, repeatsAllowed = false, clickOnKeyUp = false, oldDownEvent = null) {
@@ -166,6 +182,34 @@ function axisReleased(value, positive = true) {
 
 let animationFrameId = null;
 
+function handleAxisDirection(thumbEntry, axisValue, positive) {
+    if (axisPressed(axisValue, positive)) {
+        const count = (state.pressCounts.get(thumbEntry.key) || 0) + 1;
+        state.pressCounts.set(thumbEntry.key, count);
+        if (count >= PRESS_CONSECUTIVE_FRAMES) {
+            setPressed(thumbEntry.key, thumbEntry.code, true, true);
+        }
+    } else if (axisReleased(axisValue, positive)) {
+        state.pressCounts.set(thumbEntry.key, 0);
+        setPressed(thumbEntry.key, thumbEntry.code, false, true);
+    }
+}
+
+function handleButton(gpButtonDef, button) {
+    if (!button) return;
+    const isA = gpButtonDef.key === GAMEPAD.A.key;
+    if (button.pressed) {
+        const evt = setPressed(
+            gpButtonDef.key, gpButtonDef.code, true,
+            gpButtonDef.repeat, isA, isA ? state.lastDownEvent : null
+        );
+        if (isA && evt) state.lastDownEvent = evt;
+    } else {
+        setPressed(gpButtonDef.key, gpButtonDef.code, false, gpButtonDef.repeat);
+        if (isA) state.lastDownEvent = null;
+    }
+}
+
 function pollGamepads() {
     // eslint-disable-next-line compat/compat -- this is the whole point of this module
     const gpads = navigator.getGamepads();
@@ -173,83 +217,24 @@ function pollGamepads() {
         const gp = gpads[i];
         if (!gp) continue;
 
-        // Thumbstick
+        // Thumbstick — smooth axes per gamepad index to reduce sample-to-sample jumps
         const axes = gp.axes || [];
         const rawX = axes[0] || 0;
         const rawY = axes[1] || 0;
-
-        // Smooth axes per gamepad index to reduce sample-to-sample jumps
         const sm = state.smoothedAxes.get(i) || { x: 0, y: 0 };
         const x = sm.x + (rawX - sm.x) * SMOOTH_ALPHA;
         const y = sm.y + (rawY - sm.y) * SMOOTH_ALPHA;
         state.smoothedAxes.set(i, { x, y });
 
-        // Right/Left X (press-debounce: require consecutive frames)
-        if (axisPressed(x, true)) {
-            const prevCount = state.pressCounts.get(LEFT_THUMB.RIGHT.key) || 0;
-            const count = prevCount + 1;
-            state.pressCounts.set(LEFT_THUMB.RIGHT.key, count);
-            if (count >= PRESS_CONSECUTIVE_FRAMES) {
-                setPressed(LEFT_THUMB.RIGHT.key, LEFT_THUMB.RIGHT.code, true, true);
-            }
-        } else if (axisReleased(x, true)) {
-            state.pressCounts.set(LEFT_THUMB.RIGHT.key, 0);
-            setPressed(LEFT_THUMB.RIGHT.key, LEFT_THUMB.RIGHT.code, false, true);
-        }
+        handleAxisDirection(LEFT_THUMB.RIGHT, x, true);
+        handleAxisDirection(LEFT_THUMB.LEFT, x, false);
+        handleAxisDirection(LEFT_THUMB.UP, y, false);
+        handleAxisDirection(LEFT_THUMB.DOWN, y, true);
 
-        if (axisPressed(x, false)) {
-            const prevCount = state.pressCounts.get(LEFT_THUMB.LEFT.key) || 0;
-            const count = prevCount + 1;
-            state.pressCounts.set(LEFT_THUMB.LEFT.key, count);
-            if (count >= PRESS_CONSECUTIVE_FRAMES) {
-                setPressed(LEFT_THUMB.LEFT.key, LEFT_THUMB.LEFT.code, true, true);
-            }
-        } else if (axisReleased(x, false)) {
-            state.pressCounts.set(LEFT_THUMB.LEFT.key, 0);
-            setPressed(LEFT_THUMB.LEFT.key, LEFT_THUMB.LEFT.code, false, true);
-        }
-
-        if (axisPressed(y, false)) {
-            const prevCount = state.pressCounts.get(LEFT_THUMB.UP.key) || 0;
-            const count = prevCount + 1;
-            state.pressCounts.set(LEFT_THUMB.UP.key, count);
-            if (count >= PRESS_CONSECUTIVE_FRAMES) {
-                setPressed(LEFT_THUMB.UP.key, LEFT_THUMB.UP.code, true, true);
-            }
-        } else if (axisReleased(y, false)) {
-            state.pressCounts.set(LEFT_THUMB.UP.key, 0);
-            setPressed(LEFT_THUMB.UP.key, LEFT_THUMB.UP.code, false, true);
-        }
-
-        if (axisPressed(y, true)) {
-            const prevCount = state.pressCounts.get(LEFT_THUMB.DOWN.key) || 0;
-            const count = prevCount + 1;
-            state.pressCounts.set(LEFT_THUMB.DOWN.key, count);
-            if (count >= PRESS_CONSECUTIVE_FRAMES) {
-                setPressed(LEFT_THUMB.DOWN.key, LEFT_THUMB.DOWN.code, true, true);
-            }
-        } else if (axisReleased(y, true)) {
-            state.pressCounts.set(LEFT_THUMB.DOWN.key, 0);
-            setPressed(LEFT_THUMB.DOWN.key, LEFT_THUMB.DOWN.code, false, true);
-        }
-
+        // DPAD and A/B buttons
         const buttons = gp.buttons || [];
-        // DPAD and A/B
-        Object.values(GAMEPAD).forEach(gpButtonDefinition => {
-            const button = buttons[gpButtonDefinition.index];
-            if (!button) return;
-            if (button.pressed) {
-                // For A button we want to capture the down-event to support click-on-keyup semantics
-                if (gpButtonDefinition.key === GAMEPAD.A.key) {
-                    const evt = setPressed(gpButtonDefinition.key, gpButtonDefinition.code, true, gpButtonDefinition.repeat, true, state.lastDownEvent);
-                    if (evt) state.lastDownEvent = evt;
-                } else {
-                    setPressed(gpButtonDefinition.key, gpButtonDefinition.code, true, gpButtonDefinition.repeat);
-                }
-            } else {
-                setPressed(gpButtonDefinition.key, gpButtonDefinition.code, false, gpButtonDefinition.repeat);
-                if (gpButtonDefinition.key === GAMEPAD.A.key) state.lastDownEvent = null;
-            }
+        Object.values(GAMEPAD).forEach(gpButtonDef => {
+            handleButton(gpButtonDef, buttons[gpButtonDef.index]);
         });
     }
 
