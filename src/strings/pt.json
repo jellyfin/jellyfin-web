@@ -1903,5 +1903,6 @@
     "LabelTargetCodecs": "Codecs de destino",
     "LabelProgressAndSpeed": "Progresso / velocidade",
     "LabelReasons": "Motivos",
-    "LabelPlayerSizes": "Tamanhos do leitor"
+    "LabelPlayerSizes": "Tamanhos do leitor",
+    "OnFilesystem": "No sistema de ficheiros: {0}"
 }
