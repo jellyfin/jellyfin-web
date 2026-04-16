@@ -1937,8 +1937,7 @@ export class PlaybackManager {
                     Filters: 'IsNotFolder',
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    // Only include Photos because we do not handle mixed queues currently
-                    MediaTypes: 'Photo',
+                    MediaTypes: 'Photo,Video',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
