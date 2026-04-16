@@ -1894,5 +1894,15 @@
     "ResumeLoadError": "Не вдалося завантажити налаштування відновлення відтворення",
     "StreamingLoadError": "Не вдалося завантажити налаштування сторінки потокового передавання",
     "Unwatch": "Непереглянуто",
-    "UsersEditPageError": "Не вдалося завантажити сторінку редагування користувачів"
+    "UsersEditPageError": "Не вдалося завантажити сторінку редагування користувачів",
+    "OnFilesystem": "На диску: {0}",
+    "LabelVideoAttributes": "Атрибути відео",
+    "LabelVideoColors": "Кольори відео",
+    "LabelVideoBitDepth": "Глибина кольору відео",
+    "LabelAudioAttributes": "Атрибути аудіо",
+    "LabelTargetCodecs": "Цільові кодеки",
+    "LabelProgressAndSpeed": "Прогрес / швидкість",
+    "LabelReasons": "Причини",
+    "LabelPlayerSizes": "Розміри плеєра",
+    "LabelPlaybackQuality": "Втрачено / пошкоджено кадрів"
 }
