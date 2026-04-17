@@ -629,7 +629,11 @@ export class UserSettings {
     getSubtitleAppearanceSettingsWithFallback(itemKey) {
         const raw = itemKey && this.get(itemKey, false);
         if (raw) {
-            return Object.assign({}, defaultSubtitleAppearanceSettings, JSON.parse(raw));
+            try {
+                return Object.assign({}, defaultSubtitleAppearanceSettings, JSON.parse(raw));
+            } catch (e) {
+                // corrupt data — fall through to global settings
+            }
         }
         return this.getSubtitleAppearanceSettings();
     }

@@ -1439,7 +1439,10 @@ export class HtmlVideoPlayer {
             document.getElementsByTagName('head')[0].appendChild(styleElem);
         }
 
-        styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey())), '.htmlvideoplayer');
+        const subtitleAppearanceKey = this.#getSubtitleAppearanceItemKey();
+        const appearanceSettings = userSettings.getSubtitleAppearanceSettingsWithFallback(subtitleAppearanceKey);
+        const styles = subtitleAppearanceHelper.getStyles(appearanceSettings);
+        styleElem.innerHTML = this.getCueCss(styles, '.htmlvideoplayer');
     }
 
     /**

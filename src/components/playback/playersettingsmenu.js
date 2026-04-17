@@ -288,9 +288,7 @@ function handleSelectedOption(id, options, player) {
             }
             return Promise.resolve();
         case 'subtitleappearance':
-            if (options.onOption) {
-                options.onOption('subtitleappearance');
-            }
+            options.onOption?.('subtitleappearance');
             return Promise.resolve();
         default:
             break;

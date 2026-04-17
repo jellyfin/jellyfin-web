@@ -1186,7 +1186,7 @@ export default function (view) {
         });
     }
 
-    function showSubtitleAppearanceDialog() {
+    async function showSubtitleAppearanceDialog() {
         const item = currentItem;
         if (!item) return;
 
@@ -1194,46 +1194,46 @@ export default function (view) {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
         const userId = apiClient.getCurrentUserId();
 
-        Promise.all([
+        const [{ SubtitleSettings }, { default: dialogHelper }] = await Promise.all([
             import('../../../components/subtitlesettings/subtitlesettings'),
             import('../../../components/dialogHelper/dialogHelper')
-        ]).then(([{ SubtitleSettings }, { default: dialogHelper }]) => {
-            const dlg = dialogHelper.createDialog({
-                size: 'medium',
-                removeOnClose: true,
-                scrollY: true
-            });
+        ]);
 
-            const container = document.createElement('div');
-            container.classList.add('formDialogContent', 'smoothScrollY');
-            dlg.appendChild(container);
+        const dlg = dialogHelper.createDialog({
+            size: 'medium',
+            removeOnClose: true,
+            scrollY: true
+        });
 
-            document.body.appendChild(dlg);
-            dialogHelper.open(dlg);
+        const container = document.createElement('div');
+        container.classList.add('formDialogContent', 'smoothScrollY');
+        dlg.appendChild(container);
 
-            const settingsInstance = new SubtitleSettings({
-                element: container,
-                serverId: item.ServerId,
-                userId: userId,
-                appearanceKey: appearanceKey,
-                enableSaveButton: true,
-                enableSaveConfirmation: false,
-                userSettings: userSettings.currentSettings
-            });
+        document.body.appendChild(dlg);
+        dialogHelper.open(dlg);
 
-            Events.on(settingsInstance, 'saved', () => {
-                dialogHelper.close(dlg);
-                const player = currentPlayer;
-                if (player) {
-                    const currentIndex = playbackManager.getSubtitleStreamIndex(player);
-                    playbackManager.setSubtitleStreamIndex(currentIndex, player);
-                }
-            });
+        const settingsInstance = new SubtitleSettings({
+            element: container,
+            serverId: item.ServerId,
+            userId: userId,
+            appearanceKey: appearanceKey,
+            enableSaveButton: true,
+            enableSaveConfirmation: false,
+            userSettings: userSettings.currentSettings
+        });
 
-            dlg.addEventListener('close', () => {
-                Events.off(settingsInstance, 'saved');
-                settingsInstance.destroy();
-            });
+        Events.on(settingsInstance, 'saved', () => {
+            dialogHelper.close(dlg);
+            const player = currentPlayer;
+            if (player) {
+                const currentIndex = playbackManager.getSubtitleStreamIndex(player);
+                playbackManager.setSubtitleStreamIndex(currentIndex, player);
+            }
+        });
+
+        dlg.addEventListener('close', () => {
+            Events.off(settingsInstance, 'saved');
+            settingsInstance.destroy();
         });
     }
 
