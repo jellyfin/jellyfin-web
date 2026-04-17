@@ -632,7 +632,7 @@ export class UserSettings {
             try {
                 return Object.assign({}, defaultSubtitleAppearanceSettings, JSON.parse(raw));
             } catch (e) {
-                // corrupt data — fall through to global settings
+                console.warn('Failed to parse subtitle appearance settings, falling back to global settings', e);
             }
         }
         return this.getSubtitleAppearanceSettings();
