@@ -188,28 +188,31 @@ class Manager {
      * @param {Object} apiClient The ApiClient.
      */
     processGroupUpdate(cmd, apiClient) {
+        console.debug('[SyncPlay.Manager] processGroupUpdate:', cmd);
         switch (cmd.Type) {
             case 'PlayQueue':
                 this.queueCore.updatePlayQueue(apiClient, cmd.Data);
                 break;
             case 'UserJoined':
-
                 toast(globalize.translate('MessageSyncPlayUserJoined', cmd.Data));
                 if (!this.groupInfo.Participants) {
                     this.groupInfo.Participants = [cmd.Data];
                 } else {
                     this.groupInfo.Participants.push(cmd.Data);
                 }
+                Events.trigger(this, 'group-update', [{ ...this.groupInfo }]);
                 break;
             case 'UserLeft':
                 toast(globalize.translate('MessageSyncPlayUserLeft', cmd.Data));
                 if (this.groupInfo.Participants) {
                     this.groupInfo.Participants = this.groupInfo.Participants.filter((user) => user !== cmd.Data);
                 }
+                Events.trigger(this, 'group-update', [{ ...this.groupInfo }]);
                 break;
             case 'GroupJoined':
                 cmd.Data.LastUpdatedAt = new Date(cmd.Data.LastUpdatedAt);
                 this.enableSyncPlay(apiClient, cmd.Data, true);
+                Events.trigger(this, 'group-update', [ cmd.Data ]);
                 break;
             case 'SyncPlayIsDisabled':
                 toast(globalize.translate('MessageSyncPlayIsDisabled'));
@@ -217,14 +220,15 @@ class Manager {
             case 'NotInGroup':
             case 'GroupLeft':
                 this.disableSyncPlay(true);
+                Events.trigger(this, 'group-update', []);
                 break;
             case 'GroupUpdate':
                 cmd.Data.LastUpdatedAt = new Date(cmd.Data.LastUpdatedAt);
                 this.groupInfo = cmd.Data;
+                Events.trigger(this, 'group-update', [ cmd.Data ]);
                 break;
             case 'StateUpdate':
                 Events.trigger(this, 'group-state-update', [cmd.Data.State, cmd.Data.Reason]);
-                console.debug(`SyncPlay processGroupUpdate: state changed to ${cmd.Data.State} because ${cmd.Data.Reason}.`);
                 break;
             case 'GroupDoesNotExist':
                 toast(globalize.translate('MessageSyncPlayGroupDoesNotExist'));
@@ -239,7 +243,7 @@ class Manager {
                 toast(globalize.translate('MessageSyncPlayLibraryAccessDenied'));
                 break;
             default:
-                console.error(`SyncPlay processGroupUpdate: command ${cmd.Type} not recognised.`);
+                console.error(`[SyncPlay.Manager] processGroupUpdate: command ${cmd.Type} not recognised.`);
                 break;
         }
     }
