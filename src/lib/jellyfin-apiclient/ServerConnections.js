@@ -54,11 +54,11 @@ class ServerConnections extends ConnectionManager {
             // Bridge the SDK websocket subscribe API onto the legacy ApiClient.
             // The SDK Api is lazily created on first use so the access token is available.
             let _sdkApi = null;
-            apiClient.subscribe = (messageTypes, onMessage) => {
+            apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
                 if (!_sdkApi) {
                     _sdkApi = toApi(apiClient);
                 }
-                return _sdkApi.subscribe(messageTypes, onMessage);
+                return _sdkApi.subscribe(messageTypes, onMessage, subscriptionIntervals);
             };
         });
     }
