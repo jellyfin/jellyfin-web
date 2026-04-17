@@ -38,8 +38,8 @@ const useLiveSessions = () => {
     useEffect(() => {
         // Return function for unsubscribing
         return api?.subscribe([OutboundWebSocketMessageType.Sessions], ({ Data }) => {
-            queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(Data ?? []))
-        })
+            queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(Data ?? []));
+        });
     }, []);
 
     return sessionsQuery;

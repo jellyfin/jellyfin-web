@@ -58,7 +58,7 @@ function taskbutton(options) {
     }
 
     function onScheduledTaskMessageConfirmed(id) {
-        ServerConnections.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
+        ServerConnections.getApiClient(serverId).startScheduledTask(id);
     }
 
     function onButtonClick() {
@@ -74,7 +74,7 @@ function taskbutton(options) {
 
     let unsubscribe;
     const button = options.button;
-    const serverId = ApiClient.serverId();
+    const serverId = ServerConnections.currentApiClient()?.serverId() || '';
 
     function subscribe() {
         const apiClient = ServerConnections.getApiClient(serverId);
@@ -104,7 +104,6 @@ function taskbutton(options) {
         stopSubscription();
     } else {
         button.addEventListener('click', onButtonClick);
-        pollTasks();
         startSubscription();
     }
 }

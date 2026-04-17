@@ -59,7 +59,9 @@ EmbyItemRefreshIndicatorPrototype.detachedCallback = function () {
         EmbyProgressRing.detachedCallback.call(this);
     }
 
-    this._wsUnsubscribers?.forEach(unsub => unsub());
+    this._wsUnsubscribers?.forEach(unsub => {
+        unsub();
+    });
     this._wsUnsubscribers = [];
 
     if (this._wsApiClientCreatedHandler) {

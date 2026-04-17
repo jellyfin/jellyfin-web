@@ -52,7 +52,7 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
     const [showProgressBar, setShowProgressBar] = useState(!!item.RefreshProgress);
     const [progress, setProgress] = useState(item.RefreshProgress || 0);
 
-    const { api } = useApi()
+    const { api } = useApi();
 
     const onRefreshProgress = useCallback(({ Data }: RefreshProgressMessage) => {
         if (Data?.ItemId === item?.Id) {

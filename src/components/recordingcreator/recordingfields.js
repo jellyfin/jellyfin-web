@@ -116,7 +116,9 @@ class RecordingEditor {
     }
 
     destroy() {
-        this._unsubscribeTimers?.forEach(unsub => unsub());
+        this._unsubscribeTimers?.forEach(unsub => {
+            unsub()
+        });
         this._unsubscribeTimers = [];
     }
 }

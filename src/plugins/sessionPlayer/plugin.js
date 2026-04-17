@@ -265,8 +265,6 @@ class SessionPlayer {
     lastPlaylistItemId;
 
     constructor() {
-        const self = this;
-
         this.name = 'Remote Control';
         this.type = PluginType.MediaPlayer;
         this.isLocalPlayer = false;

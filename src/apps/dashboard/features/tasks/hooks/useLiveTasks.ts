@@ -11,7 +11,7 @@ const useLiveTasks = (params: ScheduledTasksApiGetTasksRequest) => {
 
     useEffect(() => {
         return api?.subscribe([OutboundWebSocketMessageType.ScheduledTasksInfo], ({ Data }) => {
-            queryClient.setQueryData([ QUERY_KEY ], Data ?? [])
+            queryClient.setQueryData([ QUERY_KEY ], Data ?? []);
         });
     }, []);
 

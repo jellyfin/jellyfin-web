@@ -298,7 +298,7 @@ ItemsContainerPrototype.attachedCallback = function () {
         apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], (msg) => onSeriesTimerCreated(msg, self)),
         apiClient.subscribe([OutboundWebSocketMessageType.TimerCancelled], (msg) => onTimerCancelled(msg, self)),
         apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], (msg) => onSeriesTimerCancelled(msg, self)),
-        apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, self)),
+        apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, self))
     ].filter(Boolean);
 
     this._wsApiClientCreatedHandler = (e, newApiClient) => {
@@ -325,7 +325,9 @@ ItemsContainerPrototype.detachedCallback = function () {
 
     itemShortcuts.off(this, getShortcutOptions());
 
-    this._wsUnsubscribers?.forEach(unsub => unsub());
+    this._wsUnsubscribers?.forEach(unsub => {
+        unsub();
+    });
     this._wsUnsubscribers = [];
     if (this._wsApiClientCreatedHandler) {
         Events.off(ServerConnections, 'apiclientcreated', this._wsApiClientCreatedHandler);

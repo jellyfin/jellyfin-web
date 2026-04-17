@@ -1,6 +1,6 @@
 import type { LibraryUpdateInfo } from '@jellyfin/sdk/lib/generated-client/models/library-update-info';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { OutboundWebSocketMessageType, SocketMessageHandler } from '@jellyfin/sdk/lib/websocket';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
@@ -390,7 +390,9 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
             // Unsubscribe from websocket messages
-            unsubscribeRef.current.forEach(unsub => unsub());
+            unsubscribeRef.current.forEach(unsub => {
+                unsub();
+            });
             unsubscribeRef.current = [];
 
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);

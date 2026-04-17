@@ -172,7 +172,9 @@ function Guide(options) {
         stopAutoRefresh();
 
         if (self._wsUnsubscribers) {
-            self._wsUnsubscribers.forEach(unsub => unsub());
+            self._wsUnsubscribers.forEach(unsub => {
+                unsub()
+            });
             self._wsUnsubscribers = [];
         }
 
