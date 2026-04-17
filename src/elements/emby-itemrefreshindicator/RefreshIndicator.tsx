@@ -70,7 +70,7 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
 
     useEffect(() => {
         return api?.subscribe([OutboundWebSocketMessageType.RefreshProgress], onRefreshProgress);
-    }, [item.Id]);
+    }, [api, onRefreshProgress]);
 
     const progressringClass = classNames('progressring', className);
 

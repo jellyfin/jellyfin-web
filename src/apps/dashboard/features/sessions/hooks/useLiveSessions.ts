@@ -40,7 +40,7 @@ const useLiveSessions = () => {
         return api?.subscribe([OutboundWebSocketMessageType.Sessions], ({ Data }) => {
             queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(Data ?? []));
         });
-    }, []);
+    }, [api, updateSessions]);
 
     return sessionsQuery;
 };

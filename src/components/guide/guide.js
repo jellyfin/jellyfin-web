@@ -173,7 +173,7 @@ function Guide(options) {
 
         if (self._wsUnsubscribers) {
             self._wsUnsubscribers.forEach(unsub => {
-                unsub()
+                unsub();
             });
             self._wsUnsubscribers = [];
         }
