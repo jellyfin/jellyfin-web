@@ -229,16 +229,6 @@ function getChangedEvents(oldPlayerData, newPlayerData) {
     return names;
 }
 
-function onPollIntervalFired() {
-    const instance = this;
-    const apiClient = getCurrentApiClient(instance);
-    if (!apiClient.isMessageChannelOpen()) {
-        apiClient.getSessions().then(function (sessions) {
-            processUpdatedSessions(instance, sessions, apiClient);
-        });
-    }
-}
-
 function subscribeToPlayerUpdates(instance) {
     instance.isUpdating = true;
 

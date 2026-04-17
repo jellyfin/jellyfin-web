@@ -9,8 +9,6 @@ import inputManager from 'scripts/inputManager';
 import Events from 'utils/events.ts';
 import { PluginType } from 'types/plugin.ts';
 
-const serverNotifications = {};
-
 function notifyApp() {
     inputManager.notify();
 }
@@ -186,18 +184,10 @@ function onMessageReceived(e, msg) {
     } else if (msg.MessageType === 'GeneralCommand') {
         const cmd = msg.Data;
         processGeneralCommand(cmd, apiClient);
-    } else if (msg.MessageType === 'UserDataChanged') {
-        if (msg.Data.UserId === apiClient.getCurrentUserId()) {
-            for (let i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
-                Events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
-            }
-        }
     } else if (msg.MessageType === 'SyncPlayCommand') {
         SyncPlay?.Manager.processCommand(msg.Data, apiClient);
     } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
         SyncPlay?.Manager.processGroupUpdate(msg.Data, apiClient);
-    } else {
-        Events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
     }
 }
 function bindEvents(apiClient) {
@@ -209,7 +199,3 @@ ServerConnections.getApiClients().forEach(bindEvents);
 Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
     bindEvents(newApiClient);
 });
-
-window.ServerNotifications = serverNotifications;
-
-export default serverNotifications;
