@@ -39,6 +39,7 @@ import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -1992,21 +1993,18 @@ export default function (view, params) {
         setTrailerButtonVisibility(view, currentItem);
     }
 
-    function onWebSocketMessage(e, data) {
-        const msg = data;
+    function onUserDataChanged({ Data }) {
         const apiClient = getApiClient();
 
-        if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
-            const key = currentItem.UserData.Key;
-            const userData = msg.Data.UserDataList.filter(function (u) {
-                return u.Key == key;
-            })[0];
+        if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
 
-            if (userData) {
-                currentItem.UserData = userData;
-                reloadPlayButtons(view, currentItem);
-                autoFocus(view);
-            }
+        const key = currentItem.UserData.Key;
+        const userData = (Data?.UserDataList ?? []).find(u => u.Key == key);
+
+        if (userData) {
+            currentItem.UserData = userData;
+            reloadPlayButtons(view, currentItem);
+            autoFocus(view);
         }
     }
 
@@ -2052,14 +2050,18 @@ export default function (view, params) {
                 reload(self, page, params);
             }
 
-            Events.on(apiClient, 'message', onWebSocketMessage);
+            self._unsubscribeUserData = apiClient.subscribe(
+                [OutboundWebSocketMessageType.UserDataChanged],
+                onUserDataChanged
+            );
             Events.on(playbackManager, 'playerchange', onPlayerChange);
 
             itemShortcuts.on(view.querySelector('.nameContainer'));
         });
         view.addEventListener('viewbeforehide', function () {
             itemShortcuts.off(view.querySelector('.nameContainer'));
-            Events.off(apiClient, 'message', onWebSocketMessage);
+            self._unsubscribeUserData?.();
+            self._unsubscribeUserData = null;
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);
         });

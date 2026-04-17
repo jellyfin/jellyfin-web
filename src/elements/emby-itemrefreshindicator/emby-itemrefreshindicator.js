@@ -1,41 +1,26 @@
 import EmbyProgressRing from '../emby-progressring/emby-progressring';
 import dom from '../../utils/dom';
-import serverNotifications from '../../scripts/serverNotifications';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'webcomponents.js/webcomponents-lite';
 
-function addNotificationEvent(instance, name, handler) {
-    const localHandler = handler.bind(instance);
-    Events.on(serverNotifications, name, localHandler);
-    instance[name] = localHandler;
-}
-
-function removeNotificationEvent(instance, name) {
-    const handler = instance[name];
-    if (handler) {
-        Events.off(serverNotifications, name, handler);
-        instance[name] = null;
-    }
-}
-
-function onRefreshProgress(e, apiClient, info) {
-    const indicator = this;
-
+function onRefreshProgress(indicator, info) {
     if (!indicator.itemId) {
         indicator.itemId = dom.parentWithAttribute(indicator, 'data-id').getAttribute('data-id');
     }
 
-    if (info.ItemId === indicator.itemId) {
+    if (info?.ItemId === indicator.itemId) {
         const progress = parseFloat(info.Progress);
 
         if (progress && progress < 100) {
-            this.classList.remove('hide');
+            indicator.classList.remove('hide');
         } else {
-            this.classList.add('hide');
+            indicator.classList.add('hide');
         }
 
-        this.setAttribute('data-progress', progress);
+        indicator.setAttribute('data-progress', progress);
     }
 }
 
@@ -47,7 +32,18 @@ EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
         EmbyProgressRing.createdCallback.call(this);
     }
 
-    addNotificationEvent(this, 'RefreshProgress', onRefreshProgress);
+    const self = this;
+    const handler = ({ Data }) => onRefreshProgress(self, Data);
+
+    self._wsApiClientCreatedHandler = (e, newApiClient) => {
+        const unsub = newApiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler);
+        if (unsub) self._wsUnsubscribers.push(unsub);
+    };
+    Events.on(ServerConnections, 'apiclientcreated', self._wsApiClientCreatedHandler);
+
+    self._wsUnsubscribers = ServerConnections.getApiClients()
+        .map(apiClient => apiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler))
+        .filter(Boolean);
 };
 
 EmbyItemRefreshIndicatorPrototype.attachedCallback = function () {
@@ -63,7 +59,14 @@ EmbyItemRefreshIndicatorPrototype.detachedCallback = function () {
         EmbyProgressRing.detachedCallback.call(this);
     }
 
-    removeNotificationEvent(this, 'RefreshProgress');
+    this._wsUnsubscribers?.forEach(unsub => unsub());
+    this._wsUnsubscribers = [];
+
+    if (this._wsApiClientCreatedHandler) {
+        Events.off(ServerConnections, 'apiclientcreated', this._wsApiClientCreatedHandler);
+        this._wsApiClientCreatedHandler = null;
+    }
+
     this.itemId = null;
 };
 

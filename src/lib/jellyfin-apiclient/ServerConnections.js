@@ -50,6 +50,16 @@ class ServerConnections extends ConnectionManager {
         Events.on(this, 'apiclientcreated', (_e, apiClient) => {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
+
+            // Bridge the SDK websocket subscribe API onto the legacy ApiClient.
+            // The SDK Api is lazily created on first use so the access token is available.
+            let _sdkApi = null;
+            apiClient.subscribe = (messageTypes, onMessage) => {
+                if (!_sdkApi) {
+                    _sdkApi = toApi(apiClient);
+                }
+                return _sdkApi.subscribe(messageTypes, onMessage);
+            };
         });
     }
 
