@@ -401,6 +401,12 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+            const layoutMode = localStorage.getItem('layout') || LayoutMode.Experimental;
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Books) {
+                return `#/books?topParentId=${item.Id}`;
+            }
+
             if (item.CollectionType == CollectionType.Movies) {
                 url = `#/movies?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
@@ -431,11 +437,18 @@ class AppRouter {
                 return url;
             }
 
-            const layoutMode = localStorage.getItem('layout');
-
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {
                 url = '#/homevideos?topParentId=' + item.Id;
 
+                return url;
+            }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Musicvideos) {
+                url = `#/musicvideos?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
                 return url;
             }
         }

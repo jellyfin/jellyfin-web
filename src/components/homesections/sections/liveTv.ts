@@ -4,10 +4,10 @@ import type { ApiClient } from 'jellyfin-apiclient';
 
 import { appRouter } from 'components/router/appRouter';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getBackdropShape } from 'utils/card';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 

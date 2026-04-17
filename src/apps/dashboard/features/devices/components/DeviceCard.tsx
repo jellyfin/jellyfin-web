@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 import getNowPlayingName from '../../sessions/utils/getNowPlayingName';
 import getSessionNowPlayingTime from '../../sessions/utils/getSessionNowPlayingTime';
 import getNowPlayingImageUrl from '../../sessions/utils/getNowPlayingImageUrl';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
 import Comment from '@mui/icons-material/Comment';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import Pause from '@mui/icons-material/Pause';

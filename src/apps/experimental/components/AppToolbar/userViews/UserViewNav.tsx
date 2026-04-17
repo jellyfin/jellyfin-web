@@ -1,4 +1,5 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Favorite from '@mui/icons-material/Favorite';
@@ -11,7 +12,8 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { MetaView } from 'apps/experimental/constants/metaView';
-import { isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
+import { useAncestors } from 'apps/experimental/features/libraries/hooks/api/useAncestors';
+import { isDetailsPath, isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import useCurrentTab from 'hooks/useCurrentTab';
@@ -37,7 +39,7 @@ const getCurrentUserView = (
     collectionType: string | null,
     tab: number
 ) => {
-    const isUserViewPath = isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
+    const isUserViewPath = isDetailsPath(pathname) || isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
     if (!isUserViewPath) return undefined;
 
     if (collectionType === CollectionType.Livetv) {
@@ -55,6 +57,7 @@ const getCurrentUserView = (
 const UserViewNav = () => {
     const location = useLocation();
     const [ searchParams ] = useSearchParams();
+    const itemId = searchParams.get('id') || undefined;
     const libraryId = searchParams.get('topParentId') || searchParams.get('parentId');
     const collectionType = searchParams.get('collectionType');
     const { activeTab } = useCurrentTab();
@@ -78,6 +81,14 @@ const UserViewNav = () => {
         isPending
     } = useUserViews(user?.Id);
 
+    const {
+        data: ancestors
+    } = useAncestors({ itemId });
+
+    const ancestorLibraryId = useMemo(() => {
+        return ancestors?.find(ancestor => ancestor.Type === BaseItemKind.CollectionFolder)?.Id || null;
+    }, [ ancestors ]);
+
     const primaryViews = useMemo(() => (
         userViews?.Items?.slice(0, maxViews)
     ), [ maxViews, userViews ]);
@@ -98,8 +109,8 @@ const UserViewNav = () => {
     }, []);
 
     const currentUserView = useMemo(() => (
-        getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab)
-    ), [ activeTab, collectionType, libraryId, location.pathname, userViews ]);
+        getCurrentUserView(userViews?.Items, location.pathname, libraryId || ancestorLibraryId, collectionType, activeTab)
+    ), [ activeTab, collectionType, libraryId, ancestorLibraryId, location.pathname, userViews ]);
 
     if (isPending) return null;
 

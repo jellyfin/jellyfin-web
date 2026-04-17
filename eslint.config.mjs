@@ -106,6 +106,8 @@ export default tseslint.config(
             // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
+            // NOTE: This rule is currently blowing up `TypeError: secretSignatures[fqn].forEach is not a function`
+            'sonarjs/hardcoded-secret-signatures': 'off',
 
             // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',
@@ -243,6 +245,9 @@ export default tseslint.config(
                 'Promise',
                 // whatwg-fetch
                 'fetch',
+                'Response',
+                'Response.headers',
+                'Response.json',
                 // document-register-element
                 'document.registerElement',
                 // resize-observer-polyfill
@@ -298,6 +303,8 @@ export default tseslint.config(
                 'String.strike',
                 'String.sub',
                 'String.sup',
+                'URL',
+                'URLSearchParams',
                 'RegExp',
                 'Number',
                 'Math',

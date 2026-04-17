@@ -64,6 +64,7 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
             id='connectionErrorPage'
             className='mainAnimatedPage standalonePage'
             isBackButtonEnabled={false}
+            shouldAutoFocus
         >
             <div className='padded-left padded-right'>
                 <h1>{title}</h1>

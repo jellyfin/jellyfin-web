@@ -10,6 +10,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { useSystemInfo } from 'hooks/useSystemInfo';
+import { getDisplayVersion } from 'utils/versions';
 
 type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;
@@ -25,6 +26,9 @@ const ServerInfoWidget = ({
     isScanning
 }: ServerInfoWidgetProps) => {
     const { data: systemInfo, isPending } = useSystemInfo();
+
+    const displayServerVersion = getDisplayVersion(systemInfo?.Version);
+    const displayWebVersion = getDisplayVersion(__PACKAGE_JSON_VERSION__);
 
     return (
         <Widget
@@ -43,26 +47,29 @@ const ServerInfoWidget = ({
                             <Typography fontWeight='bold'>{globalize.translate('LabelBuildVersion')}</Typography>
                         </Stack>
                         <Stack flexGrow={5} spacing={1}>
-                            {isPending ? (
-                                <>
-                                    <Skeleton />
-                                    <Skeleton />
-                                    <Skeleton />
-                                    <Skeleton />
-                                </>
-                            ) : (
-                                <>
-                                    <Typography>{systemInfo?.ServerName}</Typography>
-                                    <Typography>{systemInfo?.Version}</Typography>
-                                    <Typography>{__PACKAGE_JSON_VERSION__}</Typography>
-                                    <Typography>{__JF_BUILD_VERSION__}</Typography>
-                                </>
-                            )}
+                            <>
+                                {isPending ? (
+                                    <>
+                                        <Skeleton />
+                                        <Skeleton />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Typography>{systemInfo?.ServerName}</Typography>
+                                        <Typography>{displayServerVersion}</Typography>
+                                    </>
+                                )}
+                                <Typography>{displayWebVersion}</Typography>
+                                <Typography>{__JF_BUILD_VERSION__}</Typography>
+                            </>
                         </Stack>
                     </Stack>
                 </Paper>
 
-                <Stack direction='row' spacing={1.5}>
+                <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    spacing={1.5}
+                >
                     <Button
                         onClick={onScanLibrariesClick}
                         startIcon={<RefreshIcon />}

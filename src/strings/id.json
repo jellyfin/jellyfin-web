@@ -1814,5 +1814,6 @@
     "MessageBackupInProgress": "Backup dalam proses",
     "MessageForgotPasswordPinReset": "Masukan PIN disini untuk menyelesaikan reset Password",
     "PluginLoadConfigError": "Terjadi kesalah ketika mencoba mendapatkan halaman konfigurasi plugin.",
-    "PluginUninstallError": "Kesalahan terjadi ketika menguninstall plugin."
+    "PluginUninstallError": "Kesalahan terjadi ketika menguninstall plugin.",
+    "ActivitiesLoadError": "Gagal memuat aktifitas"
 }

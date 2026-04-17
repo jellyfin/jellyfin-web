@@ -1,8 +1,5 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
-// NOTE: Used for jsdoc
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ApiClient } from 'jellyfin-apiclient';
 
 import { AppFeature } from 'constants/appFeature';
 import { getUserViewsQuery } from 'hooks/useUserViews';
@@ -722,7 +719,7 @@ function setTabs (type, selectedIndex, builder) {
 
 /**
  * Fetch the server name and update the document title.
- * @param {ApiClient} [_apiClient] The current api client.
+ * @param {import('jellyfin-apiclient').ApiClient} [_apiClient] The current api client.
  */
 const fetchServerName = (_apiClient) => {
     _apiClient

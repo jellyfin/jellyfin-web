@@ -51,7 +51,7 @@ export const Component = () => {
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
 
-    const { isPending: isConfigurationPending, data: config } = useConfiguration();
+    const { isPending: isConfigurationPending, isError: isConfigurationError, data: config } = useConfiguration();
 
     if (isConfigurationPending) {
         return <Loading />;
@@ -65,98 +65,102 @@ export const Component = () => {
         >
             <Box className='content-primary'>
                 <Form method='POST'>
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
-                            {globalize.translate('ButtonResume')}
-                        </Typography>
+                    {isConfigurationError ? (
+                        <Alert severity='error'>{globalize.translate('ResumeLoadError')}</Alert>
+                    ) : (
+                        <Stack spacing={3}>
+                            <Typography variant='h1'>
+                                {globalize.translate('ButtonResume')}
+                            </Typography>
 
-                        {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
-                        )}
+                            {!isSubmitting && actionData?.isSaved && (
+                                <Alert severity='success'>
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
+                            )}
 
-                        <TextField
-                            label={globalize.translate('LabelMinResumePercentage')}
-                            name='MinResumePercentage'
-                            type='number'
-                            defaultValue={config?.MinResumePct}
-                            helperText={globalize.translate('LabelMinResumePercentageHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
-                        />
+                            <TextField
+                                label={globalize.translate('LabelMinResumePercentage')}
+                                name='MinResumePercentage'
+                                type='number'
+                                defaultValue={config.MinResumePct}
+                                helperText={globalize.translate('LabelMinResumePercentageHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        max: 100,
+                                        required: true
+                                    }
+                                }}
+                            />
 
-                        <TextField
-                            label={globalize.translate('LabelMaxResumePercentage')}
-                            name='MaxResumePercentage'
-                            type='number'
-                            defaultValue={config?.MaxResumePct}
-                            helperText={globalize.translate('LabelMaxResumePercentageHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
-                        />
+                            <TextField
+                                label={globalize.translate('LabelMaxResumePercentage')}
+                                name='MaxResumePercentage'
+                                type='number'
+                                defaultValue={config.MaxResumePct}
+                                helperText={globalize.translate('LabelMaxResumePercentageHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 1,
+                                        max: 100,
+                                        required: true
+                                    }
+                                }}
+                            />
 
-                        <TextField
-                            label={globalize.translate('LabelMinAudiobookResume')}
-                            name='MinAudiobookResume'
-                            type='number'
-                            defaultValue={config?.MinAudiobookResume}
-                            helperText={globalize.translate('LabelMinAudiobookResumeHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
-                        />
+                            <TextField
+                                label={globalize.translate('LabelMinAudiobookResume')}
+                                name='MinAudiobookResume'
+                                type='number'
+                                defaultValue={config.MinAudiobookResume}
+                                helperText={globalize.translate('LabelMinAudiobookResumeHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        max: 100,
+                                        required: true
+                                    }
+                                }}
+                            />
 
-                        <TextField
-                            label={globalize.translate('LabelMaxAudiobookResume')}
-                            name='MaxAudiobookResume'
-                            type='number'
-                            defaultValue={config?.MaxAudiobookResume}
-                            helperText={globalize.translate('LabelMaxAudiobookResumeHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 1,
-                                    max: 100,
-                                    required: true
-                                }
-                            }}
-                        />
+                            <TextField
+                                label={globalize.translate('LabelMaxAudiobookResume')}
+                                name='MaxAudiobookResume'
+                                type='number'
+                                defaultValue={config.MaxAudiobookResume}
+                                helperText={globalize.translate('LabelMaxAudiobookResumeHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 1,
+                                        max: 100,
+                                        required: true
+                                    }
+                                }}
+                            />
 
-                        <TextField
-                            label={globalize.translate('LabelMinResumeDuration')}
-                            name='MinResumeDuration'
-                            type='number'
-                            defaultValue={config?.MinResumeDurationSeconds}
-                            helperText={globalize.translate('LabelMinResumeDurationHelp')}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    required: true
-                                }
-                            }}
-                        />
+                            <TextField
+                                label={globalize.translate('LabelMinResumeDuration')}
+                                name='MinResumeDuration'
+                                type='number'
+                                defaultValue={config.MinResumeDurationSeconds}
+                                helperText={globalize.translate('LabelMinResumeDurationHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        required: true
+                                    }
+                                }}
+                            />
 
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
-                            {globalize.translate('Save')}
-                        </Button>
-                    </Stack>
+                            <Button
+                                type='submit'
+                                size='large'
+                            >
+                                {globalize.translate('Save')}
+                            </Button>
+                        </Stack>
+                    )}
                 </Form>
             </Box>
         </Page>

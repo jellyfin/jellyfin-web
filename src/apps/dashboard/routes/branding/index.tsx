@@ -73,7 +73,8 @@ export const Component = () => {
 
     const {
         data: defaultBrandingOptions,
-        isPending
+        isPending,
+        isError
     } = useBrandingOptions();
     const [ brandingOptions, setBrandingOptions ] = useState(defaultBrandingOptions || {});
 
@@ -186,129 +187,133 @@ export const Component = () => {
                     method='POST'
                     onSubmit={onSubmit}
                 >
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
-                            {globalize.translate('HeaderBranding')}
-                        </Typography>
+                    {isError ? (
+                        <Alert severity='error'>{globalize.translate('BrandingLoadError')}</Alert>
+                    ) : (
+                        <Stack spacing={3}>
+                            <Typography variant='h1'>
+                                {globalize.translate('HeaderBranding')}
+                            </Typography>
 
-                        {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
-                        )}
+                            {!isSubmitting && actionData?.isSaved && (
+                                <Alert severity='success'>
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
+                            )}
 
-                        {error && (
-                            <Alert severity='error'>
-                                {globalize.translate(error)}
-                            </Alert>
-                        )}
-
-                        <Stack
-                            direction={{
-                                xs: 'column',
-                                sm: 'row'
-                            }}
-                            spacing={3}
-                        >
-                            <Box sx={{ flex: '1 1 0' }}>
-                                <Image
-                                    isLoading={false}
-                                    url={
-                                        isSplashscreenEnabled ?
-                                            splashscreenUrl :
-                                            undefined
-                                    }
-                                />
-                            </Box>
+                            {error && (
+                                <Alert severity='error'>
+                                    {globalize.translate(error)}
+                                </Alert>
+                            )}
 
                             <Stack
-                                spacing={{ xs: 3, sm: 2 }}
-                                sx={{ flex: '1 1 0' }}
+                                direction={{
+                                    xs: 'column',
+                                    sm: 'row'
+                                }}
+                                spacing={3}
                             >
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            name={BrandingOption.SplashscreenEnabled}
-                                            checked={isSplashscreenEnabled}
-                                            onChange={setSplashscreenEnabled}
-                                        />
-                                    }
-                                    label={globalize.translate('EnableSplashScreen')}
-                                />
-
-                                <Typography variant='body2'>
-                                    {globalize.translate('CustomSplashScreenSize')}
-                                </Typography>
-
-                                <Button
-                                    component='label'
-                                    variant='outlined'
-                                    startIcon={<Upload />}
-                                    disabled={!isSplashscreenEnabled}
-                                >
-                                    <input
-                                        type='file'
-                                        accept='image/*'
-                                        hidden
-                                        onChange={onSplashscreenUpload}
+                                <Box sx={{ flex: '1 1 0' }}>
+                                    <Image
+                                        isLoading={false}
+                                        url={
+                                            isSplashscreenEnabled ?
+                                                splashscreenUrl :
+                                                undefined
+                                        }
                                     />
-                                    {globalize.translate('UploadCustomImage')}
-                                </Button>
+                                </Box>
 
-                                <Button
-                                    variant='outlined'
-                                    color='error'
-                                    startIcon={<Delete />}
-                                    disabled={!isSplashscreenEnabled}
-                                    onClick={onSplashscreenDelete}
+                                <Stack
+                                    spacing={{ xs: 3, sm: 2 }}
+                                    sx={{ flex: '1 1 0' }}
                                 >
-                                    {globalize.translate('DeleteCustomImage')}
-                                </Button>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                name={BrandingOption.SplashscreenEnabled}
+                                                checked={isSplashscreenEnabled}
+                                                onChange={setSplashscreenEnabled}
+                                            />
+                                        }
+                                        label={globalize.translate('EnableSplashScreen')}
+                                    />
+
+                                    <Typography variant='body2'>
+                                        {globalize.translate('CustomSplashScreenSize')}
+                                    </Typography>
+
+                                    <Button
+                                        component='label'
+                                        variant='outlined'
+                                        startIcon={<Upload />}
+                                        disabled={!isSplashscreenEnabled}
+                                    >
+                                        <input
+                                            type='file'
+                                            accept='image/*'
+                                            hidden
+                                            onChange={onSplashscreenUpload}
+                                        />
+                                        {globalize.translate('UploadCustomImage')}
+                                    </Button>
+
+                                    <Button
+                                        variant='outlined'
+                                        color='error'
+                                        startIcon={<Delete />}
+                                        disabled={!isSplashscreenEnabled}
+                                        onClick={onSplashscreenDelete}
+                                    >
+                                        {globalize.translate('DeleteCustomImage')}
+                                    </Button>
+                                </Stack>
                             </Stack>
+
+                            <TextField
+                                fullWidth
+                                multiline
+                                minRows={5}
+                                maxRows={5}
+                                name={BrandingOption.LoginDisclaimer}
+                                label={globalize.translate('LabelLoginDisclaimer')}
+                                helperText={globalize.translate('LabelLoginDisclaimerHelp')}
+                                value={brandingOptions?.LoginDisclaimer}
+                                onChange={setBrandingOption}
+                                slotProps={{
+                                    input: {
+                                        className: 'textarea-mono'
+                                    }
+                                }}
+                            />
+
+                            <TextField
+                                fullWidth
+                                multiline
+                                minRows={5}
+                                maxRows={20}
+                                name={BrandingOption.CustomCss}
+                                label={globalize.translate('LabelCustomCss')}
+                                helperText={globalize.translate('LabelCustomCssHelp')}
+                                spellCheck={false}
+                                value={brandingOptions?.CustomCss}
+                                onChange={setBrandingOption}
+                                slotProps={{
+                                    input: {
+                                        className: 'textarea-mono'
+                                    }
+                                }}
+                            />
+
+                            <Button
+                                type='submit'
+                                size='large'
+                            >
+                                {globalize.translate('Save')}
+                            </Button>
                         </Stack>
-
-                        <TextField
-                            fullWidth
-                            multiline
-                            minRows={5}
-                            maxRows={5}
-                            name={BrandingOption.LoginDisclaimer}
-                            label={globalize.translate('LabelLoginDisclaimer')}
-                            helperText={globalize.translate('LabelLoginDisclaimerHelp')}
-                            value={brandingOptions?.LoginDisclaimer}
-                            onChange={setBrandingOption}
-                            slotProps={{
-                                input: {
-                                    className: 'textarea-mono'
-                                }
-                            }}
-                        />
-
-                        <TextField
-                            fullWidth
-                            multiline
-                            minRows={5}
-                            maxRows={20}
-                            name={BrandingOption.CustomCss}
-                            label={globalize.translate('LabelCustomCss')}
-                            helperText={globalize.translate('LabelCustomCssHelp')}
-                            spellCheck={false}
-                            value={brandingOptions?.CustomCss}
-                            onChange={setBrandingOption}
-                            slotProps={{
-                                input: {
-                                    className: 'textarea-mono'
-                                }
-                            }}
-                        />
-
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
-                            {globalize.translate('Save')}
-                        </Button>
-                    </Stack>
+                    )}
                 </Form>
             </Box>
         </Page>

@@ -1,4 +1,5 @@
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
@@ -8,7 +9,6 @@ import inputManager from 'scripts/inputManager';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
-import { getBackdropShape, getPortraitShape } from 'utils/card';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-tabs/emby-tabs';
