@@ -1872,5 +1872,6 @@
     "LabelSlideshowInterval": "相片幻燈片播放間隔",
     "LabelSlideshowIntervalHelp": "幻燈片中每張相片顯示的時間（秒）。",
     "NewPlaylist": "新增播放清單",
-    "OptionDatePlaylistUpdated": "播放清單更新日期"
+    "OptionDatePlaylistUpdated": "播放清單更新日期",
+    "ActivitiesLoadError": "無法載入活動"
 }
