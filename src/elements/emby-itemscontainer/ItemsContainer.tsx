@@ -374,6 +374,13 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             if (unsub6) unsubscribeRef.current.push(unsub6);
         }
 
+        const unSubAll = () => {
+            unsubscribeRef.current.forEach(unsub => {
+                unsub();
+            });
+            unsubscribeRef.current = [];
+        };
+
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
 
         return () => {
@@ -390,10 +397,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
             // Unsubscribe from websocket messages
-            unsubscribeRef.current.forEach(unsub => {
-                unsub();
-            });
-            unsubscribeRef.current = [];
+            unSubAll();
 
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
         };
