@@ -500,40 +500,32 @@ function loadExternalIds(context, item, externalIds) {
     }
 }
 
-// Function to hide the element by selector or raw element
-// Selector can be an element or a selector string
-// Context is optional and restricts the querySelector to the context
-function hideElement(selector, context, multiple) {
+/**
+ * Sets the "hide" class to the elements matching the selector
+ * @param {string} selector - Css selector to search with
+ * @param {Element} [context] - Element to search in, defaults to document
+ */
+function hideElement(selector, context) {
     context = context || document;
-    if (typeof selector === 'string') {
-        const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
+    const elements = context.querySelectorAll(selector);
 
-        Array.prototype.forEach.call(elements, function (el) {
-            if (el) {
-                el.classList.add('hide');
-            }
-        });
-    } else {
-        selector.classList.add('hide');
-    }
+    Array.prototype.forEach.call(elements, function (el) {
+        el.classList.add('hide');
+    });
 }
 
-// Function to show the element by selector or raw element
-// Selector can be an element or a selector string
-// Context is optional and restricts the querySelector to the context
-function showElement(selector, context, multiple) {
+/**
+ * Removes the "hide" class from the elements matching the selector
+ * @param {string} selector - Css selector to search with
+ * @param {Element} [context] - Element to search in, defaults to document
+ */
+function showElement(selector, context) {
     context = context || document;
-    if (typeof selector === 'string') {
-        const elements = multiple ? context.querySelectorAll(selector) : [context.querySelector(selector)];
+    const elements = context.querySelectorAll(selector);
 
-        Array.prototype.forEach.call(elements, function (el) {
-            if (el) {
-                el.classList.remove('hide');
-            }
-        });
-    } else {
-        selector.classList.remove('hide');
-    }
+    Array.prototype.forEach.call(elements, function (el) {
+        el.classList.remove('hide');
+    });
 }
 
 function setFieldVisibilities(context, item) {
