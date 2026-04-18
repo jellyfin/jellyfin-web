@@ -24,6 +24,7 @@ import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 
 let currentContext;
 let metadataEditorInfo;
@@ -181,13 +182,13 @@ function onSubmit(e) {
     item.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
     item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
 
-    if (currentItem.Type === 'Person') {
+    if (currentItem.Type === BaseItemKind.Person) {
         const placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
 
         item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
     }
 
-    if (currentItem.Type === 'Series') {
+    if (currentItem.Type === BaseItemKind.Series) {
         // 600000000
         const seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
         item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
@@ -539,26 +540,27 @@ function setFieldVisibilities(context, item) {
 
     toggleElement('#fldOriginalName', [BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type), context);
 
-    toggleElement('#fldSeriesRuntime', item.Type === 'Series', context);
+    toggleElement('#fldSeriesRuntime', item.Type === BaseItemKind.Series, context);
 
-    toggleElement('#fldEndDate', item.Type === 'Series' || item.Type === 'Person', context);
+    toggleElement('#fldEndDate', item.Type === BaseItemKind.Series || item.Type === BaseItemKind.Person, context);
 
-    toggleElement('#albumAssociationMessage', item.Type === 'MusicAlbum', context);
+    toggleElement('#albumAssociationMessage', item.Type === BaseItemKind.MusicAlbum, context);
 
-    toggleElement('#fldCriticRating', item.Type === 'Movie' || item.Type === 'Trailer', context);
+    toggleElement('#fldCriticRating', item.Type === BaseItemKind.Movie || item.Type === BaseItemKind.Trailer, context);
 
-    toggleElement('#fldStatus, #fldAirDays, #fldAirTime', item.Type === 'Series', context);
+    toggleElement('#fldStatus, #fldAirDays, #fldAirTime', item.Type === BaseItemKind.Series, context);
 
-    toggleElement('#fld3dFormat', item.MediaType === 'Video' && item.Type !== 'TvChannel', context);
+    toggleElement('#fld3dFormat', item.MediaType === MediaType.Video && item.Type !== BaseItemKind.TvChannel, context);
 
     toggleElement('#fldArtist, #fldAlbumArtist', item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo, context);
 
     toggleElement('#fldAlbum', item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo, context);
 
-    toggleElement('#collapsibleSpecialEpisodeInfo', item.Type === 'Episode' && item.ParentIndexNumber === 0, context);
+    toggleElement('#collapsibleSpecialEpisodeInfo', item.Type === BaseItemKind.Episode && item.ParentIndexNumber === 0, context);
 
     toggleElement('#peopleCollapsible, #fldCommunityRating, #genresCollapsible, #studiosCollapsible, #fldCustomRating',
-        item.Type !== 'Person' && item.Type !== 'Genre' && item.Type !== 'Studio' && item.Type !== 'MusicGenre' && item.Type !== 'TvChannel', context);
+        ![BaseItemKind.Person, BaseItemKind.Genre, BaseItemKind.Studio, BaseItemKind.MusicGenre, BaseItemKind.TvChannel].includes(item.Type), context);
+
     toggleElement('#fldOfficialRating', item.Type === 'TvChannel', context);
 
     showElement('#tagsCollapsible', context);
@@ -566,9 +568,9 @@ function setFieldVisibilities(context, item) {
     toggleElement('#metadataSettingsCollapsible, #fldPremiereDate, #fldDateAdded, #fldYear',
         item.Type !== 'TvChannel', context);
 
-    toggleElement('.overviewContainer', item.Type !== 'TvChannel', context);
+    toggleElement('.overviewContainer', item.Type !== BaseItemKind.TvChannel, context);
 
-    if (item.Type === 'Person') {
+    if (item.Type === BaseItemKind.Person) {
         context.querySelector('#txtName').label(globalize.translate('LabelName'));
         context.querySelector('#txtSortName').label(globalize.translate('LabelSortName'));
         context.querySelector('#txtOriginalName').label(globalize.translate('LabelOriginalName'));
@@ -583,18 +585,18 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldPlaceOfBirth');
     }
 
-    toggleElement('#fldHeight', item.MediaType === 'Video' && item.Type === 'TvChannel');
+    toggleElement('#fldHeight', item.MediaType === MediaType.Video && item.Type === BaseItemKind.TvChannel);
 
-    toggleElement('#fldOriginalAspectRatio', item.MediaType === 'Video' && item.Type !== 'TvChannel');
+    toggleElement('#fldOriginalAspectRatio', item.MediaType === MediaType.Video && item.Type !== BaseItemKind.TvChannel);
 
-    if (item.Type === 'Audio' || item.Type === 'Episode' || item.Type === 'Season') {
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.Episode || item.Type === BaseItemKind.Season) {
         showElement('#fldIndexNumber');
 
-        if (item.Type === 'Episode') {
+        if (item.Type === BaseItemKind.Episode) {
             context.querySelector('#txtIndexNumber').label(globalize.translate('LabelEpisodeNumber'));
-        } else if (item.Type === 'Season') {
+        } else if (item.Type === BaseItemKind.Season) {
             context.querySelector('#txtIndexNumber').label(globalize.translate('LabelSeasonNumber'));
-        } else if (item.Type === 'Audio') {
+        } else if (item.Type === BaseItemKind.Audio) {
             context.querySelector('#txtIndexNumber').label(globalize.translate('LabelTrackNumber'));
         } else {
             context.querySelector('#txtIndexNumber').label(globalize.translate('LabelNumber'));
@@ -603,12 +605,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldIndexNumber');
     }
 
-    if (item.Type === 'Audio' || item.Type === 'Episode') {
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.Episode) {
         showElement('#fldParentIndexNumber');
 
-        if (item.Type === 'Episode') {
+        if (item.Type === BaseItemKind.Episode) {
             context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelSeasonNumber'));
-        } else if (item.Type === 'Audio') {
+        } else if (item.Type === BaseItemKind.Audio) {
             context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelDiscNumber'));
         } else {
             context.querySelector('#txtParentIndexNumber').label(globalize.translate('LabelParentNumber'));
@@ -617,12 +619,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldParentIndexNumber', context);
     }
 
-    if (item.Type === 'BoxSet') {
+    if (item.Type === BaseItemKind.BoxSet) {
         showElement('#fldDisplayOrder', context);
         hideElement('.seriesDisplayOrderDescription', context);
 
         context.querySelector('#selectDisplayOrder').innerHTML = '<option value="Default">' + globalize.translate('DateModified') + '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
-    } else if (item.Type === 'Series') {
+    } else if (item.Type === BaseItemKind.Series) {
         showElement('#fldDisplayOrder', context);
         showElement('.seriesDisplayOrderDescription', context);
 
@@ -914,13 +916,13 @@ function fillMetadataSettings(context, item, lockedFields) {
         { name: globalize.translate('People'), value: 'Cast' }
     ];
 
-    if (item.Type === 'Person') {
+    if (item.Type === BaseItemKind.Person) {
         lockedFieldsList.push({ name: globalize.translate('BirthLocation'), value: 'ProductionLocations' });
     } else {
         lockedFieldsList.push({ name: globalize.translate('ProductionLocations'), value: 'ProductionLocations' });
     }
 
-    if (item.Type === 'Series') {
+    if (item.Type === BaseItemKind.Series) {
         lockedFieldsList.push({ name: globalize.translate('Runtime'), value: 'Runtime' });
     }
 
@@ -957,7 +959,7 @@ function reload(context, itemId, serverId) {
         setFieldVisibilities(context, item);
         fillItemInfo(context, item, metadataEditorInfo.ParentalRatingOptions);
 
-        if (item.MediaType === 'Video' && item.Type !== 'Episode' && item.Type !== 'TvChannel') {
+        if (item.MediaType === MediaType.Video && item.Type !== BaseItemKind.Episode && item.Type !== BaseItemKind.TvChannel) {
             showElement('#fldTagline', context);
         } else {
             hideElement('#fldTagline', context);
