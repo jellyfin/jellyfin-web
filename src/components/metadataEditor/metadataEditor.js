@@ -506,12 +506,7 @@ function loadExternalIds(context, item, externalIds) {
  * @param {Element} [context] - Element to search in, defaults to document
  */
 function hideElement(selector, context) {
-    context = context || document;
-    const elements = context.querySelectorAll(selector);
-
-    Array.prototype.forEach.call(elements, function (el) {
-        el.classList.add('hide');
-    });
+    toggleElement(selector, false, context);
 }
 
 /**
@@ -520,135 +515,58 @@ function hideElement(selector, context) {
  * @param {Element} [context] - Element to search in, defaults to document
  */
 function showElement(selector, context) {
+    toggleElement(selector, true, context);
+}
+
+/**
+ * Adds or removes the "hide" class from the elements matching the selector,
+ * depending on the value of the `visible` parameter
+ * @param {string} selector - Css selector to search with
+ * @param {boolean} visible - Whether to show or hide the element
+ * @param {Element} [context] - Element to search in, defaults to document
+ */
+function toggleElement(selector, visible, context) {
     context = context || document;
     const elements = context.querySelectorAll(selector);
 
     Array.prototype.forEach.call(elements, function (el) {
-        el.classList.remove('hide');
+        el.classList.toggle('hide', !visible);
     });
 }
 
 function setFieldVisibilities(context, item) {
-    if (item.Path && item.EnableMediaSourceDisplay !== false) {
-        showElement('#fldPath', context);
-    } else {
-        hideElement('#fldPath', context);
-    }
+    toggleElement('#fldPath', item.Path && item.EnableMediaSourceDisplay !== false, context);
 
-    if ([BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type)) {
-        showElement('#fldOriginalName', context);
-    } else {
-        hideElement('#fldOriginalName', context);
-    }
+    toggleElement('#fldOriginalName', [BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type), context);
 
-    if (item.Type === 'Series') {
-        showElement('#fldSeriesRuntime', context);
-    } else {
-        hideElement('#fldSeriesRuntime', context);
-    }
+    toggleElement('#fldSeriesRuntime', item.Type === 'Series', context);
 
-    if (item.Type === 'Series' || item.Type === 'Person') {
-        showElement('#fldEndDate', context);
-    } else {
-        hideElement('#fldEndDate', context);
-    }
+    toggleElement('#fldEndDate', item.Type === 'Series' || item.Type === 'Person', context);
 
-    if (item.Type === 'MusicAlbum') {
-        showElement('#albumAssociationMessage', context);
-    } else {
-        hideElement('#albumAssociationMessage', context);
-    }
+    toggleElement('#albumAssociationMessage', item.Type === 'MusicAlbum', context);
 
-    if (item.Type === 'Movie' || item.Type === 'Trailer') {
-        showElement('#fldCriticRating', context);
-    } else {
-        hideElement('#fldCriticRating', context);
-    }
+    toggleElement('#fldCriticRating', item.Type === 'Movie' || item.Type === 'Trailer', context);
 
-    if (item.Type === 'Series') {
-        showElement('#fldStatus', context);
-        showElement('#fldAirDays', context);
-        showElement('#fldAirTime', context);
-    } else {
-        hideElement('#fldStatus', context);
-        hideElement('#fldAirDays', context);
-        hideElement('#fldAirTime', context);
-    }
+    toggleElement('#fldStatus, #fldAirDays, #fldAirTime', item.Type === 'Series', context);
 
-    if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
-        showElement('#fld3dFormat', context);
-    } else {
-        hideElement('#fld3dFormat', context);
-    }
+    toggleElement('#fld3dFormat', item.MediaType === 'Video' && item.Type !== 'TvChannel', context);
 
-    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo) {
-        showElement('#fldArtist', context);
-        showElement('#fldAlbumArtist', context);
-    } else {
-        hideElement('#fldArtist', context);
-        hideElement('#fldAlbumArtist', context);
-    }
+    toggleElement('#fldArtist, #fldAlbumArtist', item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo, context);
 
-    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo) {
-        showElement('#fldAlbum', context);
-    } else {
-        hideElement('#fldAlbum', context);
-    }
+    toggleElement('#fldAlbum', item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo, context);
 
-    if (item.Type === 'Episode' && item.ParentIndexNumber === 0) {
-        showElement('#collapsibleSpecialEpisodeInfo', context);
-    } else {
-        hideElement('#collapsibleSpecialEpisodeInfo', context);
-    }
+    toggleElement('#collapsibleSpecialEpisodeInfo', item.Type === 'Episode' && item.ParentIndexNumber === 0, context);
 
-    if (item.Type === 'Person'
-            || item.Type === 'Genre'
-            || item.Type === 'Studio'
-            || item.Type === 'MusicGenre'
-            || item.Type === 'TvChannel') {
-        hideElement('#peopleCollapsible', context);
-    } else {
-        showElement('#peopleCollapsible', context);
-    }
-
-    if (item.Type === 'Person' || item.Type === 'Genre' || item.Type === 'Studio' || item.Type === 'MusicGenre' || item.Type === 'TvChannel') {
-        hideElement('#fldCommunityRating', context);
-        hideElement('#genresCollapsible', context);
-        hideElement('#studiosCollapsible', context);
-
-        if (item.Type === 'TvChannel') {
-            showElement('#fldOfficialRating', context);
-        } else {
-            hideElement('#fldOfficialRating', context);
-        }
-        hideElement('#fldCustomRating', context);
-    } else {
-        showElement('#fldCommunityRating', context);
-        showElement('#genresCollapsible', context);
-        showElement('#studiosCollapsible', context);
-        showElement('#fldOfficialRating', context);
-        showElement('#fldCustomRating', context);
-    }
+    toggleElement('#peopleCollapsible, #fldCommunityRating, #genresCollapsible, #studiosCollapsible, #fldCustomRating',
+        item.Type !== 'Person' && item.Type !== 'Genre' && item.Type !== 'Studio' && item.Type !== 'MusicGenre' && item.Type !== 'TvChannel', context);
+    toggleElement('#fldOfficialRating', item.Type === 'TvChannel', context);
 
     showElement('#tagsCollapsible', context);
 
-    if (item.Type === 'TvChannel') {
-        hideElement('#metadataSettingsCollapsible', context);
-        hideElement('#fldPremiereDate', context);
-        hideElement('#fldDateAdded', context);
-        hideElement('#fldYear', context);
-    } else {
-        showElement('#metadataSettingsCollapsible', context);
-        showElement('#fldPremiereDate', context);
-        showElement('#fldDateAdded', context);
-        showElement('#fldYear', context);
-    }
+    toggleElement('#metadataSettingsCollapsible, #fldPremiereDate, #fldDateAdded, #fldYear',
+        item.Type !== 'TvChannel', context);
 
-    if (item.Type === 'TvChannel') {
-        hideElement('.overviewContainer', context);
-    } else {
-        showElement('.overviewContainer', context);
-    }
+    toggleElement('.overviewContainer', item.Type !== 'TvChannel', context);
 
     if (item.Type === 'Person') {
         context.querySelector('#txtName').label(globalize.translate('LabelName'));
@@ -665,17 +583,9 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldPlaceOfBirth');
     }
 
-    if (item.MediaType === 'Video' && item.Type === 'TvChannel') {
-        showElement('#fldHeight');
-    } else {
-        hideElement('#fldHeight');
-    }
+    toggleElement('#fldHeight', item.MediaType === 'Video' && item.Type === 'TvChannel');
 
-    if (item.MediaType === 'Video' && item.Type !== 'TvChannel') {
-        showElement('#fldOriginalAspectRatio');
-    } else {
-        hideElement('#fldOriginalAspectRatio');
-    }
+    toggleElement('#fldOriginalAspectRatio', item.MediaType === 'Video' && item.Type !== 'TvChannel');
 
     if (item.Type === 'Audio' || item.Type === 'Episode' || item.Type === 'Season') {
         showElement('#fldIndexNumber');
