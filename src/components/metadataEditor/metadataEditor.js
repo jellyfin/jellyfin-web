@@ -561,12 +561,13 @@ function setFieldVisibilities(context, item) {
     toggleElement('#peopleCollapsible, #fldCommunityRating, #genresCollapsible, #studiosCollapsible, #fldCustomRating',
         ![BaseItemKind.Person, BaseItemKind.Genre, BaseItemKind.Studio, BaseItemKind.MusicGenre, BaseItemKind.TvChannel].includes(item.Type), context);
 
-    toggleElement('#fldOfficialRating', item.Type === 'TvChannel', context);
+    toggleElement('#fldOfficialRating',
+        ![BaseItemKind.Person, BaseItemKind.Genre, BaseItemKind.Studio, BaseItemKind.MusicGenre].includes(item.Type), context);
 
     showElement('#tagsCollapsible', context);
 
     toggleElement('#metadataSettingsCollapsible, #fldPremiereDate, #fldDateAdded, #fldYear',
-        item.Type !== 'TvChannel', context);
+        item.Type !== BaseItemKind.TvChannel, context);
 
     toggleElement('.overviewContainer', item.Type !== BaseItemKind.TvChannel, context);
 
