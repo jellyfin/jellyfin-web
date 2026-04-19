@@ -8,7 +8,6 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
-import toast from '../../components/toast/toast';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import TableOfContents from './tableOfContents';
@@ -22,7 +21,6 @@ import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
 import './style.scss';
-import differenceInMilliseconds from 'date-fns/esm/fp/differenceInMilliseconds/index.js';
 
 const THEMES = {
     'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
