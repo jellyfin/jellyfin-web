@@ -1,4 +1,3 @@
-import toast from '../../components/toast/toast';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import Screenfull from 'screenfull';
 
@@ -9,6 +8,7 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import layoutManager from '../../components/layoutManager';
 import loading from '../../components/loading/loading';
+import toast from '../../components/toast/toast';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import TableOfContents from './tableOfContents';
@@ -22,6 +22,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
 import './style.scss';
+import differenceInMilliseconds from 'date-fns/esm/fp/differenceInMilliseconds/index.js';
 
 const THEMES = {
     'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
@@ -264,7 +265,7 @@ export class BookPlayer {
     }
     toggleScroll() {
         this.scroll = !this.scroll;
-        toast(`Reading mode changed to ${this.scroll ? 'scrolled' : 'paginated'}. Please reopen the book to apply`);
+        this.rendition?.flow(this.scroll ? 'scrolled' : 'paginated');
     }
     toggleFullscreen() {
         const icon = document.querySelector('#btnBookplayerFullscreen .material-icons');
@@ -382,7 +383,7 @@ export class BookPlayer {
                 const api = toApi(ServerConnections.getApiClient(item));
                 const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
                 const book = epubjs(downloadHref, { openAs: 'epub' });
-                const flow = (this.scroll) ? "scrolled":"paginated";
+                const flow = (this.scroll) ? "scrolled" : "paginated";
                 const rendition = book.renderTo('bookPlayerContainer', {
                     width: '100%',
                     height: document.body.clientHeight * this.getPlayerHeight(),
