@@ -22,7 +22,6 @@ import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
 import './style.scss';
-import differenceInMilliseconds from 'date-fns/esm/fp/differenceInMilliseconds/index.js';
 
 const THEMES = {
     'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
