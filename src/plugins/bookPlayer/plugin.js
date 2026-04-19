@@ -263,8 +263,6 @@ export class BookPlayer {
         }
     }
     toggleScroll() {
-        const icon = document.querySelector('#btnToggleScroll .material-icons')
-        const buttons = document.querySelector('.topButtons');
         this.scroll = !this.scroll;
         toast(`Reading mode changed to ${this.scroll ? 'scrolled' : 'paginated'}. Please reopen the book to apply`);
     }
