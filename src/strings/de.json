@@ -1904,5 +1904,6 @@
     "LabelReasons": "Gründe",
     "LabelPlayerSizes": "Player Größen",
     "LabelPlaybackQuality": "Frame verloren / beschädigt",
-    "OnFilesystem": "Auf Dateisystem: {0}"
+    "OnFilesystem": "Auf Dateisystem: {0}",
+    "LabelSyncPlayJoinGroup": "Gruppe beitreten"
 }

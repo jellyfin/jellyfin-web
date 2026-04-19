@@ -1904,5 +1904,6 @@
     "LabelReasons": "Redenen",
     "LabelPlayerSizes": "Spelergroottes",
     "LabelPlaybackQuality": "Frame verloren / beschadigd",
-    "OnFilesystem": "Op bestandssysteem: {0}"
+    "OnFilesystem": "Op bestandssysteem: {0}",
+    "LabelSyncPlayJoinGroup": "Deelnemen aan groep"
 }
