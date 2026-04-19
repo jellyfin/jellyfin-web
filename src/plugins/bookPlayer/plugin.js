@@ -1,3 +1,4 @@
+import toast from '../../components/toast/toast';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import Screenfull from 'screenfull';
 
@@ -21,6 +22,7 @@ import '../../elements/emby-button/paper-icon-button-light';
 
 import html from './template.html';
 import './style.scss';
+import differenceInMilliseconds from 'date-fns/esm/fp/differenceInMilliseconds/index.js';
 
 const THEMES = {
     'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
@@ -54,7 +56,9 @@ export class BookPlayer {
         this.addSwipeGestures = this.addSwipeGestures.bind(this);
         this.getPlayerHeight = this.getPlayerHeight.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
+        this.toggleScroll = this.toggleScroll.bind(this);
         this.fullscreen = false;
+        this.scroll = false;
     }
 
     play(options) {
@@ -197,6 +201,7 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerDecreaseFontSize').addEventListener('click', this.decreaseFontSize);
         elem.querySelector('#btnBookplayerPrev')?.addEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.addEventListener('click', this.next);
+        elem.querySelector('#btnToggleScroll')?.addEventListener('click', this.toggleScroll);
     }
 
     bindEvents() {
@@ -225,6 +230,7 @@ export class BookPlayer {
         elem.querySelector('#btnBookplayerDecreaseFontSize').removeEventListener('click', this.decreaseFontSize);
         elem.querySelector('#btnBookplayerPrev')?.removeEventListener('click', this.previous);
         elem.querySelector('#btnBookplayerNext')?.removeEventListener('click', this.next);
+        elem.querySelector('#btnToggleScroll')?.removeEventListener('click', this.toggleScroll);
     }
 
     unbindEvents() {
@@ -257,7 +263,12 @@ export class BookPlayer {
             this.tocElement = new TableOfContents(this);
         }
     }
-
+    toggleScroll() {
+        const icon = document.querySelector('#btnToggleScroll .material-icons')
+        const buttons = document.querySelector('.topButtons');
+        this.scroll = !this.scroll;
+        toast(`Reading mode changed to ${this.scroll ? 'scrolled' : 'paginated'}. Please reopen the book to apply`);
+    }
     toggleFullscreen() {
         const icon = document.querySelector('#btnBookplayerFullscreen .material-icons');
         const buttons = document.querySelector('.topButtons');
@@ -374,12 +385,11 @@ export class BookPlayer {
                 const api = toApi(ServerConnections.getApiClient(item));
                 const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
                 const book = epubjs(downloadHref, { openAs: 'epub' });
-
+                const flow = (this.scroll) ? "scrolled":"paginated";
                 const rendition = book.renderTo('bookPlayerContainer', {
                     width: '100%',
                     height: document.body.clientHeight * this.getPlayerHeight(),
-                    // TODO: Add option for scrolled-doc
-                    flow: 'paginated'
+                    flow: flow
                 });
 
                 this.currentSrc = downloadHref;
