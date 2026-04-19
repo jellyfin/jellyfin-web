@@ -1904,5 +1904,6 @@
     "LabelReasons": "原因",
     "LabelPlayerSizes": "播放器尺寸",
     "LabelPlaybackQuality": "跌格／損壞",
-    "OnFilesystem": "檔案系統位置：{0}"
+    "OnFilesystem": "檔案系統位置：{0}",
+    "LabelSyncPlayJoinGroup": "加入群組"
 }
