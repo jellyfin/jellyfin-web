@@ -1904,5 +1904,6 @@
     "LabelReasons": "Důvody",
     "LabelPlayerSizes": "Velikosti přehrávače",
     "LabelPlaybackQuality": "Ztracený / poškozený snímek",
-    "OnFilesystem": "V souborovém systému: {0}"
+    "OnFilesystem": "V souborovém systému: {0}",
+    "LabelSyncPlayJoinGroup": "Připojit se ke skupině"
 }

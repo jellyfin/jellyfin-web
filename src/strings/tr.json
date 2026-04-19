@@ -624,7 +624,7 @@
     "ImportFavoriteChannelsHelp": "Yalnızca alıcı cihazında favori olarak işaretlenen kanallar içe aktarılacaktır.",
     "Image": "Resim",
     "HeaderSyncPlayEnabled": "SyncPlay etkinleştirildi",
-    "HeaderSyncPlaySelectGroup": "Gruba katıl",
+    "HeaderSyncPlaySelectGroup": "Bir gruba katıl",
     "HeaderServerAddressSettings": "Sunucu Adres Ayarları",
     "HeaderRemoteAccessSettings": "Uzaktan Erişim Ayarları",
     "HeaderHttpsSettings": "HTTPS Ayarları",
@@ -1895,7 +1895,7 @@
     "Unwatch": "İzlenmedi olarak işaretle",
     "UsersEditPageError": "Kullanıcı düzenleme sayfası yüklenemedi",
     "Watch": "İzle",
-    "LabelVideoAttributes": "Vıdeo özellikleri",
+    "LabelVideoAttributes": "Video özellikleri",
     "LabelVideoColors": "Video renkleri",
     "LabelVideoBitDepth": "Video bit derinliği",
     "LabelAudioAttributes": "Ses özellikleri",
@@ -1903,5 +1903,7 @@
     "LabelProgressAndSpeed": "İlerleme / hız",
     "LabelReasons": "Sebepler",
     "LabelPlayerSizes": "Oynatıcı dosya boyutları",
-    "LabelPlaybackQuality": "Kare düştü / bozuldu"
+    "LabelPlaybackQuality": "Kare düştü / bozuldu",
+    "LabelSyncPlayJoinGroup": "Gruba katıl",
+    "OnFilesystem": "Dosya sistemi: {0}"
 }
