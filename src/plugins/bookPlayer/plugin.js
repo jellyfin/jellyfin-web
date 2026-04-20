@@ -381,7 +381,7 @@ export class BookPlayer {
                 const api = toApi(ServerConnections.getApiClient(item));
                 const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
                 const book = epubjs(downloadHref, { openAs: 'epub' });
-                const flow = (this.scroll) ? "scrolled" : "paginated";
+                const flow = this.scroll ? 'scrolled' : 'paginated';
                 const rendition = book.renderTo('bookPlayerContainer', {
                     width: '100%',
                     height: document.body.clientHeight * this.getPlayerHeight(),
