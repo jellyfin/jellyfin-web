@@ -1904,5 +1904,6 @@
     "LabelReasons": "Razones",
     "LabelPlayerSizes": "Tamaño del reproductor",
     "LabelPlaybackQuality": "Fotogramas perdidos / corruptos",
-    "OnFilesystem": "En el sistema de archivos: {0}"
+    "OnFilesystem": "En el sistema de archivos: {0}",
+    "LabelSyncPlayJoinGroup": "Unirse al grupo"
 }
