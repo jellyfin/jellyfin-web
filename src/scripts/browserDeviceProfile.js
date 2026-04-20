@@ -850,7 +850,10 @@ export default function (options) {
 
     profile.TranscodingProfiles = [];
 
-    const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls();
+    // Only enable BreakOnNonKeyFrames when a native HLS player is in use. hls.js + MSE
+    // (Chrome/Firefox/Edge Chromium) cannot decode fMP4 segments that start mid-GOP —
+    // it produces buffer holes and bufferSeekOverHole / bufferStalledError early in playback.
+    const hlsBreakOnNonKeyFrames = canPlayNativeHls();
     let enableFmp4Hls = userSettings.preferFmp4HlsContainer();
     if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
         enableFmp4Hls = false;
