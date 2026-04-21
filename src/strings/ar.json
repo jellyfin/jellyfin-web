@@ -1904,5 +1904,6 @@
     "LabelTargetCodecs": "المرمزات المستهدفة",
     "LabelVideoAttributes": "صفات الفيديو",
     "LabelAudioAttributes": "صفات الصوت",
-    "OnFilesystem": "على نظام الملفات: {0}"
+    "OnFilesystem": "على نظام الملفات: {0}",
+    "LabelSyncPlayJoinGroup": "الانضمام لمجموعة"
 }
