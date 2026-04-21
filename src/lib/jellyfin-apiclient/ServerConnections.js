@@ -58,6 +58,17 @@ class ServerConnections extends ConnectionManager {
                 if (!_sdkApi) {
                     _sdkApi = toApi(apiClient);
                 }
+
+                // Keep the SDK Api's access token in sync with the legacy client.
+                // The first subscribe call may happen before authentication completes
+                // (e.g. from notifications.js at module load time), leaving _sdkApi
+                // with no token and a WebSocket that never connects. Calling update()
+                // triggers WebSocketService.updateUrl() which reconnects automatically.
+                const accessToken = apiClient.accessToken();
+                if (accessToken && _sdkApi.accessToken !== accessToken) {
+                    _sdkApi.update({ accessToken });
+                }
+
                 return _sdkApi.subscribe(messageTypes, onMessage, subscriptionIntervals);
             };
         });

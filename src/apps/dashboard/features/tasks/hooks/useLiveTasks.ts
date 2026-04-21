@@ -13,7 +13,7 @@ const useLiveTasks = (params: ScheduledTasksApiGetTasksRequest) => {
         return api?.subscribe([OutboundWebSocketMessageType.ScheduledTasksInfo], ({ Data }) => {
             queryClient.setQueryData([ QUERY_KEY ], Data ?? []);
         });
-    }, []);
+    }, [api]);
 
     return tasksQuery;
 };
