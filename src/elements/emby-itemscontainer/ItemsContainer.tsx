@@ -415,6 +415,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         };
     }, [
         api,
+        subscribe,
         destroyDragReordering,
         destroyMultiSelect,
         initDragReordering,
