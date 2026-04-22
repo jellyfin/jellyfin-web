@@ -103,6 +103,7 @@ export default tseslint.config(
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
+            'sonarjs/aws-restricted-ip-admin-access': 'off',
             // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
