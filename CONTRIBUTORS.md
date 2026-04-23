@@ -1,5 +1,6 @@
 # Jellyfin Contributors
 
+- [Rani-Wehbe] (https://github.com/Rani-Wehbe)
 - [JoshuaBoniface](https://github.com/joshuaboniface)
 - [nvllsvm](https://github.com/nvllsvm)
 - [JustAMan](https://github.com/JustAMan)
