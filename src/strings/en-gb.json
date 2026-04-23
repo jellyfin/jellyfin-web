@@ -1892,5 +1892,20 @@
     "TrickplayLoadError": "Failed to load trickplay settings",
     "LabelExternalServerUri": "External URI",
     "LabelExternalServerUriHelp": "Published server URI for external access.",
-    "Authors": "Authors"
+    "Authors": "Authors",
+    "ContinueReading": "Continue reading",
+    "HeaderLatestBooks": "Recently Added Books",
+    "HeaderLatestMusicVideos": "Recently Added Music Videos",
+    "LabelSyncPlayJoinGroup": "Join group",
+    "OnFilesystem": "On filesystem: {0}",
+    "UsersEditPageError": "Failed to load users edit page",
+    "LabelVideoAttributes": "Video attributes",
+    "LabelVideoColors": "Video colours",
+    "LabelVideoBitDepth": "Video bit depth",
+    "LabelAudioAttributes": "Audio attributes",
+    "LabelTargetCodecs": "Target codecs",
+    "LabelProgressAndSpeed": "Progress / speed",
+    "LabelReasons": "Reasons",
+    "LabelPlayerSizes": "Player sizes",
+    "LabelPlaybackQuality": "Frame dropped / corrupted"
 }
