@@ -8,6 +8,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import Events from 'utils/events.ts';
 import { PluginType } from 'types/plugin.ts';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 function notifyApp() {
     inputManager.notify();
@@ -137,65 +138,63 @@ function processGeneralCommand(cmd, apiClient) {
     notifyApp();
 }
 
-function onMessageReceived(e, msg) {
-    const apiClient = this;
-    const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
-
-    if (msg.MessageType === 'Play') {
-        notifyApp();
-        const serverId = apiClient.serverInfo().Id;
-        if (msg.Data.PlayCommand === 'PlayNext') {
-            playbackManager.queueNext({ ids: msg.Data.ItemIds, serverId: serverId });
-        } else if (msg.Data.PlayCommand === 'PlayLast') {
-            playbackManager.queue({ ids: msg.Data.ItemIds, serverId: serverId });
-        } else {
-            playbackManager.play({
-                ids: msg.Data.ItemIds,
-                startPositionTicks: msg.Data.StartPositionTicks,
-                mediaSourceId: msg.Data.MediaSourceId,
-                audioStreamIndex: msg.Data.AudioStreamIndex,
-                subtitleStreamIndex: msg.Data.SubtitleStreamIndex,
-                startIndex: msg.Data.StartIndex,
-                serverId: serverId
-            });
-        }
-    } else if (msg.MessageType === 'Playstate') {
-        if (msg.Data.Command === 'Stop') {
-            inputManager.handleCommand('stop');
-        } else if (msg.Data.Command === 'Pause') {
-            inputManager.handleCommand('pause');
-        } else if (msg.Data.Command === 'Unpause') {
-            inputManager.handleCommand('play');
-        } else if (msg.Data.Command === 'PlayPause') {
-            inputManager.handleCommand('playpause');
-        } else if (msg.Data.Command === 'Seek') {
-            playbackManager.seek(msg.Data.SeekPositionTicks);
-        } else if (msg.Data.Command === 'NextTrack') {
-            inputManager.handleCommand('next');
-        } else if (msg.Data.Command === 'PreviousTrack') {
-            inputManager.handleCommand('previous');
-        } else if (msg.Data.Command === 'Rewind') {
-            inputManager.handleCommand('rewind');
-        } else if (msg.Data.Command === 'FastForward') {
-            inputManager.handleCommand('fastforward');
-        } else {
-            notifyApp();
-        }
-    } else if (msg.MessageType === 'GeneralCommand') {
-        const cmd = msg.Data;
-        processGeneralCommand(cmd, apiClient);
-    } else if (msg.MessageType === 'SyncPlayCommand') {
-        SyncPlay?.Manager.processCommand(msg.Data, apiClient);
-    } else if (msg.MessageType === 'SyncPlayGroupUpdate') {
-        SyncPlay?.Manager.processGroupUpdate(msg.Data, apiClient);
+function onPlay({ Data }, apiClient) {
+    notifyApp();
+    const serverId = apiClient.serverInfo().Id;
+    if (Data.PlayCommand === 'PlayNext') {
+        playbackManager.queueNext({ ids: Data.ItemIds, serverId });
+    } else if (Data.PlayCommand === 'PlayLast') {
+        playbackManager.queue({ ids: Data.ItemIds, serverId });
+    } else {
+        playbackManager.play({
+            ids: Data.ItemIds,
+            startPositionTicks: Data.StartPositionTicks,
+            mediaSourceId: Data.MediaSourceId,
+            audioStreamIndex: Data.AudioStreamIndex,
+            subtitleStreamIndex: Data.SubtitleStreamIndex,
+            startIndex: Data.StartIndex,
+            serverId
+        });
     }
 }
-function bindEvents(apiClient) {
-    Events.off(apiClient, 'message', onMessageReceived);
-    Events.on(apiClient, 'message', onMessageReceived);
+
+function onPlaystate({ Data }) {
+    if (Data.Command === 'Stop') {
+        inputManager.handleCommand('stop');
+    } else if (Data.Command === 'Pause') {
+        inputManager.handleCommand('pause');
+    } else if (Data.Command === 'Unpause') {
+        inputManager.handleCommand('play');
+    } else if (Data.Command === 'PlayPause') {
+        inputManager.handleCommand('playpause');
+    } else if (Data.Command === 'Seek') {
+        playbackManager.seek(Data.SeekPositionTicks);
+    } else if (Data.Command === 'NextTrack') {
+        inputManager.handleCommand('next');
+    } else if (Data.Command === 'PreviousTrack') {
+        inputManager.handleCommand('previous');
+    } else if (Data.Command === 'Rewind') {
+        inputManager.handleCommand('rewind');
+    } else if (Data.Command === 'FastForward') {
+        inputManager.handleCommand('fastforward');
+    } else {
+        notifyApp();
+    }
 }
 
-ServerConnections.getApiClients().forEach(bindEvents);
+function subscribeToApiClient(apiClient) {
+    apiClient.subscribe([OutboundWebSocketMessageType.Play], (msg) => onPlay(msg, apiClient));
+    apiClient.subscribe([OutboundWebSocketMessageType.Playstate], (msg) => onPlaystate(msg));
+    apiClient.subscribe([OutboundWebSocketMessageType.GeneralCommand], ({ Data }) => processGeneralCommand(Data, apiClient));
+    apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayCommand], ({ Data }) => {
+        pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processCommand(Data, apiClient);
+    });
+    apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
+        pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processGroupUpdate(Data, apiClient);
+    });
+}
+
+ServerConnections.getApiClients().forEach(subscribeToApiClient);
 Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
-    bindEvents(newApiClient);
+    subscribeToApiClient(newApiClient);
 });
