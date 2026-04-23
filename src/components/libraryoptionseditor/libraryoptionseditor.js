@@ -625,6 +625,7 @@ export function getLibraryOptions(parent) {
         Enabled: parent.querySelector('.chkEnabled').checked,
         EnableArchiveMediaFiles: false,
         EnablePhotos: parent.querySelector('.chkEnablePhotos').checked,
+        EnableJellyignore: parent.querySelector('.chkEnableJellyignore').checked,
         EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
         EnableLUFSScan: parent.querySelector('.chkEnableLUFSScan').checked,
         ExtractTrickplayImagesDuringLibraryScan: parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked,
@@ -698,6 +699,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#txtSeasonZeroName').value = options.SeasonZeroDisplayName || 'Specials';
     parent.querySelector('.chkEnabled').checked = options.Enabled;
     parent.querySelector('.chkEnablePhotos').checked = options.EnablePhotos;
+    parent.querySelector('.chkEnableJellyignore').checked = options.EnableJellyignore ?? true;
     parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
     parent.querySelector('.chkEnableLUFSScan').checked = options.EnableLUFSScan;
     parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked = options.ExtractTrickplayImagesDuringLibraryScan;

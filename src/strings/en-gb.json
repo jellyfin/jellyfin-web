@@ -203,6 +203,8 @@
     "EnableNextVideoInfoOverlayHelp": "At the end of a video, display info about the next video coming up in the current playlist.",
     "EnablePhotos": "Display the photos",
     "EnablePhotosHelp": "Images will be detected and displayed alongside other media files.",
+    "LabelEnableFileFilteringWithJellyignore": "Enable File Filtering with .jellyignore",
+    "LabelEnableJellyignoreHelp": "Files listed in .ignore are always ignored regardless of this setting",
     "EnableStreamLooping": "Auto-loop live streams",
     "EnableStreamLoopingHelp": "Enable this if live streams only contain a few seconds of data and need to be continuously requested. Enabling this when not needed may cause problems.",
     "EnableThemeSongsHelp": "Play the theme songs in background while browsing the library.",

@@ -305,6 +305,8 @@
     "EnableNextVideoInfoOverlayHelp": "At the end of a video, display info about the next video coming up in the current playlist.",
     "EnablePhotos": "Display the photos",
     "EnablePhotosHelp": "Images will be detected and displayed alongside other media files.",
+    "LabelEnableFileFilteringWithJellyignore": "Enable File Filtering with .jellyignore",
+    "LabelEnableJellyignoreHelp": "Files listed in .ignore are always ignored regardless of this setting",
     "EnableCardLayout": "Display visual CardBox",
     "EnableRewatchingNextUp": "Enable Rewatching in Next Up",
     "EnableRewatchingNextUpHelp": "Enable showing already watched episodes in 'Next Up' sections.",
