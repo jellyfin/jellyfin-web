@@ -1017,7 +1017,7 @@
     "LabelSyncPlayNewGroupDescription": "Crea un grup nou",
     "LabelSyncPlayNewGroup": "Grup nou",
     "LabelSyncPlayLeaveGroupDescription": "Desactiva SyncPlay",
-    "LabelSyncPlayLeaveGroup": "Surt del grup",
+    "LabelSyncPlayLeaveGroup": "Sortiu del grup",
     "LabelSyncPlayHaltPlaybackDescription": "I ignora les actualitzacions de la llista de reproducció",
     "LabelSyncPlayHaltPlayback": "Atura la reproducció local",
     "LabelSyncPlayAccessNone": "S'ha desactivat per a aquest usuari",
@@ -1904,5 +1904,6 @@
     "LabelProgressAndSpeed": "Progrés / velocitat",
     "LabelReasons": "Motius",
     "LabelPlayerSizes": "Mides del reproductor",
-    "LabelPlaybackQuality": "Fotogrames perduts / corruptes"
+    "LabelPlaybackQuality": "Fotogrames perduts / corruptes",
+    "LabelSyncPlayJoinGroup": "Uniu-vos al grup"
 }
