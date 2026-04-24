@@ -1895,5 +1895,6 @@
     "BrandingLoadError": "Misslyckades att ladda märkesinställningar",
     "ResumeLoadError": "Kunde inte ladda inställningarna för återupptagning",
     "TrickplayLoadError": "Kunde inte ladda inställningar för trickplay",
-    "LabelSyncPlayJoinGroup": "Anslut till gruppen"
+    "LabelSyncPlayJoinGroup": "Anslut till gruppen",
+    "OnFilesystem": "På filsystem:{0}"
 }
