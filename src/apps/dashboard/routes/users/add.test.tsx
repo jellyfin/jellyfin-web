@@ -4,6 +4,14 @@ import { flushSync } from 'react-dom';
 import { createRoot, type Root } from 'react-dom/client';
 
 import UserNew from './add';
+import {
+    changeCheckbox,
+    clickButton,
+    dismissToast as dismissToastUtil,
+    dispatchFormSubmit,
+    flushEffects,
+    waitUntil
+} from '../../features/users/testUtils';
 
 const TEST_PASSWORD = [ 'test', 'passphrase' ].join('-');
 
@@ -151,28 +159,6 @@ describe('UserNew', () => {
     let root: Root;
     let historyBackSpy: ReturnType<typeof vi.spyOn>;
 
-    const flushEffects = async () => {
-        await Promise.resolve();
-        await Promise.resolve();
-        await new Promise(resolve => setTimeout(resolve, 0));
-    };
-
-    const waitUntil = async (assertion: () => void) => {
-        let lastError: unknown;
-
-        for (let attempt = 0; attempt < 10; attempt++) {
-            try {
-                assertion();
-                return;
-            } catch (error) {
-                lastError = error;
-                await flushEffects();
-            }
-        }
-
-        throw lastError;
-    };
-
     const renderPage = async () => {
         flushSync(() => {
             root = createRoot(container);
@@ -182,56 +168,8 @@ describe('UserNew', () => {
         await flushEffects();
     };
 
-    const submitForm = async () => {
-        const form = container.querySelector('.newUserProfileForm');
-
-        if (!(form instanceof HTMLFormElement)) {
-            throw new Error('Expected new user form to be rendered');
-        }
-
-        flushSync(() => {
-            form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-        });
-
-        await flushEffects();
-    };
-
-    const changeCheckbox = async (selector: string, checked: boolean) => {
-        const checkbox = container.querySelector(selector);
-
-        if (!(checkbox instanceof HTMLInputElement)) {
-            throw new Error(`Expected checkbox ${selector} to exist`);
-        }
-
-        checkbox.checked = checked;
-        flushSync(() => {
-            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
-        });
-
-        await flushEffects();
-        return checkbox;
-    };
-
-    const clickButton = async (selector: string) => {
-        const button = container.querySelector(selector);
-
-        if (!(button instanceof HTMLButtonElement)) {
-            throw new Error(`Expected button ${selector} to exist`);
-        }
-
-        flushSync(() => {
-            button.click();
-        });
-
-        await flushEffects();
-    };
-
     const dismissToast = async () => {
-        flushSync(() => {
-            mocks.toastOnClose?.(new Event('close'), 'clickaway');
-        });
-
-        await flushEffects();
+        await dismissToastUtil(mocks.toastOnClose);
     };
 
     beforeEach(() => {
@@ -274,19 +212,19 @@ describe('UserNew', () => {
         expect(mocks.loadingHide).toHaveBeenCalledOnce();
         expect(container.querySelector('.channelAccessContainer')?.classList.contains('hide')).toBe(false);
 
-        await changeCheckbox('.chkEnableAllChannels', true);
+        await changeCheckbox(container, '.chkEnableAllChannels', true);
         expect(container.querySelector('.channelAccessListContainer')?.classList.contains('hide')).toBe(true);
 
-        await changeCheckbox('.chkEnableAllChannels', false);
+        await changeCheckbox(container, '.chkEnableAllChannels', false);
         expect(container.querySelector('.channelAccessListContainer')?.classList.contains('hide')).toBe(false);
 
-        await changeCheckbox('.chkEnableAllFolders', true);
+        await changeCheckbox(container, '.chkEnableAllFolders', true);
         expect(container.querySelector('.folderAccessListContainer')?.classList.contains('hide')).toBe(true);
 
-        await changeCheckbox('.chkEnableAllFolders', false);
+        await changeCheckbox(container, '.chkEnableAllFolders', false);
         expect(container.querySelector('.folderAccessListContainer')?.classList.contains('hide')).toBe(false);
 
-        await clickButton('#btnCancel');
+        await clickButton(container, '#btnCancel');
 
         expect(historyBackSpy).toHaveBeenCalledOnce();
     });
@@ -326,7 +264,7 @@ describe('UserNew', () => {
         (container.querySelector('#txtUsername') as HTMLInputElement).value = 'test / test';
         (container.querySelector('#txtPassword') as HTMLInputElement).value = TEST_PASSWORD;
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.newUserProfileForm');
 
         expect(mocks.loadingShow).toHaveBeenCalledOnce();
         expect(mocks.loadingHide).toHaveBeenCalledOnce();
@@ -347,7 +285,7 @@ describe('UserNew', () => {
 
         (container.querySelector('#txtUsername') as HTMLInputElement).value = 'valid-name';
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.newUserProfileForm');
 
         expect(mocks.loadingHide).toHaveBeenCalledOnce();
         expect(container.querySelector('[data-testid="toast-message"]')?.textContent).toBe('ErrorDefault');
@@ -359,7 +297,7 @@ describe('UserNew', () => {
         });
 
         await renderPage();
-        await submitForm();
+        await dispatchFormSubmit(container, '.newUserProfileForm');
 
         await dismissToast();
 
@@ -388,7 +326,7 @@ describe('UserNew', () => {
         (container.querySelector('#txtUsername') as HTMLInputElement).value = 'valid-name';
         (container.querySelector('#txtPassword') as HTMLInputElement).value = TEST_PASSWORD;
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.newUserProfileForm');
 
         expect(mocks.createUserMutate).toHaveBeenCalledOnce();
         expect(mocks.updateUserPolicyMutate).toHaveBeenCalledOnce();
@@ -432,7 +370,7 @@ describe('UserNew', () => {
         (container.querySelector('.chkFolder') as HTMLInputElement).checked = true;
         (container.querySelector('.chkChannel') as HTMLInputElement).checked = true;
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.newUserProfileForm');
 
         expect(mocks.navigate).toHaveBeenCalledWith('/dashboard/users/user-1/profile');
     });
@@ -465,10 +403,10 @@ describe('UserNew', () => {
 
         (container.querySelector('#txtUsername') as HTMLInputElement).value = 'valid-name';
         (container.querySelector('#txtPassword') as HTMLInputElement).value = TEST_PASSWORD;
-        await changeCheckbox('.chkEnableAllFolders', true);
-        await changeCheckbox('.chkEnableAllChannels', true);
+        await changeCheckbox(container, '.chkEnableAllFolders', true);
+        await changeCheckbox(container, '.chkEnableAllChannels', true);
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.newUserProfileForm');
 
         expect(mocks.createUserMutate).toHaveBeenCalledOnce();
         expect(mocks.updateUserPolicyMutate).toHaveBeenCalledOnce();

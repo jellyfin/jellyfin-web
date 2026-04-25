@@ -5,12 +5,17 @@ import { createRoot, type Root } from 'react-dom/client';
 import type { SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
 
 import Profile from './Profile';
+import {
+    changeCheckbox,
+    clickButton,
+    cloneJson,
+    dismissToast as dismissToastUtil,
+    dispatchFormSubmit,
+    flushEffects,
+    waitUntil
+} from '../testUtils';
 
 const PASSWORD_RESET_PROVIDER_ID = [ 'sso', 'provider' ].join('-');
-
-function cloneUserDto<T>(value: T): T {
-    return JSON.parse(JSON.stringify(value)) as T;
-}
 
 const mocks = vi.hoisted(() => ({
     navigate: vi.fn(),
@@ -206,87 +211,17 @@ describe('Profile', () => {
         }
     });
 
-    const flushEffects = async () => {
-        await Promise.resolve();
-        await Promise.resolve();
-        await new Promise(resolve => setTimeout(resolve, 0));
-    };
-
-    const waitUntil = async (assertion: () => void) => {
-        let lastError: unknown;
-
-        for (let attempt = 0; attempt < 10; attempt++) {
-            try {
-                assertion();
-                return;
-            } catch (error) {
-                lastError = error;
-                await flushEffects();
-            }
-        }
-
-        throw lastError;
-    };
-
     const renderPage = async (userOverride = createUserDto()) => {
         flushSync(() => {
             root = createRoot(container);
-            root.render(<Profile userDto={cloneUserDto(userOverride)} />);
-        });
-
-        await flushEffects();
-    };
-
-    const submitForm = async () => {
-        const form = container.querySelector('.editUserProfileForm');
-
-        if (!(form instanceof HTMLFormElement)) {
-            throw new Error('Expected edit user form to be rendered');
-        }
-
-        flushSync(() => {
-            form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-        });
-
-        await flushEffects();
-    };
-
-    const changeCheckbox = async (selector: string, checked: boolean) => {
-        const checkbox = container.querySelector(selector);
-
-        if (!(checkbox instanceof HTMLInputElement)) {
-            throw new Error(`Expected checkbox ${selector} to exist`);
-        }
-
-        checkbox.checked = checked;
-        flushSync(() => {
-            checkbox.dispatchEvent(new Event('change', { bubbles: true }));
-        });
-
-        await flushEffects();
-        return checkbox;
-    };
-
-    const clickButton = async (selector: string) => {
-        const button = container.querySelector(selector);
-
-        if (!(button instanceof HTMLButtonElement)) {
-            throw new Error(`Expected button ${selector} to exist`);
-        }
-
-        flushSync(() => {
-            button.click();
+            root.render(<Profile userDto={cloneJson(userOverride)} />);
         });
 
         await flushEffects();
     };
 
     const dismissToast = async () => {
-        flushSync(() => {
-            mocks.toastOnClose?.(new Event('close'), 'clickaway');
-        });
-
-        await flushEffects();
+        await dismissToastUtil(mocks.toastOnClose);
     };
 
     beforeEach(() => {
@@ -368,13 +303,13 @@ describe('Profile', () => {
         expect((container.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value).toBe('4.25');
         expect((container.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value).toBe('5');
         expect((container.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value).toBe('3');
-        await changeCheckbox('.chkEnableDeleteAllFolders', true);
+        await changeCheckbox(container, '.chkEnableDeleteAllFolders', true);
         expect(container.querySelector('.deleteAccess')?.classList.contains('hide')).toBe(true);
 
-        await changeCheckbox('.chkEnableDeleteAllFolders', false);
+        await changeCheckbox(container, '.chkEnableDeleteAllFolders', false);
         expect(container.querySelector('.deleteAccess')?.classList.contains('hide')).toBe(false);
 
-        await clickButton('#btnCancel');
+        await clickButton(container, '#btnCancel');
         expect(historyBackSpy).toHaveBeenCalledOnce();
     });
 
@@ -396,7 +331,7 @@ describe('Profile', () => {
 
         (container.querySelector('#txtUserName') as HTMLInputElement).value = 'test / test';
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.editUserProfileForm');
 
         expect(mocks.loadingShow).toHaveBeenCalledOnce();
         expect(mocks.loadingHide).toHaveBeenCalledOnce();
@@ -415,7 +350,7 @@ describe('Profile', () => {
         mocks.loadingShow.mockClear();
         mocks.loadingHide.mockClear();
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.editUserProfileForm');
 
         expect(mocks.loadingHide).toHaveBeenCalledOnce();
         expect(container.querySelector('[data-testid="toast-message"]')?.textContent).toBe('ErrorDefault');
@@ -427,7 +362,7 @@ describe('Profile', () => {
         });
 
         await renderPage();
-        await submitForm();
+        await dispatchFormSubmit(container, '.editUserProfileForm');
         await dismissToast();
 
         expect(container.querySelector('[data-testid="toast"]')).toBeNull();
@@ -435,7 +370,7 @@ describe('Profile', () => {
 
     it('hides loading and shows the nested policy update error message', async () => {
         mocks.updateUserMutate.mockImplementation((_params, options) => {
-            options?.onSuccess?.({}, { userId: 'user-1', userDto: cloneUserDto(createUserDto()) }, undefined);
+            options?.onSuccess?.({}, { userId: 'user-1', userDto: cloneJson(createUserDto()) }, undefined);
         });
 
         mocks.updateUserPolicyMutate.mockImplementation((_params, options) => {
@@ -449,7 +384,7 @@ describe('Profile', () => {
 
         (container.querySelector('#txtUserName') as HTMLInputElement).value = 'valid-name';
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.editUserProfileForm');
 
         expect(mocks.updateUserMutate).toHaveBeenCalledOnce();
         expect(mocks.updateUserPolicyMutate).toHaveBeenCalledOnce();
@@ -497,7 +432,7 @@ describe('Profile', () => {
         (container.querySelectorAll('.deleteAccess .chkFolder')[0] as HTMLInputElement).checked = true;
         (container.querySelectorAll('.deleteAccess .chkFolder')[1] as HTMLInputElement).checked = true;
 
-        await submitForm();
+        await dispatchFormSubmit(container, '.editUserProfileForm');
 
         expect(mocks.updateUserMutate).toHaveBeenCalledOnce();
         expect(mocks.updateUserPolicyMutate).toHaveBeenCalledOnce();
