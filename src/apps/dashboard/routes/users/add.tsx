@@ -23,9 +23,11 @@ type ItemsArr = {
     Id?: string;
 };
 
-const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
-    Array.prototype.filter.call(elements, e => e.checked)
-        .map(e => e.getAttribute('data-id'))
+const getCheckedElementDataIds = (elements: NodeListOf<HTMLInputElement>) => (
+    Array.from(elements)
+        .filter(e => e.checked)
+        .map(e => e.dataset.id)
+        .filter((id): id is string => !!id)
 );
 
 const UserNew = () => {

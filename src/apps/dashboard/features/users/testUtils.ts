@@ -26,7 +26,7 @@ export async function dispatchFormSubmit(container: ParentNode, selector: string
     const form = container.querySelector(selector);
 
     if (!(form instanceof HTMLFormElement)) {
-        throw new Error(`Expected form ${selector} to be rendered`);
+        throw new TypeError(`Expected form ${selector} to be rendered`);
     }
 
     flushSync(() => {
@@ -40,7 +40,7 @@ export async function changeCheckbox(container: ParentNode, selector: string, ch
     const checkbox = container.querySelector(selector);
 
     if (!(checkbox instanceof HTMLInputElement)) {
-        throw new Error(`Expected checkbox ${selector} to exist`);
+        throw new TypeError(`Expected checkbox ${selector} to exist`);
     }
 
     checkbox.checked = checked;
@@ -56,7 +56,7 @@ export async function clickButton(container: ParentNode, selector: string) {
     const button = container.querySelector(selector);
 
     if (!(button instanceof HTMLButtonElement)) {
-        throw new Error(`Expected button ${selector} to exist`);
+        throw new TypeError(`Expected button ${selector} to exist`);
     }
 
     flushSync(() => {
