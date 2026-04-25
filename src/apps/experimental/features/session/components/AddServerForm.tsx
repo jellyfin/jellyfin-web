@@ -1,6 +1,7 @@
 import React, { ChangeEventHandler, FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
+import appSettings from 'scripts/settings/appSettings';
 import { appRouter } from 'components/router/appRouter';
 import loading from 'components/loading/loading';
 import Input from 'elements/emby-input/Input';
@@ -10,7 +11,7 @@ import { useServerConnectionResultHandler } from '../hooks/useServerConnectionRe
 
 const AddServerForm: FC = () => {
     const ref = useRef<HTMLInputElement>(null);
-    const [host, setHost] = useState<string>();
+    const [host, setHost] = useState<string>('');
 
     const handleConnectionResult = useServerConnectionResultHandler();
 
@@ -28,8 +29,11 @@ const AddServerForm: FC = () => {
         e.preventDefault();
         loading.show();
 
-        ServerConnections.connectToAddress(host, {
-            enableAutoLogin: true // TODO
+        // eslint-disable-next-line sonarjs/slow-regex
+        const hostTrimmed = host.replace(/\/+$/, '');
+
+        ServerConnections.connectToAddress(hostTrimmed, {
+            enableAutoLogin: appSettings.enableAutoLogin
         })
             .then((result) => {
                 handleConnectionResult(result);
