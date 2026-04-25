@@ -1895,5 +1895,14 @@
     "BrandingLoadError": "Misslyckades att ladda märkesinställningar",
     "ResumeLoadError": "Kunde inte ladda inställningarna för återupptagning",
     "TrickplayLoadError": "Kunde inte ladda inställningar för trickplay",
-    "LabelSyncPlayJoinGroup": "Anslut till gruppen"
+    "LabelSyncPlayJoinGroup": "Anslut till gruppen",
+    "OnFilesystem": "På filsystem:{0}",
+    "LabelVideoColors": "Videoattribut",
+    "LabelVideoBitDepth": "Video bit-djup",
+    "LabelAudioAttributes": "Ljudattribut",
+    "LabelTargetCodecs": "Målkodek",
+    "LabelProgressAndSpeed": "Framfart / hastighet",
+    "LabelReasons": "Skäl",
+    "LabelPlayerSizes": "Spelarstorlekar",
+    "LabelPlaybackQuality": "Bild tappad / korrumperad"
 }

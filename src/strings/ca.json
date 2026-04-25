@@ -1009,15 +1009,15 @@
     "LabelTagline": "Eslògan",
     "LabelTag": "Etiqueta",
     "LabelSyncPlayTimeSyncOffset": "Temps de decalatge",
-    "LabelSyncPlayTimeSyncDevice": "Temps de sincronització amb",
+    "LabelSyncPlayTimeSyncDevice": "Sincronització temporal amb",
     "LabelSyncPlaySyncMethod": "Mètode de sincronització",
-    "LabelSyncPlayResumePlaybackDescription": "Torneu a la reproducció grupal",
+    "LabelSyncPlayResumePlaybackDescription": "Tornar a la reproducció en grup",
     "LabelSyncPlayResumePlayback": "Reprèn la reproducció local",
     "LabelSyncPlayPlaybackDiff": "Diferència de temps de reproducció",
-    "LabelSyncPlayNewGroupDescription": "Crea un grup nou",
+    "LabelSyncPlayNewGroupDescription": "Crear un grup nou",
     "LabelSyncPlayNewGroup": "Grup nou",
     "LabelSyncPlayLeaveGroupDescription": "Desactiva SyncPlay",
-    "LabelSyncPlayLeaveGroup": "Sortiu del grup",
+    "LabelSyncPlayLeaveGroup": "Sortir del grup",
     "LabelSyncPlayHaltPlaybackDescription": "I ignora les actualitzacions de la llista de reproducció",
     "LabelSyncPlayHaltPlayback": "Atura la reproducció local",
     "LabelSyncPlayAccessNone": "S'ha desactivat per a aquest usuari",
@@ -1905,5 +1905,5 @@
     "LabelReasons": "Motius",
     "LabelPlayerSizes": "Mides del reproductor",
     "LabelPlaybackQuality": "Fotogrames perduts / corruptes",
-    "LabelSyncPlayJoinGroup": "Uniu-vos al grup"
+    "LabelSyncPlayJoinGroup": "Uneix-te al grup"
 }
