@@ -2172,7 +2172,9 @@ export class PlaybackManager {
                 state.PlayState.IsMuted = player.isMuted();
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
-                state.PlayState.ShuffleMode = self.getQueueShuffleMode(player);
+                const shuffleMode = self.getQueueShuffleMode(player);
+                state.PlayState.ShuffleMode = shuffleMode;
+                state.PlayState.PlaybackOrder = shuffleMode === 'Shuffle' ? 'Shuffle' : 'Default';
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
