@@ -86,8 +86,16 @@ class GroupSelectionMenu {
 
                 actionsheet.show(menuOptions).then(function (id) {
                     if (id == 'new-group') {
+                        const playbackRateSpeed = sessionStorage.getItem('playbackRateSpeed');
+                        let startingPlaybackRate = 1;
+
+                        if (playbackRateSpeed !== null && !Number.isNaN(parseFloat(playbackRateSpeed))) {
+                            startingPlaybackRate = parseFloat(playbackRateSpeed);
+                        }
+
                         apiClient.createSyncPlayGroup({
-                            GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.localUser.Name)
+                            GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.localUser.Name),
+                            StartingPlaybackRate: startingPlaybackRate
                         });
                     } else if (id) {
                         apiClient.joinSyncPlayGroup({
