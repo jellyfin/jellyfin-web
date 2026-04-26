@@ -235,10 +235,10 @@ function translateKeyFromModule(key, module) {
     return key;
 }
 
-export function translate(key) {
+export function translate(key, ...args) {
     let val = translateKey(key);
-    for (let i = 1; i < arguments.length; i++) {
-        val = val.replaceAll('{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
+    for (let i = 0; i < args.length; i++) {
+        val = val.replaceAll('{' + i + '}', args[i].toLocaleString(currentCulture));
     }
     return val;
 }
