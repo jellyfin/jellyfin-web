@@ -66,6 +66,9 @@ build: ${__JF_BUILD_VERSION__}`);
         document.querySelector('.skinHeader').classList.remove('noHeaderRight');
     });
 
+    // Initialize app host
+    await appHost.init();
+
     // Initialize the api client
     const serverUrl = await serverAddress();
     if (serverUrl) {

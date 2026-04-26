@@ -7,11 +7,11 @@ import type { CardOptions } from 'types/cardOptions';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 interface CardProps {
-    item?: ItemDto;
+    item: ItemDto;
     cardOptions: CardOptions;
 }
 
-const Card: FC<CardProps> = ({ item = {}, cardOptions }) => {
+const Card: FC<CardProps> = ({ item, cardOptions }) => {
     const { getCardWrapperProps, getCardBoxProps } = useCard({ item, cardOptions } );
     const cardWrapperProps = getCardWrapperProps();
     const cardBoxProps = getCardBoxProps();

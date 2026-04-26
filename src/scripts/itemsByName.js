@@ -68,6 +68,12 @@ function renderItems(page, item) {
         });
     }
 
+    // TODO add a check when the API reports BookCount or PersonRoles
+    sections.push({
+        name: globalize.translate('Books'),
+        type: 'Book'
+    });
+
     const elem = page.querySelector('#childrenContent');
     elem.innerHTML = sections.map(function (section) {
         let html = '';
@@ -208,6 +214,22 @@ function renderSection(item, element, type) {
                 coverImage: true,
                 centerText: true,
                 overlayPlayButton: true
+            });
+            break;
+
+        case 'Book':
+            loadItems(element, item, type, {
+                IncludeItemTypes: 'Book',
+                SortBy: 'ProductionYear,SortName',
+                SortOrder: 'Descending,Ascending',
+                Limit: 10
+            }, {
+                shape: 'overflowPortrait',
+                showTitle: true,
+                centerText: true,
+                overlayMoreButton: true,
+                overlayText: false,
+                showYear: true
             });
             break;
 

@@ -2,9 +2,10 @@ import React, { type FC } from 'react';
 
 import layoutManager from 'components/layoutManager';
 import { ItemAction } from 'constants/itemAction';
-import { CardShape } from 'utils/card';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
+
+import type { CardShape } from '../utils/shape';
 
 import CardOverlayButtons from './CardOverlayButtons';
 import CardHoverMenu from './CardHoverMenu';

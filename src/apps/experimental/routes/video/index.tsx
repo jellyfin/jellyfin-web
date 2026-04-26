@@ -8,6 +8,7 @@ import AppToolbar from 'components/toolbar/AppToolbar';
 import ViewManagerPage from 'components/viewManager/ViewManagerPage';
 import { EventType } from 'constants/eventType';
 import Events, { type Event } from 'utils/events';
+import Typography from '@mui/material/Typography';
 
 /**
  * Video player page component that renders mui controls for the top controls and the legacy view for everything else.
@@ -15,18 +16,29 @@ import Events, { type Event } from 'utils/events';
 const VideoPage: FC = () => {
     const documentRef = useRef<Document>(document);
     const [ isVisible, setIsVisible ] = useState(true);
+    const [ videoTitle, setVideoTitle ] = useState<string>('');
 
     const onShowVideoOsd = (_e: Event, isShowing: boolean) => {
         setIsVisible(isShowing);
     };
 
+    const onTitleChange = (_e: Event, title: string) => {
+        setVideoTitle(title);
+    };
+
     useEffect(() => {
         const doc = documentRef.current;
 
-        if (doc) Events.on(doc, EventType.SHOW_VIDEO_OSD, onShowVideoOsd);
+        if (doc) {
+            Events.on(doc, EventType.SHOW_VIDEO_OSD, onShowVideoOsd);
+            Events.on(doc, EventType.VIDEO_TITLE_CHANGE, onTitleChange);
+        }
 
         return () => {
-            if (doc) Events.off(doc, EventType.SHOW_VIDEO_OSD, onShowVideoOsd);
+            if (doc) {
+                Events.off(doc, EventType.SHOW_VIDEO_OSD, onShowVideoOsd);
+                Events.off(doc, EventType.VIDEO_TITLE_CHANGE, onTitleChange);
+            }
         };
     }, []);
 
@@ -54,7 +66,9 @@ const VideoPage: FC = () => {
                                 <RemotePlayButton />
                             </>
                         }
-                    />
+                    >
+                        <Typography>{videoTitle}</Typography>
+                    </AppToolbar>
                 </Box>
             </Fade>
 

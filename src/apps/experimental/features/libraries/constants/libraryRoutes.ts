@@ -40,6 +40,37 @@ export const LibraryRoutes: LibraryRoute[] = [
         ]
     },
     {
+        path: '/books',
+        views: [
+            {
+                index: 0,
+                label: 'Folders',
+                view: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Books',
+                view: LibraryTab.Books
+            },
+            {
+                index: 2,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 3,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            },
+            {
+                index: 4,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            }
+        ]
+    },
+    {
         path: '/movies',
         views: [
             {
@@ -152,20 +183,45 @@ export const LibraryRoutes: LibraryRoute[] = [
         views: [
             {
                 index: 0,
-                label: 'Photos',
-                view: LibraryTab.Photos,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
             },
             {
                 index: 1,
-                label: 'HeaderPhotoAlbums',
-                view: LibraryTab.PhotoAlbums,
-                isDefault: true
+                label: 'Photos',
+                view: LibraryTab.Photos
             },
             {
                 index: 2,
+                label: 'HeaderPhotoAlbums',
+                view: LibraryTab.PhotoAlbums
+            },
+            {
+                index: 3,
                 label: 'HeaderVideos',
                 view: LibraryTab.Videos
+            }
+        ]
+    },
+    {
+        path: '/musicvideos',
+        views: [
+            {
+                index: 0,
+                label: 'HeaderVideos',
+                view: LibraryTab.MusicVideos,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'Folders',
+                view: LibraryTab.Folders
             }
         ]
     }

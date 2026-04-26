@@ -17,9 +17,10 @@ import getCollectionTypeOptions from 'apps/dashboard/features/libraries/utils/co
 import { queryClient } from 'utils/query/queryClient';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Add from '@mui/icons-material/Add';
+import Alert from '@mui/material/Alert';
 
 export const Component = () => {
-    const { data: virtualFolders, isPending: isVirtualFoldersPending } = useVirtualFolders();
+    const { data: virtualFolders, isPending: isVirtualFoldersPending, isError: isVirtualFoldersError } = useVirtualFolders();
     const startTask = useStartTask();
     const { data: tasks, isPending: isLiveTasksPending } = useLiveTasks({ isHidden: false });
 
@@ -59,47 +60,51 @@ export const Component = () => {
             className='mainAnimatedPage type-interior'
         >
             <Box className='content-primary'>
-                <Stack spacing={3} mt={2}>
-                    <Stack direction='row' alignItems={'center'} spacing={1.5}>
-                        <Button
-                            startIcon={<Add />}
-                            onClick={showMediaLibraryCreator}
-                        >
-                            {globalize.translate('ButtonAddMediaLibrary')}
-                        </Button>
-                        <Button
-                            onClick={onScanLibraries}
-                            startIcon={<RefreshIcon />}
-                            loading={librariesTask && librariesTask.State !== TaskState.Idle}
-                            loadingPosition='start'
-                            variant='outlined'
-                        >
-                            {globalize.translate('ButtonScanAllLibraries')}
-                        </Button>
-                        {(librariesTask && librariesTask.State == TaskState.Running) && (
-                            <TaskProgress task={librariesTask} />
-                        )}
-                    </Stack>
+                {isVirtualFoldersError ? (
+                    <Alert severity='error'>{globalize.translate('LibrariesLoadError')}</Alert>
+                ) : (
+                    <Stack spacing={3} mt={2}>
+                        <Stack direction='row' alignItems={'center'} spacing={1.5}>
+                            <Button
+                                startIcon={<Add />}
+                                onClick={showMediaLibraryCreator}
+                            >
+                                {globalize.translate('ButtonAddMediaLibrary')}
+                            </Button>
+                            <Button
+                                onClick={onScanLibraries}
+                                startIcon={<RefreshIcon />}
+                                loading={librariesTask && librariesTask.State !== TaskState.Idle}
+                                loadingPosition='start'
+                                variant='outlined'
+                            >
+                                {globalize.translate('ButtonScanAllLibraries')}
+                            </Button>
+                            {(librariesTask && librariesTask.State == TaskState.Running) && (
+                                <TaskProgress task={librariesTask} />
+                            )}
+                        </Stack>
 
-                    <Box>
-                        <Grid container spacing={2}>
-                            {virtualFolders?.map(virtualFolder => (
-                                <Grid
-                                    key={virtualFolder?.ItemId}
-                                    item
-                                    xs={12}
-                                    sm={6}
-                                    md={3}
-                                    lg={2.4}
-                                >
-                                    <LibraryCard
-                                        virtualFolder={virtualFolder}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Box>
-                </Stack>
+                        <Box>
+                            <Grid container spacing={2}>
+                                {virtualFolders?.map(virtualFolder => (
+                                    <Grid
+                                        key={virtualFolder?.ItemId}
+                                        item
+                                        xs={12}
+                                        sm={6}
+                                        md={3}
+                                        lg={2.4}
+                                    >
+                                        <LibraryCard
+                                            virtualFolder={virtualFolder}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                    </Stack>
+                )}
             </Box>
         </Page>
     );

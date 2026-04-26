@@ -235,10 +235,10 @@ const uaMatch = function (ua) {
     }
 
     return {
-        browser: browser,
-        version: version,
+        browser,
+        version,
         platform: platformMatch[0] || '',
-        versionMajor: versionMajor
+        versionMajor
     };
 };
 
@@ -283,10 +283,11 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
     browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
     browser.hisense = normalizedUA.includes('hisense');
     browser.tizen = normalizedUA.includes('tizen') || window.tizen != null;
+    browser.vega = normalizedUA.includes('kepler');
     browser.vidaa = normalizedUA.includes('vidaa');
     browser.web0s = isWeb0s(normalizedUA);
 
-    browser.tv = browser.ps4 || browser.xboxOne || isTv(normalizedUA);
+    browser.tv = browser.ps4 || browser.vega || browser.xboxOne || isTv(normalizedUA);
     browser.operaTv = browser.tv && normalizedUA.includes('opr/');
 
     browser.edgeUwp = (browser.edge || browser.edgeChromium) && (normalizedUA.includes('msapphost') || normalizedUA.includes('webview'));
@@ -305,9 +306,15 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
         delete browser.chrome;
         delete browser.safari;
     } else if (browser.titanos) {
-    // UserAgent string contains 'Opr' and 'Safari', but we only want 'titanos' to be true
+        // UserAgent string contains 'Opr' and 'Safari', but we only want 'titanos' to be true
         delete browser.operaTv;
         delete browser.safari;
+    } else if (browser.vega) {
+        // UserAgent string contains 'Chrome' and 'Safari', but we only want 'vega' to be true
+        delete browser.chrome;
+        delete browser.safari;
+        // UserAgent string contains 'Mobile Chrome', but it is a TV
+        delete browser.mobile;
     } else {
         browser.orsay = normalizedUA.includes('smarthub');
     }

@@ -13,6 +13,8 @@ const QUERY_PARAMS = {
     activeWithinSeconds: 960
 };
 
+const FALLBACK_POLL_INTERVAL_MS = 2000;
+
 const useLiveSessions = () => {
     const { __legacyApiClient__ } = useApi();
 
@@ -43,10 +45,19 @@ const useLiveSessions = () => {
             queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(info));
         };
 
+        const fallbackInterval = setInterval(() => {
+            if (!__legacyApiClient__?.isMessageChannelOpen()) {
+                void queryClient.invalidateQueries({
+                    queryKey: [ QUERY_KEY ]
+                });
+            }
+        }, FALLBACK_POLL_INTERVAL_MS);
+
         __legacyApiClient__?.sendMessage(SessionMessageType.SessionsStart, '0,1500');
         Events.on(serverNotifications, SessionMessageType.Sessions, onSessionsUpdate);
 
         return () => {
+            clearInterval(fallbackInterval);
             __legacyApiClient__?.sendMessage(SessionMessageType.SessionsStop, null);
             Events.off(serverNotifications, SessionMessageType.Sessions, onSessionsUpdate);
         };

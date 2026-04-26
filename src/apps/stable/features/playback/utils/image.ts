@@ -47,7 +47,7 @@ export function getImageUrl(item: ItemDto, options: ImageOptions = {}) {
     const itemId = item.PrimaryImageItemId || item.Id;
 
     if (itemId && item.ImageTags?.[options.type]) {
-        options.tag = item.ImageTags[options.type];
+        options.tag = item.ImageTags[options.type] ?? undefined;
         return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(itemId, options);
     }
 
