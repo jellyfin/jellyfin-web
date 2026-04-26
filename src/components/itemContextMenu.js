@@ -132,8 +132,8 @@ export async function getCommands(options) {
 
     if (!browser.tv) {
         // Multiselect is currrently only ran on long clicks of card components
-        // This disables Select on any context menu not originating from a card i.e songs
-        if (options.positionTo && (dom.parentWithClass(options.positionTo, 'card') !== null)) {
+        // This disables Select on any context menu not originating from a multiselectable.
+        if (options.positionTo && (dom.parentWithClass(options.positionTo, 'multiselectable') !== null)) {
             commands.push({
                 name:  globalize.translate('Select'),
                 id: 'multiSelect',
@@ -533,7 +533,7 @@ function executeCommand(item, id, options) {
                 break;
             case 'multiSelect':
                 import('./multiSelect/multiSelect').then(({ startMultiSelect }) => {
-                    const card = dom.parentWithClass(options.positionTo, 'card');
+                    const card = dom.parentWithClass(options.positionTo, 'multiselectable');
                     startMultiSelect(card);
                 });
                 break;

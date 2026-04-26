@@ -54,7 +54,8 @@ export default function (view, params, tabContent) {
                     context: 'music',
                     centerText: true,
                     overlayMoreButton: true,
-                    showTitle: true
+                    showTitle: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'ThumbCard') {
                 html = cardBuilder.getCardsHtml({
@@ -63,7 +64,8 @@ export default function (view, params, tabContent) {
                     preferThumb: true,
                     context: 'music',
                     cardLayout: true,
-                    showTitle: true
+                    showTitle: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -71,7 +73,8 @@ export default function (view, params, tabContent) {
                     shape: 'auto',
                     context: 'music',
                     cardLayout: true,
-                    showTitle: true
+                    showTitle: true,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'Poster') {
                 html = cardBuilder.getCardsHtml({
@@ -80,7 +83,8 @@ export default function (view, params, tabContent) {
                     context: 'music',
                     centerText: true,
                     overlayMoreButton: true,
-                    showTitle: true
+                    showTitle: true,
+                    isMultiselectable: true
                 });
             }
 
