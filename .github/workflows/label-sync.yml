@@ -1,0 +1,80 @@
+name: Label Sync
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/label-sync.yml
+      - .github/workflows/pr-labeler.yml
+      - .github/workflows/pr-validate.yml
+      - .github/workflows/issue-triage.yml
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  sync:
+    name: Sync managed labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure managed labels exist
+        uses: actions/github-script@v8
+        with:
+          script: |
+            // All labels referenced by pr-labeler.yml, pr-validate.yml, and issue-triage.yml
+            // that may not already exist in the repository.
+            // Labels already present in the repo (bug, enhancement, feature, question, etc.)
+            // are not listed here — this only manages labels we introduce.
+            const managedLabels = [
+              // ── PR validation ──────────────────────────────────────────────
+              {
+                name: "needs changes",
+                color: "e4e669",
+                description: "PR requires changes before it can be reviewed or merged.",
+              },
+              // ── Labeler: dashboard app ──────────────────────────────────────
+              {
+                name: "dashboard",
+                color: "19528e",
+                description: "This PR or issue mainly concerns the dashboard app.",
+              },
+            ];
+
+            for (const label of managedLabels) {
+              try {
+                const { data: existing } = await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                });
+
+                if (
+                  existing.color !== label.color ||
+                  (existing.description ?? "") !== label.description
+                ) {
+                  await github.rest.issues.updateLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: label.name,
+                    color: label.color,
+                    description: label.description,
+                  });
+                  core.info(`Updated label: ${label.name}`);
+                } else {
+                  core.info(`Label already up-to-date: ${label.name}`);
+                }
+              } catch (error) {
+                if (error.status !== 404) throw error;
+
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description,
+                });
+                core.info(`Created label: ${label.name}`);
+              }
+            }
