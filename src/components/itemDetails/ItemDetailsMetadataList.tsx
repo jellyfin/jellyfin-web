@@ -89,16 +89,15 @@ function getRouteType(type: BaseItemKind | PersonKind, context: string): string 
 }
 
 function getMetadataItems(type: BaseItemKind | PersonKind, item: BaseItemDto): NameGuidPair[] | null {
-    if (item.Type === BaseItemKind.BoxSet || item.Type === BaseItemKind.Playlist) {
-        return null;
-    }
-
     switch (type) {
         case PersonKind.Author:
         case PersonKind.Director:
         case PersonKind.Writer:
             return item.People?.filter(person => person.Type === type).map(person => ({ Id: person.Id, Name: person.Name })) ?? null;
         case BaseItemKind.Studio:
+            if (item.Type === BaseItemKind.BoxSet || item.Type === BaseItemKind.Playlist) {
+                return null;
+            }
             return item.Studios ?? null;
         case BaseItemKind.Genre:
             return item.GenreItems ?? null;
