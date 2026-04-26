@@ -5,7 +5,6 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { PluginType } from '../../types/plugin.ts';
@@ -13,6 +12,59 @@ import Events from '../../utils/events.ts';
 
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';
+
+/**
+ * @typedef {object} InteractionConfig
+ * @property {number} swipeMinDistance
+ * @property {number} swipeMaxVerticalDistance
+ * @property {number} swipeMaxDuration
+ * @property {number} tapMaxDistance
+ * @property {number} tapMaxDuration
+ * @property {number} doubleTapDelay
+ * @property {number} pinchTapCooldown
+ * @property {number} zoomStep
+ * @property {number} maxZoom
+ */
+
+/**
+ * @typedef {object} SwipeStart
+ * @property {number} x
+ * @property {number} y
+ * @property {number} time
+ */
+
+/**
+ * @typedef {object} PinchState
+ * @property {number} distance
+ * @property {number} zoomLevel
+ */
+
+/**
+ * @typedef {object} DragState
+ * @property {number} x
+ * @property {number} y
+ * @property {number} scrollLeft
+ * @property {number} scrollTop
+ */
+
+/**
+ * @typedef {object} ZoomAnchor
+ * @property {number} clientX
+ * @property {number} clientY
+ */
+
+/** @type {InteractionConfig} */
+const DEFAULT_INTERACTION_CONFIG = {
+    swipeMinDistance: 80,
+    swipeMaxVerticalDistance: 48,
+    swipeMaxDuration: 550,
+    tapMaxDistance: 18,
+    tapMaxDuration: 320,
+    doubleTapDelay: 320,
+    pinchTapCooldown: 220,
+    zoomStep: 0.2,
+    maxZoom: 4
+};
 
 export class PdfPlayer {
     constructor() {
@@ -23,7 +75,19 @@ export class PdfPlayer {
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onSwipeStart = this.onSwipeStart.bind(this);
+        this.onSwipeEnd = this.onSwipeEnd.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onDragMove = this.onDragMove.bind(this);
+        this.onDragEnd = this.onDragEnd.bind(this);
+        this.onViewportDoubleClick = this.onViewportDoubleClick.bind(this);
+        this.onPreviousClick = this.onPreviousClick.bind(this);
+        this.onNextClick = this.onNextClick.bind(this);
+        this.onZoomInClick = this.onZoomInClick.bind(this);
+        this.onZoomOutClick = this.onZoomOutClick.bind(this);
+        this.onResetZoomClick = this.onResetZoomClick.bind(this);
+        this.interactionConfig = { ...DEFAULT_INTERACTION_CONFIG };
     }
 
     play(options) {
@@ -31,10 +95,19 @@ export class PdfPlayer {
         this.loaded = false;
         this.cancellationToken = false;
         this.pages = {};
+        this.zoomLevel = 1;
+        this.swipeStart = null;
+        this.dragState = null;
+        this.pinchState = null;
+        this.lastPinchTimestamp = 0;
+        this.lastTapTimestamp = 0;
+        this.chromeHidden = false;
 
         loading.show();
 
         const elem = this.createMediaElement();
+        this.loadInteractionConfig(elem);
+        elem.classList.remove('readerChromeHidden');
         return this.setCurrentSrc(elem, options);
     }
 
@@ -64,6 +137,9 @@ export class PdfPlayer {
         // Nothing to do here
     }
 
+    /**
+     * @returns {unknown}
+     */
     currentItem() {
         return this.item;
     }
@@ -92,6 +168,174 @@ export class PdfPlayer {
         return true;
     }
 
+    /**
+     * @returns {string}
+     */
+    getTitle() {
+        return this.item?.SeriesName || this.item?.Album || this.item?.Name || '';
+    }
+
+    /**
+     * @returns {string}
+     */
+    getChapter() {
+        if (!this.item) return '';
+
+        const parts = [];
+        if (this.item.ParentIndexNumber != null) {
+            parts.push(`Book ${this.item.ParentIndexNumber}`);
+        }
+        if (this.item.IndexNumber != null) {
+            parts.push(`Chapter ${this.item.IndexNumber}`);
+        }
+
+        if (parts.length) {
+            return parts.join(' • ');
+        }
+
+        if (this.item.SeriesName && this.item.Name && this.item.SeriesName !== this.item.Name) {
+            return this.item.Name;
+        }
+
+        return '';
+    }
+
+    updateReaderHeader() {
+        if (!this.mediaElement) return;
+
+        const titleElement = this.mediaElement.querySelector('.readerTitle');
+        const compactTitleElement = this.mediaElement.querySelector('.readerTitleCompact');
+        const chapterElement = this.mediaElement.querySelector('.readerChapter');
+        const pageElement = this.mediaElement.querySelector('.readerPage');
+
+        const title = this.getTitle();
+        titleElement.textContent = title;
+        compactTitleElement.textContent = title;
+        pageElement.textContent = `Page ${Math.min(this.progress + 1, this.duration())} / ${this.duration()}`;
+
+        const chapter = this.getChapter();
+        chapterElement.textContent = chapter;
+        chapterElement.classList.toggle('hide', !chapter);
+    }
+
+    updateZoomLabel() {
+        if (!this.mediaElement) return;
+
+        const zoomElement = this.mediaElement.querySelector('.zoomValue');
+        zoomElement.textContent = `${Math.round(this.zoomLevel * 100)}%`;
+    }
+
+    /**
+     * @param {CSSStyleDeclaration} style
+     * @param {string} name
+     * @param {number} fallback
+     * @returns {number}
+     */
+    getCssNumberVar(style, name, fallback) {
+        const raw = style.getPropertyValue(name).trim();
+        if (!raw) return fallback;
+
+        const parsed = Number(raw);
+        return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    /**
+     * @param {HTMLElement | null | undefined} elem
+     * @returns {void}
+     */
+    loadInteractionConfig(elem) {
+        const style = window.getComputedStyle(elem || document.documentElement);
+
+        this.interactionConfig = {
+            swipeMinDistance: this.getCssNumberVar(style, '--jellyfin-pdf-swipe-min-distance', DEFAULT_INTERACTION_CONFIG.swipeMinDistance),
+            swipeMaxVerticalDistance: this.getCssNumberVar(style, '--jellyfin-pdf-swipe-max-vertical-distance', DEFAULT_INTERACTION_CONFIG.swipeMaxVerticalDistance),
+            swipeMaxDuration: this.getCssNumberVar(style, '--jellyfin-pdf-swipe-max-duration', DEFAULT_INTERACTION_CONFIG.swipeMaxDuration),
+            tapMaxDistance: this.getCssNumberVar(style, '--jellyfin-pdf-tap-max-distance', DEFAULT_INTERACTION_CONFIG.tapMaxDistance),
+            tapMaxDuration: this.getCssNumberVar(style, '--jellyfin-pdf-tap-max-duration', DEFAULT_INTERACTION_CONFIG.tapMaxDuration),
+            doubleTapDelay: this.getCssNumberVar(style, '--jellyfin-pdf-double-tap-delay', DEFAULT_INTERACTION_CONFIG.doubleTapDelay),
+            pinchTapCooldown: this.getCssNumberVar(style, '--jellyfin-pdf-pinch-tap-cooldown', DEFAULT_INTERACTION_CONFIG.pinchTapCooldown),
+            zoomStep: this.getCssNumberVar(style, '--jellyfin-pdf-zoom-step', DEFAULT_INTERACTION_CONFIG.zoomStep),
+            maxZoom: this.getCssNumberVar(style, '--jellyfin-pdf-max-zoom', DEFAULT_INTERACTION_CONFIG.maxZoom)
+        };
+    }
+
+    /**
+     * @param {number} zoomLevel
+     * @param {ZoomAnchor | undefined} [anchorPoint]
+     * @returns {void}
+     */
+    setZoom(zoomLevel, anchorPoint) {
+        const previousZoom = this.zoomLevel;
+        this.zoomLevel = Math.min(this.interactionConfig.maxZoom, Math.max(1, zoomLevel));
+        this.applyZoom(previousZoom, anchorPoint);
+        this.updateZoomLabel();
+    }
+
+    /**
+     * @param {number} [previousZoom=this.zoomLevel]
+     * @param {ZoomAnchor | undefined} [anchorPoint]
+     * @returns {void}
+     */
+    applyZoom(previousZoom = this.zoomLevel, anchorPoint) {
+        if (!this.mediaElement) return;
+
+        const canvas = this.mediaElement.querySelector('#canvas');
+        const viewport = this.mediaElement.querySelector('.readerViewport');
+        const baseWidth = Number(canvas.dataset.baseWidth || 0);
+        const baseHeight = Number(canvas.dataset.baseHeight || 0);
+        const hasAnchor = anchorPoint && typeof anchorPoint.clientX === 'number' && typeof anchorPoint.clientY === 'number';
+        const canvasBoundsBeforeZoom = hasAnchor ? canvas.getBoundingClientRect() : null;
+        const anchorRatioX = hasAnchor && canvasBoundsBeforeZoom.width > 0
+            ? Math.min(Math.max((anchorPoint.clientX - canvasBoundsBeforeZoom.left) / canvasBoundsBeforeZoom.width, 0), 1)
+            : 0.5;
+        const anchorRatioY = hasAnchor && canvasBoundsBeforeZoom.height > 0
+            ? Math.min(Math.max((anchorPoint.clientY - canvasBoundsBeforeZoom.top) / canvasBoundsBeforeZoom.height, 0), 1)
+            : 0.5;
+
+        if (baseWidth > 0 && baseHeight > 0) {
+            canvas.style.width = `${Math.round(baseWidth * this.zoomLevel)}px`;
+            canvas.style.height = `${Math.round(baseHeight * this.zoomLevel)}px`;
+        }
+
+        const isZoomed = this.zoomLevel > 1;
+        viewport.classList.toggle('isZoomed', isZoomed);
+
+        if (hasAnchor && previousZoom > 0 && this.zoomLevel !== previousZoom) {
+            const canvasBoundsAfterZoom = canvas.getBoundingClientRect();
+            const targetScrollLeft = viewport.scrollLeft + ((canvasBoundsAfterZoom.left + (canvasBoundsAfterZoom.width * anchorRatioX)) - anchorPoint.clientX);
+            const targetScrollTop = viewport.scrollTop + ((canvasBoundsAfterZoom.top + (canvasBoundsAfterZoom.height * anchorRatioY)) - anchorPoint.clientY);
+            const maxScrollLeft = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+            const maxScrollTop = Math.max(0, viewport.scrollHeight - viewport.clientHeight);
+
+            viewport.scrollLeft = Math.min(Math.max(0, targetScrollLeft), maxScrollLeft);
+            viewport.scrollTop = Math.min(Math.max(0, targetScrollTop), maxScrollTop);
+        }
+
+        if (!isZoomed) {
+            viewport.scrollLeft = 0;
+            viewport.scrollTop = 0;
+        }
+    }
+
+    toggleReaderChrome() {
+        if (!this.mediaElement) return;
+
+        this.chromeHidden = !this.chromeHidden;
+        this.mediaElement.classList.toggle('readerChromeHidden', this.chromeHidden);
+    }
+
+    onZoomInClick() {
+        this.setZoom(this.zoomLevel + this.interactionConfig.zoomStep);
+    }
+
+    onZoomOutClick() {
+        this.setZoom(this.zoomLevel - this.interactionConfig.zoomStep);
+    }
+
+    onResetZoomClick() {
+        this.setZoom(1);
+    }
+
     onWindowKeyDown(e) {
         if (!this.loaded) return;
 
@@ -113,6 +357,19 @@ export class PdfPlayer {
                 e.preventDefault();
                 this.previous();
                 break;
+            case '+':
+            case '=':
+                e.preventDefault();
+                this.onZoomInClick();
+                break;
+            case '-':
+                e.preventDefault();
+                this.onZoomOutClick();
+                break;
+            case '0':
+                e.preventDefault();
+                this.onResetZoomClick();
+                break;
             case 'Escape':
                 e.preventDefault();
                 this.stop();
@@ -120,13 +377,173 @@ export class PdfPlayer {
         }
     }
 
-    onTouchStart(e) {
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-        if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
-            this.previous();
-        } else {
-            this.next();
+    /**
+     * @param {TouchEvent} e
+     * @returns {void}
+     */
+    onSwipeStart(e) {
+        if (!this.loaded || !e.touches || e.touches.length === 0) {
+            this.swipeStart = null;
+            this.pinchState = null;
+            return;
         }
+
+        if (e.touches.length === 2) {
+            this.swipeStart = null;
+            const [a, b] = e.touches;
+            this.pinchState = {
+                distance: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
+                zoomLevel: this.zoomLevel
+            };
+            return;
+        }
+
+        this.pinchState = null;
+        if (this.zoomLevel > 1.05 || e.touches.length !== 1) {
+            this.swipeStart = null;
+            return;
+        }
+
+        const touch = e.touches[0];
+        this.swipeStart = {
+            x: touch.clientX,
+            y: touch.clientY,
+            time: Date.now()
+        };
+    }
+
+    /**
+     * @param {TouchEvent} e
+     * @returns {void}
+     */
+    onTouchMove(e) {
+        if (!this.loaded || !this.pinchState || !e.touches || e.touches.length !== 2) return;
+
+        const [a, b] = e.touches;
+        const distance = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+        if (this.pinchState.distance <= 0) return;
+
+        e.preventDefault();
+        this.lastPinchTimestamp = Date.now();
+        this.setZoom(this.pinchState.zoomLevel * (distance / this.pinchState.distance), {
+            clientX: (a.clientX + b.clientX) / 2,
+            clientY: (a.clientY + b.clientY) / 2
+        });
+    }
+
+    /**
+     * @param {TouchEvent} e
+     * @returns {void}
+     */
+    onSwipeEnd(e) {
+        if (this.pinchState && (!e.touches || e.touches.length < 2)) {
+            this.pinchState = null;
+        }
+
+        if (!this.swipeStart || !e.changedTouches || e.changedTouches.length === 0) return;
+
+        const touch = e.changedTouches[0];
+        const deltaX = touch.clientX - this.swipeStart.x;
+        const deltaY = touch.clientY - this.swipeStart.y;
+        const elapsed = Date.now() - this.swipeStart.time;
+
+        this.swipeStart = null;
+
+        if ((Date.now() - this.lastPinchTimestamp) < this.interactionConfig.pinchTapCooldown) return;
+
+        if (elapsed <= this.interactionConfig.tapMaxDuration
+            && Math.abs(deltaX) <= this.interactionConfig.tapMaxDistance
+            && Math.abs(deltaY) <= this.interactionConfig.tapMaxDistance) {
+            const now = Date.now();
+            if (now - this.lastTapTimestamp <= this.interactionConfig.doubleTapDelay) {
+                this.lastTapTimestamp = 0;
+                this.toggleReaderChrome();
+            } else {
+                this.lastTapTimestamp = now;
+            }
+            return;
+        }
+
+        if (elapsed > this.interactionConfig.swipeMaxDuration) return;
+        if (Math.abs(deltaX) < this.interactionConfig.swipeMinDistance) return;
+        if (Math.abs(deltaY) > this.interactionConfig.swipeMaxVerticalDistance) return;
+
+        if (deltaX < 0) {
+            this.next();
+        } else {
+            this.previous();
+        }
+    }
+
+    onViewportDoubleClick() {
+        this.toggleReaderChrome();
+    }
+
+    /**
+     * @param {PointerEvent} e
+     * @returns {void}
+     */
+    onDragStart(e) {
+        if (!this.loaded || this.zoomLevel <= 1) return;
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+        const viewport = this.mediaElement?.querySelector('.readerViewport');
+        if (!viewport) return;
+
+        this.dragState = {
+            x: e.clientX,
+            y: e.clientY,
+            scrollLeft: viewport.scrollLeft,
+            scrollTop: viewport.scrollTop
+        };
+
+        viewport.classList.add('isDragging');
+        if (viewport.setPointerCapture) {
+            viewport.setPointerCapture(e.pointerId);
+        }
+    }
+
+    /**
+     * @param {PointerEvent} e
+     * @returns {void}
+     */
+    onDragMove(e) {
+        if (!this.dragState || this.zoomLevel <= 1) return;
+
+        const viewport = this.mediaElement?.querySelector('.readerViewport');
+        if (!viewport) return;
+
+        const deltaX = e.clientX - this.dragState.x;
+        const deltaY = e.clientY - this.dragState.y;
+
+        viewport.scrollLeft = this.dragState.scrollLeft - deltaX;
+        viewport.scrollTop = this.dragState.scrollTop - deltaY;
+    }
+
+    /**
+     * @param {PointerEvent} e
+     * @returns {void}
+     */
+    onDragEnd(e) {
+        if (!this.dragState) return;
+
+        const viewport = this.mediaElement?.querySelector('.readerViewport');
+        if (viewport) {
+            viewport.classList.remove('isDragging');
+            if (viewport.releasePointerCapture && typeof e.pointerId === 'number') {
+                viewport.releasePointerCapture(e.pointerId);
+            }
+        }
+
+        this.dragState = null;
+    }
+
+    onPreviousClick() {
+        this.previous();
+    }
+
+    onNextClick() {
+        this.next();
     }
 
     onDialogClosed() {
@@ -135,23 +552,53 @@ export class PdfPlayer {
 
     bindMediaElementEvents() {
         const elem = this.mediaElement;
+        const viewport = elem.querySelector('.readerViewport');
 
         elem.addEventListener('close', this.onDialogClosed, { once: true });
         elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
+        elem.querySelector('.btnPrevious').addEventListener('click', this.onPreviousClick);
+        elem.querySelector('.btnNext').addEventListener('click', this.onNextClick);
+        elem.querySelector('.btnZoomIn').addEventListener('click', this.onZoomInClick);
+        elem.querySelector('.btnZoomOut').addEventListener('click', this.onZoomOutClick);
+        elem.querySelector('.btnZoomReset').addEventListener('click', this.onResetZoomClick);
+
+        viewport.addEventListener('touchstart', this.onSwipeStart, { passive: true });
+        viewport.addEventListener('touchmove', this.onTouchMove, { passive: false });
+        viewport.addEventListener('touchend', this.onSwipeEnd, { passive: true });
+        viewport.addEventListener('touchcancel', this.onDragEnd);
+        viewport.addEventListener('dblclick', this.onViewportDoubleClick);
+        viewport.addEventListener('pointerdown', this.onDragStart);
+        viewport.addEventListener('pointermove', this.onDragMove);
+        viewport.addEventListener('pointerup', this.onDragEnd);
+        viewport.addEventListener('pointercancel', this.onDragEnd);
     }
 
     bindEvents() {
         this.bindMediaElementEvents();
-
         document.addEventListener('keydown', this.onWindowKeyDown);
-        document.addEventListener('touchstart', this.onTouchStart);
     }
 
     unbindMediaElementEvents() {
         const elem = this.mediaElement;
+        const viewport = elem.querySelector('.readerViewport');
 
         elem.removeEventListener('close', this.onDialogClosed);
         elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
+        elem.querySelector('.btnPrevious').removeEventListener('click', this.onPreviousClick);
+        elem.querySelector('.btnNext').removeEventListener('click', this.onNextClick);
+        elem.querySelector('.btnZoomIn').removeEventListener('click', this.onZoomInClick);
+        elem.querySelector('.btnZoomOut').removeEventListener('click', this.onZoomOutClick);
+        elem.querySelector('.btnZoomReset').removeEventListener('click', this.onResetZoomClick);
+
+        viewport.removeEventListener('touchstart', this.onSwipeStart);
+        viewport.removeEventListener('touchmove', this.onTouchMove);
+        viewport.removeEventListener('touchend', this.onSwipeEnd);
+        viewport.removeEventListener('touchcancel', this.onDragEnd);
+        viewport.removeEventListener('dblclick', this.onViewportDoubleClick);
+        viewport.removeEventListener('pointerdown', this.onDragStart);
+        viewport.removeEventListener('pointermove', this.onDragMove);
+        viewport.removeEventListener('pointerup', this.onDragEnd);
+        viewport.removeEventListener('pointercancel', this.onDragEnd);
     }
 
     unbindEvents() {
@@ -160,9 +607,11 @@ export class PdfPlayer {
         }
 
         document.removeEventListener('keydown', this.onWindowKeyDown);
-        document.removeEventListener('touchstart', this.onTouchStart);
     }
 
+    /**
+     * @returns {HTMLElement}
+     */
     createMediaElement() {
         let elem = this.mediaElement;
         if (elem) {
@@ -181,9 +630,22 @@ export class PdfPlayer {
             });
 
             let html = '';
-            html += '<canvas id="canvas"></canvas>';
+            html += '<div class="readerHeader">';
+            html += '<div class="readerHeaderText">';
+            html += '<div class="readerTitle"></div>';
+            html += '<div class="readerMeta"><span class="readerPage"></span><span class="readerTitleCompact"></span><span class="readerChapter"></span></div>';
+            html += '</div>';
             html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnPrevious" tabindex="-1" title="Previous page"><span class="material-icons actionButtonIcon chevron_left" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnNext" tabindex="-1" title="Next page"><span class="material-icons actionButtonIcon chevron_right" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnZoomOut" tabindex="-1" title="Zoom out"><span class="material-icons actionButtonIcon zoom_out" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnZoomIn" tabindex="-1" title="Zoom in"><span class="material-icons actionButtonIcon zoom_in" aria-hidden="true"></span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnZoomReset" tabindex="-1" title="Reset zoom"><span class="zoomValue">100%</span></button>';
+            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1" title="Close reader"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
+            html += '</div>';
+            html += '</div>';
+            html += '<div class="readerViewport">';
+            html += '<div class="canvasHost"><div class="canvasStage"><canvas id="canvas"></canvas></div></div>';
             html += '</div>';
 
             elem.id = 'pdfPlayer';
@@ -196,6 +658,11 @@ export class PdfPlayer {
         return elem;
     }
 
+    /**
+     * @param {HTMLElement} elem
+     * @param {{ items: Array<{ Id: string }>, startPositionTicks: number }} options
+     * @returns {Promise<void>}
+     */
     setCurrentSrc(elem, options) {
         const item = options.items[0];
 
@@ -208,6 +675,9 @@ export class PdfPlayer {
                 Id: item.Id
             }
         };
+
+        this.updateReaderHeader();
+        this.updateZoomLabel();
 
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
             const api = toApi(ServerConnections.getApiClient(item));
@@ -226,6 +696,7 @@ export class PdfPlayer {
                 if (this.cancellationToken) return;
                 this.book = book;
                 this.loaded = true;
+                this.updateReaderHeader();
 
                 const percentageTicks = options.startPositionTicks / 10000;
                 if (percentageTicks !== 0) {
@@ -234,34 +705,41 @@ export class PdfPlayer {
                 } else {
                     this.loadPage(1);
                 }
+                this.updateReaderHeader();
             });
         });
     }
 
     next() {
+        if (!this.loaded || !this.book) return;
         if (this.progress === this.duration() - 1) return;
         this.loadPage(this.progress + 2);
         this.progress = this.progress + 1;
+        this.updateReaderHeader();
 
         Events.trigger(this, 'pause');
     }
 
     previous() {
+        if (!this.loaded || !this.book) return;
         if (this.progress === 0) return;
         this.loadPage(this.progress);
         this.progress = this.progress - 1;
+        this.updateReaderHeader();
 
         Events.trigger(this, 'pause');
     }
 
     replaceCanvas(canvas) {
-        const old = document.getElementById('canvas');
+        const old = this.mediaElement?.querySelector('#canvas');
 
         canvas.id = 'canvas';
         old.parentNode.replaceChild(canvas, old);
     }
 
     loadPage(number) {
+        if (!this.loaded || !this.book) return;
+
         const prefix = 'page';
         const pad = 2;
 
@@ -291,23 +769,30 @@ export class PdfPlayer {
         }
     }
 
+    /**
+     * @param {HTMLCanvasElement} canvas
+     * @param {number} number
+     * @returns {void}
+     */
     renderPage(canvas, number) {
+        if (!this.book) return;
+
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
+            const viewportElement = this.mediaElement?.querySelector('.readerViewport');
+            const availableHeight = viewportElement ? viewportElement.clientHeight : window.innerHeight;
+            const availableWidth = viewportElement ? viewportElement.clientWidth : window.innerWidth;
+
+            const scale = Math.min((availableHeight / original.height), (availableWidth / original.width)) * devicePixelRatio;
             const viewport = page.getViewport({ scale });
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
-
-            if (window.innerWidth < window.innerHeight) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-            } else {
-                canvas.style.height = '100%';
-                canvas.style.width = 'auto';
-            }
+            canvas.dataset.baseWidth = String(Math.round(viewport.width / devicePixelRatio));
+            canvas.dataset.baseHeight = String(Math.round(viewport.height / devicePixelRatio));
+            canvas.style.width = `${canvas.dataset.baseWidth}px`;
+            canvas.style.height = `${canvas.dataset.baseHeight}px`;
 
             const context = canvas.getContext('2d');
 
