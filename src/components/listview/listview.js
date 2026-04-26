@@ -424,7 +424,8 @@ export function getListViewHtml(options) {
             // eslint-disable-next-line sonarjs/disabled-auto-escaping
             const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
             html += '<div class="secondary listItem-overview listItemBodyText">';
-            html += '<bdi>' + overview + '</bdi>';
+            html += '<bdi class="listItem-overview-clamped">' + overview + '</bdi>';
+            html += `<button class="listItem-overview-toggle">${globalize.translate('ShowMore')}</button>`;
             html += '</div>';
         }
 
@@ -488,7 +489,8 @@ export function getListViewHtml(options) {
 
             if (enableOverview && item.Overview) {
                 html += '<div class="listItem-bottomoverview secondary">';
-                html += '<bdi>' + item.Overview + '</bdi>';
+                html += '<bdi class="listItem-overview-clamped">' + item.Overview + '</bdi>';
+                html += `<button class="listItem-overview-toggle">${globalize.translate('ShowMore')}</button>`;
                 html += '</div>';
             }
         }
@@ -501,6 +503,32 @@ export function getListViewHtml(options) {
     return outerHtml;
 }
 
+function updateToggleVisibility(btn) {
+    const bdi = btn.previousElementSibling;
+    if (!bdi) return;
+    btn.style.display = bdi.scrollHeight > bdi.clientHeight ? 'inline-block' : 'none';
+}
+
+function onToggleClick(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    const btn = e.currentTarget;
+    const bdi = btn.previousElementSibling;
+    const clamped = bdi.classList.toggle('listItem-overview-clamped');
+    btn.textContent = clamped ? globalize.translate('ShowMore') : globalize.translate('ShowLess');
+    if (clamped) {
+        updateToggleVisibility(btn);
+    }
+}
+
+export function initOverviewToggles(container) {
+    for (const btn of container.querySelectorAll('.listItem-overview-toggle')) {
+        btn.addEventListener('click', onToggleClick);
+        updateToggleVisibility(btn);
+    }
+}
+
 export default {
-    getListViewHtml
+    getListViewHtml,
+    initOverviewToggles
 };
