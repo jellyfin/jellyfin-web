@@ -155,6 +155,21 @@ export default function (view) {
             }
 
             if (bestWidth) trickplayResolution = trickplayResolutions[bestWidth];
+
+            // Preload all trickplay sprite sheets so hover previews are instant
+            if (trickplayResolution && userSettings.enablePreloadTrickplayImages()) {
+                const tileSize = trickplayResolution.TileWidth * trickplayResolution.TileHeight;
+                const totalTiles = Math.ceil(trickplayResolution.ThumbnailCount / tileSize);
+                const apiClient = ServerConnections.getApiClient(item.ServerId);
+
+                for (let i = 0; i < totalTiles; i++) {
+                    const img = new Image();
+                    img.src = apiClient.getUrl(
+                        'Videos/' + item.Id + '/Trickplay/' + bestWidth + '/' + i + '.jpg',
+                        { ApiKey: apiClient.accessToken(), MediaSourceId: mediaSourceId }
+                    );
+                }
+            }
         }
     }
 
