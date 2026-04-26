@@ -170,6 +170,13 @@ export function enable() {
     window.addEventListener('keydown', function (e) {
         if (e.defaultPrevented) return;
 
+        // Handle Cmd+K / Ctrl+K for quick search
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            window.dispatchEvent(new CustomEvent('quicksearch:open'));
+            return;
+        }
+
         // Skip modified keys
         if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
 
