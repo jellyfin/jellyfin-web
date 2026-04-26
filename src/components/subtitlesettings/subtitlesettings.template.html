@@ -164,6 +164,111 @@
                 <span>${Preview}</span>
             </label>
         </div>
+
+        <div class="checkboxContainer">
+            <label>
+                <input is="emby-checkbox" type="checkbox" class="chkSecondary" />
+                <span>${SecondarySubtitlesCustomAppearence}</span>
+            </label>
+        </div>
+    </div>
+    <div id="secondarySubtitleSection" class="verticalSection secondarySubtitleAppearanceSection hide">
+        <h2 class="sectionTitle">
+            ${HeaderSecondarySubtitleAppearance}
+        </h2>
+        <div class="secondarysubtitleappearance-fullpreview secondarysubtitleappearance-fullpreview-hide">
+            <div class="secondarysubtitleappearance-fullpreview-window">
+                <div class="secondarysubtitleappearance-fullpreview-text">
+                    ${HeaderSubtitleAppearance}
+                    <br>
+                    ${TheseSettingsAffectSubtitlesOnThisDevice}
+                </div>
+            </div>
+        </div>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectSecondarySubtitleStyling" label="${LabelSubtitleStyling}">
+                <option value="Auto">${Auto}</option>
+                <option value="Custom">${Custom}</option>
+                <option value="Native">${Native}</option>
+            </select>
+            <div class="fieldDescription subtitleStylingAutoHelp subtitleStylingHelp hide">${AutoSubtitleStylingHelp}</div>
+            <div class="fieldDescription subtitleStylingCustomHelp subtitleStylingHelp hide">${CustomSubtitleStylingHelp}</div>
+            <div class="fieldDescription subtitleStylingNativeHelp subtitleStylingHelp hide">${NativeSubtitleStylingHelp}</div>
+        </div>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectSecondaryTextSize" label="${LabelTextSize}">
+                <option value="smaller">${Smaller}</option>
+                <option value="small">${Small}</option>
+                <option value="">${Normal}</option>
+                <option value="large">${Large}</option>
+                <option value="larger">${Larger}</option>
+                <option value="extralarge">${ExtraLarge}</option>
+            </select>
+        </div>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectSecondaryTextWeight" label="${LabelTextWeight}">
+                <option value="normal">${Normal}</option>
+                <option value="bold">${Bold}</option>
+            </select>
+        </div>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectSecondaryFont" label="${LabelFont}">
+                <option value="">${Default}</option>
+                <option value="typewriter">${Typewriter}</option>
+                <option value="print">${Print}</option>
+                <option value="console">${Console}</option>
+                <option value="cursive">${Cursive}</option>
+                <option value="casual">${Casual}</option>
+                <option value="smallcaps">${SmallCaps}</option>
+            </select>
+        </div>
+
+        <div class="inputContainer hide">
+            <input is="emby-input" id="inputSecondaryTextBackground" label="${LabelTextBackgroundColor}" type="text" />
+        </div>
+
+        <div class="selectContainer">
+            <input is="emby-input" id="inputSecondaryTextColor" label="${LabelTextColor}" type="color" />
+        </div>
+
+        <div class="selectContainer hide">
+            <select is="emby-select" id="selectSecondaryTextColor" label="${LabelTextColor}">
+                <option value="#ffffff">${SubtitleWhite}</option>
+                <option value="#d3d3d3">${SubtitleLightGray}</option>
+                <option value="#808080">${SubtitleGray}</option>
+                <option value="#ffff00">${SubtitleYellow}</option>
+                <option value="#008000">${SubtitleGreen}</option>
+                <option value="#00ffff">${SubtitleCyan}</option>
+                <option value="#0000ff">${SubtitleBlue}</option>
+                <option value="#ff00ff">${SubtitleMagenta}</option>
+                <option value="#ff0000">${SubtitleRed}</option>
+                <option value="#000000">${SubtitleBlack}</option>
+            </select>
+        </div>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectSecondaryDropShadow" label="${LabelDropShadow}">
+                <option value="none">${None}</option>
+                <option value="raised">${Raised}</option>
+                <option value="depressed">${Depressed}</option>
+                <option value="uniform">${Uniform}</option>
+                <option value="">${DropShadow}</option>
+            </select>
+        </div>
+
+
+
+
+        <div class="sliderContainer-settings">
+            <div class="sliderContainer">
+                <input is="emby-slider" id="sliderSecondaryVerticalPosition" label="${LabelSubtitleVerticalPosition}" type="range" min="-16" max="16" />
+            </div>
+            <div class="fieldDescription">${SubtitleVerticalPositionHelp}</div>
+        </div>
     </div>
 
     <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
