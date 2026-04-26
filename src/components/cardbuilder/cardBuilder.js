@@ -866,7 +866,9 @@ function buildCard(index, item, apiClient, options) {
     } else {
         const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}" role="img"`;
 
-        const url = appRouter.getRouteUrl(item);
+        const url = appRouter.getRouteUrl(item, {
+            serverId: options.serverId
+        });
         // Don't use the IMG tag with safari because it puts a white border around it
         cardImageContainerOpen = imgUrl ? ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
 
