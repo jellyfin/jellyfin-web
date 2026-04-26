@@ -24,6 +24,7 @@ type SortOptionsMapping = Record<string, SortOption[]>;
 
 const collectionMovieOptions: SortOption[] = [
     { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random },
     { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
     { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
     { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
@@ -49,6 +50,18 @@ const photosOrPhotoAlbumsOptions = [
     { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
 ];
 
+const videoOrMusicVideoOptions = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random },
+    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
+    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+    { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+    { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+    { label: 'Runtime', value: ItemSortBy.Runtime }
+];
+
 const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
     [LibraryTab.Collections]: collectionMovieOptions,
@@ -65,14 +78,14 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.Episodes]: [
         { label: 'Name', value: ItemSortBy.SeriesSortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ],
     [LibraryTab.Albums]: [
         { label: 'Name', value: ItemSortBy.SortName },
@@ -85,13 +98,14 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.Books]: [
         { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed }
     ],
     [LibraryTab.Songs]: [
         { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'Album', value: ItemSortBy.Album },
         { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
         { label: 'Artist', value: ItemSortBy.Artist },
@@ -99,8 +113,7 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ],
     [LibraryTab.Playlists]: [
         { label: 'Name', value: ItemSortBy.SortName },
@@ -112,21 +125,19 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.PhotoAlbums]: photosOrPhotoAlbumsOptions,
     [LibraryTab.Photos]: photosOrPhotoAlbumsOptions,
-    [LibraryTab.Videos]: [
+    [LibraryTab.Videos]:videoOrMusicVideoOptions,
+    [LibraryTab.MusicVideos]:videoOrMusicVideoOptions,
+    [LibraryTab.Folders]: [
         { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'Folders', value: ItemSortBy.IsFolder },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
-    ],
-    [LibraryTab.MusicVideos]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ]
 };
 
@@ -251,7 +262,7 @@ const SortButton: FC<SortButtonProps> = ({
                         {sortOrderMenuOptions.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 <Typography component='span'>
-                                    {option.label}
+                                    {globalize.translate(option.label)}
                                 </Typography>
                             </MenuItem>
                         ))}

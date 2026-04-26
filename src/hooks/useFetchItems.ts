@@ -317,7 +317,9 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy === ItemSortBy.IsFolder ?
+                            [ItemSortBy.IsFolder, ItemSortBy.SortName] :
+                            [libraryViewSettings.SortBy],
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
