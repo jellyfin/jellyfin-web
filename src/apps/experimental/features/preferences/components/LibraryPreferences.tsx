@@ -112,6 +112,23 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
                     {globalize.translate('DisplayMissingEpisodesWithinSeasonsHelp')}
                 </FormHelperText>
             </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-use-original-titles-description'
+                    control={
+                        <Checkbox
+                            checked={values.useOriginalTitles}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('UseOriginalTitles')}
+                    name='useOriginalTitles'
+                />
+                <FormHelperText id='display-settings-use-original-titles-description'>
+                    {globalize.translate('UseOriginalTitlesHelp')}
+                </FormHelperText>
+            </FormControl>
         </Stack>
     );
 }
