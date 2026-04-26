@@ -416,7 +416,8 @@ export const useGetItemsViewByType = (
                 LibraryTab.Channels,
                 LibraryTab.SeriesTimers,
                 LibraryTab.MusicVideos,
-                LibraryTab.Folders
+                LibraryTab.Folders,
+                LibraryTab.Mixed
             ].includes(viewType)
     });
 };

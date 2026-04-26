@@ -14,7 +14,7 @@ export interface SectionsView {
 export interface LibraryTabContent {
     viewType: LibraryTab;
     itemType?: BaseItemKind[];
-    collectionType?: CollectionType;
+    collectionType?: CollectionType | null;
     sectionsView?: SectionsView;
     isPaginationEnabled?: boolean;
     isBtnPlayAllEnabled?: boolean;

@@ -127,6 +127,19 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'Runtime', value: ItemSortBy.Runtime },
         { label: 'OptionRandom', value: ItemSortBy.Random }
+    ],
+    [LibraryTab.Mixed]: [
+        { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
+        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ]
 };
 
