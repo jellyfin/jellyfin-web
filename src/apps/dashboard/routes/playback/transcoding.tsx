@@ -38,6 +38,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const data = await request.json() as EncodingOptions;
 
+    const transcodingBitrateLimit = data.TranscodeBitrateLimit?.toString();
+    data.TranscodeBitrateLimit = Math.trunc(1e6 * parseFloat(transcodingBitrateLimit || '0'));
+
     await getConfigurationApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: data });
 
@@ -780,6 +783,23 @@ export const Component = () => {
                                         min: 0,
                                         max: 51,
                                         step: 1
+                                    }
+                                }}
+                            />
+
+                            <TextField
+                                name='TranscodeBitrateLimit'
+                                inputMode='decimal'
+                                defaultValue={config?.TranscodeBitrateLimit ? config?.TranscodeBitrateLimit / 1e6 : ''}
+                                onChange={onConfigChange}
+                                label={globalize.translate('LabelTranscodeBitrateLimit')}
+                                helperText={globalize.translate('TranscodeBitrateLimitHelp')}
+                                type='number'
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        max: 2147.25,
+                                        step: 0.25
                                     }
                                 }}
                             />
