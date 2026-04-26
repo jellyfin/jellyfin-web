@@ -1972,6 +1972,15 @@ export class PlaybackManager {
                 }, queryOptions));
             }
 
+            if (promise) {
+                return promise.then(function (result) {
+                    if (firstItem.Type === 'AudioBook') {
+                        options.startIndex = result.StartIndex;
+                    }
+                    return result ? result.Items : items;
+                });
+            }
+
             return null;
         }
 
@@ -2345,6 +2354,10 @@ export class PlaybackManager {
         }
 
         function playInternal(item, playOptions, onPlaybackStartedFn, prevSource) {
+            if (item.Type === 'AudioBookFile') {
+                playOptions.startPositionTicks = item.UserData.PlaybackPositionTicks;
+            }
+
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
@@ -3614,6 +3627,7 @@ export class PlaybackManager {
             };
         }
 
+        // Add a player to the list of players and associate callbacks
         function initMediaPlayer(player) {
             players.push(player);
             players.sort(function (a, b) {
