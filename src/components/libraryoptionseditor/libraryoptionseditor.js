@@ -626,6 +626,7 @@ export function getLibraryOptions(parent) {
         EnableArchiveMediaFiles: false,
         EnablePhotos: parent.querySelector('.chkEnablePhotos').checked,
         EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
+        EnableJellyignore: parent.querySelector('.chkEnableJellyignore').checked,
         EnableLUFSScan: parent.querySelector('.chkEnableLUFSScan').checked,
         ExtractTrickplayImagesDuringLibraryScan: parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked,
         SaveTrickplayWithMedia: parent.querySelector('.chkSaveTrickplayLocally').checked,
@@ -699,6 +700,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('.chkEnabled').checked = options.Enabled;
     parent.querySelector('.chkEnablePhotos').checked = options.EnablePhotos;
     parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
+    parent.querySelector('.chkEnableJellyignore').checked = options.EnableJellyignore;
     parent.querySelector('.chkEnableLUFSScan').checked = options.EnableLUFSScan;
     parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked = options.ExtractTrickplayImagesDuringLibraryScan;
     parent.querySelector('.chkExtractTrickplayImages').checked = options.EnableTrickplayImageExtraction;

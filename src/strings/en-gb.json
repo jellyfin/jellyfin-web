@@ -842,6 +842,8 @@
     "LabelEpisodeNumber": "Episode number",
     "LabelEnableRealtimeMonitorHelp": "Changes to files will be processed immediately on supported file systems.",
     "LabelEnableRealtimeMonitor": "Enable real time monitoring",
+    "LabelEnableJellyignore": "Enable .jellyignore support",
+    "LabelEnableJellyignoreHelp": "Allow .jellyignore files in library folders to exclude files and folders from scanning using glob patterns.",
     "LabelDynamicExternalId": "{0} Id",
     "LabelDropShadow": "Drop shadow",
     "LabelDropImageHere": "Drop image here, or click to browse.",
