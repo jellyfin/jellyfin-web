@@ -130,7 +130,7 @@ function getChannelImageUrl(item, size) {
     }
 }
 
-function getTextLinesHtml(textlines, isLargeStyle) {
+function getTextLinesHtml(textlines, isLargeStyle, truncate) {
     let html = '';
 
     const largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
@@ -154,6 +154,10 @@ function getTextLinesHtml(textlines, isLargeStyle) {
         }
 
         elem.classList.add('listItemBodyText');
+
+        if (truncate) {
+            elem.classList.add('listItemBodyText-truncate');
+        }
 
         elem.innerHTML = '<bdi>' + escapeHtml(text) + '</bdi>';
 
@@ -405,7 +409,7 @@ export function getListViewHtml(options) {
 
         html += `<div class="${cssClass}">`;
 
-        html += getTextLinesHtml(textlines, isLargeStyle);
+        html += getTextLinesHtml(textlines, isLargeStyle, options.truncateLongTitles);
 
         if (options.mediaInfo !== false && !enableSideMediaInfo) {
             const mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
