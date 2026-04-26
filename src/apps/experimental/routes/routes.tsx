@@ -7,7 +7,7 @@ import { toViewManagerPageRoute } from 'components/router/LegacyRoute';
 import ErrorBoundary from 'components/router/ErrorBoundary';
 import FallbackRoute from 'components/router/FallbackRoute';
 
-import { ASYNC_USER_ROUTES } from './asyncRoutes';
+import { ASYNC_PUBLIC_ROUTES, ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 import VideoPage from './video';
 
@@ -38,6 +38,7 @@ export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
                 /* Public routes */
                 element: <ConnectionRequired level='public' />,
                 children: [
+                    ...ASYNC_PUBLIC_ROUTES.map(toAsyncPageRoute),
                     ...LEGACY_PUBLIC_ROUTES.map(toViewManagerPageRoute),
 
                     /* Fallback route for invalid paths */
