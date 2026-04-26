@@ -31,7 +31,7 @@ function sendConnectionResult(isOk) {
             resolve();
         }
     } else if (reject) {
-        reject();
+        reject(new Error('SendConnectionResultError'));
     } else {
         playbackManager.removeActivePlayer(PlayerName);
     }
