@@ -130,7 +130,9 @@ function getProgramScheduleHtml(items, action = 'none') {
         runtime: false,
         action,
         moreButton: false,
-        recordButton: false
+        recordButton: false,
+        enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+        enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
     });
 }
 
@@ -480,7 +482,11 @@ function renderName(item, container, context) {
 
     if (html && !parentNameLast) {
         if (tvSeasonHtml) {
-            html += '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
+            html += '<h3 class="itemName infoText subtitle focuscontainer-x';
+            if (!item.UserData.Played && userSettings.enableBlurUnplayedTitle()) {
+                html += ' listItemBodyText-blurred';
+            }
+            html += '"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
         } else {
             html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
         }
@@ -807,7 +813,9 @@ function renderNextUp(page, item, user) {
             displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
             overlayText: false,
             centerText: true,
-            overlayPlayButton: true
+            overlayPlayButton: true,
+            enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+            enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
         });
         const itemsContainer = section.querySelector('.nextUpItems');
         itemsContainer.innerHTML = html;
@@ -922,6 +930,10 @@ function renderOverview(page, item) {
 
                 for (const anchor of overviewElemnt.querySelectorAll('a')) {
                     anchor.setAttribute('target', '_blank');
+                }
+
+                if (item.Type === 'Episode' && !item.UserData.Played && userSettings.enableBlurUnplayedDescription()) {
+                    overviewElemnt.classList.add('listItemBodyText-blurred');
                 }
             }
         } else {
@@ -1087,7 +1099,8 @@ function renderMoreFromSeason(view, item, apiClient) {
                 overlayText: false,
                 centerText: true,
                 includeParentInfoInTitle: false,
-                allowBottomPadding: false
+                allowBottomPadding: false,
+                enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle()
             });
             const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
 
@@ -1373,7 +1386,9 @@ function renderChildren(page, item) {
                     highlight: false,
                     action: !layoutManager.desktop ? 'link' : 'none',
                     imagePlayButton: true,
-                    includeParentInfoInTitle: false
+                    includeParentInfoInTitle: false,
+                    enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                    enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
                 });
             }
         }
@@ -1466,6 +1481,8 @@ function renderProgramsForChannel(page, result) {
     let html = '';
     let currentItems = [];
     let currentStartDate = null;
+    const enableBlurUnplayedTitle = userSettings.enableBlurUnplayedTitle();
+    const enableBlurUnplayedDescription = userSettings.enableBlurUnplayedDescription();
 
     for (let i = 0, length = result.Items.length; i < length; i++) {
         const item = result.Items[i];
@@ -1486,7 +1503,9 @@ function renderProgramsForChannel(page, result) {
                     image: false,
                     showProgramTime: true,
                     mediaInfo: false,
-                    parentTitleWithTitle: true
+                    parentTitleWithTitle: true,
+                    enableBlurUnplayedTitle: enableBlurUnplayedTitle,
+                    enableBlurUnplayedDescription: enableBlurUnplayedDescription
                 }) + '</div></div>';
             }
 
@@ -1511,7 +1530,9 @@ function renderProgramsForChannel(page, result) {
             image: false,
             showProgramTime: true,
             mediaInfo: false,
-            parentTitleWithTitle: true
+            parentTitleWithTitle: true,
+            enableBlurUnplayedTitle: enableBlurUnplayedTitle,
+            enableBlurUnplayedDescription: enableBlurUnplayedDescription
         }) + '</div></div>';
     }
 
