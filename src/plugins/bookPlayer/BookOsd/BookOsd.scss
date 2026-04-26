@@ -1,0 +1,37 @@
+.bookOsd {
+    position: absolute;
+    inset: 0;
+    z-index: 1002;
+    display: flex;
+    color: #000;
+    justify-content: space-between;
+    pointer-events: auto;
+    flex-direction: column;
+    transition: 0.3s;
+}
+
+.bookOsdHide {
+    opacity: 0;
+}
+
+.bookOsdRow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 6em;
+    padding: 0 0.8vw;
+    background: rgba(64, 64, 64, 0.8);
+}
+
+.bookOsdMargin {
+    margin-left: auto;
+}
+
+.bookOsdTitle {
+    font-size: 1.1rem;
+    margin-left: 0.35rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
