@@ -77,7 +77,30 @@ export default function (view, params, tabContent, options) {
             itemsContainer.refreshItems();
         }
 
-        window.scrollTo(0, 0);
+        if (!userSettings.enableInfiniteScroll()) {
+            window.scrollTo(0, 0);
+        } else {
+            hasMoreitems = true;
+            // Check if we need to load more items
+            if (result.Items.length >= query.Limit) {
+                query.StartIndex += query.Limit;
+            } else if (query.NameStartsWith !== undefined) {
+                // no more items with the alphaPicker/NameStartsWith selection.
+                // increment ascii letter code and search with next letter
+                const nextletter = String.fromCharCode(query.NameStartsWith.charCodeAt(0) + 1);
+                // check if ascii code is smaler or equal to Z else disable loading more items
+                if (nextletter.charCodeAt(0) <= 90) {
+                    query.NameStartsWith = nextletter;
+                    //reset start index for new letter
+                    query.StartIndex = 0;
+                } else {
+                    hasMoreitems = false;
+                }
+            } else {
+                //if not searching with NameStartsWith set hasMoreitems false if no more items are found
+                hasMoreitems = false;
+            }
+        }
         this.alphaPicker?.updateControls(query);
         const pagingHtml = libraryBrowser.getQueryPagingHtml({
             startIndex: query.StartIndex,
@@ -89,23 +112,25 @@ export default function (view, params, tabContent, options) {
             sortButton: false,
             filterButton: false
         });
+        if (!userSettings.enableInfiniteScroll()) {
+            for (const elem of tabContent.querySelectorAll('.paging')) {
+                elem.innerHTML = pagingHtml;
+            }
 
-        for (const elem of tabContent.querySelectorAll('.paging')) {
-            elem.innerHTML = pagingHtml;
-        }
+            for (const elem of tabContent.querySelectorAll('.btnNextPage')) {
+                elem.addEventListener('click', onNextPageClick);
+            }
 
-        for (const elem of tabContent.querySelectorAll('.btnNextPage')) {
-            elem.addEventListener('click', onNextPageClick);
-        }
-
-        for (const elem of tabContent.querySelectorAll('.btnPreviousPage')) {
-            elem.addEventListener('click', onPreviousPageClick);
+            for (const elem of tabContent.querySelectorAll('.btnPreviousPage')) {
+                elem.addEventListener('click', onPreviousPageClick);
+            }
         }
 
         tabContent.querySelector('.btnPlayAll')?.classList.toggle('hide', result.TotalRecordCount < 1);
         tabContent.querySelector('.btnShuffle')?.classList.toggle('hide', result.TotalRecordCount < 1);
 
         isLoading = false;
+
         loading.hide();
 
         import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -117,8 +142,15 @@ export default function (view, params, tabContent, options) {
         let html;
         const viewStyle = this.getCurrentViewStyle();
 
+        if (userSettings.enableInfiniteScroll()) {
+            const itemsContainer = tabContent.querySelector('.itemsContainer');
+            html = itemsContainer.innerHTML;
+        } else {
+            html = '';
+        }
+
         if (viewStyle == 'Thumb') {
-            html = cardBuilder.getCardsHtml({
+            html += cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'backdrop',
                 preferThumb: true,
@@ -130,7 +162,7 @@ export default function (view, params, tabContent, options) {
                 centerText: true
             });
         } else if (viewStyle == 'ThumbCard') {
-            html = cardBuilder.getCardsHtml({
+            html += cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'backdrop',
                 preferThumb: true,
@@ -142,7 +174,7 @@ export default function (view, params, tabContent, options) {
                 centerText: true
             });
         } else if (viewStyle == 'Banner') {
-            html = cardBuilder.getCardsHtml({
+            html += cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'banner',
                 preferBanner: true,
@@ -150,13 +182,13 @@ export default function (view, params, tabContent, options) {
                 lazy: true
             });
         } else if (viewStyle == 'List') {
-            html = listView.getListViewHtml({
+            html += listView.getListViewHtml({
                 items: items,
                 context: 'movies',
                 sortBy: query.SortBy
             });
         } else if (viewStyle == 'PosterCard') {
-            html = cardBuilder.getCardsHtml({
+            html += cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'portrait',
                 context: 'movies',
@@ -167,7 +199,7 @@ export default function (view, params, tabContent, options) {
                 cardLayout: true
             });
         } else {
-            html = cardBuilder.getCardsHtml({
+            html += cardBuilder.getCardsHtml({
                 items: items,
                 shape: 'portrait',
                 context: 'movies',
@@ -180,13 +212,13 @@ export default function (view, params, tabContent, options) {
 
         return html;
     };
-
+    let hasMoreitems = true;
+    const scrollController = new AbortController();
     const initPage = (tabElement) => {
         itemsContainer.fetchData = fetchData;
         itemsContainer.getItemsHtml = getItemsHtml;
         itemsContainer.afterRefresh = afterRefresh;
         const alphaPickerElement = tabElement.querySelector('.alphaPicker');
-
         if (alphaPickerElement) {
             alphaPickerElement.addEventListener('alphavaluechanged', function (e) {
                 const newValue = e.detail.value;
@@ -198,6 +230,8 @@ export default function (view, params, tabContent, options) {
                     delete query.NameLessThan;
                 }
                 query.StartIndex = 0;
+                // Clear the container before refreshing
+                itemsContainer.innerHTML = '';
                 itemsContainer.refreshItems();
             });
             this.alphaPicker = new AlphaPicker({
@@ -275,6 +309,27 @@ export default function (view, params, tabContent, options) {
             itemsContainer.refreshItems();
         });
 
+        if (userSettings.enableInfiniteScroll()) {
+            document.addEventListener('viewshow', () => {
+                // Stop the scroll event listener on view change
+                scrollController.abort();
+            }, { signal: scrollController.signal });
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY || window.pageYOffset;
+                const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+                const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+                const scrollPercentage = (scrollTop / (scrollHeight - clientHeight)) * 100;
+
+                const isNearBottom = scrollPercentage >= 95;
+
+                // check if tabelement is active else dont run reloaditems
+                if (isNearBottom && !isLoading && hasMoreitems && tabElement.classList.contains('is-active')) {
+                    itemsContainer.refreshItems();
+                }
+            }, { signal: scrollController.signal });
+        }
+
         tabElement.querySelector('.btnPlayAll').addEventListener('click', playAll);
         tabElement.querySelector('.btnShuffle')?.addEventListener('click', shuffle);
     };
@@ -305,6 +360,12 @@ export default function (view, params, tabContent, options) {
     }
 
     query = userSettings.loadQuerySettings(savedQueryKey, query);
+
+    if (userSettings.enableInfiniteScroll() && userSettings.libraryPageSize() < 40) {
+        query.Limit = 40;
+    } else {
+        query.Limit = userSettings.libraryPageSize();
+    }
 
     this.showFilterMenu = function () {
         import('../../components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
