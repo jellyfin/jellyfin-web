@@ -209,6 +209,7 @@ export default function (view, params) {
     }
 
     function showVisualForm() {
+        view.querySelector('.chkRememberProfile').checked = appSettings.enableAutoLogin();
         view.querySelector('.visualLoginForm').classList.remove('hide');
         view.querySelector('.manualLoginForm').classList.add('hide');
         view.querySelector('.btnManual').classList.remove('hide');
@@ -232,6 +233,7 @@ export default function (view, params) {
                 context.querySelector('#txtManualName').value = '';
                 showManualForm(context, true);
             } else if (haspw == 'false') {
+                appSettings.enableAutoLogin(view.querySelector('.chkRememberProfile').checked);
                 authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
                 context.querySelector('#txtManualName').value = name;
