@@ -28,6 +28,7 @@ export const useDevices = (
         queryKey: [QUERY_KEY, requestParams],
         queryFn: ({ signal }) =>
             fetchDevices(api!, requestParams, { signal }),
-        enabled: !!api
+        enabled: !!api,
+        staleTime: 0 // ensure we load the latest device data
     });
 };

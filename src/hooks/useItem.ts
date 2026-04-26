@@ -24,7 +24,6 @@ export const getItemQuery = (
 ) => queryOptions({
     queryKey: [ 'User', userId, 'Items', itemId ],
     queryFn: ({ signal }) => fetchItem(api!, itemId!, userId!, { signal }),
-    staleTime: 1000, // 1 second
     enabled: !!api && !!userId && !!itemId
 });
 

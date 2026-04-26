@@ -27,6 +27,7 @@ export const useLogEntries = (
         queryFn: ({ signal }) =>
             fetchLogEntries(api!, requestParams, { signal }),
         enabled: !!api,
-        refetchOnMount: false
+        refetchOnMount: false,
+        staleTime: 0 // ensure we load the latest log entries
     });
 };
