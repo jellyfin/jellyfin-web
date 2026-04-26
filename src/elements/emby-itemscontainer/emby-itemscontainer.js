@@ -11,8 +11,8 @@ import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import serverNotifications from '../../scripts/serverNotifications';
 import Events from '../../utils/events.ts';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 
@@ -142,11 +142,11 @@ ItemsContainerPrototype.enableDragReordering = function (enabled) {
     });
 };
 
-function onUserDataChanged(e, apiClient, userData) {
-    const itemsContainer = this;
-
+function onUserDataChanged({ Data }, itemsContainer) {
     import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
-        cardBuilder.onUserDataChanged(userData, itemsContainer);
+        for (const userData of Data?.UserDataList ?? []) {
+            cardBuilder.onUserDataChanged(userData, itemsContainer);
+        }
     });
 
     const eventsToMonitor = getEventsToMonitor(itemsContainer);
@@ -168,74 +168,67 @@ function getEventsToMonitor(itemsContainer) {
     return [];
 }
 
-function onTimerCreated(e, apiClient, data) {
-    const itemsContainer = this;
-
+function onTimerCreated({ Data }, itemsContainer) {
     if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
         itemsContainer.notifyRefreshNeeded();
         return;
     }
 
-    const programId = data.ProgramId;
+    const programId = Data?.ProgramId;
     // This could be null, not supported by all tv providers
-    const newTimerId = data.Id;
+    const newTimerId = Data?.Id;
 
     import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
         cardBuilder.onTimerCreated(programId, newTimerId, itemsContainer);
     });
 }
 
-function onSeriesTimerCreated() {
-    const itemsContainer = this;
+function onSeriesTimerCreated(_, itemsContainer) {
     if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
         itemsContainer.notifyRefreshNeeded();
     }
 }
 
-function onTimerCancelled(e, apiClient, data) {
-    const itemsContainer = this;
+function onTimerCancelled({ Data }, itemsContainer) {
     if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
         itemsContainer.notifyRefreshNeeded();
         return;
     }
 
     import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
-        cardBuilder.onTimerCancelled(data.Id, itemsContainer);
+        cardBuilder.onTimerCancelled(Data?.Id, itemsContainer);
     });
 }
 
-function onSeriesTimerCancelled(e, apiClient, data) {
-    const itemsContainer = this;
+function onSeriesTimerCancelled({ Data }, itemsContainer) {
     if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
         itemsContainer.notifyRefreshNeeded();
         return;
     }
 
     import('../../components/cardbuilder/cardBuilder').then((cardBuilder) => {
-        cardBuilder.onSeriesTimerCancelled(data.Id, itemsContainer);
+        cardBuilder.onSeriesTimerCancelled(Data?.Id, itemsContainer);
     });
 }
 
-function onLibraryChanged(e, apiClient, data) {
-    const itemsContainer = this;
-
+function onLibraryChanged({ Data }, itemsContainer) {
     const eventsToMonitor = getEventsToMonitor(itemsContainer);
     if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
         // yes this is an assumption
         return;
     }
 
-    const itemsAdded = data.ItemsAdded || [];
-    const itemsRemoved = data.ItemsRemoved || [];
+    const itemsAdded = Data?.ItemsAdded ?? [];
+    const itemsRemoved = Data?.ItemsRemoved ?? [];
     if (!itemsAdded.length && !itemsRemoved.length) {
         return;
     }
 
     const parentId = itemsContainer.getAttribute('data-parentid');
     if (parentId) {
-        const foldersAddedTo = data.FoldersAddedTo || [];
-        const foldersRemovedFrom = data.FoldersRemovedFrom || [];
-        const collectionFolders = data.CollectionFolders || [];
+        const foldersAddedTo = Data?.FoldersAddedTo ?? [];
+        const foldersRemovedFrom = Data?.FoldersRemovedFrom ?? [];
+        const collectionFolders = Data?.CollectionFolders ?? [];
 
         if (foldersAddedTo.indexOf(parentId) === -1 && foldersRemovedFrom.indexOf(parentId) === -1 && collectionFolders.indexOf(parentId) === -1) {
             return;
@@ -263,7 +256,6 @@ function onPlaybackStopped(e, stopInfo) {
 
 function addNotificationEvent(instance, name, handler, owner) {
     const localHandler = handler.bind(instance);
-    owner = owner || serverNotifications;
     Events.on(owner, name, localHandler);
     instance['event_' + name] = localHandler;
 }
@@ -271,7 +263,6 @@ function addNotificationEvent(instance, name, handler, owner) {
 function removeNotificationEvent(instance, name, owner) {
     const handler = instance['event_' + name];
     if (handler) {
-        owner = owner || serverNotifications;
         Events.off(owner, name, handler);
         instance['event_' + name] = null;
     }
@@ -300,12 +291,22 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     itemShortcuts.on(this, getShortcutOptions());
 
-    addNotificationEvent(this, 'UserDataChanged', onUserDataChanged);
-    addNotificationEvent(this, 'TimerCreated', onTimerCreated);
-    addNotificationEvent(this, 'SeriesTimerCreated', onSeriesTimerCreated);
-    addNotificationEvent(this, 'TimerCancelled', onTimerCancelled);
-    addNotificationEvent(this, 'SeriesTimerCancelled', onSeriesTimerCancelled);
-    addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
+    const self = this;
+    const subscribeToApiClient = (apiClient) => [
+        apiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], (msg) => onUserDataChanged(msg, self)),
+        apiClient.subscribe([OutboundWebSocketMessageType.TimerCreated], (msg) => onTimerCreated(msg, self)),
+        apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], (msg) => onSeriesTimerCreated(msg, self)),
+        apiClient.subscribe([OutboundWebSocketMessageType.TimerCancelled], (msg) => onTimerCancelled(msg, self)),
+        apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], (msg) => onSeriesTimerCancelled(msg, self)),
+        apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, self))
+    ].filter(Boolean);
+
+    this._wsApiClientCreatedHandler = (e, newApiClient) => {
+        this._wsUnsubscribers = (this._wsUnsubscribers ?? []).concat(subscribeToApiClient(newApiClient));
+    };
+    Events.on(ServerConnections, 'apiclientcreated', this._wsApiClientCreatedHandler);
+    this._wsUnsubscribers = ServerConnections.getApiClients().flatMap(subscribeToApiClient);
+
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 
     if (this.getAttribute('data-dragreorder') === 'true') {
@@ -324,12 +325,15 @@ ItemsContainerPrototype.detachedCallback = function () {
 
     itemShortcuts.off(this, getShortcutOptions());
 
-    removeNotificationEvent(this, 'UserDataChanged');
-    removeNotificationEvent(this, 'TimerCreated');
-    removeNotificationEvent(this, 'SeriesTimerCreated');
-    removeNotificationEvent(this, 'TimerCancelled');
-    removeNotificationEvent(this, 'SeriesTimerCancelled');
-    removeNotificationEvent(this, 'LibraryChanged');
+    this._wsUnsubscribers?.forEach(unsub => {
+        unsub();
+    });
+    this._wsUnsubscribers = [];
+    if (this._wsApiClientCreatedHandler) {
+        Events.off(ServerConnections, 'apiclientcreated', this._wsApiClientCreatedHandler);
+        this._wsApiClientCreatedHandler = null;
+    }
+
     removeNotificationEvent(this, 'playbackstop', playbackManager);
 
     this.fetchData = null;

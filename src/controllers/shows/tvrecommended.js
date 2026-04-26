@@ -14,6 +14,7 @@ import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-button/emby-button';
@@ -322,10 +323,8 @@ export default function (view, params) {
         }
     }
 
-    function onWebSocketMessage(e, data) {
-        const msg = data;
-
-        if (msg.MessageType === 'UserDataChanged' && msg.Data.UserId == ApiClient.getCurrentUserId()) {
+    function onUserDataChanged({ Data }) {
+        if (Data?.UserId == ApiClient.getCurrentUserId()) {
             renderedTabs = [];
         }
     }
@@ -370,13 +369,14 @@ export default function (view, params) {
         }
 
         Events.on(playbackManager, 'playbackstop', onPlaybackStop);
-        Events.on(ApiClient, 'message', onWebSocketMessage);
+        self._unsubscribeUserData = ApiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], onUserDataChanged);
         inputManager.on(window, onInputCommand);
     });
     view.addEventListener('viewbeforehide', function () {
         inputManager.off(window, onInputCommand);
         Events.off(playbackManager, 'playbackstop', onPlaybackStop);
-        Events.off(ApiClient, 'message', onWebSocketMessage);
+        self._unsubscribeUserData?.();
+        self._unsubscribeUserData = null;
     });
     view.addEventListener('viewdestroy', function () {
         tabControllers.forEach(function (t) {

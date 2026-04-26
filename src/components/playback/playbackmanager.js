@@ -28,6 +28,7 @@ import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/med
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -3726,9 +3727,18 @@ export class PlaybackManager {
         };
 
         if (appHost.supports(AppFeature.RemoteControl)) {
-            import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
-                Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
-                Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
+            // Defer setup past module evaluation to avoid the circular dependency:
+            // playbackmanager → lib/jellyfin-apiclient → ServerConnections → utils/dashboard → backdrop → playbackmanager
+            queueMicrotask(() => {
+                let _unsubscribeRemoteControl;
+                Events.on(ServerConnections, 'localusersignedin', () => {
+                    _unsubscribeRemoteControl?.();
+                    const api = ServerConnections.getCurrentApi();
+                    _unsubscribeRemoteControl = api?.subscribe(
+                        [OutboundWebSocketMessageType.ServerShuttingDown, OutboundWebSocketMessageType.ServerRestarting],
+                        self.setDefaultPlayerActive.bind(self)
+                    );
+                });
             });
         }
 

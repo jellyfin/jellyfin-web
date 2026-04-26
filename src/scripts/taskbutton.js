@@ -1,18 +1,11 @@
 
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import serverNotifications from 'scripts/serverNotifications';
-import Events from 'utils/events.ts';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-button/emby-button';
 
 function taskbutton(options) {
-    function pollTasks() {
-        ServerConnections.getApiClient(serverId).getScheduledTasks({
-            IsEnabled: true
-        }).then(updateTasks);
-    }
-
     function updateTasks(tasks) {
         const task = tasks.filter(function (t) {
             return t.Key == options.taskKey;
@@ -65,44 +58,40 @@ function taskbutton(options) {
     }
 
     function onScheduledTaskMessageConfirmed(id) {
-        ServerConnections.getApiClient(serverId).startScheduledTask(id).then(pollTasks);
+        ServerConnections.getApiClient(serverId).startScheduledTask(id);
     }
 
     function onButtonClick() {
         onScheduledTaskMessageConfirmed(this.getAttribute('data-taskid'));
     }
 
-    function onScheduledTasksUpdate(e, apiClient, info) {
-        if (apiClient.serverId() === serverId) {
-            updateTasks(info);
-        }
-    }
-
-    let pollInterval;
-    const button = options.button;
-    const serverId = ApiClient.serverId();
-
-    function onPollIntervalFired() {
-        if (!ServerConnections.getApiClient(serverId).isMessageChannelOpen()) {
-            pollTasks();
-        }
-    }
-
-    function startInterval() {
+    function onScheduledTasksUpdate({ Data }) {
         const apiClient = ServerConnections.getApiClient(serverId);
-
-        if (pollInterval) {
-            clearInterval(pollInterval);
+        if (apiClient.serverId() === serverId) {
+            updateTasks(Data ?? []);
         }
-        apiClient.sendMessage('ScheduledTasksInfoStart', '1000,1000');
-        pollInterval = setInterval(onPollIntervalFired, 5000);
     }
 
-    function stopInterval() {
-        ServerConnections.getApiClient(serverId).sendMessage('ScheduledTasksInfoStop');
+    let unsubscribe;
+    const button = options.button;
+    const serverId = ServerConnections.currentApiClient()?.serverId() || '';
 
-        if (pollInterval) {
-            clearInterval(pollInterval);
+    function subscribe() {
+        const apiClient = ServerConnections.getApiClient(serverId);
+        return apiClient.subscribe([OutboundWebSocketMessageType.ScheduledTasksInfo], onScheduledTasksUpdate);
+    }
+
+    function startSubscription() {
+        if (unsubscribe) {
+            unsubscribe();
+        }
+        unsubscribe = subscribe();
+    }
+
+    function stopSubscription() {
+        if (unsubscribe) {
+            unsubscribe();
+            unsubscribe = null;
         }
     }
 
@@ -112,13 +101,10 @@ function taskbutton(options) {
 
     if (options.mode == 'off') {
         button.removeEventListener('click', onButtonClick);
-        Events.off(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
-        stopInterval();
+        stopSubscription();
     } else {
         button.addEventListener('click', onButtonClick);
-        pollTasks();
-        startInterval();
-        Events.on(serverNotifications, 'ScheduledTasksInfo', onScheduledTasksUpdate);
+        startSubscription();
     }
 }
 
