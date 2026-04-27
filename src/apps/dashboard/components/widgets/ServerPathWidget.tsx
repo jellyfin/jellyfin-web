@@ -84,7 +84,7 @@ const ServerPathWidget = () => {
 
             <List sx={{ 
                 bgcolor: 'background.paper',
-                maxHeight: 450,
+                maxHeight: 800,
                 overflowY: 'auto'
                 }}
             >
