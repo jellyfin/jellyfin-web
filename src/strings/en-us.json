@@ -1179,6 +1179,7 @@
     "MessageNoFavoritesAvailable": "No favorites are currently available.",
     "MessageNoCollectionsAvailable": "Collections allow you to enjoy personalized groupings of Movies, Series, and Albums. Click the '+' button to start creating collections.",
     "MessageNoGenresAvailable": "Enable some metadata providers to pull genres from the internet.",
+    "MessageNoLibrariesConfigured": "None libraries found.",
     "MessageNoMovieSuggestionsAvailable": "No movie suggestions are currently available. Start watching and rating your movies, and then come back to view your recommendations.",
     "MessageNoNextUpItems": "None found. Start watching your shows!",
     "MessageNoPluginConfiguration": "This plugin has no settings to set up.",

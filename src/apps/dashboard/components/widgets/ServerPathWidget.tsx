@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import SettingsIcon from '@mui/icons-material/Settings';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-
+import { Link as RouterLink } from 'react-router-dom';
 import StorageListItem from 'apps/dashboard/features/storage/components/StorageListItem';
 import globalize from 'lib/globalize';
 import Widget from './Widget';
@@ -127,14 +129,30 @@ const ServerPathWidget = () => {
                         />
                     </>
                 ) : (
-                    libraryDrives.map((library, index) => (
-                        <StorageListItem
-                            key={library.folder.DeviceId || index}
-                            label={library.label}
-                            folder={library.folder}
-                            showFilesystemLabel={false}
-                        />
-                    ))
+                    libraryDrives.length === 0 ? (
+                        <Box sx={{ padding: 4, textAlign: 'center' }}>
+                            <Typography variant='body1' color='textSecondary' sx={{ marginBottom: 2 }}>
+                                {globalize.translate('MessageNoLibrariesConfigured')}
+                            </Typography>
+                            <Button
+                                component={RouterLink}
+                                to='/dashboard/libraries'
+                                variant='contained'
+                                color='primary'
+                            >
+                                {globalize.translate('ButtonAddMediaLibrary')}
+                            </Button>
+                        </Box>
+                    ) : (
+                        libraryDrives.map((library, index) => (
+                            <StorageListItem
+                                key={library.folder.DeviceId || index}
+                                label={library.label}
+                                folder={library.folder}
+                                showFilesystemLabel={false}
+                            />
+                        ))
+                    )
                 )}
             </List>
         </Widget>

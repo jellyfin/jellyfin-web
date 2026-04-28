@@ -1552,6 +1552,7 @@
     "LogLevel.Critical": "Críticos",
     "LogLevel.None": "Nenhum",
     "MessageRepositoryInstallDisclaimer": "AVISO: A instalação de um repositório de plugins de terceiros acarreta riscos. Ele pode conter código instável ou malicioso e pode mudar a qualquer momento. Instale apenas repositórios de autores nos quais você confia.",
+    "MessageNoLibrariesConfigured": "Nenhuma biblioteca encontrada.",
     "Unknown": "Desconhecido",
     "HeaderConfirmRepositoryInstallation": "Confirme a instalação do repositório de plug-ins",
     "LabelDeveloper": "Desenvolvedor",
