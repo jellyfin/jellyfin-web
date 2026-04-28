@@ -182,13 +182,14 @@ const detectBitrateWithEndpointInfo = (api: Api, endpointInfo: EndPointInfo) => 
         0,
         undefined
     ).then(result => {
+        const bitrateInMbps = (result / 1048576).toFixed(2);
+        console.debug(`[bitratetest] bitrate detected as ${bitrateInMbps} Mbps`);
         if (endpointInfo.IsInNetwork) {
             result = Math.max(result || 0, LAN_BITRATE);
 
             lastDetectedBitrate = result;
             lastDetectedBitrateTime = Date.now();
         }
-        console.debug(`[bitratetest] bitrate detected as ${Math.round(result / 1048576)} Mbps`);
         return result;
     });
 };
