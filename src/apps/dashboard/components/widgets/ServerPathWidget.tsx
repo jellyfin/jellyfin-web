@@ -60,6 +60,77 @@ const ServerPathWidget = () => {
         return Array.from(drivesMap.values());
     }, [systemStorage?.Libraries]);
 
+    const renderStorageItems = () => {
+        if (view === 'system') {
+            return (
+                <>
+                    <StorageListItem
+                        label={globalize.translate('LabelCache')}
+                        folder={systemStorage?.CacheFolder}
+                        showFilesystemLabel={true}
+                    />
+                    <StorageListItem
+                        label={globalize.translate('LabelImageCache')}
+                        folder={systemStorage?.ImageCacheFolder}
+                        showFilesystemLabel={true}
+                    />
+                    <StorageListItem
+                        label={globalize.translate('LabelProgramData')}
+                        folder={systemStorage?.ProgramDataFolder}
+                        showFilesystemLabel={true}
+                    />
+                    <StorageListItem
+                        label={globalize.translate('LabelLogs')}
+                        folder={systemStorage?.LogFolder}
+                        showFilesystemLabel={true}
+                    />
+                    <StorageListItem
+                        label={globalize.translate('LabelMetadata')}
+                        folder={systemStorage?.InternalMetadataFolder}
+                        showFilesystemLabel={true}
+                    />
+                    <StorageListItem
+                        label={globalize.translate('LabelTranscodes')}
+                        folder={systemStorage?.TranscodingTempFolder}
+                        showFilesystemLabel={true}
+                    />
+                    <StorageListItem
+                        label={globalize.translate('LabelWeb')}
+                        folder={systemStorage?.WebFolder}
+                        showFilesystemLabel={true}
+                    />
+                </>
+            );
+        }
+
+        if (libraryDrives.length === 0) {
+            return (
+                <Box sx={{ padding: 4, textAlign: 'center' }}>
+                    <Typography variant='body1' color='textSecondary' sx={{ marginBottom: 2 }}>
+                        {globalize.translate('MessageNoLibrariesConfigured')}
+                    </Typography>
+                    <Button
+                        component={RouterLink}
+                        to='/dashboard/libraries'
+                        variant='contained'
+                        color='primary'
+                    >
+                        {globalize.translate('ButtonAddMediaLibrary')}
+                    </Button>
+                </Box>
+            );
+        }
+
+        return libraryDrives.map((library, index) => (
+            <StorageListItem
+                key={library.folder.DeviceId || index}
+                label={library.label}
+                folder={library.folder}
+                showFilesystemLabel={false}
+            />
+        ));
+    };
+
     return (
         <Widget
             title={globalize.translate('HeaderPaths')}
@@ -88,72 +159,8 @@ const ServerPathWidget = () => {
                 bgcolor: 'background.paper',
                 maxHeight: 800,
                 overflowY: 'auto'
-                }}
-            >
-                {view === 'system' ? (
-                    <>
-                        <StorageListItem
-                            label={globalize.translate('LabelCache')}
-                            folder={systemStorage?.CacheFolder}
-                            showFilesystemLabel={true}
-                        />
-                        <StorageListItem
-                            label={globalize.translate('LabelImageCache')}
-                            folder={systemStorage?.ImageCacheFolder}
-                            showFilesystemLabel={true}
-                        />
-                        <StorageListItem
-                            label={globalize.translate('LabelProgramData')}
-                            folder={systemStorage?.ProgramDataFolder}
-                            showFilesystemLabel={true}
-                        />
-                        <StorageListItem
-                            label={globalize.translate('LabelLogs')}
-                            folder={systemStorage?.LogFolder}
-                            showFilesystemLabel={true}
-                        />
-                        <StorageListItem
-                            label={globalize.translate('LabelMetadata')}
-                            folder={systemStorage?.InternalMetadataFolder}
-                            showFilesystemLabel={true}
-                        />
-                        <StorageListItem
-                            label={globalize.translate('LabelTranscodes')}
-                            folder={systemStorage?.TranscodingTempFolder}
-                            showFilesystemLabel={true}
-                        />
-                        <StorageListItem
-                            label={globalize.translate('LabelWeb')}
-                            folder={systemStorage?.WebFolder}
-                            showFilesystemLabel={true}
-                        />
-                    </>
-                ) : (
-                    libraryDrives.length === 0 ? (
-                        <Box sx={{ padding: 4, textAlign: 'center' }}>
-                            <Typography variant='body1' color='textSecondary' sx={{ marginBottom: 2 }}>
-                                {globalize.translate('MessageNoLibrariesConfigured')}
-                            </Typography>
-                            <Button
-                                component={RouterLink}
-                                to='/dashboard/libraries'
-                                variant='contained'
-                                color='primary'
-                            >
-                                {globalize.translate('ButtonAddMediaLibrary')}
-                            </Button>
-                        </Box>
-                    ) : (
-                        libraryDrives.map((library, index) => (
-                            <StorageListItem
-                                key={library.folder.DeviceId || index}
-                                label={library.label}
-                                folder={library.folder}
-                                showFilesystemLabel={false}
-                            />
-                        ))
-                    )
-                )}
+            }}>
+                {renderStorageItems()}
             </List>
         </Widget>
     );
