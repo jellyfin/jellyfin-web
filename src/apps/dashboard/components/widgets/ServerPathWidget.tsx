@@ -93,30 +93,37 @@ const ServerPathWidget = () => {
                         <StorageListItem
                             label={globalize.translate('LabelCache')}
                             folder={systemStorage?.CacheFolder}
+                            showFilesystemLabel={true}
                         />
                         <StorageListItem
                             label={globalize.translate('LabelImageCache')}
                             folder={systemStorage?.ImageCacheFolder}
+                            showFilesystemLabel={true}
                         />
                         <StorageListItem
                             label={globalize.translate('LabelProgramData')}
                             folder={systemStorage?.ProgramDataFolder}
+                            showFilesystemLabel={true}
                         />
                         <StorageListItem
                             label={globalize.translate('LabelLogs')}
                             folder={systemStorage?.LogFolder}
+                            showFilesystemLabel={true}
                         />
                         <StorageListItem
                             label={globalize.translate('LabelMetadata')}
                             folder={systemStorage?.InternalMetadataFolder}
+                            showFilesystemLabel={true}
                         />
                         <StorageListItem
                             label={globalize.translate('LabelTranscodes')}
                             folder={systemStorage?.TranscodingTempFolder}
+                            showFilesystemLabel={true}
                         />
                         <StorageListItem
                             label={globalize.translate('LabelWeb')}
                             folder={systemStorage?.WebFolder}
+                            showFilesystemLabel={true}
                         />
                     </>
                 ) : (
@@ -125,6 +132,7 @@ const ServerPathWidget = () => {
                             key={library.folder.DeviceId || index}
                             label={library.label}
                             folder={library.folder}
+                            showFilesystemLabel={false}
                         />
                     ))
                 )}
