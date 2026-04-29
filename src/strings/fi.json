@@ -1904,5 +1904,6 @@
     "TrickplayLoadError": "Trickplayn asetusten lataaminen epäonnistui",
     "LabelProgressAndSpeed": "Eteneminen / nopeus",
     "LabelReasons": "Syyt",
-    "LabelPlayerSizes": "Soittimen koot"
+    "LabelPlayerSizes": "Soittimen koot",
+    "LabelSyncPlayJoinGroup": "Liity ryhmään"
 }
