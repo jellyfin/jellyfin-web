@@ -1900,5 +1900,7 @@
     "LabelProgressAndSpeed": "Edenemine / kiirus",
     "LabelReasons": "Põhjused",
     "LabelPlayerSizes": "Pleieri suurused",
-    "LabelPlaybackQuality": "Kadunud / rikutud kaadrid"
+    "LabelPlaybackQuality": "Kadunud / rikutud kaadrid",
+    "LabelSyncPlayJoinGroup": "Liitu grupiga",
+    "OptionDatePlaylistUpdated": "Esitusloendi uuendamise kuupäev"
 }
