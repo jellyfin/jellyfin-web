@@ -329,6 +329,15 @@ function executeAction(card, target, action) {
         case ItemAction.AddToPlaylist:
             getItem(target).then(addToPlaylist);
             break;
+        case ItemAction.Delete:
+            getItem(card).then(itemToDelete => {
+                import('../scripts/deleteHelper').then(({ deleteItem }) => {
+                    deleteItem({ item: itemToDelete, navigate: false }).then(() => {
+                        notifyRefreshNeeded(card);
+                    }).catch(() => { /* user cancelled or error already shown */ });
+                });
+            });
+            break;
         case ItemAction.Custom: {
             const customAction = target.getAttribute('data-customaction');
 

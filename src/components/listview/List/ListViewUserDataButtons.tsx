@@ -7,6 +7,7 @@ import FavoriteButton from 'elements/emby-ratingbutton/FavoriteButton';
 import PlaylistAddIconButton from '../../common/PlaylistAddIconButton';
 import InfoIconButton from '../../common/InfoIconButton';
 import RightIconButtons from '../../common/RightIconButtons';
+import DeleteIconButton from '../../common/DeleteIconButton';
 import MoreVertIconButton from '../../common/MoreVertIconButton';
 
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -74,6 +75,10 @@ const ListViewUserDataButtons: FC<ListViewUserDataButtonsProps> = ({
                         />
                     )}
                 </>
+            )}
+
+            {item.CanDelete && listOptions.enableDeleteButton && (
+                <DeleteIconButton className='listItemButton' />
             )}
 
             {listOptions.moreButton !== false && (

@@ -40,6 +40,7 @@ export interface ListOptions extends TextLineOpts {
     }[];
     enablePlayedButton?: boolean;
     enableRatingButton?: boolean;
+    enableDeleteButton?: boolean;
     smallIcon?: boolean;
     sortBy?: ItemSortBy;
 }
