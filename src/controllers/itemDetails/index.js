@@ -1407,6 +1407,9 @@ function renderChildren(page, item) {
         }
         childrenItemsContainer.innerHTML = html;
         imageLoader.lazyChildren(childrenItemsContainer);
+        childrenItemsContainer.notifyRefreshNeeded = function () {
+            renderChildren(page, item);
+        };
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
                 name: globalize.translate('Movies'),
@@ -1963,7 +1966,9 @@ export default function (view, params) {
     }
 
     function onDeleteItemClick() {
-        deleteHelper.deleteItem({ item: currentItem, navigate: true });
+        deleteHelper.deleteItem({ item: currentItem, navigate: true }).catch(() => {
+            // user cancelled or error already shown by deleteHelper
+        });
     }
 
     function onMoreCommandsClick() {

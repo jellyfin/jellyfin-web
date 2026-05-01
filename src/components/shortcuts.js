@@ -171,7 +171,13 @@ function showContextMenu(card, options = {}) {
             .then(result => {
                 if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                     executeAction(card, options.positionTo, result.command);
-                } else if (result.updated || result.deleted) {
+                } else if (result.deleted) {
+                    const itemsContainerForMenu = dom.parentWithAttribute(card, 'is', 'emby-itemscontainer')
+                        || options.itemsContainer;
+                    const row = card.closest('.listItem') || card.closest('.card');
+                    if (row) row.remove();
+                    if (itemsContainerForMenu) itemsContainerForMenu.notifyRefreshNeeded(true);
+                } else if (result.updated) {
                     notifyRefreshNeeded(card, options.itemsContainer);
                 }
             })
@@ -329,15 +335,19 @@ function executeAction(card, target, action) {
         case ItemAction.AddToPlaylist:
             getItem(target).then(addToPlaylist);
             break;
-        case ItemAction.Delete:
+        case ItemAction.Delete: {
+            const itemsContainerForDelete = dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
             getItem(card).then(itemToDelete => {
                 import('../scripts/deleteHelper').then(({ deleteItem }) => {
                     deleteItem({ item: itemToDelete, navigate: false }).then(() => {
-                        notifyRefreshNeeded(card);
+                        const row = card.closest('.listItem') || card.closest('.card');
+                        if (row) row.remove();
+                        if (itemsContainerForDelete) itemsContainerForDelete.notifyRefreshNeeded(true);
                     }).catch(() => { /* user cancelled or error already shown */ });
                 });
             });
             break;
+        }
         case ItemAction.Custom: {
             const customAction = target.getAttribute('data-customaction');
 
