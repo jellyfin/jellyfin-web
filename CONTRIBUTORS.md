@@ -105,6 +105,7 @@
 - [johnnyg](https://github.com/johnnyg)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
+- [Starkiller21321](https://github.com/Starkiller21321)
 
 ## Emby Contributors
 
