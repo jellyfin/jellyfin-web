@@ -1,6 +1,7 @@
 import { type SupportedColorScheme, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import { QueryClientProvider } from '@tanstack/react-query';
 import React, { type FC, type PropsWithChildren, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import { createRoot } from 'react-dom/client';
 
 import { ApiProvider } from 'hooks/useApi';
@@ -20,11 +21,14 @@ export const renderComponent = <P extends object> (
     element: HTMLElement
 ) => {
     const root = createRoot(element);
-    root.render(
-        <RootContext>
-            <Component {...props} />
-        </RootContext>
-    );
+
+    flushSync(() => {
+        root.render(
+            <RootContext>
+                <Component {...props} />
+            </RootContext>
+        );
+    });
 
     // NOTE: We need to wrap the unmount in a setTimeout to workaround this issue with nested roots:
     // https://github.com/facebook/react/issues/25675
