@@ -16,6 +16,8 @@ interface AlphabetPickerProps {
     >;
 }
 
+const LETTER_VALUES = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
 const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
     className,
     libraryViewSettings,
@@ -46,19 +48,20 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
         'alphaPickerButton'
     );
 
-    const letters = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-
     return (
         <Box
             className={containerClassName}
-            sx={{
+            // eslint-disable-next-line react/jsx-no-bind
+            sx={theme => ({
                 position: 'fixed',
                 bottom: '1.5em',
                 fontSize: {
                     xs: '80%',
                     lg: '88%'
-                }
-            }}
+                },
+                // This should render under the main AppBar but above the ItemsView AppBar
+                zIndex: theme.zIndex.appBar - 1
+            })}
         >
             <ToggleButtonGroup
                 orientation='vertical'
@@ -68,7 +71,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 size='small'
                 onChange={handleValue}
             >
-                {letters.map((l) => (
+                {LETTER_VALUES.map((l) => (
                     <ToggleButton
                         key={l}
                         value={l}
