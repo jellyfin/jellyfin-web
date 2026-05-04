@@ -324,19 +324,26 @@ function askForExit() {
         return;
     }
 
-    import('../components/actionSheet/actionSheet').then((actionsheet) => {
-        exitPromise = actionsheet.show({
-            title: globalize.translate('MessageConfirmAppExit'),
-            items: [
-                { id: 'yes', name: globalize.translate('Yes') },
-                { id: 'no', name: globalize.translate('No') }
-            ]
-        }).then(function (value) {
-            if (value === 'yes') {
-                doExit();
-            }
-        }).finally(function () {
-            exitPromise = null;
+    import('../utils/dashboard').then(() => {
+        import('../components/actionSheet/actionSheet').then((actionsheet) => {
+            const userId = Dashboard.getCurrentUserId();
+            const logoutEntry = userId ? [{ id: 'logout', name: globalize.translate('ButtonSignOut') }] : [];
+            exitPromise = actionsheet.show({
+                title: globalize.translate('MessageConfirmAppExit'),
+                items: [
+                    ...logoutEntry,
+                    { id: 'yes', name: globalize.translate('Yes') },
+                    { id: 'no', name: globalize.translate('No') }
+                ]
+            }).then(function (value) {
+                if (value === 'yes') {
+                    doExit();
+                } else if (value === 'logout') {
+                    Dashboard.logout();
+                }
+            }).finally(function () {
+                exitPromise = null;
+            });
         });
     });
 }
