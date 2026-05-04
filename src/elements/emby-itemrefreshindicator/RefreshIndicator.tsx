@@ -1,7 +1,4 @@
-import { ApiClient } from 'jellyfin-apiclient';
 import React, { type FC, useCallback, useEffect, useState } from 'react';
-import Events, { Event } from 'utils/events';
-import serverNotifications from 'scripts/serverNotifications';
 import classNames from 'classnames';
 
 import CircularProgress, {
@@ -12,6 +9,9 @@ import Box from '@mui/material/Box';
 import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { useApi } from 'hooks/useApi';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import type { RefreshProgressMessage } from '@jellyfin/sdk/lib/generated-client/models/refresh-progress-message';
 
 function CircularProgressWithLabel(
     props: CircularProgressProps & { value: number }
@@ -52,9 +52,11 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
     const [showProgressBar, setShowProgressBar] = useState(!!item.RefreshProgress);
     const [progress, setProgress] = useState(item.RefreshProgress || 0);
 
-    const onRefreshProgress = useCallback((_e: Event, _apiClient: ApiClient, info: { ItemId: string | null | undefined; Progress: string; }) => {
-        if (info.ItemId === item?.Id) {
-            const pct = parseFloat(info.Progress);
+    const { api } = useApi();
+
+    const onRefreshProgress = useCallback(({ Data }: RefreshProgressMessage) => {
+        if (Data?.ItemId === item?.Id) {
+            const pct = Data?.Progress ? parseFloat(Data?.Progress) : 0;
 
             if (pct && pct < 100) {
                 setShowProgressBar(true);
@@ -66,25 +68,9 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
         }
     }, [item?.Id]);
 
-    const unbindEvents = useCallback(() => {
-        Events.off(serverNotifications, 'RefreshProgress', onRefreshProgress);
-    }, [onRefreshProgress]);
-
-    const bindEvents = useCallback(() => {
-        unbindEvents();
-
-        if (item?.Id) {
-            Events.on(serverNotifications, 'RefreshProgress', onRefreshProgress);
-        }
-    }, [item?.Id, onRefreshProgress, unbindEvents]);
-
     useEffect(() => {
-        bindEvents();
-
-        return () => {
-            unbindEvents();
-        };
-    }, [bindEvents, item.Id, unbindEvents]);
+        return api?.subscribe([OutboundWebSocketMessageType.RefreshProgress], onRefreshProgress);
+    }, [api, onRefreshProgress]);
 
     const progressringClass = classNames('progressring', className);
 

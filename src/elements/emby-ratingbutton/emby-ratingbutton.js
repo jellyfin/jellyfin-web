@@ -1,22 +1,7 @@
-import serverNotifications from '../../scripts/serverNotifications';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from '../../utils/events.ts';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import EmbyButtonPrototype from '../emby-button/emby-button';
-
-function addNotificationEvent(instance, name, handler) {
-    const localHandler = handler.bind(instance);
-    Events.on(serverNotifications, name, localHandler);
-    instance[name] = localHandler;
-}
-
-function removeNotificationEvent(instance, name) {
-    const handler = instance[name];
-    if (handler) {
-        Events.off(serverNotifications, name, handler);
-        instance[name] = null;
-    }
-}
 
 function showPicker(button, apiClient, itemId, likes, isFavorite) {
     return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
@@ -43,10 +28,10 @@ function onClick() {
     });
 }
 
-function onUserDataChanged(e, apiClient, userData) {
-    const button = this;
-
-    if (userData.ItemId === button.getAttribute('data-id')) {
+function onUserDataChanged({ Data }, button) {
+    const itemId = button.getAttribute('data-id');
+    const userData = (Data?.UserDataList ?? []).find(u => u.ItemId === itemId);
+    if (userData) {
         setState(button, userData.Likes, userData.IsFavorite);
     }
 }
@@ -89,14 +74,21 @@ function setTitle(button, isFavorite) {
 
 function clearEvents(button) {
     button.removeEventListener('click', onClick);
-    removeNotificationEvent(button, 'UserDataChanged');
+    button._unsubscribeUserData?.();
+    button._unsubscribeUserData = null;
 }
 
 function bindEvents(button) {
     clearEvents(button);
 
     button.addEventListener('click', onClick);
-    addNotificationEvent(button, 'UserDataChanged', onUserDataChanged);
+
+    const serverId = button.getAttribute('data-serverid');
+    const apiClient = ServerConnections.getApiClient(serverId);
+    button._unsubscribeUserData = apiClient?.subscribe(
+        [OutboundWebSocketMessageType.UserDataChanged],
+        (message) => onUserDataChanged(message, button)
+    );
 }
 
 const EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
