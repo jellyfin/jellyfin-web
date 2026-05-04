@@ -40,6 +40,7 @@ const FiltersVideoTypes: FC<FiltersVideoTypesProps> = ({
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
+                StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
                     VideoBasicFilter: updatedVideoBasicFilter.length ? updatedVideoBasicFilter : undefined
