@@ -103,6 +103,8 @@
 - [TheBosZ](https://github.com/thebosz)
 - [qm3jp](https://github.com/qm3jp)
 - [johnnyg](https://github.com/johnnyg)
+- [lmaotrigine](https://github.com/lmaotrigine)
+- [bjorntp](https://github.com/bjorntp)
 
 ## Emby Contributors
 

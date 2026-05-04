@@ -54,6 +54,8 @@ const fetchGetItems = async (
 
 export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
     const currentApi = useApi();
+    const isRandom = Boolean(parametersOptions.sortBy?.includes(ItemSortBy.Random));
+
     return useQuery({
         queryKey: [
             'Items',
@@ -63,7 +65,9 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
         ],
         queryFn: ({ signal }) =>
             fetchGetItems(currentApi, parametersOptions, { signal }),
-        gcTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined,
+        gcTime: isRandom ? Infinity : undefined,
+        refetchOnMount: isRandom ? false : undefined,
+        refetchOnWindowFocus: isRandom ? false : undefined,
         enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };

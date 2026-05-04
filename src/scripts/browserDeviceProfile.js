@@ -28,6 +28,11 @@ function canPlayAv1(videoTestElement) {
         return true;
     }
 
+    if (browser.xboxOne) {
+        // webview2 on xbox may falsely report AV1 as supported
+        return false;
+    }
+
     // av1 main level 5.3
     return !!videoTestElement.canPlayType
         && (videoTestElement.canPlayType('video/mp4; codecs="av01.0.15M.08"').replace(/no/, '')
@@ -173,6 +178,9 @@ function canPlayAudioFormat(format) {
         if (browser.web0s) {
             // canPlayType lies about OPUS support
             return browser.web0sVersion >= 3.5;
+        } else if (browser.xboxOne) {
+            // webview2 on xbox may falsely report OPUS as supported
+            return false;
         }
 
         typeString = 'audio/ogg; codecs="opus"';
@@ -1185,7 +1193,9 @@ export default function (options) {
     let vp9VideoRangeTypes = 'SDR';
     let av1VideoRangeTypes = 'SDR';
 
-    if (browser.tizenVersion >= 3) {
+    const isWebOsWithoutDolbyVision = browser.web0s && !supportsDolbyVision(options);
+
+    if (browser.tizenVersion >= 3 || isWebOsWithoutDolbyVision) {
         hevcVideoRangeTypes += '|DOVIWithSDR';
     }
 
@@ -1195,8 +1205,9 @@ export default function (options) {
         vp9VideoRangeTypes += '|HDR10|HDR10Plus';
         av1VideoRangeTypes += '|HDR10|HDR10Plus';
 
-        if (browser.tizenVersion >= 3 || browser.vidaa) {
+        if (browser.tizenVersion >= 3 || browser.vidaa || isWebOsWithoutDolbyVision) {
             // Tizen TV does not support Dolby Vision at all, but it can safely play the HDR fallback.
+            // LG TVs that don't support Dolby Vision still can play the HDR fallback without issues.
             // Advertising the support so that the server doesn't have to remux.
             hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
             // Although no official tools exist to create AV1+DV files yet, some of our users managed to use community tools to create such files.
@@ -1210,7 +1221,7 @@ export default function (options) {
         vp9VideoRangeTypes += '|HLG';
         av1VideoRangeTypes += '|HLG';
 
-        if (browser.tizenVersion >= 3) {
+        if (browser.tizenVersion >= 3 || isWebOsWithoutDolbyVision) {
             hevcVideoRangeTypes += '|DOVIWithHLG';
         }
     }

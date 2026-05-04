@@ -298,7 +298,7 @@ export function getListViewHtml(options) {
             }
 
             if (playOnImageClick) {
-                html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><span class="material-icons listItemImageButton-icon play_arrow" aria-hidden="true"></span></button>';
+                html += `<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume" title="${globalize.translate('Play')}"><span class="material-icons listItemImageButton-icon play_arrow" aria-hidden="true"></span></button>`;
             }
 
             const progressHtml = indicators.getProgressBarHtml(item, {
@@ -449,11 +449,11 @@ export function getListViewHtml(options) {
 
         if (!clickEntireItem) {
             if (options.addToListButton) {
-                html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist"><span class="material-icons playlist_add" aria-hidden="true"></span></button>';
+                html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="addtoplaylist" title="${globalize.translate('AddToPlaylist')}"><span class="material-icons playlist_add" aria-hidden="true"></span></button>`;
             }
 
             if (options.infoButton) {
-                html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><span class="material-icons info_outline" aria-hidden="true"></span></button>';
+                html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link" title="${globalize.translate('ButtonInfo')}"><span class="material-icons info_outline" aria-hidden="true"></span></button>`;
             }
 
             if (options.rightButtons) {
@@ -474,7 +474,7 @@ export function getListViewHtml(options) {
             }
 
             if (options.moreButton !== false) {
-                html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><span class="material-icons more_vert" aria-hidden="true"></span></button>';
+                html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
             }
         }
         html += '</div>';
@@ -498,5 +498,5 @@ export function getListViewHtml(options) {
 }
 
 export default {
-    getListViewHtml: getListViewHtml
+    getListViewHtml
 };
