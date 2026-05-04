@@ -235,12 +235,26 @@
     </div>
 
     <h2 class="sectionTitle">
+        ${Home}
+    </h2>
+
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="number" id="txtContinueWatchingLimit" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelContinueWatchingLimit}" />
+        <div class="fieldDescription">${LabelContinueWatchingLimitHelp}</div>
+    </div>
+
+    <h2 class="sectionTitle">
         ${HeaderLibraries}
     </h2>
 
     <div class="inputContainer inputContainer-withDescription">
         <input is="emby-input" type="number" id="txtLibraryPageSize" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelLibraryPageSize}" />
         <div class="fieldDescription">${LabelLibraryPageSizeHelp}</div>
+    </div>
+
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="number" id="txtFavoriteLimitDisplay" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelFavoriteLimitDisplay}" />
+        <div class="fieldDescription">${LabelFavoriteLimitDisplayHelp}</div>
     </div>
 
     <div class="checkboxContainer checkboxContainer-withDescription fldBackdrops">
@@ -278,6 +292,11 @@
     <h2 class="sectionTitle">
         ${NextUp}
     </h2>
+
+    <div class="inputContainer inputContainer-withDescription">
+        <input is="emby-input" type="number" id="txtNextUpLimit" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelNextUpLimit}" />
+        <div class="fieldDescription">${LabelNextUpLimitHelp}</div>
+    </div>
 
     <div class="inputContainer inputContainer-withDescription">
         <input is="emby-input" type="number" id="txtMaxDaysForNextUp" pattern="[0-9]*" required="required" min="0" max="1000" step="1" label="${LabelMaxDaysForNextUp}" />
