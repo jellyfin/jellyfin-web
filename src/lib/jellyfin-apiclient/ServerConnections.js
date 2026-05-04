@@ -8,6 +8,7 @@ import Events from 'utils/events.ts';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import ConnectionManager from './connectionManager';
+import { detectBitrate } from 'utils/bitrateTest';
 
 const normalizeImageOptions = options => {
     if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
@@ -139,6 +140,7 @@ class ServerConnections extends ConnectionManager {
     onLocalUserSignedIn(user) {
         const apiClient = this.getApiClient(user.ServerId);
         this.setLocalApiClient(apiClient);
+        setTimeout(() => detectBitrate(toApi(apiClient), true), 6000);
         return setUserInfo(user.Id, apiClient).then(() => {
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedIn === 'function') {
                 return window.NativeShell.onLocalUserSignedIn(user, apiClient.accessToken());
