@@ -649,6 +649,7 @@ export function getLibraryOptions(parent) {
         SaveLyricsWithMedia: parent.querySelector('#chkSaveLyricsLocally').checked,
         RequirePerfectSubtitleMatch: parent.querySelector('#chkRequirePerfectMatch').checked,
         AutomaticallyAddToCollection: parent.querySelector('#chkAutomaticallyAddToCollection').checked,
+        PreferOriginalReleaseDate: parent.querySelector('#chkPreferOriginalReleaseDate').checked,
         PreferNonstandardArtistsTag: parent.querySelector('#chkPreferNonstandardArtistsTag').checked,
         UseCustomTagDelimiters: parent.querySelector('#chkUseCustomTagDelimiters').checked,
         MetadataSavers: Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
@@ -718,6 +719,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#chkSkipIfAudioTrackPresent').checked = options.SkipSubtitlesIfAudioTrackMatches;
     parent.querySelector('#chkRequirePerfectMatch').checked = options.RequirePerfectSubtitleMatch;
     parent.querySelector('#chkAutomaticallyAddToCollection').checked = options.AutomaticallyAddToCollection;
+    parent.querySelector('#chkPreferOriginalReleaseDate').checked = options.PreferOriginalReleaseDate;
     parent.querySelector('#chkPreferNonstandardArtistsTag').checked = options.PreferNonstandardArtistsTag;
     parent.querySelector('#chkUseCustomTagDelimiters').checked = options.UseCustomTagDelimiters;
     Array.prototype.forEach.call(parent.querySelectorAll('.chkMetadataSaver'), elem => {
