@@ -71,6 +71,27 @@ export const LibraryRoutes: LibraryRoute[] = [
         ]
     },
     {
+        path: '/boxsets',
+        views: [
+            {
+                index: 0,
+                label: 'Collections',
+                view: LibraryTab.Collections,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            },
+            {
+                index: 2,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            }
+        ]
+    },
+    {
         path: '/movies',
         views: [
             {
@@ -222,6 +243,22 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'Folders',
                 view: LibraryTab.Folders
+            }
+        ]
+    },
+    {
+        path: '/playlists',
+        views: [
+            {
+                index: 0,
+                label: 'Playlists',
+                view: LibraryTab.Playlists,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
             }
         ]
     }

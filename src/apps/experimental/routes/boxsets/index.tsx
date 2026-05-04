@@ -6,59 +6,41 @@ import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { MovieSuggestionsSectionsView } from 'types/sections';
-
-const moviesTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Movies,
-    collectionType: CollectionType.Movies,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Movie]
-};
 
 const collectionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Collections,
-    collectionType: CollectionType.Movies,
+    collectionType: CollectionType.Boxsets,
     isBtnNewCollectionEnabled: true,
-    itemType: [BaseItemKind.BoxSet],
-    noItemsMessage: 'MessageNoCollectionsAvailable'
+    itemType: [BaseItemKind.BoxSet]
 };
 
 const favoritesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Favorites,
-    collectionType: CollectionType.Movies,
-    itemType: [BaseItemKind.Movie]
-};
-
-const suggestionsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Suggestions,
-    collectionType: CollectionType.Movies,
-    sectionsView: MovieSuggestionsSectionsView
+    collectionType: CollectionType.Boxsets,
+    itemType: [BaseItemKind.BoxSet]
 };
 
 const genresTabContent: LibraryTabContent = {
     viewType: LibraryTab.Genres,
-    collectionType: CollectionType.Movies,
-    itemType: [BaseItemKind.Movie]
+    collectionType: CollectionType.Boxsets,
+    itemType: [BaseItemKind.BoxSet]
 };
 
-const moviesTabMapping: LibraryTabMapping = {
-    0: moviesTabContent,
-    1: suggestionsTabContent,
-    2: favoritesTabContent,
-    3: collectionsTabContent,
-    4: genresTabContent
+const boxSetsTabMapping: LibraryTabMapping = {
+    0: collectionsTabContent,
+    1: favoritesTabContent,
+    2: genresTabContent
 };
 
-const Movies: FC = () => {
+const BoxSets: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = moviesTabMapping[activeTab];
+    const currentTab = boxSetsTabMapping[activeTab];
 
     return (
         <Page
-            id='moviesPage'
+            id='boxsetsPage'
             className='mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs'
-            backDropType='movie'
+            backDropType='boxsets'
         >
             <PageTabContent
                 key={`${currentTab.viewType} - ${libraryId}`}
@@ -69,4 +51,4 @@ const Movies: FC = () => {
     );
 };
 
-export default Movies;
+export default BoxSets;
