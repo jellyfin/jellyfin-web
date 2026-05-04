@@ -10,6 +10,7 @@ import AccessContainer from '../../../../components/dashboard/users/AccessContai
 import CheckBoxElement from '../../../../elements/CheckBoxElement';
 import Page from '../../../../components/Page';
 import Toast from 'apps/dashboard/components/Toast';
+import { getMutationErrorMessage } from 'apps/dashboard/features/users/errorMessage';
 
 import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLibraryMediaFolders';
 import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
@@ -22,16 +23,40 @@ type ItemsArr = {
     Id?: string;
 };
 
+const getCheckedElementDataIds = (elements: NodeListOf<HTMLInputElement>) => (
+    Array.from(elements)
+        .filter(e => e.checked)
+        .map(e => e.dataset.id)
+        .filter((id): id is string => !!id)
+);
+
 const UserNew = () => {
     const navigate = useNavigate();
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
+    const [ errorMessage, setErrorMessage ] = useState(globalize.translate('ErrorDefault'));
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
     const element = useRef<HTMLDivElement>(null);
 
     const handleToastClose = useCallback(() => {
         setIsErrorToastOpen(false);
     }, []);
+
+    const showErrorToast = useCallback((error?: unknown) => {
+        loading.hide();
+        setErrorMessage(getMutationErrorMessage(error) || globalize.translate('ErrorDefault'));
+        setIsErrorToastOpen(true);
+    }, []);
+
+    const navigateToUserProfile = useCallback((userId: string) => {
+        navigate(`/dashboard/users/${userId}/profile`);
+    }, [navigate]);
+
+    const handleUpdateUserPolicyError = useCallback((error?: unknown) => {
+        console.error('[usernew] failed to update user policy');
+        showErrorToast(error);
+    }, [showErrorToast]);
+
     const { data: mediaFolders, isSuccess: isMediaFoldersSuccess } = useLibraryMediaFolders();
     const { data: channels, isSuccess: isChannelsSuccess } = useChannels();
 
@@ -125,6 +150,7 @@ const UserNew = () => {
                 Name: (page.querySelector('#txtUsername') as HTMLInputElement).value,
                 Password: (page.querySelector('#txtPassword') as HTMLInputElement).value
             };
+
             createUser.mutate({ createUserByName: userInput }, {
                 onSuccess: (response) => {
                     const user = response.data;
@@ -137,37 +163,27 @@ const UserNew = () => {
                     user.Policy.EnabledFolders = [];
 
                     if (!user.Policy.EnableAllFolders) {
-                        user.Policy.EnabledFolders = Array.prototype.filter.call(page.querySelectorAll('.chkFolder'), function (i) {
-                            return i.checked;
-                        }).map(function (i) {
-                            return i.getAttribute('data-id');
-                        });
+                        user.Policy.EnabledFolders = getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
                     }
 
                     user.Policy.EnableAllChannels = (page.querySelector('.chkEnableAllChannels') as HTMLInputElement).checked;
                     user.Policy.EnabledChannels = [];
 
                     if (!user.Policy.EnableAllChannels) {
-                        user.Policy.EnabledChannels = Array.prototype.filter.call(page.querySelectorAll('.chkChannel'), function (i) {
-                            return i.checked;
-                        }).map(function (i) {
-                            return i.getAttribute('data-id');
-                        });
+                        user.Policy.EnabledChannels = getCheckedElementDataIds(page.querySelectorAll('.chkChannel'));
                     }
+
+                    const handleUpdateUserPolicySuccess = navigateToUserProfile.bind(null, user.Id);
 
                     updateUserPolicy.mutate({
                         userId: user.Id,
                         userPolicy: user.Policy
                     }, {
-                        onSuccess: () => {
-                            navigate(`/dashboard/users/${user.Id}/profile`);
-                        },
-                        onError: () => {
-                            console.error('[usernew] failed to update user policy');
-                            setIsErrorToastOpen(true);
-                        }
+                        onSuccess: handleUpdateUserPolicySuccess,
+                        onError: handleUpdateUserPolicyError
                     });
-                }
+                },
+                onError: showErrorToast
             });
         };
 
@@ -204,7 +220,7 @@ const UserNew = () => {
             (page.querySelector('.newUserProfileForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
             (page.querySelector('#btnCancel') as HTMLButtonElement).removeEventListener('click', onCancelClick);
         };
-    }, [loadUser, createUser, updateUserPolicy, navigate]);
+    }, [loadUser, createUser, updateUserPolicy, navigateToUserProfile, showErrorToast, handleUpdateUserPolicyError]);
 
     return (
         <Page
@@ -214,7 +230,7 @@ const UserNew = () => {
             <Toast
                 open={isErrorToastOpen}
                 onClose={handleToastClose}
-                message={globalize.translate('ErrorDefault')}
+                message={errorMessage}
             />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>

@@ -10,6 +10,7 @@ import LinkButton from 'elements/emby-button/LinkButton';
 import Input from 'elements/emby-input/Input';
 import loading from 'components/loading/loading';
 import SelectElement from 'elements/SelectElement';
+import Toast from 'apps/dashboard/components/Toast';
 import { useAuthProviders } from 'apps/dashboard/features/users/api/useAuthProviders';
 import { usePasswordResetProviders } from 'apps/dashboard/features/users/api/usePasswordResetProviders';
 import { useLibraryMediaFolders } from 'apps/dashboard/features/users/api/useLibraryMediaFolders';
@@ -17,6 +18,7 @@ import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
+import { getMutationErrorMessage } from '../errorMessage';
 
 interface ProfileProps {
     userDto: UserDto;
@@ -35,6 +37,8 @@ const Profile = ({ userDto }: ProfileProps) => {
     const navigate = useNavigate();
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
     const libraryMenu = useMemo(async () => ((await import('scripts/libraryMenu')).default), []);
+    const [ errorMessage, setErrorMessage ] = useState(globalize.translate('ErrorDefault'));
+    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
     const [ passwordResetProviderId, setPasswordResetProviderId ] = useState('');
@@ -54,6 +58,35 @@ const Profile = ({ userDto }: ProfileProps) => {
         const evt = new Event('change', { bubbles: false, cancelable: true });
         select.dispatchEvent(evt);
     };
+
+    const handleToastClose = useCallback(() => {
+        setIsErrorToastOpen(false);
+    }, []);
+
+    const showErrorToast = useCallback((error?: unknown) => {
+        loading.hide();
+        setErrorMessage(getMutationErrorMessage(error) || globalize.translate('ErrorDefault'));
+        setIsErrorToastOpen(true);
+    }, []);
+
+    const navigateToUsers = useCallback(() => {
+        loading.hide();
+        navigate('/dashboard/users', {
+            state: { openSavedToast: true }
+        });
+    }, [navigate]);
+
+    const submitUpdatedUserPolicy = useCallback((user: UserDto) => {
+        if (user.Id) {
+            updateUserPolicy.mutate({
+                userId: user.Id,
+                userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
+            }, {
+                onSuccess: navigateToUsers,
+                onError: showErrorToast
+            });
+        }
+    }, [updateUserPolicy, navigateToUsers, showErrorToast]);
 
     const loadAuthProviders = useCallback((page: HTMLDivElement, user: UserDto, providers: NameIdPair[]) => {
         const fldSelectLoginProvider = page.querySelector('.fldSelectLoginProvider') as HTMLDivElement;
@@ -240,22 +273,11 @@ const Profile = ({ userDto }: ProfileProps) => {
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
+            const handleUpdateUserSuccess = submitUpdatedUserPolicy.bind(null, user);
+
             updateUser.mutate({ userId: user.Id, userDto: user }, {
-                onSuccess: () => {
-                    if (user.Id) {
-                        updateUserPolicy.mutate({
-                            userId: user.Id,
-                            userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
-                        }, {
-                            onSuccess: () => {
-                                loading.hide();
-                                navigate('/dashboard/users', {
-                                    state: { openSavedToast: true }
-                                });
-                            }
-                        });
-                    }
-                }
+                onSuccess: handleUpdateUserSuccess,
+                onError: showErrorToast
             });
         };
 
@@ -284,7 +306,7 @@ const Profile = ({ userDto }: ProfileProps) => {
             (page.querySelector('.editUserProfileForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
             (page.querySelector('#btnCancel') as HTMLButtonElement).removeEventListener('click', onBtnCancelClick);
         };
-    }, [updateUser, userDto, updateUserPolicy, navigate]);
+    }, [updateUser, userDto, showErrorToast, submitUpdatedUserPolicy]);
 
     const optionLoginProvider = authProviders?.map((provider) => {
         const selected = provider.Id === authenticationProviderId || authProviders.length < 2 ? ' selected' : '';
@@ -306,6 +328,11 @@ const Profile = ({ userDto }: ProfileProps) => {
 
     return (
         <div ref={element}>
+            <Toast
+                open={isErrorToastOpen}
+                onClose={handleToastClose}
+                message={errorMessage}
+            />
             <div
                 className='lnkEditUserPreferencesContainer'
                 style={{ paddingBottom: '1em' }}
