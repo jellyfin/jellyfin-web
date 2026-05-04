@@ -60,7 +60,7 @@ export default tseslint.config(
                 'error',
                 {
                     'capIsNewExceptions': ['jQuery.Deferred'],
-                    'newIsCapExceptionPattern': '\\.default$'
+                    'newIsCapExceptionPattern': String.raw`\.default$`
                 }
             ],
             'no-duplicate-imports': 'error',
