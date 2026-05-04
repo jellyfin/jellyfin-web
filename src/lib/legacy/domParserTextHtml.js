@@ -24,13 +24,14 @@
         }
     } catch { /* noop */ }
 
-    DOMParserPrototype.parseFromString = function (markup, type) {
+    DOMParserPrototype.parseFromString = function (...args) {
+        const [markup, type] = args;
         if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {
             const doc = document.implementation.createHTMLDocument('');
             doc.documentElement.innerHTML = markup;
             return doc;
         } else {
-            return realParseFromString.apply(this, arguments);
+            return realParseFromString.apply(this, args);
         }
     };
 }(DOMParser));
