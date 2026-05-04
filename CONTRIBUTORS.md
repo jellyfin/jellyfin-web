@@ -105,6 +105,7 @@
 - [johnnyg](https://github.com/johnnyg)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
+- [ocp1006](https://github.com/ocp1006)
 
 ## Emby Contributors
 
