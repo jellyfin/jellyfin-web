@@ -519,7 +519,8 @@ class ItemsView {
 
             if (settings.imageType === 'list') {
                 return listView.getListViewHtml({
-                    items: items
+                    items: items,
+                    truncateLongTitles: settings.truncateLongTitles
                 });
             }
 
@@ -1206,7 +1207,7 @@ class ItemsView {
             fields.push('imageType');
         }
 
-        fields.push('viewType');
+        fields.push('viewType', 'truncateLongTitles');
         return fields;
     }
 
@@ -1240,7 +1241,8 @@ class ItemsView {
             showTitle,
             showYear: userSettings.get(basekey + '-showYear') !== 'false',
             imageType: imageType || 'primary',
-            viewType: userSettings.get(basekey + '-viewType') || 'images'
+            viewType: userSettings.get(basekey + '-viewType') || 'images',
+            truncateLongTitles: userSettings.get(basekey + '-truncateLongTitles') !== 'false'
         };
     }
 

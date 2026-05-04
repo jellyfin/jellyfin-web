@@ -1153,6 +1153,7 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .mediaInfoStreamType {
     display: block;
     margin: 0.622em 0; /* copy button height compensation */
+    overflow-wrap: anywhere;
 }
 
 .layout-tv .mediaInfoStreamType {
@@ -1162,6 +1163,10 @@ div.itemDetailGalleryLink.defaultCardBackground {
 .mediaInfoAttribute,
 .mediaInfoLabel {
     display: inline-block;
+}
+
+.mediaInfoAttribute {
+    overflow-wrap: anywhere;
 }
 
 .mediaInfoLabel {
