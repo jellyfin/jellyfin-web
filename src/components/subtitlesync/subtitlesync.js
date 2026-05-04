@@ -87,7 +87,7 @@ function init(instance) {
         updateSubtitleOffset();
     };
 
-    subtitleSyncSlider.addEventListener('change', () => updateSubtitleOffset());
+    subtitleSyncSlider.addEventListener('input', () => updateSubtitleOffset());
 
     subtitleSyncSlider.getBubbleHtml = function (_, value) {
         return '<h1 class="sliderBubbleText">'
