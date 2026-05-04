@@ -497,6 +497,30 @@ export default function () {
                     img.classList.remove('lazy');
                     img.classList.add('playlistIndexIndicatorImage');
                     img.classList.toggle('playlistIndexIndicatorPausedImage', playbackManager.paused());
+
+                    if (userSettings.enableStickyHeader()) {
+                        const listItem = itemsContainer.querySelector(`.listItem[data-playlistItemId="${playlistItemId}"]`);
+                        if (listItem) {
+                            const itemRect = listItem.getBoundingClientRect();
+                            let visibleTop;
+                            let visibleBottom;
+
+                            if (layoutManager.mobile) {
+                                const containerRect = itemsContainer.getBoundingClientRect();
+                                visibleTop = containerRect.top;
+                                visibleBottom = containerRect.bottom;
+                            } else {
+                                const header = context.querySelector('.nowPlayingInfoContainer');
+                                const headerRect = header ? header.getBoundingClientRect() : { bottom: 0 };
+                                visibleTop = headerRect.bottom;
+                                visibleBottom = window.innerHeight;
+                            }
+
+                            if (itemRect.top < visibleTop || itemRect.bottom > visibleBottom) {
+                                listItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }
+                    }
                 }
             }
 
@@ -896,6 +920,10 @@ export default function () {
         context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
         context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
         Events.on(playbackManager, 'playerchange', onPlayerChange);
+
+        if (userSettings.enableStickyHeader()) {
+            context.querySelector('.nowPlayingInfoContainer').classList.add('stickyHeader');
+        }
 
         if (layoutManager.tv) {
             const positionSlider = context.querySelector('.nowPlayingPositionSlider');
