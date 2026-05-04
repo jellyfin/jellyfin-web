@@ -616,7 +616,9 @@ function setImageOptionsIntoOptions(options) {
             };
             options.TypeOptions.push(typeOptions);
         }
-        originalTypeOption.ImageOptions && (typeOptions.ImageOptions = originalTypeOption.ImageOptions);
+        if (originalTypeOption.ImageOptions) {
+            typeOptions.ImageOptions = originalTypeOption.ImageOptions;
+        }
     }
 }
 
