@@ -9,7 +9,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-button/emby-button';
 
-function renderItems(page, item) {
+function renderItems(page, item, user) {
     const sections = [];
 
     if (item.ArtistCount) {
@@ -98,11 +98,11 @@ function renderItems(page, item) {
     const sectionElems = elem.querySelectorAll('.verticalSection');
 
     for (let i = 0, length = sectionElems.length; i < length; i++) {
-        renderSection(item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
+        renderSection(item, sectionElems[i], sectionElems[i].getAttribute('data-type'), user);
     }
 }
 
-function renderSection(item, element, type) {
+function renderSection(item, element, type, user) {
     switch (type) {
         case 'Program':
             loadItems(element, item, type, {
@@ -123,7 +123,7 @@ function renderSection(item, element, type) {
                 showAirTime: true,
                 showAirDateTime: true,
                 showChannelName: true
-            });
+            }, user);
             break;
 
         case 'Movie':
@@ -143,7 +143,7 @@ function renderSection(item, element, type) {
                 overlayMoreButton: true,
                 overlayText: false,
                 showYear: true
-            });
+            }, user);
             break;
 
         case 'MusicVideo':
@@ -160,7 +160,7 @@ function renderSection(item, element, type) {
                 showTitle: true,
                 centerText: true,
                 overlayPlayButton: true
-            });
+            }, user);
             break;
 
         case 'Trailer':
@@ -177,7 +177,7 @@ function renderSection(item, element, type) {
                 showTitle: true,
                 centerText: true,
                 overlayPlayButton: true
-            });
+            }, user);
             break;
 
         case 'Series':
@@ -194,7 +194,7 @@ function renderSection(item, element, type) {
                 showTitle: true,
                 centerText: true,
                 overlayMoreButton: true
-            });
+            }, user);
             break;
 
         case 'MusicAlbum':
@@ -214,7 +214,7 @@ function renderSection(item, element, type) {
                 coverImage: true,
                 centerText: true,
                 overlayPlayButton: true
-            });
+            }, user);
             break;
 
         case 'Book':
@@ -250,7 +250,7 @@ function renderSection(item, element, type) {
                 coverImage: true,
                 centerText: true,
                 overlayPlayButton: true
-            });
+            }, user);
             break;
 
         case 'Episode':
@@ -268,7 +268,7 @@ function renderSection(item, element, type) {
                 showParentTitle: true,
                 centerText: true,
                 overlayPlayButton: true
-            });
+            }, user);
             break;
 
         case 'Audio':
@@ -284,13 +284,13 @@ function renderSection(item, element, type) {
                 action: 'playallfromhere',
                 smallIcon: true,
                 artist: true
-            });
+            }, user);
     }
 }
 
-function loadItems(element, item, type, query, listOptions) {
-    query = getQuery(query, item);
-    getItemsFunction(query, item)(query.StartIndex, query.Limit, query.Fields).then(function (result) {
+function loadItems(element, item, type, query, listOptions, user) {
+    query = getQuery(query, item, user);
+    getItemsFunction(query, item, user)(query.StartIndex, query.Limit, query.Fields).then(function (result) {
         // If results are empty, hide the section
         if (!result.Items?.length) {
             element.classList.add('hide');
@@ -372,7 +372,7 @@ function addCurrentItemToQuery(query, item) {
     }
 }
 
-function getQuery(options, item) {
+function getQuery(options, item, user) {
     let query = {
         SortOrder: 'Ascending',
         IncludeItemTypes: '',
@@ -380,15 +380,16 @@ function getQuery(options, item) {
         Fields: 'ParentId,PrimaryImageAspectRatio',
         Limit: 100,
         StartIndex: 0,
-        CollapseBoxSetItems: false
+        CollapseBoxSetItems: false,
+        isMissing: !user?.Configuration?.DisplayMissingEpisodes ? false : undefined,
     };
     query = Object.assign(query, options || {});
     addCurrentItemToQuery(query, item);
     return query;
 }
 
-function getItemsFunction(options, item) {
-    const query = getQuery(options, item);
+function getItemsFunction(options, item, user) {
+    const query = getQuery(options, item, user);
     return function (index, limit, fields) {
         query.StartIndex = index;
         query.Limit = limit;
