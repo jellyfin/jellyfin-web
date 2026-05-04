@@ -291,14 +291,13 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     itemShortcuts.on(this, getShortcutOptions());
 
-    const self = this;
     const subscribeToApiClient = (apiClient) => [
-        apiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], (msg) => onUserDataChanged(msg, self)),
-        apiClient.subscribe([OutboundWebSocketMessageType.TimerCreated], (msg) => onTimerCreated(msg, self)),
-        apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], (msg) => onSeriesTimerCreated(msg, self)),
-        apiClient.subscribe([OutboundWebSocketMessageType.TimerCancelled], (msg) => onTimerCancelled(msg, self)),
-        apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], (msg) => onSeriesTimerCancelled(msg, self)),
-        apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, self))
+        apiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], (msg) => onUserDataChanged(msg, this)),
+        apiClient.subscribe([OutboundWebSocketMessageType.TimerCreated], (msg) => onTimerCreated(msg, this)),
+        apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], (msg) => onSeriesTimerCreated(msg, this)),
+        apiClient.subscribe([OutboundWebSocketMessageType.TimerCancelled], (msg) => onTimerCancelled(msg, this)),
+        apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], (msg) => onSeriesTimerCancelled(msg, this)),
+        apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, this))
     ].filter(Boolean);
 
     this._wsApiClientCreatedHandler = (e, newApiClient) => {

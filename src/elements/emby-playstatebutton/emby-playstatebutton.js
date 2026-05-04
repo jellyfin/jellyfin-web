@@ -19,7 +19,7 @@ function onClick() {
 }
 
 function onUserDataChanged({ Data }, button) {
-    const itemId = button.getAttribute('data-id');
+    const itemId = button.dataset.id;
     const userData = (Data?.UserDataList ?? []).find(u => u.ItemId === itemId);
     if (userData) {
         setState(button, userData.Played);
@@ -77,7 +77,7 @@ function bindEvents(button) {
     clearEvents(button);
 
     button.addEventListener('click', onClick);
-    const serverId = button.getAttribute('data-serverid');
+    const serverId = button.dataset.serverid;
     const apiClient = ServerConnections.getApiClient(serverId);
     button._unsubscribeUserData = apiClient?.subscribe(
         [OutboundWebSocketMessageType.UserDataChanged],

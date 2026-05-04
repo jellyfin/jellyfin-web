@@ -20,7 +20,7 @@ function onRefreshProgress(indicator, info) {
             indicator.classList.add('hide');
         }
 
-        indicator.setAttribute('data-progress', progress);
+        indicator.dataset.progress = progress;
     }
 }
 
@@ -32,16 +32,15 @@ EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
         EmbyProgressRing.createdCallback.call(this);
     }
 
-    const self = this;
-    const handler = ({ Data }) => onRefreshProgress(self, Data);
+    const handler = ({ Data }) => onRefreshProgress(this, Data);
 
-    self._wsApiClientCreatedHandler = (e, newApiClient) => {
+    this._wsApiClientCreatedHandler = (e, newApiClient) => {
         const unsub = newApiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler);
-        if (unsub) self._wsUnsubscribers.push(unsub);
+        if (unsub) this._wsUnsubscribers.push(unsub);
     };
-    Events.on(ServerConnections, 'apiclientcreated', self._wsApiClientCreatedHandler);
+    Events.on(ServerConnections, 'apiclientcreated', this._wsApiClientCreatedHandler);
 
-    self._wsUnsubscribers = ServerConnections.getApiClients()
+    this._wsUnsubscribers = ServerConnections.getApiClients()
         .map(apiClient => apiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler))
         .filter(Boolean);
 };
