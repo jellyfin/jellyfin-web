@@ -1,0 +1,37 @@
+.customPlaybackRateContainer {
+    width: 20%;
+    min-width: 200px;
+    margin: auto;
+    background: rgba(30, 30, 30, 0.9);
+    padding: 1em;
+    border-radius: 0.5em;
+    text-align: center;
+    position: fixed;
+    top: 30%;
+    left: 40%;
+    color: white;
+}
+
+.customPlaybackRateInput {
+    width: 60%;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.customPlaybackRate-closeButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.customPlaybackRateInstructions {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #fff;
+}
