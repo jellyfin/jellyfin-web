@@ -1561,6 +1561,12 @@ function renderSeriesSchedule(page, item) {
         imageLoader.lazyChildren(scheduleTab);
 
         loading.hide();
+    }).catch(function (err) {
+        if (err.status === 403) {
+            page.querySelector('#seriesScheduleSection').classList.add('hide');
+        }
+
+        loading.hide();
     });
 }
 
