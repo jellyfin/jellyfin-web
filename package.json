@@ -163,7 +163,7 @@
     "build:production": "cross-env NODE_ENV=\"production\" webpack --config webpack.prod.js",
     "build:check": "tsc --noEmit",
     "build:es-check": "npm run build:production && npm run escheck",
-    "escheck": "es-check",
+    "escheck": "es-check es5 './dist/**/*.js' --not=./dist/libraries/pdf.worker.js,./dist/libraries/worker-bundle.js,./dist/serviceworker.js",
     "lint": "eslint",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
