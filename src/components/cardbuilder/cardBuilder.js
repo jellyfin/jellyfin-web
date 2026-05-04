@@ -584,7 +584,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
     }
 
     if (flags.overlayText && showTitle) {
-        lines = [escapeHtml(item.Name)];
+        lines = [escapeHtml(itemHelper.getDisplayName(item))];
     }
 
     const addRightTextMargin = flags.isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
@@ -864,7 +864,7 @@ function buildCard(index, item, apiClient, options) {
 
         cardImageContainerClose = '</div>';
     } else {
-        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}" role="img"`;
+        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(itemHelper.getDisplayName(item))}" role="img"`;
 
         const url = appRouter.getRouteUrl(item);
         // Don't use the IMG tag with safari because it puts a white border around it
@@ -947,7 +947,7 @@ function buildCard(index, item, apiClient, options) {
 
     if (tagName === 'button') {
         actionAttribute = ' data-action="' + action + '"';
-        ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
+        ariaLabelAttribute = ` aria-label="${escapeHtml(itemHelper.getDisplayName(item))}"`;
     } else {
         actionAttribute = '';
     }
