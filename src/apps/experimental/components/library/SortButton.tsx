@@ -88,6 +88,7 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'IndexNumber', value: ItemSortBy.IndexNumber },
         { label: 'OptionRandom', value: ItemSortBy.Random }
     ],
     [LibraryTab.Songs]: [
