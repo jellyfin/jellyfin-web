@@ -28,6 +28,8 @@ export enum ItemAction {
     Queue = 'queue',
     /** Queue the Item and all subsequent Items. */
     QueueAllFromHere = 'queueallfromhere',
+    /** Delete the Item. */
+    Delete = 'delete',
     /** Record the Item. */
     Record = 'record',
     /** Resume playback of the Item. */

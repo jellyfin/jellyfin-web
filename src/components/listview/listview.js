@@ -477,6 +477,10 @@ export function getListViewHtml(options) {
                 }
             }
 
+            if (item.CanDelete && options.enableDeleteButton) {
+                html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="${ItemAction.Delete}" title="${globalize.translate('Delete')}"><span class="material-icons delete" aria-hidden="true"></span></button>`;
+            }
+
             if (options.moreButton !== false) {
                 html += `<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="${ItemAction.Menu}" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
             }
