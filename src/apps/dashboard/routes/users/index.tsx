@@ -28,7 +28,7 @@ const UserProfiles = () => {
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const element = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
-    const { data: users, isPending } = useUsers();
+    const { data: users, isPending } = useUsers(undefined, { forceRefresh: true });
     const deleteUser = useDeleteUser();
 
     const handleToastClose = useCallback(() => {

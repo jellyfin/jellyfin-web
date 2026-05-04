@@ -22,10 +22,6 @@ export function getCardImageUrl({
     options,
     shape
 }: CardImageUrlParams) {
-    if (!api) {
-        throw new Error('API instance is required to get card image URL');
-    }
-
     item = item.ProgramInfo || item;
 
     const width = options.width;
@@ -142,7 +138,7 @@ export function getCardImageUrl({
         itemId = item.Id;
     }
 
-    if (itemId && imgTag && imgType) {
+    if (api && itemId && imgTag && imgType) {
         if (!height && width && uiAspect) {
             height = width / uiAspect;
         }
