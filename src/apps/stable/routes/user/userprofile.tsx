@@ -15,6 +15,7 @@ import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
 import Page from 'components/Page';
 import Loading from 'components/loading/LoadingComponent';
 import Button from 'elements/emby-button/Button';
+import { DOMExceptionName } from 'types/domExceptionName';
 
 const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
@@ -77,11 +78,11 @@ const UserProfile: FunctionComponent = () => {
 
         const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
             loading.hide();
-            switch (evt.target?.error?.code) {
-                case DOMException.NOT_FOUND_ERR:
+            switch (evt.target?.error?.name) {
+                case DOMExceptionName.NotFoundError:
                     toast(globalize.translate('FileNotFound'));
                     break;
-                case DOMException.ABORT_ERR:
+                case DOMExceptionName.AbortError:
                     onFileReaderAbort();
                     break;
                 default:
