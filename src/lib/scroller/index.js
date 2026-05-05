@@ -73,7 +73,7 @@ function within(number, num1, num2) {
 // Other global values
 const dragMouseEvents = ['mousemove', 'mouseup'];
 const dragTouchEvents = ['touchmove', 'touchend'];
-const wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
+const wheelEvent = ('onwheel' in document.documentElement ? 'wheel' : 'mousewheel');
 const interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
 
 const scrollerFactory = function (frame, options) {
