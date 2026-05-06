@@ -1490,10 +1490,23 @@ export class HtmlVideoPlayer {
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
+            const assTagToPosition = {
+                '{\\an7}': { line: 10, position: 20 },
+                '{\\an8}': { line: 10 },
+                '{\\an9}': { line: 10, position: 80 },
+                '{\\an4}': { line: 50, position: 20 },
+                '{\\an5}': { line: 50 },
+                '{\\an6}': { line: 50, position: 80 },
+                '{\\an1}': { position: 20 },
+                '{\\an2}': {},
+                '{\\an3}': { position: 80 }
+            };
+
             // add some cues to show the text
             // in safari, the cues need to be added before setting the track mode to showing
             for (const trackEvent of data.TrackEvents) {
                 const TrackCue = window.VTTCue || window.TextTrackCue;
+                const assMatch = trackEvent.Text.match(/\{\\an\d\}/i);
                 const text = normalizeTrackEventText(trackEvent.Text, false);
                 const cue = new TrackCue(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, text);
 
@@ -1505,7 +1518,19 @@ export class HtmlVideoPlayer {
                         cue.line = cueLine;
                     }
                 }
-
+                if (assMatch) {
+                    const cuePosition = assTagToPosition[assMatch[0].toLowerCase()];
+                    if (cuePosition) {
+                        if (cuePosition.line !== undefined) {
+                            cue.line = cuePosition.line;
+                            cue.snapToLines = false;
+                        }
+                        if (cuePosition.position !== undefined) {
+                            cue.position = cuePosition.position;
+                            cue.positionAlign = 'center';
+                        }
+                    }
+                }
                 trackElement.addCue(cue);
             }
 
