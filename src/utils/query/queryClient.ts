@@ -4,6 +4,15 @@ import { get, set, del } from 'idb-keyval';
 
 // TODO: Move this file to lib/query
 
+/** HTTP status code for unauthorized requests. */
+const HTTP_UNAUTHORIZED = 401;
+/** Maximum garbage collection time. Set to 24 hours for persistence. */
+const MAX_GC_TIME = 24 * 60 * 60 * 1000;
+/** Maximum stale time. Set to 1 minute for query reuse. */
+const MAX_STALENESS = 60 * 1000;
+/** Maximum number of retries for failed queries. */
+const MAX_RETRIES = 2;
+
 // NOTE: queryClient needs to be defined before the QueryCache so that it can be used in the onError callback.
 // eslint-disable-next-line prefer-const
 export let queryClient: QueryClient;
@@ -16,9 +25,10 @@ const queryCache = new QueryCache({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const requestError = error as any;
         const status = requestError?.response?.status || requestError?.status || requestError?.statusCode;
-        if (status === 401) {
+        if (status === HTTP_UNAUTHORIZED) {
             try {
-                // If a query fails with 401, cancel it and remove it from the cache to prevent showing unauthorized data.
+                // If a query fails due to authorization, cancel it and remove it from the cache to prevent showing
+                // unauthorized data.
                 void queryClient.cancelQueries({ queryKey });
                 queryClient.setQueryData(queryKey, null);
             } catch (e) {
@@ -35,16 +45,16 @@ queryClient = new QueryClient({
             networkMode: 'always' // network connection is not required if running on localhost
         },
         queries: {
-            gcTime: 24 * 60 * 60 * 1000, // set garbage collection to 24 hours for persistence
+            gcTime: MAX_GC_TIME,
             networkMode: 'always', // network connection is not required if running on localhost
-            staleTime: 5 * 60 * 1000, // set stale time to 5 minutes to prevent excessive fetching
+            staleTime: MAX_STALENESS,
             retry: (failureCount, error) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const requestError = error as any;
                 const status = requestError?.response?.status || requestError?.status || requestError?.statusCode;
                 // Don't retry if unauthorized
-                if (status === 401) return false;
-                return failureCount < 2;
+                if (status === HTTP_UNAUTHORIZED) return false;
+                return failureCount < MAX_RETRIES;
             }
         }
     }
