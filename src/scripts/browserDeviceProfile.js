@@ -275,6 +275,32 @@ function supportsDolbyVision(options) {
     );
 }
 
+function supportsHdr10DoViFallbackHevc(videoTestElement, options) {
+    return browser.edgeChromium
+        && browser.windows
+        && !supportsDolbyVision(options)
+        && supportsHdr10(options)
+        && canPlayHevc(videoTestElement, options);
+}
+
+function supportsTrueHdPlayback(options) {
+    if (options.supportsTrueHd) {
+        return true;
+    }
+
+    // Plain browsers cannot reliably signal whether a TrueHD track will be decoded as
+    // TrueHD or silently fall back to the embedded AC-3 core. Keep the manual override
+    // for native shells, but do not advertise TrueHD for the standalone web client.
+    return appSettings.enableTrueHd() && !!window.NativeShell;
+}
+
+function prefersProgressiveHevcTranscode(videoTestElement, options) {
+    return browser.edgeChromium
+        && browser.windows
+        && canPlayHevc(videoTestElement, options)
+        && supportsHdr10(options);
+}
+
 function supportedDolbyVisionProfilesHevc(videoTestElement) {
     if (browser.xboxOne) return [5, 8];
 
@@ -627,7 +653,7 @@ export default function (options) {
         videoAudioCodecs.push('pcm_s24le');
     }
 
-    if (appSettings.enableTrueHd() || options.supportsTrueHd) {
+    if (supportsTrueHdPlayback(options)) {
         videoAudioCodecs.push('truehd');
     }
 
@@ -894,6 +920,19 @@ export default function (options) {
             MaxAudioChannels: physicalAudioChannels.toString()
         });
     });
+
+    if (prefersProgressiveHevcTranscode(videoTestElement, options) && hlsInFmp4VideoAudioCodecs.length) {
+        profile.TranscodingProfiles.push({
+            Container: 'mp4',
+            Type: 'Video',
+            AudioCodec: hlsInFmp4VideoAudioCodecs.join(','),
+            VideoCodec: 'hevc',
+            Context: 'Streaming',
+            Protocol: 'http',
+            MaxAudioChannels: physicalAudioChannels.toString(),
+            BreakOnNonKeyFrames: false
+        });
+    }
 
     if (canPlayHls() && options.enableHls !== false) {
         const enableLimitedSegmentLength = userSettings.limitSegmentLength();
@@ -1211,6 +1250,11 @@ export default function (options) {
     let av1VideoRangeTypes = 'SDR';
 
     const isWebOsWithoutDolbyVision = browser.web0s && !supportsDolbyVision(options);
+    const supportsHdr10HevcDoviFallbacks =
+        browser.tizenVersion >= 3
+        || browser.vidaa
+        || isWebOsWithoutDolbyVision
+        || supportsHdr10DoViFallbackHevc(videoTestElement, options);
 
     if (browser.tizenVersion >= 3 || isWebOsWithoutDolbyVision) {
         hevcVideoRangeTypes += '|DOVIWithSDR';
@@ -1222,14 +1266,21 @@ export default function (options) {
         vp9VideoRangeTypes += '|HDR10|HDR10Plus';
         av1VideoRangeTypes += '|HDR10|HDR10Plus';
 
-        if (browser.tizenVersion >= 3 || browser.vidaa || isWebOsWithoutDolbyVision) {
+        if (supportsHdr10HevcDoviFallbacks) {
             // Tizen TV does not support Dolby Vision at all, but it can safely play the HDR fallback.
             // LG TVs that don't support Dolby Vision still can play the HDR fallback without issues.
+            // Edge on Windows can also use the HDR10-compatible fallback when the browser already
+            // reports HEVC Main 10 + HDR10 support through the platform decoder path.
             // Advertising the support so that the server doesn't have to remux.
-            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            hevcVideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus';
+            if (browser.tizenVersion >= 3 || browser.vidaa || isWebOsWithoutDolbyVision) {
+                hevcVideoRangeTypes += '|DOVIInvalid';
+            }
             // Although no official tools exist to create AV1+DV files yet, some of our users managed to use community tools to create such files.
             // These files should also be playable on Tizen TVs.
-            av1VideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            if (browser.tizenVersion >= 3 || browser.vidaa || isWebOsWithoutDolbyVision) {
+                av1VideoRangeTypes += '|DOVIWithHDR10|DOVIWithHDR10Plus|DOVIWithEL|DOVIWithELHDR10Plus|DOVIInvalid';
+            }
         }
     }
 
