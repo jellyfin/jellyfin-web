@@ -32,7 +32,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
 
         (await libraryMenu).setTitle(user.Name);
 
-        if (user.HasConfiguredPassword) {
+        if (user.HasPassword) {
             if (!user.Policy?.IsAdministrator) {
                 (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
             }
@@ -93,7 +93,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
 
             if ((page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.contains('hide')) {
                 // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
-                // This should only happen when user.HasConfiguredPassword is false, but this information is not passed on
+                // This should only happen when user.HasPassword is false, but this information is not passed on
                 currentPassword = '';
             }
 
