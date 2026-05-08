@@ -299,7 +299,7 @@ function Guide(options) {
             showEpisodeTitle: !layoutManager.tv
         };
 
-        apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
+        apiClient.getLiveTvChannels(channelQuery).then(async function (channelsResult) {
             const btnPreviousPage = context.querySelector('.btnPreviousPage');
             const btnNextPage = context.querySelector('.btnNextPage');
 
@@ -324,38 +324,48 @@ function Guide(options) {
                 context.querySelector('.guideOptions').classList.add('hide');
             }
 
-            const programFields = [];
+            let first = true;
 
-            const programQuery = {
-                UserId: apiClient.getCurrentUserId(),
-                MaxStartDate: nextDay.toISOString(),
-                MinEndDate: date.toISOString(),
-                channelIds: channelsResult.Items.map(function (c) {
-                    return c.Id;
-                }).join(','),
-                ImageTypeLimit: 1,
-                EnableImages: false,
-                //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
-                SortBy: 'StartDate',
-                EnableTotalRecordCount: false,
-                EnableUserData: false
-            };
+            while (true) {
+                const chunk = channelsResult.Items.splice(0, 50);
+                if (chunk.length === 0) {
+                    break;
+                }
+                const programQuery = {
+                    UserId: apiClient.getCurrentUserId(),
+                    MaxStartDate: nextDay.toISOString(),
+                    MinEndDate: date.toISOString(),
+                    channelIds: chunk.map(function (c) {
+                        return c.Id;
+                    }).join(','),
+                    ImageTypeLimit: 1,
+                    EnableImages: false,
+                    //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
+                    SortBy: 'StartDate',
+                    EnableTotalRecordCount: false,
+                    EnableUserData: false
+                };
 
-            if (renderOptions.showHdIcon) {
-                programFields.push('IsHD');
-            }
+                const programFields = [];
 
-            if (programFields.length) {
-                programQuery.Fields = programFields.join('');
-            }
+                if (renderOptions.showHdIcon) {
+                    programFields.push('IsHD');
+                }
 
-            apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
+                if (programFields.length) {
+                    programQuery.Fields = programFields.join('');
+                }
+
+                const programsResult = await apiClient.getLiveTvPrograms(programQuery);
                 const guideOptions = { focusProgramOnRender, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs };
 
-                renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, guideOptions, apiClient);
+                renderGuide(context, date, chunk, programsResult.Items, renderOptions, guideOptions, apiClient, !first);
 
-                hideLoading();
-            });
+                if (first) {
+                    hideLoading();
+                    first = false;
+                }
+            }
         });
     }
 
@@ -592,7 +602,7 @@ function Guide(options) {
         return html;
     }
 
-    function renderChannelHeaders(context, channels, apiClient) {
+    function renderChannelHeaders(context, channels, apiClient, append) {
         let html = '';
 
         for (const channel of channels) {
@@ -636,11 +646,15 @@ function Guide(options) {
         }
 
         const channelList = context.querySelector('.channelsContainer');
-        channelList.innerHTML = html;
+        if (append) {
+            channelList.innerHTML += html;
+        } else {
+            channelList.innerHTML = html;
+        }
         imageLoader.lazyChildren(channelList);
     }
 
-    function renderPrograms(context, date, channels, programs, programOptions) {
+    function renderPrograms(context, date, channels, programs, programOptions, append) {
         const listInfo = {
             startIndex: 0
         };
@@ -651,7 +665,12 @@ function Guide(options) {
             html.push(getChannelProgramsHtml(context, date, channel, programs, programOptions, listInfo));
         }
 
-        programGrid.innerHTML = html.join('');
+        if (append) {
+            programGrid.innerHTML += html.join('');
+        }
+        else {
+            programGrid.innerHTML = html.join('');
+        }
 
         programCells = programGrid.querySelectorAll('[is=emby-programcell]');
 
@@ -674,7 +693,7 @@ function Guide(options) {
         return (channelIndex * 10000000) + (start.getTime() / 60000);
     }
 
-    function renderGuide(context, date, channels, programs, renderOptions, guideOptions, apiClient) {
+    function renderGuide(context, date, channels, programs, renderOptions, guideOptions, apiClient, append) {
         programs.sort(function (a, b) {
             return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
         });
@@ -688,13 +707,15 @@ function Guide(options) {
             channelRowId = channelRowId?.getAttribute ? channelRowId.getAttribute('data-channelid') : null;
         }
 
-        renderChannelHeaders(context, channels, apiClient);
+        renderChannelHeaders(context, channels, apiClient, append);
 
-        const startDate = date;
-        const endDate = new Date(startDate.getTime() + msPerDay);
-        context.querySelector('.timeslotHeaders').innerHTML = getTimeslotHeadersHtml(startDate, endDate);
-        items = {};
-        renderPrograms(context, date, channels, programs, renderOptions);
+        if (!append) {
+            const startDate = date;
+            const endDate = new Date(startDate.getTime() + msPerDay);
+            context.querySelector('.timeslotHeaders').innerHTML = getTimeslotHeadersHtml(startDate, endDate);
+            items = {};
+        }
+        renderPrograms(context, date, channels, programs, renderOptions, append);
 
         if (guideOptions.focusProgramOnRender) {
             focusProgram(context, itemId, channelRowId, guideOptions.focusToTimeMs, guideOptions.startTimeOfDayMs);
