@@ -812,7 +812,7 @@
     "Home": "Početna",
     "Hide": "Sakrij",
     "HeaderSyncPlayEnabled": "SyncPlay omogućen",
-    "HeaderSyncPlaySelectGroup": "Pridruži se grupi",
+    "HeaderSyncPlaySelectGroup": "Pridruži se jednoj grupi",
     "HeaderSubtitleDownloads": "Preuzimanje titlova",
     "HeaderSubtitleAppearance": "Prikaz titlove",
     "HeaderStopRecording": "Prekini snimanje",
@@ -1904,5 +1904,6 @@
     "AllowVideoToolboxTonemappingHelp": "Hardverski ubrzano mapiranje tonova koje pruža VideoToolbox. Radi s većinom HDR formata, uključujući HDR10, HDR10+ i HLG, ali ne radi s Dolby Vision Profilom 5. Ovo ima viši prioritet u odnosu na drugu Metal implementaciju.",
     "TrickplayLoadError": "Neuspjelo učitavanje postavki brzokreta",
     "LabelPlayerSizes": "Veličine igrača",
-    "LabelPlaybackQuality": "Okvir izgubljen / oštećen"
+    "LabelPlaybackQuality": "Okvir izgubljen / oštećen",
+    "LabelSyncPlayJoinGroup": "Pridruži se grupi"
 }

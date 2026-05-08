@@ -1904,5 +1904,6 @@
     "LabelProgressAndSpeed": "Прогресс / скорость",
     "LabelReasons": "Причины",
     "LabelPlayerSizes": "Размеры плеера",
-    "LabelPlaybackQuality": "Кадров пропущено / повреждено"
+    "LabelPlaybackQuality": "Кадров пропущено / повреждено",
+    "LabelSyncPlayJoinGroup": "Присоединиться к группе"
 }

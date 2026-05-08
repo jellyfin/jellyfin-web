@@ -98,5 +98,7 @@
     "ButtonQuickStartGuide": "Gid Konfigirasyon",
     "ButtonParentalControl": "Kontwòl paran",
     "ButtonPlayer": "Pleyè",
-    "ButtonPreviousTrack": "Trak anvan"
+    "ButtonPreviousTrack": "Trak anvan",
+    "AccessRestrictedTryAgainLater": "Aksè kounye a restriksyon. Tanpri eseye ankò pita.",
+    "ActivitiesLoadError": "Echèk pou chaje aktivite yo"
 }

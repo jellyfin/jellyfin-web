@@ -1897,5 +1897,13 @@
     "LabelExternalServerUriHelp": "URI do servidor publicada para acesso externo.",
     "LabelVideoAttributes": "Atributos de vídeo",
     "LabelVideoColors": "Cores do vídeo",
-    "LabelAudioAttributes": "Atributos do aúdio"
+    "LabelAudioAttributes": "Atributos do aúdio",
+    "LabelSyncPlayJoinGroup": "Entrar no grupo",
+    "OnFilesystem": "No sistema de arquivos:{0}",
+    "LabelVideoBitDepth": "Profundidade de bits de vídeo",
+    "LabelTargetCodecs": "Codecs alvo",
+    "LabelProgressAndSpeed": "Progresso / velocidade",
+    "LabelReasons": "Motivos",
+    "LabelPlayerSizes": "Dimensões do Reprodutor",
+    "LabelPlaybackQuality": "Quadros perdidos / corrompidos"
 }

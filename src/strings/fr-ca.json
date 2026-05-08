@@ -1894,5 +1894,14 @@
     "LabelInternalServerUriHelp": "URI du serveur publié pour un accès interne.",
     "LabelUseSamePublishedServerUri": "Utilisez la même URI de serveur publiée pour l'accès interne et externe",
     "LibrariesLoadError": "Échec du chargement des bibliothèques",
-    "HeaderLatestMusicVideos": "Vidéos musicales ajoutées récemment"
+    "HeaderLatestMusicVideos": "Vidéos musicales ajoutées récemment",
+    "LabelSyncPlayJoinGroup": "Rejoindre groupe",
+    "LabelVideoColors": "Couleurs vidéo",
+    "LabelVideoBitDepth": "Profondeur de bits vidéo",
+    "LabelAudioAttributes": "Attributs audio",
+    "LabelTargetCodecs": "Codecs cibles",
+    "LabelProgressAndSpeed": "Progression / Vitesse",
+    "LabelReasons": "Raisons",
+    "LabelPlayerSizes": "Tailles du lecteur",
+    "LabelPlaybackQuality": "Images perdues / corrompues"
 }

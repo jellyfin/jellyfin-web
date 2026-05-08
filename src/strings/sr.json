@@ -1904,5 +1904,6 @@
     "LabelProgressAndSpeed": "Напредак / брзина",
     "LabelReasons": "Разлози",
     "LabelPlayerSizes": "Величине играча",
-    "LabelPlaybackQuality": "Оквир изгубљен / оштећен"
+    "LabelPlaybackQuality": "Оквир изгубљен / оштећен",
+    "LabelSyncPlayJoinGroup": "Придружи се групи"
 }

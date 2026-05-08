@@ -8,6 +8,12 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
 import { BookSuggestionsSectionsView } from 'types/sections';
 
+const foldersTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Folders,
+    collectionType: CollectionType.Books,
+    itemType: [BaseItemKind.Folder, BaseItemKind.AudioBook, BaseItemKind.Book]
+};
+
 const booksTabContent: LibraryTabContent = {
     viewType: LibraryTab.Books,
     collectionType: CollectionType.Books,
@@ -33,10 +39,11 @@ const favoritesTabContent: LibraryTabContent = {
 };
 
 const booksTabMapping: LibraryTabMapping = {
-    0: booksTabContent,
-    1: suggestionsTabContent,
-    2: genresTabContent,
-    3: favoritesTabContent
+    0: foldersTabContent,
+    1: booksTabContent,
+    2: suggestionsTabContent,
+    3: genresTabContent,
+    4: favoritesTabContent
 };
 
 const Books: FC = () => {

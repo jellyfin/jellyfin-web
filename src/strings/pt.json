@@ -1904,5 +1904,6 @@
     "LabelProgressAndSpeed": "Progresso / velocidade",
     "LabelReasons": "Motivos",
     "LabelPlayerSizes": "Tamanhos do leitor",
-    "OnFilesystem": "No sistema de ficheiros: {0}"
+    "OnFilesystem": "No sistema de ficheiros: {0}",
+    "LabelSyncPlayJoinGroup": "Aderir a grupo"
 }

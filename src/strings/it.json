@@ -1904,5 +1904,6 @@
     "LabelProgressAndSpeed": "Avanzamento / velocità",
     "LabelReasons": "Motivi",
     "LabelPlayerSizes": "Dimensioni del lettore",
-    "LabelPlaybackQuality": "Fotogramma scartato / danneggiato"
+    "LabelPlaybackQuality": "Fotogramma scartato / danneggiato",
+    "LabelSyncPlayJoinGroup": "Unisciti al gruppo"
 }

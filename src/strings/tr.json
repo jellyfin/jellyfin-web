@@ -624,7 +624,7 @@
     "ImportFavoriteChannelsHelp": "Yalnızca alıcı cihazında favori olarak işaretlenen kanallar içe aktarılacaktır.",
     "Image": "Resim",
     "HeaderSyncPlayEnabled": "SyncPlay etkinleştirildi",
-    "HeaderSyncPlaySelectGroup": "Gruba katıl",
+    "HeaderSyncPlaySelectGroup": "Bir gruba katıl",
     "HeaderServerAddressSettings": "Sunucu Adres Ayarları",
     "HeaderRemoteAccessSettings": "Uzaktan Erişim Ayarları",
     "HeaderHttpsSettings": "HTTPS Ayarları",
@@ -1739,8 +1739,8 @@
     "ReplaceTrickplayImages": "Mevcut hızlı önizleme görsellerini değiştirin",
     "AllowFmp4TranscodingContainerHelp": "HEVC ve HDR içeriklerini etkinleştirmek için bu alıcının fMP4 kod dönüştürme kapsayıcısına izin verin. Tüm alıcılar bu kapsayıcı ile uyumlu değildir. Oynatma sorunları yaşarsanız bunu devre dışı bırakın.",
     "AllowStreamSharingHelp": "Jellyfin'in alıcıdan gelen mpegts akışını çoğaltmasına ve bu çoğaltılmış akışı istemcileriyle paylaşmasına izin verin. Bu, alıcının toplam akış sayısı sınırına sahip olduğunda kullanışlıdır, ancak oynatma sorunlarına da neden olabilir.",
-    "AlwaysBurnInSubtitleWhenTranscoding": "Kod dönüştürürken her zaman altyazıyı yaz",
-    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Kod dönüştürme tetiklendiğinde tüm altyazıları göm. Bu, kod dönüştürme işleminden sonra altyazı senkronizasyonunun sağlanması anlamına gelir ancak kod dönüştürme hızının düşmesine neden olur.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Kod dönüştürürken her zaman altyazıyı videoya yaz",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Kod dönüştürme tetiklendiğinde tüm altyazıları videoya yaz. Bu, kod dönüştürme işleminden sonra altyazı senkronizasyonunun sağlanması anlamına gelir ancak kod dönüştürme hızının düşmesine neden olur.",
     "HeaderMediaSegmentActions": "Medya Segmenti Eylemleri",
     "MoviesAndShows": "Filmler ve Diziler",
     "MediaSegmentType.Intro": "İntro",
@@ -1895,7 +1895,7 @@
     "Unwatch": "İzlenmedi olarak işaretle",
     "UsersEditPageError": "Kullanıcı düzenleme sayfası yüklenemedi",
     "Watch": "İzle",
-    "LabelVideoAttributes": "Vıdeo özellikleri",
+    "LabelVideoAttributes": "Video özellikleri",
     "LabelVideoColors": "Video renkleri",
     "LabelVideoBitDepth": "Video bit derinliği",
     "LabelAudioAttributes": "Ses özellikleri",
@@ -1903,5 +1903,7 @@
     "LabelProgressAndSpeed": "İlerleme / hız",
     "LabelReasons": "Sebepler",
     "LabelPlayerSizes": "Oynatıcı dosya boyutları",
-    "LabelPlaybackQuality": "Kare düştü / bozuldu"
+    "LabelPlaybackQuality": "Kare düştü / bozuldu",
+    "LabelSyncPlayJoinGroup": "Gruba katıl",
+    "OnFilesystem": "Dosya sistemi: {0}"
 }

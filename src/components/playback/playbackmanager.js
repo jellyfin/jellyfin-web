@@ -27,6 +27,7 @@ import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
+import { TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
@@ -3882,6 +3883,19 @@ export class PlaybackManager {
         const offsetTicks = 0 - (userSettings.skipBackLength() * 10000);
 
         this.seekRelative(offsetTicks, player);
+    }
+
+    seekFrames(frames = 1, player = this._currentPlayer) {
+        // Only allow seeking by frames when paused
+        if (!player.paused()) return;
+
+        const source = this.currentMediaSource(player);
+        const videoStream = source?.MediaStreams?.find(s => s.Type === MediaType.Video);
+        // It only makes sense to seek video streams by frames
+        if (videoStream) {
+            const fps = videoStream.ReferenceFrameRate || 24;
+            this.seekRelative(frames / fps * TICKS_PER_SECOND, player);
+        }
     }
 
     seekPercent(percent, player = this._currentPlayer) {

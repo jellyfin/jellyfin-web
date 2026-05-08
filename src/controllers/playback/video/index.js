@@ -1365,6 +1365,18 @@ export default function (view) {
                     showOsd(btnFastForward);
                 }
                 break;
+            case ',':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.seekFrames(-1, currentPlayer);
+                }
+                break;
+            case '.':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    playbackManager.seekFrames(1, currentPlayer);
+                }
+                break;
             case 'j':
             case 'J':
             case 'ArrowLeft':
@@ -2125,4 +2137,3 @@ export default function (view) {
         });
     }
 }
-

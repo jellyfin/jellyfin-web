@@ -44,22 +44,27 @@ export const LibraryRoutes: LibraryRoute[] = [
         views: [
             {
                 index: 0,
-                label: 'Books',
-                view: LibraryTab.Books,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
             },
             {
                 index: 1,
+                label: 'Books',
+                view: LibraryTab.Books
+            },
+            {
+                index: 2,
                 label: 'Suggestions',
                 view: LibraryTab.Suggestions
             },
             {
-                index: 2,
+                index: 3,
                 label: 'Genres',
                 view: LibraryTab.Genres
             },
             {
-                index: 3,
+                index: 4,
                 label: 'Favorites',
                 view: LibraryTab.Favorites
             }

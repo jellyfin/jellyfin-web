@@ -1904,5 +1904,6 @@
     "LabelAudioAttributes": "Attributs audio",
     "LabelTargetCodecs": "Codecs cibles",
     "LabelProgressAndSpeed": "Progression / Vitesse",
-    "LabelPlayerSizes": "Tailles du lecteur"
+    "LabelPlayerSizes": "Tailles du lecteur",
+    "LabelSyncPlayJoinGroup": "Rejoindre groupe"
 }
