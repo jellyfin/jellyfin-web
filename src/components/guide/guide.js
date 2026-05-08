@@ -901,7 +901,7 @@ function Guide(options) {
 
         const apiClient = ServerConnections.getApiClient(options.serverId);
 
-        apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
+        return apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
             setDateRange(page, guideInfo);
         });
     }
@@ -1153,15 +1153,21 @@ function Guide(options) {
 
     programGrid.addEventListener('click', onProgramGridClick);
 
-    guideContext.querySelector('.btnNextPage').addEventListener('click', function () {
+    guideContext.querySelector('.btnNextPage').addEventListener('click', function (event) {
+        const verticalScroller = guideContext.querySelector('.guideVerticalScroller');
         currentStartIndex += currentChannelLimit;
-        reloadPage(guideContext);
+        reloadPage(guideContext).then(function() {
+            nativeScrollTo(verticalScroller, 0, false);
+        });
         restartAutoRefresh();
     });
 
-    guideContext.querySelector('.btnPreviousPage').addEventListener('click', function () {
+    guideContext.querySelector('.btnPreviousPage').addEventListener('click', function (event) {
+        const verticalScroller = guideContext.querySelector('.guideVerticalScroller');
         currentStartIndex = Math.max(currentStartIndex - currentChannelLimit, 0);
-        reloadPage(guideContext);
+        reloadPage(guideContext).then(function() {
+            nativeScrollTo(verticalScroller, 0, false);
+        });
         restartAutoRefresh();
     });
 
