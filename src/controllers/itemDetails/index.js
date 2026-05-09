@@ -1308,7 +1308,11 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
-                const compareIds = (a, b) => a.localeCompare(b);
+                const compareIds = (a, b) => {
+                    if (a < b) return -1;
+                    if (a > b) return 1;
+                    return 0;
+                };
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(compareIds), track.AlbumArtists.map(x => x.Id).sort(compareIds))) {
                     showArtist = true;
                     break;
