@@ -17,3 +17,6 @@
   Cache-Control: public, max-age=2592000
 /*.woff2
   Cache-Control: public, max-age=2592000
+
+/*
+  X-Robots-Tag: noindex, nofollow
