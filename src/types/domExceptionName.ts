@@ -9,6 +9,9 @@
  */
 export enum DOMExceptionName {
     AbortError = 'AbortError',
+    EncodingError = 'EncodingError',
     NotFoundError = 'NotFoundError',
-    NotSupportedError = 'NotSupportedError'
+    NotReadableError = 'NotReadableError',
+    NotSupportedError = 'NotSupportedError',
+    SecurityError = 'SecurityError'
 }
