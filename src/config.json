@@ -29,8 +29,16 @@
       "color": "#0c2450"
     }
   ],
-  "menuLinks": [],
-  "servers": [],
+  "menuLinks": [
+    {
+      "name": "Dashboard",
+      "url": "https://travisschneider.com",
+      "icon": "dashboard"
+    }
+  ],
+  "servers": [
+    "https://jellyfin.travisschneider.com"
+  ],
   "plugins": [
     "playAccessValidation/plugin",
     "experimentalWarnings/plugin",
