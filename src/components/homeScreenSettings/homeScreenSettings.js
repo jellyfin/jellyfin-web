@@ -1,7 +1,7 @@
 
 import escapeHtml from 'escape-html';
 
-import { getUserViewsQuery } from 'hooks/useUserViews';
+import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
@@ -324,8 +324,10 @@ function loadForm(context, user, userSettings, apiClient) {
     const promise1 = queryClient
         .fetchQuery(getUserViewsQuery(
             toApi(apiClient),
-            user.Id,
-            { includeHidden: true }
+            {
+                userId: user.Id,
+                includeHidden: true
+            }
         ));
     const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
 

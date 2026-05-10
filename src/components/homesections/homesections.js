@@ -1,5 +1,5 @@
 import layoutManager from 'components/layoutManager';
-import { getUserViewsQuery } from 'hooks/useUserViews';
+import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import globalize from 'lib/globalize';
 import { DEFAULT_SECTIONS, HomeSectionType } from 'types/homeSectionType';
 import Dashboard from 'utils/dashboard';
@@ -55,7 +55,7 @@ function getAllSectionsToShow(userSettings, sectionCount) {
 export function loadSections(elem, apiClient, user, userSettings) {
     const userId = user.Id || apiClient.getCurrentUserId();
     return queryClient
-        .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
+        .fetchQuery(getUserViewsQuery(toApi(apiClient), { userId }))
         .then(result => result.Items || [])
         .then(function (userViews) {
             let html = '';
