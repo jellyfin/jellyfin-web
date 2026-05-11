@@ -1168,13 +1168,31 @@ function renderItemCollections(page, item, apiClient, context) {
     }
 
     const userId = apiClient.getCurrentUserId();
-    apiClient.getJSON(
+    // The collections endpoint only returns collection membership, so fetch ParentId separately
+    // to also show the immediate containing parent folder in Included In.
+    const parentPromise = item.ParentId ?
+        apiClient.getItem(userId, item.ParentId).catch(() => null) :
+        Promise.resolve(null);
+
+    const collectionsPromise = apiClient.getJSON(
         apiClient.getUrl(`Items/${item.Id}/Collections`, {
             userId,
             fields: 'PrimaryImageAspectRatio'
         })
-    ).then((result) => {
-        const items = result?.Items || [];
+    ).then(result => result?.Items || []).catch(() => []);
+
+    Promise.all([parentPromise, collectionsPromise]).then(([parentItem, collectionItems]) => {
+        const itemsById = new Map();
+
+        if (parentItem && parentItem.Id !== item.Id) {
+            itemsById.set(parentItem.Id, parentItem);
+        }
+
+        for (const collection of collectionItems) {
+            itemsById.set(collection.Id, collection);
+        }
+
+        const items = Array.from(itemsById.values());
 
         if (!items.length) {
             section.classList.add('hide');
