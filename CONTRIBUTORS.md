@@ -105,6 +105,7 @@
 - [johnnyg](https://github.com/johnnyg)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
+- [LeviSnoot](https://github.com/LeviSnoot)
 
 ## Emby Contributors
 
