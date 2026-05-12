@@ -10,6 +10,9 @@ import themeManager from 'scripts/themeManager';
 import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
 
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
+import { useThemes } from 'hooks/useThemes';
+import { Theme } from 'types/webConfig';
+import { FALLBACK_THEME_ID } from 'hooks/useUserTheme';
 
 interface UseDisplaySettingsParams {
     userId?: string | null;
@@ -20,6 +23,7 @@ export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
     const [userSettings, setUserSettings] = useState<UserSettings>();
     const [displaySettings, setDisplaySettings] = useState<DisplaySettingsValues>();
     const { __legacyApiClient__, user: currentUser } = useApi();
+    const { defaultTheme } = useThemes();
 
     useEffect(() => {
         if (!userId || !currentUser || !__legacyApiClient__) {
@@ -29,7 +33,7 @@ export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
         setLoading(true);
 
         void (async () => {
-            const loadedSettings = await loadDisplaySettings({ api: __legacyApiClient__, currentUser, userId });
+            const loadedSettings = await loadDisplaySettings({ api: __legacyApiClient__, currentUser, userId, defaultTheme });
 
             setDisplaySettings(loadedSettings.displaySettings);
             setUserSettings(loadedSettings.userSettings);
@@ -62,15 +66,17 @@ export function useDisplaySettings({ userId }: UseDisplaySettingsParams) {
 }
 
 interface LoadDisplaySettingsParams {
-    currentUser: UserDto;
-    userId?: string;
-    api: ApiClient;
+    currentUser: UserDto
+    userId?: string
+    api: ApiClient
+    defaultTheme?: Theme
 }
 
 async function loadDisplaySettings({
     currentUser,
     userId,
-    api
+    api,
+    defaultTheme
 }: LoadDisplaySettingsParams) {
     const settings = (!userId || userId === currentUser?.Id) ? currentSettings : new UserSettings();
     const user = (!userId || userId === currentUser?.Id) ? currentUser : await api.getUser(userId);
@@ -78,8 +84,8 @@ async function loadDisplaySettings({
     await settings.setUserInfo(userId, api);
 
     const displaySettings = {
-        customCss: settings.customCss(),
-        dashboardTheme: settings.dashboardTheme() || 'auto',
+        customCss: settings.customCss() || '',
+        dashboardTheme: settings.dashboardTheme() || defaultTheme?.id || FALLBACK_THEME_ID,
         dateTimeLocale: settings.dateTimeLocale() || 'auto',
         disableCustomCss: Boolean(settings.disableCustomCss()),
         displayMissingEpisodes: user?.Configuration?.DisplayMissingEpisodes ?? false,
@@ -97,7 +103,8 @@ async function loadDisplaySettings({
         maxDaysForNextUp: settings.maxDaysForNextUp(),
         screensaver: settings.screensaver() || 'none',
         screensaverInterval: settings.backdropScreensaverInterval(),
-        theme: settings.theme()
+        slideshowInterval: settings.slideshowInterval(),
+        theme: settings.theme() || defaultTheme?.id || FALLBACK_THEME_ID
     };
 
     return {
@@ -125,7 +132,7 @@ async function saveDisplaySettings({
         userSettings.language(normalizeValue(newDisplaySettings.language));
     }
     userSettings.customCss(normalizeValue(newDisplaySettings.customCss));
-    userSettings.dashboardTheme(normalizeValue(newDisplaySettings.dashboardTheme));
+    userSettings.dashboardTheme(newDisplaySettings.dashboardTheme);
     userSettings.dateTimeLocale(normalizeValue(newDisplaySettings.dateTimeLocale));
     userSettings.disableCustomCss(newDisplaySettings.disableCustomCss);
     userSettings.enableBlurhash(newDisplaySettings.enableBlurHash);

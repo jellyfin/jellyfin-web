@@ -3,6 +3,13 @@ import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryRoutes } from '../constants/libraryRoutes';
 
 /**
+ * Utility function to check if a path is a details path.
+ */
+export const isDetailsPath = (path: string) => (
+    path === '/details'
+);
+
+/**
  * Utility function to check if a path is a library path.
  */
 export const isLibraryPath = (path: string) => (

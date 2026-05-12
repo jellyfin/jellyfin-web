@@ -1,5 +1,5 @@
 import { AppFeature } from 'constants/appFeature';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import dialogHelper from '../dialogHelper/dialogHelper';

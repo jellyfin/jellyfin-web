@@ -23,6 +23,7 @@ export interface LibraryTabContent {
     isBtnSortEnabled?: boolean;
     isBtnFilterEnabled?: boolean;
     isBtnNewCollectionEnabled?: boolean;
+    isBtnNewPlaylistEnabled?: boolean;
     isBtnGridListEnabled?: boolean;
     isAlphabetPickerEnabled?: boolean;
     noItemsMessage?: string;

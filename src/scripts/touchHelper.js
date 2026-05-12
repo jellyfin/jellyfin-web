@@ -1,4 +1,4 @@
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import Events from '../utils/events.ts';
 
 function getTouches(e) {

@@ -13,8 +13,8 @@ import { useLocation } from 'react-router-dom';
 
 import ListItemLink from 'components/ListItemLink';
 import { appRouter } from 'components/router/appRouter';
+import { useUserViews } from 'hooks/api/useUserViews';
 import { useApi } from 'hooks/useApi';
-import { useUserViews } from 'hooks/useUserViews';
 import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'lib/globalize';
 
@@ -24,7 +24,7 @@ import DrawerHeaderLink from './DrawerHeaderLink';
 const MainDrawerContent = () => {
     const { user } = useApi();
     const location = useLocation();
-    const { data: userViewsData } = useUserViews(user?.Id);
+    const { data: userViewsData } = useUserViews({ userId: user?.Id });
     const userViews = userViewsData?.Items || [];
     const webConfig = useWebConfig();
 

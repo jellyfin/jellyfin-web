@@ -58,6 +58,7 @@ let _dPadUpPressed = false;
 let _dPadDownPressed = false;
 let _dPadLeftPressed = false;
 let _dPadRightPressed = false;
+let _gamepadADownEvent = null;
 let _gamepadAPressed = false;
 let _gamepadBPressed = false;
 
@@ -77,8 +78,15 @@ _ButtonPressedState.getgamepadA = function () {
 };
 
 _ButtonPressedState.setgamepadA = function (newPressedState) {
-    raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true);
+    const newPressedEvent = raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true, _gamepadADownEvent);
     _gamepadAPressed = newPressedState;
+
+    if (!newPressedState) {
+        // reset on keyup
+        _gamepadADownEvent = null;
+    } else if (newPressedEvent != null) {
+        _gamepadADownEvent = newPressedEvent;
+    }
 };
 
 _ButtonPressedState.getgamepadB = function () {
@@ -194,6 +202,8 @@ function raiseEvent(name, key, keyCode) {
     event.key = key;
     event.keyCode = keyCode;
     (document.activeElement || document.body).dispatchEvent(event);
+
+    return event;
 }
 
 function clickElement(elem) {
@@ -204,7 +214,9 @@ function clickElement(elem) {
     elem.click();
 }
 
-function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
+function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp, oldPressedEvent) {
+    let newPressedEvent = null;
+
     // No-op if oldPressedState === newPressedState
     if (newPressedState === true) {
         // button down
@@ -219,19 +231,21 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
         }
 
         if (fire && keyCode) {
-            raiseEvent('keydown', key, keyCode);
+            newPressedEvent = raiseEvent('keydown', key, keyCode);
         }
     } else if (newPressedState === false && oldPressedState === true) {
         resetThrottle(key);
 
         // button up
         if (keyCode) {
-            raiseEvent('keyup', key, keyCode);
+            newPressedEvent = raiseEvent('keyup', key, keyCode);
         }
-        if (clickonKeyUp) {
+        if (clickonKeyUp && !oldPressedEvent?.defaultPrevented && !newPressedEvent?.defaultPrevented) {
             clickElement(document.activeElement || window);
         }
     }
+
+    return newPressedEvent;
 }
 
 let inputLoopTimer;

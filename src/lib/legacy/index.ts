@@ -8,6 +8,7 @@ import 'classlist.js';
 import 'whatwg-fetch';
 import 'abortcontroller-polyfill'; // requires fetch
 import 'resize-observer-polyfill';
+import 'proxy-polyfill';
 
 import './domParserTextHtml';
 import './elementAppendPrepend';

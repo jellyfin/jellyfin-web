@@ -11,7 +11,7 @@ import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
 import { appHost } from '../apphost';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
 import '../../elements/emby-button/paper-icon-button-light';

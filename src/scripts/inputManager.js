@@ -3,7 +3,7 @@ import focusManager from 'components/focusManager';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 
 let lastInputTime = new Date().getTime();
 

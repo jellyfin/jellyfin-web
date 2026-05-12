@@ -27,7 +27,18 @@ $mui-bp-xl: 1536px;
     padding-top: 3.25rem !important;
 }
 
-// Fix backdrop position on mobile item details page
-.layout-mobile .itemBackdrop {
-    margin-top: 0 !important;
+.layout-mobile {
+    .itemBackdrop {
+        // Fix backdrop position on mobile item details page
+        margin-top: 0 !important;
+
+        // Add a subtle gradient over the backdrop to ensure the app bar buttons are visible
+        &::before {
+            display: block;
+            content: "";
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(32, 32, 32, 0.6) 0%, rgba(32, 32, 32, 0.2) 4rem, rgba(0, 0, 0, 0) 50%);
+        }
+    }
 }

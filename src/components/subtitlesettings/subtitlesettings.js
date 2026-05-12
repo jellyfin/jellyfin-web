@@ -8,7 +8,7 @@ import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import Events from '../../utils/events.ts';
 
 import '../listview/listview.scss';

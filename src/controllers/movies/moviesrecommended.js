@@ -1,17 +1,17 @@
 import escapeHtml from 'escape-html';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
-import { getBackdropShape, getPortraitShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 

@@ -2,6 +2,13 @@ name: Deploy 🏗️
 
 on:
   workflow_call:
+    secrets:
+      JF_BOT_TOKEN:
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+      CLOUDFLARE_API_TOKEN:
+        required: true
     inputs:
       branch:
         required: true
@@ -12,27 +19,47 @@ on:
       comment:
         required: false
         type: boolean
+      pr_number:
+        required: false
+        type: string
+      workflow_run_id:
+        required: true
+        type: string
       artifact_name:
         required: false
         type: string
         default: frontend
 
 jobs:
+  progress-comment:
+    name: Progress Comment
+    if: ${{ always() && inputs.comment }}
+    uses: ./.github/workflows/__job_messages.yml
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+    with:
+      branch: ${{ inputs.branch }}
+      commit: ${{ inputs.commit }}
+      pr_number: ${{ inputs.pr_number }}
+      comment: true
+      in_progress: true
+
   cf-pages:
     name: CloudFlare Pages 📃
     runs-on: ubuntu-latest
-    environment: 
-      name: ${{ inputs.branch == 'master' && 'Production' || 'Preview' }}
+    environment:
+      name: ${{ inputs.branch == 'jellyfin/jellyfin-web/master' && 'Production' || 'Preview' }}
       url: ${{ steps.cf.outputs.deployment-url }}
     outputs:
       url: ${{ steps.cf.outputs.deployment-url }}
 
     steps:
       - name: Download workflow artifact ⬇️
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: ${{ inputs.artifact_name }}
-          path: dist
+          run-id: ${{ inputs.workflow_run_id }}
+          github-token: ${{ github.token }}
 
       - name: Publish to Cloudflare Pages 📃
         uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
@@ -40,20 +67,20 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=jellyfin-web --branch=${{ inputs.branch }}
+          command: pages deploy . --project-name=jellyfin-web --branch="${{ inputs.branch }}"
 
   compose-comment:
     name: Compose and push comment 📝
     # Always run so the comment is composed for the workflow summary
-    if: ${{ always() }}
+    if: ${{ always() && inputs.comment }}
     uses: ./.github/workflows/__job_messages.yml
     secrets: inherit
     needs:
       - cf-pages
-
     with:
       branch: ${{ inputs.branch }}
       commit: ${{ inputs.commit }}
       preview_url: ${{ needs.cf-pages.outputs.url }}
+      pr_number: ${{ inputs.pr_number }}
+      comment: true
       in_progress: false
-      comment: ${{ inputs.comment }}

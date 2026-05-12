@@ -826,6 +826,13 @@ button::-moz-focus-inner {
     right: 0;
     user-select: none;
     border-radius: 0.2em;
+
+    /** Disable pointer events for the overlay container, but allow them for its children */
+    pointer-events: none;
+
+    * {
+        pointer-events: auto;
+    }
 }
 
 .visualCardBox .blurhash-canvas,
@@ -833,10 +840,6 @@ button::-moz-focus-inner {
 .visualCardBox .cardOverlayContainer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-}
-
-.card-hoverable:hover .cardOverlayContainer {
-    opacity: 1;
 }
 
 .cardOverlayButton-hover {
@@ -850,8 +853,12 @@ button::-moz-focus-inner {
     background: transparent !important;
 }
 
-.card-hoverable:hover .cardOverlayButton-hover {
-    opacity: 1;
+.card-hoverable:focus-within,
+.card-hoverable:hover {
+    .cardOverlayContainer,
+    .cardOverlayButton-hover {
+        opacity: 1;
+    }
 }
 
 .cardOverlayContainer > .cardOverlayFab-primary {

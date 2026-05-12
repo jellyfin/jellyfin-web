@@ -6,7 +6,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import { appHost } from '../../../components/apphost';
 import appSettings from '../../../scripts/settings/appSettings';
-import dom from '../../../scripts/dom';
+import dom from '../../../utils/dom';
 import loading from '../../../components/loading/loading';
 import layoutManager from '../../../components/layoutManager';
 import libraryMenu from '../../../scripts/libraryMenu';
@@ -18,7 +18,7 @@ import Dashboard from '../../../utils/dashboard';
 import toast from '../../../components/toast/toast';
 import dialogHelper from '../../../components/dialogHelper/dialogHelper';
 import baseAlert from '../../../components/alert';
-import { getDefaultBackgroundClass } from '../../../components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../../../components/cardbuilder/utils/builder';
 
 import './login.scss';
 

@@ -103,9 +103,12 @@ export default tseslint.config(
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
+            'sonarjs/aws-restricted-ip-admin-access': 'off',
             // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
+            // NOTE: This rule is currently blowing up `TypeError: secretSignatures[fqn].forEach is not a function`
+            'sonarjs/hardcoded-secret-signatures': 'off',
 
             // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',
@@ -243,6 +246,9 @@ export default tseslint.config(
                 'Promise',
                 // whatwg-fetch
                 'fetch',
+                'Response',
+                'Response.headers',
+                'Response.json',
                 // document-register-element
                 'document.registerElement',
                 // resize-observer-polyfill
@@ -298,6 +304,8 @@ export default tseslint.config(
                 'String.strike',
                 'String.sub',
                 'String.sup',
+                'URL',
+                'URLSearchParams',
                 'RegExp',
                 'Number',
                 'Math',
@@ -351,13 +359,12 @@ export default tseslint.config(
                     leadingUnderscore: 'allowSingleOrDouble',
                     trailingUnderscore: 'allowSingleOrDouble'
                 },
-                // Ignore numbers, locale strings (en-us), aria/data attributes, CSS selectors,
-                // and api_key parameter
+                // Ignore numbers, locale strings (en-us), aria/data attributes and CSS selectors
                 {
                     selector: [ 'objectLiteralProperty', 'typeProperty' ],
                     format: null,
                     filter: {
-                        regex: '[ &\\-]|^([0-9]+)$|^api_key$',
+                        regex: '[ &\\-]|^([0-9]+)$',
                         match: true
                     }
                 }

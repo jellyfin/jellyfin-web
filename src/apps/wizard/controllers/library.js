@@ -1,11 +1,11 @@
 import escapeHtml from 'escape-html';
 
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
 import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import taskButton from 'scripts/taskbutton';
 import Dashboard, { pageClassOn, pageIdOn } from 'utils/dashboard';
 import imageHelper from 'utils/image';
@@ -354,7 +354,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
         html += '</div>';
     } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
         html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
-        html += virtualFolder.Locations[0];
+        html += escapeHtml(virtualFolder.Locations[0]);
         html += '</div>';
     } else {
         html += "<div class='cardText cardText-secondary'>";

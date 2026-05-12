@@ -76,7 +76,7 @@ function scrollToWindow({
     let scrollToPosition: number;
 
     if (direction === ScrollDirection.RIGHT) {
-        const nextItem = items[lastVisibleIndex];
+        const nextItem = items[lastVisibleIndex] || items[lastVisibleIndex - 1];
 
         // This will be the position to anchor the item at `lastVisibleIndex` to the start of the view window.
         const nextItemScrollOffset = lastVisibleIndex * nextItem.offsetWidth;

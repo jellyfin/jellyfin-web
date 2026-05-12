@@ -3,6 +3,7 @@
     <div class="pageTabContent" id="moviesTab" data-index="0">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap padded-top padded-left padded-right padded-bottom focuscontainer-x">
             <div class="paging"></div>
+            <button is="paper-icon-button-light" class="btnPlayAll autoSize hide" title="${HeaderPlayAll}"><span class="material-icons play_arrow" aria-hidden="true"></span></button>
             <button is="paper-icon-button-light" class="btnShuffle autoSize hide" title="${Shuffle}"><span class="material-icons shuffle" aria-hidden="true"></span></button>
             <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
             <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
@@ -64,6 +65,9 @@
             <button is="paper-icon-button-light" class="btnSelectView autoSize" title="${ButtonSelectView}"><span class="material-icons view_comfy" aria-hidden="true"></span></button>
             <button is="paper-icon-button-light" class="btnSort autoSize" title="${Sort}"><span class="material-icons sort_by_alpha" aria-hidden="true"></span></button>
             <button type="button" is="paper-icon-button-light" class="btnNewCollection autoSize" title="${NewCollection}"><span class="material-icons add" aria-hidden="true"></span></button>
+        </div>
+
+        <div class="alphaPicker alphaPicker-fixed alphaPicker-vertical">
         </div>
 
         <div is="emby-itemscontainer" class="itemsContainer vertical-wrap centered padded-left padded-right" style="text-align:center;">

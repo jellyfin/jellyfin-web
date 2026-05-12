@@ -4,9 +4,10 @@ import Edit from '@mui/icons-material/Edit';
 import Box from '@mui/material/Box/Box';
 import Button from '@mui/material/Button/Button';
 import IconButton from '@mui/material/IconButton';
+import { useTheme } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip/Tooltip';
 import parseISO from 'date-fns/parseISO';
-import { type MRT_ColumnDef, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, type MRT_Theme, useMaterialReactTable } from 'material-react-table';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
@@ -36,11 +37,22 @@ const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellVal
 
 export const Component = () => {
     const { api } = useApi();
-    const { data, isLoading: isDevicesLoading, isRefetching } = useDevices({});
+    const {
+        data,
+        isLoading: isDevicesLoading,
+        isError: isDevicesError,
+        isRefetching
+    } = useDevices({});
     const devices = useMemo(() => (
         data?.Items || []
     ), [ data ]);
-    const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
+    const {
+        usersById: users,
+        names: userNames,
+        isLoading: isUsersLoading,
+        isError: isUsersError
+    } = useUsersDetails();
+    const theme = useTheme();
 
     const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
     const [ isDeleteAllConfirmOpen, setIsDeleteAllConfirmOpen ] = useState(false);
@@ -137,8 +149,15 @@ export const Component = () => {
         }
     ], [ UserCell, userNames ]);
 
+    // NOTE: We need to provide a custom theme due to a MRT bug causing the initial theme to always be used
+    // https://github.com/KevinVandy/material-react-table/issues/1429
+    const mrtTheme = useMemo<Partial<MRT_Theme>>(() => ({
+        baseBackgroundColor: theme.palette.background.paper
+    }), [ theme ]);
+
     const mrTable = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
+        mrtTheme,
 
         columns,
         data: devices,
@@ -184,16 +203,25 @@ export const Component = () => {
         positionActionsColumn: 'last',
         displayColumnDefOptions: {
             'mrt-row-actions': {
-                header: ''
+                header: '',
+                size: 100
             }
         },
         renderRowActions: ({ row, table }) => {
             const isDeletable = api && row.original.Id && api.deviceInfo.id === row.original.Id;
             return (
-                <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        gap: 1,
+                        '&&': {
+                            backgroundColor: 'transparent !important'
+                        }
+                    }}
+                >
                     <Tooltip title={globalize.translate('Edit')}>
                         <IconButton
-                        // eslint-disable-next-line react/jsx-no-bind
+                            // eslint-disable-next-line react/jsx-no-bind
                             onClick={() => table.setEditingRow(row)}
                         >
                             <Edit />
@@ -239,6 +267,8 @@ export const Component = () => {
             title={globalize.translate('HeaderDevices')}
             className='mainAnimatedPage type-interior'
             table={mrTable}
+            isError={isDevicesError || isUsersError}
+            errorMessage={globalize.translate('DevicesLoadError')}
         >
             <ConfirmDialog
                 open={isDeleteConfirmOpen}

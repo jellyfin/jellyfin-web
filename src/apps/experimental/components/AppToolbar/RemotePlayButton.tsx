@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Cast from '@mui/icons-material/Cast';
 import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@mui/material/styles';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 import Tooltip from '@mui/material/Tooltip';
 
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -15,7 +15,6 @@ import RemotePlayMenu, { ID } from './menus/RemotePlayMenu';
 import RemotePlayActiveMenu, { ID as ACTIVE_ID } from './menus/RemotePlayActiveMenu';
 
 const RemotePlayButton = () => {
-    const theme = useTheme();
     const [ playerInfo, setPlayerInfo ] = useState(playbackManager.getPlayerInfo());
 
     const updatePlayerInfo = useCallback(() => {
@@ -70,9 +69,10 @@ const RemotePlayButton = () => {
                             aria-haspopup='true'
                             onClick={onRemotePlayActiveButtonClick}
                             color='inherit'
-                            sx={{
-                                color: theme.palette.primary.main
-                            }}
+                            // eslint-disable-next-line react/jsx-no-bind
+                            sx={(theme) => ({
+                                color: theme.vars.palette.primary.main
+                            })}
                         >
                             {playerInfo.deviceName || playerInfo.name}
                         </Button>

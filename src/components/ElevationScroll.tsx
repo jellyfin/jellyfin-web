@@ -13,7 +13,7 @@ const ElevationScroll = ({ children, elevate = false }: { children: ReactElement
     const isElevated = elevate || trigger;
 
     return React.cloneElement(children, {
-        color: isElevated ? 'primary' : 'transparent',
+        color: isElevated ? 'default' : 'transparent',
         elevation: isElevated ? 4 : 0
     });
 };

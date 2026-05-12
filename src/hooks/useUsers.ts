@@ -8,6 +8,8 @@ import { useApi } from './useApi';
 
 export type UsersRecords = Record<string, UserDto>;
 
+export const QUERY_KEY = 'Users';
+
 const fetchUsers = async (
     api: Api,
     requestParams?: UserApiGetUsersRequest,
@@ -23,7 +25,7 @@ const fetchUsers = async (
 export const useUsers = (requestParams?: UserApiGetUsersRequest) => {
     const { api } = useApi();
     return useQuery({
-        queryKey: ['Users'],
+        queryKey: [ QUERY_KEY ],
         queryFn: ({ signal }) =>
             fetchUsers(api!, requestParams, { signal }),
         enabled: !!api

@@ -7,7 +7,7 @@ import { playbackManager } from '../../components/playback/playbackmanager';
 import imageLoader from '../../components/images/imageLoader';
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';

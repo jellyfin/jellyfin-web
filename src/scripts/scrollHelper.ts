@@ -1,5 +1,5 @@
 import focusManager from '../components/focusManager';
-import dom from './dom';
+import dom from '../utils/dom';
 import '../styles/scrollstyles.scss';
 
 function getBoundingClientRect(elem: Element) {

@@ -158,7 +158,7 @@ export const Component = () => {
                                 helperText={(
                                     <>
                                         <span>{globalize.translate('LabelDisplayLanguageHelp')}</span>
-                                        <Link href='https://jellyfin.org/docs/general/contributing/#translating'>
+                                        <Link href='https://jellyfin.org/docs/general/contributing/#translating' target='_blank'>
                                             {globalize.translate('LearnHowYouCanContribute')}
                                         </Link>
                                     </>

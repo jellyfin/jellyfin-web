@@ -176,6 +176,10 @@ function onMessageReceived(e, msg) {
             inputManager.handleCommand('next');
         } else if (msg.Data.Command === 'PreviousTrack') {
             inputManager.handleCommand('previous');
+        } else if (msg.Data.Command === 'Rewind') {
+            inputManager.handleCommand('rewind');
+        } else if (msg.Data.Command === 'FastForward') {
+            inputManager.handleCommand('fastforward');
         } else {
             notifyApp();
         }

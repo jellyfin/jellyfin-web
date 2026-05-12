@@ -1,9 +1,7 @@
-import createTheme, { type ThemeOptions } from '@mui/material/styles/createTheme';
-import merge from 'lodash-es/merge';
+import { buildCustomColorScheme } from 'themes/utils';
 
-import { DEFAULT_THEME_OPTIONS } from 'themes/defaults';
-
-const options: ThemeOptions = {
+/** The "Purple Haze" color scheme. */
+const theme = buildCustomColorScheme({
     palette: {
         background: {
             paper: '#000420'
@@ -13,10 +11,11 @@ const options: ThemeOptions = {
         },
         secondary: {
             main: '#ff77f1'
+        },
+        AppBar: {
+            defaultBg: '#000420'
         }
     }
-};
-
-const theme = createTheme(merge({}, DEFAULT_THEME_OPTIONS, options));
+});
 
 export default theme;

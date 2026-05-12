@@ -9,7 +9,7 @@ import CircularProgress, {
 } from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { toPercent } from 'utils/number';
+import { toPercentString } from 'utils/number';
 import { getCurrentDateTimeLocale } from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';
 
@@ -36,7 +36,7 @@ function CircularProgressWithLabel(
                     component='div'
                     color='text.secondary'
                 >
-                    {toPercent(props.value / 100, getCurrentDateTimeLocale())}
+                    {toPercentString(props.value / 100, getCurrentDateTimeLocale())}
                 </Typography>
             </Box>
         </Box>
