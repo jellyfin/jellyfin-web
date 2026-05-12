@@ -1,25 +1,36 @@
-#pdfPlayer {
-    position: relative;
+.pdf-player-dialog .dialogContent {
+    overflow: hidden;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-canvas-container {
     width: 100%;
-    overflow: none;
-    z-index: 100;
-    background: #fff;
+    height: 100%;
+    overflow: auto; // CRUCIAL: Enable scrolling when canvas is larger
+    text-align: center; // Simple way to center the canvas horizontally
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    #canvas {
-        display: block;
-        margin: auto;
-    }
+#pdfPlayer #canvas {
+    display: block; // Needed for margin: auto or if container is flex
+}
 
-    .actionButtons {
-        right: 0.5vh;
-        top: 0.5vh;
-        z-index: 1002;
-        position: absolute;
-    }
+#pdfPlayer .actionButtons {
+    position: absolute;
+    top: 0.625em;
+    right: 0.625em;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.25em;
+    display: flex;
+    gap: 0.25em;
+}
 
-    .actionButtonIcon {
-        color: #000;
-        opacity: 0.7;
-    }
+#pdfPlayer .actionButtons button[is="paper-icon-button-light"] {
+    color: white;
 }
