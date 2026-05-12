@@ -485,7 +485,7 @@
     "LabelMetadataReaders": "Lettori Metadati",
     "LabelMetadataReadersHelp": "Classificare le origini metadati locali preferite in ordine di priorità. Il primo file trovato verrà letto.",
     "LabelMetadataSaversHelp": "Selezionare i formati di file per salvare i metadati.",
-    "LabelMinBackdropDownloadWidth": "Massima larghezza sfondo",
+    "LabelMinBackdropDownloadWidth": "Larghezza minima scaricamento sfondo",
     "LabelMinResumeDuration": "Durata minima per il riprendi",
     "LabelMinResumeDurationHelp": "La durata video più corta in secondi che salverà la locazione di riproduzione e ti permetterà di riprendere.",
     "LabelMinResumePercentage": "Percentuale minima per il riprendi",

@@ -4,47 +4,46 @@ import useCurrentTab from 'hooks/useCurrentTab';
 import Page from 'components/Page';
 import PageTabContent from '../../components/library/PageTabContent';
 import { LibraryTab } from 'types/libraryTab';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { MusicVideoSuggestionsSectionsView } from 'types/sections';
+import { MixedSuggestionsSectionsView } from 'types/sections';
 
 const foldersTabContent: LibraryTabContent = {
     viewType: LibraryTab.Folders,
-    collectionType: CollectionType.Musicvideos,
+    collectionType: null,
     isBtnPlayAllEnabled: true,
     isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Folder, BaseItemKind.MusicVideo]
+    itemType: [BaseItemKind.Folder, BaseItemKind.Movie, BaseItemKind.Series]
 };
 
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
-    collectionType: CollectionType.Musicvideos,
-    sectionsView: MusicVideoSuggestionsSectionsView
+    collectionType: null,
+    sectionsView: MixedSuggestionsSectionsView
 };
 
-const musicVideosTabContent: LibraryTabContent = {
-    viewType: LibraryTab.MusicVideos,
-    collectionType: CollectionType.Musicvideos,
+const mixedTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Mixed,
+    collectionType: null,
     isBtnPlayAllEnabled: true,
     isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.MusicVideo]
+    itemType: [BaseItemKind.Movie, BaseItemKind.Series]
 };
 
-const musicVideosTabMapping: LibraryTabMapping = {
+const mixedTabMapping: LibraryTabMapping = {
     0: foldersTabContent,
     1: suggestionsTabContent,
-    2: musicVideosTabContent
+    2: mixedTabContent
 };
 
-const MusicVideos: FC = () => {
+const Mixed: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = musicVideosTabMapping[activeTab];
+    const currentTab = mixedTabMapping[activeTab];
 
     return (
         <Page
-            id='musicvideos'
+            id='mixed'
             className='mainAnimatedPage libraryPage backdropPage collectionEditorPage pageWithAbsoluteTabs withTabs'
-            backDropType='musicvideo'
+            backDropType='movie, series'
         >
             <PageTabContent
                 key={`${currentTab.viewType} - ${libraryId}`}
@@ -55,4 +54,4 @@ const MusicVideos: FC = () => {
     );
 };
 
-export default MusicVideos;
+export default Mixed;

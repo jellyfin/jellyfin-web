@@ -298,6 +298,10 @@ class AppRouter {
                 urlForList += '&IsNews=true';
             }
 
+            if (options.parentId) {
+                urlForList += '&parentId=' + options.parentId;
+            }
+
             return urlForList;
         }
 
@@ -438,9 +442,7 @@ class AppRouter {
             }
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {
-                url = '#/homevideos?topParentId=' + item.Id;
-
-                return url;
+                return '#/homevideos?topParentId=' + item.Id;
             }
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Musicvideos) {
@@ -449,6 +451,24 @@ class AppRouter {
                 if (options?.section === 'latest') {
                     url += '&tab=1';
                 }
+                return url;
+            }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Boxsets) {
+                return `#/boxsets?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+            }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Playlists) {
+                return `#/playlists?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+            }
+
+            if (layoutMode === LayoutMode.Experimental && item.CollectionType == null && item.Type === 'CollectionFolder') {
+                url = `#/mixed?topParentId=${item.Id}&collectionType=mixed`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+
                 return url;
             }
         }
