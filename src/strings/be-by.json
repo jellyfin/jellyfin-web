@@ -1886,5 +1886,6 @@
     "UsersEditPageError": "Не ўдалося загрузіць старонку рэдагавання карыстальніка",
     "TrickplayLoadError": "Не ўдалося загрузіць налады Trickplay",
     "LabelExternalServerUri": "Знешні URI",
-    "LabelExternalServerUriHelp": "Апублікаваны URI сервера для знешняга доступу."
+    "LabelExternalServerUriHelp": "Апублікаваны URI сервера для знешняга доступу.",
+    "HeaderLatestMusicVideos": "Нядаўна дададзеныя музычныя відэа"
 }

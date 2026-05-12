@@ -485,7 +485,7 @@
     "LabelMetadataReaders": "Lettori Metadati",
     "LabelMetadataReadersHelp": "Classificare le origini metadati locali preferite in ordine di priorità. Il primo file trovato verrà letto.",
     "LabelMetadataSaversHelp": "Selezionare i formati di file per salvare i metadati.",
-    "LabelMinBackdropDownloadWidth": "Massima larghezza sfondo",
+    "LabelMinBackdropDownloadWidth": "Larghezza minima scaricamento sfondo",
     "LabelMinResumeDuration": "Durata minima per il riprendi",
     "LabelMinResumeDurationHelp": "La durata video più corta in secondi che salverà la locazione di riproduzione e ti permetterà di riprendere.",
     "LabelMinResumePercentage": "Percentuale minima per il riprendi",
@@ -1894,5 +1894,16 @@
     "Watch": "Guarda",
     "TrickplayLoadError": "Impossibile caricare le impostazioni di trickplay",
     "LabelExternalServerUri": "URI esterno",
-    "LabelExternalServerUriHelp": "URI del server pubblicato per l'accesso esterno."
+    "LabelExternalServerUriHelp": "URI del server pubblicato per l'accesso esterno.",
+    "OnFilesystem": "Su filesystem: {0}",
+    "LabelVideoAttributes": "Attributi video",
+    "LabelVideoColors": "Colori del video",
+    "LabelVideoBitDepth": "Profondità bit del video",
+    "LabelAudioAttributes": "Attributi audio",
+    "LabelTargetCodecs": "Codificatori di destinazione",
+    "LabelProgressAndSpeed": "Avanzamento / velocità",
+    "LabelReasons": "Motivi",
+    "LabelPlayerSizes": "Dimensioni del lettore",
+    "LabelPlaybackQuality": "Fotogramma scartato / danneggiato",
+    "LabelSyncPlayJoinGroup": "Unisciti al gruppo"
 }

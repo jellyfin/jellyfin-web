@@ -317,7 +317,9 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy === ItemSortBy.IsFolder ?
+                            [ItemSortBy.IsFolder, ItemSortBy.SortName] :
+                            [libraryViewSettings.SortBy],
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -416,7 +418,8 @@ export const useGetItemsViewByType = (
                 LibraryTab.Channels,
                 LibraryTab.SeriesTimers,
                 LibraryTab.MusicVideos,
-                LibraryTab.Folders
+                LibraryTab.Folders,
+                LibraryTab.Mixed
             ].includes(viewType)
     });
 };

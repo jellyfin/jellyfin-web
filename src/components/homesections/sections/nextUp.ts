@@ -27,7 +27,6 @@ function getNextUpFetchFn(
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             EnableTotalRecordCount: false,
-            DisableFirstEpisode: false,
             NextUpDateCutoff: oldestDateForNextUp.toISOString(),
             EnableResumable: false,
             EnableRewatching: userSettings.enableRewatchingInNextUp()
