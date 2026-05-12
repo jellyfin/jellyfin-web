@@ -21,9 +21,8 @@
 
             event.view = options.view || document.defaultView;
 
-            event.key = options.key || options.keyIdentifier || '';
+            // Don't populate 'key' and 'code' with dummy values
             event.keyCode = options.keyCode || 0;
-            event.code = options.code || '';
             event.charCode = options.charCode || 0;
             event.char = options.char || '';
             event.which = options.which || 0;
