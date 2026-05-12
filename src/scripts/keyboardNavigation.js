@@ -102,17 +102,22 @@ const InteractiveElements = ['INPUT', 'TEXTAREA'];
  */
 const NonInteractiveInputElements = ['button', 'checkbox', 'color', 'file', 'hidden', 'image', 'radio', 'reset', 'submit'];
 
-let hasFieldKey = false;
+let hasFieldCode = false;
 try {
-    hasFieldKey = 'key' in new KeyboardEvent('keydown');
+    hasFieldCode = 'code' in new KeyboardEvent('keydown');
 } catch (e) {
-    console.error("error checking 'key' field", e);
+    console.error("error checking 'code' field", e);
 }
 
-if (!hasFieldKey) {
+if (!hasFieldCode) {
     // Add [a..z]
     for (let i = 65; i <= 90; i++) {
-        KeyNames[i] = String.fromCharCode(i).toLowerCase();
+        KeyNames[i] = `Key${String.fromCharCode(i)}`;
+    }
+
+    // Add [0..9]
+    for (let i = 48; i <= 57; i++) {
+        KeyNames[i] = `Digit${String.fromCharCode(i)}`;
     }
 }
 
@@ -123,8 +128,8 @@ if (!hasFieldKey) {
  * @return {string} Key name.
  */
 export function getKeyName(event) {
-    const key = KeyNames[event.keyCode] || event.key;
-    return KeyAliases[key] || event.code;
+    const key = KeyNames[event.keyCode] || event.code || '';
+    return KeyAliases[key] || key;
 }
 
 /**
