@@ -545,10 +545,10 @@ export class HtmlVideoPlayer {
                 elem.crossOrigin = 'use-credentials';
             }
 
-            return applySrc(elem, val, options).then(() => {
-                this.#currentSrc = val;
-
-                return playWithPromise(elem, this.onError);
+            return playWithPromise(elem, this.onError, {
+                beforePlay: () => applySrc(elem, val, options).then(() => {
+                    this.#currentSrc = val;
+                })
             });
         }
     }
