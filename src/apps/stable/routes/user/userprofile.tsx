@@ -8,7 +8,7 @@ import globalize from '../../../../lib/globalize';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
 import toast from '../../../../components/toast/toast';
-import { useUser } from 'apps/dashboard/features/users/api/useUser';
+import { useUser } from 'hooks/api/useUser';
 import loading from 'components/loading/loading';
 import { queryClient } from 'utils/query/queryClient';
 import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
@@ -18,8 +18,8 @@ import Button from 'elements/emby-button/Button';
 
 const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
-    const userId = searchParams.get('userId');
-    const { data: user, isPending: isUserPending } = useUser(userId ? { userId: userId } : undefined);
+    const userId = searchParams.get('userId') || undefined;
+    const { data: user, isPending: isUserPending } = useUser({ userId });
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);

@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 
 import { ItemAction } from 'constants/itemAction';
-import { CardShape } from 'utils/card';
 import { randomInt } from 'utils/number';
+
+import { CardShape } from './shape';
 
 const ASPECT_RATIOS = {
     portrait: (2 / 3),

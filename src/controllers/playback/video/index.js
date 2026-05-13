@@ -265,11 +265,7 @@ export default function (view) {
         LibraryMenu.setTitle(title);
         Events.trigger(document, EventType.VIDEO_TITLE_CHANGE, [ title ]);
 
-        const documentTitle = parentName || (item ? item.Name : null);
-
-        if (documentTitle) {
-            document.title = documentTitle;
-        }
+        document.title = title;
     }
 
     let mouseIsDown = false;
@@ -1297,6 +1293,14 @@ export default function (view) {
             return;
         }
 
+        if (key.startsWith('Digit') || key.startsWith('Numpad')) {
+            const num = parseInt(key.replace('Digit', '').replace('Numpad', ''), 10);
+            if (!isNaN(num) && num >= 0 && num <= 9) {
+                playbackManager.seekPercent(num * 10, currentPlayer);
+                return;
+            }
+        }
+
         switch (key) {
             case 'Enter':
                 showOsd();
@@ -1309,8 +1313,7 @@ export default function (view) {
                     e.stopPropagation();
                 }
                 break;
-            case 'k':
-            case 'K':
+            case 'KeyK':
                 if (!e.shiftKey) {
                     e.preventDefault();
                     playbackManager.playPause(currentPlayer);
@@ -1331,8 +1334,7 @@ export default function (view) {
                     playbackManager.volumeDown(currentPlayer);
                 }
                 break;
-            case 'l':
-            case 'L':
+            case 'KeyL':
             case 'ArrowRight':
             case 'Right':
                 if (!e.shiftKey) {
@@ -1341,8 +1343,23 @@ export default function (view) {
                     showOsd(btnFastForward);
                 }
                 break;
-            case 'j':
-            case 'J':
+            case 'Comma':
+                e.preventDefault();
+                if (!e.shiftKey) {
+                    playbackManager.seekFrames(-1, currentPlayer);
+                } else {
+                    playbackManager.decreasePlaybackRate(currentPlayer);
+                }
+                break;
+            case 'Period':
+                e.preventDefault();
+                if (!e.shiftKey) {
+                    playbackManager.seekFrames(1, currentPlayer);
+                } else {
+                    playbackManager.increasePlaybackRate(currentPlayer);
+                }
+                break;
+            case 'KeyJ':
             case 'ArrowLeft':
             case 'Left':
                 if (!e.shiftKey) {
@@ -1351,29 +1368,25 @@ export default function (view) {
                     showOsd(btnRewind);
                 }
                 break;
-            case 'f':
-            case 'F':
+            case 'KeyF':
                 if (!e.shiftKey) {
                     e.preventDefault();
                     playbackManager.toggleFullscreen(currentPlayer);
                 }
                 break;
-            case 'm':
-            case 'M':
+            case 'KeyM':
                 if (!e.shiftKey) {
                     e.preventDefault();
                     playbackManager.toggleMute(currentPlayer);
                 }
                 break;
-            case 'p':
-            case 'P':
+            case 'KeyP':
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.previousTrack(currentPlayer);
                 }
                 break;
-            case 'n':
-            case 'N':
+            case 'KeyN':
                 if (e.shiftKey) {
                     e.preventDefault();
                     playbackManager.nextTrack(currentPlayer);
@@ -1409,29 +1422,6 @@ export default function (view) {
                     playbackManager.seekPercent(100, currentPlayer);
                 }
                 break;
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9': { // no Shift
-                e.preventDefault();
-                const percent = parseInt(key, 10) * 10;
-                playbackManager.seekPercent(percent, currentPlayer);
-                break;
-            }
-            case '>': // Shift+.
-                e.preventDefault();
-                playbackManager.increasePlaybackRate(currentPlayer);
-                break;
-            case '<': // Shift+,
-                e.preventDefault();
-                playbackManager.decreasePlaybackRate(currentPlayer);
-                break;
             case 'PageUp':
                 if (!e.shiftKey) {
                     e.preventDefault();
@@ -1444,15 +1434,13 @@ export default function (view) {
                     playbackManager.previousChapter(currentPlayer);
                 }
                 break;
-            case 'g':
-            case 'G':
+            case 'KeyG':
                 if (!e.shiftKey) {
                     e.preventDefault();
                     subtitleSyncOverlay?.decrementOffset();
                 }
                 break;
-            case 'h':
-            case 'H':
+            case 'KeyH':
                 if (!e.shiftKey) {
                     e.preventDefault();
                     subtitleSyncOverlay?.incrementOffset();
@@ -2103,4 +2091,3 @@ export default function (view) {
         });
     }
 }
-

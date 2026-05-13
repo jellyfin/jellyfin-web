@@ -5,6 +5,7 @@ import React from 'react';
 
 import { useSystemInfo } from 'hooks/useSystemInfo';
 import ListItemLink from 'components/ListItemLink';
+import { getDisplayVersion } from 'utils/versions';
 
 import appIcon from '@jellyfin/ux-web/icon-transparent.png';
 
@@ -22,7 +23,7 @@ const DrawerHeaderLink = () => {
             </ListItemIcon>
             <ListItemText
                 primary={systemInfo?.ServerName || 'Jellyfin'}
-                secondary={systemInfo?.Version}
+                secondary={getDisplayVersion(systemInfo?.Version)}
                 slotProps={{
                     primary: { variant: 'h6' }
                 }}

@@ -2,6 +2,9 @@ name: Job messages ⚙️
 
 on:
   workflow_call:
+    secrets:
+      JF_BOT_TOKEN:
+        required: true
     inputs:
       branch:
         required: false
@@ -18,6 +21,9 @@ on:
       comment:
         required: false
         type: boolean
+      pr_number:
+        required: true
+        type: string
       marker:
         description: Hidden marker to detect PR comments composed by the bot
         required: false
@@ -63,3 +69,4 @@ jobs:
           github-token: ${{ secrets.JF_BOT_TOKEN }}
           message: ${{ env.msg }}
           comment-tag: ${{ inputs.marker }}
+          pr-number: ${{ inputs.pr_number }}

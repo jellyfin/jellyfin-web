@@ -1,11 +1,8 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
-// NOTE: Used for jsdoc
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ApiClient } from 'jellyfin-apiclient';
 
 import { AppFeature } from 'constants/appFeature';
-import { getUserViewsQuery } from 'hooks/useUserViews';
+import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { EventType } from 'constants/eventType';
@@ -395,7 +392,7 @@ function onSidebarLinkClick() {
 
 function getUserViews(apiClient, userId) {
     return queryClient
-        .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
+        .fetchQuery(getUserViewsQuery(toApi(apiClient), { userId }))
         .then(function (result) {
             const items = result.Items;
             const list = [];
@@ -722,7 +719,7 @@ function setTabs (type, selectedIndex, builder) {
 
 /**
  * Fetch the server name and update the document title.
- * @param {ApiClient} [_apiClient] The current api client.
+ * @param {import('jellyfin-apiclient').ApiClient} [_apiClient] The current api client.
  */
 const fetchServerName = (_apiClient) => {
     _apiClient

@@ -9,12 +9,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
 
+import { CardShape } from 'components/cardbuilder/utils/shape';
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { getDefaultLibraryViewSettings, getSettingsKey } from 'utils/items';
-import { CardShape } from 'utils/card';
 import Loading from 'components/loading/LoadingComponent';
 import { playbackManager } from 'components/playback/playbackmanager';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';

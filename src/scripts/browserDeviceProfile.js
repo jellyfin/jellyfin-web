@@ -419,8 +419,6 @@ function getGlobalMaxVideoBitrate() {
     let bitrate = null;
     if (browser.ps4) {
         bitrate = 8000000;
-    } else if (browser.xboxOne) {
-        bitrate = 12000000;
     } else if (browser.tizen && isTizenFhd) {
         bitrate = 20000000;
     }
@@ -679,7 +677,7 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || browser.opera)))) {
+        && (browser.safari || browser.tizen || browser.web0s || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || browser.opera)))) {
         // disable av1 on non-safari mobile browsers since it can be very slow software decoding
         hlsInFmp4VideoCodecs.push('av1');
     }
@@ -1404,7 +1402,7 @@ export default function (options) {
         });
     }
 
-    const globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
+    const globalMaxVideoBitrate = (options.globalMaxVideoBitrate || getGlobalMaxVideoBitrate() || '').toString();
 
     const h264MaxVideoBitrate = globalMaxVideoBitrate;
 
