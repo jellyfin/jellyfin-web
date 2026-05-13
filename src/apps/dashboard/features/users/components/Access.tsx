@@ -1,16 +1,16 @@
 import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
-import loading from '../../../../components/loading/loading';
-import globalize from '../../../../lib/globalize';
-import SectionTabs from '../../../../components/dashboard/users/SectionTabs';
-import Button from '../../../../elements/emby-button/Button';
-import SectionTitleContainer from '../../../../elements/SectionTitleContainer';
-import AccessContainer from '../../../../components/dashboard/users/AccessContainer';
-import CheckBoxElement from '../../../../elements/CheckBoxElement';
-import Page from '../../../../components/Page';
+import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
+import Button from 'elements/emby-button/Button';
+import AccessContainer from 'components/dashboard/users/AccessContainer';
+import CheckBoxElement from 'elements/CheckBoxElement';
 import Toast from 'apps/dashboard/components/Toast';
+
+interface AccessProps {
+    userId: string;
+}
 
 type ItemsArr = {
     Name?: string | null;
@@ -20,15 +20,12 @@ type ItemsArr = {
     checkedAttribute?: string
 };
 
-const UserLibraryAccess = () => {
-    const [ searchParams ] = useSearchParams();
-    const userId = searchParams.get('userId');
+const Access = ({ userId }: AccessProps) => {
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
-    const [ userName, setUserName ] = useState('');
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
     const [devicesItems, setDevicesItems] = useState<ItemsArr[]>([]);
-    const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
+    const libraryMenu = useMemo(async () => ((await import('scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -137,7 +134,6 @@ const UserLibraryAccess = () => {
     }, []);
 
     const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfoDto[]) => {
-        setUserName(user.Name || '');
         void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadChannels(user, channels);
         loadMediaFolders(user, mediaFolders);
@@ -244,99 +240,87 @@ const UserLibraryAccess = () => {
     }, [loadData]);
 
     return (
-        <Page
-            id='userLibraryAccessPage'
-            className='mainAnimatedPage type-interior'
-        >
+        <div ref={element}>
             <Toast
                 open={isSettingsSavedToastOpen}
                 onClose={handleToastClose}
                 message={globalize.translate('SettingsSaved')}
             />
-            <div ref={element} className='content-primary'>
-                <div className='verticalSection'>
-                    <SectionTitleContainer
-                        title={userName}
+            <form className='userLibraryAccessForm'>
+                <AccessContainer
+                    containerClassName='folderAccessContainer'
+                    headerTitle='HeaderLibraryAccess'
+                    checkBoxClassName='chkEnableAllFolders'
+                    checkBoxTitle='OptionEnableAccessToAllLibraries'
+                    listContainerClassName='folderAccessListContainer'
+                    accessClassName='folderAccess'
+                    listTitle='HeaderLibraries'
+                    description='LibraryAccessHelp'
+                >
+                    {mediaFoldersItems.map(Item => (
+                        <CheckBoxElement
+                            key={Item.Id}
+                            className='chkFolder'
+                            itemId={Item.Id}
+                            itemName={Item.Name}
+                            itemCheckedAttribute={Item.checkedAttribute}
+                        />
+                    ))}
+                </AccessContainer>
+
+                <AccessContainer
+                    containerClassName='channelAccessContainer hide'
+                    headerTitle='HeaderChannelAccess'
+                    checkBoxClassName='chkEnableAllChannels'
+                    checkBoxTitle='OptionEnableAccessToAllChannels'
+                    listContainerClassName='channelAccessListContainer'
+                    accessClassName='channelAccess'
+                    listTitle='Channels'
+                    description='ChannelAccessHelp'
+                >
+                    {channelsItems.map(Item => (
+                        <CheckBoxElement
+                            key={Item.Id}
+                            className='chkChannel'
+                            itemId={Item.Id}
+                            itemName={Item.Name}
+                            itemCheckedAttribute={Item.checkedAttribute}
+                        />
+                    ))}
+                </AccessContainer>
+
+                <AccessContainer
+                    containerClassName='deviceAccessContainer hide'
+                    headerTitle='HeaderDeviceAccess'
+                    checkBoxClassName='chkEnableAllDevices'
+                    checkBoxTitle='OptionEnableAccessFromAllDevices'
+                    listContainerClassName='deviceAccessListContainer'
+                    accessClassName='deviceAccess'
+                    listTitle='HeaderDevices'
+                    description='DeviceAccessHelp'
+                >
+                    {devicesItems.map(Item => (
+                        <CheckBoxElement
+                            key={Item.Id}
+                            className='chkDevice'
+                            itemId={Item.Id}
+                            itemName={Item.CustomName || Item.Name}
+                            itemAppName={Item.AppName}
+                            itemCheckedAttribute={Item.checkedAttribute}
+                        />
+                    ))}
+                </AccessContainer>
+                <br />
+                <div>
+                    <Button
+                        type='submit'
+                        className='raised button-submit block'
+                        title={globalize.translate('Save')}
                     />
                 </div>
-                <SectionTabs activeTab='userlibraryaccess'/>
-                <form className='userLibraryAccessForm'>
-                    <AccessContainer
-                        containerClassName='folderAccessContainer'
-                        headerTitle='HeaderLibraryAccess'
-                        checkBoxClassName='chkEnableAllFolders'
-                        checkBoxTitle='OptionEnableAccessToAllLibraries'
-                        listContainerClassName='folderAccessListContainer'
-                        accessClassName='folderAccess'
-                        listTitle='HeaderLibraries'
-                        description='LibraryAccessHelp'
-                    >
-                        {mediaFoldersItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
-                                className='chkFolder'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
-                                itemCheckedAttribute={Item.checkedAttribute}
-                            />
-                        ))}
-                    </AccessContainer>
-
-                    <AccessContainer
-                        containerClassName='channelAccessContainer hide'
-                        headerTitle='HeaderChannelAccess'
-                        checkBoxClassName='chkEnableAllChannels'
-                        checkBoxTitle='OptionEnableAccessToAllChannels'
-                        listContainerClassName='channelAccessListContainer'
-                        accessClassName='channelAccess'
-                        listTitle='Channels'
-                        description='ChannelAccessHelp'
-                    >
-                        {channelsItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
-                                className='chkChannel'
-                                itemId={Item.Id}
-                                itemName={Item.Name}
-                                itemCheckedAttribute={Item.checkedAttribute}
-                            />
-                        ))}
-                    </AccessContainer>
-
-                    <AccessContainer
-                        containerClassName='deviceAccessContainer hide'
-                        headerTitle='HeaderDeviceAccess'
-                        checkBoxClassName='chkEnableAllDevices'
-                        checkBoxTitle='OptionEnableAccessFromAllDevices'
-                        listContainerClassName='deviceAccessListContainer'
-                        accessClassName='deviceAccess'
-                        listTitle='HeaderDevices'
-                        description='DeviceAccessHelp'
-                    >
-                        {devicesItems.map(Item => (
-                            <CheckBoxElement
-                                key={Item.Id}
-                                className='chkDevice'
-                                itemId={Item.Id}
-                                itemName={Item.CustomName || Item.Name}
-                                itemAppName={Item.AppName}
-                                itemCheckedAttribute={Item.checkedAttribute}
-                            />
-                        ))}
-                    </AccessContainer>
-                    <br />
-                    <div>
-                        <Button
-                            type='submit'
-                            className='raised button-submit block'
-                            title={globalize.translate('Save')}
-                        />
-                    </div>
-                </form>
-            </div>
-        </Page>
-
+            </form>
+        </div>
     );
 };
 
-export default UserLibraryAccess;
+export default Access;

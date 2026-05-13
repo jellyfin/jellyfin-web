@@ -10,7 +10,7 @@ import markdownIt from 'markdown-it';
 
 import { ItemAction } from 'constants/itemAction';
 
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';

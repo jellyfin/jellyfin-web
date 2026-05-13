@@ -1,4 +1,3 @@
-@use '../../styles/mixins' as *;
 @use '../_base/palette' as palette;
 
 /* Import the base theme with overrides */
@@ -26,8 +25,8 @@
 
 // Override the alpha picker selected colors
 .alphaPickerButton-selected {
-    @include var(background-color, --jf-palette-primary-main, palette.$primary-main);
-    @include var(color, --jf-palette-primary-contrastText, palette.$primary-contrastText);
+    background-color: var(--jf-palette-primary-main, palette.$primary-main);
+    color: var(--jf-palette-primary-contrastText, palette.$primary-contrastText);
 }
 
 /* Card background color variants */

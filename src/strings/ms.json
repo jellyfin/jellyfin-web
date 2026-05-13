@@ -289,5 +289,6 @@
     "AllowStreamSharingHelp": "Benarkan Jellyfin menggandakan aliran mpegts daripada penala dan berkongsi aliran yang digandakan ini kepada kliennya. Ini berguna apabila penala mempunyai had jumlah aliran tetapi juga boleh menyebabkan masalah main balik.",
     "LabelSlideshowIntervalHelp": "Masa dalam saat, setiap gambar dipaparkan dalam persembahan slaid.",
     "LabelBindToLocalNetworkAddress": "Pautkan ke alamat rangkaian tempatan",
-    "LabelBirthYear": "Tahun kelahiran"
+    "LabelBirthYear": "Tahun kelahiran",
+    "ActivitiesLoadError": "Gagal untuk memuatkan aktiviti"
 }

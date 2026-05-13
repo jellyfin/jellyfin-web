@@ -1,10 +1,10 @@
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
-import { getBackdropShape } from 'utils/card';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 

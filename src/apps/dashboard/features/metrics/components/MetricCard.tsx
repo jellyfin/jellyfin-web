@@ -35,6 +35,7 @@ const MetricCard: FC<MetricCardProps> = ({
         >
             <Stack
                 direction='row'
+                spacing={2}
                 sx={{
                     width: '100%',
                     padding: 2,

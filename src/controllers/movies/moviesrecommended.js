@@ -1,6 +1,7 @@
 import escapeHtml from 'escape-html';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import * as mainTabsManager from 'components/maintabsmanager';
@@ -11,7 +12,6 @@ import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
-import { getBackdropShape, getPortraitShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 

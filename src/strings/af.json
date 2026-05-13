@@ -853,5 +853,6 @@
     "DisplayLoadError": "Daar het 'n fout voorgekom tydens die laai van vertoonkonfigurasie-data.",
     "HeaderNextEpisode": "Volgende Episode",
     "LabelAllowContentWithTags": "Laat items met etikette toe",
-    "LabelAllowFmp4TranscodingContainer": "Laat fMP4 transkodering houer toe"
+    "LabelAllowFmp4TranscodingContainer": "Laat fMP4 transkodering houer toe",
+    "BehindTheScenes": "Agter die Skerms"
 }

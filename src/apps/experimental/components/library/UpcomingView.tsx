@@ -1,11 +1,11 @@
 import React, { type FC } from 'react';
 
+import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
 import { useGetGroupsUpcomingEpisodes } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
-import { CardShape } from 'utils/card';
 import type { LibraryViewProps } from 'types/library';
 
 // eslint-disable-next-line sonarjs/function-return-type

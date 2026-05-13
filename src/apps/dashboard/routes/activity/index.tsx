@@ -52,7 +52,12 @@ export const Component = () => {
         pageSize: DEFAULT_PAGE_SIZE
     });
 
-    const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
+    const {
+        usersById: users,
+        names: userNames,
+        isLoading: isUsersLoading,
+        isError: isUsersError
+    } = useUsersDetails();
 
     const theme = useTheme();
 
@@ -64,7 +69,11 @@ export const Component = () => {
         hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined
     }), [activityView, pagination.pageIndex, pagination.pageSize]);
 
-    const { data, isLoading: isLogEntriesLoading } = useLogEntries(activityParams);
+    const {
+        data,
+        isLoading: isLogEntriesLoading,
+        isError: isLogEntriesError
+    } = useLogEntries(activityParams);
     const logEntries = useMemo(() => (
         data?.Items || []
     ), [ data ]);
@@ -213,6 +222,8 @@ export const Component = () => {
             title={globalize.translate('HeaderActivity')}
             className='mainAnimatedPage type-interior'
             table={table}
+            isError={isUsersError || isLogEntriesError}
+            errorMessage={globalize.translate('ActivitiesLoadError')}
         />
     );
 };
