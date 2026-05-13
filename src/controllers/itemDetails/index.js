@@ -2039,6 +2039,7 @@ export default function (view, params) {
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
             updateMiscInfo();
+            refreshSelectedVersion();
         });
         view.addEventListener('viewshow', function (e) {
             const page = this;
@@ -2081,6 +2082,38 @@ export default function (view, params) {
             // patch currentItem (primary item) with details from the selected MediaSource:
             ...currentItem,
             ...selectedMediaSource
+        });
+    }
+
+    // When the user picks an alternate version, fetch that Video item's own DTO
+    // and refresh the play/user-data buttons so resume position, watched state, and
+    // stack-part count reflect the selected version rather than the primary's.
+    function refreshSelectedVersion() {
+        const selectedId = view.querySelector('.selectSource').value;
+        if (!selectedId || !currentItem || selectedId === currentItem.Id) {
+            reloadPlayButtons(view, currentItem);
+            reloadUserDataButtons(view, currentItem);
+            return;
+        }
+
+        const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+        apiClient.getItem(apiClient.getCurrentUserId(), selectedId).then(function (altItem) {
+            if (view.querySelector('.selectSource').value !== selectedId) {
+                return;
+            }
+            // Keep primary's shared metadata (overview, cast, etc.) and override the
+            // fields that are intrinsic to the playback target (UserData, runtime, parts).
+            const merged = {
+                ...currentItem,
+                UserData: altItem.UserData,
+                RunTimeTicks: altItem.RunTimeTicks,
+                PartCount: altItem.PartCount,
+                MediaStreams: altItem.MediaStreams
+            };
+            reloadPlayButtons(view, merged);
+            reloadUserDataButtons(view, merged);
+        }).catch(function (err) {
+            console.error('failed to load alternate version item', err);
         });
     }
 
