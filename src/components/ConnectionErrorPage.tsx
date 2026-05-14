@@ -10,7 +10,7 @@ import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
 
 interface ConnectionErrorPageProps {
-    state: ConnectionState
+    state: keyof typeof ConnectionState
 }
 
 const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({

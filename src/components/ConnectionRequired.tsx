@@ -61,7 +61,7 @@ const ConnectionRequired: FunctionComponent<ConnectionRequiredProps> = ({
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [ errorState, setErrorState ] = useState<ConnectionState>();
+    const [ errorState, setErrorState ] = useState<keyof typeof ConnectionState>();
     const [ isLoading, setIsLoading ] = useState(true);
 
     const navigateIfNotThere = useCallback((route: BounceRoutes) => {
