@@ -1,5 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
+import type { PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client/api/playlists-api';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';

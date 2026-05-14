@@ -33,6 +33,7 @@ import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
+import * as bitrateTest from 'utils/bitrateTest';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1407,7 +1408,7 @@ export class PlaybackManager {
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
-                    promise = apiClient.detectBitrate(true);
+                    promise = bitrateTest.detectBitrate(toApi(apiClient), true);
                 } else {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
                     promise = Promise.resolve(options.maxBitrate);
@@ -2584,10 +2585,11 @@ export class PlaybackManager {
                     return apiClient.getEndpointInfo()
                         .then((endpointInfo) => {
                             if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return apiClient.detectBitrate().then((bitrate) => {
-                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                    return bitrate;
-                                });
+                                return bitrateTest.detectBitrate(toApi(apiClient))
+                                    .then((bitrate) => {
+                                        appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+                                        return bitrate;
+                                    });
                             }
 
                             return Promise.reject(new Error('skip bitrate detection'));

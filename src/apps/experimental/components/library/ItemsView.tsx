@@ -5,6 +5,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import Box from '@mui/material/Box';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import type { Theme } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
@@ -26,6 +27,8 @@ import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
 import { useItem } from 'hooks/useItem';
+
+import OffsetAppBar from '../OffsetAppBar';
 
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';
@@ -236,143 +239,153 @@ const ItemsView: FC<ItemsViewProps> = ({
 
     return (
         <Box className='padded-bottom-page'>
-            <Box
-                className={classNames(
-                    'padded-top padded-left padded-right',
-                    { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                )}
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center'
-                }}
+            <OffsetAppBar
+                // eslint-disable-next-line react/jsx-no-bind
+                sx={theme => ({
+                    top: 0,
+                    paddingTop: 6,
+                    // This should render under the main AppBar and AlphabetPicker
+                    zIndex: theme.zIndex.appBar - 2
+                })}
             >
-                <Box
-                    sx={{ marginRight: 1 }}
-                >
-                    <LibraryViewMenu />
-                </Box>
-
-                <Box
+                <Toolbar
+                    className={classNames(
+                        'padded-left padded-right',
+                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
+                    )}
                     sx={{
-                        flexGrow: {
-                            xs: 1,
-                            sm: 0
-                        },
-                        marginRight: 1
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'center'
                     }}
                 >
-                    <ButtonGroup
-                        color='inherit'
-                        variant='text'
+                    <Box
+                        sx={{ marginRight: 1 }}
                     >
-                        {isBtnFilterEnabled && (
-                            <FilterButton
-                                parentId={parentId}
-                                itemType={itemType}
-                                viewType={viewType}
-                                hasFilters={hasFilters}
+                        <LibraryViewMenu />
+                    </Box>
+
+                    <Box
+                        sx={{
+                            flexGrow: {
+                                xs: 1,
+                                sm: 0
+                            },
+                            marginRight: 1
+                        }}
+                    >
+                        <ButtonGroup
+                            color='inherit'
+                            variant='text'
+                        >
+                            {isBtnFilterEnabled && (
+                                <FilterButton
+                                    parentId={parentId}
+                                    itemType={itemType}
+                                    viewType={viewType}
+                                    hasFilters={hasFilters}
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            )}
+
+                            {isBtnSortEnabled && (
+                                <SortButton
+                                    viewType={viewType}
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            )}
+
+                            {isBtnGridListEnabled && (
+                                <ViewSettingsButton
+                                    viewType={viewType}
+                                    libraryViewSettings={libraryViewSettings}
+                                    setLibraryViewSettings={setLibraryViewSettings}
+                                />
+                            )}
+                        </ButtonGroup>
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexGrow: {
+                                xs: 1,
+                                sm: 0
+                            },
+                            justifyContent: 'flex-end'
+                        }}
+                    >
+                        {!isPending && (
+                            <>
+                                <ButtonGroup
+                                    variant='contained'
+                                >
+                                    {isBtnPlayAllEnabled && (
+                                        <PlayAllButton
+                                            item={item}
+                                            items={items}
+                                            viewType={viewType}
+                                            hasFilters={hasFilters}
+                                            isTextVisible={isSmallScreen}
+                                            libraryViewSettings={libraryViewSettings}
+                                        />
+                                    )}
+
+                                    {isBtnShuffleEnabled && totalRecordCount > 1 && (
+                                        <ShuffleButton
+                                            item={item}
+                                            items={items}
+                                            viewType={viewType}
+                                            hasFilters={hasFilters}
+                                            isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
+                                            libraryViewSettings={libraryViewSettings}
+                                        />
+                                    )}
+
+                                    {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
+                                        <QueueButton
+                                            item={item}
+                                            items={items}
+                                            hasFilters={hasFilters}
+                                            isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
+                                        />
+                                    )}
+                                </ButtonGroup>
+
+                                {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
+                                {isBtnNewPlaylistEnabled && <NewPlaylistButton isTextVisible={isSmallScreen} />}
+                            </>
+                        )}
+                    </Box>
+
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'end',
+                            flexBasis: {
+                                xs: '100%',
+                                sm: 'auto'
+                            },
+                            flexGrow: 1,
+                            marginTop: {
+                                xs: 0.5,
+                                sm: 0
+                            }
+                        }}
+                    >
+                        {!isPending && isPaginationEnabled && (
+                            <Pagination
+                                totalRecordCount={totalRecordCount}
                                 libraryViewSettings={libraryViewSettings}
+                                isPlaceholderData={isPlaceholderData}
                                 setLibraryViewSettings={setLibraryViewSettings}
                             />
                         )}
-
-                        {isBtnSortEnabled && (
-                            <SortButton
-                                viewType={viewType}
-                                libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={setLibraryViewSettings}
-                            />
-                        )}
-
-                        {isBtnGridListEnabled && (
-                            <ViewSettingsButton
-                                viewType={viewType}
-                                libraryViewSettings={libraryViewSettings}
-                                setLibraryViewSettings={setLibraryViewSettings}
-                            />
-                        )}
-                    </ButtonGroup>
-                </Box>
-
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexGrow: {
-                            xs: 1,
-                            sm: 0
-                        },
-                        justifyContent: 'flex-end'
-                    }}
-                >
-                    {!isPending && (
-                        <>
-                            <ButtonGroup
-                                variant='contained'
-                            >
-                                {isBtnPlayAllEnabled && (
-                                    <PlayAllButton
-                                        item={item}
-                                        items={items}
-                                        viewType={viewType}
-                                        hasFilters={hasFilters}
-                                        isTextVisible={isSmallScreen}
-                                        libraryViewSettings={libraryViewSettings}
-                                    />
-                                )}
-
-                                {isBtnShuffleEnabled && totalRecordCount > 1 && (
-                                    <ShuffleButton
-                                        item={item}
-                                        items={items}
-                                        viewType={viewType}
-                                        hasFilters={hasFilters}
-                                        isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
-                                        libraryViewSettings={libraryViewSettings}
-                                    />
-                                )}
-
-                                {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
-                                    <QueueButton
-                                        item={item}
-                                        items={items}
-                                        hasFilters={hasFilters}
-                                        isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
-                                    />
-                                )}
-                            </ButtonGroup>
-
-                            {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
-                            {isBtnNewPlaylistEnabled && <NewPlaylistButton isTextVisible={isSmallScreen} />}
-                        </>
-                    )}
-                </Box>
-
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'end',
-                        flexBasis: {
-                            xs: '100%',
-                            sm: 'auto'
-                        },
-                        flexGrow: 1,
-                        marginTop: {
-                            xs: 0.5,
-                            sm: 0
-                        }
-                    }}
-                >
-                    {!isPending && isPaginationEnabled && (
-                        <Pagination
-                            totalRecordCount={totalRecordCount}
-                            libraryViewSettings={libraryViewSettings}
-                            isPlaceholderData={isPlaceholderData}
-                            setLibraryViewSettings={setLibraryViewSettings}
-                        />
-                    )}
-                </Box>
-            </Box>
+                    </Box>
+                </Toolbar>
+            </OffsetAppBar>
 
             {isAlphabetPickerEnabled && hasSortName && (
                 <AlphabetPicker
@@ -392,26 +405,6 @@ const ItemsView: FC<ItemsViewProps> = ({
                 >
                     {getItems()}
                 </ItemsContainer>
-            )}
-
-            {!isPending && isPaginationEnabled && (
-                <Box
-                    className={classNames(
-                        'padded-left padded-right',
-                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                    )}
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end'
-                    }}
-                >
-                    <Pagination
-                        totalRecordCount={totalRecordCount}
-                        libraryViewSettings={libraryViewSettings}
-                        isPlaceholderData={isPlaceholderData}
-                        setLibraryViewSettings={setLibraryViewSettings}
-                    />
-                </Box>
             )}
         </Box>
     );

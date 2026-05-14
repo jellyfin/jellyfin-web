@@ -318,7 +318,7 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
 
         const userValue = userSettings.get(`landing-${idForLanding}`);
 
-        html += getLandingScreenOptionsHtml(item.CollectionType, userValue);
+        html += getLandingScreenOptionsHtml(collectionType, userValue);
 
         html += '</select>';
         html += '</div>';

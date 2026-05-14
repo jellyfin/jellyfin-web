@@ -1905,5 +1905,6 @@
     "LabelReasons": "Причины",
     "LabelPlayerSizes": "Размеры плеера",
     "LabelPlaybackQuality": "Кадров пропущено / повреждено",
-    "LabelSyncPlayJoinGroup": "Присоединиться к группе"
+    "LabelSyncPlayJoinGroup": "Присоединиться к группе",
+    "VideoRotationNotSupported": "Поворот видео не поддерживается"
 }

@@ -1905,5 +1905,6 @@
     "LabelPlayerSizes": "Rozmiary odtwarzacza",
     "LabelPlaybackQuality": "Klatka utracona / uszkodzona",
     "OnFilesystem": "W systemie plików: {0}",
-    "LabelSyncPlayJoinGroup": "Dołącz do grupy"
+    "LabelSyncPlayJoinGroup": "Dołącz do grupy",
+    "VideoRotationNotSupported": "Obrót wideo nie jest obsługiwany"
 }

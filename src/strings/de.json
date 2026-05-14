@@ -1905,5 +1905,6 @@
     "LabelPlayerSizes": "Player Größen",
     "LabelPlaybackQuality": "Frame verloren / beschädigt",
     "OnFilesystem": "Auf Dateisystem: {0}",
-    "LabelSyncPlayJoinGroup": "Gruppe beitreten"
+    "LabelSyncPlayJoinGroup": "Gruppe beitreten",
+    "VideoRotationNotSupported": "Die Video Rotation wird nicht unterstützt"
 }

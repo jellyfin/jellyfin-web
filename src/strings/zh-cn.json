@@ -1905,5 +1905,6 @@
     "LabelProgressAndSpeed": "进度 / 速率",
     "LabelPlaybackQuality": "丢帧 / 坏帧",
     "OnFilesystem": "在文件系统上：{0}",
-    "LabelSyncPlayJoinGroup": "加入群组"
+    "LabelSyncPlayJoinGroup": "加入群组",
+    "VideoRotationNotSupported": "视频旋转不支持"
 }

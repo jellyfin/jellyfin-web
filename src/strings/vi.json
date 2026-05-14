@@ -1902,5 +1902,8 @@
     "LabelProgressAndSpeed": "Tiến độ / tốc độ",
     "LabelReasons": "Lý do",
     "LabelPlayerSizes": "Kích thước trình phát",
-    "LabelPlaybackQuality": "Khung hình bị rớt / hỏng"
+    "LabelPlaybackQuality": "Khung hình bị rớt / hỏng",
+    "LabelSyncPlayJoinGroup": "Tham gia nhóm",
+    "OnFilesystem": "Trên hệ thống tập tin: {0}",
+    "LabelTargetCodecs": "Bộ mã hóa mục tiêu"
 }
