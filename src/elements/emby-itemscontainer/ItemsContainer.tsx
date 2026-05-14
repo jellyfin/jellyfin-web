@@ -305,18 +305,14 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
     const subscribe = useCallback(() => {
         if (api) {
-            const unsub1 = api.subscribe([OutboundWebSocketMessageType.UserDataChanged], onUserDataChanged);
-            const unsub2 = api.subscribe([OutboundWebSocketMessageType.TimerCreated], onTimerCreated);
-            const unsub3 = api.subscribe([OutboundWebSocketMessageType.TimerCancelled], onTimerCancelled);
-            const unsub4 = api.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], onSeriesTimerCreated);
-            const unsub5 = api.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], onSeriesTimerCancelled);
-            const unsub6 = api.subscribe([OutboundWebSocketMessageType.LibraryChanged], onLibraryChanged);
-            if (unsub1) unsubscribeRef.current.push(unsub1);
-            if (unsub2) unsubscribeRef.current.push(unsub2);
-            if (unsub3) unsubscribeRef.current.push(unsub3);
-            if (unsub4) unsubscribeRef.current.push(unsub4);
-            if (unsub5) unsubscribeRef.current.push(unsub5);
-            if (unsub6) unsubscribeRef.current.push(unsub6);
+            unsubscribeRef.current = [
+                api.subscribe([OutboundWebSocketMessageType.UserDataChanged], onUserDataChanged),
+                api.subscribe([OutboundWebSocketMessageType.TimerCreated], onTimerCreated),
+                api.subscribe([OutboundWebSocketMessageType.TimerCancelled], onTimerCancelled),
+                api.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], onSeriesTimerCreated),
+                api.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], onSeriesTimerCancelled),
+                api.subscribe([OutboundWebSocketMessageType.LibraryChanged], onLibraryChanged)
+            ];
         }
     }, [
         api,
