@@ -49,10 +49,10 @@ interface RefreshIndicatorProps {
 }
 
 const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
+    const { api } = useApi();
+
     const [showProgressBar, setShowProgressBar] = useState(!!item.RefreshProgress);
     const [progress, setProgress] = useState(item.RefreshProgress || 0);
-
-    const { api } = useApi();
 
     const onRefreshProgress = useCallback(({ Data }: RefreshProgressMessage) => {
         if (Data?.ItemId === item?.Id) {
@@ -66,7 +66,7 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
 
             setProgress(pct);
         }
-    }, [item?.Id]);
+    }, [item?.Id, setShowProgressBar, setProgress]);
 
     useEffect(() => {
         return api?.subscribe([OutboundWebSocketMessageType.RefreshProgress], onRefreshProgress);
