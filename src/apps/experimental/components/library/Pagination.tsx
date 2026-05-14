@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -78,7 +78,7 @@ const Pagination: FC<PaginationProps> = ({
                     disabled={!showControls || startIndex == 0 || isPlaceholderData}
                     onClick={onPreviousPageClick}
                 >
-                    <ArrowBackIcon />
+                    <NavigateBeforeIcon />
                 </Button>
             )}
 
@@ -112,7 +112,7 @@ const Pagination: FC<PaginationProps> = ({
                         disabled={!showControls || startIndex == 0 || isPlaceholderData}
                         onClick={onPreviousPageClick}
                     >
-                        <ArrowBackIcon />
+                        <NavigateBeforeIcon />
                     </Button>
 
                     <Button
@@ -120,7 +120,7 @@ const Pagination: FC<PaginationProps> = ({
                         disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
                         onClick={onNextPageClick}
                     >
-                        <ArrowForwardIcon />
+                        <NavigateNextIcon />
                     </Button>
                 </ButtonGroup>
             )}
@@ -133,7 +133,7 @@ const Pagination: FC<PaginationProps> = ({
                     disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
                     onClick={onNextPageClick}
                 >
-                    <ArrowForwardIcon />
+                    <NavigateNextIcon />
                 </Button>
             )}
         </Stack>
