@@ -54,10 +54,19 @@
             19: 'Pause',
             27: 'Escape',
             32: 'Space',
+            33: 'PageUp',
+            34: 'PageDown',
+            35: 'End',
+            36: 'Home',
             37: 'ArrowLeft',
             38: 'ArrowUp',
             39: 'ArrowRight',
-            40: 'ArrowDown'
+            40: 'ArrowDown',
+            45: 'Insert',
+            46: 'Delete',
+            110: 'NumpadDecimal',
+            188: 'Comma',
+            190: 'Period'
         };
 
         // Add [a..z]
@@ -68,6 +77,11 @@
         // Add [0..9]
         for (let i = 48; i <= 57; i++) {
             KeyCodes[i] = `Digit${String.fromCharCode(i)}`;
+        }
+
+        // Add numpad [0..9]
+        for (let i = 0; i <= 9; i++) {
+            KeyCodes[i + 96] = `Numpad${i}`;
         }
 
         Object.defineProperty(KeyboardEvent.prototype, 'code', {
@@ -88,10 +102,40 @@
             19: 'Pause',
             27: 'Escape',
             32: 'Space',
+            33: 'PageUp',
+            34: 'PageDown',
+            35: 'End',
+            36: 'Home',
             37: 'ArrowLeft',
             38: 'ArrowUp',
             39: 'ArrowRight',
-            40: 'ArrowDown'
+            40: 'ArrowDown',
+            45: 'Insert',
+            46: 'Delete',
+            48: ['0', ')'],
+            49: ['1', '!'],
+            50: ['2', '@'],
+            51: ['3', '#'],
+            52: ['4', '$'],
+            53: ['5', '%'],
+            54: ['6', '^'],
+            55: ['7', '&'],
+            56: ['8', '*'],
+            57: ['9', '('],
+            // Numpad+Shift is usually ignored or replaced with a direct key code (Insert, End, ArrowRight, ...)
+            96: ['0', 'Insert'],
+            97: ['1', 'End'],
+            98: ['2', 'ArrowDown'],
+            99: ['3', 'PageDown'],
+            100: ['4', 'ArrowLeft'],
+            101: ['5', ''],
+            102: ['6', 'ArrowRight'],
+            103: ['7', 'Home'],
+            104: ['8', 'ArrowUp'],
+            105: ['9', 'PageUp'],
+            110: ['.', 'Delete'],
+            188: [',', '<'],
+            190: ['.', '>']
         };
 
         // Add [a..z]
