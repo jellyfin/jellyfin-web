@@ -19,7 +19,6 @@ const moviesTabContent: LibraryTabContent = {
 const collectionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Collections,
     collectionType: CollectionType.Movies,
-    isBtnFilterEnabled: false,
     isBtnNewCollectionEnabled: true,
     itemType: [BaseItemKind.BoxSet],
     noItemsMessage: 'MessageNoCollectionsAvailable'

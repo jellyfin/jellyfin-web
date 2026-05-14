@@ -860,6 +860,9 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     (item.People || []).forEach(p => {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
+        } else if (p.Type === PersonKind.Artist || p.Type === PersonKind.AlbumArtist) {
+            // TODO remove this exclusion when artists are migrated to the persons endpoint
+            return;
         } else {
             cast.push(p);
         }
@@ -981,7 +984,7 @@ function renderDetails(page, instance, item, apiClient, context) {
     const itemDetailsGroup = page.querySelector('.itemDetailsGroup');
 
     if (itemDetailsGroup) {
-        itemDetailsGroup.replaceChildren();
+        itemDetailsGroup.innerHTML = '';
 
         const metadataTypes = [
             PersonKind.Author,

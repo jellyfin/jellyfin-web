@@ -1842,7 +1842,7 @@
     "MessageWaitingForServer": "Zerbitzariari itxaroten...",
     "MessageBackupInProgress": "Babeskopia martxan",
     "StorageType.CDRom": "CD-ROM",
-    "StorageType.Fixed": "Konponduta",
+    "StorageType.Fixed": "Finkatuta",
     "StorageType.NoRootDirectory": "Ez dago erro karpetarik",
     "StorageType.Ram": "RAM",
     "StorageType.Removable": "Kengarria",

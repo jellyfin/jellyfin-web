@@ -4,37 +4,36 @@ import { getUserViewsApi } from '@jellyfin/sdk/lib/utils/api/user-views-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
-import { useApi } from './useApi';
+import { useApi } from '../useApi';
 
 const fetchUserViews = async (
     api: Api,
-    userId: string,
     params?: UserViewsApiGetUserViewsRequest,
     options?: AxiosRequestConfig
 ) => {
     const response = await getUserViewsApi(api)
-        .getUserViews({ ...params, userId }, options);
+        .getUserViews(params, options);
     return response.data;
 };
 
 export const getUserViewsQuery = (
     api?: Api,
-    userId?: string,
     params?: UserViewsApiGetUserViewsRequest
 ) => queryOptions({
-    queryKey: [ 'User', userId, 'Views', params ],
-    queryFn: ({ signal }) => fetchUserViews(api!, userId!, params, { signal }),
+    queryKey: [ 'User', params?.userId, 'Views', params ],
+    queryFn: ({ signal }) => fetchUserViews(api!, params, { signal }),
     // On initial page load we request user views 3x. Setting a 1 second stale time
     // allows a single request to be made to resolve all 3.
     staleTime: 1000, // 1 second
-    enabled: !!api && !!userId
+    enabled: !!api
 });
 
 export const useUserViews = (
-    userId?: string,
     params?: UserViewsApiGetUserViewsRequest
 ) => {
-    const apiContext = useApi();
-    const { api } = apiContext;
-    return useQuery(getUserViewsQuery(api, userId, params));
+    const { api, user } = useApi();
+    return useQuery(getUserViewsQuery(api, {
+        ...params,
+        userId: params?.userId || user?.Id
+    }));
 };

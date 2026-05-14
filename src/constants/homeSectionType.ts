@@ -23,5 +23,7 @@ export const DEFAULT_SECTIONS: HomeSectionType[] = [
     HomeSectionType.LiveTv,
     HomeSectionType.NextUp,
     HomeSectionType.LatestMedia,
+    HomeSectionType.None,
+    HomeSectionType.None,
     HomeSectionType.None
 ];

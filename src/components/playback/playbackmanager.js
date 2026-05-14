@@ -27,12 +27,14 @@ import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
+import { TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
+import * as bitrateTest from 'utils/bitrateTest';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1407,7 +1409,7 @@ export class PlaybackManager {
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
-                    promise = apiClient.detectBitrate(true);
+                    promise = bitrateTest.detectBitrate(toApi(apiClient), true);
                 } else {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
                     promise = Promise.resolve(options.maxBitrate);
@@ -2584,10 +2586,11 @@ export class PlaybackManager {
                     return apiClient.getEndpointInfo()
                         .then((endpointInfo) => {
                             if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return apiClient.detectBitrate().then((bitrate) => {
-                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                    return bitrate;
-                                });
+                                return bitrateTest.detectBitrate(toApi(apiClient))
+                                    .then((bitrate) => {
+                                        appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+                                        return bitrate;
+                                    });
                             }
 
                             return Promise.reject(new Error('skip bitrate detection'));
@@ -3892,6 +3895,19 @@ export class PlaybackManager {
         const offsetTicks = 0 - (userSettings.skipBackLength() * 10000);
 
         this.seekRelative(offsetTicks, player);
+    }
+
+    seekFrames(frames = 1, player = this._currentPlayer) {
+        // Only allow seeking by frames when paused
+        if (!player.paused()) return;
+
+        const source = this.currentMediaSource(player);
+        const videoStream = source?.MediaStreams?.find(s => s.Type === MediaType.Video);
+        // It only makes sense to seek video streams by frames
+        if (videoStream) {
+            const fps = videoStream.ReferenceFrameRate || 24;
+            this.seekRelative(frames / fps * TICKS_PER_SECOND, player);
+        }
     }
 
     seekPercent(percent, player = this._currentPlayer) {
