@@ -1905,5 +1905,6 @@
     "LabelPlayerSizes": "Spelergroottes",
     "LabelPlaybackQuality": "Frame verloren / beschadigd",
     "OnFilesystem": "Op bestandssysteem: {0}",
-    "LabelSyncPlayJoinGroup": "Deelnemen aan groep"
+    "LabelSyncPlayJoinGroup": "Deelnemen aan groep",
+    "VideoRotationNotSupported": "De beeldrotatie wordt niet ondersteund"
 }

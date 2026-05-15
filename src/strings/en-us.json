@@ -1790,6 +1790,7 @@
     "SubtitleCodecNotSupported": "The subtitle codec is not supported",
     "VideoCodecNotSupported": "The video codec is not supported",
     "VideoCodecTagNotSupported": "The video codec tag is not supported",
+    "VideoRotationNotSupported": "The video rotation is not supported",
     "AudioBitrateNotSupported": "The audio's bitrate is not supported",
     "AudioChannelsNotSupported": "The number of audio channels is not supported",
     "VideoResolutionNotSupported": "The video's resolution is not supported",
