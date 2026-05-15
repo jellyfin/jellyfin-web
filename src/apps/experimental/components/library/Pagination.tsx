@@ -1,142 +1,64 @@
 import React, { FC, useCallback } from 'react';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Stack from '@mui/material/Stack';
-import type { Theme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import globalize from 'lib/globalize';
-import * as userSettings from 'scripts/settings/userSettings';
-import { LibraryViewSettings } from 'types/library';
+import type { LibraryViewSettings } from 'types/library';
 
 interface PaginationProps {
-    libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
-    totalRecordCount: number;
-    isPlaceholderData: boolean
+    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>
+    index: number
+    pageSize: number
+    total: number
+    disabled?: boolean
 }
 
 const Pagination: FC<PaginationProps> = ({
-    libraryViewSettings,
     setLibraryViewSettings,
-    totalRecordCount,
-    isPlaceholderData
+    index,
+    pageSize,
+    total,
+    disabled
 }) => {
-    const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
-
-    const limit = userSettings.libraryPageSize(undefined);
-    const startIndex = libraryViewSettings.StartIndex ?? 0;
-    const recordsStart = totalRecordCount ? startIndex + 1 : 0;
-    const recordsEnd = limit ?
-        Math.min(startIndex + limit, totalRecordCount) :
-        totalRecordCount;
-    const showControls = limit > 0 && limit < totalRecordCount;
-
     const onNextPageClick = useCallback(() => {
-        const newIndex = startIndex + limit;
         setLibraryViewSettings((prevState) => ({
             ...prevState,
-            StartIndex: newIndex
+            StartIndex: index + pageSize
         }));
         window.scrollTo(0, 0);
-    }, [limit, setLibraryViewSettings, startIndex]);
+    }, [index, pageSize, setLibraryViewSettings]);
 
     const onPreviousPageClick = useCallback(() => {
-        const newIndex = Math.max(0, startIndex - limit);
         setLibraryViewSettings((prevState) => ({
             ...prevState,
-            StartIndex: newIndex
+            StartIndex: Math.max(0, index - pageSize)
         }));
         window.scrollTo(0, 0);
-    }, [limit, setLibraryViewSettings, startIndex]);
+    }, [index, pageSize, setLibraryViewSettings]);
 
     return (
-        <Stack
-            direction='row'
-            spacing={0.5}
-            sx={{
-                alignItems: 'center',
-                flexGrow: {
-                    xs: 1,
-                    sm: 0
-                },
-                marginLeft: {
-                    xs: 0,
-                    sm: 0.5
-                }
-            }}
+        <ButtonGroup
+            color='inherit'
+            variant='text'
         >
-            {!isSmallScreen && (
-                <Button
-                    color='inherit'
-                    variant='text'
-                    title={globalize.translate('Previous')}
-                    disabled={!showControls || startIndex == 0 || isPlaceholderData}
-                    onClick={onPreviousPageClick}
-                >
-                    <NavigateBeforeIcon />
-                </Button>
-            )}
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexGrow: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginLeft: 1,
-                    marginRight: 1
-                }}
+            <Button
+                title={globalize.translate('Previous')}
+                disabled={disabled || index == 0}
+                onClick={onPreviousPageClick}
             >
-                <Typography variant='body2'>
-                    {globalize.translate(
-                        'ListPaging',
-                        recordsStart,
-                        recordsEnd,
-                        totalRecordCount
-                    )}
-                </Typography>
-            </Box>
+                <NavigateBeforeIcon />
+            </Button>
 
-            {isSmallScreen && (
-                <ButtonGroup
-                    color='inherit'
-                    variant='text'
-                >
-                    <Button
-                        title={globalize.translate('Previous')}
-                        disabled={!showControls || startIndex == 0 || isPlaceholderData}
-                        onClick={onPreviousPageClick}
-                    >
-                        <NavigateBeforeIcon />
-                    </Button>
-
-                    <Button
-                        title={globalize.translate('Next')}
-                        disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
-                        onClick={onNextPageClick}
-                    >
-                        <NavigateNextIcon />
-                    </Button>
-                </ButtonGroup>
-            )}
-
-            {!isSmallScreen && (
-                <Button
-                    color='inherit'
-                    variant='text'
-                    title={globalize.translate('Next')}
-                    disabled={!showControls || startIndex + limit >= totalRecordCount || isPlaceholderData }
-                    onClick={onNextPageClick}
-                >
-                    <NavigateNextIcon />
-                </Button>
-            )}
-        </Stack>
+            <Button
+                title={globalize.translate('Next')}
+                disabled={disabled || index + pageSize >= total}
+                onClick={onNextPageClick}
+            >
+                <NavigateNextIcon />
+            </Button>
+        </ButtonGroup>
     );
 };
 
