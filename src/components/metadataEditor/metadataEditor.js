@@ -158,6 +158,7 @@ function onSubmit(e) {
         Height: form.querySelector('#selectHeight').value,
         AspectRatio: form.querySelector('#txtOriginalAspectRatio').value,
         Video3DFormat: form.querySelector('#select3dFormat').value,
+        IsoPlaybackTitle: form.querySelector('#selectIsoPlaybackTitle').value ? parseInt(form.querySelector('#selectIsoPlaybackTitle').value, 10) : null,
 
         OfficialRating: form.querySelector('#selectOfficialRating').value,
         CustomRating: form.querySelector('#selectCustomRating').value,
@@ -304,7 +305,7 @@ function onResetClick() {
     const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
         '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
         '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
-        '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
+        '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectIsoPlaybackTitle', '#selectOfficialRating', '#selectCustomRating',
         '#txtSeriesRuntime', '#txtTagline'];
     const form = currentContext?.querySelector('form');
     resetElementId.forEach(function (id) {
@@ -415,6 +416,40 @@ function getEditorConfig(itemId, serverId) {
     }
 
     return Promise.resolve({});
+}
+
+function getIsoTitles(itemId, serverId) {
+    const apiClient = ServerConnections.getApiClient(serverId);
+
+    if (itemId) {
+        return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/IsoTitles'));
+    }
+
+    return Promise.resolve([]);
+}
+
+function discItemSupported(item, editorInfo) {
+    const isDvdItem = item.VideoType === 'Dvd' || (item.VideoType === 'Iso' && item.IsoType === 'Dvd');
+    const isBluRayItem = item.VideoType === 'BluRay' || (item.VideoType === 'Iso' && item.IsoType === 'BluRay');
+    return (isDvdItem && editorInfo?.SupportsDvdVideo)
+        || (isBluRayItem && editorInfo?.SupportsLibBluray);
+}
+
+function populateIsoTitles(context, titles, currentTitle) {
+    const select = context.querySelector('#selectIsoPlaybackTitle');
+    let html = "<option value=''>" + globalize.translate('LabelIsoPlaybackTitleDefault') + '</option>';
+
+    for (let i = 0; i < titles.length; i++) {
+        const title = titles[i];
+        const duration = title.DurationTicks ? datetime.getDisplayRunningTime(title.DurationTicks) : '';
+        const label = duration
+            ? globalize.translate('LabelIsoPlaybackTitleEntry', title.TitleNumber, duration)
+            : globalize.translate('LabelIsoPlaybackTitleEntryNoDuration', title.TitleNumber);
+        html += "<option value='" + title.TitleNumber + "'>" + escapeHtml(label) + '</option>';
+    }
+
+    select.innerHTML = html;
+    select.value = currentTitle != null ? String(currentTitle) : '';
 }
 
 function populateCountries(select, allCountries) {
@@ -536,7 +571,7 @@ function showElement(selector, context, multiple) {
     }
 }
 
-function setFieldVisibilities(context, item) {
+function setFieldVisibilities(context, item, editorInfo) {
     if (item.Path && item.EnableMediaSourceDisplay !== false) {
         showElement('#fldPath', context);
     } else {
@@ -587,6 +622,12 @@ function setFieldVisibilities(context, item) {
         showElement('#fld3dFormat', context);
     } else {
         hideElement('#fld3dFormat', context);
+    }
+
+    if (discItemSupported(item, editorInfo)) {
+        showElement('#fldIsoPlaybackTitle', context);
+    } else {
+        hideElement('#fldIsoPlaybackTitle', context);
     }
 
     if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo) {
@@ -762,6 +803,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     selectStatus.value = item.Status || '';
 
     context.querySelector('#select3dFormat', context).value = item.Video3DFormat || '';
+    context.querySelector('#selectIsoPlaybackTitle').value = item.IsoPlaybackTitle != null ? String(item.IsoPlaybackTitle) : '';
 
     Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
         el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
@@ -1052,7 +1094,7 @@ function reload(context, itemId, serverId) {
         populateLanguages(context.querySelector('#selectLanguage'), languages);
         populateCountries(context.querySelector('#selectCountry'), countries);
 
-        setFieldVisibilities(context, item);
+        setFieldVisibilities(context, item, metadataEditorInfo);
         fillItemInfo(context, item, metadataEditorInfo.ParentalRatingOptions);
 
         if (item.MediaType === 'Video' && item.Type !== 'Episode' && item.Type !== 'TvChannel') {
@@ -1061,7 +1103,17 @@ function reload(context, itemId, serverId) {
             hideElement('#fldTagline', context);
         }
 
-        loading.hide();
+        if (discItemSupported(item, metadataEditorInfo)) {
+            getIsoTitles(itemId, serverId).then(function (titles) {
+                populateIsoTitles(context, titles || [], item.IsoPlaybackTitle);
+                loading.hide();
+            }).catch(function (err) {
+                console.error('Failed to load ISO titles', err);
+                loading.hide();
+            });
+        } else {
+            loading.hide();
+        }
     });
 }
 
