@@ -17,7 +17,6 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import Popover from '@mui/material/Popover';
 import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography';
 
 import globalize from 'lib/globalize';
 import { LibraryViewSettings, ViewMode } from 'types/library';
@@ -184,9 +183,9 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                                         <ListItemIcon>
                                             {libraryViewSettings.ImageType === imageType.value && <Check fontSize='small' />}
                                         </ListItemIcon>
-                                        <Typography component='span'>
+                                        <ListItemText>
                                             {globalize.translate(imageType.label)}
-                                        </Typography>
+                                        </ListItemText>
                                     </MenuItem>
                                 ))}
                             </MenuList>
