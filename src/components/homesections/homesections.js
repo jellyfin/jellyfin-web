@@ -1,7 +1,7 @@
 import layoutManager from 'components/layoutManager';
+import { DEFAULT_SECTIONS, HomeSectionType } from 'constants/homeSectionType';
 import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import globalize from 'lib/globalize';
-import { DEFAULT_SECTIONS, HomeSectionType } from 'types/homeSectionType';
 import Dashboard from 'utils/dashboard';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
@@ -21,14 +21,17 @@ import 'elements/emby-button/emby-button';
 
 import './homesections.scss';
 
+const MAX_SECTIONS = 10;
+const MAX_SECTIONS_TV = MAX_SECTIONS + 1; // TV layout can have an extra section to ensure a library section is always visible
+
 export function getDefaultSection(index) {
     if (index < 0 || index > DEFAULT_SECTIONS.length) return '';
     return DEFAULT_SECTIONS[index];
 }
 
-function getAllSectionsToShow(userSettings, sectionCount) {
+function getAllSectionsToShow(userSettings) {
     const sections = [];
-    for (let i = 0, length = sectionCount; i < length; i++) {
+    for (let i = 0, length = MAX_SECTIONS; i < length; i++) {
         let section = userSettings.get('homesection' + i) || getDefaultSection(i);
         if (section === 'folders') {
             section = getDefaultSection(0);
@@ -61,9 +64,8 @@ export function loadSections(elem, apiClient, user, userSettings) {
             let html = '';
 
             if (userViews.length) {
-                const userSectionCount = 10;
                 // TV layout can have an extra section to ensure libraries are visible
-                const totalSectionCount = layoutManager.tv ? userSectionCount + 1 : userSectionCount;
+                const totalSectionCount = layoutManager.tv ? MAX_SECTIONS_TV : MAX_SECTIONS;
                 for (let i = 0; i < totalSectionCount; i++) {
                     html += '<div class="verticalSection section' + i + '"></div>';
                 }
@@ -71,20 +73,15 @@ export function loadSections(elem, apiClient, user, userSettings) {
                 elem.innerHTML = html;
                 elem.classList.add('homeSectionsContainer');
 
-                const promises = [];
-                const sections = getAllSectionsToShow(userSettings, userSectionCount);
-                for (let i = 0; i < sections.length; i++) {
-                    promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
-                }
+                const promises = getAllSectionsToShow(userSettings)
+                    .map((section, index) => (
+                        loadSection(elem, apiClient, user, userSettings, userViews, section, index)
+                    ));
 
                 return Promise.all(promises)
-                // Timeout for polyfilled CustomElements (webOS 1.2)
+                    // Timeout for polyfilled CustomElements (webOS 1.2)
                     .then(() => new Promise((resolve) => setTimeout(resolve, 0)))
-                    .then(() => {
-                        return resume(elem, {
-                            refresh: true
-                        });
-                    });
+                    .then(() => resume(elem, { refresh: true }));
             } else {
                 let noLibDescription;
                 if (user.Policy?.IsAdministrator) {
@@ -140,8 +137,7 @@ export function resume(elem, options) {
     return Promise.all(promises);
 }
 
-function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
-    const section = allSections[index];
+function loadSection(page, apiClient, user, userSettings, userViews, section, index) {
     const elem = page.querySelector('.section' + index);
     const options = { enableOverflow: enableScrollX() };
 
@@ -161,11 +157,14 @@ function loadSection(page, apiClient, user, userSettings, userViews, allSections
             loadNextUp(elem, apiClient, userSettings, options);
             break;
         case HomeSectionType.Resume:
-            return loadResume(elem, apiClient, 'HeaderContinueWatching', 'Video', userSettings, options);
+            loadResume(elem, apiClient, 'HeaderContinueWatching', 'Video', userSettings, options);
+            break;
         case HomeSectionType.ResumeAudio:
-            return loadResume(elem, apiClient, 'HeaderContinueListening', 'Audio', userSettings, options);
+            loadResume(elem, apiClient, 'HeaderContinueListening', 'Audio', userSettings, options);
+            break;
         case HomeSectionType.ResumeBook:
-            return loadResume(elem, apiClient, 'HeaderContinueReading', 'Book', userSettings, options);
+            loadResume(elem, apiClient, 'HeaderContinueReading', 'Book', userSettings, options);
+            break;
         case HomeSectionType.SmallLibraryTiles:
             loadLibraryTiles(elem, userViews, options);
             break;

@@ -165,7 +165,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         ) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Artists) {
+        } else if (viewType === LibraryTab.Artists || viewType === LibraryTab.Authors) {
             cardOptions.lines = 1;
             cardOptions.showYear = false;
             cardOptions.overlayPlayButton = true;
