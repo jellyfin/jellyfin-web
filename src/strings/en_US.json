@@ -213,5 +213,9 @@
     "DeathDateValue": "Died: {0}",
     "Default": "Default",
     "DefaultMetadataLangaugeDescription": "These are your defaults and can be customized on a per-library basis.",
-    "DefaultSubtitlesHelp": "Subtitles are loaded based on the default and forced flags in the embedded metadata. Language preferences are considered when multiple options are available."
+    "DefaultSubtitlesHelp": "Subtitles are loaded based on the default and forced flags in the embedded metadata. Language preferences are considered when multiple options are available.",
+    "ActivitiesLoadError": "Failed to load activities",
+    "ApiKeysLoadError": "Failed to load API keys",
+    "Authors": "Authors",
+    "BrandingLoadError": "Failed to load branding settings"
 }

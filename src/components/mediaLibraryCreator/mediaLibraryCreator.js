@@ -162,19 +162,12 @@ function renderPaths(page) {
 }
 
 function addMediaLocation(page, path) {
-    const pathLower = path.toLowerCase();
-    const pathFilter = pathInfos.filter(p => {
-        return p.Path.toLowerCase() == pathLower;
-    });
+    // If the path already exists in the library, don't add it again.
+    const isPathInLibrary = pathInfos.some(p => p.Path === path);
+    if (isPathInLibrary) return;
 
-    if (!pathFilter.length) {
-        const pathInfo = {
-            Path: path
-        };
-
-        pathInfos.push(pathInfo);
-        renderPaths(page);
-    }
+    pathInfos.push({ Path: path });
+    renderPaths(page);
 }
 
 function onRemoveClick(e) {

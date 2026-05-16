@@ -1,6 +1,3 @@
-// NOTE: This is used for jsdoc return type
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Api } from '@jellyfin/sdk';
 import { Credentials, ApiClient } from 'jellyfin-apiclient';
 
 import { appHost } from 'components/apphost';
@@ -11,6 +8,7 @@ import Events from 'utils/events.ts';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import ConnectionManager from './connectionManager';
+import { detectBitrate } from 'utils/bitrateTest';
 
 const normalizeImageOptions = options => {
     if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
@@ -33,6 +31,8 @@ const getMaxBandwidth = () => {
 };
 
 class ServerConnections extends ConnectionManager {
+    firstConnection = false;
+
     constructor() {
         super(...arguments);
         this.localApiClient = null;
@@ -75,6 +75,9 @@ class ServerConnections extends ConnectionManager {
         console.debug('loaded ApiClient singleton');
     }
 
+    /**
+     * @returns {Promise<import('jellyfin-apiclient').ConnectResponse>} The result of the connection attempt.
+     */
     connect(options) {
         return super.connect({
             enableAutoLogin: appSettings.enableAutoLogin(),
@@ -113,7 +116,7 @@ class ServerConnections extends ConnectionManager {
 
     /**
      * Gets the Api that is currently connected.
-     * @returns {Api|undefined} The current Api instance.
+     * @returns {import(@jellyfin/sdk).Api|undefined} The current Api instance.
      */
     getCurrentApi() {
         const apiClient = this.currentApiClient();
@@ -137,6 +140,7 @@ class ServerConnections extends ConnectionManager {
     onLocalUserSignedIn(user) {
         const apiClient = this.getApiClient(user.ServerId);
         this.setLocalApiClient(apiClient);
+        setTimeout(() => detectBitrate(toApi(apiClient), true), 6000);
         return setUserInfo(user.Id, apiClient).then(() => {
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedIn === 'function') {
                 return window.NativeShell.onLocalUserSignedIn(user, apiClient.accessToken());

@@ -19,7 +19,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 
 import '../cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';

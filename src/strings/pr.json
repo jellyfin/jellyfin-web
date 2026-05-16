@@ -62,7 +62,7 @@
     "HeaderPleaseSignIn": "Mewngofnodwch os gwelwch yn dda",
     "ButtonArrowRight": "Starboard",
     "ButtonArrowLeft": "Port",
-    "AllowFfmpegThrottlingHelp": "When a transcode or remux gets far enough ahead from the current playback position, pause the process so 'twill consume less resources. This here be most useful when watchin' without seekin' often. Turn this off if ye experience playback issues.",
+    "AllowFfmpegThrottlingHelp": "When a transcode or remux gets far enough ahead from the current playback position, pause the process so 'twill steal less computer treasures. This here be most useful when watchin' without seekin' often. Turn this off if ye experience playback issues.",
     "AddToFavorites": "Upend t' ye finest pickin's",
     "AskAdminToCreateLibrary": "Request yer captain to build a library.",
     "AspectRatio": "Proportion o' the sides",
@@ -107,5 +107,16 @@
     "Shows": "Sagas",
     "Playlists": "Lists o’ plunder",
     "ValueSpecialEpisodeName": "Special Tale – {0}",
-    "All": "All"
+    "All": "All",
+    "ActivitiesLoadError": "Lost at sea",
+    "AllowSubtitleManagement": "Let this pirate change the words",
+    "AllowOnTheFlySubtitleExtraction": "Free 'em subt'tles as you sail",
+    "ApiKeysCaption": "Show the keys to the API treasure chets",
+    "Authors": "Bards",
+    "Author": "Bard",
+    "ApiKeysLoadError": "Couldn't get the API treasure chest keys",
+    "LogLoadFailure": "Couldn't open the ship log. The capt'n might be using it.",
+    "PriorityIdle": "Doin' nothin'",
+    "Unknown": "Unknown",
+    "HeaderAddUser": "Recruit a shipmate"
 }

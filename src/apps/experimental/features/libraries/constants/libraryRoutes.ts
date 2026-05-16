@@ -40,6 +40,63 @@ export const LibraryRoutes: LibraryRoute[] = [
         ]
     },
     {
+        path: '/books',
+        views: [
+            {
+                index: 0,
+                label: 'Folders',
+                view: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Books',
+                view: LibraryTab.Books
+            },
+            {
+                index: 2,
+                label: 'Authors',
+                view: LibraryTab.Authors
+            },
+            {
+                index: 3,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 4,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            },
+            {
+                index: 5,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            }
+        ]
+    },
+    {
+        path: '/boxsets',
+        views: [
+            {
+                index: 0,
+                label: 'Collections',
+                view: LibraryTab.Collections,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            },
+            {
+                index: 2,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            }
+        ]
+    },
+    {
         path: '/movies',
         views: [
             {
@@ -152,20 +209,82 @@ export const LibraryRoutes: LibraryRoute[] = [
         views: [
             {
                 index: 0,
-                label: 'Photos',
-                view: LibraryTab.Photos,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
             },
             {
                 index: 1,
+                label: 'Photos',
+                view: LibraryTab.Photos
+            },
+            {
+                index: 2,
                 label: 'HeaderPhotoAlbums',
-                view: LibraryTab.PhotoAlbums,
+                view: LibraryTab.PhotoAlbums
+            },
+            {
+                index: 3,
+                label: 'HeaderVideos',
+                view: LibraryTab.Videos
+            }
+        ]
+    },
+    {
+        path: '/musicvideos',
+        views: [
+            {
+                index: 0,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
             },
             {
                 index: 2,
                 label: 'HeaderVideos',
-                view: LibraryTab.Videos
+                view: LibraryTab.MusicVideos
+            }
+        ]
+    },
+    {
+        path: '/playlists',
+        views: [
+            {
+                index: 0,
+                label: 'Playlists',
+                view: LibraryTab.Playlists,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            }
+        ]
+    },
+    {
+        path: '/mixed',
+        views: [
+            {
+                index: 0,
+                label: 'Folders',
+                view: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'HeaderMedia',
+                view: LibraryTab.Mixed
             }
         ]
     }
