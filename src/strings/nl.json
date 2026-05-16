@@ -1906,5 +1906,7 @@
     "LabelPlaybackQuality": "Frame verloren / beschadigd",
     "OnFilesystem": "Op bestandssysteem: {0}",
     "LabelSyncPlayJoinGroup": "Deelnemen aan groep",
-    "VideoRotationNotSupported": "De beeldrotatie wordt niet ondersteund"
+    "VideoRotationNotSupported": "De beeldrotatie wordt niet ondersteund",
+    "LabelBackupWarning": "Er zijn lopende geplande taken. Het wordt aanbevolen te wachten tot deze voltooid zijn alvorens een back-up uit te voeren.",
+    "HeaderBackupWarning": "WAARSCHUWING: lopende geplande taken"
 }
