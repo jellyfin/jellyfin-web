@@ -1906,5 +1906,7 @@
     "LabelPlaybackQuality": "Frame verloren / beschädigt",
     "OnFilesystem": "Auf Dateisystem: {0}",
     "LabelSyncPlayJoinGroup": "Gruppe beitreten",
-    "VideoRotationNotSupported": "Die Video Rotation wird nicht unterstützt"
+    "VideoRotationNotSupported": "Die Video Rotation wird nicht unterstützt",
+    "LabelBackupWarning": "Es laufen geplante Aufgaben ab. Es wird empfohlen, sie zu stoppen oder zu warten, bis sie fertig sind, bevor das Backup ausgeführt wird.",
+    "HeaderBackupWarning": "WARNUNG: Laufende geplante Aufgaben"
 }
