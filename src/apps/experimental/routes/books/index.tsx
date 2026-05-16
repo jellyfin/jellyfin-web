@@ -26,6 +26,12 @@ const suggestionsTabContent: LibraryTabContent = {
     sectionsView: BookSuggestionsSectionsView
 };
 
+const authorsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Authors,
+    collectionType: CollectionType.Books,
+    isBtnSortEnabled: false
+};
+
 const genresTabContent: LibraryTabContent = {
     viewType: LibraryTab.Genres,
     collectionType: CollectionType.Books,
@@ -41,9 +47,10 @@ const favoritesTabContent: LibraryTabContent = {
 const booksTabMapping: LibraryTabMapping = {
     0: foldersTabContent,
     1: booksTabContent,
-    2: suggestionsTabContent,
-    3: genresTabContent,
-    4: favoritesTabContent
+    2: authorsTabContent,
+    3: suggestionsTabContent,
+    4: genresTabContent,
+    5: favoritesTabContent
 };
 
 const Books: FC = () => {

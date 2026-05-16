@@ -1905,5 +1905,6 @@
     "LabelPlayerSizes": "Velikosti přehrávače",
     "LabelPlaybackQuality": "Ztracený / poškozený snímek",
     "OnFilesystem": "V souborovém systému: {0}",
-    "LabelSyncPlayJoinGroup": "Připojit se ke skupině"
+    "LabelSyncPlayJoinGroup": "Připojit se ke skupině",
+    "VideoRotationNotSupported": "Otáčení videa není podporováno"
 }

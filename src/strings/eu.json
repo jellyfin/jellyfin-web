@@ -1905,5 +1905,6 @@
     "LabelProgressAndSpeed": "Aurrerapena / abiadura",
     "LabelReasons": "Arrazoiak",
     "LabelPlayerSizes": "Erreproduzitzailearen tamainak",
-    "LabelPlaybackQuality": "Fotograma galduta / hondatuta"
+    "LabelPlaybackQuality": "Fotograma galduta / hondatuta",
+    "VideoRotationNotSupported": "Bideoaren biraketa ez da onartzen"
 }

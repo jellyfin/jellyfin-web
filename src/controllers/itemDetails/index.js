@@ -983,7 +983,7 @@ function renderDetails(page, instance, item, apiClient, context) {
     const itemDetailsGroup = page.querySelector('.itemDetailsGroup');
 
     if (itemDetailsGroup) {
-        itemDetailsGroup.replaceChildren();
+        itemDetailsGroup.innerHTML = '';
 
         const metadataTypes = [
             PersonKind.Author,

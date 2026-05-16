@@ -1,4 +1,3 @@
-
 /**
  * Module for media library editor.
  * @module components/mediaLibraryEditor/mediaLibraryEditor
@@ -59,6 +58,11 @@ function onEditLibrary() {
 function addMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
+
+    // If the path already exists in the library, don't add it again.
+    const isPathInLibrary = virtualFolder.Locations.some(p => path === p);
+    if (isPathInLibrary) return;
+
     ApiClient.addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);

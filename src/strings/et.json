@@ -1902,5 +1902,9 @@
     "LabelPlayerSizes": "Pleieri suurused",
     "LabelPlaybackQuality": "Kadunud / rikutud kaadrid",
     "LabelSyncPlayJoinGroup": "Liitu grupiga",
-    "OptionDatePlaylistUpdated": "Esitusloendi uuendamise kuupäev"
+    "OptionDatePlaylistUpdated": "Esitusloendi uuendamise kuupäev",
+    "LabelBackupWarning": "Käimas on plaanilised toimingud. Enne varundamise alustamist on soovitatav need peatada või oodata nende lõpulejõudmist.",
+    "HeaderBackupWarning": "HOIATUS: Käimasolevad plaanilised toimingud",
+    "UsersEditPageError": "Kasutajate muutmise lehe laadimine nurjus",
+    "VideoRotationNotSupported": "Video pööramist ei toetata"
 }
