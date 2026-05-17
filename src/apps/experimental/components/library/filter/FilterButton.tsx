@@ -15,9 +15,10 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
+import { useGetQueryFilters, useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
 
+import FiltersAudioLanguages from './FiltersAudioLanguages';
 import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
 import FiltersOfficialRatings from './FiltersOfficialRatings';
@@ -25,6 +26,7 @@ import FiltersEpisodesStatus from './FiltersEpisodesStatus';
 import FiltersSeriesStatus from './FiltersSeriesStatus';
 import FiltersStatus from './FiltersStatus';
 import FiltersStudios from './FiltersStudios';
+import FiltersSubtitleLanguages from './FiltersSubtitleLanguages';
 import FiltersTags from './FiltersTags';
 import FiltersVideoTypes from './FiltersVideoTypes';
 import FiltersYears from './FiltersYears';
@@ -99,7 +101,8 @@ const FilterButton: FC<FilterButtonProps> = ({
     const open = Boolean(anchorEl);
     const id = open ? 'filter-popover' : undefined;
 
-    const { data } = useGetQueryFiltersLegacy(parentId, itemType);
+    const { data: filtersLegacy } = useGetQueryFiltersLegacy(parentId, itemType);
+    const { data: filters } = useGetQueryFilters(parentId, itemType);
     const { data: studios } = useGetStudios(parentId, itemType);
 
     const handleChange =
@@ -167,6 +170,13 @@ const FilterButton: FC<FilterButtonProps> = ({
 
     const isFiltersEpisodesStatusEnabled = () => {
         return viewType === LibraryTab.Episodes;
+    };
+
+    const isFiltersLanguagesEnabled = () => {
+        return viewType === LibraryTab.Movies
+            || viewType === LibraryTab.Series
+            || viewType === LibraryTab.Episodes
+            || viewType === LibraryTab.Mixed;
     };
 
     return (
@@ -320,7 +330,7 @@ const FilterButton: FC<FilterButtonProps> = ({
 
                 {isFiltersLegacyEnabled() && (
                     <>
-                        {data?.Genres && data?.Genres?.length > 0 && (
+                        {filtersLegacy?.Genres && filtersLegacy?.Genres?.length > 0 && (
                             <Accordion
                                 expanded={expanded === 'filtersGenres'}
                                 onChange={handleChange('filtersGenres')}
@@ -335,7 +345,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersGenres
-                                        genresOptions={data.Genres}
+                                        genresOptions={filtersLegacy.Genres}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -347,8 +357,8 @@ const FilterButton: FC<FilterButtonProps> = ({
                             </Accordion>
                         )}
 
-                        {data?.OfficialRatings
-                            && data?.OfficialRatings?.length > 0 && (
+                        {filtersLegacy?.OfficialRatings
+                            && filtersLegacy?.OfficialRatings?.length > 0 && (
                             <Accordion
                                 expanded={
                                     expanded === 'filtersOfficialRatings'
@@ -369,7 +379,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersOfficialRatings
-                                        OfficialRatingsOptions={data.OfficialRatings}
+                                        OfficialRatingsOptions={filtersLegacy.OfficialRatings}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -381,7 +391,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             </Accordion>
                         )}
 
-                        {data?.Tags && data?.Tags.length > 0 && (
+                        {filtersLegacy?.Tags && filtersLegacy?.Tags.length > 0 && (
                             <Accordion
                                 expanded={expanded === 'filtersTags'}
                                 onChange={handleChange('filtersTags')}
@@ -396,7 +406,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersTags
-                                        tagsOptions={data.Tags}
+                                        tagsOptions={filtersLegacy.Tags}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -408,7 +418,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                             </Accordion>
                         )}
 
-                        {data?.Years && data?.Years?.length > 0 && (
+                        {filtersLegacy?.Years && filtersLegacy?.Years?.length > 0 && (
                             <Accordion
                                 expanded={expanded === 'filtersYears'}
                                 onChange={handleChange('filtersYears')}
@@ -423,7 +433,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <FiltersYears
-                                        yearsOptions={data.Years}
+                                        yearsOptions={filtersLegacy.Years}
                                         libraryViewSettings={
                                             libraryViewSettings
                                         }
@@ -456,6 +466,50 @@ const FilterButton: FC<FilterButtonProps> = ({
                                 setLibraryViewSettings={
                                     setLibraryViewSettings
                                 }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
+                {isFiltersLanguagesEnabled() && !!filters?.AudioLanguages?.length && (
+                    <Accordion
+                        expanded={expanded === 'filtersAudioLanguages'}
+                        onChange={handleChange('filtersAudioLanguages')}
+                    >
+                        <AccordionSummary
+                            aria-controls='audioLanguages-content'
+                            id='filtersAudioLanguages-header'
+                        >
+                            <Typography>
+                                {globalize.translate('AudioLanguages')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersAudioLanguages
+                                options={filters.AudioLanguages}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
+                {isFiltersLanguagesEnabled() && !!filters?.SubtitleLanguages?.length && (
+                    <Accordion
+                        expanded={expanded === 'filtersSubtitleLanguages'}
+                        onChange={handleChange('filtersSubtitleLanguages')}
+                    >
+                        <AccordionSummary
+                            aria-controls='subtitleLanguages-content'
+                            id='filtersSubtitleLanguages-header'
+                        >
+                            <Typography>
+                                {globalize.translate('SubtitleLanguages')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersSubtitleLanguages
+                                options={filters.SubtitleLanguages}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
                             />
                         </AccordionDetails>
                     </Accordion>

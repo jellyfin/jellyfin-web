@@ -138,7 +138,9 @@ export const getFiltersQuery = (
         officialRatings: libraryViewSettings?.Filters?.OfficialRatings,
         tags: libraryViewSettings?.Filters?.Tags,
         years: libraryViewSettings?.Filters?.Years,
-        studioIds: libraryViewSettings?.Filters?.StudioIds
+        studioIds: libraryViewSettings?.Filters?.StudioIds,
+        audioLanguages: libraryViewSettings?.Filters?.AudioLanguages,
+        subtitleLanguages: libraryViewSettings?.Filters?.SubtitleLanguages
     };
 };
 
