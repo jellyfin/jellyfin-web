@@ -11,7 +11,7 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
-import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getMoviesApi } from '@jellyfin/sdk/lib/utils/api/movies-api';
 import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
@@ -42,7 +42,7 @@ const fetchGetItems = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getItemsApi(api).getItems(
+        const response = await getLibraryApi(api).getItems(
             {
                 userId: user.Id,
                 ...parametersOptions
@@ -206,6 +206,28 @@ const fetchGetQueryFiltersLegacy = async (
     }
 };
 
+const fetchGetQueryFilters = async (
+    currentApi: JellyfinApiContext,
+    parentId: ParentId,
+    itemType: BaseItemKind[],
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getFilterApi(api).getQueryFilters(
+            {
+                userId: user.Id,
+                parentId: parentId ?? undefined,
+                includeItemTypes: itemType
+            },
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data;
+    }
+};
+
 export const useGetQueryFiltersLegacy = (
     parentId: ParentId,
     itemType: BaseItemKind[]
@@ -216,6 +238,22 @@ export const useGetQueryFiltersLegacy = (
         queryKey: ['QueryFiltersLegacy', parentId, itemType],
         queryFn: ({ signal }) =>
             fetchGetQueryFiltersLegacy(currentApi, parentId, itemType, {
+                signal
+            }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
+    });
+};
+
+export const useGetQueryFilters = (
+    parentId: ParentId,
+    itemType: BaseItemKind[]
+) => {
+    const currentApi = useApi();
+    const isLivetv = parentId === 'livetv';
+    return useQuery({
+        queryKey: ['QueryFilters', parentId, itemType],
+        queryFn: ({ signal }) =>
+            fetchGetQueryFilters(currentApi, parentId, itemType, {
                 signal
             }),
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
@@ -330,7 +368,7 @@ const fetchGetItemsViewByType = async (
                 break;
             }
             case LibraryTab.Folders: {
-                response = await getItemsApi(api).getItems(
+                response = await getLibraryApi(api).getItems(
                     {
                         userId: user.Id,
                         recursive: false,
@@ -366,7 +404,7 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             default: {
-                response = await getItemsApi(api).getItems(
+                response = await getLibraryApi(api).getItems(
                     {
                         userId: user.Id,
                         recursive: true,
@@ -836,7 +874,7 @@ const fetchGetSectionItems = async (
             }
             case SectionApiMethod.ResumeItems: {
                 response = (
-                    await getItemsApi(api).getResumeItems(
+                    await getLibraryApi(api).getResumeItems(
                         {
                             userId: user.Id,
                             parentId: parentId ?? undefined,
@@ -883,7 +921,7 @@ const fetchGetSectionItems = async (
             }
             default: {
                 response = (
-                    await getItemsApi(api).getItems(
+                    await getLibraryApi(api).getItems(
                         {
                             userId: user.Id,
                             parentId: parentId ?? undefined,
