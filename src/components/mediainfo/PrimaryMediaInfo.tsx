@@ -86,7 +86,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         <Box className={cssClass}>
             {miscInfo.map((info, index) => renderMediaInfo(info, index))}
 
-            {showStarRatingInfo && CommunityRating && (
+            {showStarRatingInfo && CommunityRating != null && (
                 <StarIcons
                     className={infoclass}
                     communityRating={CommunityRating}
@@ -97,7 +97,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
                 <CaptionMediaInfo className={infoclass} />
             )}
 
-            {showCriticRatingInfo && CriticRating && (
+            {showCriticRatingInfo && CriticRating != null && (
                 <CriticRatingMediaInfo
                     className={infoclass}
                     criticRating={CriticRating}
