@@ -1905,5 +1905,7 @@
     "LabelReasons": "Motius",
     "LabelPlayerSizes": "Mides del reproductor",
     "LabelPlaybackQuality": "Fotogrames perduts / corruptes",
-    "LabelSyncPlayJoinGroup": "Uneix-te al grup"
+    "LabelSyncPlayJoinGroup": "Uneix-te al grup",
+    "HeaderBackupWarning": "COMPTE: S'estan executant tasques programades",
+    "VideoRotationNotSupported": "La rotació de vídeo no és compatible"
 }
