@@ -356,8 +356,19 @@ const ItemsView: FC<ItemsViewProps> = ({
                                     )}
                                 </ButtonGroup>
 
-                                {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
-                                {isBtnNewPlaylistEnabled && <NewPlaylistButton isTextVisible={isSmallScreen} />}
+                                {isBtnNewCollectionEnabled && (
+                                    <NewCollectionButton
+                                        isTextVisible={isSmallScreen}
+                                        queryKey={queryKey}
+                                    />
+                                )}
+
+                                {isBtnNewPlaylistEnabled && (
+                                    <NewPlaylistButton
+                                        isTextVisible={isSmallScreen}
+                                        queryKey={queryKey}
+                                    />
+                                )}
                             </>
                         )}
                     </Box>

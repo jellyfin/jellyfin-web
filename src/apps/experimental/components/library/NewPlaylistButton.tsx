@@ -1,31 +1,39 @@
 import React, { FC, useCallback } from 'react';
 import PlaylistAdd from '@mui/icons-material/PlaylistAdd';
 import Button from '@mui/material/Button';
+import type { QueryKey } from '@tanstack/react-query';
 
 import globalize from 'lib/globalize';
+import { queryClient } from 'utils/query/queryClient';
 
 interface NewPlaylistButtonProps {
-    isTextVisible: boolean;
+    isTextVisible: boolean
+    queryKey: QueryKey
 }
 
 const NewPlaylistButton: FC<NewPlaylistButtonProps> = ({
-    isTextVisible
+    isTextVisible,
+    queryKey
 }) => {
     const showPlaylistEditor = useCallback(() => {
-        import('components/playlisteditor/playlisteditor').then(
-            ({ default: PlaylistEditor }) => {
+        import('components/playlisteditor/playlisteditor')
+            .then(async ({ default: PlaylistEditor }) => {
                 const serverId = window.ApiClient.serverId();
                 const playlistEditor = new PlaylistEditor();
-                playlistEditor.show({
-                    items: [],
-                    serverId
-                }).catch(() => {
+                try {
+                    await playlistEditor.show({
+                        items: [],
+                        serverId
+                    });
+                    void queryClient.invalidateQueries({ queryKey });
+                } catch {
                     // closed playlist editor
-                });
-            }).catch(err => {
-            console.error('[NewPlaylist] failed to load playlist editor', err);
-        });
-    }, []);
+                }
+            })
+            .catch(err => {
+                console.error('[NewPlaylist] failed to load playlist editor', err);
+            });
+    }, [ queryKey ]);
 
     return (
         <Button
