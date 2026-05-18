@@ -1904,5 +1904,7 @@
     "LabelProgressAndSpeed": "Framfart / hastighet",
     "LabelReasons": "Skäl",
     "LabelPlayerSizes": "Spelarstorlekar",
-    "LabelPlaybackQuality": "Bild tappad / korrumperad"
+    "LabelPlaybackQuality": "Bild tappad / korrumperad",
+    "HeaderBackupWarning": "VARNING: Schemalagda aktiviteter körs just nu",
+    "LabelBackupWarning": "Det finns schemalagda aktiviteter som pågår. Det rekommenderas att man stoppar dem eller väntar tills de är slutförda innan säkerhetskopieringen körs."
 }
