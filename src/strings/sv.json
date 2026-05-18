@@ -1897,7 +1897,7 @@
     "TrickplayLoadError": "Kunde inte ladda inställningar för trickplay",
     "LabelSyncPlayJoinGroup": "Anslut till gruppen",
     "OnFilesystem": "På filsystem:{0}",
-    "LabelVideoColors": "Videoattribut",
+    "LabelVideoColors": "Videofärger",
     "LabelVideoBitDepth": "Video bit-djup",
     "LabelAudioAttributes": "Ljudattribut",
     "LabelTargetCodecs": "Målkodek",
@@ -1906,5 +1906,7 @@
     "LabelPlayerSizes": "Spelarstorlekar",
     "LabelPlaybackQuality": "Bild tappad / korrumperad",
     "HeaderBackupWarning": "VARNING: Schemalagda aktiviteter körs just nu",
-    "LabelBackupWarning": "Det finns schemalagda aktiviteter som pågår. Det rekommenderas att man stoppar dem eller väntar tills de är slutförda innan säkerhetskopieringen körs."
+    "LabelBackupWarning": "Det finns schemalagda aktiviteter som pågår. Det rekommenderas att man stoppar dem eller väntar tills de är slutförda innan säkerhetskopieringen körs.",
+    "VideoRotationNotSupported": "Videorotationen stöds inte",
+    "LabelVideoAttributes": "Videoattribut"
 }
