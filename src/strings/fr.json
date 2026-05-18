@@ -1906,5 +1906,7 @@
     "LabelProgressAndSpeed": "Progression / Vitesse",
     "LabelPlayerSizes": "Tailles du lecteur",
     "LabelSyncPlayJoinGroup": "Rejoindre groupe",
-    "VideoRotationNotSupported": "La rotation de la vidéo n'est pas prise en charge"
+    "VideoRotationNotSupported": "La rotation de la vidéo n'est pas prise en charge",
+    "LabelBackupWarning": "Des tâches planifiées sont en cours. Il est recommandé de les arrêter ou d'attendre leur achèvement avant de lancer l'opération de sauvegarde.",
+    "HeaderBackupWarning": "AVERTISSEMENT : Tâches planifiées en cours"
 }
