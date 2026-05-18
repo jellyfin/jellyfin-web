@@ -656,7 +656,10 @@ export default function (view) {
     }
 
     function showComingUpNextIfNeeded(player, currentItem, currentTimeTicks, runtimeTicks) {
-        if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !currentVisibleMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
+        // The auto-shown OSD sets currentVisibleMenu='osd'; treat it as
+        // non-blocking so a hovering pointer doesn't suppress the prompt.
+        const blockingMenu = currentVisibleMenu && currentVisibleMenu !== 'osd';
+        if (runtimeTicks && currentTimeTicks && !comingUpNextDisplayed && !blockingMenu && currentItem.Type === 'Episode' && userSettings.enableNextVideoInfoOverlay()) {
             let showAtSecondsLeft = 30;
             if (runtimeTicks >= 50 * TICKS_PER_MINUTE) {
                 showAtSecondsLeft = 40;
@@ -680,8 +683,11 @@ export default function (view) {
 
     function showComingUpNext(player) {
         import('../../../components/upnextdialog/upnextdialog').then(({ default: UpNextDialog }) => {
-            if (!(currentVisibleMenu || currentUpNextDialog)) {
-                currentVisibleMenu = 'upnext';
+            const blockingMenu = currentVisibleMenu && currentVisibleMenu !== 'osd';
+            if (!blockingMenu && !currentUpNextDialog) {
+                // Preserve currentVisibleMenu='osd' so the OSD's hide timer
+                // can still tear itself down via hideMainOsdControls.
+                if (!currentVisibleMenu) currentVisibleMenu = 'upnext';
                 comingUpNextDisplayed = true;
                 playbackManager.nextItem(player).then(function (nextItem) {
                     currentUpNextDialog = new UpNextDialog({
