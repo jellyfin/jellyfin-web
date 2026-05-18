@@ -5,7 +5,7 @@ import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef 
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
-import { useQueryClient } from '@tanstack/react-query';
+import { type QueryKey, useQueryClient } from '@tanstack/react-query';
 
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
@@ -44,7 +44,7 @@ export interface ItemsContainerProps {
     parentId?: ParentId;
     reloadItems?: () => void;
     getItemsHtml?: () => string;
-    queryKey?: string[]
+    queryKey?: QueryKey
 }
 
 const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({

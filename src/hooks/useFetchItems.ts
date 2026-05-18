@@ -401,10 +401,13 @@ export const useGetItemsViewByType = (
     const currentApi = useApi();
     return useQuery({
         queryKey: [
-            'ItemsViewByType',
+            'User',
+            currentApi.user?.Id,
+            'Items',
+            parentId,
+            'ViewByType',
+            viewType,
             {
-                viewType,
-                parentId,
                 itemType,
                 libraryViewSettings
             }

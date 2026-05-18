@@ -84,7 +84,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         );
     const isSmallScreen = useMediaQuery((t: Theme) => t.breakpoints.up('sm'));
 
-    const { __legacyApiClient__ } = useApi();
+    const { __legacyApiClient__, user } = useApi();
     const {
         isPending,
         data: itemsResult,
@@ -97,6 +97,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings
     );
     const { data: item } = useItem(parentId || undefined);
+    const queryKey = ['User', user?.Id, 'Items', parentId, 'ViewByType', viewType];
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
@@ -154,7 +155,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             preferLogo: preferLogo,
             overlayText: !libraryViewSettings.ShowTitle,
             imageType: libraryViewSettings.ImageType,
-            queryKey: ['ItemsViewByType'],
+            queryKey,
             serverId: __legacyApiClient__?.serverId()
         };
 
@@ -193,6 +194,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings.ShowYear,
         libraryViewSettings.CardLayout,
         collectionType,
+        queryKey,
         viewType
     ]);
 
@@ -401,7 +403,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                     className={itemsContainerClass}
                     parentId={parentId}
                     reloadItems={refetch}
-                    queryKey={['ItemsViewByType']}
+                    queryKey={queryKey}
                 >
                     {getItems()}
                 </ItemsContainer>
