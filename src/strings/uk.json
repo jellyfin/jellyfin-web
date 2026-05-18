@@ -1906,5 +1906,7 @@
     "LabelPlayerSizes": "Розміри плеєра",
     "LabelPlaybackQuality": "Втрачено / пошкоджено кадрів",
     "LabelSyncPlayJoinGroup": "Приєднатися до групи",
-    "VideoRotationNotSupported": "Поворот відео не підтримується"
+    "VideoRotationNotSupported": "Поворот відео не підтримується",
+    "LabelBackupWarning": "Є заплановані завдання, які зараз виконуються. Рекомендується зупинити їх або зачекати на їхнє завершення перед початком резервного копіювання.",
+    "HeaderBackupWarning": "УВАГА: Виконуються заплановані завдання"
 }
