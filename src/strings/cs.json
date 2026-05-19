@@ -1906,5 +1906,7 @@
     "LabelPlaybackQuality": "Ztracený / poškozený snímek",
     "OnFilesystem": "V souborovém systému: {0}",
     "LabelSyncPlayJoinGroup": "Připojit se ke skupině",
-    "VideoRotationNotSupported": "Otáčení videa není podporováno"
+    "VideoRotationNotSupported": "Otáčení videa není podporováno",
+    "LabelBackupWarning": "Právě probíhají naplánované úlohy. Před provedením zálohy je doporučeno je zastavit nebo počkat na jejich dokončení.",
+    "HeaderBackupWarning": "VAROVÁNÍ: Probíhající naplánované úlohy"
 }
