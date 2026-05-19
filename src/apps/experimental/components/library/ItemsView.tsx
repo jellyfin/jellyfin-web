@@ -97,7 +97,9 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings
     );
     const { data: item } = useItem(parentId || undefined);
-    const queryKey = ['User', user?.Id, 'Items', parentId, 'ViewByType', viewType];
+    // The query key used for invalidation when items are updated.
+    // Note that we want to invalidate all related views, not just the current view, so we don't include the viewType.
+    const queryKey = ['User', user?.Id, 'Items', parentId, 'ViewByType'];
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
