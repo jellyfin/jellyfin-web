@@ -513,6 +513,12 @@ class SessionPlayer {
         return state.AudioStreamIndex;
     }
 
+    getPlaybackRate() {
+        let state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.PlaybackRate;
+    }
+
     playTrailers(item) {
         sendCommandByName(this, 'PlayTrailers', {
             ItemId: item.Id

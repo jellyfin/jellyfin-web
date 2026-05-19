@@ -105,6 +105,10 @@ function processGeneralCommand(cmd, apiClient) {
             notifyApp();
             playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10));
             break;
+        case 'SetPlaybackRate':
+            notifyApp();
+            playbackManager.setPlaybackRate(parseFloat(cmd.Arguments.PlaybackRate));
+            break;
         case 'ToggleFullscreen':
             inputManager.handleCommand('togglefullscreen');
             return;
