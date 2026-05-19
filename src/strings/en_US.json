@@ -218,6 +218,5 @@
     "ApiKeysLoadError": "Failed to load API keys",
     "Authors": "Authors",
     "BrandingLoadError": "Failed to load branding settings",
-    "LabelPlaybackQuality": "Frame dropped / corrupted",
-    "HeaderBackupWarning": ""
+    "LabelPlaybackQuality": "Frame dropped / corrupted"
 }
