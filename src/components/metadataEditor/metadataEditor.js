@@ -129,7 +129,7 @@ function onSubmit(e) {
         Id: currentItem.Id,
         Name: form.querySelector('#txtName').value,
         OriginalTitle: form.querySelector('#txtOriginalName').value,
-        OriginalLanguage: form.querySelector('#txtOriginalLanguage').value,
+        OriginalLanguage: form.querySelector('#selectOriginalLanguage').value,
         ForcedSortName: form.querySelector('#txtSortName').value,
         CommunityRating: form.querySelector('#txtCommunityRating').value,
         CriticRating: form.querySelector('#txtCriticRating').value,
@@ -302,7 +302,7 @@ function bindAll(elems, eventName, fn) {
 }
 
 function onResetClick() {
-    const resetElementId = ['#txtName', '#txtOriginalName', '#txtOriginalLanguage', '#txtSortName', '#txtCommunityRating', '#txtCriticRating',
+    const resetElementId = ['#txtName', '#txtOriginalName', '#selectOriginalLanguage', '#txtSortName', '#txtCommunityRating', '#txtCriticRating',
         '#txtIndexNumber', '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
         '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
         '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
@@ -796,7 +796,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtPath').value = item.Path || '';
     context.querySelector('#txtName').value = item.Name || '';
     context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
-    context.querySelector('#txtOriginalLanguage').value = item.OriginalLanguage || '';
+    context.querySelector('#selectOriginalLanguage').value = item.OriginalLanguage || '';
     context.querySelector('#txtOverview').value = item.Overview || '';
     context.querySelector('#txtTagline').value = (item.Taglines?.length ? item.Taglines[0] : '');
     context.querySelector('#txtSortName').value = item.ForcedSortName || '';
@@ -1057,6 +1057,7 @@ function reload(context, itemId, serverId) {
 
         loadExternalIds(context, item, metadataEditorInfo.ExternalIdInfos);
 
+        populateLanguages(context.querySelector('#selectOriginalLanguage'), languages);
         populateLanguages(context.querySelector('#selectLanguage'), languages);
         populateCountries(context.querySelector('#selectCountry'), countries);
 
