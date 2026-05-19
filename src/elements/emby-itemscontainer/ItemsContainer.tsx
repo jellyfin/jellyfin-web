@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
 import { type QueryKey, useQueryClient } from '@tanstack/react-query';
 
+import { EventType } from 'constants/eventType';
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
 import serverNotifications from 'scripts/serverNotifications';
@@ -173,13 +174,13 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         }
     }, []);
 
-    const invalidateQueries = useCallback(async () => {
-        await queryClient.invalidateQueries({
+    const invalidateQueries = useCallback(() => (
+        queryClient.invalidateQueries({
             queryKey,
             type: 'all',
             refetchType: 'active'
-        });
-    }, [queryClient, queryKey]);
+        })
+    ), [queryClient, queryKey]);
 
     const notifyRefreshNeeded = useCallback(
         (isInForeground: boolean) => {
@@ -363,6 +364,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
         Events.on(serverNotifications, 'LibraryChanged', onLibraryChanged);
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
+        Events.on(document, EventType.REFRESH_NEEDED, invalidateQueries);
 
         return () => {
             if (timerRef.current) {
@@ -380,16 +382,18 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
             Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
             Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-            Events.off( serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+            Events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
             Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
             Events.off(serverNotifications, 'LibraryChanged', onLibraryChanged);
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
+            Events.off(document, EventType.REFRESH_NEEDED, invalidateQueries);
         };
     }, [
         destroyDragReordering,
         destroyMultiSelect,
         initDragReordering,
         initMultiSelect,
+        invalidateQueries,
         isContextMenuEnabled,
         isDragreOrderEnabled,
         isMultiSelectEnabled,
