@@ -1441,10 +1441,10 @@
     "MediaInfoVideoRangeType": "Tipo de gama de vídeo",
     "LabelVideoRangeType": "Tipo de gama de vídeo",
     "MixedMoviesShows": "Filmes e séries misturados",
-    "MediaInfoDvBlSignalCompatibilityId": "ID de compatibilidade BL",
+    "MediaInfoDvBlSignalCompatibilityId": "ID de compatibilidade do sinal da camada base DV",
     "MediaInfoBlPresentFlag": "Sinalizador predefinido DV BL",
     "MediaInfoElPresentFlag": "Sinalizador predefinido DV EL",
-    "MediaInfoRpuPresentFlag": "Sinalizador predefinido DV RPU",
+    "MediaInfoRpuPresentFlag": "Sinalizador de predefinição DV RPU",
     "MediaInfoDvLevel": "Nível de DV",
     "MediaInfoDvProfile": "Perfil de DV",
     "MediaInfoDvVersionMinor": "Versão DV (Minor)",
@@ -1553,7 +1553,7 @@
     "LabelThrottleDelaySecondsHelp": "Tempo em segundos depois o qual o transcodificador irá ser estrangulado. Deve ser suficientemente grande para o cliente manter um buffer saudável. Só funciona se o estrangulamento estiver ligado.",
     "LabelSegmentKeepSeconds": "Tempo em segundos para manter os segmentos",
     "LabelSegmentKeepSecondsHelp": "Tempo em segundos durante o qual os segmentos devem ser mantidos depois de serem descarregados pelo cliente. Só funciona se a eliminação de segmentos estiver ativada.",
-    "LabelStereoDownmixAlgorithm": "Algoritmo para reduzir a mistura para Stereo",
+    "LabelStereoDownmixAlgorithm": "Algoritmo de conversão para estéreo",
     "SearchResultsEmpty": "Desculpa! Não foram encontrados resultados para \"{0}\"",
     "AllowAv1Encoding": "Permitir codificação no formato AV1",
     "HeaderGuestCast": "Estrelas convidadas",
@@ -1905,5 +1905,8 @@
     "LabelProgressAndSpeed": "Progresso / velocidade",
     "LabelReasons": "Motivos",
     "OnFilesystem": "No sistema de ficheiros: {0}",
-    "LabelSyncPlayJoinGroup": "Juntar-se a um grupo"
+    "LabelSyncPlayJoinGroup": "Juntar-se a um grupo",
+    "HeaderBackupWarning": "AVISO: Tarefas agendadas em andamento",
+    "LabelBackupWarning": "Há tarefas agendadas em andamento. É recomendado pará-las ou esperar que sejam completadas antes de executar a operação de cópia de segurança.",
+    "VideoRotationNotSupported": "A rotação de vídeo não é suportada"
 }

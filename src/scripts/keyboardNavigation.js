@@ -12,15 +12,6 @@ import appSettings from './settings/appSettings';
  * Key name mapping.
  */
 const KeyNames = {
-    13: 'Enter',
-    19: 'Pause',
-    27: 'Escape',
-    32: 'Space',
-    37: 'ArrowLeft',
-    38: 'ArrowUp',
-    39: 'ArrowRight',
-    40: 'ArrowDown',
-
     // UWP WebView section start --
     // Navigation Up/Down/Left/Right is part of TVJS directionalnavigation-1.0.0.0.js
     // Unsure what this is used for. Media remote?
@@ -102,20 +93,6 @@ const InteractiveElements = ['INPUT', 'TEXTAREA'];
  */
 const NonInteractiveInputElements = ['button', 'checkbox', 'color', 'file', 'hidden', 'image', 'radio', 'reset', 'submit'];
 
-let hasFieldKey = false;
-try {
-    hasFieldKey = 'key' in new KeyboardEvent('keydown');
-} catch (e) {
-    console.error("error checking 'key' field", e);
-}
-
-if (!hasFieldKey) {
-    // Add [a..z]
-    for (let i = 65; i <= 90; i++) {
-        KeyNames[i] = String.fromCharCode(i).toLowerCase();
-    }
-}
-
 /**
  * Returns key name from event.
  *
@@ -123,7 +100,7 @@ if (!hasFieldKey) {
  * @return {string} Key name.
  */
 export function getKeyName(event) {
-    const key = KeyNames[event.keyCode] || event.key;
+    const key = KeyNames[event.keyCode] || event.code || '';
     return KeyAliases[key] || key;
 }
 

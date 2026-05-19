@@ -1,4 +1,4 @@
-import type { DevicesApiGetDevicesRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { DevicesApiGetDevicesRequest } from '@jellyfin/sdk/lib/generated-client/api/devices-api';
 import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
 import { getDevicesApi } from '@jellyfin/sdk/lib/utils/api/devices-api';

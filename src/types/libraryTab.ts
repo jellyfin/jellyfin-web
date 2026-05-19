@@ -2,6 +2,7 @@ export enum LibraryTab {
     Albums = 'albums',
     AlbumArtists = 'albumartists',
     Artists = 'artists',
+    Authors = 'authors',
     Channels = 'channels',
     Collections = 'collections',
     Episodes = 'episodes',
@@ -24,5 +25,6 @@ export enum LibraryTab {
     Videos = 'videos',
     Books = 'books',
     MusicVideos = 'musicvideos',
-    Folders = 'folders'
+    Folders = 'folders',
+    Mixed = 'mixed'
 }

@@ -464,5 +464,7 @@
     "LabelThrottleDelaySeconds": "Takmarka eftir",
     "LabelThrottleDelaySecondsHelp": "Tími í sekúndum þangað til að umkóðarinn verður takmarkaður. Þarf að vera nógu stórt til að viðhalda nægu biðminni í biðlaranum.",
     "LabelSegmentKeepSeconds": "Tími til að halda bútum",
-    "LabelSegmentKeepSecondsHelp": "Tími í sekúndum sem bútum er haldið eftir að biðlarinn halar þeim niður. Virkar einungis ef heimilt er að eyða bútum."
+    "LabelSegmentKeepSecondsHelp": "Tími í sekúndum sem bútum er haldið eftir að biðlarinn halar þeim niður. Virkar einungis ef heimilt er að eyða bútum.",
+    "AllowFmp4TranscodingContainerHelp": "Leyfa fMP4 umritunarílát fyrir þennan móttakara til að virkja HEVC og HDR efni. Ekki eru allir móttakarar samhæfir þessum íláti. Slökktu á þessu ef þú lendir í vandræðum með spilun.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Alltaf brenna inn texta við umritun"
 }

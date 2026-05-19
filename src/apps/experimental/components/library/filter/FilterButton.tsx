@@ -136,6 +136,12 @@ const FilterButton: FC<FilterButtonProps> = ({
             || viewType === LibraryTab.Songs
             || viewType === LibraryTab.Episodes
             || viewType === LibraryTab.Books
+            || viewType === LibraryTab.Folders
+            || viewType === LibraryTab.MusicVideos
+            || viewType === LibraryTab.Videos
+            || viewType === LibraryTab.Collections
+            || viewType === LibraryTab.Playlists
+            || viewType === LibraryTab.Mixed
         );
     };
 
@@ -151,13 +157,6 @@ const FilterButton: FC<FilterButtonProps> = ({
         return (
             viewType === LibraryTab.Movies
             || viewType === LibraryTab.Series
-            || viewType === LibraryTab.Episodes
-        );
-    };
-
-    const isFiltersVideoTypesEnabled = () => {
-        return (
-            viewType === LibraryTab.Movies
             || viewType === LibraryTab.Episodes
         );
     };
@@ -295,7 +294,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                     </Accordion>
                 )}
 
-                {isFiltersVideoTypesEnabled() && (
+                {isFiltersFeaturesEnabled() && (
                     <Accordion
                         expanded={expanded === 'filtersVideoTypes'}
                         onChange={handleChange('filtersVideoTypes')}

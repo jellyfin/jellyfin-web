@@ -15,9 +15,9 @@ import { MetaView } from 'apps/experimental/constants/metaView';
 import { useAncestors } from 'apps/experimental/features/libraries/hooks/api/useAncestors';
 import { isDetailsPath, isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
 import { appRouter } from 'components/router/appRouter';
+import { useUserViews } from 'hooks/api/useUserViews';
 import { useApi } from 'hooks/useApi';
 import useCurrentTab from 'hooks/useCurrentTab';
-import { useUserViews } from 'hooks/useUserViews';
 import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'lib/globalize';
 
@@ -79,7 +79,7 @@ const UserViewNav = () => {
     const {
         data: userViews,
         isPending
-    } = useUserViews(user?.Id);
+    } = useUserViews({ userId: user?.Id });
 
     const {
         data: ancestors

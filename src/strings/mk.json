@@ -552,5 +552,6 @@
     "LabelAllowContentWithTags": "Дозволи ставки со ознаки",
     "LabelBlastMessageIntervalHelp": "Определете го времетраењето во секунди помеѓу пораките на „blast alive“.",
     "LabelBlockContentWithTags": "Блокирај ставки со ознаки",
-    "LabelBuildVersion": "Верзија"
+    "LabelBuildVersion": "Верзија",
+    "ActivitiesLoadError": "Не успеаа да се вчитаат активностите"
 }
