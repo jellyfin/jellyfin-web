@@ -550,7 +550,7 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldOriginalName', context);
     }
 
-    if (item.Type === 'Series' || item.Type === 'Movie' || item.Type === 'Episode') {
+    if (item.Type === 'Series' || item.MediaType === 'Video') {
         showElement('#fldOriginalLanguage', context);
     } else {
         hideElement('#fldOriginalLanguage', context);
@@ -617,10 +617,10 @@ function setFieldVisibilities(context, item) {
     }
 
     if (item.Type === 'Person'
-            || item.Type === 'Genre'
-            || item.Type === 'Studio'
-            || item.Type === 'MusicGenre'
-            || item.Type === 'TvChannel') {
+        || item.Type === 'Genre'
+        || item.Type === 'Studio'
+        || item.Type === 'MusicGenre'
+        || item.Type === 'TvChannel') {
         hideElement('#peopleCollapsible', context);
     } else {
         showElement('#peopleCollapsible', context);
