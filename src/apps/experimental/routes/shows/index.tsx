@@ -28,8 +28,7 @@ const studiosTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Series],
     isBtnFilterEnabled: false,
     isBtnGridListEnabled: false,
-    isBtnSortEnabled: false,
-    isAlphabetPickerEnabled: false
+    isBtnSortEnabled: false
 };
 
 const upcomingTabContent: LibraryTabContent = {

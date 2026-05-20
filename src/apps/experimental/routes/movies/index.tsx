@@ -56,8 +56,7 @@ const studiosTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Movie],
     isBtnFilterEnabled: false,
     isBtnGridListEnabled: false,
-    isBtnSortEnabled: false,
-    isAlphabetPickerEnabled: false
+    isBtnSortEnabled: false
 };
 
 const moviesTabMapping: LibraryTabMapping = {

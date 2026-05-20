@@ -301,6 +301,8 @@ const fetchGetItemsViewByType = async (
                         userId: user.Id,
                         parentId: parentId ?? undefined,
                         ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
                         includeItemTypes: itemType,
                         enableImageTypes: [ImageType.Thumb],
                         startIndex: libraryViewSettings.StartIndex
