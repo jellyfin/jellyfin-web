@@ -1908,5 +1908,7 @@
     "LabelSyncPlayJoinGroup": "Gruppe beitreten",
     "VideoRotationNotSupported": "Die Video Rotation wird nicht unterstützt",
     "LabelBackupWarning": "Es laufen geplante Aufgaben ab. Es wird empfohlen, sie zu stoppen oder zu warten, bis sie fertig sind, bevor das Backup ausgeführt wird.",
-    "HeaderBackupWarning": "WARNUNG: Laufende geplante Aufgaben"
+    "HeaderBackupWarning": "WARNUNG: Laufende geplante Aufgaben",
+    "HeaderTypeSimilarItemProviders": "Anbieter ähnlicher Artikel ({0})",
+    "LabelSimilarItemProvidersHelp": "Aktiviere und bewerte deine bevorzugten Anbieter ähnlicher Artikel in Reihenfolge der Wichtigkeit."
 }
