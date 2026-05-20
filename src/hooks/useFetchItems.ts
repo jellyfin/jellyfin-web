@@ -295,7 +295,7 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             }
-            case LibraryTab.Networks:
+            case LibraryTab.Studios:
                 response = await getStudiosApi(api).getStudios(
                     {
                         userId: user.Id,
@@ -427,7 +427,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Collections,
                 LibraryTab.Series,
                 LibraryTab.Episodes,
-                LibraryTab.Networks,
+                LibraryTab.Studios,
                 LibraryTab.Albums,
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,

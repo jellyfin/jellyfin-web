@@ -96,7 +96,7 @@ function getLandingScreenOptions(type) {
             },
             {
                 name: globalize.translate('TabNetworks'),
-                value: LibraryTab.Networks
+                value: LibraryTab.Studios
             },
             {
                 name: globalize.translate('Episodes'),

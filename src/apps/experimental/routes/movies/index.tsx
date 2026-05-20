@@ -51,13 +51,23 @@ const playlistsTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Playlist]
 };
 
+const studiosTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Studios,
+    itemType: [BaseItemKind.Movie],
+    isBtnFilterEnabled: false,
+    isBtnGridListEnabled: false,
+    isBtnSortEnabled: false,
+    isAlphabetPickerEnabled: false
+};
+
 const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
     2: favoritesTabContent,
     3: collectionsTabContent,
     4: genresTabContent,
-    5: playlistsTabContent
+    5: studiosTabContent,
+    6: playlistsTabContent
 };
 
 const Movies: FC = () => {
