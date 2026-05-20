@@ -397,13 +397,13 @@ const ItemsView: FC<ItemsViewProps> = ({
                             )}
                         </ButtonGroup>
 
-                        {!isPending && isPaginationEnabled && (
+                        {isPaginationEnabled && (
                             <Pagination
                                 setLibraryViewSettings={setLibraryViewSettings}
                                 index={startIndex}
                                 pageSize={paginationLimit}
                                 total={totalRecordCount}
-                                disabled={!isPaginationRequired || isPlaceholderData}
+                                disabled={isPending || !isPaginationRequired || isPlaceholderData}
                             />
                         )}
                     </Stack>
