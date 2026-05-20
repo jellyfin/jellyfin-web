@@ -201,6 +201,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 5,
                 label: 'Episodes',
                 view: LibraryTab.Episodes
+            },
+            {
+                index: 6,
+                label: 'Collections',
+                view: LibraryTab.Collections
             }
         ]
     },
