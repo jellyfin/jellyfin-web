@@ -318,8 +318,14 @@ const UserLibraryAccess = () => {
                                 key={Item.Id}
                                 className='chkDevice'
                                 itemId={Item.Id}
-                                itemName={Item.CustomName || Item.Name}
-                                itemAppName={Item.AppName}
+                                itemName={
+                                    [
+                                        Item.CustomName || Item.Name,
+                                        Item.AppName
+                                    ]
+                                        .filter(Boolean)
+                                        .join(' - ')
+                                }
                                 itemCheckedAttribute={Item.checkedAttribute}
                             />
                         ))}
