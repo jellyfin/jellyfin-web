@@ -73,6 +73,10 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('Genres'),
                 value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'tvshows') {
@@ -101,6 +105,14 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('Episodes'),
                 value: LibraryTab.Episodes
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'music') {

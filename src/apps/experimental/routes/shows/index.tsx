@@ -56,6 +56,15 @@ const collectionsTabContent: LibraryTabContent = {
     noItemsMessage: 'MessageNoCollectionsAvailable'
 };
 
+const playlistsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Playlists,
+    isBtnFilterEnabled: false,
+    isBtnGridListEnabled: false,
+    isBtnNewPlaylistEnabled: true,
+    isAlphabetPickerEnabled: false,
+    itemType: [BaseItemKind.Playlist]
+};
+
 const tvShowsTabMapping: LibraryTabMapping = {
     0: seriesTabContent,
     1: suggestionsTabContent,
@@ -63,7 +72,8 @@ const tvShowsTabMapping: LibraryTabMapping = {
     3: genresTabContent,
     4: networksTabContent,
     5: episodesTabContent,
-    6: collectionsTabContent
+    6: collectionsTabContent,
+    7: playlistsTabContent
 };
 
 const Shows: FC = () => {
