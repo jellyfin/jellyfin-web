@@ -38,6 +38,14 @@ const genresTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
 };
 
+const collectionsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Collections,
+    collectionType: CollectionType.Books,
+    itemType: [BaseItemKind.BoxSet],
+    isBtnNewCollectionEnabled: true,
+    noItemsMessage: 'MessageNoCollectionsAvailable'
+};
+
 const favoritesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Favorites,
     collectionType: CollectionType.Books,
@@ -50,7 +58,8 @@ const booksTabMapping: LibraryTabMapping = {
     2: authorsTabContent,
     3: suggestionsTabContent,
     4: genresTabContent,
-    5: favoritesTabContent
+    5: collectionsTabContent,
+    6: favoritesTabContent
 };
 
 const Books: FC = () => {
