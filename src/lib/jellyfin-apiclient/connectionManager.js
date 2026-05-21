@@ -1,7 +1,6 @@
 import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
-import { ApiClient } from 'jellyfin-apiclient';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
@@ -756,7 +755,7 @@ export default class ConnectionManager {
     /**
      * Gets the ApiClient for a given BaseItem or ServerId.
      * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
-     * @returns {ApiClient}
+     * @returns {import('jellyfin-apiclient').ApiClient}
      */
     getApiClient(item) {
         if (!item) {
