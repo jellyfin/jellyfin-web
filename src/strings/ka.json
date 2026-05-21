@@ -551,5 +551,15 @@
     "Watch": "თვალყურის დევნება",
     "LabelReasons": "მიზეზები",
     "ConfirmDeletion": "წაშლის დადასტურება",
-    "ContinueWatching": "ყურების გაგრძელება"
+    "ContinueWatching": "ყურების გაგრძელება",
+    "CriticRating": "კრიტიკოსების რეიტინგი",
+    "DateAdded": "დამატების თარიღი",
+    "DatePlayed": "დაკვრის თარიღი",
+    "DeathDateValue": "გარდაიცვალა: {0}",
+    "DeleteAll": "ყველას წაშლა",
+    "DeleteImage": "გამოსახულების წაშლა",
+    "DeleteMedia": "მედიის წაშლა",
+    "DeleteUser": "მომხმარებლის წაშლა",
+    "Desktop": "კომპიუტერი (მოძველებულია)",
+    "DetectingDevices": "მოწყობილობების აღმოჩენა"
 }
