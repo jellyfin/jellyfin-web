@@ -170,6 +170,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 6,
                 label: 'Genres',
                 view: LibraryTab.Genres
+            },
+            {
+                index: 7,
+                label: 'Collections',
+                view: LibraryTab.Collections
             }
         ]
     },
@@ -263,6 +268,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'HeaderVideos',
                 view: LibraryTab.MusicVideos
+            },
+            {
+                index: 3,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     },
@@ -300,6 +310,16 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'HeaderMedia',
                 view: LibraryTab.Mixed
+            },
+            {
+                index: 3,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 4,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     }
