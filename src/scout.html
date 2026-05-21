@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex,nofollow">
+    <title>QA Scout</title>
+</head>
+<body>
+<script>
+/*
+ * QA Scout entry point. Same-origin shim used by the JEL-2797 WGT capture
+ * pipeline so html2canvas can snapshot an authenticated Jellyfin SPA from
+ * inside a Tizen WGT (which cannot mutate localStorage on the Jellyfin
+ * origin from a blob: iframe).
+ *
+ * Query params:
+ *   serverUrl  - Jellyfin server base URL (defaults to current origin)
+ *   serverId   - Jellyfin Server.Id
+ *   userId     - User.Id for the access token
+ *   token      - short-lived AccessToken minted per QA run
+ *   redirect   - optional SPA hash path to land on (default "/web/index.html")
+ */
+(function () {
+    var p = new URLSearchParams(window.location.search);
+    var token = p.get('token');
+    if (token) {
+        var record = {
+            Servers: [{
+                ManualAddress: p.get('serverUrl') || window.location.origin,
+                Id: p.get('serverId') || '',
+                AccessToken: token,
+                UserId: p.get('userId') || '',
+                Name: 'QA Scout',
+                DateLastAccessed: Date.now(),
+                LastConnectionMode: 0,
+                Type: 'Server'
+            }]
+        };
+        try {
+            window.localStorage.setItem('servercredentials3', JSON.stringify(record));
+            window.localStorage.setItem('enableAutoLogin', 'true');
+        } catch (e) {
+            // localStorage unavailable - SPA will fall back to Select Server.
+        }
+    }
+    var dest = p.get('redirect') || '/web/index.html';
+    window.location.replace(dest);
+})();
+</script>
+</body>
+</html>

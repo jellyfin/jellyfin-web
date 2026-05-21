@@ -94,6 +94,12 @@ const config = {
                             '**.tsx'
                         ]
                     }
+                },
+                {
+                    // QA-Infra (JEL-2801): same-origin shim used by the
+                    // Tizen WGT scout to inject Jellyfin credentials into
+                    // localStorage before redirecting to the SPA.
+                    from: 'scout.html'
                 }
             ]
         }),
