@@ -624,5 +624,11 @@
     "Photos": "Surat",
     "Shows": "Teleko'rsatuv",
     "Songs": "Kompozitsiyalar",
-    "AirPlay": "AirPlay"
+    "AirPlay": "AirPlay",
+    "ActivitiesLoadError": "Harakat muvofaqiyatsiz yuklandi",
+    "AllowContentWithTagsHelp": "Faqat birorta mediani ko'rsatilgan teglardan qo'yilsin",
+    "AllowSubtitleManagement": "Foydalanuvchini subtitrlarni o'zgartirishga ruxsat berish",
+    "AllowAv1Encoding": "AV1 formatika encoding ruxsat berish",
+    "AiTranslated": "AI tarjima qilingan",
+    "MachineTranslated": "Mashina tarjima qilingan"
 }
