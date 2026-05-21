@@ -68,8 +68,8 @@ function onDetailRowKey(e) {
 
     let target = null;
     if (buttonsRow && (key === 'ArrowDown' || key === 'Down')) {
-        target = page.querySelector('.trackSelections:not(.hide) .detailTrackSelect:not(:disabled)');
-        if (target && target.offsetParent === null) target = null;
+        const allSelects = Array.from(page.querySelectorAll('.trackSelections:not(.hide) .detailTrackSelect:not(:disabled)'));
+        target = allSelects.find(el => el.offsetParent !== null) || null;
     } else if (tracksRow && (key === 'ArrowUp' || key === 'Up')) {
         // Only redirect to the action row when there is no visible enabled
         // select above the current focus — otherwise let spatial nav move
