@@ -595,5 +595,11 @@
     "HeaderAudioBooks": "აუდიოწიგნები",
     "HeaderAudioSettings": "აუდიოს მორგება",
     "HeaderAutoDiscovery": "ქსელში აღმოჩენა",
-    "HeaderCancelRecording": "ჩაწერის გაუქმება"
+    "HeaderCancelRecording": "ჩაწერის გაუქმება",
+    "HeaderCancelSeries": "სერიების გაუქმება",
+    "HeaderChannelAccess": "არხზე წვდომა",
+    "HeaderChapterImages": "თავის სურათები",
+    "HeaderConnectionFailure": "კავშირის ჩავარდნა",
+    "HeaderContinueListening": "მოსმენის გაგრძელება",
+    "HeaderContinueReading": "კითხვის გაგრძელება"
 }
