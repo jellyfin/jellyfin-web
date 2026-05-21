@@ -1,6 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -2097,7 +2098,11 @@ export default function (view, params) {
         }
 
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), selectedId).then(function (altItem) {
+        const api = toApi(apiClient);
+        getUserLibraryApi(api).getItem({
+            userId: apiClient.getCurrentUserId(),
+            itemId: selectedId
+        }).then(function ({ data: altItem }) {
             if (view.querySelector('.selectSource').value !== selectedId) {
                 return;
             }
