@@ -589,5 +589,11 @@
     "HeaderAddUpdateImage": "გამოსახულების დამატება/განახლება",
     "HeaderAddUpdateSubtitle": "სუბტიტრის დამატება/განახლება",
     "HeaderAddUser": "მომხმარებლის დამატება",
-    "HeaderApiKey": "API-ის გასაღები"
+    "HeaderApiKey": "API-ის გასაღები",
+    "HeaderApiKeys": "API-ის გასაღებები",
+    "HeaderAppearsOn": "მონაწილეობს",
+    "HeaderAudioBooks": "აუდიოწიგნები",
+    "HeaderAudioSettings": "აუდიოს მორგება",
+    "HeaderAutoDiscovery": "ქსელში აღმოჩენა",
+    "HeaderCancelRecording": "ჩაწერის გაუქმება"
 }
