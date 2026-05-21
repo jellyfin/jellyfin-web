@@ -47,6 +47,20 @@ export function autoFocus(container) {
 
     let candidates = [];
 
+    // JEL-2873: on the item detail page, deterministically prefer the first
+    // visible enabled action button (Play / Restart / Queue / etc.) before the
+    // last-focused element so initial focus does not fall through to a stale
+    // header button or the cast/similar carousel when .btnPlay is hidden.
+    const detailPage = container.classList?.contains('itemDetailPage')
+        ? container
+        : container.querySelector?.('.itemDetailPage:not(.hide)');
+    if (detailPage) {
+        const firstDetailButton = detailPage.querySelector('.mainDetailButtons .detailButton:not(.hide):not(:disabled)');
+        if (firstDetailButton) {
+            candidates.push(firstDetailButton);
+        }
+    }
+
     if (activeElement) {
         // These elements are recreated
         if (activeElement.classList.contains('btnPreviousPage')) {
@@ -63,6 +77,7 @@ export function autoFocus(container) {
     }
 
     candidates = candidates.concat(Array.from(container.querySelectorAll('.btnPlay')));
+    candidates = candidates.concat(Array.from(container.querySelectorAll('.btnReplay')));
 
     let focusedElement;
 

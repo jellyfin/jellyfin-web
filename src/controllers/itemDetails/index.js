@@ -9,6 +9,7 @@ import isEqual from 'lodash-es/isEqual';
 import { appHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import focusManager from 'components/focusManager';
 import { buildCardImage } from 'components/cardbuilder/cardImage';
 import confirm from 'components/confirm/confirm';
 import imageLoader from 'components/images/imageLoader';
@@ -48,6 +49,45 @@ function autoFocus(container) {
     import('../../components/autoFocuser').then(({ default: autoFocuser }) => {
         autoFocuser.autoFocus(container);
     });
+}
+
+// JEL-2873: route ArrowDown from the action button row to the first visible
+// enabled track selector, and ArrowUp from a track selector back to the action
+// row. Bypasses focusManager's spatial heuristic, which picks tag links over
+// selects because the select's <option> column is horizontally offset by the
+// label and loses the distance race.
+function onDetailRowKey(e) {
+    if (!layoutManager.tv) return;
+    if (e.defaultPrevented || e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
+    const key = e.key;
+    const buttonsRow = dom.parentWithClass(e.target, 'mainDetailButtons');
+    const tracksRow = dom.parentWithClass(e.target, 'trackSelections');
+    const page = dom.parentWithClass(e.target, 'itemDetailPage');
+    if (!page) return;
+
+    let target = null;
+    if (buttonsRow && (key === 'ArrowDown' || key === 'Down')) {
+        target = page.querySelector('.trackSelections:not(.hide) .detailTrackSelect:not(:disabled)');
+        if (target && target.offsetParent === null) target = null;
+    } else if (tracksRow && (key === 'ArrowUp' || key === 'Up')) {
+        // Only redirect to the action row when there is no visible enabled
+        // select above the current focus — otherwise let spatial nav move
+        // between selects normally.
+        const selects = Array.from(tracksRow.querySelectorAll('.detailTrackSelect:not(:disabled)'))
+            .filter(el => el.offsetParent !== null);
+        const idx = selects.indexOf(e.target);
+        if (idx === 0 || idx === -1) {
+            target = page.querySelector('.mainDetailButtons .detailButton:not(.hide):not(:disabled)');
+            if (target && target.offsetParent === null) target = null;
+        }
+    }
+
+    if (target) {
+        e.preventDefault();
+        e.stopPropagation();
+        focusManager.focus(target);
+    }
 }
 
 function getPromise(apiClient, params) {
@@ -2090,6 +2130,13 @@ export default function (view, params) {
             splitVersions(self, view, apiClient, params);
         });
         bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
+
+        // JEL-2873: bridge ArrowDown/ArrowUp between action row and track selectors.
+        const mainDetailButtons = view.querySelector('.mainDetailButtons');
+        if (mainDetailButtons) mainDetailButtons.addEventListener('keydown', onDetailRowKey);
+        const trackSelectionsForm = view.querySelector('.trackSelections');
+        if (trackSelectionsForm) trackSelectionsForm.addEventListener('keydown', onDetailRowKey);
+
         view.querySelector('.selectSource').addEventListener('change', function () {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
