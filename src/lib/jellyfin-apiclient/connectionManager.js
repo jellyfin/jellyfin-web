@@ -5,6 +5,7 @@ import { ApiClient } from 'jellyfin-apiclient';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
+import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
 import { compareVersions } from 'utils/versions';
 
@@ -137,7 +138,7 @@ export default class ConnectionManager {
             let apiClient = self.getApiClient(server.Id);
 
             if (!apiClient) {
-                apiClient = new ApiClient(serverUrl, appName, appVersion, deviceName, deviceId);
+                apiClient = createApiClient(serverUrl, appName, appVersion, deviceName, deviceId);
 
                 self._apiClients.push(apiClient);
 
