@@ -195,5 +195,15 @@
     "LabelProtocol": "Protokol",
     "LabelRecord": "Enrollañ",
     "LabelRepository": "Kavlec'h",
-    "LabelRestore": "Adsevel"
+    "LabelRestore": "Adsevel",
+    "LabelRuntimeMinutes": "Padelezh",
+    "LabelScreensaver": "Mod espernekaat ar skramm",
+    "LabelServerHost": "Ostiz",
+    "LabelSize": "Ment",
+    "LabelSource": "Mammenn",
+    "LabelStable": "Stabil",
+    "LabelStatus": "Statud",
+    "LabelStopping": "War baouez",
+    "LabelSystem": "Reizhiad",
+    "LabelTag": "Tikedenn"
 }
