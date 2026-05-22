@@ -715,5 +715,19 @@
     "LabelDropShadow": "დაჩრდილვა",
     "LabelDynamicExternalId": "{0} Id",
     "LabelEnableHttps": "HTTPS-ის ჩართვა",
-    "LabelEnableIP4": "IPv4-ის ჩართვა"
+    "LabelEnableIP4": "IPv4-ის ჩართვა",
+    "LabelEnableIP6": "IPv6-ის ჩართვა",
+    "LabelEncoderPreset": "კოდირების პრესეტი",
+    "LabelEndDate": "დასრულების თარიღი",
+    "LabelEpisodeNumber": "ეპიზოდის ნომერი",
+    "LabelffmpegPath": "FFmpeg-ის ბილიკი",
+    "LabelFriendlyName": "გასაგები სახელი",
+    "LabelHardwareAccelerationType": "აპარატურული აჩქარება",
+    "LabelHardwareEncoding": "აპარატურული კოდირება",
+    "LabelImageType": "გამოსახულების ტიპი",
+    "LabelInternetQuality": "ხარისხი ინტერნეტში",
+    "LabelKidsCategories": "საბავშვო კატეგორიები",
+    "LabelKnownProxies": "ცნობილი პროქსიები",
+    "LabelLanNetworks": "LAN ქსელები",
+    "LabelLoginDisclaimer": "გაფრთხილება შესვლისას"
 }
