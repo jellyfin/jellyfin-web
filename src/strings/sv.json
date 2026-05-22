@@ -1655,7 +1655,7 @@
     "LabelTileWidth": "sektion bredd",
     "LibraryScanFanoutConcurrency": "Gränsvärde för parallella bibliotekssökuppgifter",
     "LibraryScanFanoutConcurrencyHelp": "Maximalt antal parallella uppgifter under biblioteksskanningar. Lämnas detta tomt väljs en gräns baserad på antalet kärnor i ditt system. VARNING: Att ställa in detta nummer för högt kan orsaka problem med nätverksbaserade filsystem; om du upplever problem, sänk detta nummer.",
-    "Trickplay": "Snabbspolning",
+    "Trickplay": "Trickplay",
     "AllowVideoToolboxTonemappingHelp": "Maskinvaruaccelererad tonmappning tillhandahållen av VideoToolbox. Den fungerar med de flesta HDR-format, inklusive HDR10, HDR10+ och HLG, men fungerar inte med Dolby Vision Profil 5. Detta har högre prioritet jämfört med en annan Metal-implementering.",
     "LabelTrickplayAccelEncodingHelp": "Finns för närvarande endast tillgängligt på QSV , VAAPI, VideoToolbox och RKMPP, detta alternativ har ingen effekt på andra metoder för maskinvaruacceleration.",
     "SavePassword": "Spara lösenord",
@@ -1908,5 +1908,7 @@
     "HeaderBackupWarning": "VARNING: Schemalagda aktiviteter körs just nu",
     "LabelBackupWarning": "Det finns schemalagda aktiviteter som pågår. Det rekommenderas att man stoppar dem eller väntar tills de är slutförda innan säkerhetskopieringen körs.",
     "VideoRotationNotSupported": "Videorotationen stöds inte",
-    "LabelVideoAttributes": "Videoattribut"
+    "LabelVideoAttributes": "Videoattribut",
+    "LabelSimilarItemProvidersHelp": "Aktivera och rangordna dina föredragna tjänster för liknande innehåll i prioritetsordning.",
+    "HeaderTypeSimilarItemProviders": "Liknande innehåll-tjänster ({0})"
 }
