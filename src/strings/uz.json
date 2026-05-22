@@ -630,5 +630,12 @@
     "AllowSubtitleManagement": "Foydalanuvchini subtitrlarni o'zgartirishga ruxsat berish",
     "AllowAv1Encoding": "AV1 formatika encoding ruxsat berish",
     "AiTranslated": "AI tarjima qilingan",
-    "MachineTranslated": "Mashina tarjima qilingan"
+    "MachineTranslated": "Mashina tarjima qilingan",
+    "AllowSegmentDeletion": "Qismlarni o'chirish",
+    "AllowSegmentDeletionHelp": "Eski client tomonidan o'rnatib olingan qismlarni o'chirish.Bu butun transcodlangan faylni diskda saqlashni oldini oladi.Ijro etishda muaommolar duch kelsa o'chirib qo'ying",
+    "Alternate": "Muqobil",
+    "AlternateDVD": "DVDni muqobillashtirish",
+    "AlwaysRemuxFlacAudioFilesHelp": "Agar brauzeringiz ijro etishni rad etgan yoki vaqt belgilarini noto'g'ri hisoblagan fayllaringiz bo'lsa, buni vaqtinchalik yechim sifatida yoqing.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Agar brauzeringiz vaqt belgilarini noto'g'ri hisoblagan fayllaringiz bo'lsa, buni vaqtinchalik yechim sifatida yoqing.",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Transkodlashda har doim subtitrda yozib qo'ying"
 }
