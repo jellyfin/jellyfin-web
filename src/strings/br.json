@@ -205,5 +205,13 @@
     "LabelStatus": "Statud",
     "LabelStopping": "War baouez",
     "LabelSystem": "Reizhiad",
-    "LabelTag": "Tikedenn"
+    "LabelTag": "Tikedenn",
+    "ButtonAudioTracks": "Tonioù aodio",
+    "TrackCount": "{0} ton",
+    "AccessRestrictedTryAgainLater": "Mont-tre a zo strishaet evit poent. Klaskit en-dro diwezhatoc'h.",
+    "ActivitiesLoadError": "N'eus ket bet gallet kargañ an obererezhioù",
+    "AllowedRemoteAddressesHelp": "Roll ar chomlec'hioù IP aotreet da gennaskañ deus a-bell, disrannet gant ur skej. Ma ve laosket goullo, e vo aotreet an holl chomlec'hioù.",
+    "AllowContentWithTagsHelp": "Diskouez ar mediaoù gant unan deus an tagoù meneget da vihanañ.",
+    "AllowSubtitleManagement": "Aotren an implijer-mañ da gemmañ an istitloù",
+    "AllowCollectionManagement": "Aotren an implijer-mañ da verañ an dastumadegoù"
 }
