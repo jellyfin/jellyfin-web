@@ -710,5 +710,10 @@
     "LabelDisplayMode": "ჩვენების რეჟიმი",
     "LabelDisplayName": "საჩვენებელი სახელი",
     "LabelDisplayOrder": "ჩვენების მიმდევრობა",
-    "LabelDownloadLanguages": "გადმოწერილი ენები"
+    "LabelDownloadLanguages": "გადმოწერილი ენები",
+    "LabelDroppedFrames": "გამოტოვებული კადრები",
+    "LabelDropShadow": "დაჩრდილვა",
+    "LabelDynamicExternalId": "{0} Id",
+    "LabelEnableHttps": "HTTPS-ის ჩართვა",
+    "LabelEnableIP4": "IPv4-ის ჩართვა"
 }
