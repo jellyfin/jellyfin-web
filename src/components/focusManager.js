@@ -85,10 +85,29 @@ function focusableParent(elem) {
     return normalizeFocusable(elem, originalElement);
 }
 
+// Determines if a focusable element is positioned within the viewport.
+// Elements whose bounding rect is entirely off the left or top edge are
+// treated as not focusable so that initial autofocus and getFocusableElements
+// (used by view transitions, dialogs and the spatial nav helpers) cannot
+// land on a hidden navdrawer or other off-screen container on TV layout.
+function isOnScreen(elem) {
+    if (typeof elem.getBoundingClientRect !== 'function') {
+        return true;
+    }
+    const rect = elem.getBoundingClientRect();
+    if (!rect.width && !rect.height) {
+        return false;
+    }
+    return rect.right > 0 && rect.bottom > 0;
+}
+
 // Determines if a focusable element can be focused at a given point in time
 function isCurrentlyFocusableInternal(elem) {
     // http://stackoverflow.com/questions/19669786/check-if-element-is-visible-in-dom
-    return elem.offsetParent !== null;
+    if (elem.offsetParent === null) {
+        return false;
+    }
+    return isOnScreen(elem);
 }
 
 // Determines if a focusable element can be focused at a given point in time
@@ -278,6 +297,17 @@ function nav(activeElement, direction, container, focusableElements) {
 
         // not currently visible
         if (!elementRect.width && !elementRect.height) {
+            continue;
+        }
+
+        // Skip candidates positioned entirely off the left or top of the viewport.
+        // This prevents spatial navigation from getting trapped inside off-screen
+        // containers such as the TV-layout navdrawer (e.g. left: -320px) that
+        // would otherwise satisfy "is to the right of" / "is below" the focused
+        // off-screen source but keep focus invisible to the user. Candidates that
+        // extend off the right or bottom edge are still allowed so legitimate
+        // horizontal/vertical scrolling targets remain reachable.
+        if (elementRect.right <= 0 || elementRect.bottom <= 0) {
             continue;
         }
 
