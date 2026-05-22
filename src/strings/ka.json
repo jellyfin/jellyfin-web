@@ -702,5 +702,13 @@
     "LabelCurrentStatus": "მიმდინარე სტატუსი",
     "LabelCustomRating": "მორგებული რეიტინგი",
     "LabelDateAdded": "დამატების თარიღი",
-    "LabelDeathDate": "გარდაცვალების თარიღი"
+    "LabelDeathDate": "გარდაცვალების თარიღი",
+    "LabelDefaultScreen": "ნაგულისხმევი ეკრანი",
+    "LabelDeinterlaceMethod": "დეინტერლეისის მეთოდი",
+    "LabelDiscNumber": "დისკის ნომერი",
+    "LabelDisplayLanguage": "ჩვენების ენა",
+    "LabelDisplayMode": "ჩვენების რეჟიმი",
+    "LabelDisplayName": "საჩვენებელი სახელი",
+    "LabelDisplayOrder": "ჩვენების მიმდევრობა",
+    "LabelDownloadLanguages": "გადმოწერილი ენები"
 }
