@@ -775,5 +775,19 @@
     "LabelSyncPlaySettingsSyncCorrection": "სინქრონიზაციის კორექცია",
     "LabelSyncPlaySettingsSpeedToSyncDuration": "SpeedToSync-ის ხანგრძლივობა",
     "LabelSyncPlaySettingsSpeedToSync": "SpeedToSync-ის ჩართვა",
-    "LabelSyncPlaySettingsSkipToSync": "SkipToSync-ის ჩართვა"
+    "LabelSyncPlaySettingsSkipToSync": "SkipToSync-ის ჩართვა",
+    "LabelTextColor": "ტექსტის ფერი",
+    "LabelTextSize": "ტექსტის ზომა",
+    "LabelTextWeight": "ტექსტის წონა",
+    "LabelTrackNumber": "ტრეკის ნომერი",
+    "LabelTranscodePath": "ტრანსკოდირების ბილიკი",
+    "LabelTranscodingFramerate": "ტრანსკოდირების კადრების სიხშირე",
+    "LabelTranscodingProgress": "ტრანსკოდირების მიმდინარეობა",
+    "LabelTriggerType": "ტრიგერის ტიპი",
+    "LabelTunerType": "ტუნერის ტიპი",
+    "LabelUserAgent": "მომხმარებლის აგენტი",
+    "LabelVaapiDevice": "VA-API მოწყობილობა",
+    "LabelVersionInstalled": "{0} დაყენებულია",
+    "LabelVideoBitrate": "ვიდეოს ბიტური სიხშირე",
+    "LabelVideoCodec": "ვიდეოკოდეკი"
 }
