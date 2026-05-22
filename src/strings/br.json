@@ -213,5 +213,7 @@
     "AllowedRemoteAddressesHelp": "Roll ar chomlec'hioù IP aotreet da gennaskañ deus a-bell, disrannet gant ur skej. Ma ve laosket goullo, e vo aotreet an holl chomlec'hioù.",
     "AllowContentWithTagsHelp": "Diskouez ar mediaoù gant unan deus an tagoù meneget da vihanañ.",
     "AllowSubtitleManagement": "Aotren an implijer-mañ da gemmañ an istitloù",
-    "AllowCollectionManagement": "Aotren an implijer-mañ da verañ an dastumadegoù"
+    "AllowCollectionManagement": "Aotren an implijer-mañ da verañ an dastumadegoù",
+    "Photos": "Fotoioù",
+    "Shows": "Heuliadennoù"
 }
