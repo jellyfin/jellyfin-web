@@ -23,6 +23,14 @@ class LayoutManager {
     desktop = false;
     experimental = false;
 
+    get layout() {
+        if (this.tv) return LayoutMode.Tv;
+        if (this.experimental) return LayoutMode.Experimental;
+        if (this.mobile) return LayoutMode.Mobile;
+        if (this.desktop) return LayoutMode.Desktop;
+        return LayoutMode.Experimental;
+    }
+
     setLayout(layout = '', save = true) {
         const layoutValue = (!layout || layout === LayoutMode.Auto) ? '' : layout;
 

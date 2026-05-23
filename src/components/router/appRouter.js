@@ -406,7 +406,7 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            const layoutMode = layoutManager.tv ? LayoutMode.Tv : (layoutManager.getSavedLayout() || LayoutMode.Experimental);
+            const layoutMode = layoutManager.layout;
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Books) {
                 return `#/books?topParentId=${item.Id}`;
