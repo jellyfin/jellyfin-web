@@ -6,6 +6,7 @@ import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
 import alert from '../alert';
 
+import layoutManager from 'components/layoutManager';
 import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -405,7 +406,7 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            const layoutMode = localStorage.getItem('layout') || LayoutMode.Experimental;
+            const layoutMode = layoutManager.tv ? LayoutMode.Tv : (layoutManager.getSavedLayout() || LayoutMode.Experimental);
 
             if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Books) {
                 return `#/books?topParentId=${item.Id}`;
