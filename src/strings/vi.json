@@ -1908,5 +1908,6 @@
     "LabelTargetCodecs": "Bộ mã hóa mục tiêu",
     "LabelBackupWarning": "Có những nhiệm vụ theo lịch trình đang diễn ra. Bạn nên dừng chúng hoặc đợi chúng hoàn tất trước khi chạy thao tác sao lưu.",
     "HeaderBackupWarning": "CẢNH BÁO: Các tác vụ theo lịch trình đang chạy",
-    "VideoRotationNotSupported": "Xoay video không được hỗ trợ"
+    "VideoRotationNotSupported": "Xoay video không được hỗ trợ",
+    "HeaderTypeSimilarItemProviders": "Nhà cung cấp mục tương tự ({0})"
 }
