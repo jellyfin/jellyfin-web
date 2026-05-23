@@ -356,6 +356,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                         <Box
                             sx={{
                                 display: 'flex',
+                                alignItems: 'center',
                                 flexGrow: {
                                     xs: 1,
                                     sm: 0
