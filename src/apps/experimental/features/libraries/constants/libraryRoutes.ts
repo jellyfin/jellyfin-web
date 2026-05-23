@@ -70,6 +70,11 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 5,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 6,
                 label: 'Favorites',
                 view: LibraryTab.Favorites
             }
