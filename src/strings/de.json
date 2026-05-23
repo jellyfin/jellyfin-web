@@ -174,7 +174,7 @@
     "ExtraLarge": "Extragroß",
     "ExtractChapterImagesHelp": "Die Extraktion von Kapitelbildern ermöglicht es Clients eine grafische Szenenauswahl anzubieten. Sie kann langsam und rechenintensiv sein und erfordert ggf. einige Gigabytes Speicherplatz. Diese Aufgabe wird ausgeführt, wenn neue Videos erkannt werden und wiederkehrend jede Nacht. Es ist nicht empfohlen, diese Aufgabe während hoher Serverauslastung zu starten.",
     "FFmpegSavePathNotFound": "Wir können FFmpeg in dem von Dir angegebenen Verzeichnis nicht finden. FFprobe wird ebenso benötigt und muss sich im gleichen Verzeichnis befinden. Diese Komponenten sind normalerweise im selben Download enthalten. Bitte prüfe das Verzeichnis und versuche es erneut.",
-    "FastForward": "Vorwärts spulen",
+    "FastForward": "Vorspulen",
     "Favorite": "Favorit",
     "Favorites": "Favoriten",
     "FetchingData": "Zusätzliche Daten abrufen",
