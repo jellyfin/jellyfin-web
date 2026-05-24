@@ -157,8 +157,8 @@ const capabilities = Dashboard.capabilities(appHost);
 
 export default new ServerConnections(
     credentialProvider,
-    appHost.appName(),
-    appHost.appVersion(),
-    appHost.deviceName(),
-    appHost.deviceId(),
+    () => appHost.appName(),
+    () => appHost.appVersion(),
+    () => appHost.deviceName(),
+    () => appHost.deviceId(),
     capabilities);
