@@ -26,5 +26,13 @@
     "Default": "בררת מחדל",
     "MusicVideos": "סרטוני מוזיקה",
     "Photos": "תמונות",
-    "Shows": "סדרות"
+    "Shows": "סדרות",
+    "Books": "ספרים",
+    "Movies": "סרטים",
+    "Absolute": "לחלוטין",
+    "AccessRestrictedTryAgainLater": "הגישה מוגבלת כעת. אנא נסה שוב מאוחר יותר.",
+    "ActivitiesLoadError": "טעינת הפעילויות נכשלה",
+    "Add": "הוסף",
+    "AddedOnValue": "נוסף {0}",
+    "AddToCollection": "הוסף לאוסף"
 }
