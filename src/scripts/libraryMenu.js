@@ -351,6 +351,7 @@ function refreshLibraryInfoInDrawer(user) {
         }
 
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSettings" data-itemid="settings" href="#"><span class="material-icons navMenuOptionIcon settings" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('Settings')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnSwitchUser" data-itemid="switchuser" href="#"><span class="material-icons navMenuOptionIcon switch_account" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonSwitchUser')}</span></a>`;
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder btnLogout" data-itemid="logout" href="#"><span class="material-icons navMenuOptionIcon exit_to_app" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ButtonSignOut')}</span></a>`;
 
         if (appHost.supports(AppFeature.ExitMenu)) {
@@ -381,6 +382,11 @@ function refreshLibraryInfoInDrawer(user) {
     const btnLogout = navDrawerScrollContainer.querySelector('.btnLogout');
     if (btnLogout) {
         btnLogout.addEventListener('click', onLogoutClick);
+    }
+
+    const btnSwitchUser = navDrawerScrollContainer.querySelector('.btnSwitchUser');
+    if (btnSwitchUser) {
+        btnSwitchUser.addEventListener('click', onSwitchUserClick);
     }
 }
 
@@ -513,6 +519,10 @@ function onExitAppClick() {
 
 function onLogoutClick() {
     Dashboard.logout();
+}
+
+function onSwitchUserClick() {
+    Dashboard.switchUser();
 }
 
 function updateCastIcon() {

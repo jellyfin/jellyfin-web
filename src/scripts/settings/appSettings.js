@@ -11,12 +11,12 @@ class AppSettings {
         return name;
     }
 
-    enableAutoLogin(val) {
+    enableRememberMe(val) {
         if (val !== undefined) {
-            this.set('enableAutoLogin', val.toString());
+            this.set('enableRememberMe', val.toString());
         }
 
-        return toBoolean(this.get('enableAutoLogin'), true);
+        return toBoolean(this.get('enableRememberMe'), true);
     }
 
     /**
