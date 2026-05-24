@@ -75,6 +75,10 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Collections
             },
             {
+                name: globalize.translate('Studios'),
+                value: LibraryTab.Studios
+            },
+            {
                 name: globalize.translate('Playlists'),
                 value: LibraryTab.Playlists
             }
