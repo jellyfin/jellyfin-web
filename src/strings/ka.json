@@ -1343,5 +1343,6 @@
     "RenderPgsSubtitle": "ექსპერიმენტული PGS სუბტიტრის რენდერი",
     "UseCustomTagDelimiters": "მომხმარებლის ჭდეების გამყოფის გამოყენება",
     "CopyLogSuccess": "ჟურნალის შემცველობა წარმატებით დაკოპირდა.",
-    "LabelGroupShowsIntoCollections": "სერიალების დაჯგუფება კოლექციებში"
+    "LabelGroupShowsIntoCollections": "სერიალების დაჯგუფება კოლექციებში",
+    "LimitSegmentLength": "უფრო მოკლედ HLS სეგმენტების გამოყენება"
 }
