@@ -42,4 +42,6 @@ export interface ListOptions extends TextLineOpts {
     enableRatingButton?: boolean;
     smallIcon?: boolean;
     sortBy?: ItemSortBy;
+    enableBlurUnplayedTitle?: boolean;
+    enableBlurUnplayedDescription?: boolean;
 }

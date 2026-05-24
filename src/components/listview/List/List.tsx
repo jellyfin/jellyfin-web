@@ -18,11 +18,15 @@ const List: FC<ListProps> = ({ index, item, listOptions = {} }) => {
     const listWrapperProps = getListdWrapperProps();
     const listContentProps = getListContentProps();
 
+    const isPlayed = Boolean(item.UserData?.Played);
+    const blurUnplayedTitle = Boolean(listWrapperProps.enableBlurUnplayedTitle) && !isPlayed;
+
     return (
         <ListWrapper
             key={index}
             index={index}
             {...listWrapperProps}
+            enableBlurUnplayedTitle={blurUnplayedTitle}
         >
             <ListContent {...listContentProps} />
         </ListWrapper>

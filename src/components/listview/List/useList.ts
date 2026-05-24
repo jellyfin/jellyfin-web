@@ -1,9 +1,8 @@
 import classNames from 'classnames';
-
 import layoutManager from 'components/layoutManager';
 import { ItemAction } from 'constants/itemAction';
 import { getDataAttributes } from 'utils/items';
-
+import { useUserSettings } from 'hooks/useUserSettings';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
 
@@ -13,6 +12,7 @@ interface UseListProps {
 }
 
 function useList({ item, listOptions }: UseListProps) {
+    const { enableBlurUnplayedTitle, enableBlurUnplayedDescription } = useUserSettings();
     const action = listOptions.action ?? ItemAction.Link;
     const isLargeStyle = listOptions.imageSize === 'large';
     const enableOverview = listOptions.enableOverview;
@@ -55,7 +55,9 @@ function useList({ item, listOptions }: UseListProps) {
         className: listWrapperClass,
         title: item.Name,
         action,
-        dataAttributes
+        dataAttributes,
+        enableBlurUnplayedTitle,
+        enableBlurUnplayedDescription
     });
 
     const getListContentProps = () => ({

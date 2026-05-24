@@ -474,7 +474,9 @@ export default function () {
                     title: globalize.translate('ButtonRemove'),
                     id: 'remove'
                 }],
-                dragHandle: true
+                dragHandle: true,
+                enableBlurUnplayedTitle: userSettings.enableBlurUnplayedTitle(),
+                enableBlurUnplayedDescription: userSettings.enableBlurUnplayedDescription()
             });
 
             const itemsContainer = context.querySelector('.playlist');
