@@ -75,5 +75,17 @@
     "ApiKeysCaption": "רשימת מפתחות ה-API המופעלים כעת",
     "ApiKeysLoadError": "טעינת מפתחות ה-API נכשלה",
     "AroundTime": "בסביבות {0}",
-    "Arranger": "מסדר"
+    "Arranger": "מסדר",
+    "Art": "קלירארט",
+    "Artist": "אומן",
+    "Ascending": "עולה",
+    "AskAdminToCreateLibrary": "בקשו ממנהל ליצור ספרייה.",
+    "AsManyAsPossible": "כמה שיותר",
+    "AspectRatio": "יחס גובה-רוחב",
+    "Audio": "שמע",
+    "Authors": "מחברים",
+    "Author": "מחבר",
+    "Authorize": "לאשר",
+    "AuthProviderHelp": "בחר ספק אימות שישמש לאימות סיסמת המשתמש.",
+    "Auto": "אוטומטי"
 }
