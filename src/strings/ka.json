@@ -1453,5 +1453,9 @@
     "MessageSyncPlayCreateGroupDenied": "ჯგუფის შექმნას უფლებ სჭიდება.",
     "MessageSyncPlayErrorMedia": "SyncPlay-ის ჩართვა ჩავარდა! მედიის შეცდომა.",
     "MessageSyncPlayErrorMissingSession": "SynPlay-ის ჩართვა ჩავარდა! სესია მითითებული არაა.",
-    "MessageSyncPlayLibraryAccessDenied": "ამ შემცველობასთან წვდომა შეზღუდულია."
+    "MessageSyncPlayLibraryAccessDenied": "ამ შემცველობასთან წვდომა შეზღუდულია.",
+    "OnlyImageFormats": "მხოლოდ გამოსახულების ფორმატები (VobSub, PGS, SUB)",
+    "OptionAllowAudioPlaybackTranscoding": "იმ ხმის დაკვრის დაშვება, რომელსაც ტრანსკოდირება სჭირდება",
+    "OptionAllowRemoteControlOthers": "სხვა მომხმარებლების დაშორებული კონტროლის დაშვება",
+    "OptionAllowRemoteSharedDevices": "გაზიარებული მოწყობილობების დაშორებული მართვის დაშვება"
 }
