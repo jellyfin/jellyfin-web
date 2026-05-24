@@ -1111,5 +1111,11 @@
     "LabelCustomCss": "CSS-ის მორგებული კოდი",
     "LabelDashboardTheme": "სერვერის სამუშაო დაფის თემა",
     "LabelDateTimeLocale": "დროისა და თარიღის ფორმატი",
-    "LabelDay": "კვირის დღე"
+    "LabelDay": "კვირის დღე",
+    "LabelEnableIP4Help": "IPv4-ის ფუნქციონალის ჩართვა.",
+    "LabelEnableIP6Help": "IPv6-ის ფუნქციონალის ჩართვა.",
+    "LabelFileOrUrl": "ფაილი, ან URL",
+    "LabelH264Crf": "H.264 კოდირების CRF",
+    "LabelH265Crf": "H.265 კოდირების CRF",
+    "LabelHomeNetworkQuality": "სახლის ქსელის ხარისხი"
 }
