@@ -90,10 +90,19 @@ function onDetailRowKey(e) {
     }
 }
 
+// JEL-3602: server resolves the empty GUID to the user root ("Media Folders"),
+// so the detail page silently shows wrong content for broken bookmarks or
+// share links. Treat any all-zero GUID (with or without dashes) as a missing id
+// and fall through to the "Invalid request" error path so reload() can recover.
+function isValidItemId(id) {
+    if (!id) return false;
+    return !/^0+$/.test(String(id).replace(/-/g, ''));
+}
+
 function getPromise(apiClient, params) {
     const id = params.id;
 
-    if (id) {
+    if (isValidItemId(id)) {
         return apiClient.getItem(apiClient.getCurrentUserId(), id);
     }
 
@@ -113,7 +122,10 @@ function getPromise(apiClient, params) {
         return apiClient.getArtist(params.musicartist, apiClient.getCurrentUserId());
     }
 
-    throw new Error('Invalid request');
+    // JEL-3602: return a rejected promise instead of throwing so the caller's
+    // Promise.all().catch() handler runs (a synchronous throw inside the array
+    // literal escapes the chain and leaves the page in a stale state).
+    return Promise.reject(new Error('Invalid request'));
 }
 
 function hideAll(page, className, show) {
@@ -1955,6 +1967,10 @@ export default function (view, params) {
             reloadFromItem(instance, page, pageParams, item, user);
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
+            loading.hide();
+            // JEL-3602: avoid leaving a stale detail page rendered from prior
+            // navigation when the lookup fails (invalid/empty id, 404, etc).
+            appRouter.goHome();
         });
     }
 
