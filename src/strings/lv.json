@@ -1864,5 +1864,16 @@
     "HeaderLatestBooks": "Nesen pievienotās grāmatas",
     "HeaderLatestMusicVideos": "Nesen pievienotie mūzikas video-klipi",
     "LabelInternalServerUri": "Iekšējais URI",
-    "LabelInternalServerUriHelp": "Publicētā servera URI iekšējai piekļuvei."
+    "LabelInternalServerUriHelp": "Publicētā servera URI iekšējai piekļuvei.",
+    "LabelSyncPlayJoinGroup": "Pievienoties grupai",
+    "OnFilesystem": "Failu sistēmā: {0}",
+    "LabelPlaybackQuality": "Kadru izmestu / bojātu",
+    "LabelPlayerSizes": "Atskaņotāja izmēri",
+    "LabelReasons": "Iemesli",
+    "LabelProgressAndSpeed": "Progress / ātrums",
+    "LabelTargetCodecs": "Mērķa kodējumi",
+    "LabelAudioAttributes": "Audio atribūti",
+    "LabelVideoBitDepth": "Video bitu dziļums",
+    "LabelVideoColors": "Video krāsas",
+    "LabelVideoAttributes": "Video atribūti"
 }

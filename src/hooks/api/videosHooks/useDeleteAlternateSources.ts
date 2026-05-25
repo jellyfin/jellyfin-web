@@ -1,4 +1,4 @@
-import type { VideosApiDeleteAlternateSourcesRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { VideosApiDeleteAlternateSourcesRequest } from '@jellyfin/sdk/lib/generated-client/api/videos-api';
 import { getVideosApi } from '@jellyfin/sdk/lib/utils/api/videos-api';
 import { useMutation } from '@tanstack/react-query';
 import { type JellyfinApiContext, useApi } from 'hooks/useApi';

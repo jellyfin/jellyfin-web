@@ -29,7 +29,8 @@ export function getCardLogoUrl(
     let imgType;
     let imgTag;
     let itemId;
-    const logoHeight = 40;
+    const dpr = window?.devicePixelRatio || 1;
+    const logoHeight = Math.round(40 * dpr);
 
     if (cardOptions.showChannelLogo && item.ChannelPrimaryImageTag) {
         imgType = ImageType.Primary;

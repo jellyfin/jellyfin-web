@@ -1,12 +1,16 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
+import type { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import { getResumeItemsQuery } from 'apps/stable/features/libraries/api/useResumeItems';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from 'utils/query/queryClient';
 import type { UserSettings } from 'scripts/settings/userSettings';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 
@@ -16,32 +20,35 @@ const dataMonitorHints: Record<string, string> = {
 };
 
 function getItemsToResumeFn(
-    mediaType: BaseItemKind,
-    serverId: string,
+    apiClient: ApiClient,
+    mediaType: MediaType,
     { enableOverflow }: SectionOptions
 ) {
     return function () {
-        const apiClient = ServerConnections.getApiClient(serverId);
-
         const limit = enableOverflow ? 12 : 5;
 
         const options = {
-            Limit: limit,
-            Recursive: true,
-            Fields: 'PrimaryImageAspectRatio',
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Thumb',
-            EnableTotalRecordCount: false,
-            MediaTypes: mediaType
+            userId: apiClient.getCurrentUserId(),
+            limit,
+            fields: [ ItemFields.PrimaryImageAspectRatio ],
+            imageTypeLimit: 1,
+            enableImageTypes: [
+                ImageType.Primary,
+                ImageType.Backdrop,
+                ImageType.Thumb
+            ],
+            enableTotalRecordCount: false,
+            mediaTypes: [ mediaType ]
         };
 
-        return apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+        return queryClient
+            .fetchQuery(getResumeItemsQuery(toApi(apiClient), options));
     };
 }
 
 function getItemsToResumeHtmlFn(
     useEpisodeImages: boolean,
-    mediaType: BaseItemKind,
+    mediaType: MediaType,
     { enableOverflow }: SectionOptions
 ) {
     return function (items: BaseItemDto[]) {
@@ -73,7 +80,7 @@ export function loadResume(
     elem: HTMLElement,
     apiClient: ApiClient,
     titleLabel: string,
-    mediaType: BaseItemKind,
+    mediaType: MediaType,
     userSettings: UserSettings,
     options: SectionOptions
 ) {
@@ -99,7 +106,7 @@ export function loadResume(
 
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getItemsToResumeFn(mediaType, apiClient.serverId(), options);
+    itemsContainer.fetchData = getItemsToResumeFn(apiClient, mediaType, options);
     itemsContainer.getItemsHtml = getItemsToResumeHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), mediaType, options);
     itemsContainer.parentContainer = elem;
 }

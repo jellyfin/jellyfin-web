@@ -1,5 +1,4 @@
 import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
-import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import { useMutation } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +9,7 @@ import Button from 'elements/emby-button/Button';
 import Input from 'elements/emby-input/Input';
 import globalize from 'lib/globalize';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { getAuthenticationApi } from 'utils/sdk/authentication-api';
 
 export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export const ForgotPasswordPage = () => {
             if (!currentApi) {
                 throw new Error('API not available');
             }
-            const response = await getUserApi(currentApi).forgotPassword({
+            const response = await getAuthenticationApi(currentApi).forgotPassword({
                 forgotPasswordDto: {
                     EnteredUsername: enteredUsername
                 }

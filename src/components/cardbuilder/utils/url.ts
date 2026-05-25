@@ -147,13 +147,15 @@ export function getCardImageUrl({
             height = width / uiAspect;
         }
 
+        const dpr = window?.devicePixelRatio || 1;
+
         imgUrl = getImageApi(api).getItemImageUrlById(
             itemId,
             imgType,
             {
                 // Dimensions must be rounded or the API will reject the request
-                fillHeight: height ? Math.round(height) : undefined,
-                fillWidth: width ? Math.round(width) : undefined,
+                fillHeight: height ? Math.round(height * dpr) : undefined,
+                fillWidth: width ? Math.round(width * dpr) : undefined,
                 quality: 96,
                 tag: imgTag
             }

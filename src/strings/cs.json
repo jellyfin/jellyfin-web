@@ -79,7 +79,7 @@
     "Collections": "Kolekce",
     "CommunityRating": "Hodnocení komunity",
     "Composer": "Skladatel",
-    "ConfigureDateAdded": "Nastavte způsob, jakým jsou určena metadata pro „Datum přidání“ v sekci Nástěnka > Knihovny > Zobrazení",
+    "ConfigureDateAdded": "Způsob, jakým jsou určena metadata pro „Datum přidání“, můžete změnit v sekci Nástěnka > Knihovny > Zobrazení",
     "ConfirmDeleteImage": "Odstranit obrázek?",
     "ConfirmDeleteItem": "Smazáním položky odstraníte soubor jak z knihovny médií tak ze souborového systému. Opravdu chcete pokračovat?",
     "ConfirmDeleteItems": "Odstraněním těchto položek odstraníte vaše média jak z knihovny médií, tak i ze souborového systému. Opravdu chcete pokračovat?",
@@ -1412,8 +1412,8 @@
     "Cursive": "Kurzíva",
     "LabelHardwareEncodingOptions": "Možnosti hardwarového kódování",
     "IntelLowPowerEncHelp": "Nízkoenergetické kódování může zbytečně synchronizovat CPU s GPU. Na Linuxu musí být vypnuto, pokud není nakonfigurován firmware i915 HuC.",
-    "EnableIntelLowPowerHevcHwEncoder": "Povolit nízkoenergetický hardwarový dekodér Intel HEVC",
-    "EnableIntelLowPowerH264HwEncoder": "Povolit nízkoenergetický hardwarový dekodér Intel H.264",
+    "EnableIntelLowPowerHevcHwEncoder": "Povolit nízkoenergetický hardwarový kodér Intel HEVC",
+    "EnableIntelLowPowerH264HwEncoder": "Povolit nízkoenergetický hardwarový kodér Intel H.264",
     "PreferSystemNativeHwDecoder": "Preferovat hardwarové dekodéry DXVA nebo VA-API nativní pro daný OS",
     "ContainerBitrateExceedsLimit": "Bitový tok videa překračuje nastavenou mez",
     "DirectPlayError": "Při spuštění přímého přehrávání došlo k chybě",
@@ -1904,5 +1904,11 @@
     "LabelReasons": "Důvody",
     "LabelPlayerSizes": "Velikosti přehrávače",
     "LabelPlaybackQuality": "Ztracený / poškozený snímek",
-    "OnFilesystem": "V souborovém systému: {0}"
+    "OnFilesystem": "V souborovém systému: {0}",
+    "LabelSyncPlayJoinGroup": "Připojit se ke skupině",
+    "VideoRotationNotSupported": "Otáčení videa není podporováno",
+    "LabelBackupWarning": "Právě probíhají naplánované úlohy. Před provedením zálohy je doporučeno je zastavit nebo počkat na jejich dokončení.",
+    "HeaderBackupWarning": "VAROVÁNÍ: Probíhající naplánované úlohy",
+    "HeaderTypeSimilarItemProviders": "Nabídky podobného typu ({0})",
+    "LabelSimilarItemProvidersHelp": "Aktivujte a seřaďte své preferované dodavatele podobných produktů podle priority."
 }
