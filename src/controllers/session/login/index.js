@@ -297,7 +297,10 @@ export default function (view, params) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
             // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
+            loginDisclaimer.innerHTML = DOMPurify.sanitize(
+                markdownIt({ html: true }).render(options.LoginDisclaimer || ''),
+                { ALLOWED_URI_REGEXP: /^(?:(?:https?|ftp|ftps|mailto|matrix|tel|sms|fax|sip|sips|xmpp|whatsapp|signal|tg|irc|ircs|geo):|[^a-z]|[a-z+.-]+(?:[^a-z+.-:]|$))/i }
+            );
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';
