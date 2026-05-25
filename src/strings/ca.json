@@ -1908,5 +1908,7 @@
     "LabelSyncPlayJoinGroup": "Uneix-te al grup",
     "HeaderBackupWarning": "COMPTE: S'estan executant tasques programades",
     "VideoRotationNotSupported": "La rotació de vídeo no és compatible",
-    "LabelBackupWarning": "Hi ha tasques programades en execució. Es recomana aturar-les o esperar a què acabin abans d'executar l'operació de còpia de seguretat."
+    "LabelBackupWarning": "Hi ha tasques programades en execució. Es recomana aturar-les o esperar a què acabin abans d'executar l'operació de còpia de seguretat.",
+    "HeaderTypeSimilarItemProviders": "Proveïdors de títols semblants ({0})",
+    "LabelSimilarItemProvidersHelp": "Activa i classifica per ordre de prioritat els proveïdors seleccionats de títols similars."
 }
