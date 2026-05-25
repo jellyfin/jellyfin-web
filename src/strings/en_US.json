@@ -235,5 +235,7 @@
     "DeleteSeries": "Delete Series",
     "DeleteEpisode": "Delete Episode",
     "DeleteName": "Delete {0}",
-    "DeleteUser": "Delete User"
+    "DeleteUser": "Delete User",
+    "Extras": "Extras",
+    "FallbackMaxStreamingBitrateHelp": "Rata de biti maxima pentru streaming este utilizata ca solutie de rezerva atunci cand ffprobe nu poate determina rata de biti a fluxului sursa. Acest lucru ajuta la prevenirea solicitarii unei rate de biti de transcodare excesiv de mari de catre clienti, ceea ce ar putea cauza defectarea playerului și supraincarcarea codificatorului."
 }
