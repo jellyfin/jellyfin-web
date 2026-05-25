@@ -1908,5 +1908,7 @@
     "LabelSyncPlayJoinGroup": "Unisciti al gruppo",
     "HeaderBackupWarning": "AVVISO: operazioni pianificate in corso",
     "LabelBackupWarning": "Ci sono operazioni pianificate in corso. Si consiglia di interromperle o di attenderne il completamento prima di avviare l'operazione di backup.",
-    "VideoRotationNotSupported": "La rotazione del video non è supportata"
+    "VideoRotationNotSupported": "La rotazione del video non è supportata",
+    "LabelSimilarItemProvidersHelp": "Abilita e ordina i tuoi fornitori di articoli simili preferiti in base alla priorità.",
+    "HeaderTypeSimilarItemProviders": "Fornitori di elementi simili ({0})"
 }
