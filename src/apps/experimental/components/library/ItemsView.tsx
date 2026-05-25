@@ -8,7 +8,7 @@ import type { Theme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import classNames from 'classnames';
-import React, { type FC, useCallback } from 'react';
+import React, { type FC, useCallback, useEffect } from 'react';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { ItemAction } from 'constants/itemAction';
@@ -97,6 +97,17 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings
     );
     const { data: item } = useItem(parentId || undefined);
+
+    // Card images are lazy-loaded (react-lazy-load-image-component) and only
+    // load on a scroll/resize visibility check. When items change in place —
+    // e.g. after a metadata-refresh refetch — no scroll occurs, so freshly
+    // mounted images would wait until the next user scroll. Nudge the lazy
+    // loader once the new cards have committed.
+    useEffect(() => {
+        if (!itemsResult?.Items?.length) return;
+        const raf = requestAnimationFrame(() => window.dispatchEvent(new Event('scroll')));
+        return () => cancelAnimationFrame(raf);
+    }, [itemsResult?.Items]);
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {

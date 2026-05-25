@@ -228,6 +228,17 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
                 return;
             }
 
+            // Items whose metadata/images changed in place (e.g. a "Refresh
+            // metadata" action completing server-side) arrive in ItemsUpdated,
+            // not Added/Removed. Reload if one is currently rendered here, so
+            // the card repaints without the user navigating away and back.
+            const itemsUpdated = data.ItemsUpdated ?? [];
+            const container = itemsContainerRef.current;
+            if (container && itemsUpdated.some((id) => container.querySelector(`[data-id="${id}"]`))) {
+                notifyRefreshNeeded(true);
+                return;
+            }
+
             const itemsAdded = data.ItemsAdded ?? [];
             const itemsRemoved = data.ItemsRemoved ?? [];
             if (!itemsAdded.length && !itemsRemoved.length) {

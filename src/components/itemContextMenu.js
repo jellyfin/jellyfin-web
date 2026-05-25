@@ -16,6 +16,8 @@ import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
+import Events from '../utils/events';
+import serverNotifications from '../scripts/serverNotifications';
 
 /** Item types that support downloading all children. */
 const DOWNLOAD_ALL_TYPES = [
@@ -750,12 +752,40 @@ function deleteItem(apiClient, item) {
 }
 
 function refresh(apiClient, item) {
-    import('./refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-        new RefreshDialog({
-            itemIds: [item.Id],
-            serverId: apiClient.serverInfo().Id,
-            mode: item.Type === 'CollectionFolder' ? 'scan' : null
-        }).show();
+    const userId = apiClient.getCurrentUserId();
+    const itemId = item.Id;
+    // Snapshot the item's Etag before the refresh runs so we can detect when
+    // the server has actually committed the change.
+    apiClient.getItem(userId, itemId).then((base) => {
+        const baseEtag = base?.Etag;
+        import('./refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
+            new RefreshDialog({
+                itemIds: [itemId],
+                serverId: apiClient.serverInfo().Id,
+                mode: item.Type === 'CollectionFolder' ? 'scan' : null
+            }).show().then(() => {
+                // The server processes the refresh asynchronously and only
+                // broadcasts LibraryChanged on a coalescing timer (up to ~30s).
+                // Poll just this item until its Etag changes, then re-emit
+                // LibraryChanged locally so views showing it re-fetch promptly.
+                // If nothing changed within the budget, the view is already
+                // correct and the eventual batched event remains the fallback.
+                let tries = 0;
+                const check = () => {
+                    apiClient.getItem(userId, itemId).then((fresh) => {
+                        if (fresh?.Etag && fresh.Etag !== baseEtag) {
+                            Events.trigger(serverNotifications, 'LibraryChanged',
+                                [apiClient, { ItemsUpdated: [itemId] }]);
+                        } else if (tries++ < 5) {
+                            setTimeout(check, 1000);
+                        }
+                    }, () => {
+                        if (tries++ < 5) setTimeout(check, 1000);
+                    });
+                };
+                setTimeout(check, 1000);
+            });
+        });
     });
 }
 

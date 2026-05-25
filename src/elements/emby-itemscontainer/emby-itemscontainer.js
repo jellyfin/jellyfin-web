@@ -225,6 +225,16 @@ function onLibraryChanged(e, apiClient, data) {
         return;
     }
 
+    // Items whose metadata/images changed in place (e.g. a "Refresh metadata"
+    // action completing server-side) arrive in ItemsUpdated, not Added/Removed.
+    // Repaint if one of them is currently rendered in this container, so the
+    // card updates without the user navigating away and back.
+    const itemsUpdated = data.ItemsUpdated || [];
+    if (itemsUpdated.some((id) => itemsContainer.querySelector(`[data-id="${id}"]`))) {
+        itemsContainer.notifyRefreshNeeded(true);
+        return;
+    }
+
     const itemsAdded = data.ItemsAdded || [];
     const itemsRemoved = data.ItemsRemoved || [];
     if (!itemsAdded.length && !itemsRemoved.length) {
