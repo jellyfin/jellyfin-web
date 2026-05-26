@@ -406,9 +406,9 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            const layoutMode = layoutManager.layout;
+            const isExperimentalLayout = layoutManager.layout === LayoutMode.Experimental;
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Books) {
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Books) {
                 return `#/books?topParentId=${item.Id}`;
             }
 
@@ -442,11 +442,11 @@ class AppRouter {
                 return url;
             }
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Homevideos) {
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Homevideos) {
                 return '#/homevideos?topParentId=' + item.Id;
             }
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Musicvideos) {
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Musicvideos) {
                 url = `#/musicvideos?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options?.section === 'latest') {
@@ -455,15 +455,15 @@ class AppRouter {
                 return url;
             }
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Boxsets) {
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Boxsets) {
                 return `#/boxsets?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
             }
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == CollectionType.Playlists) {
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Playlists) {
                 return `#/playlists?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
             }
 
-            if (layoutMode === LayoutMode.Experimental && item.CollectionType == null && item.Type === 'CollectionFolder') {
+            if (isExperimentalLayout && item.CollectionType == null && item.Type === 'CollectionFolder') {
                 url = `#/mixed?topParentId=${item.Id}&collectionType=mixed`;
 
                 if (options?.section === 'latest') {
