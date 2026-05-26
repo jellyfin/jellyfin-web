@@ -48,13 +48,32 @@ const genresTabContent: LibraryTabContent = {
     collectionType: CollectionType.Tvshows
 };
 
+const collectionsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Collections,
+    collectionType: CollectionType.Tvshows,
+    isBtnNewCollectionEnabled: true,
+    itemType: [BaseItemKind.BoxSet],
+    noItemsMessage: 'MessageNoCollectionsAvailable'
+};
+
+const playlistsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Playlists,
+    isBtnFilterEnabled: false,
+    isBtnGridListEnabled: false,
+    isBtnNewPlaylistEnabled: true,
+    isAlphabetPickerEnabled: false,
+    itemType: [BaseItemKind.Playlist]
+};
+
 const tvShowsTabMapping: LibraryTabMapping = {
     0: seriesTabContent,
     1: suggestionsTabContent,
     2: upcomingTabContent,
     3: genresTabContent,
     4: networksTabContent,
-    5: episodesTabContent
+    5: episodesTabContent,
+    6: collectionsTabContent,
+    7: playlistsTabContent
 };
 
 const Shows: FC = () => {
