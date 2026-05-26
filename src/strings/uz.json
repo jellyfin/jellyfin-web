@@ -637,5 +637,9 @@
     "AlternateDVD": "DVDni muqobillashtirish",
     "AlwaysRemuxFlacAudioFilesHelp": "Agar brauzeringiz ijro etishni rad etgan yoki vaqt belgilarini noto'g'ri hisoblagan fayllaringiz bo'lsa, buni vaqtinchalik yechim sifatida yoqing.",
     "AlwaysRemuxMp3AudioFilesHelp": "Agar brauzeringiz vaqt belgilarini noto'g'ri hisoblagan fayllaringiz bo'lsa, buni vaqtinchalik yechim sifatida yoqing.",
-    "AlwaysBurnInSubtitleWhenTranscoding": "Transkodlashda har doim subtitrda yozib qo'ying"
+    "AlwaysBurnInSubtitleWhenTranscoding": "Transkodlashda har doim subtitrda yozib qo'ying",
+    "LabelSegmentKeepSeconds": "Segmentlarni saqlanadigan vaqt",
+    "AndOtherArtists": "{0} va {1} boshqa artistlar",
+    "Anime": "Anime",
+    "ApiKeysLoadError": "API kalitlarni yuklashda xatolik ketdi"
 }
