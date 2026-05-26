@@ -552,7 +552,7 @@ function renderHeaderBackdrop(page, item, apiClient) {
 function reloadFromItem(instance, page, params, item, user) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
 
-    libraryMenu.setTitle('');
+    libraryMenu.setTitle(item.Name);
     unmount(instance);
 
     // Start rendering the artwork first
@@ -2047,7 +2047,7 @@ export default function (view, params) {
 
             if (e.detail.isRestored) {
                 if (currentItem) {
-                    libraryMenu.setTitle('');
+                    libraryMenu.setTitle(currentItem.Name);
                     renderTrackSelections(page, self, currentItem, true);
                     renderBackdrop(page, currentItem);
                 }
@@ -2065,6 +2065,7 @@ export default function (view, params) {
             Events.off(apiClient, 'message', onWebSocketMessage);
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);
+            libraryMenu.setTitle('');
         });
         view.addEventListener('viewdestroy', function () {
             unmount(self);
