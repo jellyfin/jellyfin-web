@@ -54,7 +54,7 @@ export function enableHlsJsPlayer(runTimeTicks, mediaType) {
     }
 
     if (canPlayNativeHls()) {
-        // Android Webview's native HLS has performance and compatiblity issues
+        // Android Webview's native HLS has performance and compatibility issues
         if (browser.android && (mediaType === 'Audio' || mediaType === 'Video')) {
             return true;
         }

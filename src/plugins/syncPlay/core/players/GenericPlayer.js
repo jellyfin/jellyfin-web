@@ -32,7 +32,7 @@ class GenericPlayer {
     }
 
     /**
-     * Binds to the player's events. Overriden.
+     * Binds to the player's events. Overridden.
      */
     localBindToPlayer() {
         throw new Error('Override this method!');
@@ -51,7 +51,7 @@ class GenericPlayer {
     }
 
     /**
-     * Removes the bindings from the player's events. Overriden.
+     * Removes the bindings from the player's events. Overridden.
      */
     localUnbindFromPlayer() {
         throw new Error('Override this method!');

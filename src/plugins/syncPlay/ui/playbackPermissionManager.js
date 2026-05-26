@@ -33,7 +33,7 @@ function destroyTestMediaElement (elem) {
 class PlaybackPermissionManager {
     /**
      * Tests playback permission. Grabs the permission when called inside a click event (or any other valid user interaction).
-     * @returns {Promise} Promise that resolves succesfully if playback permission is allowed.
+     * @returns {Promise} Promise that resolves successfully if playback permission is allowed.
      */
     check () {
         if (appHost.supports(AppFeature.HtmlAudioAutoplay)) {

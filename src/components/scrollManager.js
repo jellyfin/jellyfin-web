@@ -52,7 +52,7 @@ try {
      * Returns value clamped by range [min, max].
      *
      * @param {number} value - Clamped value.
-     * @param {number} min - Begining of range.
+     * @param {number} min - Beginning of range.
      * @param {number} max - Ending of range.
      * @return {number} Clamped value.
      */
@@ -69,9 +69,9 @@ function clamp(value, min, max) {
      * Returns the required delta to fit range 1 into range 2.
      * In case of range 1 is bigger than range 2 returns delta to fit most out of range part.
      *
-     * @param {number} begin1 - Begining of range 1.
+     * @param {number} begin1 - Beginning of range 1.
      * @param {number} end1 - Ending of range 1.
-     * @param {number} begin2 - Begining of range 2.
+     * @param {number} begin2 - Beginning of range 2.
      * @param {number} end2 - Ending of range 2.
      * @return {number} Delta: <0 move range1 to the left, >0 - to the right.
      */
@@ -176,8 +176,8 @@ class DocumentScroller {
 
     /**
          * Returns attribute value.
-         * @param {string} attributeName - Attibute name.
-         * @return {string} Attibute value.
+         * @param {string} attributeName - Attribute name.
+         * @return {string} Attribute value.
          */
     getAttribute(attributeName) {
         return document.body.getAttribute(attributeName);

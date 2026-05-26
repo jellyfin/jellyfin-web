@@ -218,7 +218,7 @@ class PlaybackCore {
                         // During seek, playback is paused.
                         // FIXME: check range instead of fixed value for ticks.
                         if (isPlaying || currentPositionTicks !== command.PositionTicks) {
-                            // Account for player imperfections, we got half a second of tollerance we can play with
+                            // Account for player imperfections, we got half a second of tolerance we can play with
                             // (the server tollerates a range of values when client reports that is ready).
                             const rangeWidth = 100; // In milliseconds.
                             // eslint-disable-next-line sonarjs/pseudo-random

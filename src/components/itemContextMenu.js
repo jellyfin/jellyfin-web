@@ -131,7 +131,7 @@ export async function getCommands(options) {
     }
 
     if (!browser.tv) {
-        // Multiselect is currrently only ran on long clicks of card components
+        // Multiselect is currently only ran on long clicks of card components
         // This disables Select on any context menu not originating from a card i.e songs
         if (options.positionTo && (dom.parentWithClass(options.positionTo, 'card') !== null)) {
             commands.push({
@@ -192,7 +192,7 @@ export async function getCommands(options) {
             });
         }
 
-        // Books are promoted to major download Button and therefor excluded in the context menu
+        // Books are promoted to major download Button and therefore excluded in the context menu
         if (item.CanDownload && item.Type !== 'Book') {
             commands.push({
                 name: globalize.translate('Download'),
