@@ -101,12 +101,12 @@ function renderPreferredImageLanguages(parent, selectedLanguages = []) {
 
 function showAddImageLanguageDialog(parent) {
     const languages = parent.availableLanguages || [];
-    const currentLanguages = Array.from(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
+    const currentLanguages = new Set(Array.from(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
         return elem.dataset.lang.toLowerCase();
-    });
+    }));
 
     const availableLanguages = languages.filter(l => {
-        return !currentLanguages.includes(l.TwoLetterISOLanguageName.toLowerCase());
+        return !currentLanguages.has(l.TwoLetterISOLanguageName.toLowerCase());
     });
 
     const items = availableLanguages.map(l => {
@@ -117,7 +117,7 @@ function showAddImageLanguageDialog(parent) {
     });
 
     // Add "Original Language" option if not already selected
-    if (!currentLanguages.includes('orilang')) {
+    if (!currentLanguages.has('orilang')) {
         items.unshift({
             name: globalize.translate('LabelOriginalLanguage'),
             id: 'orilang'
@@ -125,7 +125,7 @@ function showAddImageLanguageDialog(parent) {
     }
 
     // Add "No Language" option if not already selected
-    if (!currentLanguages.includes('nolang')) {
+    if (!currentLanguages.has('nolang')) {
         items.unshift({
             name: globalize.translate('LabelNoLanguage'),
             id: 'nolang'
