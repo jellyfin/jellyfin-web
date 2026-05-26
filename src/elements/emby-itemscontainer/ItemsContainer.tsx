@@ -194,34 +194,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         [reloadItems]
     );
 
-    const onUserDataChanged = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onTimerCreated = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onSeriesTimerCreated = useCallback(async () => {
-        await invalidateQueries();
-    }, [invalidateQueries]);
-
-    const onTimerCancelled = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onSeriesTimerCancelled = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
     const onLibraryChanged = useCallback(
         (_e: Event, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
             if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
@@ -357,11 +329,11 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
         itemShortcuts.on(itemsContainer, getShortcutOptions());
 
-        Events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
-        Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-        Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        Events.on(serverNotifications, 'UserDataChanged', invalidateQueries);
+        Events.on(serverNotifications, 'TimerCreated', invalidateQueries);
+        Events.on(serverNotifications, 'TimerCancelled', invalidateQueries);
+        Events.on(serverNotifications, 'SeriesTimerCreated', invalidateQueries);
+        Events.on(serverNotifications, 'SeriesTimerCancelled', invalidateQueries);
         Events.on(serverNotifications, 'LibraryChanged', onLibraryChanged);
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
         Events.on(document, EventType.REFRESH_NEEDED, invalidateQueries);
@@ -379,11 +351,11 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
-            Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
-            Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-            Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-            Events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-            Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+            Events.off(serverNotifications, 'UserDataChanged', invalidateQueries);
+            Events.off(serverNotifications, 'TimerCreated', invalidateQueries);
+            Events.off(serverNotifications, 'TimerCancelled', invalidateQueries);
+            Events.off(serverNotifications, 'SeriesTimerCreated', invalidateQueries);
+            Events.off(serverNotifications, 'SeriesTimerCancelled', invalidateQueries);
             Events.off(serverNotifications, 'LibraryChanged', onLibraryChanged);
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
             Events.off(document, EventType.REFRESH_NEEDED, invalidateQueries);
@@ -400,12 +372,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         onClick,
         onContextMenu,
         onLibraryChanged,
-        onPlaybackStopped,
-        onSeriesTimerCancelled,
-        onSeriesTimerCreated,
-        onTimerCancelled,
-        onTimerCreated,
-        onUserDataChanged
+        onPlaybackStopped
     ]);
 
     const itemsContainerClass = classNames(
