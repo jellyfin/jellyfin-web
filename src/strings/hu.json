@@ -1908,5 +1908,6 @@
     "OnFilesystem": "A fájlrendszeren: {0}",
     "HeaderBackupWarning": "FIGYELMEZTETÉS: Folyamatban lévő ütemezett feladatok",
     "VideoRotationNotSupported": "A videó elforgatása nem támogatott",
-    "LabelBackupWarning": "Folyamatban lévő ütemezett feladatok vannak. Javasoljuk, hogy állítsa le őket, vagy várja meg, amíg befejeződnek, mielőtt elindítaná a biztonsági mentést."
+    "LabelBackupWarning": "Folyamatban lévő ütemezett feladatok vannak. Javasoljuk, hogy állítsa le őket, vagy várja meg, amíg befejeződnek, mielőtt elindítaná a biztonsági mentést.",
+    "LabelSimilarItemProvidersHelp": "Engedélyezze és rangsorolja prioritási sorrendben a kívánt hasonló elemű szolgáltatókat."
 }
