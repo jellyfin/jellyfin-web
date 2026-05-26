@@ -67,12 +67,12 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Favorites
             },
             {
-                name: globalize.translate('Genres'),
-                value: LibraryTab.Genres
-            },
-            {
                 name: globalize.translate('Collections'),
                 value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
             },
             {
                 name: globalize.translate('Studios'),
@@ -99,16 +99,16 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Upcoming
             },
             {
-                name: globalize.translate('TabNetworks'),
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Studios'),
                 value: LibraryTab.Studios
             },
             {
                 name: globalize.translate('Episodes'),
                 value: LibraryTab.Episodes
-            },
-            {
-                name: globalize.translate('Genres'),
-                value: LibraryTab.Genres
             },
             {
                 name: globalize.translate('Collections'),
@@ -139,6 +139,10 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Artists
             },
             {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
+            },
+            {
                 name: globalize.translate('Songs'),
                 value: LibraryTab.Songs
             },
@@ -149,10 +153,6 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('Collections'),
                 value: LibraryTab.Collections
-            },
-            {
-                name: globalize.translate('Playlists'),
-                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'livetv') {
