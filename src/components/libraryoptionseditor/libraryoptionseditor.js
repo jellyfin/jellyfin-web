@@ -71,6 +71,8 @@ function renderPreferredImageLanguages(parent, selectedLanguages = []) {
 
         if (langCode === 'nolang') {
             displayName = globalize.translate('LabelNoLanguage');
+        } else if (langCode === 'orilang') {
+            displayName = globalize.translate('LabelOriginalLanguage');
         } else {
             const language = languages.find(l => l.TwoLetterISOLanguageName.toLowerCase() === langCode.toLowerCase());
             displayName = language ? language.DisplayName : langCode;
@@ -99,7 +101,7 @@ function renderPreferredImageLanguages(parent, selectedLanguages = []) {
 
 function showAddImageLanguageDialog(parent) {
     const languages = parent.availableLanguages || [];
-    const currentLanguages = Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
+    const currentLanguages = Array.from(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
         return elem.dataset.lang.toLowerCase();
     });
 
@@ -113,6 +115,14 @@ function showAddImageLanguageDialog(parent) {
             id: l.TwoLetterISOLanguageName
         };
     });
+
+    // Add "Original Language" option if not already selected
+    if (!currentLanguages.includes('orilang')) {
+        items.unshift({
+            name: globalize.translate('LabelOriginalLanguage'),
+            id: 'orilang'
+        });
+    }
 
     // Add "No Language" option if not already selected
     if (!currentLanguages.includes('nolang')) {
@@ -128,7 +138,7 @@ function showAddImageLanguageDialog(parent) {
             items: items
         }).then((langCode) => {
             if (langCode) {
-                const selectedLanguages = Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
+                const selectedLanguages = Array.from(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
                     return elem.dataset.lang;
                 });
                 selectedLanguages.push(langCode);
@@ -825,8 +835,15 @@ export function getLibraryOptions(parent) {
         EnableAutomaticSeriesGrouping: parent.querySelector('.chkAutomaticallyGroupSeries').checked,
         PreferredMetadataLanguage: parent.querySelector('#selectLanguage').value,
         MetadataCountryCode: parent.querySelector('#selectCountry').value,
-        PreferredImageLanguages: Array.prototype.map.call(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
-            return elem.dataset.lang;
+        PreferredImageLanguages: Array.from(parent.querySelectorAll('.preferredImageLanguageItem'), elem => {
+            const langCode = elem.dataset.lang;
+            if (langCode === 'nolang') {
+                return { OptionType: 'NoLanguage', Language: null };
+            }
+            if (langCode === 'orilang') {
+                return { OptionType: 'OriginalLanguage', Language: null };
+            }
+            return { OptionType: 'LanguageCode', Language: langCode };
         }),
         SeasonZeroDisplayName: parent.querySelector('#txtSeasonZeroName').value,
         AutomaticRefreshIntervalDays: parseInt(parent.querySelector('#selectAutoRefreshInterval').value, 10),
@@ -920,7 +937,13 @@ export function setLibraryOptions(parent, options) {
     });
     parent.querySelector('#customTagDelimitersInput').value = options.CustomTagDelimiters.join('');
     parent.querySelector('#tagDelimiterWhitelist').value = options.DelimiterWhitelist.filter(item => item.trim()).join('\n');
-    const imageLanguages = Array.isArray(options.PreferredImageLanguages) ? options.PreferredImageLanguages : [];
+
+    const imageLanguages = Array.isArray(options.PreferredImageLanguages) ? options.PreferredImageLanguages.map(opt => {
+        if (opt.OptionType === 'NoLanguage') return 'nolang';
+        if (opt.OptionType === 'OriginalLanguage') return 'orilang';
+        return opt.Language;
+    }).filter(Boolean) : [];
+
     renderPreferredImageLanguages(parent, imageLanguages);
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
     renderMetadataFetchers(parent, parent.availableOptions, options);
