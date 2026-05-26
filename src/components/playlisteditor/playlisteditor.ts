@@ -6,11 +6,13 @@ import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api'
 import escapeHtml from 'escape-html';
 
 import toast from 'components/toast/toast';
-import dom from 'utils/dom';
+import { EventType } from 'constants/eventType';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { PluginType } from 'types/plugin';
+import dom from 'utils/dom';
+import Events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { isBlank } from 'utils/string';
 
@@ -104,6 +106,9 @@ function createPlaylist(dlg: DialogElement) {
         .then(result => {
             dlg.submitted = true;
             dialogHelper.close(dlg);
+
+            // If a new playlist is created, then trigger a refresh of the library views
+            Events.trigger(document, EventType.REFRESH_NEEDED);
 
             redirectToPlaylist(result.data.Id);
         });

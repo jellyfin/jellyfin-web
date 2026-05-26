@@ -16,6 +16,9 @@ import '../formdialog.scss';
 import '../../styles/flexstyles.scss';
 import toast from '../toast/toast';
 
+import { EventType } from 'constants/eventType';
+import Events from 'utils/events';
+
 let currentServerId;
 
 function onSubmit(e) {
@@ -39,7 +42,6 @@ function onSubmit(e) {
 
 function createCollection(apiClient, dlg) {
     const url = apiClient.getUrl('Collections', {
-
         Name: dlg.querySelector('#txtNewCollectionName').value,
         IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
         Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
@@ -53,11 +55,13 @@ function createCollection(apiClient, dlg) {
     }).then(result => {
         loading.hide();
 
-        const id = result.Id;
-
         dlg.submitted = true;
         dialogHelper.close(dlg);
-        redirectToCollection(apiClient, id);
+
+        // If a new collection is created, then trigger a refresh of the library views
+        Events.trigger(document, EventType.REFRESH_NEEDED);
+
+        redirectToCollection(apiClient, result.Id);
     });
 }
 
