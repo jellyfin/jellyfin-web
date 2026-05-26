@@ -641,5 +641,7 @@
     "LabelSegmentKeepSeconds": "Segmentlarni saqlanadigan vaqt",
     "AndOtherArtists": "{0} va {1} boshqa artistlar",
     "Anime": "Anime",
-    "ApiKeysLoadError": "API kalitlarni yuklashda xatolik ketdi"
+    "ApiKeysLoadError": "API kalitlarni yuklashda xatolik ketdi",
+    "Authors": "Mualliflar",
+    "Author": "Muallif"
 }
