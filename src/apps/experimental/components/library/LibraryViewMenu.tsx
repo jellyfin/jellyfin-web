@@ -3,6 +3,7 @@ import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Button from '@mui/material/Button/Button';
 import Menu from '@mui/material/Menu/Menu';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
+import Typography from '@mui/material/Typography';
 import React, { FC, useCallback, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
@@ -44,7 +45,9 @@ const LibraryViewMenu: FC = () => {
                 aria-haspopup='true'
                 onClick={onMenuButtonClick}
             >
-                {globalize.translate(currentTab.label)}
+                <Typography variant='h2' component='span'>
+                    {globalize.translate(currentTab.label)}
+                </Typography>
             </Button>
 
             <Menu
