@@ -106,7 +106,8 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
         setIsMenuOpen(false);
 
         const mediaLibraryEditor = new MediaLibraryEditor({
-            library: virtualFolder
+            library: virtualFolder,
+            refresh: true
         }) as Promise<boolean>;
 
         void mediaLibraryEditor.then((hasChanges: boolean) => {

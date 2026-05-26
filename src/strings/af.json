@@ -854,5 +854,9 @@
     "HeaderNextEpisode": "Volgende Episode",
     "LabelAllowContentWithTags": "Laat items met etikette toe",
     "LabelAllowFmp4TranscodingContainer": "Laat fMP4 transkodering houer toe",
-    "BehindTheScenes": "Agter die Skerms"
+    "BehindTheScenes": "Agter die Skerms",
+    "ActivitiesLoadError": "Kon nie aktiwiteite laai nie",
+    "LabelExternalServerUri": "Eksterne URI",
+    "ApiKeysLoadError": "Kon nie aktiwiteite laai nie",
+    "Authors": "Skrywers"
 }

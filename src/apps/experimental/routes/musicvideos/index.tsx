@@ -30,10 +30,20 @@ const musicVideosTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.MusicVideo]
 };
 
+const playlistsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Playlists,
+    isBtnFilterEnabled: false,
+    isBtnGridListEnabled: false,
+    isBtnNewPlaylistEnabled: true,
+    isAlphabetPickerEnabled: false,
+    itemType: [BaseItemKind.Playlist]
+};
+
 const musicVideosTabMapping: LibraryTabMapping = {
     0: foldersTabContent,
     1: suggestionsTabContent,
-    2: musicVideosTabContent
+    2: musicVideosTabContent,
+    3: playlistsTabContent
 };
 
 const MusicVideos: FC = () => {

@@ -1905,5 +1905,10 @@
     "LabelProgressAndSpeed": "Eteneminen / nopeus",
     "LabelReasons": "Syyt",
     "LabelPlayerSizes": "Soittimen koot",
-    "LabelSyncPlayJoinGroup": "Liity ryhmään"
+    "LabelSyncPlayJoinGroup": "Liity ryhmään",
+    "HeaderTypeSimilarItemProviders": "Samankaltaisten kohteiden tarjoajat ({0})",
+    "LabelBackupWarning": "On käynnissä olevia ajoitettuja tehtäviä. On suositeltavaa pysäyttää ne tai odottaa niiden valmistumista ennen varmuuskopiointia.",
+    "LabelSimilarItemProvidersHelp": "Ota käyttöön ja järjestä samankaltaisten kohteiden tarjoajat tärkeysjärjestykseen.",
+    "HeaderBackupWarning": "VAROITUS: Käynnissä olevia ajoitettuja tehtäviä",
+    "VideoRotationNotSupported": "Videon kiertoa ei tueta"
 }
