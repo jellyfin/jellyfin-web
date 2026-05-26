@@ -97,9 +97,11 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings
     );
     const { data: item } = useItem(parentId || undefined);
-    // The query key used for invalidation when items are updated.
-    // Note that we want to invalidate all related views, not just the current view, so we don't include the viewType.
-    const queryKey = ['User', user?.Id, 'Items', parentId, 'ViewByType'];
+    // The query key for all items for the current user.
+    // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
+    const allItemsQueryKey = ['User', user?.Id, 'Items'];
+    // The query key for all views for the current parent item.
+    const allViewsQueryKey = [...allItemsQueryKey, parentId, 'ViewByType'];
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
@@ -157,7 +159,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             preferLogo: preferLogo,
             overlayText: !libraryViewSettings.ShowTitle,
             imageType: libraryViewSettings.ImageType,
-            queryKey,
+            queryKey: allViewsQueryKey,
             serverId: __legacyApiClient__?.serverId()
         };
 
@@ -196,7 +198,7 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings.ShowYear,
         libraryViewSettings.CardLayout,
         collectionType,
-        queryKey,
+        allViewsQueryKey,
         viewType
     ]);
 
@@ -361,14 +363,14 @@ const ItemsView: FC<ItemsViewProps> = ({
                                 {isBtnNewCollectionEnabled && (
                                     <NewCollectionButton
                                         isTextVisible={isSmallScreen}
-                                        queryKey={queryKey}
+                                        queryKey={allItemsQueryKey}
                                     />
                                 )}
 
                                 {isBtnNewPlaylistEnabled && (
                                     <NewPlaylistButton
                                         isTextVisible={isSmallScreen}
-                                        queryKey={queryKey}
+                                        queryKey={allItemsQueryKey}
                                     />
                                 )}
                             </>
@@ -416,7 +418,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                     className={itemsContainerClass}
                     parentId={parentId}
                     reloadItems={refetch}
-                    queryKey={queryKey}
+                    queryKey={allItemsQueryKey}
                 >
                     {getItems()}
                 </ItemsContainer>
