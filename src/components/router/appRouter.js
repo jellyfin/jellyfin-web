@@ -409,7 +409,12 @@ class AppRouter {
             const isExperimentalLayout = layoutManager.layout === LayoutMode.Experimental;
 
             if (isExperimentalLayout && item.CollectionType == CollectionType.Books) {
-                return `#/books?topParentId=${item.Id}`;
+                url = `#/books?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=3';
+                }
+                return url;
             }
 
             if (item.CollectionType == CollectionType.Movies) {
