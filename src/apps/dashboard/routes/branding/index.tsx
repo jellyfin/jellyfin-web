@@ -60,9 +60,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     };
 };
 
-export const loader = () => {
+export const loader = async () => {
+    const api = ServerConnections.getCurrentApi();
+    if (!api) return {};
+
     return queryClient.ensureQueryData(
-        getBrandingOptionsQuery(ServerConnections.getCurrentApi()));
+        getBrandingOptionsQuery(api));
 };
 
 export const Component = () => {
