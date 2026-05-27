@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
+import OffsetAppBar from 'components/OffsetAppBar';
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
@@ -31,8 +32,6 @@ import { LibraryTab } from 'types/libraryTab';
 import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
-
-import OffsetAppBar from '../OffsetAppBar';
 
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';

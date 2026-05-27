@@ -1,5 +1,4 @@
 import React, { StrictMode, useCallback, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -7,7 +6,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
 import CustomCss from 'components/CustomCss';
-import ElevationScroll from 'components/ElevationScroll';
+import OffsetAppBar from 'components/OffsetAppBar';
 import ThemeCss from 'components/ThemeCss';
 import { useApi } from 'hooks/useApi';
 
@@ -33,21 +32,13 @@ export const Component = () => {
         <>
             <Box sx={{ position: 'relative', display: 'flex', height: '100%' }}>
                 <StrictMode>
-                    <ElevationScroll elevate={false}>
-                        <AppBar
-                            position='fixed'
-                            sx={{
-                                width: '100%',
-                                ml: 0
-                            }}
-                        >
-                            <AppToolbar
-                                isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
-                                isDrawerOpen={isDrawerOpen}
-                                onDrawerButtonClick={onToggleDrawer}
-                            />
-                        </AppBar>
-                    </ElevationScroll>
+                    <OffsetAppBar dense elevation={4}>
+                        <AppToolbar
+                            isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
+                            isDrawerOpen={isDrawerOpen}
+                            onDrawerButtonClick={onToggleDrawer}
+                        />
+                    </OffsetAppBar>
 
                     {
                         isDrawerAvailable && (
