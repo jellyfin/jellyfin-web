@@ -617,10 +617,10 @@ function setFieldVisibilities(context, item) {
     }
 
     if (item.Type === 'Person'
-        || item.Type === 'Genre'
-        || item.Type === 'Studio'
-        || item.Type === 'MusicGenre'
-        || item.Type === 'TvChannel') {
+            || item.Type === 'Genre'
+            || item.Type === 'Studio'
+            || item.Type === 'MusicGenre'
+            || item.Type === 'TvChannel') {
         hideElement('#peopleCollapsible', context);
     } else {
         showElement('#peopleCollapsible', context);
