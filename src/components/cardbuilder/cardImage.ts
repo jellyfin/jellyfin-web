@@ -66,7 +66,7 @@ export function buildCardImage(
             <div
                 class="cardImageContainer coveredImage cardContent lazy"
                 style="cursor: default;"
-                data-src="${imgUrl}"
+                data-src="${imgUrl || ''}"
                 ${blurhashAttrib}
             ></div>
         </div>

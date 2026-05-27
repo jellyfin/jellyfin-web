@@ -1905,5 +1905,10 @@
     "LabelTargetCodecs": "Codecs cibles",
     "LabelProgressAndSpeed": "Progression / Vitesse",
     "LabelPlayerSizes": "Tailles du lecteur",
-    "LabelSyncPlayJoinGroup": "Rejoindre groupe"
+    "LabelSyncPlayJoinGroup": "Rejoindre groupe",
+    "VideoRotationNotSupported": "La rotation de la vidéo n'est pas prise en charge",
+    "LabelBackupWarning": "Des tâches planifiées sont en cours. Il est recommandé de les arrêter ou d'attendre leur achèvement avant de lancer l'opération de sauvegarde.",
+    "HeaderBackupWarning": "AVERTISSEMENT : Tâches planifiées en cours",
+    "LabelSimilarItemProvidersHelp": "Activez et classez vos fournisseurs d'articles similaires préférés par ordre de priorité.",
+    "HeaderTypeSimilarItemProviders": "Fournisseurs d'articles similaires ({0})"
 }

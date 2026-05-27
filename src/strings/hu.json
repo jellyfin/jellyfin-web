@@ -381,7 +381,7 @@
     "Tuesday": "Kedd",
     "UninstallPluginConfirmation": "Biztosan el szeretnéd távolítani a következőt: {0} ?",
     "HeaderUninstallPlugin": "Bővítmény eltávolítása",
-    "Unmute": "Hangosít",
+    "Unmute": "Némítás feloldása",
     "Up": "Fel",
     "ValueEpisodeCount": "{0} epizód",
     "ValueMovieCount": "{0} film",
@@ -923,7 +923,7 @@
     "TvLibraryHelp": "Tekintsd át a {0} TV elnevezési útmutatót {1}.",
     "Uniform": "Egyforma",
     "Unplayed": "Nem játszott",
-    "Unrated": "Besorolatlan",
+    "Unrated": "Besorolás nélkül",
     "Upload": "Feltöltés",
     "UserProfilesIntro": "A Jellyfin beépített támogatást tartalmaz a felhasználói profilokhoz lehetővé téve, hogy minden felhasználó rendelkezzen saját megjelenítési beállításokkal, lejátszási és szülői felügyelettel.",
     "ValueAlbumCount": "{0} album",
@@ -1344,7 +1344,7 @@
     "AnamorphicVideoNotSupported": "Az anamorf videó nem támogatott",
     "AudioSampleRateNotSupported": "A hang mintavételi aránya nem támogatott",
     "AudioProfileNotSupported": "A hangkodek profilja nem támogatott",
-    "VideoResolutionNotSupported": "A videó felbontása nem támogatott",
+    "VideoResolutionNotSupported": "A videók felbontása nem támogatott",
     "AudioChannelsNotSupported": "A hangcsatornák száma nem támogatott",
     "AudioBitrateNotSupported": "A hang bitsebessége nem támogatott",
     "VideoCodecNotSupported": "A videó kodek nem támogatott",
@@ -1905,5 +1905,10 @@
     "LabelExternalServerUri": "Külső URI",
     "LabelExternalServerUriHelp": "Közzétett szerver URI külső hozzáféréshez.",
     "LabelPlaybackQuality": "Keret lemaradt / sérült",
-    "OnFilesystem": "A fájlrendszeren: {0}"
+    "OnFilesystem": "A fájlrendszeren: {0}",
+    "HeaderBackupWarning": "FIGYELMEZTETÉS: Folyamatban lévő ütemezett feladatok",
+    "VideoRotationNotSupported": "A videó elforgatása nem támogatott",
+    "LabelBackupWarning": "Folyamatban lévő ütemezett feladatok vannak. Javasoljuk, hogy állítsa le őket, vagy várja meg, amíg befejeződnek, mielőtt elindítaná a biztonsági mentést.",
+    "LabelSimilarItemProvidersHelp": "Engedélyezze és rangsorolja prioritási sorrendben a kívánt hasonló elemű szolgáltatókat.",
+    "HeaderTypeSimilarItemProviders": "Hasonló elemszolgáltatók ({0})"
 }

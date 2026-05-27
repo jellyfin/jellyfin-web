@@ -1905,5 +1905,10 @@
     "LabelProgressAndSpeed": "Aurrerapena / abiadura",
     "LabelReasons": "Arrazoiak",
     "LabelPlayerSizes": "Erreproduzitzailearen tamainak",
-    "LabelPlaybackQuality": "Fotograma galduta / hondatuta"
+    "LabelPlaybackQuality": "Fotograma galduta / hondatuta",
+    "VideoRotationNotSupported": "Bideoaren biraketa ez da onartzen",
+    "HeaderTypeSimilarItemProviders": "Antzeko elementu hornitzaileak ({0})",
+    "LabelBackupWarning": "Programatutako zereginak martxan daude. Gomendagarria da gelditzea edo amaitu arte itxarotea babeskopia-eragiketa exekutatu aurretik.",
+    "LabelSimilarItemProvidersHelp": "Gaitu eta sailkatu zure antzeko elementuen hornitzaile hobetsiak lehentasunaren arabera.",
+    "HeaderBackupWarning": "OHARRA: Jarraian programatutako zereginak"
 }

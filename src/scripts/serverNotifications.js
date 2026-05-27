@@ -194,7 +194,13 @@ function subscribeToApiClient(apiClient) {
     });
 }
 
-ServerConnections.getApiClients().forEach(subscribeToApiClient);
-Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
-    subscribeToApiClient(newApiClient);
-});
+export function initializeServerConnections() {
+    ServerConnections.getApiClients().forEach(subscribeToApiClient);
+    Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
+        subscribeToApiClient(newApiClient);
+    });
+}
+
+window.ServerNotifications = serverNotifications;
+
+export default serverNotifications;

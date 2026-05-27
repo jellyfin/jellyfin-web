@@ -67,12 +67,16 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Favorites
             },
             {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
                 name: globalize.translate('Collections'),
                 value: LibraryTab.Collections
             },
             {
-                name: globalize.translate('Genres'),
-                value: LibraryTab.Genres
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'tvshows') {
@@ -91,16 +95,24 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Upcoming
             },
             {
-                name: globalize.translate('Genres'),
-                value: LibraryTab.Genres
-            },
-            {
                 name: globalize.translate('TabNetworks'),
                 value: LibraryTab.Networks
             },
             {
                 name: globalize.translate('Episodes'),
                 value: LibraryTab.Episodes
+            },
+            {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'music') {
@@ -123,16 +135,20 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Artists
             },
             {
-                name: globalize.translate('Playlists'),
-                value: LibraryTab.Playlists
-            },
-            {
                 name: globalize.translate('Songs'),
                 value: LibraryTab.Songs
             },
             {
                 name: globalize.translate('Genres'),
                 value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'livetv') {
@@ -197,6 +213,10 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('HeaderVideos'),
                 value: LibraryTab.MusicVideos
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'mixed') {
@@ -213,6 +233,14 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('HeaderMedia'),
                 value: LibraryTab.Mixed
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     }

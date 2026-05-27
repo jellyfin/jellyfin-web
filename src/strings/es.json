@@ -1905,5 +1905,10 @@
     "LabelPlayerSizes": "Tamaño del reproductor",
     "LabelPlaybackQuality": "Fotogramas perdidos / corruptos",
     "OnFilesystem": "En el sistema de archivos: {0}",
-    "LabelSyncPlayJoinGroup": "Unirse al grupo"
+    "LabelSyncPlayJoinGroup": "Unirse al grupo",
+    "HeaderBackupWarning": "ADVERTENCIA: Tareas programadas en ejecución",
+    "LabelBackupWarning": "Hay tareas programadas en ejecución. Se recomienda detenerlas o esperar a que finalicen antes de ejecutar la operación de copia de seguridad.",
+    "VideoRotationNotSupported": "La rotación del video no está soportada",
+    "LabelSimilarItemProvidersHelp": "Habilite y ordene sus proveedores preferidos de elementos similares según el orden de prioridad.",
+    "HeaderTypeSimilarItemProviders": "Proveedores de elementos similares ({0})"
 }
