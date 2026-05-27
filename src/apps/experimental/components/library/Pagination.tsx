@@ -1,4 +1,6 @@
 import React, { FC, useCallback } from 'react';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Button from '@mui/material/Button';
@@ -22,6 +24,21 @@ const Pagination: FC<PaginationProps> = ({
     total,
     disabled
 }) => {
+    const onFirstPageClick = useCallback(() => {
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: 0
+        }));
+    }, [setLibraryViewSettings]);
+
+    const onLastPageClick = useCallback(() => {
+        const newIndex = (Math.ceil(total / pageSize) - 1) * pageSize;
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: newIndex
+        }));
+    }, [setLibraryViewSettings, total, pageSize]);
+
     const onNextPageClick = useCallback(() => {
         setLibraryViewSettings((prevState) => ({
             ...prevState,
@@ -43,6 +60,20 @@ const Pagination: FC<PaginationProps> = ({
             color='inherit'
             variant='text'
         >
+            <Button
+                title={globalize.translate('First')}
+                disabled={disabled || index == 0}
+                onClick={onFirstPageClick}
+            >
+                <FirstPageIcon />
+            </Button>
+            <Button
+                title={globalize.translate('Last')}
+                disabled={disabled || index + pageSize >= total}
+                onClick={onLastPageClick}
+            >
+                <LastPageIcon />
+            </Button>
             <Button
                 title={globalize.translate('Previous')}
                 disabled={disabled || index == 0}
