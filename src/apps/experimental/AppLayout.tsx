@@ -30,7 +30,14 @@ export const Component = () => {
 
     return (
         <>
-            <Box sx={{ position: 'relative', display: 'flex', height: '100%' }}>
+            <Box
+                sx={{
+                    position: 'relative',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
+                }}
+            >
                 <StrictMode>
                     <OffsetAppBar dense elevation={4}>
                         <AppToolbar
@@ -54,6 +61,7 @@ export const Component = () => {
                 <Box
                     component='main'
                     sx={{
+                        position: 'relative',
                         width: '100%',
                         flexGrow: 1
                     }}

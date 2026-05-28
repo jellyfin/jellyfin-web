@@ -49,7 +49,12 @@ export const Component: FC = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={dateFnsLocale}>
-            <Box sx={{ display: 'flex' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column'
+                }}
+            >
                 <StrictMode>
                     <OffsetAppBar
                         dense
@@ -96,6 +101,7 @@ export const Component: FC = () => {
                 <Box
                     component='main'
                     sx={{
+                        position: 'relative',
                         width: '100%',
                         flexGrow: 1
                     }}
