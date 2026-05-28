@@ -64,7 +64,10 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                         value={l}
                         sx={{
                             borderWidth: 0,
-                            padding: 0.5
+                            paddingTop: 0.25,
+                            paddingBottom: 0.25,
+                            paddingLeft: 0.5,
+                            paddingRight: 0.5
                         }}
                     >
                         {l}
