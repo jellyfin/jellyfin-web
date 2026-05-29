@@ -5,7 +5,8 @@ export const QUERY_OPTIONS = {
     fields: [
         ItemFields.PrimaryImageAspectRatio,
         ItemFields.CanDelete,
-        ItemFields.MediaSourceCount
+        ItemFields.MediaSourceCount,
+        ItemFields.OriginalTitle
     ],
     enableTotalRecordCount: false,
     imageTypeLimit: 1
