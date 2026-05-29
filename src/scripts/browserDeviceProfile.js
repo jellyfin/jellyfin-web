@@ -839,6 +839,12 @@ export default function (options) {
         enableFmp4Hls = false;
     }
 
+    // fMP4 in Firefox 149 is largely broken due to bad moof::traf::tfdt handling
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=2026875
+    if (browser.firefox && browser.versionMajor == 149) {
+        enableFmp4Hls = false;
+    }
+
     if (canPlayHls() && browser.enableHlsAudio !== false) {
         profile.TranscodingProfiles.push({
             Container: enableFmp4Hls ? 'mp4' : 'ts',
