@@ -1906,5 +1906,9 @@
     "LabelPlaybackQuality": "Klatka utracona / uszkodzona",
     "OnFilesystem": "W systemie plików: {0}",
     "LabelSyncPlayJoinGroup": "Dołącz do grupy",
-    "VideoRotationNotSupported": "Obrót wideo nie jest obsługiwany"
+    "VideoRotationNotSupported": "Obrót wideo nie jest obsługiwany",
+    "LabelBackupWarning": "Trwają zaplanowane zadania. Zaleca się ich zatrzymanie lub poczekanie na ich zakończenie przed uruchomieniem operacji tworzenia kopii zapasowej.",
+    "HeaderBackupWarning": "OSTRZEŻENIE: trwają zaplanowane zadania",
+    "HeaderTypeSimilarItemProviders": "Dostawcy podobnych elementów ({0})",
+    "LabelSimilarItemProvidersHelp": "Włącz i uporządkuj preferowanych dostawców podobnych elementów według priorytetu."
 }

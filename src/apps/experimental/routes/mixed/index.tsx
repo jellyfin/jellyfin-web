@@ -29,10 +29,29 @@ const mixedTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Movie, BaseItemKind.Series]
 };
 
+const collectionsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Collections,
+    collectionType: null,
+    isBtnNewCollectionEnabled: true,
+    itemType: [BaseItemKind.BoxSet],
+    noItemsMessage: 'MessageNoCollectionsAvailable'
+};
+
+const playlistsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Playlists,
+    isBtnFilterEnabled: false,
+    isBtnGridListEnabled: false,
+    isBtnNewPlaylistEnabled: true,
+    isAlphabetPickerEnabled: false,
+    itemType: [BaseItemKind.Playlist]
+};
+
 const mixedTabMapping: LibraryTabMapping = {
     0: foldersTabContent,
     1: suggestionsTabContent,
-    2: mixedTabContent
+    2: mixedTabContent,
+    3: collectionsTabContent,
+    4: playlistsTabContent
 };
 
 const Mixed: FC = () => {

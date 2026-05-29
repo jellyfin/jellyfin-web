@@ -246,5 +246,6 @@
     "CustomSubtitleStylingHelp": "सबटाइटल स्टाइलिंग अधिकांश डिवाइसों पर काम करेगी, लेकिन इसके साथ अतिरिक्त परफॉरमेंस ओवरहेड भी आएगा।",
     "Delete": "डिलीट",
     "ConfirmDeleteRepository": "रिपोजिटरी हटाएँ?",
-    "ButtonAddProvider": "प्रदाता जोड़े"
+    "ButtonAddProvider": "प्रदाता जोड़े",
+    "ActivitiesLoadError": "गतिविधियाँ लोड करना विफल रहा"
 }

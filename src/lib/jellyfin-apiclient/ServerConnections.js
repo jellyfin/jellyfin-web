@@ -1,14 +1,15 @@
-import { Credentials, ApiClient } from 'jellyfin-apiclient';
+import { Credentials } from 'jellyfin-apiclient';
 
 import { appHost } from 'components/apphost';
 import appSettings from 'scripts/settings/appSettings';
 import { setUserInfo } from 'scripts/settings/userSettings';
+import { detectBitrate } from 'utils/bitrateTest';
 import Dashboard from 'utils/dashboard';
-import Events from 'utils/events.ts';
+import Events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 
 import ConnectionManager from './connectionManager';
-import { detectBitrate } from 'utils/bitrateTest';
 
 const normalizeImageOptions = options => {
     if (!options.quality && (options.maxWidth || options.width || options.maxHeight || options.height || options.fillWidth || options.fillHeight)) {
@@ -57,7 +58,7 @@ class ServerConnections extends ConnectionManager {
     initApiClient(server) {
         console.debug('creating ApiClient singleton');
 
-        const apiClient = new ApiClient(
+        const apiClient = createApiClient(
             server,
             appHost.appName(),
             appHost.appVersion(),
@@ -98,7 +99,7 @@ class ServerConnections extends ConnectionManager {
 
     /**
      * Gets the ApiClient that is currently connected.
-     * @returns {ApiClient|undefined} apiClient
+     * @returns {import('jellyfin-apiclient').ApiClient|undefined} apiClient
      */
     currentApiClient() {
         let apiClient = this.getLocalApiClient();
@@ -156,8 +157,8 @@ const capabilities = Dashboard.capabilities(appHost);
 
 export default new ServerConnections(
     credentialProvider,
-    appHost.appName(),
-    appHost.appVersion(),
-    appHost.deviceName(),
-    appHost.deviceId(),
+    () => appHost.appName(),
+    () => appHost.appVersion(),
+    () => appHost.deviceName(),
+    () => appHost.deviceId(),
     capabilities);

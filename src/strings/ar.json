@@ -1905,5 +1905,10 @@
     "LabelVideoAttributes": "سمات الفيديو",
     "LabelAudioAttributes": "سمات الصوت",
     "OnFilesystem": "في نظام الملفات: {0}",
-    "LabelSyncPlayJoinGroup": "الانضمام إلى مجموعة"
+    "LabelSyncPlayJoinGroup": "الانضمام إلى مجموعة",
+    "LabelBackupWarning": "هناك مهام مجدولة قائمة. ينصح بإيقاف المهمات أو الانتظار إلى انتهاءخا قبل تشغيل مهمة النسخ الاحتياطي.",
+    "HeaderBackupWarning": "تحذير: هناك مهام مجدولة قائمة",
+    "VideoRotationNotSupported": "تدوير الفيديو غير مدعوم",
+    "HeaderTypeSimilarItemProviders": "مقدمو عنصر مشابهين ({0})",
+    "LabelSimilarItemProvidersHelp": "تفعيل و تقييم مزودي العنصر المشابة المفضلين لديك بالافضلية."
 }
