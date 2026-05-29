@@ -251,7 +251,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     }
 
     const itemsContainerClass = classNames(
-        'padded-left padded-right padded-right-withalphapicker',
+        'padded-left padded-right',
         libraryViewSettings.ViewMode === ViewMode.ListView ?
             'vertical-list' :
             'vertical-wrap'
@@ -269,10 +269,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                 })}
             >
                 <Toolbar
-                    className={classNames(
-                        'padded-left padded-right',
-                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                    )}
+                    className='padded-left padded-right'
                     sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
