@@ -84,7 +84,7 @@ function bindEvents(button) {
     const apiClient = ServerConnections.getApiClient(serverId);
     button._unsubscribeUserData = apiClient?.subscribe(
         [OutboundWebSocketMessageType.UserDataChanged],
-        (msg) => onUserDataChanged(msg, button)
+        (msg) => onUserDataChanged(msg, apiClient, button)
     );
 }
 
