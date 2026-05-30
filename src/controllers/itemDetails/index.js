@@ -41,7 +41,6 @@ import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
-import serverNotifications from 'scripts/serverNotifications';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -1998,7 +1997,7 @@ export default function (view, params) {
         setTrailerButtonVisibility(view, currentItem);
     }
 
-    function onUserDataChanged({ MessageType, Data }) {
+    function onUserDataChanged({ Data }) {
         const apiClient = getApiClient();
 
         if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
@@ -2011,8 +2010,6 @@ export default function (view, params) {
             reloadPlayButtons(view, currentItem);
             autoFocus(view);
         }
-
-        Events.trigger(serverNotifications, MessageType, [apiClient, Data]);
     }
 
     let currentItem;

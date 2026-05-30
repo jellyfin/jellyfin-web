@@ -11,7 +11,6 @@ import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
 import focusManager from '../../components/focusManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from '../../utils/events.ts';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
@@ -303,7 +302,6 @@ ItemsContainerPrototype.attachedCallback = function () {
     this._wsApiClientCreatedHandler = (e, newApiClient) => {
         this._wsUnsubscribers = (this._wsUnsubscribers ?? []).concat(subscribeToApiClient(newApiClient));
     };
-    Events.on(ServerConnections, 'apiclientcreated', this._wsApiClientCreatedHandler);
     this._wsUnsubscribers = ServerConnections.getApiClients().flatMap(subscribeToApiClient);
 
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
@@ -329,7 +327,6 @@ ItemsContainerPrototype.detachedCallback = function () {
     });
     this._wsUnsubscribers = [];
     if (this._wsApiClientCreatedHandler) {
-        Events.off(ServerConnections, 'apiclientcreated', this._wsApiClientCreatedHandler);
         this._wsApiClientCreatedHandler = null;
     }
 
