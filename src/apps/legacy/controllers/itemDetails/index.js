@@ -1,4 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
@@ -1169,19 +1170,25 @@ function renderItemCollections(page, item, apiClient, context) {
         return;
     }
 
+    const api = toApi(apiClient);
     const userId = apiClient.getCurrentUserId();
     // The collections endpoint only returns collection membership, so fetch ParentId separately
     // to also show the immediate containing parent folder in Included In.
     const parentPromise = item.ParentId ?
-        apiClient.getItem(userId, item.ParentId).catch(() => null) :
+        getUserLibraryApi(api)
+            .getItem({ userId, itemId: item.ParentId })
+            .then(response => response.data)
+            .catch(() => null) :
         Promise.resolve(null);
 
-    const collectionsPromise = apiClient.getJSON(
-        apiClient.getUrl(`Items/${item.Id}/Collections`, {
+    const collectionsPromise = getLibraryApi(api)
+        .getItemCollections({
+            itemId: item.Id,
             userId,
-            fields: 'PrimaryImageAspectRatio'
+            fields: [ItemFields.PrimaryImageAspectRatio]
         })
-    ).then(result => result?.Items || []).catch(() => []);
+        .then(response => response.data?.Items || [])
+        .catch(() => []);
 
     Promise.all([parentPromise, collectionsPromise]).then(([parentItem, collectionItems]) => {
         const itemsById = new Map();
