@@ -232,6 +232,7 @@ const fetchGetItemsViewByType = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
+        const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
         let response;
         switch (viewType) {
             case LibraryTab.AlbumArtists: {
@@ -304,6 +305,7 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         includeItemTypes: itemType,
+                        isFavorite,
                         enableImageTypes: [ImageType.Thumb],
                         startIndex: libraryViewSettings.StartIndex
                     },
@@ -318,9 +320,7 @@ const fetchGetItemsViewByType = async (
                         userId: user.Id,
                         fields: [ItemFields.PrimaryImageAspectRatio],
                         startIndex: libraryViewSettings.StartIndex,
-                        isFavorite: libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) ?
-                            true :
-                            undefined,
+                        isFavorite,
                         enableImageTypes: [ImageType.Primary]
                     },
                     {

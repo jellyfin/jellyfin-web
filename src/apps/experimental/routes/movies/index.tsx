@@ -54,7 +54,6 @@ const playlistsTabContent: LibraryTabContent = {
 const studiosTabContent: LibraryTabContent = {
     viewType: LibraryTab.Studios,
     itemType: [BaseItemKind.Movie],
-    isBtnFilterEnabled: false,
     isBtnGridListEnabled: false,
     isBtnSortEnabled: false
 };

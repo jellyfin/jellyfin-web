@@ -1,5 +1,8 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
@@ -7,6 +10,7 @@ import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import dom from 'utils/dom';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
@@ -92,6 +96,15 @@ function getSections() {
         centerText: true,
         overlayPlayButton: true,
         coverImage: true
+    }, {
+        name: 'Studios',
+        types: BaseItemKind.Studio,
+        shape: getBackdropShape(enableScrollX()),
+        preferThumb: true,
+        showTitle: true,
+        overlayText: false,
+        centerText: true,
+        overlayPlayButton: true
     }, {
         name: 'People',
         types: 'Person',
@@ -188,6 +201,19 @@ function getFetchDataFn(section) {
         };
         options.Limit = 20;
         const userId = apiClient.getCurrentUserId();
+
+        if (section.types === BaseItemKind.Studio) {
+            return getStudiosApi(toApi(apiClient))
+                .getStudios({
+                    userId,
+                    isFavorite: true,
+                    fields: [ItemFields.PrimaryImageAspectRatio],
+                    enableImageTypes: [ImageType.Thumb],
+                    enableTotalRecordCount: false,
+                    limit: options.Limit
+                })
+                .then(({ data }) => data);
+        }
 
         if (section.types === 'MusicArtist') {
             return apiClient.getArtists(userId, options);

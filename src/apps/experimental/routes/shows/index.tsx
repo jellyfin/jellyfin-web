@@ -26,7 +26,6 @@ const seriesTabContent: LibraryTabContent = {
 const studiosTabContent: LibraryTabContent = {
     viewType: LibraryTab.Studios,
     itemType: [BaseItemKind.Series],
-    isBtnFilterEnabled: false,
     isBtnGridListEnabled: false,
     isBtnSortEnabled: false
 };
