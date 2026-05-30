@@ -733,7 +733,7 @@ export const Component = () => {
                                 helperText={globalize.translate('HlsAudioSeekStrategy')}
                                 select
                             >
-                                <MenuItem value='DisableAccurateSeek'>DisableAccurateSeek</MenuItem>
+                                <MenuItem value='TrimCopiedAudio'>TrimCopiedAudio</MenuItem>
                                 <MenuItem value='TranscodeAudio'>TranscodeAudio</MenuItem>
                             </TextField>
 
