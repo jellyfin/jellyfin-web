@@ -3,7 +3,7 @@ import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
-import { QUERY_KEY } from './useUser';
+import { QUERY_KEY } from 'hooks/api/useUser';
 
 export const useUpdateUser = () => {
     const { api } = useApi();

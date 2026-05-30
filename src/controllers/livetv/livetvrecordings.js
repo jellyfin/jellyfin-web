@@ -1,7 +1,7 @@
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import loading from 'components/loading/loading';
-import { getBackdropShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 
 import 'scripts/livetvcomponents';

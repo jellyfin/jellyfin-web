@@ -22,6 +22,7 @@ import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
+import { initializeServerConnections } from './scripts/serverNotifications';
 
 import RootApp from './RootApp';
 
@@ -37,7 +38,6 @@ import './components/themeMediaPlayer';
 import './scripts/autoThemes';
 import './scripts/mouseManager';
 import './scripts/screensavermanager';
-import './scripts/serverNotifications';
 
 // Import site styles
 import './styles/site.scss';
@@ -109,6 +109,9 @@ build: ${__JF_BUILD_VERSION__}`);
         Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
         Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });
+
+    // Start server notifications
+    initializeServerConnections();
 
     // Render the app
     await renderApp();

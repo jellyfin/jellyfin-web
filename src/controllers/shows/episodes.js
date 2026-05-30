@@ -177,6 +177,7 @@ export default function (view, params, tabContent) {
                 serverId: ApiClient.serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
+                getQuery().StartIndex = 0;
                 reloadItems(tabContent);
             });
             filterDialog.show();

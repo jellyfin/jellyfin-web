@@ -1,5 +1,6 @@
 import React, { type FC } from 'react';
 
+import { CardShape } from 'components/cardbuilder/utils/shape';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
 import Loading from 'components/loading/LoadingComponent';
@@ -10,7 +11,6 @@ import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchIte
 import globalize from 'lib/globalize';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
-import { CardShape } from 'utils/card';
 
 interface ProgramsSectionViewProps {
     parentId: ParentId;

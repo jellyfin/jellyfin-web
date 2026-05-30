@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
 import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';

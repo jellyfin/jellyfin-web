@@ -1,9 +1,9 @@
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import { getTimersHtml } from 'scripts/livetvcomponents';
-import { getBackdropShape } from 'utils/card';
 import Dashboard from 'utils/dashboard';
 
 import 'elements/emby-button/emby-button';

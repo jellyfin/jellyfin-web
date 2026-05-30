@@ -1793,7 +1793,7 @@
     "LabelBundled": "Agrupada",
     "ViewSettings": "Ver configuraciones",
     "HeaderBackupsHelp": "Crear y restablecer \"snapshots\" de tu servidor los cuales pueden incluir la base de datos, metadatos, subtítulos y reproducción engañosa.",
-    "ImageDeleteFailed": "La detección de imagen ha fallado",
+    "ImageDeleteFailed": "La eliminación de imagen ha fallado",
     "LiveTVPageLoadError": "No se pudo cargar la página de grabaciones",
     "PageNotFound": "Esta no es la página que estabas buscando.",
     "LabelGroupShowsIntoCollectionsHelp": "Mostrar en una colección será presentado como un objeto agrupado al mostrar listas.",

@@ -537,7 +537,7 @@
     "MessagePluginInstallDisclaimer": "ADVARSEL: Installation af tredjepartsplugins medfører risici. Plugins kan indeholde ustabil eller skadelig kode, og kan ændres til enhver tid. Du bør kun installere plugins fra brugere du stoler på. Derudover bør du også være opmærksom på at plugins kan medføre: forespørgsler til eksterne services, længere biblioteksscanninger og yderligere baggrundsprocesser.",
     "MessageReenableUser": "Se nedenfor om genaktivering",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "Følgende medieplaceringer fjernes fra dit bibliotek",
-    "MessageUnableToConnectToServer": "Vi kan ikke forbinde til den valgte server på nuværende tidspunkt. Sikrer dig venligst at serveren kører og prøv igen.",
+    "MessageUnableToConnectToServer": "Vi kan ikke forbinde til den valgte server på nuværende tidspunkt. Sikr dig venligst at serveren kører og prøv igen.",
     "MessageUnsetContentHelp": "Indhold vil blive vist som almindelige mapper. For optimalt resultat, benyt metadata-redskabet til at vælge indholdstypen i undermapper.",
     "MetadataManager": "Metadata-Manager",
     "MetadataSettingChangeHelp": "Ændring af indstillinger for metadata har effekt på indholdet der indlæses fremadrettet. For at genopfriske eksisterende indhold skal du åbne detajle-skærmen og klikke på 'opdater' knappen, eller uføre en masseopdatering via 'metadata-manageren'.",
@@ -1866,5 +1866,12 @@
     "ButtonAddProvider": "Tilføj Leverandør",
     "ButtonAddTunerDevice": "Tilføj Tuner Enhed",
     "LabelSlideshowInterval": "Billede Slideshow Interval",
-    "LabelSlideshowIntervalHelp": "Mængden af tid i sekunder hvert billede er vist slideshows."
+    "LabelSlideshowIntervalHelp": "Mængden af tid i sekunder hvert billede er vist slideshows.",
+    "HeaderDeletePlaylist": "Slet Playliste",
+    "ConfirmDeleteCollection": "Er du sikker på at du vil slette denne kollektion?",
+    "ConfirmDeletePlaylist": "Er du sikker på at du vil slette denne Playliste?",
+    "HeaderDeleteCollection": "Slet kollektion",
+    "ActivitiesLoadError": "kunne ikke indlæse aktiviteter",
+    "ApiKeysLoadError": "Kunne ikke indlæse API nøgler",
+    "Authors": "Forfattere"
 }

@@ -1,15 +1,15 @@
-import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/api';
+import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
-import { ApiClient } from 'jellyfin-apiclient';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
+import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
+import { compareVersions } from 'utils/versions';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
-import { compareVersions } from './utils/compareVersions';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
 
@@ -63,13 +63,15 @@ export default class ConnectionManager {
         // Set the minimum version to match the SDK
         self._minServerVersion = MINIMUM_VERSION;
 
-        self.appVersion = () => appVersion;
+        self.appVersion = () => typeof appVersion === 'function' ? appVersion() : appVersion;
 
-        self.appName = () => appName;
+        self.appName = () => typeof appName === 'function' ? appName() : appName;
 
         self.capabilities = () => capabilities;
 
-        self.deviceId = () => deviceId;
+        self.deviceName = () => typeof deviceName === 'function' ? deviceName() : deviceName;
+
+        self.deviceId = () => typeof deviceId === 'function' ? deviceId() : deviceId;
 
         self.credentialProvider = () => credentialProvider;
 
@@ -137,7 +139,7 @@ export default class ConnectionManager {
             let apiClient = self.getApiClient(server.Id);
 
             if (!apiClient) {
-                apiClient = new ApiClient(serverUrl, appName, appVersion, deviceName, deviceId);
+                apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
 
                 self._apiClients.push(apiClient);
 
@@ -189,8 +191,8 @@ export default class ConnectionManager {
             credentialProvider.addOrUpdateServer(credentials.Servers, server);
             credentialProvider.credentials(credentials);
 
-            // set this now before updating server info, otherwise it won't be set in time
-            apiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
+            // Disable the legacy apiclient's bitrate detection as this feature is now upstreamed.
+            apiClient.enableAutomaticBitrateDetection = false;
 
             apiClient.serverInfo(server);
             apiClient.setAuthenticationInfo(result.AccessToken, result.User.Id);
@@ -203,7 +205,7 @@ export default class ConnectionManager {
             if (options.reportCapabilities !== false) {
                 apiClient.reportCapabilities(capabilities);
             }
-            apiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
+            apiClient.enableAutomaticBitrateDetection = false;
 
             if (options.enableWebSocket !== false) {
                 console.log('calling apiClient.ensureWebSocket');
@@ -232,12 +234,12 @@ export default class ConnectionManager {
                 headers: {
                     [AUTHORIZATION_HEADER]: getAuthorizationHeader(
                         {
-                            name: appName,
-                            version: appVersion
+                            name: self.appName(),
+                            version: self.appVersion()
                         },
                         {
-                            id: deviceId,
-                            name: deviceName
+                            id: self.deviceId(),
+                            name: self.deviceName()
                         },
                         server.AccessToken
                     )
@@ -602,8 +604,8 @@ export default class ConnectionManager {
 
             result.Servers.push(server);
 
-            // set this now before updating server info, otherwise it won't be set in time
-            result.ApiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
+            // Disable the legacy apiclient's bitrate detection as this feature is now upstreamed.
+            result.ApiClient.enableAutomaticBitrateDetection = false;
 
             result.ApiClient.updateServerInfo(server, serverUrl);
             result.ApiClient.setAuthenticationInfo(server.AccessToken, server.UserId);
@@ -755,7 +757,7 @@ export default class ConnectionManager {
     /**
      * Gets the ApiClient for a given BaseItem or ServerId.
      * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
-     * @returns {ApiClient}
+     * @returns {import('jellyfin-apiclient').ApiClient}
      */
     getApiClient(item) {
         if (!item) {

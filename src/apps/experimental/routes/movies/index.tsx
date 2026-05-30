@@ -19,7 +19,6 @@ const moviesTabContent: LibraryTabContent = {
 const collectionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Collections,
     collectionType: CollectionType.Movies,
-    isBtnFilterEnabled: false,
     isBtnNewCollectionEnabled: true,
     itemType: [BaseItemKind.BoxSet],
     noItemsMessage: 'MessageNoCollectionsAvailable'
@@ -43,12 +42,22 @@ const genresTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Movie]
 };
 
+const playlistsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Playlists,
+    isBtnFilterEnabled: false,
+    isBtnGridListEnabled: false,
+    isBtnNewPlaylistEnabled: true,
+    isAlphabetPickerEnabled: false,
+    itemType: [BaseItemKind.Playlist]
+};
+
 const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
     2: favoritesTabContent,
     3: collectionsTabContent,
-    4: genresTabContent
+    4: genresTabContent,
+    5: playlistsTabContent
 };
 
 const Movies: FC = () => {

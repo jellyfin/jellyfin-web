@@ -1862,5 +1862,11 @@
     "LabelAvailable": "Na voljo",
     "LabelBundled": "V paketu",
     "ManageRepositories": "Upravljanje repozitorijev",
-    "ViewAllPlugins": "Ogled vseh vtičnikov"
+    "ViewAllPlugins": "Ogled vseh vtičnikov",
+    "ButtonAddProvider": "Dodaj ponudnika",
+    "ButtonAddTunerDevice": "Dodaj napravo Tuner",
+    "ConfirmDeleteCollection": "Ali ste prepričani da hočete izbrisati to kolekcijo?",
+    "ConfirmDeletePlaylist": "Ali ste prepričani da hočete izbrisati ta seznam predvajanja?",
+    "HeaderDeleteCollection": "Izbriši Kolekcijo",
+    "HeaderDeletePlaylist": "Izbriši Playlisto"
 }

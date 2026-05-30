@@ -10,7 +10,7 @@ import markdownIt from 'markdown-it';
 
 import { ItemAction } from 'constants/itemAction';
 
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
@@ -194,6 +194,11 @@ export function getListViewHtml(options) {
 
     for (let i = 0, length = items.length; i < length; i++) {
         const item = items[i];
+
+        const safeOverviewHtml = item.Overview ?
+            // eslint-disable-next-line sonarjs/disabled-auto-escaping
+            DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview)) :
+            '';
 
         let html = '';
 
@@ -420,11 +425,9 @@ export function getListViewHtml(options) {
             html += '</div>';
         }
 
-        if (enableOverview && item.Overview) {
-            // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
+        if (enableOverview && safeOverviewHtml) {
             html += '<div class="secondary listItem-overview listItemBodyText">';
-            html += '<bdi>' + overview + '</bdi>';
+            html += `<bdi>${safeOverviewHtml}</bdi>`;
             html += '</div>';
         }
 
@@ -486,9 +489,9 @@ export function getListViewHtml(options) {
         if (enableContentWrapper) {
             html += '</div>';
 
-            if (enableOverview && item.Overview) {
+            if (enableOverview && safeOverviewHtml) {
                 html += '<div class="listItem-bottomoverview secondary">';
-                html += '<bdi>' + item.Overview + '</bdi>';
+                html += `<bdi>${safeOverviewHtml}</bdi>`;
                 html += '</div>';
             }
         }
