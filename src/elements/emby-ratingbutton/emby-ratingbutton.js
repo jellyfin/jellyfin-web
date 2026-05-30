@@ -2,6 +2,8 @@ import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import EmbyButtonPrototype from '../emby-button/emby-button';
+import serverNotifications from 'scripts/serverNotifications';
+import Events from 'utils/events';
 
 function showPicker(button, apiClient, itemId, likes, isFavorite) {
     return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
@@ -28,12 +30,13 @@ function onClick() {
     });
 }
 
-function onUserDataChanged({ Data }, button) {
+function onUserDataChanged({ MessageType, Data }, apiClient, button) {
     const itemId = button.dataset.id;
     const userData = (Data?.UserDataList ?? []).find(u => u.ItemId === itemId);
     if (userData) {
         setState(button, userData.Likes, userData.IsFavorite);
     }
+    Events.trigger(serverNotifications, MessageType, [apiClient, Data]);
 }
 
 function setState(button, likes, isFavorite, updateAttribute) {
@@ -87,7 +90,7 @@ function bindEvents(button) {
     const apiClient = ServerConnections.getApiClient(serverId);
     button._unsubscribeUserData = apiClient?.subscribe(
         [OutboundWebSocketMessageType.UserDataChanged],
-        (message) => onUserDataChanged(message, button)
+        (message) => onUserDataChanged(message, apiClient, button)
     );
 }
 

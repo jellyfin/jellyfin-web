@@ -2,6 +2,8 @@ import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
+import events from 'utils/events';
+import serverNotifications from 'scripts/serverNotifications';
 
 function onClick() {
     const button = this;
@@ -18,12 +20,13 @@ function onClick() {
     }
 }
 
-function onUserDataChanged({ Data }, button) {
+function onUserDataChanged({ MessageType, Data }, apiClient, button) {
     const itemId = button.dataset.id;
     const userData = (Data?.UserDataList ?? []).find(u => u.ItemId === itemId);
     if (userData) {
         setState(button, userData.Played);
     }
+    events.trigger(serverNotifications, MessageType, [apiClient, Data]);
 }
 
 function setState(button, played, updateAttribute) {

@@ -10,6 +10,8 @@ import Events from 'utils/events.ts';
 import { PluginType } from 'types/plugin.ts';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
+const serverNotifications = {};
+
 function notifyApp() {
     inputManager.notify();
 }
@@ -191,6 +193,7 @@ function subscribeToApiClient(apiClient) {
     });
     apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
         pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processGroupUpdate(Data, apiClient);
+        Events.trigger(serverNotifications, OutboundWebSocketMessageType.SyncPlayGroupUpdate, [apiClient, Data]);
     });
 }
 
