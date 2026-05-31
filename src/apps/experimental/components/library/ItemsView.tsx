@@ -185,7 +185,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             cardOptions.lines = 3;
         } else if (viewType === LibraryTab.Movies) {
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Series || viewType === LibraryTab.Networks) {
+        } else if (viewType === LibraryTab.Series || viewType === LibraryTab.Studios) {
             cardOptions.overlayMoreButton = true;
         }
 

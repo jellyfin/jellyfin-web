@@ -48,7 +48,7 @@ function getDefaultTabIndex(folderId) {
         case LibraryTab.Genres:
             return 3;
 
-        case LibraryTab.Networks:
+        case LibraryTab.Studios:
             return 4;
 
         case LibraryTab.Episodes:
