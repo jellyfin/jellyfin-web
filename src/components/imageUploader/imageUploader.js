@@ -109,6 +109,9 @@ function onSubmit(e) {
         loading.hide();
         hasChanges = true;
         dialogHelper.close(dlg);
+    }).catch(() => {
+        loading.hide();
+        toast(globalize.translate('ImageUploadFailed'));
     });
 
     e.preventDefault();
