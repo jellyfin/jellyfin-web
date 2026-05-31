@@ -132,6 +132,11 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 5,
+                label: 'Studios',
+                view: LibraryTab.Studios
+            },
+            {
+                index: 6,
                 label: 'Playlists',
                 view: LibraryTab.Playlists
             }
@@ -210,7 +215,7 @@ export const LibraryRoutes: LibraryRoute[] = [
             {
                 index: 4,
                 label: 'TabNetworks',
-                view: LibraryTab.Networks
+                view: LibraryTab.Studios
             },
             {
                 index: 5,

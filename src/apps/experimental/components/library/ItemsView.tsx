@@ -13,6 +13,7 @@ import classNames from 'classnames';
 import React, { type FC, useCallback } from 'react';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
+import OffsetAppBar from 'components/OffsetAppBar';
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
@@ -31,8 +32,6 @@ import { LibraryTab } from 'types/libraryTab';
 import { type LibraryViewSettings, type ParentId, ViewMode } from 'types/library';
 import type { CardOptions } from 'types/cardOptions';
 import type { ListOptions } from 'types/listOptions';
-
-import OffsetAppBar from '../OffsetAppBar';
 
 import AlphabetPicker from './AlphabetPicker';
 import FilterButton from './filter/FilterButton';
@@ -186,7 +185,7 @@ const ItemsView: FC<ItemsViewProps> = ({
             cardOptions.lines = 3;
         } else if (viewType === LibraryTab.Movies) {
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Series || viewType === LibraryTab.Networks) {
+        } else if (viewType === LibraryTab.Series || viewType === LibraryTab.Studios) {
             cardOptions.overlayMoreButton = true;
         }
 
@@ -252,7 +251,7 @@ const ItemsView: FC<ItemsViewProps> = ({
     }
 
     const itemsContainerClass = classNames(
-        'padded-left padded-right padded-right-withalphapicker',
+        'padded-left padded-right',
         libraryViewSettings.ViewMode === ViewMode.ListView ?
             'vertical-list' :
             'vertical-wrap'
@@ -270,10 +269,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                 })}
             >
                 <Toolbar
-                    className={classNames(
-                        'padded-left padded-right',
-                        { 'padded-right-withalphapicker': isAlphabetPickerEnabled }
-                    )}
+                    className='padded-left padded-right'
                     sx={{
                         display: 'flex',
                         flexWrap: 'wrap',

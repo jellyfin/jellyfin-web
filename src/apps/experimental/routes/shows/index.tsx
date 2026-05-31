@@ -23,13 +23,11 @@ const seriesTabContent: LibraryTabContent = {
     isBtnShuffleEnabled: true
 };
 
-const networksTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Networks,
+const studiosTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Studios,
     itemType: [BaseItemKind.Series],
-    isBtnFilterEnabled: false,
     isBtnGridListEnabled: false,
-    isBtnSortEnabled: false,
-    isAlphabetPickerEnabled: false
+    isBtnSortEnabled: false
 };
 
 const upcomingTabContent: LibraryTabContent = {
@@ -70,7 +68,7 @@ const tvShowsTabMapping: LibraryTabMapping = {
     1: suggestionsTabContent,
     2: upcomingTabContent,
     3: genresTabContent,
-    4: networksTabContent,
+    4: studiosTabContent,
     5: episodesTabContent,
     6: collectionsTabContent,
     7: playlistsTabContent

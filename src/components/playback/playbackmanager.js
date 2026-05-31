@@ -29,6 +29,7 @@ import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/
 import { AppFeature } from 'constants/appFeature';
 import { TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -2117,7 +2118,7 @@ export class PlaybackManager {
             // Prepare the list of items
             items = await translateItemsForPlayback(items, options);
             // Add any additional parts for movies or episodes
-            items = await getAdditionalParts(items);
+            items = await getAdditionalParts(items, options.mediaSourceId, options.startIndex || 0);
             // Adjust the start index for additional parts added to the queue
             if (options.startIndex) {
                 let adjustedStartIndex = 0;
@@ -2269,15 +2270,22 @@ export class PlaybackManager {
             return player.play(options);
         }
 
-        const getAdditionalParts = async (items) => {
-            const getItemAndParts = async function (item) {
+        const getAdditionalParts = async (items, mediaSourceId, startIndex) => {
+            const getItemAndParts = async function (item, isStartItem) {
                 if (
                     item.PartCount && item.PartCount > 1
                     && [ BaseItemKind.Episode, BaseItemKind.Movie ].includes(item.Type)
                 ) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
-                    const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
+                    // When the user picked an alternate version, that version's MediaSourceId
+                    // equals its own BaseItem.Id, so use it to fetch the alternate's own
+                    // additional parts instead of the primary's - otherwise the primary's
+                    // stack parts would queue after the alternate finishes.
+                    const idForParts = (isStartItem && mediaSourceId && mediaSourceId !== item.Id) ?
+                        mediaSourceId :
+                        item.Id;
+                    const additionalParts = await client.getAdditionalVideoParts(user.Id, idForParts);
                     if (additionalParts.Items.length) {
                         return [ item, ...additionalParts.Items ];
                     }
@@ -2285,7 +2293,7 @@ export class PlaybackManager {
                 return [ item ];
             };
 
-            return Promise.all(items.map(getItemAndParts));
+            return Promise.all(items.map((item, index) => getItemAndParts(item, index === (startIndex || 0))));
         };
 
         function playWithIntros(items, options) {
@@ -3729,9 +3737,18 @@ export class PlaybackManager {
         };
 
         if (appHost.supports(AppFeature.RemoteControl)) {
-            import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
-                Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
-                Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
+            // Defer setup past module evaluation to avoid the circular dependency:
+            // playbackmanager → lib/jellyfin-apiclient → ServerConnections → utils/dashboard → backdrop → playbackmanager
+            queueMicrotask(() => {
+                let _unsubscribeRemoteControl;
+                Events.on(ServerConnections, 'localusersignedin', () => {
+                    _unsubscribeRemoteControl?.();
+                    const api = ServerConnections.getCurrentApi();
+                    _unsubscribeRemoteControl = api?.subscribe(
+                        [OutboundWebSocketMessageType.ServerShuttingDown, OutboundWebSocketMessageType.ServerRestarting],
+                        self.setDefaultPlayerActive.bind(self)
+                    );
+                });
             });
         }
 

@@ -206,12 +206,6 @@ export default class ConnectionManager {
                 apiClient.reportCapabilities(capabilities);
             }
             apiClient.enableAutomaticBitrateDetection = false;
-
-            if (options.enableWebSocket !== false) {
-                console.log('calling apiClient.ensureWebSocket');
-
-                apiClient.ensureWebSocket();
-            }
         }
 
         function onLocalUserSignIn(server, serverUrl, user) {
