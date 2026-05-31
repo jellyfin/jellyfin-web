@@ -13,13 +13,12 @@ import appSettings from './settings/appSettings';
  */
 const KeyNames = {
     13: 'Enter',
-    19: 'Pause',
     27: 'Escape',
-    32: 'Space',
     37: 'ArrowLeft',
     38: 'ArrowUp',
     39: 'ArrowRight',
     40: 'ArrowDown',
+
     // UWP WebView section start --
     // Navigation Up/Down/Left/Right is part of TVJS directionalnavigation-1.0.0.0.js
     // Unsure what this is used for. Media remote?
