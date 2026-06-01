@@ -2366,7 +2366,6 @@ export class PlaybackManager {
 
             playOptions.isFirstItem = playOptions.isFirstItem || !prevSource;
 
-
             const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // TODO: This should be the media type requested, not the original media type
