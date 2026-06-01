@@ -1,25 +1,21 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 
 import confirm from 'components/confirm/confirm';
-import { MILLISECONDS_PER_MINUTE } from 'constants/time';
 import globalize from 'lib/globalize';
 import inputManager from 'scripts/inputManager';
+import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { type InterceptOptions, PreplayInterceptPlugin } from 'types/plugin';
+
+import { ID, StillWatchingConfiguration, StillWatchingOptions } from './constants';
 
 /** List of item types that should display a still watching prompt. */
 const SUPPORTED_ITEM_TYPES: BaseItemKind[] = [
     BaseItemKind.Episode
 ];
 
-// TODO: These thresholds should be configurable by the user
-/** The minimum idle time required before showing the still watching prompt. */
-const MIN_IDLE_TIME = 90 * MILLISECONDS_PER_MINUTE; // 90 minutes
-/** The number of items that must be played before showing the still watching prompt. */
-const MIN_PLAY_COUNT = 3;
-
 class StillWatchingPlugin extends PreplayInterceptPlugin {
     name = 'Still Watching';
-    id = 'still-watching';
+    id = ID;
     priority = 10; // Run after plugins that validate access
 
     /** The start time of the current play session or since the last reset. */
@@ -40,9 +36,18 @@ class StillWatchingPlugin extends PreplayInterceptPlugin {
         // Reset the session at the start of a new play session
         if (isFirstItem) this.resetSession();
 
+        // Get the user's still watching prompt setting.
+        const option = userSettings.stillWatchingPrompt() as StillWatchingOptions;
+
+        console.debug(`[StillWatchingPlugin] User setting: ${option}; Session start: ${this.sessionStartTime}; Idle time: ${inputManager.idleTime() / 1000}s; Played items: ${this.playedItems.size}`);
+
+        // If the prompt is disabled, do nothing.
+        if (option === StillWatchingOptions.Disabled) return;
+
         // Bail if the item is not supported or if it lacks an ID
         if (!item.Id || !item.Type || !SUPPORTED_ITEM_TYPES.includes(item.Type)) return;
 
+        const { count, duration } = StillWatchingConfiguration[option];
         const id = item.Id;
         const idleTime = inputManager.idleTime();
         const sessionDuration = this.sessionStartTime ? new Date().getTime() - this.sessionStartTime.getTime() : 0;
@@ -50,10 +55,10 @@ class StillWatchingPlugin extends PreplayInterceptPlugin {
         if (
             // Check that the session has lasted at least the minimum idle time.
             // This prevents the prompt from appearing early for short episodes or skipping episodes.
-            sessionDuration >= MIN_IDLE_TIME
+            sessionDuration >= duration
             // Check that the user has been idle for at least the minimum idle time or has played at least the minimum
             // number of items.
-            && (idleTime >= MIN_IDLE_TIME || this.playedItems.size >= MIN_PLAY_COUNT)
+            && (idleTime >= duration || this.playedItems.size >= count)
         ) {
             return confirm({
                 text: globalize.translate('ConfirmStillWatching'),
