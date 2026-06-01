@@ -95,11 +95,6 @@ build: ${__JF_BUILD_VERSION__}`);
     // Load frontend plugins
     await loadPlugins();
 
-    // Establish the websocket connection
-    Events.on(appHost, 'resume', () => {
-        ServerConnections.currentApiClient()?.ensureWebSocket();
-    });
-
     // Register API request error handlers
     ServerConnections.getApiClients().forEach(apiClient => {
         Events.off(apiClient, 'requestfail', appRouter.onRequestFail);

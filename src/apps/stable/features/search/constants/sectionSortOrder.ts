@@ -3,6 +3,7 @@ export const SEARCH_SECTIONS_SORT_ORDER = [
     'Shows',
     'Episodes',
     'People',
+    'Studios',
     'Playlists',
     'Artists',
     'Albums',

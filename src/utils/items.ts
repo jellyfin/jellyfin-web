@@ -80,7 +80,7 @@ const getItemFieldsEnum = (
 ) => {
     const itemFields: ItemFields[] = [];
 
-    if (viewType !== LibraryTab.Networks) {
+    if (viewType !== LibraryTab.Studios) {
         itemFields.push(ItemFields.MediaSourceCount);
     }
 
@@ -88,7 +88,7 @@ const getItemFieldsEnum = (
         itemFields.push(ItemFields.PrimaryImageAspectRatio);
     }
 
-    if (viewType === LibraryTab.Networks) {
+    if (viewType === LibraryTab.Studios) {
         itemFields.push(
             ItemFields.DateCreated,
             ItemFields.PrimaryImageAspectRatio
@@ -159,7 +159,7 @@ export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryView
         ShowTitle: true,
         ShowYear: true,
         ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
-        ImageType: viewType === LibraryTab.Networks ? ImageType.Thumb : ImageType.Primary,
+        ImageType: viewType === LibraryTab.Studios ? ImageType.Thumb : ImageType.Primary,
         CardLayout: false,
         SortBy: getDefaultSortBy(viewType),
         SortOrder: SortOrder.Ascending,
