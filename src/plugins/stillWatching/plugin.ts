@@ -9,9 +9,9 @@ import { type InterceptOptions, PreplayInterceptPlugin } from 'types/plugin';
 import { ID, StillWatchingConfiguration, StillWatchingOptions } from './constants';
 
 /** List of item types that should display a still watching prompt. */
-const SUPPORTED_ITEM_TYPES: BaseItemKind[] = [
+const SUPPORTED_ITEM_TYPES: Set<BaseItemKind> = new Set([
     BaseItemKind.Episode
-];
+]);
 
 class StillWatchingPlugin extends PreplayInterceptPlugin {
     name = 'Still Watching';
@@ -21,7 +21,7 @@ class StillWatchingPlugin extends PreplayInterceptPlugin {
     /** The start time of the current play session or since the last reset. */
     private sessionStartTime?: Date;
     /** A set of item IDs that have been played in the current session or since the last reset. */
-    private playedItems = new Set<string>();
+    private readonly playedItems = new Set<string>();
 
     /** Resets the play session, clearing the start time and played items. */
     private resetSession() {
@@ -45,12 +45,12 @@ class StillWatchingPlugin extends PreplayInterceptPlugin {
         if (option === StillWatchingOptions.Disabled) return;
 
         // Bail if the item is not supported or if it lacks an ID
-        if (!item.Id || !item.Type || !SUPPORTED_ITEM_TYPES.includes(item.Type)) return;
+        if (!item.Id || !item.Type || !SUPPORTED_ITEM_TYPES.has(item.Type)) return;
 
         const { count, duration } = StillWatchingConfiguration[option];
         const id = item.Id;
         const idleTime = inputManager.idleTime();
-        const sessionDuration = this.sessionStartTime ? new Date().getTime() - this.sessionStartTime.getTime() : 0;
+        const sessionDuration = this.sessionStartTime ? Date.now() - this.sessionStartTime.getTime() : 0;
 
         if (
             // Check that the session has lasted at least the minimum idle time.
