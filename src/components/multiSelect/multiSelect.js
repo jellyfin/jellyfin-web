@@ -55,12 +55,12 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
 
 function updateItemSelection(chkItemSelect, selected) {
     const parentWithId = dom.parentWithAttribute(chkItemSelect, 'data-id');
-    
+
     // If the element doesn't have a parent with data-id, it's not a valid item
     if (!parentWithId) {
         return;
     }
-    
+
     const id = parentWithId.getAttribute('data-id');
 
     if (selected) {
