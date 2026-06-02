@@ -735,7 +735,7 @@ export const Component = () => {
 
                             <TextField
                                 name='EncoderPreset'
-                                value={config.EncoderPreset}
+                                value={config.EncoderPreset || 'auto'}
                                 onChange={onConfigChange}
                                 label={globalize.translate('LabelEncoderPreset')}
                                 helperText={globalize.translate('EncoderPresetHelp')}
