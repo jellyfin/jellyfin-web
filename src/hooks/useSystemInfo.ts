@@ -5,6 +5,8 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { useApi } from './useApi';
 
+export const QUERY_KEY = 'SystemInfo';
+
 const fetchSystemInfo = async (
     api: Api,
     options?: AxiosRequestConfig
@@ -17,7 +19,7 @@ const fetchSystemInfo = async (
 export const getSystemInfoQuery = (
     api?: Api
 ) => queryOptions({
-    queryKey: [ 'SystemInfo' ],
+    queryKey: [ QUERY_KEY ],
     queryFn: ({ signal }) => fetchSystemInfo(api!, { signal, headers: { 'Cache-Control': 'no-cache' } }),
     enabled: !!api
 });
