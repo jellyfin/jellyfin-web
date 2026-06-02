@@ -14,6 +14,7 @@ import { PluginType } from 'types/plugin';
 import dom from 'utils/dom';
 import Events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
 import { isBlank } from 'utils/string';
 
 import dialogHelper from '../dialogHelper/dialogHelper';
@@ -107,6 +108,11 @@ function createPlaylist(dlg: DialogElement) {
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
+            // The playlist user view is only available after a playlist is created.
+            // Ideally we would only invalidate if there are no other playlists.
+            void queryClient.invalidateQueries({
+                queryKey: ['User', apiClient.getCurrentUserId(), 'Views']
+            });
             // If a new playlist is created, then trigger a refresh of the library views
             Events.trigger(document, EventType.REFRESH_NEEDED);
 
