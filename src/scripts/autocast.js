@@ -46,13 +46,11 @@ function onOpen() {
 
 export function initialize() {
     console.debug('[autoCast] initializing connection listener');
-    ServerConnections.getApiClients().forEach(apiClient => {
-        Events.off(apiClient, 'websocketopen', onOpen);
-        Events.on(apiClient, 'websocketopen', onOpen);
-    });
 
-    Events.on(ServerConnections, 'apiclientcreated', (e, apiClient) => {
-        Events.off(apiClient, 'websocketopen', onOpen);
-        Events.on(apiClient, 'websocketopen', onOpen);
-    });
+    // Restore cast player if already signed in (e.g. on page reload)
+    if (ServerConnections.getApiClients().some(c => c.accessToken())) {
+        onOpen();
+    }
+
+    Events.on(ServerConnections, 'localusersignedin', onOpen);
 }

@@ -150,6 +150,10 @@ const FilterButton: FC<FilterButtonProps> = ({
             viewType === LibraryTab.Movies
             || viewType === LibraryTab.Series
             || viewType === LibraryTab.Books
+            || viewType === LibraryTab.Albums
+            || viewType === LibraryTab.AlbumArtists
+            || viewType === LibraryTab.Artists
+            || viewType === LibraryTab.Songs
         );
     };
 

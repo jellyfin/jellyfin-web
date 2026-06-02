@@ -13,6 +13,8 @@ interface UserSettings {
     dashboardTheme?: string
     dateTimeLocale?: string
     language?: string
+    /** The number of items to display per page in the library */
+    libraryPageSize: number
 }
 
 // NOTE: This is an incomplete list of only the settings that are currently being used
@@ -25,11 +27,16 @@ const UserSettingField = {
     DashboardTheme: 'dashboardTheme',
     // Locale settings
     DateTimeLocale: 'datetimelocale',
-    Language: 'language'
+    Language: 'language',
+    // Library settings
+    LibraryPageSize: 'libraryPageSize'
 };
 
+const DEFAULT_LIBRARY_PAGE_SIZE = 100;
+
 const UserSettingsContext = createContext<UserSettings>({
-    disableCustomCss: false
+    disableCustomCss: false,
+    libraryPageSize: DEFAULT_LIBRARY_PAGE_SIZE
 });
 
 export const useUserSettings = () => useContext(UserSettingsContext);
@@ -41,6 +48,7 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
     const [ dashboardTheme, setDashboardTheme ] = useState<string>();
     const [ dateTimeLocale, setDateTimeLocale ] = useState<string>();
     const [ language, setLanguage ] = useState<string | undefined>(FALLBACK_CULTURE);
+    const [ libraryPageSize, setLibraryPageSize ] = useState<number>(DEFAULT_LIBRARY_PAGE_SIZE);
 
     const { user } = useApi();
 
@@ -50,14 +58,16 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
         theme,
         dashboardTheme,
         dateTimeLocale,
-        locale: language
+        locale: language,
+        libraryPageSize
     }), [
         customCss,
         disableCustomCss,
         theme,
         dashboardTheme,
         dateTimeLocale,
-        language
+        language,
+        libraryPageSize
     ]);
 
     // Update the values of the user settings
@@ -68,6 +78,7 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
         setDashboardTheme(userSettings.dashboardTheme());
         setDateTimeLocale(userSettings.dateTimeLocale());
         setLanguage(userSettings.language());
+        setLibraryPageSize(userSettings.libraryPageSize() ?? DEFAULT_LIBRARY_PAGE_SIZE);
     }, []);
 
     const onUserSettingsChange = useCallback((_e: Event, name?: string) => {

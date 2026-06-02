@@ -1767,6 +1767,7 @@ export default function (view) {
     });
     view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
     view.addEventListener('viewhide', function () {
+        clearHideAnimationEventListeners(headerElement);
         headerElement.classList.remove('hide');
     });
     view.addEventListener('viewdestroy', function () {

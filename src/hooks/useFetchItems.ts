@@ -232,6 +232,7 @@ const fetchGetItemsViewByType = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
+        const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
         let response;
         switch (viewType) {
             case LibraryTab.AlbumArtists: {
@@ -295,13 +296,16 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             }
-            case LibraryTab.Networks:
+            case LibraryTab.Studios:
                 response = await getStudiosApi(api).getStudios(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
                         ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
                         includeItemTypes: itemType,
+                        isFavorite,
                         enableImageTypes: [ImageType.Thumb],
                         startIndex: libraryViewSettings.StartIndex
                     },
@@ -316,9 +320,7 @@ const fetchGetItemsViewByType = async (
                         userId: user.Id,
                         fields: [ItemFields.PrimaryImageAspectRatio],
                         startIndex: libraryViewSettings.StartIndex,
-                        isFavorite: libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) ?
-                            true :
-                            undefined,
+                        isFavorite,
                         enableImageTypes: [ImageType.Primary]
                     },
                     {
@@ -429,7 +431,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Collections,
                 LibraryTab.Series,
                 LibraryTab.Episodes,
-                LibraryTab.Networks,
+                LibraryTab.Studios,
                 LibraryTab.Albums,
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,
