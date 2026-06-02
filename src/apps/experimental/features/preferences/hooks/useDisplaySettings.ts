@@ -147,6 +147,7 @@ async function saveDisplaySettings({
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
     userSettings.backdropScreensaverInterval(newDisplaySettings.screensaverInterval);
+    userSettings.slideshowInterval(newDisplaySettings.slideshowInterval);
     userSettings.theme(newDisplaySettings.theme);
 
     layoutManager.setLayout(normalizeValue(newDisplaySettings.layout));
