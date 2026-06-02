@@ -3130,6 +3130,31 @@ export class PlaybackManager {
             };
         }
 
+        // Find the id of the version (media source) of an item whose name matches the
+        // currently playing version, so auto-advancing keeps the same version across episodes.
+        function getMatchingMediaSourceId(apiClient, item, versionName) {
+            if (!versionName) {
+                return Promise.resolve(null);
+            }
+
+            const findMatch = function (mediaSources) {
+                if (!mediaSources || mediaSources.length < 2) {
+                    return null;
+                }
+                const match = mediaSources.find(source => source.Name === versionName);
+                return match ? match.Id : null;
+            };
+
+            // Queue items usually only carry their primary media source, so the merged alternate versions are missing.
+            if (item.MediaSources?.length > 1) {
+                return Promise.resolve(findMatch(item.MediaSources));
+            }
+
+            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id)
+                .then(fullItem => findMatch(fullItem.MediaSources))
+                .catch(() => null);
+        }
+
         self.nextTrack = function (player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
@@ -3141,11 +3166,19 @@ export class PlaybackManager {
             if (newItemInfo) {
                 console.debug('playing next track');
 
+                const prevSource = getPreviousSource(player);
                 const newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
+                const apiClient = ServerConnections.getApiClient(newItemInfo.item.ServerId);
 
-                playInternal(newItemInfo.item, newItemPlayOptions, function () {
-                    setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
-                }, getPreviousSource(player));
+                getMatchingMediaSourceId(apiClient, newItemInfo.item, prevSource.Name).then(function (mediaSourceId) {
+                    if (mediaSourceId) {
+                        newItemPlayOptions.mediaSourceId = mediaSourceId;
+                    }
+
+                    playInternal(newItemInfo.item, newItemPlayOptions, function () {
+                        setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
+                    }, prevSource);
+                });
             }
         };
 
