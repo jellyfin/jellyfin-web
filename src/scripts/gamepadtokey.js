@@ -356,18 +356,16 @@ function runInputLoop() {
             }
         }
     }
-    // Schedule the next one
-    inputLoopTimer = requestAnimationFrame(runInputLoop);
 }
 
 function startInputLoop() {
     if (!inputLoopTimer) {
-        runInputLoop();
+        inputLoopTimer = setInterval(runInputLoop, 15);
     }
 }
 
 function stopInputLoop() {
-    cancelAnimationFrame(inputLoopTimer);
+    clearInterval(inputLoopTimer);
     inputLoopTimer = undefined;
 }
 
