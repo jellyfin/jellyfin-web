@@ -1742,6 +1742,8 @@ export class PlaybackManager {
 
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, currentMediaSource.Id, liveStreamId, options).then(function (result) {
                     if (validatePlaybackInfoResult(self, result)) {
+                        // Changing streams requests only the active source; keep the version availability flag.
+                        result.MediaSources[0].hasAlternateVersions = currentMediaSource.hasAlternateVersions;
                         currentMediaSource = result.MediaSources[0];
 
                         const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
@@ -2956,6 +2958,8 @@ export class PlaybackManager {
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
+                            mediaSource.hasAlternateVersions = playbackInfoResult.MediaSources.length > 1;
+
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
@@ -3131,9 +3135,10 @@ export class PlaybackManager {
         }
 
         // Find the id of the version (media source) of an item whose name matches the
-        // currently playing version, so auto-advancing keeps the same version across episodes.
-        function getMatchingMediaSourceId(apiClient, item, versionName) {
-            if (!versionName) {
+        // currently playing version, so track navigation keeps the same version across episodes.
+        function getMatchingMediaSourceId(apiClient, item, prevSource) {
+            const versionName = prevSource?.Name;
+            if (!versionName || !prevSource.hasAlternateVersions) {
                 return Promise.resolve(null);
             }
 
@@ -3170,7 +3175,7 @@ export class PlaybackManager {
                 const newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
                 const apiClient = ServerConnections.getApiClient(newItemInfo.item.ServerId);
 
-                getMatchingMediaSourceId(apiClient, newItemInfo.item, prevSource.Name).then(function (mediaSourceId) {
+                getMatchingMediaSourceId(apiClient, newItemInfo.item, prevSource).then(function (mediaSourceId) {
                     if (mediaSourceId) {
                         newItemPlayOptions.mediaSourceId = mediaSourceId;
                     }
@@ -3194,12 +3199,20 @@ export class PlaybackManager {
                 const newItem = playlist[newIndex];
 
                 if (newItem) {
+                    const prevSource = getPreviousSource(player);
                     const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
                     newItemPlayOptions.startPositionTicks = 0;
+                    const apiClient = ServerConnections.getApiClient(newItem.ServerId);
 
-                    playInternal(newItem, newItemPlayOptions, function () {
-                        setPlaylistState(newItem.PlaylistItemId, newIndex);
-                    }, getPreviousSource(player));
+                    getMatchingMediaSourceId(apiClient, newItem, prevSource).then(function (mediaSourceId) {
+                        if (mediaSourceId) {
+                            newItemPlayOptions.mediaSourceId = mediaSourceId;
+                        }
+
+                        playInternal(newItem, newItemPlayOptions, function () {
+                            setPlaylistState(newItem.PlaylistItemId, newIndex);
+                        }, prevSource);
+                    });
                 }
             }
         };
