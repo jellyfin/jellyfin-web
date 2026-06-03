@@ -133,8 +133,8 @@ function getMediaSourceHtml(user, item, version) {
             }
             attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
         }
-        if ((stream.AverageFrameRate || stream.RealFrameRate) && stream.Type === 'Video') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), (stream.AverageFrameRate || stream.RealFrameRate)));
+        if (stream.ReferenceFrameRate && stream.Type === 'Video') {
+            attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), stream.ReferenceFrameRate));
         }
         if (stream.ChannelLayout) {
             attributes.push(createAttribute(globalize.translate('MediaInfoLayout'), stream.ChannelLayout));

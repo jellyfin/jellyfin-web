@@ -7,7 +7,7 @@ import { toApi } from 'utils/jellyfin-apiclient/compat';
 function getFetchPlaylistItemsFn(apiClient, itemId) {
     return function () {
         const query = {
-            Fields: 'PrimaryImageAspectRatio',
+            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay',
             EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
             UserId: apiClient.getCurrentUserId()
         };

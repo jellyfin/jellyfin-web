@@ -1,7 +1,7 @@
 
 import escapeHtml from 'escape-html';
 
-import { getUserViewsQuery } from 'hooks/useUserViews';
+import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
@@ -52,109 +52,201 @@ function getLandingScreenOptions(type) {
     const list = [];
 
     if (type === 'movies') {
-        list.push({
-            name: globalize.translate('Movies'),
-            value: LibraryTab.Movies,
-            isDefault: true
-        });
-        list.push({
-            name: globalize.translate('Suggestions'),
-            value: LibraryTab.Suggestions
-        });
-        list.push({
-            name: globalize.translate('Favorites'),
-            value: LibraryTab.Favorites
-        });
-        list.push({
-            name: globalize.translate('Collections'),
-            value: LibraryTab.Collections
-        });
-        list.push({
-            name: globalize.translate('Genres'),
-            value: LibraryTab.Genres
-        });
+        list.push(
+            {
+                name: globalize.translate('Movies'),
+                value: LibraryTab.Movies,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('Favorites'),
+                value: LibraryTab.Favorites
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Studios'),
+                value: LibraryTab.Studios
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
+            }
+        );
     } else if (type === 'tvshows') {
-        list.push({
-            name: globalize.translate('Shows'),
-            value: LibraryTab.Series,
-            isDefault: true
-        });
-        list.push({
-            name: globalize.translate('Suggestions'),
-            value: LibraryTab.Suggestions
-        });
-        list.push({
-            name: globalize.translate('TabUpcoming'),
-            value: LibraryTab.Upcoming
-        });
-        list.push({
-            name: globalize.translate('Genres'),
-            value: LibraryTab.Genres
-        });
-        list.push({
-            name: globalize.translate('TabNetworks'),
-            value: LibraryTab.Networks
-        });
-        list.push({
-            name: globalize.translate('Episodes'),
-            value: LibraryTab.Episodes
-        });
+        list.push(
+            {
+                name: globalize.translate('Shows'),
+                value: LibraryTab.Series,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('TabUpcoming'),
+                value: LibraryTab.Upcoming
+            },
+            {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Studios'),
+                value: LibraryTab.Studios
+            },
+            {
+                name: globalize.translate('Episodes'),
+                value: LibraryTab.Episodes
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
+            }
+        );
     } else if (type === 'music') {
-        list.push({
-            name: globalize.translate('Albums'),
-            value: LibraryTab.Albums,
-            isDefault: true
-        });
-        list.push({
-            name: globalize.translate('Suggestions'),
-            value: LibraryTab.Suggestions
-        });
-        list.push({
-            name: globalize.translate('HeaderAlbumArtists'),
-            value: LibraryTab.AlbumArtists
-        });
-        list.push({
-            name: globalize.translate('Artists'),
-            value: LibraryTab.Artists
-        });
-        list.push({
-            name: globalize.translate('Playlists'),
-            value: LibraryTab.Playlists
-        });
-        list.push({
-            name: globalize.translate('Songs'),
-            value: LibraryTab.Songs
-        });
-        list.push({
-            name: globalize.translate('Genres'),
-            value: LibraryTab.Genres
-        });
+        list.push(
+            {
+                name: globalize.translate('Albums'),
+                value: LibraryTab.Albums,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('HeaderAlbumArtists'),
+                value: LibraryTab.AlbumArtists
+            },
+            {
+                name: globalize.translate('Artists'),
+                value: LibraryTab.Artists
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
+            },
+            {
+                name: globalize.translate('Songs'),
+                value: LibraryTab.Songs
+            },
+            {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            }
+        );
     } else if (type === 'livetv') {
-        list.push({
-            name: globalize.translate('Programs'),
-            value: LibraryTab.Programs,
-            isDefault: true
-        });
-        list.push({
-            name: globalize.translate('Guide'),
-            value: LibraryTab.Guide
-        });
-        list.push({
-            name: globalize.translate('Channels'),
-            value: LibraryTab.Channels
-        });
-        list.push({
-            name: globalize.translate('Recordings'),
-            value: LibraryTab.Recordings
-        });
-        list.push({
-            name: globalize.translate('Schedule'),
-            value: LibraryTab.Schedule
-        });
-        list.push({
-            name: globalize.translate('Series'),
-            value: LibraryTab.SeriesTimers
-        });
+        list.push(
+            {
+                name: globalize.translate('Programs'),
+                value: LibraryTab.Programs,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Guide'),
+                value: LibraryTab.Guide
+            },
+            {
+                name: globalize.translate('Channels'),
+                value: LibraryTab.Channels
+            },
+            {
+                name: globalize.translate('Recordings'),
+                value: LibraryTab.Recordings
+            },
+            {
+                name: globalize.translate('Schedule'),
+                value: LibraryTab.Schedule
+            },
+            {
+                name: globalize.translate('Series'),
+                value: LibraryTab.SeriesTimers
+            }
+        );
+    } else if (type === 'homevideos') {
+        list.push(
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Photos'),
+                value: LibraryTab.Photos
+            },
+            {
+                name: globalize.translate('HeaderPhotoAlbums'),
+                value: LibraryTab.PhotoAlbums
+            },
+            {
+                name: globalize.translate('HeaderVideos'),
+                value: LibraryTab.Videos
+            }
+        );
+    } else if (type === 'musicvideos') {
+        list.push(
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('HeaderVideos'),
+                value: LibraryTab.MusicVideos
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
+            }
+        );
+    } else if (type === 'mixed') {
+        list.push(
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('HeaderMedia'),
+                value: LibraryTab.Mixed
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
+            }
+        );
     }
 
     return list;
@@ -221,11 +313,13 @@ function updateHomeSectionValues(context, userSettings) {
 }
 
 function getPerLibrarySettingsHtml(item, user, userSettings) {
+    const collectionType = (item.Type === 'CollectionFolder' && item.CollectionType == null) ? 'mixed' : item.CollectionType;
+
     let html = '';
 
     let isChecked;
 
-    if (item.Type === 'Channel' || item.CollectionType === 'boxsets' || item.CollectionType === 'playlists') {
+    if (item.Type === 'Channel' || collectionType === 'boxsets' || collectionType === 'playlists') {
         isChecked = !(user.Configuration.MyMediaExcludes || []).includes(item.Id);
         html += '<div>';
         html += '<label>';
@@ -236,7 +330,7 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
     }
 
     const excludeFromLatest = ['playlists', 'livetv', 'boxsets', 'channels'];
-    if (!excludeFromLatest.includes(item.CollectionType || '')) {
+    if (!excludeFromLatest.includes(collectionType || '')) {
         isChecked = !user.Configuration.LatestItemsExcludes.includes(item.Id);
         html += '<label class="fldIncludeInLatest">';
         html += `<input type="checkbox" is="emby-checkbox" class="chkIncludeInLatest" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
@@ -248,14 +342,15 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html = `<div class="checkboxListContainer">${html}</div>`;
     }
 
-    if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
-        const idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
+    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos', 'musicvideos', 'mixed'];
+    if (landingScreenTypes.includes(collectionType)) {
+        const idForLanding = collectionType === 'livetv' ? collectionType : item.Id;
         html += '<div class="selectContainer">';
         html += `<select is="emby-select" class="selectLanding" data-folderid="${idForLanding}" label="${globalize.translate('LabelDefaultScreen')}">`;
 
         const userValue = userSettings.get(`landing-${idForLanding}`);
 
-        html += getLandingScreenOptionsHtml(item.CollectionType, userValue);
+        html += getLandingScreenOptionsHtml(collectionType, userValue);
 
         html += '</select>';
         html += '</div>';
@@ -295,8 +390,10 @@ function loadForm(context, user, userSettings, apiClient) {
     const promise1 = queryClient
         .fetchQuery(getUserViewsQuery(
             toApi(apiClient),
-            user.Id,
-            { includeHidden: true }
+            {
+                userId: user.Id,
+                includeHidden: true
+            }
         ));
     const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
 

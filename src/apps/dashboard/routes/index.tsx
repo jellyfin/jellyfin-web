@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
 import Box from '@mui/material/Box';
@@ -16,6 +16,7 @@ import RunningTasksWidget from '../components/widgets/RunningTasksWidget';
 import DevicesWidget from '../components/widgets/DevicesWidget';
 import { useStartTask } from '../features/tasks/api/useStartTask';
 import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
+import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
 
 export const Component = () => {
     const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
@@ -25,6 +26,10 @@ export const Component = () => {
     const shutdownServer = useShutdownServer();
 
     const { data: tasks } = useLiveTasks({ isHidden: false });
+
+    const librariesTask = useMemo(() => (
+        tasks?.find((value) => value.Key === 'RefreshLibrary')
+    ), [ tasks ]);
 
     const promptRestart = useCallback(() => {
         setIsRestartConfirmDialogOpen(true);
@@ -94,6 +99,7 @@ export const Component = () => {
                                 onScanLibrariesClick={onScanLibraries}
                                 onRestartClick={promptRestart}
                                 onShutdownClick={promptShutdown}
+                                isScanning={librariesTask?.State !== TaskState.Idle}
                             />
                             <ItemCountsWidget />
                             <RunningTasksWidget tasks={tasks} />

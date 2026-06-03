@@ -1,12 +1,22 @@
-import Events from '../../utils/events.ts';
-import { toBoolean } from '../../utils/string.ts';
+import { getDisplayPreferencesQuery } from 'hooks/api/useDisplayPreferences';
+import { getUserQuery } from 'hooks/api/useUser';
+import { QUERY_KEY } from 'hooks/useUsers';
+import Events from 'utils/events';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+import { toBoolean } from 'utils/string';
+
 import browser from '../browser';
 import appSettings from './appSettings';
+
+const DISPLAY_PREFERENCES_ID = 'usersettings';
+// TODO: We should really update the client ID at some point
+const CLIENT_ID = 'emby';
 
 function onSaveTimeout() {
     const self = this;
     self.saveTimeout = null;
-    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+    self.currentApiClient.updateDisplayPreferences(DISPLAY_PREFERENCES_ID, self.displayPrefs, self.currentUserId, CLIENT_ID);
 }
 
 function saveServerPreferences(instance) {
@@ -49,8 +59,8 @@ const defaultComicsPlayerSettings = {
 export class UserSettings {
     /**
      * Bind UserSettings instance to user.
-     * @param {string} - User identifier.
-     * @param {Object} - ApiClient instance.
+     * @param {string|undefined} userId - User identifier.
+     * @param {import('jellyfin-apiclient').ApiClient} apiClient - ApiClient instance.
      */
     setUserInfo(userId, apiClient) {
         if (this.saveTimeout) {
@@ -67,20 +77,19 @@ export class UserSettings {
 
         const self = this;
 
-        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
-            result.CustomPrefs = result.CustomPrefs || {};
-            self.displayPrefs = result;
-        });
-    }
-
-    // FIXME: Seems unused
-    getData() {
-        return this.displayPrefs;
-    }
-
-    // FIXME: Seems unused
-    importFrom(instance) {
-        this.displayPrefs = instance.getData();
+        return queryClient
+            .fetchQuery(getDisplayPreferencesQuery(
+                toApi(apiClient),
+                {
+                    displayPreferencesId: DISPLAY_PREFERENCES_ID,
+                    client: CLIENT_ID,
+                    userId
+                }
+            ))
+            .then(result => {
+                result.CustomPrefs = result.CustomPrefs || {};
+                self.displayPrefs = result;
+            });
     }
 
     // FIXME: 'appSettings.set' doesn't return any value
@@ -130,12 +139,18 @@ export class UserSettings {
     serverConfig(config) {
         const apiClient = this.currentApiClient;
         if (config) {
-            return apiClient.updateUserConfiguration(this.currentUserId, config);
+            return apiClient
+                .updateUserConfiguration(this.currentUserId, config)
+                .then(() => {
+                    queryClient.invalidateQueries({
+                        queryKey: [ QUERY_KEY, this.currentUserId ]
+                    });
+                });
         }
 
-        return apiClient.getUser(this.currentUserId).then(function (user) {
-            return user.Configuration;
-        });
+        return queryClient
+            .fetchQuery(getUserQuery(toApi(apiClient), { userId: this.currentUserId }))
+            .then(user => user.Configuration);
     }
 
     /**
@@ -465,6 +480,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the interval between slides when using the slideshow.
+     * @param {number|undefined} [val] - The interval between slides in seconds.
+     * @return {number} The interval between slides in seconds.
+     */
+    slideshowInterval(val) {
+        if (val !== undefined) {
+            return this.set('slideshowInterval', val.toString(), false);
+        }
+
+        return parseInt(this.get('slideshowInterval', false), 10) || 5;
+    }
+
+    /**
      * Get or set the amount of time it takes to activate the screensaver in seconds. Default 3 minutes.
      * @param {number|undefined} [val] - The amount of time it takes to activate the screensaver in seconds.
      * @return {number} The amount of time it takes to activate the screensaver in seconds.
@@ -677,8 +705,6 @@ export const currentSettings = new UserSettings;
 
 // Wrappers for non-ES6 modules and backward compatibility
 export const setUserInfo = currentSettings.setUserInfo.bind(currentSettings);
-export const getData = currentSettings.getData.bind(currentSettings);
-export const importFrom = currentSettings.importFrom.bind(currentSettings);
 export const set = currentSettings.set.bind(currentSettings);
 export const get = currentSettings.get.bind(currentSettings);
 export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
@@ -705,6 +731,7 @@ export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
 export const screensaver = currentSettings.screensaver.bind(currentSettings);
 export const backdropScreensaverInterval = currentSettings.backdropScreensaverInterval.bind(currentSettings);
+export const slideshowInterval = currentSettings.slideshowInterval.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);

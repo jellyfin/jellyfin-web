@@ -37,6 +37,9 @@
 
 html {
     @include fullpage;
+
+    /* Set the default font for cases we don't load the brand font */
+    font-family: Arial, Helvetica, sans-serif;
     line-height: 1.35;
 }
 
@@ -45,6 +48,10 @@ body {
     overflow-x: hidden;
     background-color: transparent !important;
     -webkit-font-smoothing: antialiased;
+}
+
+#reactRoot {
+    height: 100%;
 }
 
 .clipForScreenReader {

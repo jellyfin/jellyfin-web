@@ -1,9 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { getLocationSearch } from './url';
+import { getLocationSearch, safeDecodeURIComponent } from './url';
 
 const mockLocation = (urlString: string) => {
-    // eslint-disable-next-line compat/compat
     const url = new URL(urlString);
     vi.spyOn(window, 'location', 'get')
         .mockReturnValue({
@@ -56,5 +55,15 @@ describe('getLocationSearch', () => {
                 search: ''
             });
         expect(getLocationSearch()).toBe('?foo');
+    });
+});
+
+describe('safeDecodeURIComponent', () => {
+    it('Should decode a properly encoded URI component', () => {
+        expect(safeDecodeURIComponent(encodeURIComponent('Hello, World!'))).toBe('Hello, World!');
+    });
+
+    it('Should return the original value if decoding fails', () => {
+        expect(safeDecodeURIComponent('Hello, World!%')).toBe('Hello, World!%');
     });
 });

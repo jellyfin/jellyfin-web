@@ -6,6 +6,8 @@ import itemHelper from '../itemHelper';
 import loading from '../loading/loading';
 import alert from '../alert';
 
+import layoutManager from 'components/layoutManager';
+import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -16,7 +18,7 @@ import { history } from 'RootAppRouter';
 const START_PAGE_PATHS = ['/home', '/login', '/selectserver'];
 
 /** Pages that do not require a user to be logged in to view. */
-const PUBLIC_PATHS = [
+export const PUBLIC_PATHS = [
     '/addserver',
     '/selectserver',
     '/login',
@@ -121,9 +123,7 @@ class AppRouter {
         return this.baseRoute;
     }
 
-    canGoBack() {
-        const path = history.location.pathname;
-
+    canGoBack(path = history.location.pathname) {
         if (
             !document.querySelector('.dialogContainer')
             && START_PAGE_PATHS.includes(path)
@@ -261,15 +261,15 @@ class AppRouter {
         }
 
         if (item === 'recordedtv') {
-            return '#/livetv?tab=3&serverId=' + options.serverId;
+            return '#/livetv?tab=3&serverId=' + serverId;
         }
 
         if (item === 'nextup') {
-            return '#/list?type=nextup&serverId=' + options.serverId;
+            return '#/list?type=nextup&serverId=' + serverId;
         }
 
         if (item === 'list') {
-            let urlForList = '#/list?serverId=' + options.serverId + '&type=' + options.itemTypes;
+            let urlForList = '#/list?serverId=' + serverId + '&type=' + options.itemTypes;
 
             if (options.isFavorite) {
                 urlForList += '&IsFavorite=true';
@@ -299,54 +299,58 @@ class AppRouter {
                 urlForList += '&IsNews=true';
             }
 
+            if (options.parentId) {
+                urlForList += '&parentId=' + options.parentId;
+            }
+
             return urlForList;
         }
 
         if (item === 'livetv') {
             if (options.section === 'programs') {
-                return '#/livetv?tab=0&serverId=' + options.serverId;
+                return '#/livetv?tab=0&serverId=' + serverId;
             }
             if (options.section === 'guide') {
-                return '#/livetv?tab=1&serverId=' + options.serverId;
+                return '#/livetv?tab=1&serverId=' + serverId;
             }
 
             if (options.section === 'movies') {
-                return '#/list?type=Programs&IsMovie=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsMovie=true&serverId=' + serverId;
             }
 
             if (options.section === 'shows') {
-                return '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + serverId;
             }
 
             if (options.section === 'sports') {
-                return '#/list?type=Programs&IsSports=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsSports=true&serverId=' + serverId;
             }
 
             if (options.section === 'kids') {
-                return '#/list?type=Programs&IsKids=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsKids=true&serverId=' + serverId;
             }
 
             if (options.section === 'news') {
-                return '#/list?type=Programs&IsNews=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsNews=true&serverId=' + serverId;
             }
 
             if (options.section === 'onnow') {
-                return '#/list?type=Programs&IsAiring=true&serverId=' + options.serverId;
+                return '#/list?type=Programs&IsAiring=true&serverId=' + serverId;
             }
 
             if (options.section === 'channels') {
-                return '#/livetv?tab=2&serverId=' + options.serverId;
+                return '#/livetv?tab=2&serverId=' + serverId;
             }
 
             if (options.section === 'dvrschedule') {
-                return '#/livetv?tab=4&serverId=' + options.serverId;
+                return '#/livetv?tab=4&serverId=' + serverId;
             }
 
             if (options.section === 'seriesrecording') {
-                return '#/livetv?tab=5&serverId=' + options.serverId;
+                return '#/livetv?tab=5&serverId=' + serverId;
             }
 
-            return '#/livetv?serverId=' + options.serverId;
+            return '#/livetv?serverId=' + serverId;
         }
 
         if (itemType == 'SeriesTimer') {
@@ -402,6 +406,17 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+            const isExperimentalLayout = layoutManager.layout === LayoutMode.Experimental;
+
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Books) {
+                url = `#/books?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=3';
+                }
+                return url;
+            }
+
             if (item.CollectionType == CollectionType.Movies) {
                 url = `#/movies?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
@@ -432,10 +447,33 @@ class AppRouter {
                 return url;
             }
 
-            const layoutMode = localStorage.getItem('layout');
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Homevideos) {
+                return '#/homevideos?topParentId=' + item.Id;
+            }
 
-            if (layoutMode === 'experimental' && item.CollectionType == CollectionType.Homevideos) {
-                url = '#/homevideos?topParentId=' + item.Id;
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Musicvideos) {
+                url = `#/musicvideos?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
+
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Boxsets) {
+                return `#/boxsets?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+            }
+
+            if (isExperimentalLayout && item.CollectionType == CollectionType.Playlists) {
+                return `#/playlists?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
+            }
+
+            if (isExperimentalLayout && item.CollectionType == null && item.Type === 'CollectionFolder') {
+                url = `#/mixed?topParentId=${item.Id}&collectionType=mixed`;
+
+                if (options?.section === 'latest') {
+                    url += '&tab=1';
+                }
 
                 return url;
             }

@@ -1,3 +1,7 @@
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
@@ -97,13 +101,13 @@ export class PdfPlayer {
         const key = keyboardnavigation.getKeyName(e);
 
         switch (key) {
-            case 'l':
+            case 'KeyL':
             case 'ArrowRight':
             case 'Right':
                 e.preventDefault();
                 this.next();
                 break;
-            case 'j':
+            case 'KeyJ':
             case 'ArrowLeft':
             case 'Left':
                 e.preventDefault();
@@ -205,11 +209,9 @@ export class PdfPlayer {
             }
         };
 
-        const serverId = item.ServerId;
-        const apiClient = ServerConnections.getApiClient(serverId);
-
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const downloadHref = apiClient.getItemDownloadUrl(item.Id);
+            const api = toApi(ServerConnections.getApiClient(item));
+            const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
 
             this.bindEvents();
             GlobalWorkerOptions.workerSrc = appRouter.baseUrl() + '/libraries/pdf.worker.js';

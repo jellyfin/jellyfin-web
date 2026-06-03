@@ -1,4 +1,8 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
+import { AppFeature } from 'constants/appFeature';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
@@ -12,7 +16,6 @@ import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
-import { AppFeature } from 'constants/appFeature';
 
 /** Item types that support downloading all children. */
 const DOWNLOAD_ALL_TYPES = [
@@ -387,6 +390,7 @@ function executeCommand(item, id, options) {
     const itemId = item.Id;
     const serverId = item.ServerId;
     const apiClient = ServerConnections.getApiClient(serverId);
+    const api = toApi(apiClient);
 
     return new Promise(function (resolve, reject) {
         // eslint-disable-next-line sonarjs/max-switch-cases
@@ -411,9 +415,9 @@ function executeCommand(item, id, options) {
                 break;
             case 'download':
                 import('../scripts/fileDownloader').then((fileDownloader) => {
-                    const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    const url = getLibraryApi(api).getDownloadUrl({ itemId });
                     fileDownloader.download([{
-                        url: downloadHref,
+                        url,
                         item,
                         itemId,
                         serverId,
@@ -429,9 +433,9 @@ function executeCommand(item, id, options) {
                         const downloads = items
                             .filter(i => i.CanDownload)
                             .map(i => {
-                                const downloadHref = apiClient.getItemDownloadUrl(i.Id);
+                                const url = getLibraryApi(api).getDownloadUrl({ itemId: i.Id });
                                 return {
-                                    url: downloadHref,
+                                    url,
                                     item: i,
                                     itemId: i.Id,
                                     serverId,
@@ -478,7 +482,7 @@ function executeCommand(item, id, options) {
                 break;
             }
             case 'copy-stream': {
-                const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId });
                 copy(downloadHref).then(() => {
                     toast(globalize.translate('CopyStreamURLSuccess'));
                 }).catch(() => {

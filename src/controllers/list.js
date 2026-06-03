@@ -315,7 +315,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         } else if (item.CollectionType === CollectionType.Tvshows) {
             query.IncludeItemTypes = 'Series';
         } else if (item.Type === 'Genre') {
-            query.IncludeItemTypes = 'Movie,Series,Video';
+            query.IncludeItemTypes = 'Audiobook,Book,BoxSet,Movie,Series,Video';
         } else if (item.Type === 'Person') {
             query.IncludeItemTypes = params.type;
         }
@@ -332,9 +332,13 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         SortBy: sortBy
     };
 
-    if (sortBy === 'Random') {
+    if (params.type) {
         instance.queryRecursive = true;
-        query.IncludeItemTypes = 'Video,Movie,Series,Music';
+        query.Recursive = true;
+        query.IncludeItemTypes = params.type;
+    } else if (sortBy === 'Random') {
+        instance.queryRecursive = true;
+        query.IncludeItemTypes = 'Video,Movie,Series,Music,MusicVideo';
         query.Recursive = true;
     }
 
@@ -889,8 +893,8 @@ class ItemsView {
                 if ((itemType === 'MusicGenre' || params.type !== 'Programs' && itemType !== 'Channel')
                     // Folder, Playlist views
                     && itemType !== 'UserView'
-                    // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
+                    // Only Photo (homevideos) and Music Video CollectionFolders are supported
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Play All buttons
                     hideOrShowAll(view.querySelectorAll('.btnPlay'), false);
@@ -902,8 +906,8 @@ class ItemsView {
                 if ((itemType === 'MusicGenre' || params.type !== 'Programs' && params.type !== 'nextup' && itemType !== 'Channel')
                     // Folder, Playlist views
                     && itemType !== 'UserView'
-                    // Only Photo (homevideos) CollectionFolders are supported
-                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos)
+                    // Only Photo (homevideos) and Music Video CollectionFolders are supported
+                    && !(itemType === 'CollectionFolder' && item?.CollectionType !== CollectionType.Homevideos && item?.CollectionType !== CollectionType.Musicvideos)
                 ) {
                     // Show Shuffle buttons
                     hideOrShowAll(view.querySelectorAll('.btnShuffle'), false);

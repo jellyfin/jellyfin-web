@@ -98,164 +98,166 @@ export const Component = () => {
             className='type-interior mainAnimatedPage'
         >
             <Box className='content-primary'>
-                {isError ? (
-                    <Alert
-                        severity='error'
-                        sx={{ marginBottom: 2 }}
+                <Stack spacing={2}>
+                    <Stack
+                        direction='row'
+                        sx={{
+                            flexWrap: {
+                                xs: 'wrap',
+                                sm: 'nowrap'
+                            }
+                        }}
                     >
-                        {globalize.translate('PluginsLoadError')}
-                    </Alert>
-                ) : (
-                    <Stack spacing={2}>
-                        <Stack
-                            direction='row'
+                        <Typography
+                            variant='h1'
+                            component='span'
                             sx={{
-                                flexWrap: {
-                                    xs: 'wrap',
-                                    sm: 'nowrap'
+                                flexGrow: 1,
+                                verticalAlign: 'middle'
+                            }}
+                        >
+                            {globalize.translate('TabPlugins')}
+                        </Typography>
+
+                        <Button
+                            component={Link}
+                            to='/dashboard/plugins/repositories'
+                            variant='outlined'
+                            sx={{
+                                marginLeft: 2
+                            }}
+                        >
+                            {globalize.translate('ManageRepositories')}
+                        </Button>
+
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'end',
+                                marginTop: {
+                                    xs: 2,
+                                    sm: 0
+                                },
+                                marginLeft: {
+                                    xs: 0,
+                                    sm: 2
+                                },
+                                width: {
+                                    xs: '100%',
+                                    sm: 'auto'
                                 }
                             }}
                         >
-                            <Typography
-                                variant='h1'
-                                component='span'
-                                sx={{
-                                    flexGrow: 1,
-                                    verticalAlign: 'middle'
-                                }}
-                            >
-                                {globalize.translate('TabPlugins')}
-                            </Typography>
-
-                            <Button
-                                component={Link}
-                                to='/dashboard/plugins/repositories'
-                                variant='outlined'
-                                sx={{
-                                    marginLeft: 2
-                                }}
-                            >
-                                {globalize.translate('ManageRepositories')}
-                            </Button>
-
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'end',
-                                    marginTop: {
-                                        xs: 2,
-                                        sm: 0
-                                    },
-                                    marginLeft: {
-                                        xs: 0,
-                                        sm: 2
-                                    },
-                                    width: {
-                                        xs: '100%',
-                                        sm: 'auto'
-                                    }
-                                }}
-                            >
-                                <SearchInput
-                                    label={globalize.translate('Search')}
-                                    value={searchQuery}
-                                    onChange={onSearchChange}
-                                />
-                            </Box>
-                        </Stack>
-
-                        <Box>
-                            <Stack
-                                direction='row'
-                                spacing={1}
-                                sx={{
-                                    marginLeft: '-1rem',
-                                    marginRight: '-1rem',
-                                    paddingLeft: '1rem',
-                                    paddingRight: '1rem',
-                                    paddingBottom: {
-                                        xs: 1,
-                                        md: 0.5
-                                    },
-                                    overflowX: 'auto'
-                                }}
-                            >
-                                <Chip
-                                    color={status === PluginStatusOption.All ? 'primary' : undefined}
-                                    // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setStatus(PluginStatusOption.All)}
-                                    label={globalize.translate('All')}
-                                />
-
-                                <Chip
-                                    color={status === PluginStatusOption.Available ? 'primary' : undefined}
-                                    // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setStatus(PluginStatusOption.Available)}
-                                    label={globalize.translate('LabelAvailable')}
-                                />
-
-                                <Chip
-                                    color={status === PluginStatusOption.Installed ? 'primary' : undefined}
-                                    // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setStatus(PluginStatusOption.Installed)}
-                                    label={globalize.translate('LabelInstalled')}
-                                />
-
-                                <Divider orientation='vertical' flexItem />
-
-                                <Chip
-                                    color={!category ? 'primary' : undefined}
-                                    // eslint-disable-next-line react/jsx-no-bind
-                                    onClick={() => setCategory('')}
-                                    label={globalize.translate('All')}
-                                />
-
-                                {Object.values(PluginCategory).map(c => (
-                                    <Chip
-                                        key={c}
-                                        color={category === c.toLowerCase() ? 'primary' : undefined}
-                                        // eslint-disable-next-line react/jsx-no-bind
-                                        onClick={() => setCategory(c.toLowerCase())}
-                                        label={globalize.translate(CATEGORY_LABELS[c as PluginCategory])}
-                                    />
-                                ))}
-                            </Stack>
-                            <Divider />
-                        </Box>
-
-                        <Box>
-                            {filteredPlugins.length > 0 ? (
-                                // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
-                                // eslint-disable-next-line @typescript-eslint/no-deprecated
-                                <Grid container spacing={2}>
-                                    {filteredPlugins.map(plugin => (
-                                        // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
-                                        // eslint-disable-next-line @typescript-eslint/no-deprecated
-                                        <Grid
-                                            key={plugin.id}
-                                            item
-                                            xs={12}
-                                            sm={6}
-                                            md={4}
-                                            lg={3}
-                                            xl={2}
-                                        >
-                                            <PluginCard
-                                                plugin={plugin}
-                                            />
-                                        </Grid>
-                                    ))}
-                                </Grid>
-                            ) : (
-                                <NoPluginResults
-                                    isFiltered={!!category || status !== PluginStatusOption.All}
-                                    onViewAll={onViewAll}
-                                    query={searchQuery}
-                                />
-                            )}
+                            <SearchInput
+                                label={globalize.translate('Search')}
+                                value={searchQuery}
+                                onChange={onSearchChange}
+                            />
                         </Box>
                     </Stack>
-                )}
+
+                    {isError ? (
+                        <Alert
+                            severity='error'
+                            sx={{ marginBottom: 2 }}
+                        >
+                            {globalize.translate('PluginsLoadError')}
+                        </Alert>
+                    ) : (
+                        <>
+                            <Box>
+                                <Stack
+                                    direction='row'
+                                    spacing={1}
+                                    sx={{
+                                        marginLeft: '-1rem',
+                                        marginRight: '-1rem',
+                                        paddingLeft: '1rem',
+                                        paddingRight: '1rem',
+                                        paddingBottom: {
+                                            xs: 1,
+                                            md: 0.5
+                                        },
+                                        overflowX: 'auto'
+                                    }}
+                                >
+                                    <Chip
+                                        color={status === PluginStatusOption.All ? 'primary' : undefined}
+                                        // eslint-disable-next-line react/jsx-no-bind
+                                        onClick={() => setStatus(PluginStatusOption.All)}
+                                        label={globalize.translate('All')}
+                                    />
+
+                                    <Chip
+                                        color={status === PluginStatusOption.Available ? 'primary' : undefined}
+                                        // eslint-disable-next-line react/jsx-no-bind
+                                        onClick={() => setStatus(PluginStatusOption.Available)}
+                                        label={globalize.translate('LabelAvailable')}
+                                    />
+
+                                    <Chip
+                                        color={status === PluginStatusOption.Installed ? 'primary' : undefined}
+                                        // eslint-disable-next-line react/jsx-no-bind
+                                        onClick={() => setStatus(PluginStatusOption.Installed)}
+                                        label={globalize.translate('LabelInstalled')}
+                                    />
+
+                                    <Divider orientation='vertical' flexItem />
+
+                                    <Chip
+                                        color={!category ? 'primary' : undefined}
+                                        // eslint-disable-next-line react/jsx-no-bind
+                                        onClick={() => setCategory('')}
+                                        label={globalize.translate('All')}
+                                    />
+
+                                    {Object.values(PluginCategory).map(c => (
+                                        <Chip
+                                            key={c}
+                                            color={category === c.toLowerCase() ? 'primary' : undefined}
+                                            // eslint-disable-next-line react/jsx-no-bind
+                                            onClick={() => setCategory(c.toLowerCase())}
+                                            label={globalize.translate(CATEGORY_LABELS[c as PluginCategory])}
+                                        />
+                                    ))}
+                                </Stack>
+                                <Divider />
+                            </Box>
+
+                            <Box>
+                                {filteredPlugins.length > 0 ? (
+                                // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
+                                // eslint-disable-next-line @typescript-eslint/no-deprecated
+                                    <Grid container spacing={2}>
+                                        {filteredPlugins.map(plugin => (
+                                            // NOTE: Legacy Grid is required due to lack of gap support in JMP on some OSs
+                                            // eslint-disable-next-line @typescript-eslint/no-deprecated
+                                            <Grid
+                                                key={plugin.id}
+                                                item
+                                                xs={12}
+                                                sm={6}
+                                                md={4}
+                                                lg={3}
+                                                xl={2}
+                                            >
+                                                <PluginCard
+                                                    plugin={plugin}
+                                                />
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+                                ) : (
+                                    <NoPluginResults
+                                        isFiltered={!!category || status !== PluginStatusOption.All}
+                                        onViewAll={onViewAll}
+                                        query={searchQuery}
+                                    />
+                                )}
+                            </Box>
+                        </>
+                    )}
+                </Stack>
             </Box>
         </Page>
     );

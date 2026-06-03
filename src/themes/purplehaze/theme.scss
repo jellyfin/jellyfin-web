@@ -326,6 +326,7 @@ a[data-role=button] {
     background: none;
 }
 
+.noBackdropTransparency .detailPagePrimaryContainer,
 .noBackdropTransparency .detailPageSecondaryContainer {
     background: url(bg.jpg) center top no-repeat #030322;
     background-size: cover;

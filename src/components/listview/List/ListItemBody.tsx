@@ -3,15 +3,16 @@ import classNames from 'classnames';
 import Box from '@mui/material/Box';
 
 import TextLines from 'components/common/textLines/TextLines';
-import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
-
+import { ItemAction } from 'constants/itemAction';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ListOptions } from 'types/listOptions';
+
+import PrimaryMediaInfo from '../../mediainfo/PrimaryMediaInfo';
 
 interface ListItemBodyProps {
     item: ItemDto;
     listOptions: ListOptions;
-    action?: string | null;
+    action?: ItemAction | null;
     isLargeStyle?: boolean;
     clickEntireItem?: boolean;
     enableContentWrapper?: boolean;
@@ -21,7 +22,7 @@ interface ListItemBodyProps {
 }
 
 const ListItemBody: FC<ListItemBodyProps> = ({
-    item = {},
+    item,
     listOptions = {},
     action,
     isLargeStyle,

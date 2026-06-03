@@ -13,13 +13,14 @@ import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
 import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
+import layoutManager from 'components/layoutManager';
 import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
-import appTheme from 'themes/themes';
+import { LayoutMode } from 'constants/layoutMode';
+import appTheme from 'themes';
 import { ThemeStorageManager } from 'themes/themeStorageManager';
 
-const layoutMode = localStorage.getItem('layout');
-const isExperimentalLayout = layoutMode === 'experimental';
+const isExperimentalLayout = layoutManager.layout === LayoutMode.Experimental;
 
 const router = createHashRouter([
     {

@@ -98,10 +98,15 @@
 - [Jxiced](https://github.com/Jxiced)
 - [Derek Huber](https://github.com/Derek4aty1)
 - [StableCrimson](https://github.com/StableCrimson)
+- [hazemKrimi](https://github.com/hazemKrimi)
 - [diegoeche](https://github.com/diegoeche)
 - [Free O'Toole](https://github.com/freeotoole)
 - [TheBosZ](https://github.com/thebosz)
 - [qm3jp](https://github.com/qm3jp)
+- [johnnyg](https://github.com/johnnyg)
+- [Lampan-git](https://github.com/Lampan-git)
+- [lmaotrigine](https://github.com/lmaotrigine)
+- [bjorntp](https://github.com/bjorntp)
 
 ## Emby Contributors
 

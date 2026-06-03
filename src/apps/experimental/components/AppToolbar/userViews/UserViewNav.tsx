@@ -1,8 +1,10 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Favorite from '@mui/icons-material/Favorite';
 import Button from '@mui/material/Button/Button';
+import Icon from '@mui/material/Icon';
 import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -10,11 +12,13 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 import LibraryIcon from 'apps/experimental/components/LibraryIcon';
 import { MetaView } from 'apps/experimental/constants/metaView';
-import { isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
+import { useAncestors } from 'apps/experimental/features/libraries/hooks/api/useAncestors';
+import { isDetailsPath, isLibraryPath } from 'apps/experimental/features/libraries/utils/path';
 import { appRouter } from 'components/router/appRouter';
+import { useUserViews } from 'hooks/api/useUserViews';
 import { useApi } from 'hooks/useApi';
 import useCurrentTab from 'hooks/useCurrentTab';
-import { useUserViews } from 'hooks/useUserViews';
+import { useWebConfig } from 'hooks/useWebConfig';
 import globalize from 'lib/globalize';
 
 import UserViewsMenu from './UserViewsMenu';
@@ -35,7 +39,7 @@ const getCurrentUserView = (
     collectionType: string | null,
     tab: number
 ) => {
-    const isUserViewPath = isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
+    const isUserViewPath = isDetailsPath(pathname) || isLibraryPath(pathname) || [HOME_PATH, LIST_PATH].includes(pathname);
     if (!isUserViewPath) return undefined;
 
     if (collectionType === CollectionType.Livetv) {
@@ -53,9 +57,11 @@ const getCurrentUserView = (
 const UserViewNav = () => {
     const location = useLocation();
     const [ searchParams ] = useSearchParams();
+    const itemId = searchParams.get('id') || undefined;
     const libraryId = searchParams.get('topParentId') || searchParams.get('parentId');
     const collectionType = searchParams.get('collectionType');
     const { activeTab } = useCurrentTab();
+    const { menuLinks } = useWebConfig();
 
     const isExtraLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('xl'));
     const isLargeScreen = useMediaQuery((t: Theme) => t.breakpoints.up('lg'));
@@ -69,15 +75,34 @@ const UserViewNav = () => {
     const {
         data: userViews,
         isPending
-    } = useUserViews(user?.Id);
+    } = useUserViews({ userId: user?.Id });
 
-    const primaryViews = useMemo(() => (
-        userViews?.Items?.slice(0, maxViews)
-    ), [ maxViews, userViews ]);
+    const navItems = useMemo(() => [
+        ...(menuLinks || []),
+        ...(userViews?.Items || [])
+    ], [ menuLinks, userViews ]);
 
-    const overflowViews = useMemo(() => (
-        userViews?.Items?.slice(maxViews)
-    ), [ maxViews, userViews ]);
+    const {
+        data: ancestors
+    } = useAncestors({ itemId });
+
+    const ancestorLibraryId = useMemo(() => {
+        return ancestors?.find(ancestor => ancestor.Type === BaseItemKind.CollectionFolder)?.Id || null;
+    }, [ ancestors ]);
+
+    const primaryNavItems = useMemo(() => {
+        // If the number of nav items exceeds the max + 1, we put the excess items in the overflow menu.
+        // We add 1 to prevent the overflow menu from showing only one item.
+        if (navItems.length > maxViews + 1) {
+            return navItems.slice(0, maxViews);
+        }
+
+        return navItems;
+    }, [maxViews, navItems]);
+
+    const overflowNavItems = useMemo(() => (
+        navItems.slice(primaryNavItems?.length || 0)
+    ), [ primaryNavItems, navItems ]);
 
     const [ overflowAnchorEl, setOverflowAnchorEl ] = useState<null | HTMLElement>(null);
     const isOverflowMenuOpen = Boolean(overflowAnchorEl);
@@ -91,8 +116,8 @@ const UserViewNav = () => {
     }, []);
 
     const currentUserView = useMemo(() => (
-        getCurrentUserView(userViews?.Items, location.pathname, libraryId, collectionType, activeTab)
-    ), [ activeTab, collectionType, libraryId, location.pathname, userViews ]);
+        getCurrentUserView(userViews?.Items, location.pathname, libraryId || ancestorLibraryId, collectionType, activeTab)
+    ), [ activeTab, collectionType, libraryId, ancestorLibraryId, location.pathname, userViews ]);
 
     if (isPending) return null;
 
@@ -108,19 +133,39 @@ const UserViewNav = () => {
                 {globalize.translate(MetaView.Favorites.Name)}
             </Button>
 
-            {primaryViews?.map(view => (
-                <Button
-                    key={view.Id}
-                    variant='text'
-                    color={(view.Id === currentUserView?.Id) ? 'primary' : 'inherit'}
-                    startIcon={<LibraryIcon item={view} />}
-                    component={Link}
-                    to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
-                >
-                    {view.Name}
-                </Button>
-            ))}
-            {overflowViews && overflowViews.length > 0 && (
+            {primaryNavItems?.map(navItem => {
+                if ('url' in navItem) {
+                    return (
+                        <Button
+                            key={navItem.name}
+                            variant='text'
+                            color='inherit'
+                            startIcon={<Icon>{navItem.icon || 'link'}</Icon>}
+                            component='a'
+                            href={navItem.url}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                        >
+                            {navItem.name}
+                        </Button>
+                    );
+                }
+
+                return (
+                    <Button
+                        key={navItem.Id}
+                        variant='text'
+                        color={(navItem.Id === currentUserView?.Id) ? 'primary' : 'inherit'}
+                        startIcon={<LibraryIcon item={navItem} />}
+                        component={Link}
+                        to={appRouter.getRouteUrl(navItem, { context: navItem.CollectionType }).substring(1)}
+                    >
+                        {navItem.Name}
+                    </Button>
+                );
+            })}
+
+            {overflowNavItems && overflowNavItems.length > 0 && (
                 <>
                     <Button
                         variant='text'
@@ -138,7 +183,7 @@ const UserViewNav = () => {
                         id={OVERFLOW_MENU_ID}
                         open={isOverflowMenuOpen}
                         onMenuClose={onOverflowMenuClose}
-                        userViews={overflowViews}
+                        userViews={overflowNavItems}
                         selectedId={currentUserView?.Id}
                     />
                 </>

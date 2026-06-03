@@ -12,6 +12,7 @@ import React, { Fragment } from 'react';
 
 import { appHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
+import { LayoutMode } from 'constants/layoutMode';
 import { useApi } from 'hooks/useApi';
 import { useThemes } from 'hooks/useThemes';
 import globalize from 'lib/globalize';
@@ -45,11 +46,10 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                         onChange={onChange}
                         value={values.layout}
                     >
-                        <MenuItem value='auto'>{globalize.translate('Auto')}</MenuItem>
-                        <MenuItem value='desktop'>{globalize.translate('Desktop')}</MenuItem>
-                        <MenuItem value='mobile'>{globalize.translate('Mobile')}</MenuItem>
-                        <MenuItem value='tv'>{globalize.translate('TV')}</MenuItem>
-                        <MenuItem value='experimental'>{globalize.translate('Experimental')}</MenuItem>
+                        <MenuItem value={LayoutMode.Auto}>{globalize.translate('Auto')}</MenuItem>
+                        <MenuItem value={LayoutMode.Desktop}>{globalize.translate('Desktop')}</MenuItem>
+                        <MenuItem value={LayoutMode.Mobile}>{globalize.translate('Mobile')}</MenuItem>
+                        <MenuItem value={LayoutMode.Tv}>{globalize.translate('TV')}</MenuItem>
                     </Select>
                     <FormHelperText component={Stack} id='display-settings-layout-description'>
                         <span>{globalize.translate('DisplayModeHelp')}</span>
@@ -168,6 +168,30 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                     </FormControl>
                 </Fragment>
             ) }
+
+            <FormControl fullWidth>
+                <TextField
+                    aria-describedby='display-settings-slideshow-interval-description'
+                    value={values.slideshowInterval}
+                    label={globalize.translate('LabelSlideshowInterval')}
+                    name='slideshowInterval'
+                    onChange={onChange}
+                    slotProps={{
+                        htmlInput: {
+                            inputMode: 'numeric',
+                            max: '3600',
+                            min: '1',
+                            pattern: '[0-9]',
+                            required: true,
+                            step: '1',
+                            type: 'number'
+                        }
+                    }}
+                />
+                <FormHelperText id='display-settings-slideshow-interval-description'>
+                    {globalize.translate('LabelSlideshowIntervalHelp')}
+                </FormHelperText>
+            </FormControl>
 
             <FormControl fullWidth>
                 <FormControlLabel

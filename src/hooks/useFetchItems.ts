@@ -1,9 +1,11 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { ItemsApiGetItemsRequest, PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
+import type { PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client/api/playlists-api';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
@@ -11,6 +13,7 @@ import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getMoviesApi } from '@jellyfin/sdk/lib/utils/api/movies-api';
+import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
 import { getTvShowsApi } from '@jellyfin/sdk/lib/utils/api/tv-shows-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
@@ -54,6 +57,8 @@ const fetchGetItems = async (
 
 export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
     const currentApi = useApi();
+    const isRandom = Boolean(parametersOptions.sortBy?.includes(ItemSortBy.Random));
+
     return useQuery({
         queryKey: [
             'Items',
@@ -63,7 +68,9 @@ export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
         ],
         queryFn: ({ signal }) =>
             fetchGetItems(currentApi, parametersOptions, { signal }),
-        gcTime: parametersOptions.sortBy?.includes(ItemSortBy.Random) ? 0 : undefined,
+        gcTime: isRandom ? Infinity : undefined,
+        refetchOnMount: isRandom ? false : undefined,
+        refetchOnWindowFocus: isRandom ? false : undefined,
         enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };
@@ -225,6 +232,7 @@ const fetchGetItemsViewByType = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
+        const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
         let response;
         switch (viewType) {
             case LibraryTab.AlbumArtists: {
@@ -269,13 +277,35 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             }
-            case LibraryTab.Networks:
+            case LibraryTab.Authors: {
+                response = await getPersonsApi(api).getPersons(
+                    {
+                        userId: user.Id,
+                        parentId: parentId ?? undefined,
+                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        fields: [ItemFields.PrimaryImageAspectRatio],
+                        filters: libraryViewSettings?.Filters?.Status,
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
+                        personTypes: [PersonKind.Author],
+                        startIndex: libraryViewSettings.StartIndex
+                    },
+                    {
+                        signal: options?.signal
+                    }
+                );
+                break;
+            }
+            case LibraryTab.Studios:
                 response = await getStudiosApi(api).getStudios(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
                         ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
                         includeItemTypes: itemType,
+                        isFavorite,
                         enableImageTypes: [ImageType.Thumb],
                         startIndex: libraryViewSettings.StartIndex
                     },
@@ -290,10 +320,33 @@ const fetchGetItemsViewByType = async (
                         userId: user.Id,
                         fields: [ItemFields.PrimaryImageAspectRatio],
                         startIndex: libraryViewSettings.StartIndex,
-                        isFavorite: libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) ?
-                            true :
-                            undefined,
+                        isFavorite,
                         enableImageTypes: [ImageType.Primary]
+                    },
+                    {
+                        signal: options?.signal
+                    }
+                );
+                break;
+            }
+            case LibraryTab.Folders: {
+                response = await getItemsApi(api).getItems(
+                    {
+                        userId: user.Id,
+                        recursive: false,
+                        imageTypeLimit: 1,
+                        parentId: parentId ?? undefined,
+                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getFiltersQuery(viewType, libraryViewSettings),
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
+                        sortBy: libraryViewSettings.SortBy === ItemSortBy.IsFolder ?
+                            [ItemSortBy.IsFolder, ItemSortBy.SortName] :
+                            [libraryViewSettings.SortBy],
+                        sortOrder: [libraryViewSettings.SortOrder],
+                        includeItemTypes: itemType,
+                        startIndex: libraryViewSettings.StartIndex
                     },
                     {
                         signal: options?.signal
@@ -376,10 +429,11 @@ export const useGetItemsViewByType = (
                 LibraryTab.Collections,
                 LibraryTab.Series,
                 LibraryTab.Episodes,
-                LibraryTab.Networks,
+                LibraryTab.Studios,
                 LibraryTab.Albums,
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,
+                LibraryTab.Authors,
                 LibraryTab.Playlists,
                 LibraryTab.Songs,
                 LibraryTab.Books,
@@ -387,7 +441,10 @@ export const useGetItemsViewByType = (
                 LibraryTab.Photos,
                 LibraryTab.Videos,
                 LibraryTab.Channels,
-                LibraryTab.SeriesTimers
+                LibraryTab.SeriesTimers,
+                LibraryTab.MusicVideos,
+                LibraryTab.Folders,
+                LibraryTab.Mixed
             ].includes(viewType)
     });
 };

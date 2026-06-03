@@ -1,11 +1,14 @@
 import escapeHtml from 'escape-html';
+
+import { ItemAction } from 'constants/itemAction';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+
 import inputManager from '../../scripts/inputManager';
 import browser from '../../scripts/browser';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
 import scrollHelper from '../../scripts/scrollHelper';
-import serverNotifications from '../../scripts/serverNotifications';
 import loading from '../loading/loading';
 import datetime from '../../scripts/datetime';
 import focusManager from '../focusManager';
@@ -15,6 +18,7 @@ import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import itemShortcuts from '../shortcuts';
 import dom from '../../utils/dom';
+
 import './guide.scss';
 import './programs.scss';
 import 'material-design-icons-iconfont';
@@ -26,6 +30,7 @@ import '../../elements/emby-tabs/emby-tabs';
 import '../../elements/emby-scroller/emby-scroller';
 import '../../styles/flexstyles.scss';
 import 'webcomponents.js/webcomponents-lite';
+
 import template from './tvguide.template.html';
 
 function showViewSettings(instance) {
@@ -166,9 +171,12 @@ function Guide(options) {
     self.destroy = function () {
         stopAutoRefresh();
 
-        Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-        Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        if (self._wsUnsubscribers) {
+            self._wsUnsubscribers.forEach(unsub => {
+                unsub();
+            });
+            self._wsUnsubscribers = [];
+        }
 
         setScrollEvents(options.element, false);
         itemShortcuts.off(options.element);
@@ -441,7 +449,7 @@ function Guide(options) {
 
         html += '<div class="' + outerCssClass + '" data-channelid="' + channel.Id + '">';
 
-        const clickAction = layoutManager.tv ? 'link' : 'programdialog';
+        const clickAction = layoutManager.tv ? ItemAction.Link : ItemAction.ProgramDialog;
 
         const categories = self.categoryOptions.categories || [];
         const displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
@@ -607,7 +615,7 @@ function Guide(options) {
                 title.push(channel.Name);
             }
 
-            html += '<button title="' + escapeHtml(title.join(' ')) + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
+            html += `<button title="${escapeHtml(title.join(' '))}" type="button" class="${cssClass}" data-action="${ItemAction.Link}" data-isfolder="${channel.IsFolder}" data-id="${channel.Id}" data-serverid="${channel.ServerId}" data-type="${channel.Type}">`;
 
             if (hasChannelImage) {
                 const url = apiClient.getScaledImageUrl(channel.Id, {
@@ -1038,10 +1046,10 @@ function Guide(options) {
         }
     }
 
-    function onTimerCreated(e, apiClient, data) {
-        const programId = data.ProgramId;
+    function onTimerCreated(data) {
+        const programId = data?.ProgramId;
         // This could be null, not supported by all tv providers
-        const newTimerId = data.Id;
+        const newTimerId = data?.Id;
 
         // find guide cells by program id, ensure timer icon
         const cells = options.element.querySelectorAll('.programCell[data-id="' + programId + '"]');
@@ -1057,8 +1065,8 @@ function Guide(options) {
         }
     }
 
-    function onTimerCancelled(e, apiClient, data) {
-        const id = data.Id;
+    function onTimerCancelled(data) {
+        const id = data?.Id;
         // find guide cells by timer id, remove timer icon
         const cells = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"]');
 
@@ -1073,8 +1081,8 @@ function Guide(options) {
         }
     }
 
-    function onSeriesTimerCancelled(e, apiClient, data) {
-        const id = data.Id;
+    function onSeriesTimerCancelled(data) {
+        const id = data?.Id;
         // find guide cells by timer id, remove timer icon
         const cells = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"]');
 
@@ -1182,9 +1190,12 @@ function Guide(options) {
 
     Events.trigger(self, 'load');
 
-    Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-    Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-    Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+    const _guideApiClient = ServerConnections.getApiClient(options.serverId);
+    self._wsUnsubscribers = [
+        _guideApiClient?.subscribe([OutboundWebSocketMessageType.TimerCreated], ({ Data }) => onTimerCreated(Data)),
+        _guideApiClient?.subscribe([OutboundWebSocketMessageType.TimerCancelled], ({ Data }) => onTimerCancelled(Data)),
+        _guideApiClient?.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], ({ Data }) => onSeriesTimerCancelled(Data))
+    ].filter(Boolean);
 
     self.refresh();
 }

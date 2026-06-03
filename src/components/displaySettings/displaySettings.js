@@ -1,6 +1,11 @@
 import escapeHtml from 'escape-html';
 
 import { AppFeature } from 'constants/appFeature';
+import { getUserQuery } from 'hooks/api/useUser';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import { pluginManager } from '../pluginManager';
@@ -8,17 +13,18 @@ import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
 import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import toast from '../toast/toast';
+
+import template from './displaySettings.template.html';
+
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-textarea/emby-textarea';
-import toast from '../toast/toast';
-import template from './displaySettings.template.html';
 
 function fillThemes(select, selectedTheme) {
     skinManager.getThemes().then(themes => {
@@ -89,6 +95,7 @@ function loadForm(context, user, userSettings) {
     }
 
     context.querySelector('.selectDashboardThemeContainer').classList.toggle('hide', !user.Policy.IsAdministrator);
+    context.querySelector('.txtSlideshowIntervalContainer').classList.remove('hide');
 
     if (appHost.supports(AppFeature.Screensaver)) {
         context.querySelector('.selectScreensaverContainer').classList.remove('hide');
@@ -112,6 +119,7 @@ function loadForm(context, user, userSettings) {
     loadScreensavers(context, userSettings);
 
     context.querySelector('#txtBackdropScreensaverInterval').value = userSettings.backdropScreensaverInterval();
+    context.querySelector('#txtSlideshowInterval').value = userSettings.slideshowInterval();
     context.querySelector('#txtScreensaverTime').value = userSettings.screensaverTime();
 
     context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
@@ -157,6 +165,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
     userSettingsInstance.backdropScreensaverInterval(context.querySelector('#txtBackdropScreensaverInterval').value);
+    userSettingsInstance.slideshowInterval(context.querySelector('#txtSlideshowInterval').value);
     userSettingsInstance.screensaverTime(context.querySelector('#txtScreensaverTime').value);
 
     userSettingsInstance.libraryPageSize(context.querySelector('#txtLibraryPageSize').value);
@@ -230,7 +239,7 @@ class DisplaySettings {
         embed(options, this);
     }
 
-    loadData(autoFocus) {
+    async loadData(autoFocus) {
         const self = this;
         const context = self.options.element;
 
@@ -240,15 +249,14 @@ class DisplaySettings {
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
-        return apiClient.getUser(userId).then(user => {
-            return userSettings.setUserInfo(userId, apiClient).then(() => {
-                self.dataLoaded = true;
-                loadForm(context, user, userSettings);
-                if (autoFocus) {
-                    focusManager.autoFocus(context);
-                }
-            });
-        });
+        const user = await queryClient.fetchQuery(getUserQuery(toApi(apiClient), { userId }));
+        await userSettings.setUserInfo(userId, apiClient);
+
+        self.dataLoaded = true;
+        loadForm(context, user, userSettings);
+        if (autoFocus) {
+            focusManager.autoFocus(context);
+        }
     }
 
     submit() {

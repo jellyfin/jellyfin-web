@@ -122,9 +122,9 @@ function onAddButtonClick() {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
-            callback: function (path, networkSharePath) {
+            callback: function (path) {
                 if (path) {
-                    addMediaLocation(page, path, networkSharePath);
+                    addMediaLocation(page, path);
                 }
 
                 picker.close();
@@ -161,24 +161,13 @@ function renderPaths(page) {
     }
 }
 
-function addMediaLocation(page, path, networkSharePath) {
-    const pathLower = path.toLowerCase();
-    const pathFilter = pathInfos.filter(p => {
-        return p.Path.toLowerCase() == pathLower;
-    });
+function addMediaLocation(page, path) {
+    // If the path already exists in the library, don't add it again.
+    const isPathInLibrary = pathInfos.some(p => p.Path === path);
+    if (isPathInLibrary) return;
 
-    if (!pathFilter.length) {
-        const pathInfo = {
-            Path: path
-        };
-
-        if (networkSharePath) {
-            pathInfo.NetworkPath = networkSharePath;
-        }
-
-        pathInfos.push(pathInfo);
-        renderPaths(page);
-    }
+    pathInfos.push({ Path: path });
+    renderPaths(page);
 }
 
 function onRemoveClick(e) {

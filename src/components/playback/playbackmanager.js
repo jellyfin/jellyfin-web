@@ -27,11 +27,14 @@ import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
+import { TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
+import * as bitrateTest from 'utils/bitrateTest';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -649,6 +652,7 @@ function normalizePlayOptions(playOptions) {
 
 function truncatePlayOptions(playOptions) {
     return {
+        aspectRatio: playOptions.aspectRatio,
         fullscreen: playOptions.fullscreen,
         mediaSourceId: playOptions.mediaSourceId,
         audioStreamIndex: playOptions.audioStreamIndex,
@@ -1023,7 +1027,7 @@ export class PlaybackManager {
         self.canPlay = function (item) {
             const itemType = item.Type;
 
-            if (itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
+            if (itemType === 'Book' || itemType === 'PhotoAlbum' || itemType === 'MusicGenre' || itemType === 'Season' || itemType === 'Series' || itemType === 'BoxSet' || itemType === 'MusicAlbum' || itemType === 'MusicArtist' || itemType === 'Playlist') {
                 return true;
             }
 
@@ -1405,7 +1409,7 @@ export class PlaybackManager {
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
-                    promise = apiClient.detectBitrate(true);
+                    promise = bitrateTest.detectBitrate(toApi(apiClient), true);
                 } else {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
                     promise = Promise.resolve(options.maxBitrate);
@@ -1940,6 +1944,15 @@ export class PlaybackManager {
                     MediaTypes: 'Photo',
                     Limit: UNLIMITED_ITEMS
                 }, queryOptions));
+            } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
+                return getItemsForPlayback(serverId, mergePlaybackQueries({
+                    ParentId: firstItem.Id,
+                    Filters: 'IsNotFolder',
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    MediaTypes: 'Video',
+                    Limit: UNLIMITED_ITEMS
+                }, queryOptions));
             } else if (firstItem.IsFolder) {
                 let sortBy = null;
                 if (options.shuffle) {
@@ -1970,28 +1983,18 @@ export class PlaybackManager {
             const startSeasonId = firstItem.Type === 'Season' ? items[options.startIndex || 0].Id : undefined;
 
             const seasonId = (startSeasonId && items.length === 1) ? startSeasonId : undefined;
-            const seriesId = firstItem.SeriesId || firstItem.Id;
+            const SeriesId = firstItem.SeriesId || firstItem.Id;
             const UserId = apiClient.getCurrentUserId();
 
             let startItemId;
 
             // Start from a specific (the next unwatched) episode if we want to watch in order and have not chosen a specific season
             if (!options.shuffle && !seasonId) {
-                const initialUnplayedEpisode = await getItems(apiClient, UserId, {
-                    SortBy: 'SeriesSortName,SortName',
-                    SortOrder: 'Ascending',
-                    IncludeItemTypes: 'Episode',
-                    Recursive: true,
-                    IsMissing: false,
-                    ParentId: seriesId,
-                    limit: 1,
-                    Filters: 'IsUnplayed'
-                });
-
-                startItemId = initialUnplayedEpisode?.Items?.at(0)?.Id;
+                const nextUp = await apiClient.getNextUpEpisodes({ SeriesId, UserId });
+                startItemId = nextUp?.Items?.[0]?.Id;
             }
 
-            const episodesResult = await apiClient.getEpisodes(seriesId, {
+            const episodesResult = await apiClient.getEpisodes(SeriesId, {
                 IsVirtualUnaired: false,
                 IsMissing: false,
                 SeasonId: seasonId,
@@ -2115,7 +2118,7 @@ export class PlaybackManager {
             // Prepare the list of items
             items = await translateItemsForPlayback(items, options);
             // Add any additional parts for movies or episodes
-            items = await getAdditionalParts(items);
+            items = await getAdditionalParts(items, options.mediaSourceId, options.startIndex || 0);
             // Adjust the start index for additional parts added to the queue
             if (options.startIndex) {
                 let adjustedStartIndex = 0;
@@ -2267,15 +2270,22 @@ export class PlaybackManager {
             return player.play(options);
         }
 
-        const getAdditionalParts = async (items) => {
-            const getItemAndParts = async function (item) {
+        const getAdditionalParts = async (items, mediaSourceId, startIndex) => {
+            const getItemAndParts = async function (item, isStartItem) {
                 if (
                     item.PartCount && item.PartCount > 1
                     && [ BaseItemKind.Episode, BaseItemKind.Movie ].includes(item.Type)
                 ) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
-                    const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
+                    // When the user picked an alternate version, that version's MediaSourceId
+                    // equals its own BaseItem.Id, so use it to fetch the alternate's own
+                    // additional parts instead of the primary's - otherwise the primary's
+                    // stack parts would queue after the alternate finishes.
+                    const idForParts = (isStartItem && mediaSourceId && mediaSourceId !== item.Id) ?
+                        mediaSourceId :
+                        item.Id;
+                    const additionalParts = await client.getAdditionalVideoParts(user.Id, idForParts);
                     if (additionalParts.Items.length) {
                         return [ item, ...additionalParts.Items ];
                     }
@@ -2283,7 +2293,7 @@ export class PlaybackManager {
                 return [ item ];
             };
 
-            return Promise.all(items.map(getItemAndParts));
+            return Promise.all(items.map((item, index) => getItemAndParts(item, index === (startIndex || 0))));
         };
 
         function playWithIntros(items, options) {
@@ -2583,10 +2593,11 @@ export class PlaybackManager {
                     return apiClient.getEndpointInfo()
                         .then((endpointInfo) => {
                             if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return apiClient.detectBitrate().then((bitrate) => {
-                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                    return bitrate;
-                                });
+                                return bitrateTest.detectBitrate(toApi(apiClient))
+                                    .then((bitrate) => {
+                                        appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+                                        return bitrate;
+                                    });
                             }
 
                             return Promise.reject(new Error('skip bitrate detection'));
@@ -2654,6 +2665,7 @@ export class PlaybackManager {
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
                 const options = {
+                    aspectRatio: playOptions.aspectRatio,
                     maxBitrate,
                     startPosition,
                     isPlayback: null,
@@ -2711,7 +2723,7 @@ export class PlaybackManager {
                     }
 
                     const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
-
+                    streamInfo.aspectRatio = playOptions.aspectRatio;
                     streamInfo.fullscreen = playOptions.fullscreen;
 
                     const playerData = getPlayerData(player);
@@ -3482,7 +3494,7 @@ export class PlaybackManager {
             const nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             const newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
-            if (newPlayer !== player) {
+            if (!newPlayer) {
                 data.streamInfo = null;
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
@@ -3490,12 +3502,21 @@ export class PlaybackManager {
 
             if (errorOccurred) {
                 showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
-            } else if (nextItem) {
+            } else if (newPlayer) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
                 apiClient.getCurrentUser().then(function (user) {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         self.nextTrack();
+
+                        if (newPlayer !== player) {
+                            Events.trigger(self, 'playbackstop', [{
+                                player,
+                                state,
+                                nextItem,
+                                nextMediaType
+                            }]);
+                        }
                     }
                 });
             }
@@ -3716,9 +3737,18 @@ export class PlaybackManager {
         };
 
         if (appHost.supports(AppFeature.RemoteControl)) {
-            import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
-                Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
-                Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
+            // Defer setup past module evaluation to avoid the circular dependency:
+            // playbackmanager → lib/jellyfin-apiclient → ServerConnections → utils/dashboard → backdrop → playbackmanager
+            queueMicrotask(() => {
+                let _unsubscribeRemoteControl;
+                Events.on(ServerConnections, 'localusersignedin', () => {
+                    _unsubscribeRemoteControl?.();
+                    const api = ServerConnections.getCurrentApi();
+                    _unsubscribeRemoteControl = api?.subscribe(
+                        [OutboundWebSocketMessageType.ServerShuttingDown, OutboundWebSocketMessageType.ServerRestarting],
+                        self.setDefaultPlayerActive.bind(self)
+                    );
+                });
             });
         }
 
@@ -3872,6 +3902,19 @@ export class PlaybackManager {
         const offsetTicks = 0 - (userSettings.skipBackLength() * 10000);
 
         this.seekRelative(offsetTicks, player);
+    }
+
+    seekFrames(frames = 1, player = this._currentPlayer) {
+        // Only allow seeking by frames when paused
+        if (!player.paused()) return;
+
+        const source = this.currentMediaSource(player);
+        const videoStream = source?.MediaStreams?.find(s => s.Type === MediaType.Video);
+        // It only makes sense to seek video streams by frames
+        if (videoStream) {
+            const fps = videoStream.ReferenceFrameRate || 24;
+            this.seekRelative(frames / fps * TICKS_PER_SECOND, player);
+        }
     }
 
     seekPercent(percent, player = this._currentPlayer) {
