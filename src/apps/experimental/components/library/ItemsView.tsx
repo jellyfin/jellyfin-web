@@ -294,7 +294,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                                 <ButtonGroup
                                     variant='contained'
                                 >
-                                    {isBtnPlayAllEnabled && (
+                                    {isBtnPlayAllEnabled && totalRecordCount > 0 && (
                                         <PlayAllButton
                                             item={item}
                                             items={items}
