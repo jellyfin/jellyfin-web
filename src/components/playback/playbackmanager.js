@@ -2072,11 +2072,21 @@ export class PlaybackManager {
         }
 
         function filterEpisodes(episodesResult, firstItem, options) {
+            let startItemFound = false;
             for (const [index, e] of episodesResult.Items.entries()) {
                 if (e.Id === firstItem.Id) {
                     episodesResult.StartIndex = index;
+                    startItemFound = true;
                     break;
                 }
+            }
+
+            // An alternate version is not part of the episode listing, so the result starts at
+            // its primary episode instead. Keep playing the version the user picked by selecting
+            // it as the media source of that primary (unless a source was explicitly chosen).
+            if (!startItemFound && episodesResult.Items.length) {
+                episodesResult.StartIndex = 0;
+                options.mediaSourceId = options.mediaSourceId || firstItem.Id;
             }
 
             // TODO: fix calling code to read episodesResult.StartIndex instead when set.
