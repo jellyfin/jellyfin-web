@@ -2968,7 +2968,10 @@ export class PlaybackManager {
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
-                            mediaSource.hasAlternateVersions = playbackInfoResult.MediaSources.length > 1;
+                            // Remember whether alternate versions exists
+                            mediaSource.hasAlternateVersions = playbackInfoResult.MediaSources.length > 1
+                                || item.MediaSources?.length > 1
+                                || (!!mediaSourceId && mediaSourceId !== item.Id);
 
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
                                 options.audioStreamIndex = null;
