@@ -95,7 +95,8 @@ export default function (view, params, tabContent) {
                 action: 'playallfromhere',
                 smallIcon: true,
                 artist: true,
-                addToListButton: true
+                addToListButton: true,
+                isMultiselectable: true
             });
             let elems = tabContent.querySelectorAll('.paging');
 

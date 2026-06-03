@@ -113,7 +113,8 @@ export default function (view, params, tabContent, options) {
             if (viewStyle == 'List') {
                 html = listView.getListViewHtml({
                     items: result.Items,
-                    sortBy: query.SortBy
+                    sortBy: query.SortBy,
+                    isMultiselectable: true
                 });
             } else if (viewStyle == 'PosterCard') {
                 html = cardBuilder.getCardsHtml({
@@ -122,7 +123,8 @@ export default function (view, params, tabContent, options) {
                     context: 'music',
                     showTitle: true,
                     coverImage: true,
-                    cardLayout: true
+                    cardLayout: true,
+                    isMultiselectable: true
                 });
             } else {
                 html = cardBuilder.getCardsHtml({
@@ -133,7 +135,8 @@ export default function (view, params, tabContent, options) {
                     coverImage: true,
                     lazy: true,
                     centerText: true,
-                    overlayPlayButton: true
+                    overlayPlayButton: true,
+                    isMultiselectable: true
                 });
             }
             let elems = tabContent.querySelectorAll('.paging');

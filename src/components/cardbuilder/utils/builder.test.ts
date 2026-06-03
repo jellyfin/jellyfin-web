@@ -660,11 +660,11 @@ describe('resolveCardImageContainerCssClasses', () => {
 });
 
 describe('resolveCardBoxCssClasses', () => {
-    test('non-card layout', () => expect(resolveCardBoxCssClasses({ cardLayout: false, hasOuterCardFooter: false })).toEqual('cardBox'));
+    test('non-card layout', () => expect(resolveCardBoxCssClasses({ cardLayout: false, hasOuterCardFooter: false })).toEqual('cardBox multiselect-container'));
 
-    test('card layout', () => expect(resolveCardBoxCssClasses({ cardLayout: true, hasOuterCardFooter: false })).toEqual('cardBox visualCardBox'));
+    test('card layout', () => expect(resolveCardBoxCssClasses({ cardLayout: true, hasOuterCardFooter: false })).toEqual('cardBox visualCardBox multiselect-container'));
 
-    test('has outer card footer', () => expect(resolveCardBoxCssClasses({ cardLayout: false, hasOuterCardFooter: true })).toEqual('cardBox cardBox-bottompadded'));
+    test('has outer card footer', () => expect(resolveCardBoxCssClasses({ cardLayout: false, hasOuterCardFooter: true })).toEqual('cardBox cardBox-bottompadded multiselect-container'));
 });
 
 describe('getDefaultBackgroundClass', () => {

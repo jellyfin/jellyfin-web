@@ -127,7 +127,8 @@ export default function (view, params, tabContent, options) {
                 overlayPlayButton: true,
                 showTitle: true,
                 showYear: true,
-                centerText: true
+                centerText: true,
+                isMultiselectable: true
             });
         } else if (viewStyle == 'ThumbCard') {
             html = cardBuilder.getCardsHtml({
@@ -139,7 +140,8 @@ export default function (view, params, tabContent, options) {
                 cardLayout: true,
                 showTitle: true,
                 showYear: true,
-                centerText: true
+                centerText: true,
+                isMultiselectable: true
             });
         } else if (viewStyle == 'Banner') {
             html = cardBuilder.getCardsHtml({
@@ -147,13 +149,15 @@ export default function (view, params, tabContent, options) {
                 shape: 'banner',
                 preferBanner: true,
                 context: 'movies',
-                lazy: true
+                lazy: true,
+                isMultiselectable: true
             });
         } else if (viewStyle == 'List') {
             html = listView.getListViewHtml({
                 items: items,
                 context: 'movies',
-                sortBy: query.SortBy
+                sortBy: query.SortBy,
+                isMultiselectable: true
             });
         } else if (viewStyle == 'PosterCard') {
             html = cardBuilder.getCardsHtml({
@@ -164,7 +168,8 @@ export default function (view, params, tabContent, options) {
                 showYear: true,
                 centerText: true,
                 lazy: true,
-                cardLayout: true
+                cardLayout: true,
+                isMultiselectable: true
             });
         } else {
             html = cardBuilder.getCardsHtml({
@@ -174,7 +179,8 @@ export default function (view, params, tabContent, options) {
                 overlayPlayButton: true,
                 showTitle: true,
                 showYear: true,
-                centerText: true
+                centerText: true,
+                isMultiselectable: true
             });
         }
 
