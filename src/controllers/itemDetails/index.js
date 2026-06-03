@@ -214,7 +214,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
 
     const currentValue = select.value;
 
-    const selectedId = mediaSources[0].Id;
+    const selectedId = mediaSources.some(m => m.Id === currentValue) ? currentValue : mediaSources[0].Id;
     select.innerHTML = mediaSources.map(function (v) {
         const selected = v.Id === selectedId ? ' selected' : '';
         return '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>';
@@ -2011,14 +2011,15 @@ export default function (view, params) {
 
         if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
 
-        const key = currentItem.UserData.Key;
-        const userData = (Data?.UserDataList ?? []).find(u => u.Key == key);
+        const userData = (Data?.UserDataList ?? []).find(u => u.ItemId == currentItem.Id);
 
         if (userData) {
             currentItem.UserData = userData;
             reloadPlayButtons(view, currentItem);
             autoFocus(view);
         }
+
+        refreshSelectedVersion();
     }
 
     let currentItem;
@@ -2060,6 +2061,7 @@ export default function (view, params) {
                     libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                     renderBackdrop(page, currentItem);
+                    refreshSelectedVersion();
                 }
             } else {
                 reload(self, page, params);
