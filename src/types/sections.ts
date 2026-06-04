@@ -3,7 +3,6 @@ import type { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-
 import type { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 
 import { CardOptions } from './cardOptions';
-import { SectionsView } from './libraryTabContent';
 
 export interface ParametersOptions {
     sortBy?: ItemSortBy[];
