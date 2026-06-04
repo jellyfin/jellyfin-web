@@ -1,54 +1,14 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { type FC } from 'react';
-import useCurrentTab from 'hooks/useCurrentTab';
-import Page from 'components/Page';
-import PageTabContent from '../../components/library/PageTabContent';
-import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { MusicVideoSuggestionsSectionsView } from 'types/sections';
+import React, { type FC } from 'react';
 
-const foldersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Folders,
-    collectionType: CollectionType.Musicvideos,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Folder, BaseItemKind.MusicVideo]
-};
-
-const suggestionsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Suggestions,
-    collectionType: CollectionType.Musicvideos,
-    sectionsView: MusicVideoSuggestionsSectionsView
-};
-
-const musicVideosTabContent: LibraryTabContent = {
-    viewType: LibraryTab.MusicVideos,
-    collectionType: CollectionType.Musicvideos,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.MusicVideo]
-};
-
-const playlistsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Playlists,
-    isBtnFilterEnabled: false,
-    isBtnGridListEnabled: false,
-    isBtnNewPlaylistEnabled: true,
-    isAlphabetPickerEnabled: false,
-    itemType: [BaseItemKind.Playlist]
-};
-
-const musicVideosTabMapping: LibraryTabMapping = {
-    0: foldersTabContent,
-    1: suggestionsTabContent,
-    2: musicVideosTabContent,
-    3: playlistsTabContent
-};
+import PageTabContent from 'apps/experimental/components/library/PageTabContent';
+import viewsByKind from 'apps/experimental/features/libraries/constants/views';
+import Page from 'components/Page';
+import useCurrentTab from 'hooks/useCurrentTab';
 
 const MusicVideos: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = musicVideosTabMapping[activeTab];
+    const currentTab = viewsByKind[CollectionType.Musicvideos][activeTab];
 
     return (
         <Page

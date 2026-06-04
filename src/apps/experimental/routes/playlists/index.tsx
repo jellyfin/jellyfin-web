@@ -1,31 +1,14 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC } from 'react';
-import useCurrentTab from 'hooks/useCurrentTab';
-import Page from 'components/Page';
-import PageTabContent from '../../components/library/PageTabContent';
-import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
+import React, { type FC } from 'react';
 
-const playlistsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Playlists,
-    isBtnNewPlaylistEnabled: true
-};
-
-const favoritesTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Favorites,
-    collectionType: CollectionType.Playlists,
-    itemType: [BaseItemKind.Playlist]
-};
-
-const playlistsTabMapping: LibraryTabMapping = {
-    0: playlistsTabContent,
-    1: favoritesTabContent
-};
+import PageTabContent from 'apps/experimental/components/library/PageTabContent';
+import viewsByKind from 'apps/experimental/features/libraries/constants/views';
+import Page from 'components/Page';
+import useCurrentTab from 'hooks/useCurrentTab';
 
 const Playlists: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = playlistsTabMapping[activeTab];
+    const currentTab = viewsByKind[CollectionType.Playlists][activeTab];
 
     return (
         <Page

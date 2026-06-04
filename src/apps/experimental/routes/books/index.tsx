@@ -1,70 +1,14 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { FC } from 'react';
-import useCurrentTab from 'hooks/useCurrentTab';
-import Page from 'components/Page';
-import PageTabContent from '../../components/library/PageTabContent';
-import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { BookSuggestionsSectionsView } from 'types/sections';
+import React, { type FC } from 'react';
 
-const foldersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Folders,
-    collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.Folder, BaseItemKind.AudioBook, BaseItemKind.Book]
-};
-
-const booksTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Books,
-    collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
-};
-
-const suggestionsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Suggestions,
-    collectionType: CollectionType.Books,
-    sectionsView: BookSuggestionsSectionsView
-};
-
-const authorsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Authors,
-    collectionType: CollectionType.Books,
-    isBtnSortEnabled: false
-};
-
-const genresTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Genres,
-    collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
-};
-
-const collectionsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Collections,
-    collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.BoxSet],
-    isBtnNewCollectionEnabled: true,
-    noItemsMessage: 'MessageNoCollectionsAvailable'
-};
-
-const favoritesTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Favorites,
-    collectionType: CollectionType.Books,
-    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
-};
-
-const booksTabMapping: LibraryTabMapping = {
-    0: foldersTabContent,
-    1: booksTabContent,
-    2: authorsTabContent,
-    3: suggestionsTabContent,
-    4: genresTabContent,
-    5: collectionsTabContent,
-    6: favoritesTabContent
-};
+import PageTabContent from 'apps/experimental/components/library/PageTabContent';
+import viewsByKind from 'apps/experimental/features/libraries/constants/views';
+import Page from 'components/Page';
+import useCurrentTab from 'hooks/useCurrentTab';
 
 const Books: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = booksTabMapping[activeTab];
+    const currentTab = viewsByKind[CollectionType.Books][activeTab];
 
     return (
         <Page

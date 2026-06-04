@@ -1,62 +1,14 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { type FC } from 'react';
-import useCurrentTab from 'hooks/useCurrentTab';
+
+import PageTabContent from 'apps/experimental/components/library/PageTabContent';
+import viewsByKind from 'apps/experimental/features/libraries/constants/views';
 import Page from 'components/Page';
-import PageTabContent from '../../components/library/PageTabContent';
-import { LibraryTab } from 'types/libraryTab';
-import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
-import { MixedSuggestionsSectionsView } from 'types/sections';
-
-const foldersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Folders,
-    collectionType: null,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Folder, BaseItemKind.Movie, BaseItemKind.Series]
-};
-
-const suggestionsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Suggestions,
-    collectionType: null,
-    sectionsView: MixedSuggestionsSectionsView
-};
-
-const mixedTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Mixed,
-    collectionType: null,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Movie, BaseItemKind.Series]
-};
-
-const collectionsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Collections,
-    collectionType: null,
-    isBtnNewCollectionEnabled: true,
-    itemType: [BaseItemKind.BoxSet],
-    noItemsMessage: 'MessageNoCollectionsAvailable'
-};
-
-const playlistsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Playlists,
-    isBtnFilterEnabled: false,
-    isBtnGridListEnabled: false,
-    isBtnNewPlaylistEnabled: true,
-    isAlphabetPickerEnabled: false,
-    itemType: [BaseItemKind.Playlist]
-};
-
-const mixedTabMapping: LibraryTabMapping = {
-    0: foldersTabContent,
-    1: suggestionsTabContent,
-    2: mixedTabContent,
-    3: collectionsTabContent,
-    4: playlistsTabContent
-};
+import useCurrentTab from 'hooks/useCurrentTab';
 
 const Mixed: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = mixedTabMapping[activeTab];
+    const currentTab = viewsByKind[CollectionType.Unknown][activeTab];
 
     return (
         <Page

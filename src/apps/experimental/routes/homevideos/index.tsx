@@ -1,54 +1,14 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import React, { type FC } from 'react';
-import useCurrentTab from 'hooks/useCurrentTab';
-import Page from 'components/Page';
-import PageTabContent from '../../components/library/PageTabContent';
-import { LibraryTab } from 'types/libraryTab';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { LibraryTabContent, LibraryTabMapping } from 'types/libraryTabContent';
+import React, { type FC } from 'react';
 
-const foldersTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Folders,
-    collectionType: CollectionType.Homevideos,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Folder, BaseItemKind.Photo, BaseItemKind.PhotoAlbum, BaseItemKind.Video]
-};
-
-const photosTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Photos,
-    collectionType: CollectionType.Homevideos,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Photo]
-};
-
-const photoAlbumsTabContent: LibraryTabContent = {
-    viewType: LibraryTab.PhotoAlbums,
-    collectionType: CollectionType.Homevideos,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.PhotoAlbum]
-};
-
-const videosTabContent: LibraryTabContent = {
-    viewType: LibraryTab.Videos,
-    collectionType: CollectionType.Homevideos,
-    isBtnPlayAllEnabled: true,
-    isBtnShuffleEnabled: true,
-    itemType: [BaseItemKind.Video]
-};
-
-const homevideosTabMapping: LibraryTabMapping = {
-    0: foldersTabContent,
-    1: photosTabContent,
-    2: photoAlbumsTabContent,
-    3: videosTabContent
-};
+import PageTabContent from 'apps/experimental/components/library/PageTabContent';
+import viewsByKind from 'apps/experimental/features/libraries/constants/views';
+import Page from 'components/Page';
+import useCurrentTab from 'hooks/useCurrentTab';
 
 const HomeVideos: FC = () => {
     const { libraryId, activeTab } = useCurrentTab();
-    const currentTab = homevideosTabMapping[activeTab];
+    const currentTab = viewsByKind[CollectionType.Homevideos][activeTab];
 
     return (
         <Page
