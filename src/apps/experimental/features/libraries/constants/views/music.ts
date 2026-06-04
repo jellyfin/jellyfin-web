@@ -3,7 +3,7 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 
 import { LibraryTab } from 'types/libraryTab';
 import type { LibraryTabContent } from 'types/libraryTabContent';
-import { MusicSuggestionsSectionsView } from 'types/sections';
+import { SectionType } from 'types/sections';
 
 const albumArtistsTabContent: LibraryTabContent = {
     viewType: LibraryTab.AlbumArtists,
@@ -45,7 +45,13 @@ const songsTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.Music,
-    sectionsView: MusicSuggestionsSectionsView
+    sectionsView: {
+        suggestionSections: [
+            SectionType.LatestMusic,
+            SectionType.FrequentlyPlayedMusic,
+            SectionType.RecentlyPlayedMusic
+        ]
+    }
 };
 
 const genresTabContent: LibraryTabContent = {

@@ -1,6 +1,6 @@
 import { LibraryTab } from 'types/libraryTab';
 import type { LibraryTabContent } from 'types/libraryTabContent';
-import { ProgramSectionsView, RecordingsSectionsView, ScheduleSectionsView } from 'types/sections';
+import { SectionType } from 'types/sections';
 
 const seriestimersTabContent: LibraryTabContent = {
     viewType: LibraryTab.SeriesTimers,
@@ -13,12 +13,20 @@ const seriestimersTabContent: LibraryTabContent = {
 
 const scheduleTabContent: LibraryTabContent = {
     viewType: LibraryTab.Schedule,
-    sectionsView: ScheduleSectionsView
+    sectionsView: {
+        programSections: [SectionType.ActiveRecordings],
+        isLiveTvUpcomingRecordings: true
+    }
 };
 
 const recordingsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Recordings,
-    sectionsView: RecordingsSectionsView
+    sectionsView: {
+        programSections: [
+            SectionType.LatestRecordings,
+            SectionType.RecordingFolders
+        ]
+    }
 };
 
 const channelsTabContent: LibraryTabContent = {
@@ -30,7 +38,16 @@ const channelsTabContent: LibraryTabContent = {
 
 const programsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Programs,
-    sectionsView: ProgramSectionsView
+    sectionsView: {
+        programSections: [
+            SectionType.ActivePrograms,
+            SectionType.UpcomingEpisodes,
+            SectionType.UpcomingMovies,
+            SectionType.UpcomingSports,
+            SectionType.UpcomingKids,
+            SectionType.UpcomingNews
+        ]
+    }
 };
 
 const guideTabContent: LibraryTabContent = {

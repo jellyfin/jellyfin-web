@@ -3,7 +3,7 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 
 import { LibraryTab } from 'types/libraryTab';
 import type { LibraryTabContent } from 'types/libraryTabContent';
-import { MusicVideoSuggestionsSectionsView } from 'types/sections';
+import { SectionType } from 'types/sections';
 
 const foldersTabContent: LibraryTabContent = {
     viewType: LibraryTab.Folders,
@@ -16,7 +16,13 @@ const foldersTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.Musicvideos,
-    sectionsView: MusicVideoSuggestionsSectionsView
+    sectionsView: {
+        suggestionSections: [
+            SectionType.LatestMusicVideos,
+            SectionType.FrequentlyPlayedMusicVideos,
+            SectionType.RecentlyPlayedMusicVideos
+        ]
+    }
 };
 
 const musicVideosTabContent: LibraryTabContent = {

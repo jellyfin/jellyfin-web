@@ -2,7 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 
 import { LibraryTab } from 'types/libraryTab';
 import type { LibraryTabContent } from 'types/libraryTabContent';
-import { MixedSuggestionsSectionsView } from 'types/sections';
+import { SectionType } from 'types/sections';
 
 const foldersTabContent: LibraryTabContent = {
     viewType: LibraryTab.Folders,
@@ -15,7 +15,13 @@ const foldersTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: null,
-    sectionsView: MixedSuggestionsSectionsView
+    sectionsView: {
+        suggestionSections: [
+            SectionType.ContinueWatchingMixed,
+            SectionType.LatestMixed,
+            SectionType.NextUp
+        ]
+    }
 };
 
 const mixedTabContent: LibraryTabContent = {

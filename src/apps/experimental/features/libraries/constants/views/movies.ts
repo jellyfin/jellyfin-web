@@ -3,7 +3,7 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 
 import { LibraryTab } from 'types/libraryTab';
 import type { LibraryTabContent } from 'types/libraryTabContent';
-import { MovieSuggestionsSectionsView } from 'types/sections';
+import { SectionType } from 'types/sections';
 
 const moviesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Movies,
@@ -30,7 +30,13 @@ const favoritesTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.Movies,
-    sectionsView: MovieSuggestionsSectionsView
+    sectionsView: {
+        suggestionSections: [
+            SectionType.ContinueWatchingMovies,
+            SectionType.LatestMovies
+        ],
+        isMovieRecommendations: true
+    }
 };
 
 const genresTabContent: LibraryTabContent = {

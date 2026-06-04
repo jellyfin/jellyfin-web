@@ -3,7 +3,7 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 
 import { LibraryTab } from 'types/libraryTab';
 import type { LibraryTabContent } from 'types/libraryTabContent';
-import { TvShowSuggestionsSectionsView } from 'types/sections';
+import { SectionType } from 'types/sections';
 
 const episodesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Episodes,
@@ -37,7 +37,13 @@ const upcomingTabContent: LibraryTabContent = {
 const suggestionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Suggestions,
     collectionType: CollectionType.Tvshows,
-    sectionsView: TvShowSuggestionsSectionsView
+    sectionsView: {
+        suggestionSections: [
+            SectionType.ContinueWatchingEpisode,
+            SectionType.LatestEpisode,
+            SectionType.NextUp
+        ]
+    }
 };
 
 const genresTabContent: LibraryTabContent = {
