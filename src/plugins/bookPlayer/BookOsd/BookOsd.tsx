@@ -2,6 +2,7 @@ import React, { type FC, useCallback, useState } from 'react';
 
 import './BookOsd.scss';
 import IconButton from '../../../elements/emby-button/IconButton';
+import globalize from 'lib/globalize';
 
 interface BookOsdProps {
     title: string;
@@ -36,34 +37,54 @@ const BookOsd: FC<BookOsdProps> = ({
     return (
         <div className='bookOsd'>
             <div className='bookOsdRow bookOsdTop'>
-                <IconButton onClick={onExit} icon='arrow_back' />
+                <IconButton onClick={onExit} icon='arrow_back' title={globalize.translate('ButtonBack')} />
                 <span className='bookOsdTitle'>{title}</span>
             </div>
 
             <div className='bookOsdRow bookOsdBottom'>
-                <IconButton onClick={onPrevious} icon='navigate_before' />
-                <IconButton onClick={onNext} icon='navigate_next' />
-                <IconButton
-                    onClick={onOpenTableOfContents}
-                    style={{ display: onOpenTableOfContents ? 'flex' : 'none' }}
-                    icon='toc'
-                    className='bookOsdMargin' />
-                <IconButton
-                    onClick={onRotateTheme}
-                    style={{ display: onRotateTheme ? 'flex' : 'none' }}
-                    icon='remove_red_eye' />
-                <IconButton
-                    onClick={onDecreaseFontSize}
-                    style={{ display: onDecreaseFontSize ? 'flex' : 'none' }}
-                    icon='text_decrease' />
-                <IconButton
-                    onClick={onIncreaseFontSize}
-                    style={{ display: onIncreaseFontSize ? 'flex' : 'none' }}
-                    icon='text_increase' />
-                <IconButton
-                    onClick={onClickFullscreen}
-                    style={{ display: onToggleFullscreen ? 'flex' : 'none' }}
-                    icon={fullscreen ? 'fullscreen_exit' : 'fullscreen'} />
+                <IconButton onClick={onPrevious} icon='navigate_before' title={globalize.translate('Previous')} />
+                <IconButton onClick={onNext} icon='navigate_next' title={globalize.translate('Next')} />
+
+                {onOpenTableOfContents && (
+                    <IconButton
+                        onClick={onOpenTableOfContents}
+                        icon='toc'
+                        title={globalize.translate('TableOfContents')}
+                        className='bookOsdMargin'
+                    />
+                )}
+
+                {onRotateTheme && (
+                    <IconButton
+                        onClick={onRotateTheme}
+                        icon='remove_red_eye'
+                        title={globalize.translate('LabelTheme')}
+                    />
+                )}
+
+                {onDecreaseFontSize && (
+                    <IconButton
+                        onClick={onDecreaseFontSize}
+                        icon='text_decrease'
+                        title={globalize.translate('Smaller')}
+                    />
+                )}
+
+                {onIncreaseFontSize && (
+                    <IconButton
+                        onClick={onIncreaseFontSize}
+                        icon='text_increase'
+                        title={globalize.translate('Larger')}
+                    />
+                )}
+
+                {onToggleFullscreen && (
+                    <IconButton
+                        onClick={onClickFullscreen}
+                        icon={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                        title={globalize.translate(fullscreen ? 'ExitFullscreen' : 'Fullscreen')}
+                    />
+                )}
             </div>
         </div>
     );
