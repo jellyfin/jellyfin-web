@@ -1893,5 +1893,20 @@
     "Watch": "Vizionează",
     "TrickplayLoadError": "Încărcarea setărilor TrickPlay a eșuat",
     "LabelExternalServerUri": "URI Extern",
-    "LabelExternalServerUriHelp": "URI-ul serverului publicat pentru acces extern."
+    "LabelExternalServerUriHelp": "URI-ul serverului publicat pentru acces extern.",
+    "LabelBackupWarning": "Există sarcini programate în desfășurare. Se recomandă să le opriți sau să așteptați să se termine înainte de a rula operațiunea de backup.",
+    "LabelSyncPlayJoinGroup": "Intră în grup",
+    "OnFilesystem": "Pe sistemul de fișiere: {0}",
+    "HeaderBackupWarning": "ATENȚIE: Sarcini programate în curs",
+    "Unwatch": "Nevezi",
+    "VideoRotationNotSupported": "Rotația video nu este suportată",
+    "LabelVideoAttributes": "Atribute video",
+    "LabelVideoColors": "Culori video",
+    "LabelVideoBitDepth": "Adâncimea biților video",
+    "LabelAudioAttributes": "Atribute audio",
+    "LabelTargetCodecs": "Codecuri țintă",
+    "LabelProgressAndSpeed": "Progres / viteză",
+    "LabelReasons": "Motive",
+    "LabelPlayerSizes": "Dimensiunile playerelor",
+    "LabelPlaybackQuality": "Cadru pierdut / corupt"
 }

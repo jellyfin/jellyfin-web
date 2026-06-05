@@ -1905,5 +1905,8 @@
     "LabelPlayerSizes": "Oynatıcı dosya boyutları",
     "LabelPlaybackQuality": "Kare düştü / bozuldu",
     "LabelSyncPlayJoinGroup": "Gruba katıl",
-    "OnFilesystem": "Dosya sistemi: {0}"
+    "OnFilesystem": "Dosya sistemi: {0}",
+    "VideoRotationNotSupported": "Video döndürme özelliği desteklenmiyor",
+    "LabelBackupWarning": "Şu anda çalışmakta olan zamanlanmış görevler var. Yedekleme işlemini başlatmadan önce bu görevleri durdurmanız veya tamamlanmalarını beklemeniz önerilir.",
+    "HeaderBackupWarning": "UYARI: Çalışmakta olan zamanlanmış görevler"
 }

@@ -1,12 +1,23 @@
-import Events from '../../utils/events.ts';
-import { toBoolean } from '../../utils/string.ts';
+import { getDisplayPreferencesQuery } from 'hooks/api/useDisplayPreferences';
+import { getUserQuery } from 'hooks/api/useUser';
+import { QUERY_KEY } from 'hooks/useUsers';
+import { StillWatchingOptions } from 'plugins/stillWatching/constants';
+import Events from 'utils/events';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
+import { toBoolean } from 'utils/string';
+
 import browser from '../browser';
 import appSettings from './appSettings';
+
+const DISPLAY_PREFERENCES_ID = 'usersettings';
+// TODO: We should really update the client ID at some point
+const CLIENT_ID = 'emby';
 
 function onSaveTimeout() {
     const self = this;
     self.saveTimeout = null;
-    self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
+    self.currentApiClient.updateDisplayPreferences(DISPLAY_PREFERENCES_ID, self.displayPrefs, self.currentUserId, CLIENT_ID);
 }
 
 function saveServerPreferences(instance) {
@@ -49,8 +60,8 @@ const defaultComicsPlayerSettings = {
 export class UserSettings {
     /**
      * Bind UserSettings instance to user.
-     * @param {string} - User identifier.
-     * @param {Object} - ApiClient instance.
+     * @param {string|undefined} userId - User identifier.
+     * @param {import('jellyfin-apiclient').ApiClient} apiClient - ApiClient instance.
      */
     setUserInfo(userId, apiClient) {
         if (this.saveTimeout) {
@@ -67,10 +78,19 @@ export class UserSettings {
 
         const self = this;
 
-        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
-            result.CustomPrefs = result.CustomPrefs || {};
-            self.displayPrefs = result;
-        });
+        return queryClient
+            .fetchQuery(getDisplayPreferencesQuery(
+                toApi(apiClient),
+                {
+                    displayPreferencesId: DISPLAY_PREFERENCES_ID,
+                    client: CLIENT_ID,
+                    userId
+                }
+            ))
+            .then(result => {
+                result.CustomPrefs = result.CustomPrefs || {};
+                self.displayPrefs = result;
+            });
     }
 
     // FIXME: 'appSettings.set' doesn't return any value
@@ -120,12 +140,18 @@ export class UserSettings {
     serverConfig(config) {
         const apiClient = this.currentApiClient;
         if (config) {
-            return apiClient.updateUserConfiguration(this.currentUserId, config);
+            return apiClient
+                .updateUserConfiguration(this.currentUserId, config)
+                .then(() => {
+                    queryClient.invalidateQueries({
+                        queryKey: [ QUERY_KEY, this.currentUserId ]
+                    });
+                });
         }
 
-        return apiClient.getUser(this.currentUserId).then(function (user) {
-            return user.Configuration;
-        });
+        return queryClient
+            .fetchQuery(getUserQuery(toApi(apiClient), { userId: this.currentUserId }))
+            .then(user => user.Configuration);
     }
 
     /**
@@ -545,6 +571,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the still watching prompt option.
+     * @param {string|undefined} [val] - The still watching prompt option.
+     * @return {string} The still watching prompt option.
+     */
+    stillWatchingPrompt(val) {
+        if (val !== undefined) {
+            return this.set('stillWatchingPrompt', val, false);
+        }
+
+        return this.get('stillWatchingPrompt', false) || StillWatchingOptions.Default;
+    }
+
+    /**
     * @typedef {Object} Query
     * @property {number} StartIndex - query StartIndex.
     * @property {number} Limit - query Limit.
@@ -729,6 +768,7 @@ export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSetti
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
+export const stillWatchingPrompt = currentSettings.stillWatchingPrompt.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
 export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);

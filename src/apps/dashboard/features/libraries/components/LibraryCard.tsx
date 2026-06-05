@@ -44,9 +44,10 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
 
     const imageUrl = useMemo(() => {
         if (virtualFolder.PrimaryImageItemId && virtualFolder.ItemId && api) {
+            const dpr = window?.devicePixelRatio || 1;
             return getImageApi(api)
                 .getItemImageUrlById(virtualFolder.ItemId, ImageType.Primary, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.40)
+                    maxWidth: Math.round(dom.getScreenWidth() * dpr * 0.40)
                 });
         }
     }, [ api, virtualFolder ]);
@@ -105,7 +106,8 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
         setIsMenuOpen(false);
 
         const mediaLibraryEditor = new MediaLibraryEditor({
-            library: virtualFolder
+            library: virtualFolder,
+            refresh: true
         }) as Promise<boolean>;
 
         void mediaLibraryEditor.then((hasChanges: boolean) => {

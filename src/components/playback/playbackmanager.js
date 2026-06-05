@@ -18,7 +18,6 @@ import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import alert from '../alert';
-import { PluginType } from '../../types/plugin.ts';
 import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
@@ -27,12 +26,15 @@ import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent
 import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
 import { TICKS_PER_SECOND } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
+import * as bitrateTest from 'utils/bitrateTest';
 
 const UNLIMITED_ITEMS = -1;
 
@@ -1407,7 +1409,7 @@ export class PlaybackManager {
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
-                    promise = apiClient.detectBitrate(true);
+                    promise = bitrateTest.detectBitrate(toApi(apiClient), true);
                 } else {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
                     promise = Promise.resolve(options.maxBitrate);
@@ -2116,7 +2118,7 @@ export class PlaybackManager {
             // Prepare the list of items
             items = await translateItemsForPlayback(items, options);
             // Add any additional parts for movies or episodes
-            items = await getAdditionalParts(items);
+            items = await getAdditionalParts(items, options.mediaSourceId, options.startIndex || 0);
             // Adjust the start index for additional parts added to the queue
             if (options.startIndex) {
                 let adjustedStartIndex = 0;
@@ -2268,15 +2270,22 @@ export class PlaybackManager {
             return player.play(options);
         }
 
-        const getAdditionalParts = async (items) => {
-            const getItemAndParts = async function (item) {
+        const getAdditionalParts = async (items, mediaSourceId, startIndex) => {
+            const getItemAndParts = async function (item, isStartItem) {
                 if (
                     item.PartCount && item.PartCount > 1
                     && [ BaseItemKind.Episode, BaseItemKind.Movie ].includes(item.Type)
                 ) {
                     const client = ServerConnections.getApiClient(item.ServerId);
                     const user = await client.getCurrentUser();
-                    const additionalParts = await client.getAdditionalVideoParts(user.Id, item.Id);
+                    // When the user picked an alternate version, that version's MediaSourceId
+                    // equals its own BaseItem.Id, so use it to fetch the alternate's own
+                    // additional parts instead of the primary's - otherwise the primary's
+                    // stack parts would queue after the alternate finishes.
+                    const idForParts = (isStartItem && mediaSourceId && mediaSourceId !== item.Id) ?
+                        mediaSourceId :
+                        item.Id;
+                    const additionalParts = await client.getAdditionalVideoParts(user.Id, idForParts);
                     if (additionalParts.Items.length) {
                         return [ item, ...additionalParts.Items ];
                     }
@@ -2284,7 +2293,7 @@ export class PlaybackManager {
                 return [ item ];
             };
 
-            return Promise.all(items.map(getItemAndParts));
+            return Promise.all(items.map((item, index) => getItemAndParts(item, index === (startIndex || 0))));
         };
 
         function playWithIntros(items, options) {
@@ -2355,23 +2364,20 @@ export class PlaybackManager {
             // Normalize defaults to simplfy checks throughout the process
             normalizePlayOptions(playOptions);
 
-            if (playOptions.isFirstItem) {
-                playOptions.isFirstItem = false;
-            } else {
-                playOptions.isFirstItem = true;
-            }
+            playOptions.isFirstItem = playOptions.isFirstItem || !prevSource;
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
 
             // TODO: This should be the media type requested, not the original media type
             const mediaType = item.MediaType;
 
-            if (playOptions.fullscreen) {
-                loading.show();
-            }
-
             return runInterceptors(item, playOptions)
                 .catch(onInterceptorRejection)
+                .then(() => {
+                    if (playOptions.fullscreen) {
+                        loading.show();
+                    }
+                })
                 .then(() => detectBitrate(apiClient, item, mediaType))
                 .then((bitrate) => {
                     return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
@@ -2428,7 +2434,7 @@ export class PlaybackManager {
                 const interceptors = pluginManager.ofType(PluginType.PreplayIntercept);
 
                 interceptors.sort(function (a, b) {
-                    return (a.order || 0) - (b.order || 0);
+                    return (a.priority || 0) - (b.priority || 0);
                 });
 
                 if (!interceptors.length) {
@@ -2584,10 +2590,11 @@ export class PlaybackManager {
                     return apiClient.getEndpointInfo()
                         .then((endpointInfo) => {
                             if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return apiClient.detectBitrate().then((bitrate) => {
-                                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
-                                    return bitrate;
-                                });
+                                return bitrateTest.detectBitrate(toApi(apiClient))
+                                    .then((bitrate) => {
+                                        appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+                                        return bitrate;
+                                    });
                             }
 
                             return Promise.reject(new Error('skip bitrate detection'));
@@ -3727,9 +3734,18 @@ export class PlaybackManager {
         };
 
         if (appHost.supports(AppFeature.RemoteControl)) {
-            import('../../scripts/serverNotifications').then(({ default: serverNotifications }) => {
-                Events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
-                Events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
+            // Defer setup past module evaluation to avoid the circular dependency:
+            // playbackmanager → lib/jellyfin-apiclient → ServerConnections → utils/dashboard → backdrop → playbackmanager
+            queueMicrotask(() => {
+                let _unsubscribeRemoteControl;
+                Events.on(ServerConnections, 'localusersignedin', () => {
+                    _unsubscribeRemoteControl?.();
+                    const api = ServerConnections.getCurrentApi();
+                    _unsubscribeRemoteControl = api?.subscribe(
+                        [OutboundWebSocketMessageType.ServerShuttingDown, OutboundWebSocketMessageType.ServerRestarting],
+                        self.setDefaultPlayerActive.bind(self)
+                    );
+                });
             });
         }
 

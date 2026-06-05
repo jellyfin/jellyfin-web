@@ -213,7 +213,7 @@
     "HeaderAudioBooks": "有声读物",
     "HeaderAudioSettings": "声音设置",
     "HeaderBlockItemsWithNoRating": "锁定没有或者未识别评级信息的项目",
-    "HeaderBranding": "登入画面",
+    "HeaderBranding": "个性化",
     "HeaderCastAndCrew": "演职人员",
     "HeaderChannelAccess": "频道访问",
     "HeaderChapterImages": "章节图片",
@@ -1905,5 +1905,10 @@
     "LabelProgressAndSpeed": "进度 / 速率",
     "LabelPlaybackQuality": "丢帧 / 坏帧",
     "OnFilesystem": "在文件系统上：{0}",
-    "LabelSyncPlayJoinGroup": "加入群组"
+    "LabelSyncPlayJoinGroup": "加入群组",
+    "VideoRotationNotSupported": "视频旋转不支持",
+    "LabelBackupWarning": "当前有正在运行的计划任务。建议在执行备份操作前先停止这些任务或等待其完成。",
+    "HeaderBackupWarning": "警告：有正在运行的计划任务",
+    "HeaderTypeSimilarItemProviders": "相似项目提供商 ({0})",
+    "LabelSimilarItemProvidersHelp": "启用并按优先级对您首选的类似项目提供商进行排序。"
 }
