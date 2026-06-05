@@ -14,6 +14,7 @@ import Stop from '@mui/icons-material/Stop';
 import { useStartTask } from '../api/useStartTask';
 import { useStopTask } from '../api/useStopTask';
 import ListItemLink from 'components/ListItemLink';
+import { getTaskDisplayName } from '../utils/tasks';
 
 const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
     const startTask = useStartTask();
@@ -47,7 +48,7 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    primary={<Typography variant='h3'>{task.Name}</Typography>}
+                    primary={<Typography variant='h3'>{getTaskDisplayName(task)}</Typography>}
                     secondary={task.State == 'Running' ? <TaskProgress task={task} /> : <TaskLastRan task={task} />}
                     disableTypography
                 />
