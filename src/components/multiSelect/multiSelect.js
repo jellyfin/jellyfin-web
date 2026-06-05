@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
@@ -203,7 +204,14 @@ function showMenuForSelectedItems(e) {
                 // Disabled because there is no callback for this item
             }
 
-            if (user.Policy.IsAdministrator) {
+            const includeTypes = [
+                BaseItemKind.Movie,
+                BaseItemKind.Episode,
+                BaseItemKind.MusicVideo,
+                BaseItemKind.Video
+            ];
+
+            if (user.Policy.IsAdministrator && includeTypes.includes(firstItem.Type)) {
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
