@@ -73,6 +73,14 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('Genres'),
                 value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Studios'),
+                value: LibraryTab.Studios
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'tvshows') {
@@ -95,12 +103,20 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Genres
             },
             {
-                name: globalize.translate('TabNetworks'),
-                value: LibraryTab.Networks
+                name: globalize.translate('Studios'),
+                value: LibraryTab.Studios
             },
             {
                 name: globalize.translate('Episodes'),
                 value: LibraryTab.Episodes
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'music') {
@@ -133,6 +149,10 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('Genres'),
                 value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
             }
         );
     } else if (type === 'livetv') {
@@ -197,6 +217,10 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('HeaderVideos'),
                 value: LibraryTab.MusicVideos
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     } else if (type === 'mixed') {
@@ -213,6 +237,14 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('HeaderMedia'),
                 value: LibraryTab.Mixed
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Playlists'),
+                value: LibraryTab.Playlists
             }
         );
     }

@@ -1866,5 +1866,9 @@
     "ButtonAddProvider": "プロバイダーを追加",
     "ButtonAddTunerDevice": "チューナー機器を追加",
     "LabelSlideshowInterval": "写真のスライドショー間隔",
-    "LabelSlideshowIntervalHelp": "スライドショーで各写真が表示される秒数。"
+    "LabelSlideshowIntervalHelp": "スライドショーで各写真が表示される秒数。",
+    "ActivitiesLoadError": "アクティビティの読み込みに失敗しました",
+    "ApiKeysLoadError": "APIキーの読み込みに失敗しました",
+    "ConfirmDeleteCollection": "このコレクションを削除してよろしいですか？",
+    "ConfirmDeletePlaylist": "このプレイリストを削除してよろしいですか？"
 }

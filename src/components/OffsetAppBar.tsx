@@ -2,18 +2,29 @@ import AppBar, { type AppBarProps } from '@mui/material/AppBar';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import React, { useLayoutEffect, useRef, useState, type FC, type PropsWithChildren } from 'react';
 
-/** The default height of an AppBar. Note the dense Toolbar variant would be 48 instead. */
+/** The default height of an AppBar. */
 const DEFAULT_APP_BAR_HEIGHT = 64;
+/** The height of a dense AppBar. */
+const DENSE_APP_BAR_HEIGHT = 48;
+
+interface OffsetAppBarProps extends AppBarProps {
+    /** Use the dense variant of the AppBar, which has a smaller default height. */
+    dense?: boolean;
+    /** The elevation to apply when the user has scrolled. Defaults to 1. */
+    elevation?: number;
+}
 
 /**
  * AppBar wrapper with a fixed position and a spacer to prevent content from rendering underneath.
  */
-const OffsetAppBar: FC<PropsWithChildren<AppBarProps>> = ({
+const OffsetAppBar: FC<PropsWithChildren<OffsetAppBarProps>> = ({
     children,
+    dense = false,
+    elevation = 1,
     ...props
 }) => {
     const appBarRef = useRef<HTMLHtmlElement>(null);
-    const [height, setHeight] = useState(DEFAULT_APP_BAR_HEIGHT);
+    const [height, setHeight] = useState(dense ? DENSE_APP_BAR_HEIGHT : DEFAULT_APP_BAR_HEIGHT);
 
     const scrollTrigger = useScrollTrigger({
         disableHysteresis: true,
@@ -57,7 +68,7 @@ const OffsetAppBar: FC<PropsWithChildren<AppBarProps>> = ({
                 ref={appBarRef}
                 position='fixed'
                 color={scrollTrigger ? 'default' : 'transparent'}
-                elevation={scrollTrigger ? 1 : 0}
+                elevation={scrollTrigger ? elevation : 0}
             >
                 {children}
             </AppBar>

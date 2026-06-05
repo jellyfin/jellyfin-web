@@ -70,6 +70,11 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 5,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 6,
                 label: 'Favorites',
                 view: LibraryTab.Favorites
             }
@@ -124,6 +129,16 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 4,
                 label: 'Genres',
                 view: LibraryTab.Genres
+            },
+            {
+                index: 5,
+                label: 'Studios',
+                view: LibraryTab.Studios
+            },
+            {
+                index: 6,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     },
@@ -165,6 +180,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 6,
                 label: 'Genres',
                 view: LibraryTab.Genres
+            },
+            {
+                index: 7,
+                label: 'Collections',
+                view: LibraryTab.Collections
             }
         ]
     },
@@ -195,12 +215,22 @@ export const LibraryRoutes: LibraryRoute[] = [
             {
                 index: 4,
                 label: 'TabNetworks',
-                view: LibraryTab.Networks
+                view: LibraryTab.Studios
             },
             {
                 index: 5,
                 label: 'Episodes',
                 view: LibraryTab.Episodes
+            },
+            {
+                index: 6,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 7,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     },
@@ -248,6 +278,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'HeaderVideos',
                 view: LibraryTab.MusicVideos
+            },
+            {
+                index: 3,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     },
@@ -285,6 +320,16 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 2,
                 label: 'HeaderMedia',
                 view: LibraryTab.Mixed
+            },
+            {
+                index: 3,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 4,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     }

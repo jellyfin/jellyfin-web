@@ -116,7 +116,7 @@ ScrollerPrototype.attachedCallback = function () {
     }
 
     const scrollFrame = this;
-    const enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+    const enableScrollButtons = layoutManager.desktop && !browser.touch && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
 
     const options = {
         horizontal: horizontal,

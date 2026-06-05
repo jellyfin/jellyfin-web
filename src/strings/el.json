@@ -1894,5 +1894,7 @@
     "HeaderDeleteCollection": "Διαγραφή Συλλογής",
     "HeaderDeletePlaylist": "Διαγραφή Λίστας Αναπαραγωγής",
     "NewPlaylist": "Νέα Λίστα Αναπαραγωγής",
-    "OptionDatePlaylistUpdated": "Ημερομηνία Ενημέρωσης Λίστας Αναπαραγωγής"
+    "OptionDatePlaylistUpdated": "Ημερομηνία Ενημέρωσης Λίστας Αναπαραγωγής",
+    "LabelSimilarItemProvidersHelp": "Ενεργοποιήστε και κατατάξτε τους προτιμώμενους παρόχους παρόμοιων στοιχείων κατά σειρά προτεραιότητας.",
+    "HeaderTypeSimilarItemProviders": "Πάροχοι παρόμοιων στοιχείων ({0})"
 }

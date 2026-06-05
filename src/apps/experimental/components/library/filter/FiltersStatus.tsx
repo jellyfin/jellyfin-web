@@ -68,6 +68,7 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
             && viewType !== LibraryTab.PhotoAlbums
             && viewType !== LibraryTab.Authors
             && viewType !== LibraryTab.Photos
+            && viewType !== LibraryTab.Studios
         ) {
             visibleFiltersStatus.push(ItemFilter.IsUnplayed);
             visibleFiltersStatus.push(ItemFilter.IsPlayed);
