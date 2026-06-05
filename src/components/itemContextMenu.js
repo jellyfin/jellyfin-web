@@ -390,7 +390,7 @@ function executeCommand(item, id, options) {
     const itemId = item.Id;
     const serverId = item.ServerId;
     const apiClient = ServerConnections.getApiClient(serverId);
-    const api = toApi(apiClient);
+    const api = ServerConnections.getApi(serverId);
 
     return new Promise(function (resolve, reject) {
         // eslint-disable-next-line sonarjs/max-switch-cases

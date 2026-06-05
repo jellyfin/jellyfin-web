@@ -37,6 +37,7 @@ class ServerConnections extends ConnectionManager {
     constructor() {
         super(...arguments);
         this.localApiClient = null;
+        this.api = null;
         this.firstConnection = null;
 
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
@@ -53,25 +54,15 @@ class ServerConnections extends ConnectionManager {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
 
-            // Bridge the SDK websocket subscribe API onto the legacy ApiClient.
-            // The SDK Api is lazily created on first use so the access token is available.
-            let _sdkApi = null;
+            this.api = toApi(apiClient);
+
             apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
-                if (!_sdkApi) {
-                    _sdkApi = toApi(apiClient);
-                }
-
-                // Keep the SDK Api's access token in sync with the legacy client.
-                // The first subscribe call may happen before authentication completes
-                // (e.g. from notifications.js at module load time), leaving _sdkApi
-                // with no token and a WebSocket that never connects. Calling update()
-                // triggers WebSocketService.updateUrl() which reconnects automatically.
                 const accessToken = apiClient.accessToken();
-                if (accessToken && _sdkApi.accessToken !== accessToken) {
-                    _sdkApi.update({ accessToken });
+                if (accessToken && this.api?.accessToken !== accessToken) {
+                    this.api.update({ accessToken });
                 }
 
-                return _sdkApi.subscribe(messageTypes, onMessage, subscriptionIntervals);
+                return this.api.subscribe(messageTypes, onMessage, subscriptionIntervals);
             };
         });
     }
@@ -141,10 +132,7 @@ class ServerConnections extends ConnectionManager {
      * @returns {import(@jellyfin/sdk).Api|undefined} The current Api instance.
      */
     getCurrentApi() {
-        const apiClient = this.currentApiClient();
-        if (!apiClient) return;
-
-        return toApi(apiClient);
+        return this.api;
     }
 
     /**
@@ -162,7 +150,7 @@ class ServerConnections extends ConnectionManager {
     onLocalUserSignedIn(user) {
         const apiClient = this.getApiClient(user.ServerId);
         this.setLocalApiClient(apiClient);
-        setTimeout(() => detectBitrate(toApi(apiClient), true), 6000);
+        setTimeout(() => detectBitrate(this.getCurrentApi(), true), 6000);
         return setUserInfo(user.Id, apiClient).then(() => {
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedIn === 'function') {
                 return window.NativeShell.onLocalUserSignedIn(user, apiClient.accessToken());

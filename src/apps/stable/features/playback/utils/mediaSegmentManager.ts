@@ -109,7 +109,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
             return;
         }
 
-        const api = toApi(ServerConnections.getApiClient(serverId));
+        const api = ServerConnections.getApi(serverId);
         void this.fetchMediaSegments(
             api,
             itemId,

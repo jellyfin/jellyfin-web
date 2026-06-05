@@ -127,7 +127,7 @@ function showContextMenu(card, options = {}) {
         }
 
         const apiClient = ServerConnections.getApiClient(item.ServerId);
-        const api = toApi(apiClient);
+        const api = ServerConnections.getApi(item.serverId);
 
         Promise.all([
             // Import the item menu component

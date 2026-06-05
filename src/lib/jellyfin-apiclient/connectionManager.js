@@ -1,5 +1,6 @@
 import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
+import { Api } from '@jellyfin/sdk';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 
 import events from 'utils/events';
@@ -10,6 +11,7 @@ import { compareVersions } from 'utils/versions';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
 
@@ -59,6 +61,7 @@ export default class ConnectionManager {
 
         const self = this;
         this._apiClients = [];
+        this._apis = new Map();
 
         // Set the minimum version to match the SDK
         self._minServerVersion = MINIMUM_VERSION;
@@ -95,6 +98,7 @@ export default class ConnectionManager {
 
         self.addApiClient = (apiClient) => {
             self._apiClients.push(apiClient);
+            self._apis.push(toApi(apiClient));
 
             const existingServers = credentialProvider
                 .credentials()
@@ -142,6 +146,7 @@ export default class ConnectionManager {
                 apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
 
                 self._apiClients.push(apiClient);
+                self._apis.push(apiClient);
 
                 apiClient.serverInfo(server);
 
@@ -330,7 +335,10 @@ export default class ConnectionManager {
                 serverId: serverInfo.Id
             };
 
-            return apiClient.logout().then(
+            return Promise.allSettled([
+                self._apis.find((api) => api.accessToken === apiClient.accessToken).logout(),
+                apiClient.logout()
+            ]).then(
                 () => {
                     events.trigger(self, 'localusersignedout', [logoutInfo]);
                 },
@@ -768,6 +776,28 @@ export default class ConnectionManager {
 
             // We have to keep this hack in here because of the addApiClient method
             return !serverInfo || serverInfo.Id === item;
+        })[0];
+    }
+
+    /**
+     * Gets the {@link Api} for a given BaseItem or ServerId.
+     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
+     * @returns The {@link Api} instance for the ServerId
+     */
+    getApi(item) {
+        if (!item) {
+            throw new Error('item or serverId cannot be null');
+        }
+
+        // Accept string or object
+        if (item.ServerId) {
+            item = item.ServerId;
+        }
+
+        return this._apis.filter((api) => {
+            const serverInfo = api.serverInfo();
+
+            return !serverInfo || serverInfo.Id === item && api instanceof Api;
         })[0];
     }
 

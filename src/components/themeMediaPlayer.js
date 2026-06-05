@@ -79,7 +79,7 @@ const excludeTypes = [
 
 async function loadThemeMedia(serverId, itemId) {
     const apiClient = ServerConnections.getApiClient(serverId);
-    const api = toApi(apiClient);
+    const api = ServerConnections.getApi(serverId);
     const userId = apiClient.getCurrentUserId();
 
     try {

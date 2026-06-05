@@ -165,8 +165,7 @@ export function canEditImages (user, item) {
 }
 
 export async function canEditPlaylist(user, item) {
-    const apiClient = ServerConnections.getApiClient(item.ServerId);
-    const api = toApi(apiClient);
+    const api = ServerConnections.getApi(item.serverId);
 
     try {
         const { data: permissions } = await getPlaylistsApi(api)
