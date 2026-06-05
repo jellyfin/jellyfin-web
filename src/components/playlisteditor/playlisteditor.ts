@@ -7,10 +7,10 @@ import escapeHtml from 'escape-html';
 
 import toast from 'components/toast/toast';
 import { EventType } from 'constants/eventType';
+import { PluginType } from 'constants/pluginType';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
-import { PluginType } from 'types/plugin';
 import dom from 'utils/dom';
 import Events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
