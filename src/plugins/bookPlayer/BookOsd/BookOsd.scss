@@ -1,0 +1,45 @@
+.bookOsd {
+    position: absolute;
+    inset: 0;
+    z-index: 1002;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.bookOsdRow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 5vh;
+    padding: 0 0.8vw;
+    background-color: var(--jf-palette-AppBar-defaultBg);
+}
+
+// TODO disable landscape on mobile devices
+@media (orientation: landscape) and (max-width: 60em) {
+    .bookOsdRow {
+        height: 10vh;
+    }
+}
+
+.bookOsdTop {
+    padding-top: env(safe-area-inset-top);
+}
+
+.bookOsdBottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bookOsdMargin {
+    margin-left: auto;
+}
+
+.bookOsdTitle {
+    font-size: 1.1rem;
+    margin-left: 0.35rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

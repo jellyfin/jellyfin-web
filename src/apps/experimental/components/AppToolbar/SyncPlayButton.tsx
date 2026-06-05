@@ -8,9 +8,9 @@ import React, { useCallback, useState } from 'react';
 import { QUERY_KEY, useSyncPlayGroups } from 'apps/experimental/features/syncPlay/hooks/api/useSyncPlayGroups';
 import { useSyncPlay } from 'apps/experimental/features/syncPlay/hooks/useSyncPlay';
 import { pluginManager } from 'components/pluginManager';
+import { PluginType } from 'constants/pluginType';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import { PluginType } from 'types/plugin';
 import { queryClient } from 'utils/query/queryClient';
 
 import AppSyncPlayMenu, { ID } from './menus/SyncPlayMenu';

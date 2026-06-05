@@ -13,6 +13,8 @@ const episodesTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Episode],
     collectionType: CollectionType.Tvshows,
     isAlphabetPickerEnabled: false,
+    isBtnPlayAllEnabled: true,
+    isBtnShuffleEnabled: true,
     noItemsMessage: 'MessageNoEpisodesFound'
 };
 
@@ -20,6 +22,7 @@ const seriesTabContent: LibraryTabContent = {
     viewType: LibraryTab.Series,
     itemType: [BaseItemKind.Series],
     collectionType: CollectionType.Tvshows,
+    isBtnPlayAllEnabled: true,
     isBtnShuffleEnabled: true
 };
 
