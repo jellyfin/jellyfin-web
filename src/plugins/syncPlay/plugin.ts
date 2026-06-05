@@ -1,11 +1,13 @@
-import { playbackManager } from '../../components/playback/playbackmanager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from '../../utils/events';
+import type { Plugin } from 'types/plugin';
+import Events from 'utils/events';
+
 import SyncPlay from './core';
 import SyncPlayNoActivePlayer from './ui/players/NoActivePlayer';
 import SyncPlayHtmlVideoPlayer from './ui/players/HtmlVideoPlayer';
 import SyncPlayHtmlAudioPlayer from './ui/players/HtmlAudioPlayer';
-import { Plugin, PluginType } from '../../types/plugin';
 
 class SyncPlayPlugin implements Plugin {
     name: string;

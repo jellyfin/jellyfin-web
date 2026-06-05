@@ -1,6 +1,7 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import Screenfull from 'screenfull';
 
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import TouchHelper from 'scripts/touchHelper';
@@ -13,7 +14,6 @@ import TableOfContents from './tableOfContents';
 import BookOsd from './BookOsd/BookOsd';
 import { translateHtml } from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { renderComponent } from '../../utils/reactUtils';
 

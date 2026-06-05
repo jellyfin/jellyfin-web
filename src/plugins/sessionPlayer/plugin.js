@@ -1,9 +1,10 @@
-import { playbackManager } from '../../components/playback/playbackmanager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
 import isEqual from 'lodash-es/isEqual';
 import { OutboundWebSocketMessageType, PeriodicListenerInterval } from '@jellyfin/sdk/lib/websocket';
+
+import { playbackManager } from 'components/playback/playbackmanager';
+import { PluginType } from 'constants/pluginType';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Events from 'utils/events';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();

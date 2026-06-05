@@ -2,6 +2,7 @@ import escapeHtml from 'escape-html';
 
 import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
 import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
 import { EventType } from 'constants/eventType';
 
@@ -32,7 +33,6 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../../components/backdrop/backdrop';
 import { pluginManager } from '../../../components/pluginManager';
-import { PluginType } from '../../../types/plugin.ts';
 
 function getOpenedDialog() {
     return document.querySelector('.dialogContainer .dialog.opened');
