@@ -203,7 +203,14 @@ function showMenuForSelectedItems(e) {
                 // Disabled because there is no callback for this item
             }
 
-            if (user.Policy.IsAdministrator) {
+            const includeTypes = [
+                'Movie',
+                'Episode',
+                'MusicVideo',
+                'Video'
+            ];
+
+            if (user.Policy.IsAdministrator && includeTypes.includes(firstItem.Type)) {
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
