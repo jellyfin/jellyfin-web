@@ -1,0 +1,28 @@
+name: PR Auto-Labeler
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label:
+    name: Label PR by changed files
+    runs-on: ubuntu-latest
+    # Skip bot PRs — Renovate/Dependabot already label their own PRs correctly
+    if: |
+      github.event.pull_request.user.login != 'renovate[bot]' &&
+      github.event.pull_request.user.login != 'dependabot[bot]'
+    steps:
+      # IMPORTANT: No checkout step here — this workflow uses pull_request_target for
+      # write access. Never check out and run PR head code in a pull_request_target workflow.
+      - name: Apply labels from labeler.yml
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+          # Do not remove labels manually applied by maintainers (e.g. blocked, discussion needed)
+          sync-labels: false

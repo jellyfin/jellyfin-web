@@ -1,0 +1,57 @@
+name: First-Time Contributor Welcome
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  welcome:
+    name: Welcome first-time contributors
+    runs-on: ubuntu-latest
+    # Skip bots
+    if: |
+      github.event.pull_request.user.login != 'renovate[bot]' &&
+      github.event.pull_request.user.login != 'dependabot[bot]' &&
+      github.event.pull_request.user.login != 'github-actions[bot]'
+    steps:
+      # IMPORTANT: No checkout step — this runs with pull_request_target for write access.
+      # Never check out and run PR head code in a pull_request_target workflow.
+      - name: Welcome first-time contributors
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const author = context.payload.pull_request.user.login;
+            const prNumber = context.payload.pull_request.number;
+
+            // Use the search API to count this author's PRs in this repo.
+            // total_count == 1 means this is their first PR (the current one).
+            const { data: searchResult } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:pr author:${author}`,
+              per_page: 2,
+            });
+
+            if (searchResult.total_count <= 1) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: [
+                  `## Welcome to Jellyfin, @${author}!`,
+                  '',
+                  'Thank you for your first contribution! A few reminders:',
+                  '',
+                  '1. **Add yourself to [CONTRIBUTORS.md](https://github.com/jellyfin/jellyfin-web/blob/master/CONTRIBUTORS.md)** — per the [development guidelines](https://jellyfin.org/docs/general/contributing/development), first-time contributors should add their name in the "Jellyfin Contributors" section.',
+                  '',
+                  '2. **Read [CONTRIBUTING.md](https://github.com/jellyfin/jellyfin-web/blob/master/CONTRIBUTING.md)** if you haven\'t already — it covers code requirements, the LLM policy, and PR guidelines specific to this repository.',
+                  '',
+                  '3. **Help the community** by reviewing [another open PR](https://github.com/jellyfin/jellyfin-web/pulls) while you wait — this helps the maintainer and speeds up the overall review process.',
+                  '',
+                  'We look forward to reviewing your contribution!',
+                ].join('\n'),
+              });
+              core.info(`Welcomed first-time contributor @${author} on PR #${prNumber}`);
+            }

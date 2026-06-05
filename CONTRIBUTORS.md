@@ -107,6 +107,7 @@
 - [Lampan-git](https://github.com/Lampan-git)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
+- [yutamago](https://github.com/yutamago)
 
 ## Emby Contributors
 

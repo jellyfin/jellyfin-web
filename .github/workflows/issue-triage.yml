@@ -1,0 +1,233 @@
+name: Issue Triage
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  triage:
+    name: Triage new issue
+    runs-on: ubuntu-latest
+    # Skip bot-opened issues
+    if: ${{ github.event.issue.user.type != 'Bot' }}
+    steps:
+      - name: Triage issue
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+            const issueNumber = issue.number;
+            const author = issue.user.login;
+            const title = (issue.title || '').toLowerCase();
+            const body = (issue.body || '').toLowerCase();
+            const fullText = `${title} ${body}`;
+
+            // Bug indicator safety valve — defined first so it can be used by all checks below.
+            // If strong bug signals are present, we don't deflect to feature/help redirects.
+            const bugIndicators = [
+              /\bcrash(es|ed|ing)?\b/,
+              /\berror\b/,
+              /\bbroken\b/,
+              /\bregression\b/,
+              /\bused to work\b/,
+              /\bno longer\b/,
+              /\bdoesn't work\b/,
+              /\bdoes not work\b/,
+              /\bfails? to\b/,
+              /\bcan('t| not) (play|load|open|connect)\b/,
+            ];
+            const hasBugIndicators = bugIndicators.some(p => p.test(fullText));
+
+            // ── Help / question requests → redirect to Matrix ──────────────────────
+            // The issue tracker is for bug reports only; questions go to Matrix.
+            const helpPatterns = [
+              /\bhow (do|can|to|should) (i|you|we)\b/,
+              /\bis (it|there) (possible|a way)\b/,
+              /\bwhy (doesn't|isn't|won't|does)\b/,
+              /\bam i (doing|missing|wrong)\b/,
+              /\bnot sure (how|why|if)\b/,
+              /\bneed help\b/,
+              /\bcan('t| not) (figure out|understand|get it to work)\b/,
+              /\bconfused (about|by)\b/,
+            ];
+            const isHelpRequest = helpPatterns.some(p => p.test(fullText)) && !hasBugIndicators;
+
+            if (isHelpRequest) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: [
+                  '## Questions and Troubleshooting Go to Matrix',
+                  '',
+                  `Hi @${author}! This appears to be a question or troubleshooting request rather than a bug report.`,
+                  '',
+                  'The GitHub issue tracker is reserved for **confirmed bug reports**. For questions and help, please reach out via:',
+                  '',
+                  '- **[Matrix chat](https://jellyfin.org/contact)** — real-time support from the community',
+                  '',
+                  'If you\'re experiencing a bug (something that used to work and is now broken), please reopen and provide:',
+                  '- Steps to reproduce',
+                  '- Expected vs. actual behavior',
+                  '- Jellyfin version, browser, and platform',
+                ].join('\n'),
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                state: 'closed',
+                state_reason: 'not_planned',
+              });
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: ['question'],
+              });
+              core.notice(`Issue #${issueNumber} auto-closed as help/question request`);
+              return;
+            }
+
+            // ── Feature requests → redirect to features.jellyfin.org ──────────────
+            // GitHub issues are bug reports only; feature requests go to the Fider instance.
+            const featurePatterns = [
+              /\bplease add\b/,
+              /\bfeature request\b/,
+              /\brequest (for|to add)\b/,
+              /\bi('d| would) (like|love|want)\b/,
+              /\bcould you add\b/,
+              /\bit would be (nice|great|helpful|useful|awesome)\b/,
+              /\badd support for\b/,
+              /\bwould (be|love to)\b.{0,30}\b(add|have|support|implement)\b/,
+              /\bwish (there was|it had|you would)\b/,
+              /\ballow users? to\b/,
+              /\bsuggestion\b.{0,20}\b(add|implement|support)\b/,
+            ];
+            const isFeatureRequest = featurePatterns.some(p => p.test(fullText));
+
+            if (isFeatureRequest && !hasBugIndicators) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: [
+                  '## Feature Requests Go to the Feature Request Hub',
+                  '',
+                  `Thank you for your idea, @${author}!`,
+                  '',
+                  'This GitHub tracker is for **bug reports**. Feature requests and enhancement ideas are tracked at:',
+                  '',
+                  '**[features.jellyfin.org](https://features.jellyfin.org/)**',
+                  '',
+                  'Please:',
+                  '1. Search for your feature (and upvote it if it exists!)',
+                  '2. Submit a new request if not found',
+                  '',
+                  'This issue will be closed. If this is actually a bug (something that *used to work* and is now broken), please reopen and clarify with reproduction steps.',
+                ].join('\n'),
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                state: 'closed',
+                state_reason: 'not_planned',
+              });
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: ['feature'],
+              });
+              core.notice(`Issue #${issueNumber} auto-closed as feature request`);
+              return;
+            }
+
+            // ── Incomplete bug report ──────────────────────────────────────────────
+            // Per issue guidelines, valid bug reports must include reproduction steps
+            // and version/environment information.
+            const bodyClean = (issue.body || '').replace(/<!--[\s\S]*?-->/g, '').trim();
+            const wordCount = bodyClean.split(/\s+/).filter(w => w.length > 0).length;
+
+            const hasReproSteps =
+              /\b(steps?|how to reproduce|reproduce|repro)\b/i.test(bodyClean) ||
+              /^\s*(\d+\.|[-*])\s/m.test(bodyClean); // numbered or bulleted list implies steps
+
+            const hasVersionInfo =
+              /\b(version|v\d+\.\d+|browser|chrome|firefox|safari|edge)\b/i.test(bodyClean);
+
+            if (wordCount < 20 || (!hasReproSteps && !hasVersionInfo)) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: ['invalid'],
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: [
+                  '## Issue Appears Incomplete',
+                  '',
+                  `Hi @${author}! This issue is missing key information required to investigate the bug.`,
+                  '',
+                  'Per the [issue guidelines](https://jellyfin.org/docs/general/contributing/issues), a good bug report must include:',
+                  '1. **Steps to reproduce** — exact steps that trigger the problem',
+                  '2. **Expected vs. actual behavior**',
+                  '3. **Jellyfin server version** and **web client version**',
+                  '4. **Browser** (name and version) and **platform/OS**',
+                  '5. **Relevant logs** from the browser console or server',
+                  '',
+                  'The `invalid` label has been added. Once you\'ve added the required information, a maintainer will review. If not updated within 14 days this issue may be closed.',
+                ].join('\n'),
+              });
+              core.notice(`Issue #${issueNumber} flagged as incomplete`);
+              return;
+            }
+
+            // ── Keyword-based area labeling ────────────────────────────────────────
+            const labelsToAdd = [];
+            const areaRules = [
+              {
+                label: 'playback',
+                pattern: /\b(playback|video|audio|stream(ing)?|transcode|direct play|subtitle|caption|hls|buffer(ing)?|seek(ing)?|bitrate|codec|ffmpeg)\b/,
+              },
+              {
+                label: 'ui & ux',
+                pattern: /\b(ui|ux|interface|layout|theme|dark mode|appearance|design|button|menu|navigation|mobile|responsive|screen)\b/,
+              },
+              {
+                label: 'accessibility',
+                pattern: /\b(accessibility|a11y|screen reader|keyboard nav|aria|wcag|contrast|focus|tab order)\b/,
+              },
+              {
+                label: 'i18n',
+                pattern: /\b(translation|localization|locale|language|i18n|l10n|weblate)\b/,
+              },
+              { label: 'p: webos',   pattern: /\bwebos\b/i },
+              { label: 'p: tizen',   pattern: /\btizen\b|\bsamsung (tv|smart tv)\b/i },
+              { label: 'p: android', pattern: /\bandroid\b/i },
+              { label: 'p: ios',     pattern: /\b(ios|iphone|ipad|safari on ios)\b/i },
+              { label: 'p:xbox',     pattern: /\bxbox\b/i },
+            ];
+
+            for (const rule of areaRules) {
+              if (rule.pattern.test(fullText)) labelsToAdd.push(rule.label);
+            }
+
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: labelsToAdd,
+              });
+            }
+
+            core.info(`Issue #${issueNumber}: added labels [${labelsToAdd.join(', ') || 'none'}]`);
