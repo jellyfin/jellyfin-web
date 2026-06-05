@@ -47,6 +47,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     options.Qscale = parseInt(data.Qscale.toString() || '4', 10);
     options.JpegQuality = parseInt(data.JpegQuality.toString() || '90', 10);
     options.ProcessThreads = parseInt(data.TrickplayThreads.toString() || '1', 10);
+    options.MaxParallelism = parseInt(data.MaxParallelism.toString() || '1', 10);
 
     await getConfigurationApi(api)
         .updateConfiguration({ serverConfiguration: config });
@@ -255,6 +256,21 @@ export const Component = () => {
                                 slotProps={{
                                     htmlInput: {
                                         min: 0,
+                                        required: true
+                                    }
+                                }}
+                            />
+
+                            <TextField
+                                label={globalize.translate('LabelTrickplayMaxParallelism')}
+                                name='MaxParallelism'
+                                type='number'
+                                inputMode='numeric'
+                                defaultValue={defaultConfig.TrickplayOptions?.MaxParallelism}
+                                helperText={globalize.translate('LabelTrickplayMaxParallelismHelp')}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 1,
                                         required: true
                                     }
                                 }}
