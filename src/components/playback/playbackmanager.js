@@ -518,6 +518,18 @@ function getOptimalMediaSource(apiClient, item, versions) {
         for (let i = 0, length = versions.length; i < length; i++) {
             versions[i].enableDirectPlay = results[i] || false;
         }
+
+        // The played item's own media source carries its resume state, so it must stay selected as
+        // long as it is playable at all - an unplayable codec means transcoding it, not silently
+        // switching to an alternate version.
+        const ownSource = versions.find(function (v) {
+            return v.Id === item.Id;
+        });
+
+        if (ownSource && (ownSource.enableDirectPlay || ownSource.SupportsDirectStream || ownSource.SupportsTranscoding)) {
+            return ownSource;
+        }
+
         let optimalVersion = versions.filter(function (v) {
             return v.enableDirectPlay;
         })[0];
