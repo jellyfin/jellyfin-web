@@ -9,11 +9,13 @@ import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 interface ShuffleButtonProps {
     item: ItemDto | undefined
     items: ItemDto[]
     viewType: LibraryTab
+    collectionType: CollectionType | undefined
     hasFilters: boolean
     isTextVisible: boolean
     libraryViewSettings: LibraryViewSettings
@@ -23,6 +25,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
     item,
     items,
     viewType,
+    collectionType,
     hasFilters,
     isTextVisible,
     libraryViewSettings
@@ -31,7 +34,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
         // For the Homevideos library Videos tab, pass items directly to playback since
         // the playback manager hardcodes MediaTypes: 'Photo' for the Homevideos library
         // which would exclude videos from the queue
-        if (item && !hasFilters && viewType !== LibraryTab.Videos) {
+        if (item && !hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
             playbackManager.shuffle(item);
         } else {
             playbackManager.play({
@@ -46,7 +49,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
                 console.error('[ShuffleButton] failed to play', err);
             });
         }
-    }, [hasFilters, item, items, libraryViewSettings, viewType]);
+    }, [collectionType, hasFilters, item, items, libraryViewSettings, viewType]);
 
     return (
         <Button

@@ -8,11 +8,13 @@ import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 interface PlayAllButtonProps {
     item: ItemDto | undefined
     items: ItemDto[]
     viewType: LibraryTab
+    collectionType: CollectionType | undefined
     hasFilters: boolean
     isTextVisible: boolean
     libraryViewSettings: LibraryViewSettings
@@ -22,6 +24,7 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
     item,
     items,
     viewType,
+    collectionType,
     hasFilters,
     isTextVisible,
     libraryViewSettings
@@ -30,7 +33,7 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
         // For the Homevideos library Videos tab, pass items directly to playback since
         // the playback manager hardcodes MediaTypes: 'Photo' for the Homevideos library
         // which would exclude videos from the queue
-        if (item && !hasFilters && viewType !== LibraryTab.Videos) {
+        if (item && !hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
             playbackManager.play({
                 items: [item],
                 autoplay: true,
@@ -55,7 +58,7 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
                 console.error('[PlayAllButton] failed to play', err);
             });
         }
-    }, [hasFilters, item, items, libraryViewSettings, viewType]);
+    }, [collectionType, hasFilters, item, items, libraryViewSettings, viewType]);
 
     return (
         <Button
