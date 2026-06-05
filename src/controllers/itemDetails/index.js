@@ -1855,7 +1855,6 @@ export default function (view, params) {
 
         Promise.all([getPromise(apiClient, pageParams), apiClient.getCurrentUser()]).then(([item, user]) => {
             currentItem = item;
-            selectedVersion = null;
             reloadFromItem(instance, page, pageParams, item, user);
         }).catch((error) => {
             console.error('failed to get item or current user: ', error);
@@ -1908,12 +1907,15 @@ export default function (view, params) {
             return;
         }
 
-        // Resume from the selected version's own saved position rather than the displayed
-        // item's, which may belong to a different version.
+        // The displayed item follows the version selection, so its user data carries the
+        // selected version's resume position. While a version switch is still loading the
+        // selection may not match the displayed item yet; start from the beginning then
+        // rather than resuming at another version's position.
         const selectedSourceId = view.querySelector('.selectSource').value;
-        const resumeItem = (selectedVersion && selectedVersion.id === selectedSourceId) ? selectedVersion.item : item;
-        const startPositionTicks = resumeItem.UserData && mode === ItemAction.Resume ?
-            resumeItem.UserData.PlaybackPositionTicks :
+        const startPositionTicks = item.UserData
+            && mode === ItemAction.Resume
+            && (!selectedSourceId || selectedSourceId === item.Id) ?
+            item.UserData.PlaybackPositionTicks :
             0;
 
         playItem(item, startPositionTicks);
@@ -2011,6 +2013,8 @@ export default function (view, params) {
 
         if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
 
+        // Match by item id: alternate versions share the same user data key, so a key match
+        // would apply another version's progress to the displayed item.
         const userData = (Data?.UserDataList ?? []).find(u => u.ItemId == currentItem.Id);
 
         if (userData) {
@@ -2018,12 +2022,9 @@ export default function (view, params) {
             reloadPlayButtons(view, currentItem);
             autoFocus(view);
         }
-
-        refreshSelectedVersion();
     }
 
     let currentItem;
-    let selectedVersion = null;
     const self = this;
 
     function init() {
@@ -2048,7 +2049,6 @@ export default function (view, params) {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
-            updateMiscInfo();
             refreshSelectedVersion();
         });
         view.addEventListener('viewshow', function (e) {
@@ -2086,28 +2086,14 @@ export default function (view, params) {
             unmount(self);
 
             currentItem = null;
-            selectedVersion = null;
             self._currentPlaybackMediaSources = null;
             self.currentRecordingFields = null;
         });
     }
 
-    function updateMiscInfo() {
-        const selectedMediaSource = getSelectedMediaSource(view, self._currentPlaybackMediaSources);
-        renderMiscInfo(view, {
-            // patch currentItem (primary item) with details from the selected MediaSource:
-            ...currentItem,
-            ...selectedMediaSource
-        });
-    }
-
-    // When the user picks an alternate version, fetch that Video item's own DTO
-    // and refresh the play/user-data buttons so resume position, watched state, and
-    // stack-part count reflect the selected version rather than the primary's.
     function refreshSelectedVersion() {
         const selectedId = view.querySelector('.selectSource').value;
         if (!selectedId || !currentItem || selectedId === currentItem.Id) {
-            selectedVersion = null;
             reloadPlayButtons(view, currentItem);
             reloadUserDataButtons(view, currentItem);
             return;
@@ -2115,25 +2101,22 @@ export default function (view, params) {
 
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
         const api = toApi(apiClient);
-        getUserLibraryApi(api).getItem({
-            userId: apiClient.getCurrentUserId(),
-            itemId: selectedId
-        }).then(function ({ data: altItem }) {
+        Promise.all([
+            getUserLibraryApi(api).getItem({
+                userId: apiClient.getCurrentUserId(),
+                itemId: selectedId
+            }),
+            apiClient.getCurrentUser()
+        ]).then(function ([{ data: versionItem }, user]) {
             if (view.querySelector('.selectSource').value !== selectedId) {
                 return;
             }
-            // Keep primary's shared metadata (overview, cast, etc.) and override the
-            // fields that are intrinsic to the playback target (UserData, runtime, parts).
-            const merged = {
-                ...currentItem,
-                UserData: altItem.UserData,
-                RunTimeTicks: altItem.RunTimeTicks,
-                PartCount: altItem.PartCount,
-                MediaStreams: altItem.MediaStreams
-            };
-            selectedVersion = { id: selectedId, item: merged };
-            reloadPlayButtons(view, merged);
-            reloadUserDataButtons(view, merged);
+
+            currentItem = versionItem;
+            reloadFromItem(self, view, params, versionItem, user);
+            renderVideoSelections(view, self._currentPlaybackMediaSources);
+            renderAudioSelections(view, self._currentPlaybackMediaSources);
+            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
         }).catch(function (err) {
             console.error('failed to load alternate version item', err);
         });
