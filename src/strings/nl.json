@@ -1916,5 +1916,6 @@
     "TableOfContents": "Inhoudsopgave",
     "ConfirmStillWatching": "Ben je er nog?",
     "Disabled": "Uitgeschakeld",
-    "LabelOriginalLanguage": "Oorspronkelijke taal"
+    "LabelOriginalLanguage": "Oorspronkelijke taal",
+    "StillWatchingPrompt": "Melding bij inactiviteit"
 }
