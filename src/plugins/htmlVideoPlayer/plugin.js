@@ -45,6 +45,11 @@ import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
 
+const NATIVE_UNSUPPORTED_SUBTITLE_CODECS = ['ssa', 'ass', 'pgssub', 'dvdsub', 'vobsub'];
+const ASS_SUBTITLE_CODECS = ['ssa', 'ass'];
+const VOBSUB_SUBTITLE_CODECS = ['dvdsub', 'vobsub'];
+const BITMAP_SUBTITLE_ASPECT_MODES = ['stretch', 'contain', 'cover'];
+
 /**
  * Returns resolved URL.
  * @param {string} url - URL.
@@ -106,7 +111,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass' || format === 'pgssub' || format === 'dvdsub' || format === 'vobsub') {
+        if (NATIVE_UNSUPPORTED_SUBTITLE_CODECS.includes(format)) {
             return false;
         }
     }
@@ -190,7 +195,7 @@ function getSubtitleFileNameHint(track) {
     }
 
     const codec = (track?.Codec || '').toLowerCase();
-    if (codec === 'dvdsub' || codec === 'vobsub') {
+    if (VOBSUB_SUBTITLE_CODECS.includes(codec)) {
         return 'subtitle.mks';
     }
 
@@ -201,7 +206,7 @@ function getBitmapSubtitleDisplaySettings() {
     const aspectMode = userSettings.getSubtitleAppearanceSettings()?.aspectMode;
     const normalizedAspectMode = typeof aspectMode === 'string' ? aspectMode.toLowerCase() : 'stretch';
 
-    if (normalizedAspectMode === 'stretch' || normalizedAspectMode === 'contain' || normalizedAspectMode === 'cover') {
+    if (BITMAP_SUBTITLE_ASPECT_MODES.includes(normalizedAspectMode)) {
         return {
             aspectMode: normalizedAspectMode
         };
@@ -1615,7 +1620,7 @@ export class HtmlVideoPlayer {
     async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const format = (track.Codec || '').toLowerCase();
-            if (format === 'ssa' || format === 'ass') {
+            if (ASS_SUBTITLE_CODECS.includes(format)) {
                 this.renderSsaAss(videoElement, track, item);
                 return;
             }
@@ -1623,7 +1628,7 @@ export class HtmlVideoPlayer {
                 this.renderPgs(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
-            if (format === 'dvdsub' || format === 'vobsub') {
+            if (VOBSUB_SUBTITLE_CODECS.includes(format)) {
                 this.renderVobSub(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
