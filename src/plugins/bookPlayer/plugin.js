@@ -299,7 +299,7 @@ export class BookPlayer {
 
         this.mediaElement = elem;
         this.unmountBookOsd = renderComponent(BookOsd, {
-            title: options.items[0].Name,
+            item: options.items[0],
             onExit: this.onDialogClosed,
             onPrevious: this.previous,
             onNext: this.next,

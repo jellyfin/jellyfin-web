@@ -23,16 +23,16 @@
     }
 }
 
+.bookOsdSpacer {
+    flex: 1;
+}
+
 .bookOsdTop {
     padding-top: env(safe-area-inset-top);
 }
 
 .bookOsdBottom {
     padding-bottom: env(safe-area-inset-bottom);
-}
-
-.bookOsdMargin {
-    margin-left: auto;
 }
 
 .bookOsdTitle {
