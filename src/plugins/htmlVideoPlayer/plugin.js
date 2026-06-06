@@ -276,7 +276,7 @@ export class HtmlVideoPlayer {
     /**
      * @type {any | null | undefined}
      */
-    #currentLibbitsubRenderer;
+    #currentBitmapSubRenderer;
     /**
      * @type {number | undefined}
      */
@@ -710,9 +710,9 @@ export class HtmlVideoPlayer {
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
             this.#currentAssRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
-        } else if (this.#currentLibbitsubRenderer) {
+        } else if (this.#currentBitmapSubRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
-            this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
+            this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -1108,9 +1108,9 @@ export class HtmlVideoPlayer {
                     this.#currentAssRenderer.resetRenderAheadCache(false);
                 }
 
-                if (this.#currentLibbitsubRenderer) {
-                    this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
-                    this.#currentLibbitsubRenderer.updateCanvasSize?.();
+                if (this.#currentBitmapSubRenderer) {
+                    this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                    this.#currentBitmapSubRenderer.updateCanvasSize?.();
                 }
             });
 
@@ -1307,11 +1307,11 @@ export class HtmlVideoPlayer {
         }
         this.#currentAssRenderer = null;
 
-        const pgsRenderer = this.#currentLibbitsubRenderer;
-        if (pgsRenderer) {
-            pgsRenderer.dispose();
+        const pgsOrVobSubRenderer = this.#currentBitmapSubRenderer;
+        if (pgsOrVobSubRenderer) {
+            pgsOrVobSubRenderer.dispose();
         }
-        this.#currentLibbitsubRenderer = null;
+        this.#currentBitmapSubRenderer = null;
     }
 
     /**
@@ -1467,9 +1467,9 @@ export class HtmlVideoPlayer {
         const onLoaded = options.onLoaded;
         const onError = options.onError;
         options.onLoaded = () => {
-            if (this.#currentLibbitsubRenderer) {
-                this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
-                this.#currentLibbitsubRenderer.updateCanvasSize?.();
+            if (this.#currentBitmapSubRenderer) {
+                this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                this.#currentBitmapSubRenderer.updateCanvasSize?.();
             }
             onLoaded?.();
         };
@@ -1483,10 +1483,10 @@ export class HtmlVideoPlayer {
             }
         };
         import('libbitsub').then((libbitsub) => {
-            this.#currentLibbitsubRenderer = new libbitsub.PgsRenderer(options);
+            this.#currentBitmapSubRenderer = new libbitsub.PgsRenderer(options);
             requestAnimationFrame(() => {
-                if (this.#currentLibbitsubRenderer) {
-                    this.#currentLibbitsubRenderer.updateCanvasSize?.();
+                if (this.#currentBitmapSubRenderer) {
+                    this.#currentBitmapSubRenderer.updateCanvasSize?.();
                 }
             });
         }).catch((error) => {
@@ -1506,12 +1506,12 @@ export class HtmlVideoPlayer {
         const onLoaded = options.onLoaded;
         const onError = options.onError;
         options.onLoaded = () => {
-            if (this.#currentLibbitsubRenderer) {
-                this.#currentLibbitsubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
-                this.#currentLibbitsubRenderer.setDebandEnabled?.(true);
-                this.#currentLibbitsubRenderer.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
-                this.#currentLibbitsubRenderer.setDebandRange?.(VOBSUB_DEBAND_RANGE);
-                this.#currentLibbitsubRenderer.updateCanvasSize?.();
+            if (this.#currentBitmapSubRenderer) {
+                this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                this.#currentBitmapSubRenderer.setDebandEnabled?.(true);
+                this.#currentBitmapSubRenderer.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
+                this.#currentBitmapSubRenderer.setDebandRange?.(VOBSUB_DEBAND_RANGE);
+                this.#currentBitmapSubRenderer.updateCanvasSize?.();
             }
             onLoaded?.();
         };
@@ -1525,10 +1525,10 @@ export class HtmlVideoPlayer {
             }
         };
         import('libbitsub').then((libbitsub) => {
-            this.#currentLibbitsubRenderer = new libbitsub.VobSubRenderer(options);
+            this.#currentBitmapSubRenderer = new libbitsub.VobSubRenderer(options);
             requestAnimationFrame(() => {
-                if (this.#currentLibbitsubRenderer) {
-                    this.#currentLibbitsubRenderer.updateCanvasSize?.();
+                if (this.#currentBitmapSubRenderer) {
+                    this.#currentBitmapSubRenderer.updateCanvasSize?.();
                 }
             });
         }).catch((error) => {
@@ -2258,8 +2258,8 @@ export class HtmlVideoPlayer {
             }
         }
 
-        if (this.#currentLibbitsubRenderer) {
-            this.#currentLibbitsubRenderer.updateCanvasSize?.();
+        if (this.#currentBitmapSubRenderer) {
+            this.#currentBitmapSubRenderer.updateCanvasSize?.();
         }
     }
 
