@@ -1910,5 +1910,7 @@
     "LabelBackupWarning": "Er zijn lopende geplande taken. Het wordt aanbevolen te wachten tot deze voltooid zijn alvorens een back-up uit te voeren.",
     "HeaderBackupWarning": "WAARSCHUWING: lopende geplande taken",
     "HeaderTypeSimilarItemProviders": "Aanbieders van vergelijkbare items ({0})",
-    "LabelSimilarItemProvidersHelp": "Activeer je voorkeursaanbieders van vergelijkbare items en bepaal hun prioriteit."
+    "LabelSimilarItemProvidersHelp": "Activeer je voorkeursaanbieders van vergelijkbare items en bepaal hun prioriteit.",
+    "OriginalLanguage": "Oorspronkelijke taal",
+    "StillWatchingOption": "{0} afleveringen of {1} minuten"
 }
