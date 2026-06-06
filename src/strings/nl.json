@@ -1912,5 +1912,9 @@
     "HeaderTypeSimilarItemProviders": "Aanbieders van vergelijkbare items ({0})",
     "LabelSimilarItemProvidersHelp": "Activeer je voorkeursaanbieders van vergelijkbare items en bepaal hun prioriteit.",
     "OriginalLanguage": "Oorspronkelijke taal",
-    "StillWatchingOption": "{0} afleveringen of {1} minuten"
+    "StillWatchingOption": "{0} afleveringen of {1} minuten",
+    "TableOfContents": "Inhoudsopgave",
+    "ConfirmStillWatching": "Ben je er nog?",
+    "Disabled": "Uitgeschakeld",
+    "LabelOriginalLanguage": "Oorspronkelijke taal"
 }
