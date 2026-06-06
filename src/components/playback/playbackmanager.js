@@ -898,9 +898,9 @@ export class PlaybackManager {
         self.trackHasSecondarySubtitleSupport = function (track, player = self._currentPlayer) {
             if (!player || !track) return false;
             const format = (track.Codec || '').toLowerCase();
-            // Currently, only non-SSA/non-ASS external subtitles are supported.
-            // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
-            // of the complexity of how they are rendered and the risk of the subtitles overlapping
+            // Secondary subtitle pairing does not work with SSA/ASS combinations because
+            // of the complexity of how they are rendered and the risk of the subtitles overlapping.
+            // Graphical subtitle formats are supported generally, but not for secondary pairing here.
             return format !== 'ssa'
                 && format !== 'ass'
                 && format !== 'pgssub'
