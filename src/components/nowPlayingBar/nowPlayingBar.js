@@ -9,7 +9,7 @@ import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
-import { playbackManager } from '../playback/playbackmanager';
+import { playbackManager, getAudiobookPlaybackRate } from '../playback/playbackmanager';
 import { appHost } from '../apphost';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
@@ -257,6 +257,16 @@ function bindEvents(elem) {
         if (currentPlayer) {
             const newPercent = parseFloat(this.value);
 
+            if (chapterModeActive()) {
+                const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+                const bounds = getChapterBounds(positionTicks, playbackManager.duration(currentPlayer));
+                if (bounds) {
+                    playbackManager.seek(bounds.start + (bounds.duration * newPercent / 100), currentPlayer);
+                    return;
+                }
+            }
+
+
             playbackManager.seekPercent(newPercent, currentPlayer);
         }
     });
@@ -266,6 +276,14 @@ function bindEvents(elem) {
 
         if (!state?.NowPlayingItem || !currentRuntimeTicks) {
             return '--:--';
+        }
+
+        if (chapterModeActive() && currentPlayer) {
+            const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+            const bounds = getChapterBounds(positionTicks, currentRuntimeTicks);
+            if (bounds) {
+                return datetime.getDisplayRunningTime(bounds.duration / 100 * value);
+            }
         }
 
         let ticks = currentRuntimeTicks;
@@ -369,7 +387,7 @@ function updatePlayerStateInternal(event, state, player) {
     }
 
     const nowPlayingItem = state.NowPlayingItem || {};
-    updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
+    updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player), nowPlayingItem);
 
     updateNowPlayingInfo(state);
     updateLyricButton(nowPlayingItem);
@@ -396,7 +414,19 @@ function updateRepeatModeDisplay(repeatMode) {
     }
 }
 
-function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
+function getAudiobookRemainingTimeText(runtimeTicks, positionTicks, nowPlayingItem) {
+    if (nowPlayingItem?.Type !== 'AudioBook' || positionTicks == null) {
+        return null;
+    }
+    const rate = getAudiobookPlaybackRate();
+    if (!rate) {
+        return null;
+    }
+    const remainingTicks = Math.max(0, runtimeTicks - positionTicks);
+    return datetime.getDisplayRunningTime(remainingTicks / rate);
+}
+
+function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges, nowPlayingItem) {
     // See bindEvents for why this is necessary
     if (positionSlider && !positionSlider.dragging) {
         if (runtimeTicks) {
@@ -416,7 +446,9 @@ function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
     if (currentTimeElement) {
         let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
         if (runtimeTicks) {
-            timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
+            const runtimeText = getAudiobookRemainingTimeText(runtimeTicks, positionTicks, nowPlayingItem)
+                ?? datetime.getDisplayRunningTime(runtimeTicks);
+            timeText += ' / ' + runtimeText;
         }
 
         currentTimeElement.innerHTML = timeText;
@@ -677,7 +709,7 @@ function onTimeUpdate() {
 
     const player = this;
     currentRuntimeTicks = playbackManager.duration(player);
-    updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+    updateTimeDisplay(playbackManager.getCurrentTicks(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
 }
 
 function releaseCurrentPlayer() {

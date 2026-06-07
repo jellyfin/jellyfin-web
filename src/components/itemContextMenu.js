@@ -82,6 +82,14 @@ export async function getCommands(options) {
                 icon: 'clear_all'
             });
         }
+        if (item.Type === 'AudioBook') {
+            const currentRate = Number.parseFloat(userSettings.get('audioBookPlaybackRate')) || 1;
+            commands.push({
+                name: globalize.translate('PlaybackRate') + ' (' + Number(currentRate).toFixed(2) + 'x)',
+                id: 'audiobookPlaybackRate',
+                icon: 'speed'
+            });
+        }
     }
 
     if (playbackManager.canQueue(item)) {
@@ -374,6 +382,30 @@ export async function getCommands(options) {
     return commands;
 }
 
+function showAudioBookRateMenu() {
+    const player = playbackManager.getCurrentPlayer();
+    const currentRate = Number.parseFloat(userSettings.get('audioBookPlaybackRate')) || 1;
+
+    const rates = [0.8, 1, 1.1, 1.25, 1.5, 1.75, 2, 2.25, 2.5];
+    const menuItems = rates.map(r => ({
+        name: r + 'x',
+        id: String(r),
+        selected: Math.abs(r - currentRate) < 0.01
+    }));
+
+    return actionsheet.show({
+        items: menuItems
+    }).then(function (id) {
+        if (id) {
+            const rate = Number.parseFloat(id);
+            // Capture the position before changing the rate, since restartStream re-reads it.
+            const resumePositionTicks = playbackManager.getCurrentTicks(player);
+            userSettings.set('audioBookPlaybackRate', String(rate));
+            playbackManager.restartStream(player, resumePositionTicks);
+        }
+    });
+}
+
 function getResolveFunction(resolve, commandId, changed, deleted, itemId) {
     return function () {
         resolve({
@@ -654,6 +686,10 @@ function executeCommand(item, id, options) {
                 break;
             case 'cancelseriestimer':
                 deleteSeriesTimer(apiClient, item, resolve, id);
+                break;
+            case 'audiobookPlaybackRate':
+                showAudioBookRateMenu();
+                getResolveFunction(resolve, id)();
                 break;
             default:
                 reject();
