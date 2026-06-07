@@ -9,7 +9,7 @@ import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
-import { playbackManager } from '../playback/playbackmanager';
+import { playbackManager, getAudiobookPlaybackRate } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
@@ -312,7 +312,7 @@ export default function () {
         }
 
         updatePlayPauseState(playState.IsPaused, item != null);
-        updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
+        updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null, item);
         updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
 
         if (item && item.MediaType == 'Video') {
@@ -425,7 +425,7 @@ export default function () {
         buttonVisible(btnPlayPause, isActive);
     }
 
-    function updateTimeDisplay(positionTicks, runtimeTicks) {
+    function updateTimeDisplay(positionTicks, runtimeTicks, item) {
         const context = dlg;
         const positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
@@ -440,7 +440,21 @@ export default function () {
         }
 
         context.querySelector('.positionTime').innerHTML = Number.isFinite(positionTicks) ? datetime.getDisplayRunningTime(positionTicks) : '--:--';
-        context.querySelector('.runtime').innerHTML = Number.isFinite(runtimeTicks) ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+
+        let runtimeDisplay;
+        if (Number.isFinite(runtimeTicks)) {
+            if (item?.Type === 'AudioBook' && Number.isFinite(positionTicks)) {
+                const rate = getAudiobookPlaybackRate();
+                if (rate) {
+                    const remainingTicks = Math.max(0, runtimeTicks - positionTicks);
+                    runtimeDisplay = datetime.getDisplayRunningTime(remainingTicks / rate);
+                }
+            }
+            runtimeDisplay = runtimeDisplay ?? datetime.getDisplayRunningTime(runtimeTicks);
+        } else {
+            runtimeDisplay = '--:--';
+        }
+        context.querySelector('.runtime').innerHTML = runtimeDisplay;
     }
 
     function getPlaylistItems(player) {
@@ -585,7 +599,7 @@ export default function () {
             lastUpdateTime = now;
             const player = this;
             currentRuntimeTicks = playbackManager.duration(player);
-            updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks);
+            updateTimeDisplay(playbackManager.getCurrentTicks(player), currentRuntimeTicks);
         }
     }
 
@@ -777,6 +791,16 @@ export default function () {
 
             if (currentPlayer) {
                 const newPercent = parseFloat(value);
+
+                if (chapterModeActive()) {
+                    const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+                    const bounds = getChapterBounds(positionTicks, playbackManager.duration(currentPlayer));
+                    if (bounds) {
+                        playbackManager.seek(bounds.start + (bounds.duration * newPercent / 100), currentPlayer);
+                        return;
+                    }
+                }
+
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
         });
@@ -788,10 +812,40 @@ export default function () {
                 return '--:--';
             }
 
-            let ticks = currentRuntimeTicks;
-            ticks /= 100;
-            ticks *= value;
-            return datetime.getDisplayRunningTime(ticks);
+            if (chapterModeActive() && currentPlayer) {
+                const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+                const bounds = getChapterBounds(positionTicks, currentRuntimeTicks);
+                if (bounds) {
+                    return datetime.getDisplayRunningTime(bounds.duration / 100 * value);
+                }
+            }
+
+            const ticks = currentRuntimeTicks / 100 * value;
+            let text = datetime.getDisplayRunningTime(ticks);
+
+            const chapters = state.NowPlayingItem.Chapters;
+            if (chapters?.length) {
+                let chapter;
+                for (let i = chapters.length - 1; i >= 0; i--) {
+                    if (chapters[i].StartPositionTicks <= ticks) {
+                        chapter = chapters[i];
+                        break;
+                    }
+                }
+                if (chapter) text += ' · ' + chapter.Name;
+            }
+
+            return text;
+        };
+
+        positionSlider.getMarkerInfo = function () {
+            if (chapterModeActive()) return [];
+            const item = lastPlayerState?.NowPlayingItem;
+            if (!item?.Chapters?.length || !item.RunTimeTicks) return [];
+            return item.Chapters.map(chapter => ({
+                name: chapter.Name,
+                progress: chapter.StartPositionTicks / item.RunTimeTicks
+            }));
         };
 
         context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
