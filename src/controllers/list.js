@@ -332,6 +332,10 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         SortBy: sortBy
     };
 
+    if (item.Type === 'CollectionFolder' && item.CollectionType == null) {
+        query.EnableUserData = false;
+    }
+
     if (params.type) {
         instance.queryRecursive = true;
         query.Recursive = true;
