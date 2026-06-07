@@ -150,7 +150,9 @@ class HtmlAudioPlayer {
             });
 
             // Convert to seconds
-            const seconds = (options.playerStartPositionTicks || 0) / 10000000;
+            // Atempo streams start at the resume position server-side, so begin the element at 0.
+            const isAtempoStream = val.includes('AudioPlaybackRate=');
+            const seconds = isAtempoStream ? 0 : (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {
                 val += '#t=' + seconds;
             }
@@ -337,7 +339,9 @@ class HtmlAudioPlayer {
                 self._started = true;
                 this.removeAttribute('controls');
 
-                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
+                // Atempo streams start at the resume position server-side, so skip the element seek.
+                const isAtempoStream = (self._currentPlayOptions.url || '').includes('AudioPlaybackRate=');
+                htmlMediaHelper.seekOnPlaybackStart(self, e.target, isAtempoStream ? 0 : self._currentPlayOptions.playerStartPositionTicks);
             }
             Events.trigger(self, 'playing');
         }

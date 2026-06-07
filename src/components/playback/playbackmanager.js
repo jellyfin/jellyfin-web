@@ -305,11 +305,18 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
+
+export function getAudiobookPlaybackRate() {
+    const rate = Number.parseFloat(userSettings.get('audioBookPlaybackRate'));
+    return (rate && Math.abs(rate - 1) > 0.001) ? rate : null;
+}
+
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
 
     startingPlaySession++;
-    return apiClient.getUrl(url, {
+
+    const params = {
         UserId: apiClient.getCurrentUserId(),
         DeviceId: apiClient.deviceId(),
         MaxStreamingBitrate: maxValues.maxAudioBitrate || maxValues.maxBitrate,
@@ -325,7 +332,16 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         EnableRedirection: true,
         EnableRemoteMedia: appHost.supports(AppFeature.RemoteAudio),
         EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
-    });
+    };
+
+    if (item.Type === 'AudioBook') {
+        const rate = getAudiobookPlaybackRate();
+        if (rate) {
+            params.AudioPlaybackRate = rate;
+        }
+    }
+
+    return apiClient.getUrl(url, params);
 }
 
 function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -1348,6 +1364,16 @@ export class PlaybackManager {
             }
         };
 
+        self.restartStream = function (player, positionTicks) {
+            player = player || self._currentPlayer;
+            if (player && enableLocalPlaylistManagement(player)) {
+                loading.show();
+                // Optional explicit position; falls back to the current position.
+                const ticks = positionTicks == null ? getCurrentTicks(player) : positionTicks;
+                changeStream(player, ticks, {});
+            }
+        };
+
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
             if (!apiClient) {
                 // This should hopefully never happen
@@ -1697,6 +1723,22 @@ export class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
+                const currentItem = self.currentItem(player);
+                if (currentItem?.Type === 'AudioBook') {
+                    const rate = getAudiobookPlaybackRate();
+                    if (rate) {
+                        const streamInfo = getPlayerData(player).streamInfo;
+                        const startTicks = streamInfo?.playerStartPositionTicks || 0;
+                        // Atempo streams have no content before their start, so rebuild to seek earlier.
+                        if (ticks < startTicks) {
+                            self.restartStream(player, ticks);
+                            return;
+                        }
+                        // element = (ticks - start) / rate
+                        player.currentTime(Number.parseInt(((ticks - startTicks) / rate) / 10000, 10));
+                        return;
+                    }
+                }
                 player.currentTime(parseInt(ticks / 10000, 10));
                 return;
             }
@@ -1790,12 +1832,14 @@ export class PlaybackManager {
             playerData.streamInfo = streamInfo;
 
             return player.play(streamInfo).then(function () {
+                loading.hide();
                 playerData.isChangingStream = false;
                 streamInfo.started = true;
                 streamInfo.ended = false;
 
                 sendProgressUpdate(player, 'timeupdate');
             }, function (e) {
+                loading.hide();
                 playerData.isChangingStream = false;
 
                 onPlaybackError.call(player, e, {
@@ -2249,8 +2293,19 @@ export class PlaybackManager {
             let playerTime = Math.floor(10000 * (player).currentTime());
 
             const streamInfo = getPlayerData(player).streamInfo;
+
+            // Atempo streams are 0-based at wall-clock speed: content = start + element * rate.
+            const currentItem = self.currentItem(player);
+            if (currentItem?.Type === 'AudioBook' && streamInfo) {
+                const rate = getAudiobookPlaybackRate();
+                if (rate) {
+                    const startTicks = streamInfo.playerStartPositionTicks || 0;
+                    return startTicks + Math.floor(playerTime * rate);
+                }
+            }
+
             if (streamInfo) {
-                playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
+                playerTime += streamInfo.transcodingOffsetTicks || 0;
             }
 
             return playerTime;
