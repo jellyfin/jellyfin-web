@@ -1,6 +1,5 @@
 import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
-import { Api } from '@jellyfin/sdk';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 
 import events from 'utils/events';
@@ -98,7 +97,7 @@ export default class ConnectionManager {
 
         self.addApiClient = (apiClient) => {
             self._apiClients.push(apiClient);
-            self._apis.push(toApi(apiClient));
+            self._apis.set(apiClient.serverId(), toApi(apiClient));
 
             const existingServers = credentialProvider
                 .credentials()
@@ -146,7 +145,7 @@ export default class ConnectionManager {
                 apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
 
                 self._apiClients.push(apiClient);
-                self._apis.push(apiClient);
+                self._apis.set(server.Id, toApi(apiClient));
 
                 apiClient.serverInfo(server);
 
@@ -779,11 +778,6 @@ export default class ConnectionManager {
         })[0];
     }
 
-    /**
-     * Gets the {@link Api} for a given BaseItem or ServerId.
-     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
-     * @returns The {@link Api} instance for the ServerId
-     */
     getApi(item) {
         if (!item) {
             throw new Error('item or serverId cannot be null');
@@ -794,11 +788,7 @@ export default class ConnectionManager {
             item = item.ServerId;
         }
 
-        return this._apis.filter((api) => {
-            const serverInfo = api.serverInfo();
-
-            return !serverInfo || serverInfo.Id === item && api instanceof Api;
-        })[0];
+        return this._apis.get(item);
     }
 
     minServerVersion(val) {

@@ -54,15 +54,20 @@ class ServerConnections extends ConnectionManager {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
 
-            this.api = toApi(apiClient);
+            const sdkApi = toApi(apiClient);
+            apiClient._sdkApi = sdkApi;
+
+            if (!this.api || this.localApiClient === apiClient) {
+                this.api = sdkApi;
+            }
 
             apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
                 const accessToken = apiClient.accessToken();
-                if (accessToken && this.api?.accessToken !== accessToken) {
-                    this.api.update({ accessToken });
+                if (accessToken && sdkApi?.accessToken !== accessToken) {
+                    sdkApi.update({ accessToken });
                 }
 
-                return this.api.subscribe(messageTypes, onMessage, subscriptionIntervals);
+                return sdkApi.subscribe(messageTypes, onMessage, subscriptionIntervals);
             };
         });
     }
@@ -102,6 +107,10 @@ class ServerConnections extends ConnectionManager {
         if (apiClient) {
             this.localApiClient = apiClient;
             window.ApiClient = apiClient;
+
+            if (apiClient._sdkApi) {
+                this.api = apiClient._sdkApi;
+            }
         }
     }
 
