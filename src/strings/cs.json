@@ -1910,5 +1910,6 @@
     "LabelBackupWarning": "Právě probíhají naplánované úlohy. Před provedením zálohy je doporučeno je zastavit nebo počkat na jejich dokončení.",
     "HeaderBackupWarning": "VAROVÁNÍ: Probíhající naplánované úlohy",
     "HeaderTypeSimilarItemProviders": "Nabídky podobného typu ({0})",
-    "LabelSimilarItemProvidersHelp": "Aktivujte a seřaďte své preferované dodavatele podobných produktů podle priority."
+    "LabelSimilarItemProvidersHelp": "Aktivujte a seřaďte své preferované dodavatele podobných produktů podle priority.",
+    "CardSettings": "Nastavení karty"
 }
