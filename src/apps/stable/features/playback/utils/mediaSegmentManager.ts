@@ -9,7 +9,6 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import type { PlayerState } from 'types/playbackStopInfo';
 import type { Event } from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import { getMediaSegmentAction } from './mediaSegmentSettings';
 import { findCurrentSegment } from './mediaSegments';
