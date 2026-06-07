@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
 import { AppFeature } from 'constants/appFeature';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
@@ -389,7 +390,7 @@ function executeCommand(item, id, options) {
     const itemId = item.Id;
     const serverId = item.ServerId;
     const apiClient = ServerConnections.getApiClient(serverId);
-    const api = ServerConnections.getApi(serverId);
+    const api = toApi(apiClient);
 
     return new Promise(function (resolve, reject) {
         // eslint-disable-next-line sonarjs/max-switch-cases

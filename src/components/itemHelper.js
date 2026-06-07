@@ -9,6 +9,7 @@ import { appHost } from './apphost';
 import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export function getDisplayName(item, options = {}) {
     if (!item) {
@@ -164,7 +165,8 @@ export function canEditImages (user, item) {
 }
 
 export async function canEditPlaylist(user, item) {
-    const api = ServerConnections.getApi(item.serverId);
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    const api = toApi(apiClient);
 
     try {
         const { data: permissions } = await getPlaylistsApi(api)

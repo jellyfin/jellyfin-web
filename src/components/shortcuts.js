@@ -5,6 +5,7 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
 import { ItemAction } from 'constants/itemAction';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
@@ -126,7 +127,7 @@ function showContextMenu(card, options = {}) {
         }
 
         const apiClient = ServerConnections.getApiClient(item.ServerId);
-        const api = ServerConnections.getApi(item.serverId);
+        const api = toApi(apiClient);
 
         Promise.all([
             // Import the item menu component
