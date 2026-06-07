@@ -1911,5 +1911,14 @@
     "HeaderBackupWarning": "VAROVÁNÍ: Probíhající naplánované úlohy",
     "HeaderTypeSimilarItemProviders": "Nabídky podobného typu ({0})",
     "LabelSimilarItemProvidersHelp": "Aktivujte a seřaďte své preferované dodavatele podobných produktů podle priority.",
-    "CardSettings": "Nastavení karty"
+    "CardSettings": "Nastavení karty",
+    "ConfirmDeleteItemByName": "Odstraněním položky „{0}“ ji smažete ze souborového systému a z vaší knihovny. Opravdu chcete pokračovat?",
+    "ConfirmStillWatching": "Stále se díváte?",
+    "Disabled": "Zakázáno",
+    "LabelOriginalLanguage": "Původní jazyk",
+    "OriginalLanguage": "Původní jazyk",
+    "StillWatchingPrompt": "Dotaz na sledování",
+    "StillWatchingOption": "{0} epizod nebo {1} minut",
+    "StopWatching": "Přestat sledovat",
+    "TableOfContents": "Obsah"
 }
