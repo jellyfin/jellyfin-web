@@ -2,6 +2,7 @@ import { PluginStatus } from '@jellyfin/sdk/lib/generated-client/models/plugin-s
 import type { VersionInfo } from '@jellyfin/sdk/lib/generated-client/models/version-info';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
@@ -390,7 +391,7 @@ const PluginPage: FC = () => {
                     </Alert>
                 ))}
 
-                <Grid container spacing={2} sx={{ marginTop: 0 }}>
+                <Grid container spacing={2} sx={{ marginTop: 0 }} alignItems='flex-start'>
                     <Grid item xs={12} lg={8}>
                         <Stack spacing={2}>
                             <Typography variant='h1'>
@@ -414,6 +415,9 @@ const PluginPage: FC = () => {
                             url={pluginDetails?.imageUrl}
                             FallbackIcon={Extension}
                         />
+                        <Box sx={{ display: { xs: 'none', lg: 'block' }, mt: 2 }}>
+                            {ActionPanel}
+                        </Box>
                     </Grid>
 
                     <Grid item xs={12} lg={8} sx={{ order: { xs: 1, lg: 'initial' } }}>
@@ -430,68 +434,8 @@ const PluginPage: FC = () => {
                         )}
                     </Grid>
 
-                    <Grid item xs={12} lg={4}>
-                        <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
-                            <Stack spacing={1} sx={{ flexBasis: '50%' }}>
-                                {!isLoading && !pluginDetails?.status && (
-                                    <>
-                                        <Alert severity='info'>
-                                            {globalize.translate('ServerRestartNeededAfterPluginInstall')}
-                                        </Alert>
-
-                                        <Button
-                                            startIcon={<Download />}
-                                            onClick={onInstall()}
-                                            loading={isInstalling}
-                                        >
-                                            {globalize.translate('HeaderInstall')}
-                                        </Button>
-                                    </>
-                                )}
-
-                                {!isLoading && pluginDetails?.canUninstall && (
-                                    <FormGroup>
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={pluginDetails.isEnabled}
-                                                    onChange={toggleEnabled}
-                                                    disabled={pluginDetails.status === PluginStatus.Restart}
-                                                />
-                                            }
-                                            label={globalize.translate('LabelEnablePlugin')}
-                                        />
-                                    </FormGroup>
-                                )}
-
-                                {!isLoading && pluginDetails?.configurationPage?.Name && (
-                                    <Button
-                                        component={RouterLink}
-                                        to={`/${getPluginUrl(pluginDetails.configurationPage.Name)}`}
-                                        startIcon={<Settings />}
-                                    >
-                                        {globalize.translate('Settings')}
-                                    </Button>
-                                )}
-
-                                {!isLoading && pluginDetails?.canUninstall && (
-                                    <Button
-                                        color='error'
-                                        startIcon={<Delete />}
-                                        onClick={onConfirmUninstall}
-                                    >
-                                        {globalize.translate('ButtonUninstall')}
-                                    </Button>
-                                )}
-                            </Stack>
-
-                            <PluginDetailsTable
-                                isPluginLoading={isPluginsLoading}
-                                isRepositoryLoading={isPackageInfoLoading}
-                                pluginDetails={pluginDetails}
-                                sx={{ flexBasis: '50%' }}
-                            />
-                        </Stack>
+                    <Grid item xs={12} lg={4} sx={{ display: { xs: 'block', lg: 'none' } }}>
+                        {ActionPanel}
                     </Grid>
                 </Grid>
             </Container>
