@@ -1910,5 +1910,15 @@
     "HeaderBackupWarning": "CẢNH BÁO: Các tác vụ theo lịch trình đang chạy",
     "VideoRotationNotSupported": "Xoay video không được hỗ trợ",
     "HeaderTypeSimilarItemProviders": "Nhà cung cấp mục tương tự ({0})",
-    "LabelSimilarItemProvidersHelp": "Kích hoạt và xếp hạng các nhà cung cấp mặt hàng tương tự ưa thích của bạn theo thứ tự ưu tiên."
+    "LabelSimilarItemProvidersHelp": "Kích hoạt và xếp hạng các nhà cung cấp mặt hàng tương tự ưa thích của bạn theo thứ tự ưu tiên.",
+    "CardSettings": "Cài đặt thẻ",
+    "ConfirmDeleteItemByName": "Xóa \"{0}\" sẽ xóa nó khỏi cả hệ thống tệp và thư viện phương tiện của bạn. Bạn có chắc chắn muốn tiếp tục không?",
+    "ConfirmStillWatching": "Bạn vẫn đang xem chứ?",
+    "Disabled": "Đã Tắt",
+    "LabelOriginalLanguage": "Ngôn ngữ gốc",
+    "OriginalLanguage": "Ngôn ngữ gốc",
+    "StillWatchingPrompt": "Nhắc Nhở Khi Vẫn Đang Xem",
+    "StillWatchingOption": "{0} tập hoặc {1} phút",
+    "StopWatching": "Dừng xem",
+    "TableOfContents": "Mục Lục"
 }
