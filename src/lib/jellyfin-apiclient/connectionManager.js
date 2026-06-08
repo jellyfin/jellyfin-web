@@ -786,17 +786,8 @@ export default class ConnectionManager {
         })[0];
     }
 
-    getApi(item) {
-        if (!item) {
-            throw new Error('item or serverId cannot be null');
-        }
-
-        // Accept string or object
-        if (item.ServerId) {
-            item = item.ServerId;
-        }
-
-        return this._apis.get(item);
+    getApi(serverId) {
+        return this._apis.get(serverId);
     }
 
     minServerVersion(val) {
