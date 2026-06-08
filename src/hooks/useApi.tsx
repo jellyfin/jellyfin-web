@@ -57,10 +57,6 @@ export const ApiProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     }, [ setLegacyApiClient, setUser ]);
 
     useEffect(() => {
-        console.debug(`API INSTANCE UPDATED ${JSON.stringify(api)}`);
-    }, [ api ]);
-
-    useEffect(() => {
         setApi(legacyApiClient ? ServerConnections.getApi(legacyApiClient.serverId()) : undefined);
     }, [ legacyApiClient, setApi ]);
 

@@ -62,12 +62,7 @@ class ServerConnections extends ConnectionManager {
             }
 
             apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
-                const accessToken = apiClient.accessToken();
-                if (accessToken && sdkApi?.accessToken !== accessToken) {
-                    sdkApi.update({ accessToken });
-                }
-
-                return sdkApi.subscribe(messageTypes, onMessage, subscriptionIntervals);
+                return this.api?.subscribe(messageTypes, onMessage, subscriptionIntervals);
             };
         });
     }
