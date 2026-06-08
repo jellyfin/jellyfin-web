@@ -145,7 +145,6 @@ export default class ConnectionManager {
                 apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
 
                 self._apiClients.push(apiClient);
-                self._apis.set(server.Id, toApi(apiClient));
 
                 apiClient.serverInfo(server);
 
@@ -154,9 +153,8 @@ export default class ConnectionManager {
                 };
 
                 events.trigger(self, 'apiclientcreated', [apiClient]);
-            } else {
-                self._apis.set(server.Id, toApi(apiClient));
             }
+            self._apis.set(server.Id, toApi(apiClient));
 
             console.log('returning instance from getOrAddApiClient');
             return apiClient;
