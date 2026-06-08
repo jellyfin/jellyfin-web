@@ -1910,5 +1910,15 @@
     "HeaderBackupWarning": "تحذير: هناك مهام مجدولة قائمة",
     "VideoRotationNotSupported": "تدوير الفيديو غير مدعوم",
     "HeaderTypeSimilarItemProviders": "مقدمو عنصر مشابهين ({0})",
-    "LabelSimilarItemProvidersHelp": "تفعيل و تقييم مزودي العنصر المشابة المفضلين لديك بالافضلية."
+    "LabelSimilarItemProvidersHelp": "تفعيل و تقييم مزودي العنصر المشابة المفضلين لديك بالافضلية.",
+    "CardSettings": "اعدادت البطاقة",
+    "ConfirmDeleteItemByName": "حذف\"{0}\" سيقوم بحذفه من نظام الملفات و مكتبك وسائطك معا. هل انت متأكد من رغبتك في المتابعة؟",
+    "ConfirmStillWatching": "هل مازلت تشاهد؟",
+    "Disabled": "تثبيط",
+    "LabelOriginalLanguage": "لغة أصلية",
+    "OriginalLanguage": "لغة أصلية",
+    "StillWatchingPrompt": "ملقم متابعة المشاهدة",
+    "StillWatchingOption": "{0} حلقات أو {1} دقائق",
+    "StopWatching": "إيقاف المشاهدة",
+    "TableOfContents": "جدول المحتويات"
 }

@@ -48,7 +48,7 @@ jobs:
     name: CloudFlare Pages 📃
     runs-on: ubuntu-latest
     environment:
-      name: ${{ inputs.branch == 'jellyfin/jellyfin-web/master' && 'Production' || 'Preview' }}
+      name: ${{ inputs.branch == github.event.repository.default_branch && 'Production' || 'Preview' }}
       url: ${{ steps.cf.outputs.deployment-url }}
     outputs:
       url: ${{ steps.cf.outputs.deployment-url }}
