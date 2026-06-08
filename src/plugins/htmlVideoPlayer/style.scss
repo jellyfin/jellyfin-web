@@ -15,6 +15,7 @@
 
 .videoPlayerContainer .libassjs-canvas-parent {
     order: -1;
+    transition: transform 0.3s ease;
 }
 
 /* Controls are enabled for devices that don't support autoplay. They will be hidden when playback starts.
@@ -51,6 +52,7 @@ video[controls]::-webkit-media-controls {
 }
 
 .videoSubtitles {
+    transition: transform 0.3s ease;
     position: fixed;
     bottom: 0;
     text-align: center;
