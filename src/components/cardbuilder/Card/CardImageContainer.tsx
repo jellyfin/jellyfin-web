@@ -49,9 +49,11 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                         {indicator.getTimerIndicator()}
                         {indicator.getTypeIndicator()}
 
-                        {cardOptions.showGroupCount ?
-                            indicator.getChildCountIndicator() :
-                            indicator.getPlayedIndicator()}
+                        {item.Type === ItemKind.Folder
+                            ? null
+                            : cardOptions.showGroupCount
+                                ? indicator.getChildCountIndicator()
+                                : indicator.getPlayedIndicator()}
 
                         {(item.Type === ItemKind.CollectionFolder
                             || item.CollectionType) && (
@@ -60,6 +62,10 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                     </Box>
                 </Box>
             )}
+
+            {item.Type === ItemKind.Folder && item.ChildCount
+                ? indicator.getChildCountIndicator()
+                : null}
 
             <Media item={item} imgUrl={imgUrl} blurhash={blurhash} imageType={cardOptions.imageType} />
 
