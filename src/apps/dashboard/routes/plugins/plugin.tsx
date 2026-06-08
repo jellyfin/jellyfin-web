@@ -33,6 +33,7 @@ import type { PluginDetails } from 'apps/dashboard/features/plugins/types/Plugin
 import ConfirmDialog from 'components/ConfirmDialog';
 import Image from 'components/Image';
 import Page from 'components/Page';
+import MarkdownBox from 'components/MarkdownBox';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { getPluginUrl } from 'utils/dashboard';
@@ -307,6 +308,70 @@ const PluginPage: FC = () => {
         setIsUninstallConfirmOpen(false);
     }, []);
 
+    const ActionPanel = (
+        <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
+            <Stack spacing={1} sx={{ flexBasis: '50%' }}>
+                {!isLoading && !pluginDetails?.status && (
+                    <>
+                        <Alert severity='info'>
+                            {globalize.translate('ServerRestartNeededAfterPluginInstall')}
+                        </Alert>
+
+                        <Button
+                            startIcon={<Download />}
+                            onClick={onInstall()}
+                            loading={isInstalling}
+                        >
+                            {globalize.translate('HeaderInstall')}
+                        </Button>
+                    </>
+                )}
+
+                {!isLoading && pluginDetails?.canUninstall && (
+                    <FormGroup>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={pluginDetails.isEnabled}
+                                    onChange={toggleEnabled}
+                                    disabled={pluginDetails.status === PluginStatus.Restart}
+                                />
+                            }
+                            label={globalize.translate('LabelEnablePlugin')}
+                        />
+                    </FormGroup>
+                )}
+
+                {!isLoading && pluginDetails?.configurationPage?.Name && (
+                    <Button
+                        component={RouterLink}
+                        to={`/${getPluginUrl(pluginDetails.configurationPage.Name)}`}
+                        startIcon={<Settings />}
+                    >
+                        {globalize.translate('Settings')}
+                    </Button>
+                )}
+
+                {!isLoading && pluginDetails?.canUninstall && (
+                    <Button
+                        color='error'
+                        startIcon={<Delete />}
+                        onClick={onConfirmUninstall}
+                    >
+                        {globalize.translate('ButtonUninstall')}
+                    </Button>
+                )}
+            </Stack>
+
+            <PluginDetailsTable
+                isPluginLoading={isPluginsLoading}
+                isRepositoryLoading={isPackageInfoLoading}
+                pluginDetails={pluginDetails}
+                sx={{ flexBasis: '50%' }}
+            />
+        </Stack>
+    );
+
     return (
         <Page
             id='addPluginPage'
@@ -336,7 +401,7 @@ const PluginPage: FC = () => {
                                 {isLoading && !pluginDetails?.description ? (
                                     <Skeleton />
                                 ) : (
-                                    pluginDetails?.description
+                                    <MarkdownBox markdown={pluginDetails?.description} fallback={pluginDetails?.description} />
                                 )}
                             </Typography>
                         </Stack>
