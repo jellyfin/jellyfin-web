@@ -141,7 +141,7 @@ class ServerConnections extends ConnectionManager {
             const server = this.getLastUsedServer();
 
             if (server) {
-                api = this.getApiClient(server.Id);
+                api = this.getApi(server.Id);
             }
         }
 
