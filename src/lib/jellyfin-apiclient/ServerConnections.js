@@ -53,14 +53,14 @@ class ServerConnections extends ConnectionManager {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
 
-            const api = this.getApi(apiClient.serverId());
+            const api = apiClient.serverId() ? this.getApi(apiClient.serverId()) : null;
 
-            if (!this.api || this.localApiClient === apiClient) {
+            if ((!this.api && api) || this.localApiClient === apiClient) {
                 this.api = api;
             }
 
             apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
-                return api.subscribe(messageTypes, onMessage, subscriptionIntervals);
+                return this.api.subscribe(messageTypes, onMessage, subscriptionIntervals);
             };
         });
     }
