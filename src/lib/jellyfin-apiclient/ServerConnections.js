@@ -54,11 +54,8 @@ class ServerConnections extends ConnectionManager {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
 
-            const sdkApi = toApi(apiClient);
-            apiClient._sdkApi = sdkApi;
-
             if (!this.api || this.localApiClient === apiClient) {
-                this.api = sdkApi;
+                this.api = toApi(apiClient);
             }
 
             apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
