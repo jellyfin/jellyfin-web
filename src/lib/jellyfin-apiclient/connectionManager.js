@@ -796,8 +796,6 @@ export default class ConnectionManager {
             item = item.ServerId;
         }
 
-        console.debug(this._apis);
-
         return this._apis.get(item);
     }
 
