@@ -154,6 +154,8 @@ export default class ConnectionManager {
                 };
 
                 events.trigger(self, 'apiclientcreated', [apiClient]);
+            } else {
+                self._apis.set(server.Id, toApi(apiClient));
             }
 
             console.log('returning instance from getOrAddApiClient');
@@ -200,6 +202,12 @@ export default class ConnectionManager {
 
             apiClient.serverInfo(server);
             apiClient.setAuthenticationInfo(result.AccessToken, result.User.Id);
+
+            // Update SDK Api instance
+            self._apis.get(result.ServerId)?.update({
+                accessToken: result.AccessToken
+            });
+
             afterConnected(apiClient, options);
 
             return onLocalUserSignIn(server, apiClient.serverAddress(), result.User);
@@ -335,7 +343,7 @@ export default class ConnectionManager {
             };
 
             return Promise.allSettled([
-                self._apis.find((api) => api.accessToken === apiClient.accessToken).logout(),
+                self._apis.get(logoutInfo.serverId).logout(),
                 apiClient.logout()
             ]).then(
                 () => {
@@ -787,6 +795,8 @@ export default class ConnectionManager {
         if (item.ServerId) {
             item = item.ServerId;
         }
+
+        console.debug(this._apis);
 
         return this._apis.get(item);
     }

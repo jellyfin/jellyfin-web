@@ -138,10 +138,20 @@ class ServerConnections extends ConnectionManager {
 
     /**
      * Gets the Api that is currently connected.
-     * @returns {import(@jellyfin/sdk).Api|undefined} The current Api instance.
+     * @returns {import('@jellyfin/sdk').Api|undefined} The current Api instance.
      */
     getCurrentApi() {
-        return this.api;
+        let api = this.api;
+
+        if (!api) {
+            const server = this.getLastUsedServer();
+
+            if (server) {
+                api = this.getApiClient(server.Id);
+            }
+        }
+
+        return api;
     }
 
     /**
