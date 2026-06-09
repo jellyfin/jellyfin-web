@@ -1170,61 +1170,39 @@ function renderItemCollections(page, item, apiClient, context) {
 
     const api = toApi(apiClient);
     const userId = apiClient.getCurrentUserId();
-    // The collections endpoint only returns collection membership, so fetch ParentId separately
-    // to also show the immediate containing parent folder in Included In.
-    const parentPromise = item.ParentId ?
-        getUserLibraryApi(api)
-            .getItem({ userId, itemId: item.ParentId })
-            .then(response => response.data)
-            .catch(() => null) :
-        Promise.resolve(null);
 
-    const collectionsPromise = getLibraryApi(api)
+    getLibraryApi(api)
         .getItemCollections({
             itemId: item.Id,
             userId,
             fields: [ItemFields.PrimaryImageAspectRatio]
         })
         .then(response => response.data?.Items || [])
-        .catch(() => []);
+        .then(collectionItems => {
+            if (!collectionItems.length) {
+                section.classList.add('hide');
+                return;
+            }
 
-    Promise.all([parentPromise, collectionsPromise]).then(([parentItem, collectionItems]) => {
-        const itemsById = new Map();
-
-        if (parentItem && parentItem.Id !== item.Id) {
-            itemsById.set(parentItem.Id, parentItem);
-        }
-
-        for (const collection of collectionItems) {
-            itemsById.set(collection.Id, collection);
-        }
-
-        const items = Array.from(itemsById.values());
-
-        if (!items.length) {
+            section.classList.remove('hide');
+            cardBuilder.buildCards(collectionItems, {
+                parentContainer: section,
+                itemsContainer: section.querySelector('.collectionsContent'),
+                shape: 'overflowPortrait',
+                sectionTitleTagName: 'h2',
+                scalable: true,
+                centerText: true,
+                showTitle: true,
+                showParentTitle: false,
+                overlayText: false,
+                overlayPlayButton: false,
+                coverImage: true,
+                showYear: false,
+                context
+            });
+        }).catch(() => {
             section.classList.add('hide');
-            return;
-        }
-
-        section.classList.remove('hide');
-        cardBuilder.buildCards(items, {
-            parentContainer: section,
-            itemsContainer: section.querySelector('.includedInContent'),
-            shape: 'overflowPortrait',
-            sectionTitleTagName: 'h2',
-            scalable: true,
-            centerText: true,
-            showTitle: true,
-            showParentTitle: false,
-            overlayText: false,
-            overlayPlayButton: false,
-            coverImage: true,
-            showYear: false,
-            context
         });
-    }).catch(() => {
-        section.classList.add('hide');
-    });
 }
 
 function renderSimilarItems(page, item, context) {
