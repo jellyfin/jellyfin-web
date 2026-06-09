@@ -154,8 +154,8 @@ export function getCardImageUrl({
             imgType,
             {
                 // Dimensions must be rounded or the API will reject the request
-                fillHeight: height ? Math.round(height * dpr) : undefined,
-                fillWidth: width ? Math.round(width * dpr) : undefined,
+                fillHeight: height ? Math.ceil(height * dpr) : undefined,
+                fillWidth: width ? Math.ceil(width * dpr) : undefined,
                 quality: 96,
                 tag: imgTag
             }
