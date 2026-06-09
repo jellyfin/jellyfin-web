@@ -2,6 +2,7 @@ import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
 
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
 import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -22,7 +23,6 @@ import browser from './browser';
 import imageHelper from '../utils/image';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
-import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
 import datetime from '../scripts/datetime';
