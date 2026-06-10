@@ -306,7 +306,7 @@ function getAudioMaxValues(deviceProfile) {
 
 let startingPlaySession = new Date().getTime();
 
-function getAudiobookPlaybackRate() {
+export function getAudiobookPlaybackRate() {
     const rate = parseFloat(userSettings.get('audioBookPlaybackRate'));
     return (rate && Math.abs(rate - 1.0) > 0.001) ? rate : null;
 }
@@ -1721,7 +1721,19 @@ export class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
-                player.currentTime(parseInt(ticks / 10000, 10));
+                let seekPosition = parseInt(ticks / 10000, 10);
+                const currentItem = self.currentItem(player);
+                if (currentItem?.Type === 'AudioBook') {
+                    const rate = getAudiobookPlaybackRate();
+                    if (rate) {
+                        // ticks are in original-file time; HLS stream is compressed by the
+                        // atempo rate, so currentTime must be in stream-relative time.
+                        const streamInfo = getPlayerData(player).streamInfo;
+                        const offsetPosition = parseInt((streamInfo?.transcodingOffsetTicks || 0) / 10000, 10);
+                        seekPosition = Math.floor((seekPosition - offsetPosition) / rate);
+                    }
+                }
+                player.currentTime(seekPosition);
                 return;
             }
 
