@@ -8,6 +8,7 @@ import SearchResults from 'apps/stable/features/search/components/SearchResults'
 import SearchSuggestions from 'apps/stable/features/search/components/SearchSuggestions';
 import Page from 'components/Page';
 import useSearchParam from 'hooks/useSearchParam';
+import { useScrollRestoration } from 'hooks/useScrollRestoration';
 import globalize from 'lib/globalize';
 
 const COLLECTION_TYPE_PARAM = 'collectionType';
@@ -20,6 +21,7 @@ const Search: FC = () => {
     const collectionTypeQuery = (searchParams.get(COLLECTION_TYPE_PARAM) || undefined) as CollectionType | undefined;
     const [ query, setQuery ] = useSearchParam(QUERY_PARAM);
     const [debouncedQuery] = useDebounceValue(query, 500);
+    useScrollRestoration('search');
 
     return (
         <Page
