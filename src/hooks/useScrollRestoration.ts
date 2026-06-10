@@ -23,10 +23,21 @@ export function useScrollRestoration(key: string) {
             }
         }
 
-        return () => {
-            sessionStorage.setItem(storageKey, String(Math.round(window.scrollY)));
+        let ticking = false;
+        const onScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(() => {
+                    sessionStorage.setItem(storageKey, String(Math.round(window.scrollY)));
+                    ticking = false;
+                });
+            }
         };
-    // Intentionally capture navigationType and key at mount time only
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
     }, []);
 }
