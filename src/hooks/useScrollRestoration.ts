@@ -4,7 +4,7 @@ import { useNavigationType } from 'react-router-dom';
 const SCROLL_KEY_PREFIX = 'jellyfin-scroll:';
 
 /**
- * Saves the window scroll position to sessionStorage when the component unmounts, and restores it when remounting.
+ * Continuously persists the window scroll position to sessionStorage while mounted, and restores it on remount
  * @param key A unique key to identify the scroll position in sessionStorage.
  */
 export function useScrollRestoration(key: string) {
