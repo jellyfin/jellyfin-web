@@ -228,6 +228,20 @@
 
     <div class="verticalSection verticalSection-extrabottompadding">
         <h2 class="sectionTitle">
+            ${HeaderAudioBooks}
+        </h2>
+
+        <div class="selectContainer">
+            <select is="emby-select" id="selectAudiobookProgressMode" label="${LabelAudiobookProgressMode}" aria-label="${LabelAudiobookProgressMode}">
+                <option value="book">${AudiobookProgressModeBook}</option>
+                <option value="chapter">${AudiobookProgressModeChapter}</option>
+            </select>
+            <div class="fieldDescription">${AudiobookProgressModeHelp}</div>
+        </div>
+    </div>
+
+    <div class="verticalSection verticalSection-extrabottompadding">
+        <h2 class="sectionTitle">
             ${HeaderAudioAdvanced}
         </h2>
 

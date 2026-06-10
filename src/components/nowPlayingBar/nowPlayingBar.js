@@ -9,11 +9,12 @@ import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
-import { playbackManager, getAudiobookPlaybackRate } from '../playback/playbackmanager';
+import { playbackManager } from '../playback/playbackmanager';
 import { appHost } from '../apphost';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
+import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import appFooter from '../appFooter/appFooter';
@@ -25,6 +26,7 @@ let currentPlayer;
 let currentPlayerSupportedCommands = [];
 
 let currentTimeElement;
+let chapterNameElement;
 let nowPlayingImageElement;
 let nowPlayingImageUrl;
 let nowPlayingTextElement;
@@ -55,6 +57,7 @@ function getNowPlayingBarHtml() {
 
     html += '<div class="nowPlayingBarTop">';
     html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
+    html += '<div class="sliderMarkerContainer"></div>';
     html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
     html += '</div>';
 
@@ -76,6 +79,7 @@ function getNowPlayingBarHtml() {
     }
 
     html += '<div class="nowPlayingBarCurrentTime"></div>';
+    html += '<div class="nowPlayingBarChapterName hide"></div>';
     html += '</div>';
 
     html += '<div class="nowPlayingBarRight">';
@@ -145,10 +149,21 @@ function onPlayPauseClick() {
 
 function bindEvents(elem) {
     currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime');
+    chapterNameElement = elem.querySelector('.nowPlayingBarChapterName');
     nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
     nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
     nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons');
     positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
+    positionSlider.getMarkerInfo = function () {
+        // In chapter mode the slider spans a single chapter, so whole-book markers don't apply.
+        if (chapterModeActive()) return [];
+        const item = getPlayingItem();
+        if (!item?.Chapters?.length || !item.RunTimeTicks) return [];
+        return item.Chapters.map(chapter => ({
+            name: chapter.Name,
+            progress: chapter.StartPositionTicks / item.RunTimeTicks
+        }));
+    };
     muteButton = elem.querySelector('.muteButton');
     playPauseButtons = elem.querySelectorAll('.playPauseButton');
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
@@ -174,12 +189,27 @@ function bindEvents(elem) {
 
     elem.querySelector('.nextTrackButton').addEventListener('click', function () {
         if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer);
+            const item = playbackManager.currentItem(currentPlayer);
+            if (item?.Type === 'AudioBook' && item.Chapters?.length > 0) {
+                playbackManager.nextChapter(currentPlayer);
+            } else {
+                playbackManager.nextTrack(currentPlayer);
+            }
         }
     });
 
     elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
         if (currentPlayer) {
+            const item = playbackManager.currentItem(currentPlayer);
+            if (item?.Type === 'AudioBook' && item.Chapters?.length > 0) {
+                // Cancel this event if doubleclick is fired. The dblclick handler goes to previous track.
+                if (e.detail > 1) {
+                    return;
+                }
+                playbackManager.previousChapter(currentPlayer);
+                return;
+            }
+
             if (playbackManager.isPlayingAudio(currentPlayer)) {
                 // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
                 if (e.detail > 1 ) {
@@ -266,7 +296,6 @@ function bindEvents(elem) {
                 }
             }
 
-
             playbackManager.seekPercent(newPercent, currentPlayer);
         }
     });
@@ -286,11 +315,18 @@ function bindEvents(elem) {
             }
         }
 
-        let ticks = currentRuntimeTicks;
-        ticks /= 100;
-        ticks *= value;
+        const ticks = currentRuntimeTicks / 100 * value;
+        let text = datetime.getDisplayRunningTime(ticks);
 
-        return datetime.getDisplayRunningTime(ticks);
+        const chapters = getActiveChapters();
+        if (chapters?.length) {
+            const chapter = getCurrentChapter(ticks, chapters);
+            if (chapter) {
+                text += ' · ' + chapter.Name;
+            }
+        }
+
+        return text;
     };
 
     elem.addEventListener('click', function (e) {
@@ -387,7 +423,7 @@ function updatePlayerStateInternal(event, state, player) {
     }
 
     const nowPlayingItem = state.NowPlayingItem || {};
-    updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player), nowPlayingItem);
+    updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
     updateNowPlayingInfo(state);
     updateLyricButton(nowPlayingItem);
@@ -414,22 +450,67 @@ function updateRepeatModeDisplay(repeatMode) {
     }
 }
 
-function getAudiobookRemainingTimeText(runtimeTicks, positionTicks, nowPlayingItem) {
-    if (nowPlayingItem?.Type !== 'AudioBook' || positionTicks == null) {
-        return null;
+function getCurrentChapter(positionTicks, chapters) {
+    if (!chapters?.length || positionTicks == null) return null;
+    for (let i = chapters.length - 1; i >= 0; i--) {
+        if (chapters[i].StartPositionTicks <= positionTicks) {
+            return chapters[i];
+        }
     }
-    const rate = getAudiobookPlaybackRate();
-    if (!rate) {
-        return null;
-    }
-    const remainingTicks = Math.max(0, runtimeTicks - positionTicks);
-    return datetime.getDisplayRunningTime(remainingTicks / rate);
+    return null;
 }
 
-function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges, nowPlayingItem) {
+function getPlayingItem() {
+    return currentPlayer ? playbackManager.currentItem(currentPlayer) : null;
+}
+
+function getActiveChapters() {
+    return getPlayingItem()?.Chapters;
+}
+
+function chapterModeActive() {
+    if (userSettings.audiobookProgressMode() !== 'chapter') return false;
+    const item = getPlayingItem();
+    return item?.Type === 'AudioBook' && item.Chapters?.length > 0;
+}
+
+function getChapterBounds(positionTicks, bookRuntimeTicks) {
+    const chapters = getActiveChapters();
+    if (!chapters?.length || positionTicks == null) return null;
+    for (let i = chapters.length - 1; i >= 0; i--) {
+        if (chapters[i].StartPositionTicks <= positionTicks) {
+            const start = chapters[i].StartPositionTicks;
+            const isLast = i + 1 >= chapters.length;
+            const end = isLast ? bookRuntimeTicks : chapters[i + 1].StartPositionTicks;
+            if (end == null || end <= start) return null;
+            return { start, end, duration: end - start, chapter: chapters[i], index: i };
+        }
+    }
+    return null;
+}
+
+function clipBufferedRangesToChapter(bufferedRanges, bounds) {
+    if (!bufferedRanges?.length) return [];
+    const clipped = [];
+    for (const range of bufferedRanges) {
+        const start = Math.max(range.start, bounds.start);
+        const end = Math.min(range.end, bounds.end);
+        if (end > start) {
+            clipped.push({ start: start - bounds.start, end: end - bounds.start });
+        }
+    }
+    return clipped;
+}
+
+function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
+    const bounds = chapterModeActive() ? getChapterBounds(positionTicks, runtimeTicks) : null;
+
+
     // See bindEvents for why this is necessary
     if (positionSlider && !positionSlider.dragging) {
-        if (runtimeTicks) {
+        if (bounds) {
+            positionSlider.value = (positionTicks - bounds.start) / bounds.duration * 100;
+        } else if (runtimeTicks) {
             let pct = positionTicks / runtimeTicks;
             pct *= 100;
 
@@ -440,18 +521,38 @@ function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges, nowPlayi
     }
 
     if (positionSlider) {
-        positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
+        // Buffered ranges are in whole-book scale; in chapter mode, clip and rescale them to the chapter.
+        if (bounds) {
+            positionSlider.setBufferedRanges(clipBufferedRangesToChapter(bufferedRanges, bounds), bounds.duration, positionTicks - bounds.start);
+        } else {
+            positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
+        }
     }
 
     if (currentTimeElement) {
-        let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-        if (runtimeTicks) {
-            const runtimeText = getAudiobookRemainingTimeText(runtimeTicks, positionTicks, nowPlayingItem)
-                ?? datetime.getDisplayRunningTime(runtimeTicks);
-            timeText += ' / ' + runtimeText;
+        let timeText;
+        if (bounds) {
+            timeText = datetime.getDisplayRunningTime(positionTicks - bounds.start)
+                + ' / ' + datetime.getDisplayRunningTime(bounds.duration);
+        } else {
+            timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+            if (runtimeTicks) {
+                timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
+            }
         }
 
         currentTimeElement.innerHTML = timeText;
+    }
+
+    if (chapterNameElement) {
+        const chapter = getCurrentChapter(positionTicks, getActiveChapters());
+        if (chapter) {
+            chapterNameElement.textContent = '· ' + chapter.Name;
+            chapterNameElement.classList.remove('hide');
+        } else {
+            chapterNameElement.textContent = '';
+            chapterNameElement.classList.add('hide');
+        }
     }
 }
 

@@ -254,6 +254,22 @@ function renderSection(item, element, type, user) {
             });
             break;
 
+        case 'AudioBook':
+            loadItems(element, item, type, {
+                IncludeItemTypes: 'AudioBook',
+                SortBy: 'ProductionYear,SortName',
+                SortOrder: 'Descending,Ascending',
+                Limit: 10
+            }, {
+                shape: 'overflowPortrait',
+                showTitle: true,
+                centerText: true,
+                overlayMoreButton: true,
+                overlayText: false,
+                showYear: true
+            });
+            break;
+
         case 'MusicArtist':
             loadItems(element, item, type, {
                 MediaTypes: '',
