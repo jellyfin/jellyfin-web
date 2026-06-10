@@ -1910,5 +1910,13 @@
     "LabelBackupWarning": "当前有正在运行的计划任务。建议在执行备份操作前先停止这些任务或等待其完成。",
     "HeaderBackupWarning": "警告：有正在运行的计划任务",
     "HeaderTypeSimilarItemProviders": "相似项目提供商 ({0})",
-    "LabelSimilarItemProvidersHelp": "启用并按优先级对您首选的类似项目提供商进行排序。"
+    "LabelSimilarItemProvidersHelp": "启用并按优先级对您首选的类似项目提供商进行排序。",
+    "ConfirmDeleteItemByName": "删除“{0}”将同时从文件系统和媒体库中将其删除。您是否确定要继续？",
+    "ConfirmStillWatching": "您仍在观看吗？",
+    "Disabled": "关闭",
+    "LabelOriginalLanguage": "原始语言",
+    "OriginalLanguage": "原始语言",
+    "StillWatchingOption": "{0} 集或 {1} 分钟",
+    "StopWatching": "停止观看",
+    "TableOfContents": "目录"
 }

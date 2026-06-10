@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { type FC, type PropsWithChildren, type HTMLAttributes, useEffect, useRef, StrictMode } from 'react';
 import { useNavigationType } from 'react-router-dom';
 
@@ -12,7 +14,7 @@ type CustomPageProps = {
     isNowPlayingBarEnabled?: boolean,
     isThemeMediaSupported?: boolean,
     shouldAutoFocus?: boolean,
-    backDropType?: string,
+    backDropType?: BaseItemKind[]
 };
 
 export type PageProps = CustomPageProps & HTMLAttributes<HTMLDivElement>;
@@ -75,11 +77,15 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
                 ref={element}
                 id={id}
                 data-role='page'
-                className={`page ${className}`}
+                className={classNames(
+                    'page',
+                    { 'backdropPage': backDropType?.length },
+                    className
+                )}
                 data-title={title}
                 data-backbutton={isBackButtonEnabled}
                 data-menubutton={isMenuButtonEnabled}
-                data-backdroptype={backDropType}
+                data-backdroptype={backDropType?.join(',')}
             >
                 {children}
             </div>

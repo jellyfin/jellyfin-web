@@ -52,7 +52,8 @@ export const Component: FC = () => {
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    minHeight: '100%'
                 }}
             >
                 <StrictMode>

@@ -6,29 +6,27 @@
     z-index: 100;
     background: #fff;
 
-    display: flex;
-    flex-direction: column;
-
     .bookplayerButton {
         margin: 0.5vh;
-    }
-
-    .topButtons {
-        z-index: 1002;
-        display: flex;
-        height: 4.2vh;
-        padding: 0 2vw;
-        color: #000;
-        opacity: 0.7;
-    }
-
-    #btnBookplayerExit {
-        margin-left: auto;
     }
 
     .bookplayerErrorMsg {
         text-align: center;
     }
+}
+
+#bookPlayerContainer {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    width: 100%;
+    top: 5vh;
+    height: 90vh;
+}
+
+#bookPlayerContainer.fullscreen {
+    top: calc(5vh + env(safe-area-inset-top));
+    height: calc(90vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
 
 #dialogToc {
@@ -75,18 +73,17 @@
     }
 }
 
+// TODO disable landscape on mobile devices
+@media (orientation: landscape) and (max-width: 60em) {
+    #bookPlayerContainer {
+        top: 10vh;
+        height: 80vh;
+    }
+}
+
 @media (max-width: 60em) {
     #dialogToc {
         max-width: 100%;
         max-height: 100%;
-    }
-
-    #bookPlayer .topButtons {
-        height: 6vh;
-    }
-
-    #bookPlayer .topButtons.fullscreen {
-        height: 10vh;
-        align-items: flex-end;
     }
 }

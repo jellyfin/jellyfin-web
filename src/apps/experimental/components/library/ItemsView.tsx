@@ -294,11 +294,12 @@ const ItemsView: FC<ItemsViewProps> = ({
                                 <ButtonGroup
                                     variant='contained'
                                 >
-                                    {isBtnPlayAllEnabled && (
+                                    {isBtnPlayAllEnabled && totalRecordCount > 0 && (
                                         <PlayAllButton
                                             item={item}
                                             items={items}
                                             viewType={viewType}
+                                            collectionType={collectionType}
                                             hasFilters={hasFilters}
                                             isTextVisible={isSmallScreen}
                                             libraryViewSettings={libraryViewSettings}
@@ -310,6 +311,7 @@ const ItemsView: FC<ItemsViewProps> = ({
                                             item={item}
                                             items={items}
                                             viewType={viewType}
+                                            collectionType={collectionType}
                                             hasFilters={hasFilters}
                                             isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
                                             libraryViewSettings={libraryViewSettings}
