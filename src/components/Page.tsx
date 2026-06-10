@@ -1,4 +1,5 @@
 import React, { type FC, type PropsWithChildren, type HTMLAttributes, useEffect, useRef, StrictMode } from 'react';
+import { useNavigationType } from 'react-router-dom';
 
 import autoFocuser from 'components/autoFocuser';
 import viewManager from 'components/viewManager/viewManager';
@@ -33,6 +34,7 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
     backDropType
 }) => {
     const element = useRef<HTMLDivElement>(null);
+    const navigationType = useNavigationType();
 
     useEffect(() => {
         // hide active non-react views
@@ -44,7 +46,7 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
             bubbles: true,
             cancelable: false,
             detail: {
-                isRestored: false,
+                isRestored: navigationType === 'POP',
                 options: {
                     enableMediaControl: isNowPlayingBarEnabled,
                     supportsThemeMedia: isThemeMediaSupported
@@ -59,7 +61,7 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
         element.current?.dispatchEvent(new CustomEvent('viewshow', event));
         // pageshow - updates header/navigation in libraryMenu
         element.current?.dispatchEvent(new CustomEvent('pageshow', event));
-    }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported ]);
+    }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported, navigationType ]);
 
     useEffect(() => {
         if (shouldAutoFocus) {
