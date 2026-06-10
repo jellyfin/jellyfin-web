@@ -13,6 +13,7 @@
                         <div style="font-weight: bold;" class="nowPlayingSongName nowPlayingEpisode"></div>
                         <div class="nowPlayingAlbum nowPlayingSeason"></div>
                         <div class="nowPlayingArtist nowPlayingSerie"></div>
+                        <div class="nowPlayingChapterName"></div>
                     </div>
                     <div class="nowPlayingPageUserDataButtonsTitle"></div>
 
@@ -21,10 +22,13 @@
                 <div class="sliderContainer flex" dir="ltr">
                     <div class="positionTime"></div>
                         <div class="nowPlayingPositionSliderContainer">
+                            <div class="sliderMarkerContainer"></div>
                             <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider" data-slider-keep-progress="true" />
                         </div>
                     <div class="runtime"></div>
                 </div>
+
+                <div class="nowPlayingBookRemaining hide"></div>
 
                 <div class="nowPlayingButtonsContainer focuscontainer-x justify-content-space-between">
 

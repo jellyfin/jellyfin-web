@@ -1682,6 +1682,45 @@ export class PlaybackManager {
             changeStream(player, ticks);
         };
 
+        self.getAudiobookSources = function (player) {
+            player = player || self._currentPlayer;
+            return getPlayerData(player).audiobookSources || null;
+        };
+
+        self.seekToAudiobookChapter = function (chapterIndex, player) {
+            player = player || self._currentPlayer;
+            const item = self.currentItem(player);
+            const chapters = item?.Chapters || [];
+            const sources = getPlayerData(player).audiobookSources;
+
+            if (!sources || sources.length <= 1 || !chapters[chapterIndex]) {
+                if (chapters[chapterIndex]) {
+                    self.seek(chapters[chapterIndex].StartPositionTicks, player);
+                }
+                return;
+            }
+
+            const currentSource = self.currentMediaSource(player);
+            const currentSourceIndex = sources.findIndex(s => s.Id === currentSource?.Id);
+
+            let targetSourceIndex = 0;
+            const targetChapterStart = chapters[chapterIndex].StartPositionTicks;
+            for (let i = sources.length - 1; i >= 0; i--) {
+                if ((chapters[i]?.StartPositionTicks || 0) <= targetChapterStart) {
+                    targetSourceIndex = i;
+                    break;
+                }
+            }
+
+            const localTicks = targetChapterStart - (chapters[targetSourceIndex]?.StartPositionTicks || 0);
+
+            if (targetSourceIndex === currentSourceIndex) {
+                self.seek(localTicks, player);
+            } else {
+                changeStream(player, localTicks, { mediaSourceId: sources[targetSourceIndex].Id });
+            }
+        };
+
         self.seekRelative = function (offsetTicks, player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player) && player.seekRelative) {
@@ -1773,7 +1812,7 @@ export class PlaybackManager {
                     allowAudioStreamCopy: params.AllowAudioStreamCopy
                 };
 
-                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, currentMediaSource.Id, liveStreamId, options).then(function (result) {
+                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, params.mediaSourceId || currentMediaSource.Id, liveStreamId, options).then(function (result) {
                     if (validatePlaybackInfoResult(self, result)) {
                         currentMediaSource = result.MediaSources[0];
 
@@ -2997,7 +3036,13 @@ export class PlaybackManager {
 
             return getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options).then(function (playbackInfoResult) {
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
-                    return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
+                    const allSources = playbackInfoResult.MediaSources;
+                    if (item.Type === BaseItemKind.AudioBook && allSources.length > 1) {
+                        getPlayerData(player).audiobookSources = allSources;
+                    } else {
+                        getPlayerData(player).audiobookSources = null;
+                    }
+                    return getOptimalMediaSource(apiClient, item, allSources).then(function (mediaSource) {
                         if (mediaSource) {
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
                                 options.audioStreamIndex = null;
@@ -3525,6 +3570,18 @@ export class PlaybackManager {
                 reportPlayback(self, state, player, true, streamInfo.item.ServerId, 'reportPlaybackStopped');
             }
 
+            if (self._playNextAfterEnded && !errorOccurred) {
+                const audiobookSources = data.audiobookSources;
+                if (audiobookSources?.length) {
+                    const currentSourceId = data.streamInfo?.mediaSource?.Id;
+                    const currentSourceIndex = audiobookSources.findIndex(s => s.Id === currentSourceId);
+                    if (currentSourceIndex >= 0 && currentSourceIndex < audiobookSources.length - 1) {
+                        changeStream(player, 0, { mediaSourceId: audiobookSources[currentSourceIndex + 1].Id });
+                        return;
+                    }
+                }
+            }
+
             state.NextItem = playbackStopInfo.nextItem;
 
             if (!nextItem) {
@@ -3888,15 +3945,23 @@ export class PlaybackManager {
 
     nextChapter(player = this._currentPlayer) {
         const item = this.currentItem(player);
+        const chapters = item.Chapters || [];
+        const sources = this.getAudiobookSources(player);
 
-        const ticks = this.getCurrentTicks(player);
+        let ticks = this.getCurrentTicks(player);
+        if (sources?.length > 1) {
+            const currentSource = this.currentMediaSource(player);
+            const currentSourceIndex = sources.findIndex(s => s.Id === currentSource?.Id);
+            ticks += chapters[currentSourceIndex]?.StartPositionTicks || 0;
+        }
 
-        const nextChapter = (item.Chapters || []).filter(function (i) {
-            return i.StartPositionTicks > ticks;
-        })[0];
-
-        if (nextChapter) {
-            this.seek(nextChapter.StartPositionTicks, player);
+        const nextChap = chapters.find(c => c.StartPositionTicks > ticks);
+        if (nextChap) {
+            if (sources?.length > 1) {
+                this.seekToAudiobookChapter(chapters.indexOf(nextChap), player);
+            } else {
+                this.seek(nextChap.StartPositionTicks, player);
+            }
         } else {
             this.nextTrack(player);
         }
@@ -3904,23 +3969,30 @@ export class PlaybackManager {
 
     previousChapter(player = this._currentPlayer) {
         const item = this.currentItem(player);
+        const chapters = item.Chapters || [];
+        const sources = this.getAudiobookSources(player);
 
         let ticks = this.getCurrentTicks(player);
+        if (sources?.length > 1) {
+            const currentSource = this.currentMediaSource(player);
+            const currentSourceIndex = sources.findIndex(s => s.Id === currentSource?.Id);
+            ticks += chapters[currentSourceIndex]?.StartPositionTicks || 0;
+        }
 
-        // Go back 10 seconds
         ticks -= 100000000;
 
-        // If there's no previous track, then at least rewind to beginning
         if (this.getCurrentPlaylistIndex(player) === 0) {
             ticks = Math.max(ticks, 0);
         }
 
-        const previousChapters = (item.Chapters || []).filter(function (i) {
-            return i.StartPositionTicks <= ticks;
-        });
-
-        if (previousChapters.length) {
-            this.seek(previousChapters[previousChapters.length - 1].StartPositionTicks, player);
+        const prevChapters = chapters.filter(c => c.StartPositionTicks <= ticks);
+        if (prevChapters.length) {
+            const prevChap = prevChapters[prevChapters.length - 1];
+            if (sources?.length > 1) {
+                this.seekToAudiobookChapter(chapters.indexOf(prevChap), player);
+            } else {
+                this.seek(prevChap.StartPositionTicks, player);
+            }
         } else {
             this.previousTrack(player);
         }

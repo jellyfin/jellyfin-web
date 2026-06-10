@@ -475,3 +475,22 @@
         font-size: 4em;
     }
 }
+
+.nowPlayingChapterName {
+    display: none;
+    opacity: 0.75;
+}
+
+.nowPlayingBookRemaining {
+    text-align: center;
+    opacity: 0.75;
+}
+
+.chapterListItem {
+    cursor: pointer;
+}
+
+.chapterListItemActive .listItemBodyText {
+    font-weight: bold;
+    color: var(--color-primary, #00a4dc);
+}

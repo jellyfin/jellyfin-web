@@ -150,7 +150,7 @@ class HtmlAudioPlayer {
                 console.error('Failed to add/change gainNode', err);
             });
 
-            const atempoRate = parseFloat((val.match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+            const atempoRate = Number.parseFloat((val.match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
             const seconds = (options.playerStartPositionTicks || 0) / 10000000 / atempoRate;
             if (seconds) {
                 val += '#t=' + seconds;
@@ -343,7 +343,7 @@ class HtmlAudioPlayer {
                 self._started = true;
                 this.removeAttribute('controls');
 
-                const atempoRate = parseFloat(((self._currentPlayOptions.url || '').match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+                const atempoRate = Number.parseFloat(((self._currentPlayOptions.url || '').match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
                 const startTicks = self._currentPlayOptions.playerStartPositionTicks;
                 const adjustedTicks = startTicks ? startTicks / atempoRate : startTicks;
                 if (adjustedTicks) {
