@@ -8,6 +8,8 @@ import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 const SCROLL_KEY_PREFIX = 'jellyfin-scroll:search-row:';
+const MAX_SCROLLER_INIT_ATTEMPTS = 60;
+const RESTORE_SETTLE_MS = 3000;
 
 // There seems to be some compatibility issues here between
 // React and our legacy web components, so we need to inject
@@ -55,23 +57,15 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, sectionKey, items 
         const storageKey = `${SCROLL_KEY_PREFIX}${sectionKey}`;
 
         let setupRaf = 0;
-        let restoreRaf = 0;
-        let restoreObserver: ResizeObserver | undefined;
-        let restoreTimeout: ReturnType<typeof setTimeout> | undefined;
-        let scrollFrame: HTMLElement | undefined;
-        let scrollEventName = '';
-        let onScroll: (() => void) | undefined;
         let attempts = 0;
+        let cleanupReady: (() => void) | undefined;
 
         const setup = () => {
             const scrollerEl = element.current?.querySelector('[is="emby-scroller"]') as ScrollerElement | null;
             const scroller = scrollerEl?.scroller;
 
-            // The legacy emby-scroller custom element is upgraded asynchronously by
-            // the web components polyfill, so its scroller factory is usually not
-            // ready on the first effect run. Retry on the next frame until it is.
             if (!scroller) {
-                if (attempts++ < 60) {
+                if (attempts++ < MAX_SCROLLER_INIT_ATTEMPTS) {
                     setupRaf = requestAnimationFrame(setup);
                 }
                 return;
@@ -79,10 +73,14 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, sectionKey, items 
 
             scroller.reload();
 
-            scrollFrame = scroller.getScrollFrame();
+            const scrollFrame = scroller.getScrollFrame();
             const scrollSlider = scroller.getScrollSlider();
-            scrollEventName = scroller.getScrollEventName();
+            const scrollEventName = scroller.getScrollEventName();
             const isTransform = scrollEventName === 'scrollanimate';
+
+            let restoreRaf = 0;
+            let restoreObserver: ResizeObserver | undefined;
+            let restoreTimeout: ReturnType<typeof setTimeout> | undefined;
 
             if (navigationType === 'POP' && !hasRestoredScroll.current) {
                 const savedScroll = sessionStorage.getItem(storageKey);
@@ -91,10 +89,6 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, sectionKey, items 
                     const restoreScroll = () => {
                         scroller.reload();
                         scroller.slideTo(scrollPos, true);
-                        // slideTo animates the position with a CSS transition, and the
-                        // scroller keeps re-running it while the page layout settles
-                        // after navigation, so the row crawls into place over several
-                        // seconds. Clearing the transition snaps it instantly.
                         if (isTransform) {
                             scrollSlider.style.transition = 'none';
                         }
@@ -108,7 +102,7 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, sectionKey, items 
                     restoreTimeout = setTimeout(() => {
                         restoreObserver?.disconnect();
                         if (isTransform) scrollSlider.style.transition = '';
-                    }, 3000);
+                    }, RESTORE_SETTLE_MS);
                 }
             }
             hasRestoredScroll.current = true;
@@ -118,7 +112,7 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, sectionKey, items 
                 sessionStorage.setItem(storageKey, String(Math.round(scroller.getScrollPosition())));
                 ticking = false;
             };
-            onScroll = () => {
+            const onScroll = () => {
                 if (!ticking) {
                     ticking = true;
                     requestAnimationFrame(saveScroll);
@@ -126,18 +120,20 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, sectionKey, items 
             };
 
             scrollFrame.addEventListener(scrollEventName, onScroll, { passive: true });
+
+            cleanupReady = () => {
+                cancelAnimationFrame(restoreRaf);
+                restoreObserver?.disconnect();
+                if (restoreTimeout) clearTimeout(restoreTimeout);
+                scrollFrame.removeEventListener(scrollEventName, onScroll);
+            };
         };
 
         setup();
 
         return () => {
             cancelAnimationFrame(setupRaf);
-            cancelAnimationFrame(restoreRaf);
-            restoreObserver?.disconnect();
-            if (restoreTimeout) clearTimeout(restoreTimeout);
-            if (scrollFrame && onScroll) {
-                scrollFrame.removeEventListener(scrollEventName, onScroll);
-            }
+            cleanupReady?.();
         };
     }, [cardOptions, items, navigationType, sectionKey]);
 
