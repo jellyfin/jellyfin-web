@@ -1152,7 +1152,7 @@
     "ShowMore": "Továbbiak megtekintése",
     "ShowLess": "Kevesebb mutatása",
     "ButtonCast": "Vetítés az eszközre",
-    "ButtonSyncPlay": "SyncPlay",
+    "ButtonSyncPlay": "Szinkronizált lejátszás",
     "MessageNoGenresAvailable": "Engedélyezz néhány metaadat szolgáltatót, hogy műfaj adatokat tölthess le az internetről.",
     "EnableFasterAnimationsHelp": "Gyorsabb animációk és áttűnések használata.",
     "EnableFasterAnimations": "Gyorsabb animációk",
@@ -1910,5 +1910,15 @@
     "VideoRotationNotSupported": "A videó elforgatása nem támogatott",
     "LabelBackupWarning": "Folyamatban lévő ütemezett feladatok vannak. Javasoljuk, hogy állítsa le őket, vagy várja meg, amíg befejeződnek, mielőtt elindítaná a biztonsági mentést.",
     "LabelSimilarItemProvidersHelp": "Engedélyezze és rangsorolja prioritási sorrendben a kívánt hasonló elemű szolgáltatókat.",
-    "HeaderTypeSimilarItemProviders": "Hasonló elemszolgáltatók ({0})"
+    "HeaderTypeSimilarItemProviders": "Hasonló elemszolgáltatók ({0})",
+    "CardSettings": "Kártyabeállítások",
+    "ConfirmDeleteItemByName": "A(z) „{0}” törlése a fájlrendszerből és a médiakönyvtárból is törli azt. Biztosan folytatni kívánja?",
+    "ConfirmStillWatching": "Még mindig nézed?",
+    "Disabled": "Tiltott",
+    "LabelOriginalLanguage": "Eredeti nyelv",
+    "OriginalLanguage": "Eredeti nyelv",
+    "StillWatchingPrompt": "Még mindig nézem üzenet",
+    "StillWatchingOption": "{0} epizód vagy {1} perc",
+    "StopWatching": "Hagyd abba a nézést",
+    "TableOfContents": "Tartalomjegyzék"
 }
