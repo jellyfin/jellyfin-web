@@ -1,4 +1,4 @@
-import React, { type ChangeEvent, type FC, useCallback, useEffect, useRef } from 'react';
+import React, { type ChangeEvent, type FC, useCallback, useRef } from 'react';
 import AlphaPicker from 'components/alphaPicker/AlphaPickerComponent';
 import Input from 'elements/emby-input/Input';
 import globalize from 'lib/globalize';
@@ -34,10 +34,6 @@ const SearchFields: FC<SearchFieldsProps> = ({
         onSearch(e.target.value);
     }, [ onSearch ]);
 
-    useEffect(() => {
-        inputRef.current?.focus({ preventScroll: true });
-    }, []);
-
     return (
         <div className='padded-left padded-right searchFields'>
             <div className='searchFieldsInner flex align-items-center justify-content-center'>
@@ -55,6 +51,8 @@ const SearchFields: FC<SearchFieldsProps> = ({
                         placeholder={globalize.translate('Search')}
                         autoComplete='off'
                         maxLength={40}
+                        // eslint-disable-next-line jsx-a11y/no-autofocus
+                        autoFocus
                         value={query}
                         onChange={onChange}
                     />
