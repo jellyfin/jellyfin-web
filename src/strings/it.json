@@ -1910,5 +1910,15 @@
     "LabelBackupWarning": "Ci sono operazioni pianificate in corso. Si consiglia di interromperle o di attenderne il completamento prima di avviare l'operazione di backup.",
     "VideoRotationNotSupported": "La rotazione del video non è supportata",
     "LabelSimilarItemProvidersHelp": "Abilita e ordina i tuoi fornitori di articoli simili preferiti in base alla priorità.",
-    "HeaderTypeSimilarItemProviders": "Fornitori di elementi simili ({0})"
+    "HeaderTypeSimilarItemProviders": "Fornitori di elementi simili ({0})",
+    "CardSettings": "Impostazioni scheda",
+    "ConfirmDeleteItemByName": "L'eliminazione di \"{0}\" lo rimuoverà sia dal file system che dalla tua raccolta multimediale. Sei sicuro di voler continuare?",
+    "ConfirmStillWatching": "Stai ancora guardando?",
+    "Disabled": "Disabilitato",
+    "LabelOriginalLanguage": "Lingua originale",
+    "OriginalLanguage": "Lingua originale",
+    "StillWatchingPrompt": "Richiesta Stai ancora guardando",
+    "StillWatchingOption": "{0} episodi o {1} minuti",
+    "StopWatching": "Smetti di guardare",
+    "TableOfContents": "Indice"
 }

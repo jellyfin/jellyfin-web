@@ -1905,5 +1905,6 @@
     "TrickplayLoadError": "Neuspjelo učitavanje postavki brzokreta",
     "LabelPlayerSizes": "Veličine igrača",
     "LabelPlaybackQuality": "Okvir izgubljen / oštećen",
-    "LabelSyncPlayJoinGroup": "Pridruži se grupi"
+    "LabelSyncPlayJoinGroup": "Pridruži se grupi",
+    "Disabled": "Onemogućeno"
 }

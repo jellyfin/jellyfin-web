@@ -1,14 +1,15 @@
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+
 import alert from 'components/alert';
 import focusManager from 'components/focusManager';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { pluginManager } from 'components/pluginManager';
 import { appRouter } from 'components/router/appRouter';
 import toast from 'components/toast/toast';
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
-import Events from 'utils/events.ts';
-import { PluginType } from 'types/plugin.ts';
-import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import Events from 'utils/events';
 
 const serverNotifications = {};
 
