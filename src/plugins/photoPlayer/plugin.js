@@ -1,6 +1,6 @@
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from 'types/plugin.ts';
+import * as userSettings from 'scripts/settings/userSettings';
 
 export default class PhotoPlayer {
     constructor() {
