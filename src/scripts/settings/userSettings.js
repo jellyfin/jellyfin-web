@@ -1,6 +1,7 @@
 import { getDisplayPreferencesQuery } from 'hooks/api/useDisplayPreferences';
 import { getUserQuery } from 'hooks/api/useUser';
 import { QUERY_KEY } from 'hooks/useUsers';
+import { StillWatchingOptions } from 'plugins/stillWatching/constants';
 import Events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
@@ -570,6 +571,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the still watching prompt option.
+     * @param {string|undefined} [val] - The still watching prompt option.
+     * @return {string} The still watching prompt option.
+     */
+    stillWatchingPrompt(val) {
+        if (val !== undefined) {
+            return this.set('stillWatchingPrompt', val, false);
+        }
+
+        return this.get('stillWatchingPrompt', false) || StillWatchingOptions.Default;
+    }
+
+    /**
     * @typedef {Object} Query
     * @property {number} StartIndex - query StartIndex.
     * @property {number} Limit - query Limit.
@@ -737,6 +751,7 @@ export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSetti
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);
+export const stillWatchingPrompt = currentSettings.stillWatchingPrompt.bind(currentSettings);
 export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentSettings);
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
 export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
