@@ -59,9 +59,8 @@ class ServerConnections extends ConnectionManager {
                 this.api = api;
             }
 
-            apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
-                return api.subscribe(messageTypes, onMessage, subscriptionIntervals);
-            };
+            apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) =>
+                api.subscribe(messageTypes, onMessage, subscriptionIntervals);
         });
     }
 
@@ -132,7 +131,7 @@ class ServerConnections extends ConnectionManager {
 
     /**
      * Gets the Api that is currently connected.
-     * @returns {import(@jellyfin/sdk).Api|undefined} The current Api instance.
+     * @returns {import('@jellyfin/sdk').Api|undefined} The current Api instance.
      */
     getCurrentApi() {
         let api = this.api;

@@ -55,12 +55,18 @@ function sortByAccess(a, b) {
 }
 
 export default class ConnectionManager {
+    /**
+     * A Map of Api instances with their corresponding
+     * serverIds as keys
+     * @type {Map<string, import('@jellyfin/sdk').Api}
+     */
+    _apis = new Map();
+
     constructor(credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
         console.log('Begin ConnectionManager constructor');
 
         const self = this;
         this._apiClients = [];
-        this._apis = new Map();
 
         // Set the minimum version to match the SDK
         self._minServerVersion = MINIMUM_VERSION;
