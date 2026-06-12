@@ -68,6 +68,11 @@ function renderItems(page, item) {
         });
     }
 
+    sections.push({
+        name: globalize.translate('HeaderAudioBooks'),
+        type: 'Audiobook'
+    });
+
     // TODO add a check when the API reports BookCount or PersonRoles
     sections.push({
         name: globalize.translate('Books'),
@@ -214,6 +219,22 @@ function renderSection(item, element, type) {
                 coverImage: true,
                 centerText: true,
                 overlayPlayButton: true
+            });
+            break;
+
+        case 'Audiobook':
+            loadItems(element, item, type, {
+                IncludeItemTypes: 'Audiobook',
+                SortBy: 'ProductionYear,SortName',
+                SortOrder: 'Descending,Ascending',
+                Limit: 10
+            }, {
+                shape: 'overflowPortrait',
+                showTitle: true,
+                centerText: true,
+                overlayMoreButton: true,
+                overlayText: false,
+                showYear: true
             });
             break;
 

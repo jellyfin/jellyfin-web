@@ -31,6 +31,7 @@ const suggestionsTabContent: LibraryTabContent = {
 const authorsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Authors,
     collectionType: CollectionType.Books,
+    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book],
     isBtnSortEnabled: false
 };
 

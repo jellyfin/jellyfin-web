@@ -402,7 +402,7 @@
     "HeaderApiKeysHelp": "External applications are required to have an API key in order to communicate with the server. Keys are issued by logging in with a normal user account or manually granting the application a key.",
     "HeaderApp": "App",
     "HeaderAppearsOn": "Appears On",
-    "HeaderAudioBooks": "Audio Books",
+    "HeaderAudioBooks": "Audiobooks",
     "HeaderAudioAdvanced": "Audio Advanced",
     "HeaderAudioSettings": "Audio Settings",
     "HeaderAutoDiscovery": "Network Discovery",
