@@ -186,16 +186,24 @@ function onPlaystate({ Data }) {
 }
 
 function subscribeToApiClient(apiClient) {
-    apiClient.subscribe([OutboundWebSocketMessageType.Play], (msg) => onPlay(msg, apiClient));
-    apiClient.subscribe([OutboundWebSocketMessageType.Playstate], (msg) => onPlaystate(msg));
-    apiClient.subscribe([OutboundWebSocketMessageType.GeneralCommand], ({ Data }) => processGeneralCommand(Data, apiClient));
-    apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayCommand], ({ Data }) => {
+    const unsubPlay = apiClient.subscribe([OutboundWebSocketMessageType.Play], (msg) => onPlay(msg, apiClient));
+    const unsubPlaystate = apiClient.subscribe([OutboundWebSocketMessageType.Playstate], (msg) => onPlaystate(msg));
+    const unsubGeneralCommand = apiClient.subscribe([OutboundWebSocketMessageType.GeneralCommand], ({ Data }) => processGeneralCommand(Data, apiClient));
+    const unsubSyncPlayCommand = apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayCommand], ({ Data }) => {
         pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processCommand(Data, apiClient);
     });
-    apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
+    const unsubSyncPlayGroupUpdate = apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
         pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processGroupUpdate(Data, apiClient);
         Events.trigger(serverNotifications, OutboundWebSocketMessageType.SyncPlayGroupUpdate, [apiClient, Data]);
     });
+
+    return () => {
+        unsubPlay();
+        unsubPlaystate();
+        unsubGeneralCommand();
+        unsubSyncPlayCommand();
+        unsubSyncPlayGroupUpdate();
+    };
 }
 
 export function initializeServerConnections() {

@@ -145,6 +145,7 @@ export default class ConnectionManager {
                 apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
 
                 self._apiClients.push(apiClient);
+                self._apis.set(server.Id, toApi(apiClient));
 
                 apiClient.serverInfo(server);
 
@@ -154,7 +155,6 @@ export default class ConnectionManager {
 
                 events.trigger(self, 'apiclientcreated', [apiClient]);
             }
-            self._apis.set(server.Id, toApi(apiClient));
 
             console.log('returning instance from getOrAddApiClient');
             return apiClient;
@@ -340,16 +340,16 @@ export default class ConnectionManager {
                 serverId: serverInfo.Id
             };
 
+            const onLogout = () => {
+                events.trigger(self, 'localusersignedout', [logoutInfo]);
+            };
+
             return Promise.allSettled([
-                self._apis.get(logoutInfo.serverId).logout(),
+                self._apis.get(logoutInfo.serverId)?.logout(),
                 apiClient.logout()
             ]).then(
-                () => {
-                    events.trigger(self, 'localusersignedout', [logoutInfo]);
-                },
-                () => {
-                    events.trigger(self, 'localusersignedout', [logoutInfo]);
-                }
+                onLogout,
+                onLogout
             );
         }
 

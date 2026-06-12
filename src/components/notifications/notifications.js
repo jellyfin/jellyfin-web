@@ -216,28 +216,30 @@ function showPackageInstallNotification(apiClient, installation, status) {
     });
 }
 
+let unsubscribe = [];
+
 function subscribeToApiClient(apiClient) {
-    apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], ({ Data }) => {
+    const unsubLibraryChanged = apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], ({ Data }) => {
         onLibraryChanged(Data, apiClient);
     });
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCompleted], ({ Data }) => {
+    const unsubPackageInstallCompleted = apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCompleted], ({ Data }) => {
         showPackageInstallNotification(apiClient, Data, 'completed');
     });
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationFailed], ({ Data }) => {
+    const unsubPackageInstallFailed = apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationFailed], ({ Data }) => {
         showPackageInstallNotification(apiClient, Data, 'failed');
     });
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCancelled], ({ Data }) => {
+    const unsubPackageInstallCanceled = apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCancelled], ({ Data }) => {
         showPackageInstallNotification(apiClient, Data, 'cancelled');
     });
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstalling], ({ Data }) => {
+    const unsubPackageInstalling = apiClient.subscribe([OutboundWebSocketMessageType.PackageInstalling], ({ Data }) => {
         showPackageInstallNotification(apiClient, Data, 'progress');
     });
 
-    apiClient.subscribe([OutboundWebSocketMessageType.ServerShuttingDown], () => {
+    const unsubServerShuttingDown = apiClient.subscribe([OutboundWebSocketMessageType.ServerShuttingDown], () => {
         const serverId = apiClient.serverInfo().Id;
         const notification = {
             tag: 'restart' + serverId,
@@ -246,7 +248,7 @@ function subscribeToApiClient(apiClient) {
         showNotification(notification, 0, apiClient);
     });
 
-    apiClient.subscribe([OutboundWebSocketMessageType.ServerRestarting], () => {
+    const unsubServerRestarting = apiClient.subscribe([OutboundWebSocketMessageType.ServerRestarting], () => {
         const serverId = apiClient.serverInfo().Id;
         const notification = {
             tag: 'restart' + serverId,
@@ -255,7 +257,7 @@ function subscribeToApiClient(apiClient) {
         showNotification(notification, 0, apiClient);
     });
 
-    apiClient.subscribe([OutboundWebSocketMessageType.RestartRequired], () => {
+    const unsubRestartRequired = apiClient.subscribe([OutboundWebSocketMessageType.RestartRequired], () => {
         const serverId = apiClient.serverInfo().Id;
         const notification = {
             tag: 'restart' + serverId,
@@ -273,8 +275,42 @@ function subscribeToApiClient(apiClient) {
 
         showNotification(notification, 0, apiClient);
     });
+
+    return () => {
+        unsubLibraryChanged();
+        unsubPackageInstallCompleted();
+        unsubPackageInstallFailed();
+        unsubPackageInstallCanceled();
+        unsubPackageInstalling();
+        unsubServerShuttingDown();
+        unsubServerRestarting();
+        unsubRestartRequired();
+    };
 }
 
-ServerConnections.getApiClients().forEach(subscribeToApiClient);
-Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => subscribeToApiClient(newApiClient));
+unsubscribe = ServerConnections.getApiClients().map(subscribeToApiClient);
 
+/**
+ * Add subscription when a new Api Client is created
+ */
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
+    unsubscribe.push(subscribeToApiClient(newApiClient));
+});
+
+/**
+ * Remove subscriptions when the user signs out
+ */
+Events.on(ServerConnections, 'localusersignedout', () => {
+    unsubscribe.forEach((unsub) => {
+        unsub();
+    });
+});
+
+/**
+ * Remove subscriptions when the page unloads
+ */
+window.onbeforeunload = () => {
+    unsubscribe.forEach(unsub => {
+        unsub?.();
+    });
+};
