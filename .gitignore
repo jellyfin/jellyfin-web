@@ -13,9 +13,6 @@ config.json
 .idea
 .vs
 
-# macOS
-.DS_Store
-
 # vim
 *.sw?
 
