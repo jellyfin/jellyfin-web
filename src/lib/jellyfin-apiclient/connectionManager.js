@@ -351,7 +351,7 @@ export default class ConnectionManager {
                 events.trigger(self, 'localusersignedout', [logoutInfo]);
             };
 
-            const api = this._apis.get(logoutInfo.serverId);
+            const api = self._apis.get(logoutInfo.serverId);
 
             const sessionApi = api ? getSessionApi(api) : undefined;
 
