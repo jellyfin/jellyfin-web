@@ -311,6 +311,6 @@ Events.on(ServerConnections, 'localusersignedout', () => {
  */
 window.onbeforeunload = () => {
     unsubscribe.forEach(unsub => {
-        unsub?.();
+        unsub();
     });
 };
