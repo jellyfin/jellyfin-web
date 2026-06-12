@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -165,9 +166,13 @@ const Home = () => {
         <div ref={element}>
             <Page
                 id='indexPage'
-                className='mainAnimatedPage homePage libraryPage allLibraryPage backdropPage pageWithAbsoluteTabs withTabs'
+                className='mainAnimatedPage homePage libraryPage allLibraryPage pageWithAbsoluteTabs withTabs'
                 isBackButtonEnabled={false}
-                backDropType='movie,series,book'
+                backDropType={[
+                    BaseItemKind.Movie,
+                    BaseItemKind.Series,
+                    BaseItemKind.Book
+                ]}
             >
                 <div className='tabContent pageTabContent' id='homeTab' data-index='0'>
                     <div className='sections'></div>

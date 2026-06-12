@@ -1,6 +1,7 @@
 import escapeHtml from 'escape-html';
 
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
 import { getUserQuery } from 'hooks/api/useUser';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
@@ -15,7 +16,6 @@ import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import toast from '../toast/toast';
 
