@@ -280,14 +280,14 @@ function subscribeToApiClient(apiClient) {
 }
 
 /**
- * Add subscription when a new Api Client is created
+ * Add subscriptions when the user logs in
  */
-Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
-    newApiClient.subscribe && subscriptions.push(subscribeToApiClient(newApiClient));
+Events.on(ServerConnections, 'localusersignedin', (e, newApiClient) => {
+    subscriptions.push(subscribeToApiClient(newApiClient));
 });
 
 /**
- * Remove subscriptions when the user signs out
+ * Remove subscriptions when the user logs out
  */
 Events.on(ServerConnections, 'localusersignedout', () => {
     subscriptions.forEach((unsub) => {
