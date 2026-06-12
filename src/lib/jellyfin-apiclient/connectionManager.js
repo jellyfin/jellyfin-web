@@ -1,6 +1,7 @@
 import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
+import { getSessionApi } from '@jellyfin/sdk/lib/utils/api/session-api';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
@@ -350,8 +351,12 @@ export default class ConnectionManager {
                 events.trigger(self, 'localusersignedout', [logoutInfo]);
             };
 
+            const api = this._apis.get(logoutInfo.serverId);
+
+            const sessionApi = api ? getSessionApi(api) : undefined;
+
             return Promise.allSettled([
-                self._apis.get(logoutInfo.serverId)?.logout(),
+                sessionApi.reportSessionEnded(),
                 apiClient.logout()
             ]).then(
                 onLogout,
