@@ -1,3 +1,4 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { AppFeature } from 'constants/appFeature';
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
@@ -54,7 +55,14 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
 }
 
 function updateItemSelection(chkItemSelect, selected) {
-    const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
+    const parentWithId = dom.parentWithAttribute(chkItemSelect, 'data-id');
+
+    // If the element doesn't have a parent with data-id, it's not a valid item
+    if (!parentWithId) {
+        return;
+    }
+
+    const id = parentWithId.getAttribute('data-id');
 
     if (selected) {
         const current = selectedItems.filter(i => {
@@ -89,6 +97,11 @@ function onSelectionChange() {
 }
 
 function showSelection(item, isChecked, addInitialCheck) {
+    // Only add selection checkbox if the item has a data-id attribute
+    if (!dom.parentWithAttribute(item, 'data-id')) {
+        return;
+    }
+
     let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
     if (!itemSelectionPanel) {
@@ -203,7 +216,14 @@ function showMenuForSelectedItems(e) {
                 // Disabled because there is no callback for this item
             }
 
-            if (user.Policy.IsAdministrator) {
+            const includeTypes = [
+                BaseItemKind.Movie,
+                BaseItemKind.Episode,
+                BaseItemKind.MusicVideo,
+                BaseItemKind.Video
+            ];
+
+            if (user.Policy.IsAdministrator && includeTypes.includes(firstItem.Type)) {
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
