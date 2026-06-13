@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify';
-import debounce from 'lodash-es/debounce';
+import throttle from 'lodash-es/throttle';
 import Screenfull from 'screenfull';
 
 import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
@@ -595,7 +595,7 @@ export class HtmlVideoPlayer {
         }
     }
 
-    setSubtitleOffset = debounce(this._setSubtitleOffset, 100);
+    setSubtitleOffset = throttle(this._setSubtitleOffset, 100);
 
     /**
      * @private
