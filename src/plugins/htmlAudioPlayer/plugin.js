@@ -128,6 +128,12 @@ class HtmlAudioPlayer {
                     return;
                 }
 
+                // this avoids the AudioContext being suspended when Safari is put into background
+                // to allow scrubbing, Audio Normalization must be turned off in the settings
+                if ("audioSession" in navigator) {
+                    navigator.audioSession.type = "playback";
+                }
+
                 if (!self.gainNode) {
                     addGainElement(elem);
                     if (!self.gainNode) return;
