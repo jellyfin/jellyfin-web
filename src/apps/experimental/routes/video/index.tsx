@@ -53,7 +53,9 @@ const VideoPage: FC = () => {
                     top: 0,
                     left: 0,
                     right: 0,
-                    color: 'white'
+                    height: '7.5em',
+                    color: 'white',
+                    background: 'linear-gradient(180deg, rgba(16, 16, 16, 0.75) 0%, rgba(16, 16, 16, 0) 100%)'
                 }}>
                     <AppToolbar
                         isDrawerAvailable={false}
