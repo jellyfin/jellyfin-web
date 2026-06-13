@@ -167,7 +167,7 @@
     "lint": "eslint",
     "test": "vitest --watch=false --config vite.config.ts",
     "test:watch": "vitest --config vite.config.ts",
-    "stylelint": "stylelint \"src/**/*.{css,scss}\""
+    "stylelint": "stylelint --config .stylelintrc.json \"src/**/*.{css,scss}\""
   },
   "engines": {
     "node": ">=24.0.0",
