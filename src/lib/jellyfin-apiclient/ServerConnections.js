@@ -34,8 +34,8 @@ const getMaxBandwidth = () => {
 class ServerConnections extends ConnectionManager {
     firstConnection = false;
 
-    constructor() {
-        super(...arguments);
+    constructor(...args) {
+        super(...args);
         this.localApiClient = null;
         this.firstConnection = null;
 
