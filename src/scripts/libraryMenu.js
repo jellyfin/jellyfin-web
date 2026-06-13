@@ -48,7 +48,7 @@ function renderHeader() {
     html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
     html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
-    html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
+    html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerSettingsButton hide"><span class="material-icons settings" aria-hidden="true"></span></button>';
     html += '<div class="currentTimeText hide"></div>';
     html += '</div>';
     html += '</div>';
@@ -64,7 +64,7 @@ function renderHeader() {
     headerBackButton = skinHeader.querySelector('.headerBackButton');
     headerHomeButton = skinHeader.querySelector('.headerHomeButton');
     mainDrawerButton = skinHeader.querySelector('.mainDrawerButton');
-    headerUserButton = skinHeader.querySelector('.headerUserButton');
+    headerSettingsButton = skinHeader.querySelector('.headerSettingsButton');
     headerCastButton = skinHeader.querySelector('.headerCastButton');
     headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
     headerSearchButton = skinHeader.querySelector('.headerSearchButton');
@@ -125,30 +125,18 @@ function retranslateUi() {
         headerSearchButton.title = globalize.translate('Search');
     }
 
-    if (headerUserButton) {
-        headerUserButton.title = globalize.translate('Settings');
+    if (headerSettingsButton) {
+        headerSettingsButton.title = globalize.translate('Settings');
     }
 }
 
 function updateUserInHeader(user) {
     retranslateUi();
 
-    let hasImage;
-
     if (user?.name) {
-        if (user.imageUrl) {
-            const url = user.imageUrl;
-            updateHeaderUserButton(url);
-            hasImage = true;
-        }
-        headerUserButton.title = user.name;
-        headerUserButton.classList.remove('hide');
+        headerSettingsButton.classList.remove('hide');
     } else {
-        headerUserButton.classList.add('hide');
-    }
-
-    if (!hasImage) {
-        updateHeaderUserButton(null);
+        headerSettingsButton.classList.add('hide');
     }
 
     if (user?.localUser) {
@@ -189,16 +177,6 @@ function updateUserInHeader(user) {
     requiresUserRefresh = false;
 }
 
-function updateHeaderUserButton(src) {
-    if (src) {
-        headerUserButton.classList.add('headerUserButtonRound');
-        headerUserButton.innerHTML = '<div class="headerButton headerButtonRight paper-icon-button-light headerUserButtonRound" style="background-image:url(\'' + src + "');\"></div>";
-    } else {
-        headerUserButton.classList.remove('headerUserButtonRound');
-        headerUserButton.innerHTML = '<span class="material-icons person" aria-hidden="true"></span>';
-    }
-}
-
 function updateClock() {
     if (layoutManager.tv) {
         currentTimeText.classList.remove('hide');
@@ -214,7 +192,7 @@ function showSearch() {
     inputManager.handleCommand('search');
 }
 
-function onHeaderUserButtonClick() {
+function onHeaderSettingsButtonClick() {
     Dashboard.navigate('mypreferencesmenu');
 }
 
@@ -239,7 +217,7 @@ function bindMenuEvents() {
         headerSearchButton.addEventListener('click', showSearch);
     }
 
-    headerUserButton.addEventListener('click', onHeaderUserButtonClick);
+    headerSettingsButton.addEventListener('click', onHeaderSettingsButtonClick);
     headerHomeButton.addEventListener('click', onHeaderHomeButtonClick);
 
     if (!layoutManager.tv) {
@@ -691,7 +669,7 @@ let currentDrawerType;
 let documentTitle = 'Jellyfin';
 let pageTitleElement;
 let headerBackButton;
-let headerUserButton;
+let headerSettingsButton;
 let currentUser;
 let headerCastButton;
 let headerSearchButton;
