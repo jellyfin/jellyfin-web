@@ -125,6 +125,7 @@ const UserNew = () => {
                 Name: (page.querySelector('#txtUsername') as HTMLInputElement).value,
                 Password: (page.querySelector('#txtPassword') as HTMLInputElement).value
             };
+
             createUser.mutate({ createUserByName: userInput }, {
                 onSuccess: (response) => {
                     const user = response.data;
@@ -167,6 +168,14 @@ const UserNew = () => {
                             setIsErrorToastOpen(true);
                         }
                     });
+                },
+                onError: (response) => { //catch failure
+                    if (response?.message) {
+                        alert(`${response.message}: Failed to create user. Please check for special characters.`); //return API failure message if exists
+                    } else {
+                        alert('Failed to create user. Please check for special characters.'); //default failure message
+                    }
+                    loading.hide();
                 }
             });
         };
