@@ -26,6 +26,7 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -1862,16 +1863,21 @@ export default function (view, params) {
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
-        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
-            loading.show();
-            apiClient.ajax({
-                type: 'DELETE',
-                url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-            }).then(function () {
-                loading.hide();
+        confirm(globalize.translate('ConfirmSplitMedia'), globalize.translate('HeaderSplitMedia'))
+            .then(() => {
+                loading.show();
+                return apiClient.ajax({
+                    type: 'DELETE',
+                    url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
+                });
+            })
+            .then(() => {
                 reload(instance, page, pageParams);
+                Events.trigger(document, EventType.REFRESH_NEEDED);
+            })
+            .finally(() => {
+                loading.hide();
             });
-        });
     }
 
     function getPlayOptions(startPosition) {
