@@ -137,83 +137,37 @@ function onTypeChange() {
     const supportsFmp4Container = value === 'm3u';
     const supportsStreamSharing = value === 'm3u';
     const supportsFallbackBitrate = value === 'm3u' || value === 'hdhomerun';
-    const suppportsSubmit = value !== 'other';
+    const supportsSubmit = value !== 'other';
     const supportsSelectablePath = supportsTunerFileOrUrl;
     const txtDevicePath = view.querySelector('.txtDevicePath');
 
     if (supportsTunerIpAddress) {
         txtDevicePath.label(globalize.translate('LabelTunerIpAddress'));
-        view.querySelector('.fldPath').classList.remove('hide');
     } else if (supportsTunerFileOrUrl) {
         txtDevicePath.label(globalize.translate('LabelFileOrUrl'));
-        view.querySelector('.fldPath').classList.remove('hide');
-    } else {
-        view.querySelector('.fldPath').classList.add('hide');
     }
+    view.querySelector('.fldPath').classList.toggle('hide', !supportsTunerIpAddress && !supportsTunerFileOrUrl);
+    view.querySelector('.btnSelectPath').classList.toggle('hide', !supportsSelectablePath);
+    view.querySelector('.txtDevicePath').toggleAttribute('required', supportsSelectablePath);
 
-    if (supportsSelectablePath) {
-        view.querySelector('.btnSelectPath').classList.remove('hide');
-        view.querySelector('.txtDevicePath').setAttribute('required', 'required');
-    } else {
-        view.querySelector('.btnSelectPath').classList.add('hide');
-        view.querySelector('.txtDevicePath').removeAttribute('required');
-    }
-
-    if (supportsUserAgent) {
-        view.querySelector('.fldUserAgent').classList.remove('hide');
-    } else {
-        view.querySelector('.fldUserAgent').classList.add('hide');
-    }
-
-    if (supportsFavorites) {
-        view.querySelector('.fldFavorites').classList.remove('hide');
-    } else {
-        view.querySelector('.fldFavorites').classList.add('hide');
-    }
-
-    if (supportsTranscoding) {
-        view.querySelector('.fldTranscode').classList.remove('hide');
-    } else {
-        view.querySelector('.fldTranscode').classList.add('hide');
-    }
+    view.querySelector('.fldUserAgent').classList.toggle('hide', !supportsUserAgent);
+    view.querySelector('.fldFavorites').classList.toggle('hide', !supportsFavorites);
+    view.querySelector('.fldTranscode').classList.toggle('hide', !supportsTranscoding);
 
     view.querySelector('.fldFmp4Container').classList.toggle('hide', !supportsFmp4Container);
     view.querySelector('.fldStreamSharing').classList.toggle('hide', !supportsStreamSharing);
     view.querySelector('.fldFallbackMaxStreamingBitrate').classList.toggle('hide', !supportsFallbackBitrate);
 
-    if (supportsStreamLooping) {
-        view.querySelector('.fldStreamLoop').classList.remove('hide');
-    } else {
-        view.querySelector('.fldStreamLoop').classList.add('hide');
-    }
-
-    if (supportsIgnoreDts) {
-        view.querySelector('.fldIgnoreDts').classList.remove('hide');
-    } else {
-        view.querySelector('.fldIgnoreDts').classList.add('hide');
-    }
-
+    view.querySelector('.fldStreamLoop').classList.toggle('hide', !supportsStreamLooping);
+    view.querySelector('.fldIgnoreDts').classList.toggle('hide', !supportsIgnoreDts);
     view.querySelector('.fldReadInputAtNativeFramerate').classList.toggle('hide', !supportsReadInputAtNativeFramerate);
 
-    if (supportsTunerCount) {
-        view.querySelector('.fldTunerCount').classList.remove('hide');
-        view.querySelector('.txtTunerCount').setAttribute('required', 'required');
-    } else {
-        view.querySelector('.fldTunerCount').classList.add('hide');
-        view.querySelector('.txtTunerCount').removeAttribute('required');
-    }
+    view.querySelector('.fldTunerCount').classList.toggle('hide', !supportsTunerCount);
+    view.querySelector('.txtTunerCount').toggleAttribute('required', supportsTunerCount);
 
-    if (mayIncludeUnsupportedDrmChannels) {
-        view.querySelector('.drmMessage').classList.remove('hide');
-    } else {
-        view.querySelector('.drmMessage').classList.add('hide');
-    }
+    view.querySelector('.drmMessage').classList.toggle('hide', !mayIncludeUnsupportedDrmChannels);
 
-    if (suppportsSubmit) {
-        view.querySelector('.button-submit').classList.remove('hide');
-    } else {
-        view.querySelector('.button-submit').classList.add('hide');
-    }
+    view.querySelector('.button-submit').classList.toggle('hide', !supportsSubmit);
 }
 
 export default function (view, params) {
