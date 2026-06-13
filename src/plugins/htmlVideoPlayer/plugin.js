@@ -2194,15 +2194,10 @@ export class HtmlVideoPlayer {
         if (mediaElement.getVideoPlaybackQuality) {
             const playbackQuality = mediaElement.getVideoPlaybackQuality();
             const droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
-            const corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
-
-            const qualityInfos = [];
-            qualityInfos.push(droppedVideoFrames);
-            qualityInfos.push(corruptedVideoFrames);
 
             videoCategory.stats.push({
                 label: globalize.translate('LabelPlaybackQuality'),
-                value: qualityInfos.join(' / ')
+                value: String(droppedVideoFrames)
             });
         }
 
