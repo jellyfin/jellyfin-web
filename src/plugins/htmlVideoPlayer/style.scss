@@ -17,6 +17,11 @@
     order: -1;
 }
 
+/* Clip scaled video when using custom aspect ratio scale */
+.videoPlayerContainer:has(.htmlvideoplayer--customScale) {
+    overflow: hidden;
+}
+
 /* Controls are enabled for devices that don't support autoplay. They will be hidden when playback starts.
    In Tizen 2.3 (and probably other old web engines), subtitles are located under '-webkit-media-controls' tree.
    Therefore, we hide controls only if they are enabled.
