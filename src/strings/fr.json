@@ -368,6 +368,8 @@
     "InstantMix": "Mix instantané",
     "ItemCount": "{0} éléments",
     "Items": "Éléments",
+    "KeepOriginalTitle": "Conserver le titre original",
+    "KeepOriginalTitleHelp": "Affiche le titre des films et séries dans leur langue originale.",
     "Kids": "Jeunesse",
     "Label3DFormat": "Format 3D",
     "LabelAbortedByServerShutdown": "Annulé par l'arrêt du serveur",
