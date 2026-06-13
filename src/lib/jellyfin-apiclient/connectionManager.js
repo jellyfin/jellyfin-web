@@ -150,18 +150,14 @@ export default class ConnectionManager {
 
             if (!apiClient) {
                 apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
-
                 self._apiClients.push(apiClient);
-                self._apis.set(server.Id, toApi(apiClient));
-
                 apiClient.serverInfo(server);
-
                 apiClient.onAuthenticated = (instance, result) => {
                     return onAuthenticated(instance, result, {}, true);
                 };
-
                 events.trigger(self, 'apiclientcreated', [apiClient]);
             }
+            self._apis.set(server.Id, toApi(apiClient));
 
             console.log('returning instance from getOrAddApiClient');
             return apiClient;
@@ -795,8 +791,20 @@ export default class ConnectionManager {
         })[0];
     }
 
+    /**
+     * Returns or creates an Api instance for a given
+     * server
+     * @param {string} serverId The ID of the server
+     * @returns {import('@jellyfin/sdk').Api}
+     */
     getApi(serverId) {
-        return this._apis.get(serverId);
+        let api = this._apis.get(serverId);
+        if (!api) {
+            api = toApi(this.getOrCreateApiClient(serverId));
+            this._apis.set(serverId, api);
+        }
+
+        return api;
     }
 
     minServerVersion(val) {

@@ -192,17 +192,17 @@ function onPlaystate({ Data }) {
  */
 function subscribeToApiClient(apiClient) {
     const subscriptions = [
-        apiClient.subscribe([OutboundWebSocketMessageType.Play], (msg) => onPlay(msg, apiClient)),
-        apiClient.subscribe([OutboundWebSocketMessageType.Playstate], (msg) => onPlaystate(msg)),
-        apiClient.subscribe([OutboundWebSocketMessageType.GeneralCommand], ({ Data }) => processGeneralCommand(Data, apiClient)),
-        apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayCommand], ({ Data }) => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.Play], (msg) => onPlay(msg, apiClient)),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.Playstate], (msg) => onPlaystate(msg)),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.GeneralCommand], ({ Data }) => processGeneralCommand(Data, apiClient)),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.SyncPlayCommand], ({ Data }) => {
             pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processCommand(Data, apiClient);
         }),
-        apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
             pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processGroupUpdate(Data, apiClient);
             Events.trigger(serverNotifications, OutboundWebSocketMessageType.SyncPlayGroupUpdate, [apiClient, Data]);
         })
-    ];
+    ].filter(Boolean);
 
     return () => subscriptions.get(apiClient.serverId()).forEach((unsub) => {
         unsub();
@@ -210,8 +210,6 @@ function subscribeToApiClient(apiClient) {
 }
 
 export function initializeServerConnections() {
-    ServerConnections.getApiClients().forEach(subscribeToApiClient);
-
     let unsub;
 
     const onApiClientCreated = (e, newApiClient) => {
@@ -219,7 +217,6 @@ export function initializeServerConnections() {
     };
 
     const onLocalUserSignedOut = () => {
-        Events.off(ServerConnections, 'apiclientcreated', onApiClientCreated);
         unsub();
     };
 

@@ -220,23 +220,23 @@ const subscriptions = [];
 
 function subscribeToApiClient(apiClient) {
     const clientSubscriptions = [
-        apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], ({ Data }) => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.LibraryChanged], ({ Data }) => {
             onLibraryChanged(Data, apiClient);
         }),
-        apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCompleted], ({ Data }) => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationCompleted], ({ Data }) => {
             showPackageInstallNotification(apiClient, Data, 'completed');
         }),
-        apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationFailed], ({ Data }) => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationFailed], ({ Data }) => {
             showPackageInstallNotification(apiClient, Data, 'failed');
         }),
-        apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCancelled], ({ Data }) => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationCancelled], ({ Data }) => {
             showPackageInstallNotification(apiClient, Data, 'cancelled');
         }),
-        apiClient.subscribe([OutboundWebSocketMessageType.PackageInstalling], ({ Data }) => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstalling], ({ Data }) => {
             showPackageInstallNotification(apiClient, Data, 'progress');
         }),
 
-        apiClient.subscribe([OutboundWebSocketMessageType.ServerShuttingDown], () => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.ServerShuttingDown], () => {
             const serverId = apiClient.serverInfo().Id;
             const notification = {
                 tag: 'restart' + serverId,
@@ -245,7 +245,7 @@ function subscribeToApiClient(apiClient) {
             showNotification(notification, 0, apiClient);
         }),
 
-        apiClient.subscribe([OutboundWebSocketMessageType.ServerRestarting], () => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.ServerRestarting], () => {
             const serverId = apiClient.serverInfo().Id;
             const notification = {
                 tag: 'restart' + serverId,
@@ -254,7 +254,7 @@ function subscribeToApiClient(apiClient) {
             showNotification(notification, 0, apiClient);
         }),
 
-        apiClient.subscribe([OutboundWebSocketMessageType.RestartRequired], () => {
+        apiClient.subscribe?.([OutboundWebSocketMessageType.RestartRequired], () => {
             const serverId = apiClient.serverInfo().Id;
             const notification = {
                 tag: 'restart' + serverId,
@@ -272,7 +272,7 @@ function subscribeToApiClient(apiClient) {
 
             showNotification(notification, 0, apiClient);
         })
-    ];
+    ].filter(Boolean);
 
     return () => clientSubscriptions.forEach((unsub) => {
         unsub();
@@ -280,9 +280,9 @@ function subscribeToApiClient(apiClient) {
 }
 
 /**
- * Add subscriptions when the user logs in
+ * Add subscriptions when the apiClient is created
  */
-Events.on(ServerConnections, 'localusersignedin', (e, newApiClient) => {
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
     subscriptions.push(subscribeToApiClient(newApiClient));
 });
 
