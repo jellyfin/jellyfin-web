@@ -1,4 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
@@ -1004,6 +1005,7 @@ function renderDetails(page, instance, item, apiClient, context) {
         }
     }
 
+    renderItemCollections(page, item, apiClient, context);
     renderSimilarItems(page, item, context);
     renderMoreFromSeason(page, item, apiClient);
     renderMoreFromArtist(page, item, apiClient);
@@ -1158,6 +1160,50 @@ function renderMoreFromArtist(view, item, apiClient) {
             });
         });
     }
+}
+
+function renderItemCollections(page, item, apiClient, context) {
+    const section = page.querySelector('#collectionsCollapsible');
+
+    if (!section) {
+        return;
+    }
+
+    const api = toApi(apiClient);
+    const userId = apiClient.getCurrentUserId();
+
+    getLibraryApi(api)
+        .getItemCollections({
+            itemId: item.Id,
+            userId,
+            fields: [ItemFields.PrimaryImageAspectRatio]
+        })
+        .then(response => response.data?.Items || [])
+        .then(collectionItems => {
+            if (!collectionItems.length) {
+                section.classList.add('hide');
+                return;
+            }
+
+            section.classList.remove('hide');
+            cardBuilder.buildCards(collectionItems, {
+                parentContainer: section,
+                itemsContainer: section.querySelector('.collectionsContent'),
+                shape: 'overflowPortrait',
+                sectionTitleTagName: 'h2',
+                scalable: true,
+                centerText: true,
+                showTitle: true,
+                showParentTitle: false,
+                overlayText: false,
+                overlayPlayButton: false,
+                coverImage: true,
+                showYear: false,
+                context
+            });
+        }).catch(() => {
+            section.classList.add('hide');
+        });
 }
 
 function renderSimilarItems(page, item, context) {
