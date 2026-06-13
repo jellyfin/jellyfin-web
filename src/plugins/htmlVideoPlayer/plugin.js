@@ -968,7 +968,7 @@ export class HtmlVideoPlayer {
         this.setCurrentTrackElement(this.#subtitleTrackIndexToSetOnPlaying);
 
         if (this.#audioTrackIndexToSetOnPlaying != null && this.canSetAudioStreamIndex()) {
-            this.setAudioStreamIndex(this.#audioTrackIndexToSetOnPlaying);
+            playbackManager.setAudioStreamIndex(this.#audioTrackIndexToSetOnPlaying);
         }
 
         if (this.#secondarySubtitleTrackIndexToSetOnPlaying != null && this.#secondarySubtitleTrackIndexToSetOnPlaying >= 0) {
