@@ -107,6 +107,7 @@
 - [Lampan-git](https://github.com/Lampan-git)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
+- [ocp1006](https://github.com/ocp1006)
 - [austinhardaway](https://github.com/austinhardaway)
 
 ## Emby Contributors
