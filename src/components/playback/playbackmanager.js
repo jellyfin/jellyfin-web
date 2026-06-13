@@ -4160,6 +4160,10 @@ export class PlaybackManager {
             return player.setRepeatMode(value);
         }
 
+        if (player && typeof player.setNativeLoop === 'function') {
+            player.setNativeLoop(value === 'RepeatOne');
+        }
+
         this._playQueueManager.setRepeatMode(value);
         Events.trigger(player, 'repeatmodechange');
     }
