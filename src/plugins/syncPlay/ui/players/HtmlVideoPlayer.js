@@ -160,6 +160,14 @@ class HtmlVideoPlayer extends NoActivePlayer {
     getPlaybackRate() {
         return this.player.getPlaybackRate();
     }
+
+    /**
+     * Sets the playback rate locally.
+     * @param {number} value The playback rate.
+     */
+    localSetPlaybackRate(value) {
+        this.setPlaybackRate(value);
+    }
 }
 
 export default HtmlVideoPlayer;
