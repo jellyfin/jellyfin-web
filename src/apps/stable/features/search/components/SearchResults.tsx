@@ -47,6 +47,7 @@ const SearchResults: FC<SearchResultsProps> = ({
             <SearchResultsRow
                 key={`${section.title}-${index}`}
                 title={globalize.translate(section.title)}
+                sectionKey={section.title}
                 items={section.items}
                 cardOptions={{
                     shape: CardShape.AutoOverflow,
