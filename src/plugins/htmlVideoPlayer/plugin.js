@@ -1246,8 +1246,9 @@ export class HtmlVideoPlayer {
             targetTrackIndex = this.#customSecondaryTrackIndex;
         }
 
-        // skip if already playing this track
-        if (targetTrackIndex === track.Index) {
+        const activeTextTracks = this.getTextTracks();
+        // skip if already playing this track and the track is active
+        if (targetTrackIndex === track.Index && activeTextTracks?.length) {
             return;
         }
 
