@@ -1313,7 +1313,12 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
-                if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
+                const compareIds = (a, b) => {
+                    if (a < b) return -1;
+                    if (a > b) return 1;
+                    return 0;
+                };
+                if (!isEqual(track.ArtistItems.map(x => x.Id).sort(compareIds), track.AlbumArtists.map(x => x.Id).sort(compareIds))) {
                     showArtist = true;
                     break;
                 }
