@@ -101,6 +101,7 @@ class ViewSettings {
             dlg.querySelector('.selectImageType').addEventListener('change', function () {
                 showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list' && this.value !== 'banner');
                 showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list' && this.value !== 'banner');
+                showIfAllowed(dlg, '.chkTruncateContainer', this.value === 'list');
             });
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
