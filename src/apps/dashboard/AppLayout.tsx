@@ -53,7 +53,7 @@ export const Component: FC = () => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
-                    minHeight: '100%'
+                    height: '100vh'
                 }}
             >
                 <StrictMode>
@@ -104,7 +104,8 @@ export const Component: FC = () => {
                     sx={{
                         position: 'relative',
                         width: '100%',
-                        flexGrow: 1
+                        flexGrow: 1,
+                        overflow: 'auto'
                     }}
                 >
                     <AppBody>
