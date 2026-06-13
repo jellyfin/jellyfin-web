@@ -218,6 +218,27 @@ export default function (view, params) {
         });
     }
 
+    view.querySelectorAll('.showAdditionalServerInfo').forEach(query => {
+        query.addEventListener('click', function () {
+            const apiClient = getApiClient();
+            apiClient.getPublicSystemInfo()
+                .then(systemInfo => {
+                    baseAlert({
+                        title: globalize.translate('ServerInfo'),
+                        html: [
+                            systemInfo.ServerName,
+                            systemInfo.Version,
+                            apiClient.serverAddress(),
+                            systemInfo.Id
+                        ].join('<br>')
+                    }).catch(() => { /* no-op */ });
+                })
+                .catch(() => {
+                    console.debug('Failed to get server information');
+                });
+        });
+    });
+
     view.querySelector('#divUsers').addEventListener('click', function (e) {
         const card = dom.parentWithClass(e.target, 'card');
         const cardContent = card ? card.querySelector('.cardContent') : null;
@@ -271,6 +292,16 @@ export default function (view, params) {
         }
 
         const apiClient = getApiClient();
+
+        apiClient.getPublicSystemInfo()
+            .then(systemInfo => {
+                view.querySelectorAll('.serverName').forEach(query => {
+                    query.innerHTML = systemInfo.ServerName;
+                });
+            })
+            .catch(() => {
+                console.debug('Failed to get server name');
+            });
 
         apiClient.getQuickConnect('Enabled')
             .then(enabled => {
