@@ -108,6 +108,28 @@ class HtmlAudioPlayer {
             return setCurrentSrc(elem, options);
         };
 
+        function applySrcBeforePlay(elem, val, options) {
+            return htmlMediaHelper.applySrc(elem, val, options).then(function () {
+                self._currentSrc = val;
+            });
+        }
+
+        async function playWithNativePlayer(elem, val, options) {
+            elem.autoplay = true;
+
+            const includeCorsCredentials = await getIncludeCorsCredentials();
+            if (includeCorsCredentials) {
+                // Safari will not send cookies without this
+                elem.crossOrigin = 'use-credentials';
+            }
+
+            return htmlMediaHelper.playWithPromise(elem, onError, {
+                beforePlay: function () {
+                    return applySrcBeforePlay(elem, val, options);
+                }
+            });
+        }
+
         function setCurrentSrc(elem, options) {
             unBindEvents(elem);
             bindEvents(elem);
@@ -185,20 +207,8 @@ class HtmlAudioPlayer {
                         self._currentSrc = val;
                     });
                 });
-            }, async () => {
-                elem.autoplay = true;
-
-                const includeCorsCredentials = await getIncludeCorsCredentials();
-                if (includeCorsCredentials) {
-                    // Safari will not send cookies without this
-                    elem.crossOrigin = 'use-credentials';
-                }
-
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-                    self._currentSrc = val;
-
-                    return htmlMediaHelper.playWithPromise(elem, onError);
-                });
+            }, function () {
+                return playWithNativePlayer(elem, val, options);
             });
         }
 
