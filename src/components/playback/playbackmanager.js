@@ -305,11 +305,18 @@ function getAudioMaxValues(deviceProfile) {
 }
 
 let startingPlaySession = new Date().getTime();
+
+export function getAudiobookPlaybackRate() {
+    const rate = parseFloat(userSettings.get('audioBookPlaybackRate'));
+    return (rate && Math.abs(rate - 1.0) > 0.001) ? rate : null;
+}
+
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
     const url = 'Audio/' + item.Id + '/universal';
 
     startingPlaySession++;
-    return apiClient.getUrl(url, {
+
+    const params = {
         UserId: apiClient.getCurrentUserId(),
         DeviceId: apiClient.deviceId(),
         MaxStreamingBitrate: maxValues.maxAudioBitrate || maxValues.maxBitrate,
@@ -325,7 +332,16 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         EnableRedirection: true,
         EnableRemoteMedia: appHost.supports(AppFeature.RemoteAudio),
         EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
-    });
+    };
+
+    if (item.Type === 'AudioBook') {
+        const rate = getAudiobookPlaybackRate();
+        if (rate) {
+            params.AudioPlaybackRate = rate;
+        }
+    }
+
+    return apiClient.getUrl(url, params);
 }
 
 function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -1348,6 +1364,14 @@ export class PlaybackManager {
             }
         };
 
+        self.restartStream = function (player) {
+            player = player || self._currentPlayer;
+            if (player && enableLocalPlaylistManagement(player)) {
+                loading.show();
+                changeStream(player, getCurrentTicks(player), {});
+            }
+        };
+
         function getSavedMaxStreamingBitrate(apiClient, mediaType) {
             if (!apiClient) {
                 // This should hopefully never happen
@@ -1697,7 +1721,19 @@ export class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
-                player.currentTime(parseInt(ticks / 10000, 10));
+                let seekPosition = parseInt(ticks / 10000, 10);
+                const currentItem = self.currentItem(player);
+                if (currentItem?.Type === 'AudioBook') {
+                    const rate = getAudiobookPlaybackRate();
+                    if (rate) {
+                        // ticks are in original-file time; HLS stream is compressed by the
+                        // atempo rate, so currentTime must be in stream-relative time.
+                        const streamInfo = getPlayerData(player).streamInfo;
+                        const offsetPosition = parseInt((streamInfo?.transcodingOffsetTicks || 0) / 10000, 10);
+                        seekPosition = Math.floor((seekPosition - offsetPosition) / rate);
+                    }
+                }
+                player.currentTime(seekPosition);
                 return;
             }
 
@@ -1790,12 +1826,14 @@ export class PlaybackManager {
             playerData.streamInfo = streamInfo;
 
             return player.play(streamInfo).then(function () {
+                loading.hide();
                 playerData.isChangingStream = false;
                 streamInfo.started = true;
                 streamInfo.ended = false;
 
                 sendProgressUpdate(player, 'timeupdate');
             }, function (e) {
+                loading.hide();
                 playerData.isChangingStream = false;
 
                 onPlaybackError.call(player, e, {
@@ -2248,9 +2286,20 @@ export class PlaybackManager {
 
             let playerTime = Math.floor(10000 * (player).currentTime());
 
+            // When server-side atempo is active the stream is compressed by the playback
+            // rate, so currentTime reflects stream position, not original-file position.
+            // Scale before adding transcodingOffsetTicks.
+            const currentItem = self.currentItem(player);
+            if (currentItem?.Type === 'AudioBook') {
+                const rate = getAudiobookPlaybackRate();
+                if (rate) {
+                    playerTime = Math.floor(playerTime * rate);
+                }
+            }
+
             const streamInfo = getPlayerData(player).streamInfo;
             if (streamInfo) {
-                playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
+                playerTime += streamInfo.transcodingOffsetTicks || 0;
             }
 
             return playerTime;
