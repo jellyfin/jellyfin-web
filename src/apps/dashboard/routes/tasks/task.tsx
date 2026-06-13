@@ -16,6 +16,7 @@ import type { TaskTriggerInfo } from '@jellyfin/sdk/lib/generated-client/models/
 import globalize from '../../../../lib/globalize';
 import { useTask } from 'apps/dashboard/features/tasks/api/useTask';
 import { useUpdateTask } from 'apps/dashboard/features/tasks/api/useUpdateTask';
+import { getTaskDisplayName } from 'apps/dashboard/features/tasks/utils/tasks';
 import ConfirmDialog from 'components/ConfirmDialog';
 import TaskTriggerCell from 'apps/dashboard/features/tasks/components/TaskTriggerCell';
 import NewTriggerForm from 'apps/dashboard/features/tasks/components/NewTriggerForm';
@@ -164,7 +165,7 @@ export const Component = () => {
             <Box className='content-primary'>
                 <Box className='readOnlyContent'>
                     <Stack spacing={2}>
-                        <Typography variant='h2'>{task.Name}</Typography>
+                        <Typography variant='h2'>{getTaskDisplayName(task)}</Typography>
                         <Typography variant='body1'>{task.Description}</Typography>
                         <Button
                             sx={{ alignSelf: 'flex-start' }}

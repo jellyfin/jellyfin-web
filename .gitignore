@@ -21,3 +21,4 @@ config.json
 
 # environment related
 .envrc
+.DS_Store
