@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/useLocalizationOptions';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
+import { QUERY_KEY as CONFIGURATION_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
+import { QUERY_KEY as SYSTEM_INFO_QUERY_KEY } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -44,7 +45,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         .updateConfiguration({ serverConfiguration: config });
 
     void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
+        queryKey: [ CONFIGURATION_QUERY_KEY ]
+    });
+    void queryClient.invalidateQueries({
+        queryKey: [ SYSTEM_INFO_QUERY_KEY ]
     });
 
     return {
