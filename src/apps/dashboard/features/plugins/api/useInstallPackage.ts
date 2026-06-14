@@ -10,10 +10,12 @@ import { QueryKey } from './queryKey';
 export const useInstallPackage = () => {
     const { api } = useApi();
     return useMutation({
-        mutationFn: (params: PackageApiInstallPackageRequest) => (
-            getPackageApi(api!)
-                .installPackage(params)
-        ),
+        mutationFn: (params: PackageApiInstallPackageRequest) => {
+            if (!api) {
+                throw new Error('API client not initialized');
+            }
+            return getPackageApi(api).installPackage(params);
+        },
         onSuccess: () => {
             void queryClient.invalidateQueries({
                 queryKey: [ QueryKey.ConfigurationPages ]
