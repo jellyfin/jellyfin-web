@@ -17,6 +17,7 @@ import ShuffleButton from 'apps/experimental/components/library/ShuffleButton';
 import SortButton from 'apps/experimental/components/library/SortButton';
 import ViewSettingsButton from 'apps/experimental/components/library/ViewSettingsButton';
 import { playbackManager } from 'components/playback/playbackmanager';
+import { useApi } from 'hooks/useApi';
 import { useItem } from 'hooks/useItem';
 import { useUserSettings } from 'hooks/useUserSettings';
 import globalize from 'lib/globalize';
@@ -63,6 +64,8 @@ const LibraryToolbar: FC = () => {
     const hasFilters = Object.values(viewSettings?.Filters ?? {}).some(
         (filter) => !!filter
     );
+    const { user } = useApi();
+    const canCreateCollections = user?.Policy?.IsAdministrator || user?.Policy?.EnableCollectionManagement;
 
     // Pagination
     const startIndex = viewSettings?.StartIndex ?? 0;
@@ -145,7 +148,7 @@ const LibraryToolbar: FC = () => {
                             )}
                         </ButtonGroup>
 
-                        {isBtnNewCollectionEnabled && <NewCollectionButton isTextVisible={isSmallScreen} />}
+                        {isBtnNewCollectionEnabled && canCreateCollections && <NewCollectionButton isTextVisible={isSmallScreen} />}
                         {isBtnNewPlaylistEnabled && <NewPlaylistButton isTextVisible={isSmallScreen} />}
                     </>
                 )}
