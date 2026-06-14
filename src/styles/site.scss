@@ -101,6 +101,22 @@ div[data-role="page"] {
     outline: 0;
 }
 
+/*
+ * Restore a focus indicator for keyboard users on non-TV layouts.
+ * Many components set `outline: none !important` to suppress the ugly native
+ * outline on old TV browsers (see emby-button.scss), and the focus indicator
+ * for the TV layout is provided separately via the `.show-focus` scale. That
+ * left desktop/mobile keyboard users with no visible focus at all (#6600).
+ * `:focus-visible` only matches keyboard focus (not mouse clicks), and is
+ * ignored by the old TV browsers we still target, so the TV experience is
+ * unaffected; we additionally exclude `.layout-tv` so newer TV browsers that
+ * do support `:focus-visible` keep using the `.show-focus` indicator.
+ */
+:root:not(.layout-tv) :focus-visible {
+    outline: 0.14em solid var(--jf-palette-primary-main, currentcolor) !important;
+    outline-offset: 0.1em;
+}
+
 .pageTitle {
     margin-top: 0;
     font-family: inherit;
