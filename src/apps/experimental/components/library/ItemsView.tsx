@@ -2,7 +2,7 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
-import React, { type FC, SetStateAction, useCallback } from 'react';
+import React, { type FC, SetStateAction, useCallback, useMemo } from 'react';
 
 import { useLibrary } from 'apps/experimental/features/libraries/hooks/useLibrary';
 import { getDefaultLibraryViewSettings } from 'apps/experimental/features/libraries/utils/settings';
@@ -40,9 +40,9 @@ const ItemsView: FC = () => {
 
     // The query key for all items for the current user.
     // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
-    const allItemsQueryKey = ['User', user?.Id, 'Items'];
+    const allItemsQueryKey = useMemo(() => ['User', user?.Id, 'Items'], [user?.Id]);
     // The query key for all views for the current parent item.
-    const allViewsQueryKey = [...allItemsQueryKey, parentId, 'ViewByType'];
+    const allViewsQueryKey = useMemo(() => [...allItemsQueryKey, parentId, 'ViewByType'], [allItemsQueryKey, parentId]);
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
