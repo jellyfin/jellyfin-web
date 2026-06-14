@@ -1,6 +1,7 @@
 import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
+import { getSessionApi } from '@jellyfin/sdk/lib/utils/api/session-api';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
@@ -10,6 +11,7 @@ import { compareVersions } from 'utils/versions';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
 
@@ -54,6 +56,13 @@ function sortByAccess(a, b) {
 }
 
 export default class ConnectionManager {
+    /**
+     * A Map of Api instances with their corresponding
+     * serverIds as keys
+     * @type {Map<string, import('@jellyfin/sdk').Api}
+     */
+    _apis = new Map();
+
     constructor(credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
         console.log('Begin ConnectionManager constructor');
 
@@ -95,6 +104,7 @@ export default class ConnectionManager {
 
         self.addApiClient = (apiClient) => {
             self._apiClients.push(apiClient);
+            self._apis.set(apiClient.serverId(), toApi(apiClient));
 
             const existingServers = credentialProvider
                 .credentials()
@@ -140,17 +150,14 @@ export default class ConnectionManager {
 
             if (!apiClient) {
                 apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
-
                 self._apiClients.push(apiClient);
-
                 apiClient.serverInfo(server);
-
                 apiClient.onAuthenticated = (instance, result) => {
                     return onAuthenticated(instance, result, {}, true);
                 };
-
                 events.trigger(self, 'apiclientcreated', [apiClient]);
             }
+            self._apis.set(server.Id, toApi(apiClient));
 
             console.log('returning instance from getOrAddApiClient');
             return apiClient;
@@ -196,6 +203,12 @@ export default class ConnectionManager {
 
             apiClient.serverInfo(server);
             apiClient.setAuthenticationInfo(result.AccessToken, result.User.Id);
+
+            // Update SDK Api instance
+            self._apis.get(result.ServerId)?.update({
+                accessToken: result.AccessToken
+            });
+
             afterConnected(apiClient, options);
 
             return onLocalUserSignIn(server, apiClient.serverAddress(), result.User);
@@ -330,13 +343,20 @@ export default class ConnectionManager {
                 serverId: serverInfo.Id
             };
 
-            return apiClient.logout().then(
-                () => {
-                    events.trigger(self, 'localusersignedout', [logoutInfo]);
-                },
-                () => {
-                    events.trigger(self, 'localusersignedout', [logoutInfo]);
-                }
+            const onLogout = () => {
+                events.trigger(self, 'localusersignedout', [logoutInfo]);
+            };
+
+            const api = self._apis.get(logoutInfo.serverId);
+
+            const sessionApi = api ? getSessionApi(api) : undefined;
+
+            return Promise.allSettled([
+                sessionApi.reportSessionEnded(),
+                apiClient.logout()
+            ]).then(
+                onLogout,
+                onLogout
             );
         }
 
@@ -769,6 +789,22 @@ export default class ConnectionManager {
             // We have to keep this hack in here because of the addApiClient method
             return !serverInfo || serverInfo.Id === item;
         })[0];
+    }
+
+    /**
+     * Returns or creates an Api instance for a given
+     * server
+     * @param {string} serverId The ID of the server
+     * @returns {import('@jellyfin/sdk').Api}
+     */
+    getApi(serverId) {
+        let api = this._apis.get(serverId);
+        if (!api) {
+            api = toApi(this.getOrCreateApiClient(serverId));
+            this._apis.set(serverId, api);
+        }
+
+        return api;
     }
 
     minServerVersion(val) {
