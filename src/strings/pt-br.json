@@ -1905,5 +1905,6 @@
     "LabelProgressAndSpeed": "Progresso / velocidade",
     "LabelReasons": "Motivos",
     "LabelPlayerSizes": "Dimensões do Reprodutor",
-    "LabelPlaybackQuality": "Quadros perdidos / corrompidos"
+    "LabelPlaybackQuality": "Quadros perdidos / corrompidos",
+    "CardSettings": "Configurações de Cartão"
 }
