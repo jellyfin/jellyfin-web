@@ -7,6 +7,7 @@ import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { isMovies, isTVShows } from '../utils/search';
 import { PersonsApiGetPersonsRequest } from '@jellyfin/sdk/lib/generated-client/api/persons-api';
 import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 
 const fetchPeople = async (
     api: Api,
@@ -41,7 +42,12 @@ export const usePeopleSearch = (
             api!,
             userId!,
             {
-                searchTerm
+                searchTerm,
+                // TODO remove this exclusion when artists are migrated to the persons endpoint
+                excludePersonTypes: [
+                    PersonKind.Artist,
+                    PersonKind.AlbumArtist
+                ]
             },
             { signal }
         ),

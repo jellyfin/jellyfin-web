@@ -30,6 +30,9 @@ const SearchResultsRow: FC<SearchResultsRowProps> = ({ title, items = [], cardOp
             itemsContainer: element.current?.querySelector('.itemsContainer'),
             ...cardOptions
         });
+
+        const scrollerEl = element.current?.querySelector('[is="emby-scroller"]') as (HTMLDivElement & { scroller?: { reload: () => void } }) | null;
+        scrollerEl?.scroller?.reload();
     }, [cardOptions, items]);
 
     return (

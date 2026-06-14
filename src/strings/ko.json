@@ -1857,5 +1857,8 @@
     "ViewAllPlugins": "모든 플러그인 보기",
     "ViewSettings": "보기 설정",
     "LogLoadFailure": "로그 파일을 불러오는 데 실패했습니다. 파일에 여전히 기록이 진행 중일 수 있습니다.",
-    "ApiKeysLoadError": "API 키를 불러오는 데 실패하였습니다"
+    "ApiKeysLoadError": "API 키를 불러오는 데 실패하였습니다",
+    "ActivitiesLoadError": "활동을 불러오는 데 실패했습니다",
+    "Authors": "작가들",
+    "BrandingLoadError": "브랜딩 세팅을 불러오는 데 실패했습니다"
 }

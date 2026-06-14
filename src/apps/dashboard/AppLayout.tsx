@@ -1,4 +1,3 @@
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,9 +7,9 @@ import React, { FC, StrictMode, useCallback, useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
+import OffsetAppBar from 'components/OffsetAppBar';
 import AppToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
-import ElevationScroll from 'components/ElevationScroll';
 import { DRAWER_WIDTH } from 'components/ResponsiveDrawer';
 import { appRouter } from 'components/router/appRouter';
 import ThemeCss from 'components/ThemeCss';
@@ -50,39 +49,44 @@ export const Component: FC = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={dateFnsLocale}>
-            <Box sx={{ display: 'flex' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minHeight: '100%'
+                }}
+            >
                 <StrictMode>
-                    <ElevationScroll elevate={false}>
-                        <AppBar
-                            position='fixed'
-                            sx={{
-                                width: {
-                                    xs: '100%',
-                                    md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
-                                },
-                                ml: {
-                                    xs: 0,
-                                    md: isDrawerAvailable ? DRAWER_WIDTH : 0
-                                }
-                            }}
+                    <OffsetAppBar
+                        dense
+                        elevation={4}
+                        sx={{
+                            width: {
+                                xs: '100%',
+                                md: isDrawerAvailable ? `calc(100% - ${DRAWER_WIDTH}px)` : '100%'
+                            },
+                            ml: {
+                                xs: 0,
+                                md: isDrawerAvailable ? DRAWER_WIDTH : 0
+                            }
+                        }}
+                    >
+                        <AppToolbar
+                            isBackButtonAvailable={appRouter.canGoBack()}
+                            isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
+                            isDrawerOpen={isDrawerOpen}
+                            onDrawerButtonClick={onToggleDrawer}
+                            buttons={
+                                <HelpButton />
+                            }
                         >
-                            <AppToolbar
-                                isBackButtonAvailable={appRouter.canGoBack()}
-                                isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
-                                isDrawerOpen={isDrawerOpen}
-                                onDrawerButtonClick={onToggleDrawer}
-                                buttons={
-                                    <HelpButton />
-                                }
-                            >
-                                {isMetadataManager && (
-                                    <ServerButton />
-                                )}
+                            {isMetadataManager && (
+                                <ServerButton />
+                            )}
 
-                                <AppTabs isDrawerOpen={isDrawerOpen} />
-                            </AppToolbar>
-                        </AppBar>
-                    </ElevationScroll>
+                            <AppTabs isDrawerOpen={isDrawerOpen} />
+                        </AppToolbar>
+                    </OffsetAppBar>
 
                     {
                         isDrawerAvailable && (
@@ -98,6 +102,7 @@ export const Component: FC = () => {
                 <Box
                     component='main'
                     sx={{
+                        position: 'relative',
                         width: '100%',
                         flexGrow: 1
                     }}

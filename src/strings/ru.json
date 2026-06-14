@@ -1905,5 +1905,10 @@
     "LabelReasons": "Причины",
     "LabelPlayerSizes": "Размеры плеера",
     "LabelPlaybackQuality": "Кадров пропущено / повреждено",
-    "LabelSyncPlayJoinGroup": "Присоединиться к группе"
+    "LabelSyncPlayJoinGroup": "Присоединиться к группе",
+    "VideoRotationNotSupported": "Поворот видео не поддерживается",
+    "HeaderTypeSimilarItemProviders": "Провайдер похожих элементов ({0})",
+    "LabelBackupWarning": "Есть активные запланированные задачи. Рекомендуем остановить их либо дождаться их выполнения перед созданием бэкапа.",
+    "LabelSimilarItemProvidersHelp": "Включайте и ранжируйте провайдеров похожих элементов порядке приоритета.",
+    "HeaderBackupWarning": "ВНИМАНИЕ: Есть активные запланированные задачи"
 }

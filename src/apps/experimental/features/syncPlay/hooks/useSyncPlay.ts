@@ -3,7 +3,7 @@ import type { ApiClient } from 'jellyfin-apiclient';
 import { useCallback, useEffect, useState } from 'react';
 
 import { pluginManager } from 'components/pluginManager';
-import { PluginType } from 'types/plugin';
+import { PluginType } from 'constants/pluginType';
 import Events, { type Event } from 'utils/events';
 
 interface SyncPlayInstance {

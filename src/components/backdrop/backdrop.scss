@@ -1,5 +1,11 @@
 .backdropContainer {
     contain: layout style size;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    z-index: -1;
 }
 
 .backdropImage {
