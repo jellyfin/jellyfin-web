@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
 import { type QueryKey, useQueryClient } from '@tanstack/react-query';
 
-import { EventType } from 'constants/eventType';
 import { useApi } from 'hooks/useApi';
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
@@ -177,11 +176,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     }, []);
 
     const invalidateQueries = useCallback(() => (
-        queryClient.invalidateQueries({
-            queryKey,
-            type: 'all',
-            refetchType: 'active'
-        })
+        queryClient.invalidateQueries({ queryKey })
     ), [queryClient, queryKey]);
 
     const notifyRefreshNeeded = useCallback(
@@ -359,7 +354,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         };
 
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
-        Events.on(document, EventType.REFRESH_NEEDED, invalidateQueries);
 
         return () => {
             if (timerRef.current) {
@@ -378,7 +372,6 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             unSubAll();
 
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
-            Events.off(document, EventType.REFRESH_NEEDED, invalidateQueries);
         };
     }, [
         api,
