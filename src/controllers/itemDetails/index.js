@@ -989,6 +989,7 @@ function renderDetails(page, instance, item, apiClient, context) {
 
         const metadataTypes = [
             PersonKind.Author,
+            PersonKind.Creator,
             PersonKind.Director,
             PersonKind.Writer,
             BaseItemKind.Studio,
