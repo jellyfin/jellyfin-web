@@ -111,7 +111,7 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
         }) as Promise<boolean>;
 
         void mediaLibraryEditor.then((hasChanges: boolean) => {
-            if (hasChanges) invalidateVirtualFolders(user);
+            if (hasChanges) invalidateVirtualFolders(user, virtualFolder);
         });
     }, [ user, virtualFolder ]);
 
