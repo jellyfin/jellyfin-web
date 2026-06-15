@@ -30,6 +30,16 @@ export function toBoolean(value: string | undefined | null, defaultValue = false
 }
 
 /**
+ * Checks if a username contains only characters allowed by the server:
+ * unicode letters, numbers (0-9), dashes, underscores, apostrophes, and periods.
+ * Rejects spaces and special characters like / + & @ etc.
+ */
+export function isValidUsername(name: string): boolean {
+    if (!name.length) return false;
+    return !/[\s\/\+\&\@\#\$\%\^\*\(\)\[\]\{\}\<\>\=\!\?\:\;\,\~\`\|\\\"]/.test(name);
+}
+
+/**
  * Gets the value of a string as float number.
  * @param {string} value The value as a string.
  * @param {number} defaultValue The default value if the string is invalid.

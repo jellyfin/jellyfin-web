@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isBlank, toBoolean, toFloat } from './string';
+import { isBlank, isValidUsername, toBoolean, toFloat } from './string';
 
 describe('isBlank', () => {
     it('Should return true if the string is blank', () => {
@@ -38,6 +38,39 @@ describe('toBoolean', () => {
 
         bool = toBoolean(null, true);
         expect(bool).toBe(true);
+    });
+});
+
+describe('isValidUsername()', () => {
+    it('should accept letters, numbers, dashes, underscores, apostrophes, and periods', () => {
+        expect(isValidUsername('john')).toBe(true);
+        expect(isValidUsername('john.doe')).toBe(true);
+        expect(isValidUsername('john-doe')).toBe(true);
+        expect(isValidUsername('john_doe')).toBe(true);
+        expect(isValidUsername("john'doe")).toBe(true);
+        expect(isValidUsername('user123')).toBe(true);
+    });
+
+    it('should accept unicode letters and symbols', () => {
+        expect(isValidUsername('ñoño')).toBe(true);
+        expect(isValidUsername('用户')).toBe(true);
+        expect(isValidUsername('Ångström')).toBe(true);
+    });
+
+    it('should reject spaces', () => {
+        expect(isValidUsername('test user')).toBe(false);
+        expect(isValidUsername('test / test')).toBe(false);
+    });
+
+    it('should reject special characters not in the allowed set', () => {
+        expect(isValidUsername('test/test')).toBe(false);
+        expect(isValidUsername('test+test')).toBe(false);
+        expect(isValidUsername('test&test')).toBe(false);
+        expect(isValidUsername('test@test')).toBe(false);
+    });
+
+    it('should reject empty strings', () => {
+        expect(isValidUsername('')).toBe(false);
     });
 });
 
