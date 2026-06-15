@@ -54,10 +54,7 @@ const GuideView: FC = () => {
             width: 'auto',
             paddingTop: '0',
             paddingBottom: '0 !important',
-            top: {
-                xs: '6.9em !important',
-                lg: '4em !important'
-            }
+            top: '0 !important'
         }}
     />;
 };
