@@ -191,12 +191,13 @@ function showMenuForSelectedItems(e) {
                 icon: 'select_all'
             });
 
-            menuItems.push({
-                name: globalize.translate('AddToCollection'),
-                id: 'addtocollection',
-                icon: 'add'
-            });
-
+            if (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement) {
+                menuItems.push({
+                    name: globalize.translate('AddToCollection'),
+                    id: 'addtocollection',
+                    icon: 'add'
+                });
+            }
             menuItems.push({
                 name: globalize.translate('AddToPlaylist'),
                 id: 'playlist',
