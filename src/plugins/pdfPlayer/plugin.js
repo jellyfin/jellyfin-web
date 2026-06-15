@@ -1,5 +1,6 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
+import { PluginType } from 'constants/pluginType';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import loading from '../../components/loading/loading';
@@ -8,7 +9,6 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 import './style.scss';
@@ -101,13 +101,13 @@ export class PdfPlayer {
         const key = keyboardnavigation.getKeyName(e);
 
         switch (key) {
-            case 'l':
+            case 'KeyL':
             case 'ArrowRight':
             case 'Right':
                 e.preventDefault();
                 this.next();
                 break;
-            case 'j':
+            case 'KeyJ':
             case 'ArrowLeft':
             case 'Left':
                 e.preventDefault();

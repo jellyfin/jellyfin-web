@@ -2,6 +2,7 @@
  * Module that displays an editor for changing SyncPlay settings.
  * @module components/syncPlay/settings/SettingsEditor
  */
+import { PluginType } from 'constants/pluginType';
 
 import { setSetting } from '../../core/Settings';
 import dialogHelper from '../../../../components/dialogHelper/dialogHelper';
@@ -10,7 +11,6 @@ import { pluginManager } from '../../../../components/pluginManager';
 import loading from '../../../../components/loading/loading';
 import toast from '../../../../components/toast/toast';
 import globalize from '../../../../lib/globalize';
-import { PluginType } from '../../../../types/plugin.ts';
 import Events from '../../../../utils/events.ts';
 
 import 'material-design-icons-iconfont';

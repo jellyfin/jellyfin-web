@@ -5,10 +5,6 @@ $mui-bp-md: 900px;
 $mui-bp-lg: 1200px;
 $mui-bp-xl: 1536px;
 
-#reactRoot {
-    height: 100%;
-}
-
 // Hide some items from the user "settings" page that are in the drawer
 #myPreferencesMenuPage {
     .lnkQuickConnectPreferences,
@@ -24,7 +20,7 @@ $mui-bp-xl: 1536px;
 .libraryPage:not(
     .itemDetailPage
 ) {
-    padding-top: 3.25rem !important;
+    padding-top: 0 !important;
 }
 
 .layout-mobile {

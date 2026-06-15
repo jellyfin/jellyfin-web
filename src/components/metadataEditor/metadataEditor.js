@@ -130,6 +130,7 @@ function onSubmit(e) {
         Id: currentItem.Id,
         Name: form.querySelector('#txtName').value,
         OriginalTitle: form.querySelector('#txtOriginalName').value,
+        OriginalLanguage: form.querySelector('#selectOriginalLanguage').value,
         ForcedSortName: form.querySelector('#txtSortName').value,
         CommunityRating: form.querySelector('#txtCommunityRating').value,
         CriticRating: form.querySelector('#txtCriticRating').value,
@@ -302,8 +303,8 @@ function bindAll(elems, eventName, fn) {
 }
 
 function onResetClick() {
-    const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
-        '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
+    const resetElementId = ['#txtName', '#txtOriginalName', '#selectOriginalLanguage', '#txtSortName', '#txtCommunityRating', '#txtCriticRating',
+        '#txtIndexNumber', '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
         '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
         '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
         '#txtSeriesRuntime', '#txtTagline'];
@@ -540,6 +541,8 @@ function setFieldVisibilities(context, item) {
 
     toggleElement('#fldOriginalName', [BaseItemKind.Series, BaseItemKind.Season, BaseItemKind.Episode, BaseItemKind.Movie, BaseItemKind.Trailer, BaseItemKind.Person].includes(item.Type), context);
 
+    toggleElement('#fldOriginalLanguage', item.Type === BaseItemKind.Series || item.MediaType === MediaType.Video, context);
+
     toggleElement('#fldSeriesRuntime', item.Type === BaseItemKind.Series, context);
 
     toggleElement('#fldEndDate', item.Type === BaseItemKind.Series || item.Type === BaseItemKind.Person, context);
@@ -694,6 +697,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtPath').value = item.Path || '';
     context.querySelector('#txtName').value = item.Name || '';
     context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
+    context.querySelector('#selectOriginalLanguage').value = item.OriginalLanguage || '';
     context.querySelector('#txtOverview').value = item.Overview || '';
     context.querySelector('#txtTagline').value = (item.Taglines?.length ? item.Taglines[0] : '');
     context.querySelector('#txtSortName').value = item.ForcedSortName || '';
@@ -954,6 +958,7 @@ function reload(context, itemId, serverId) {
 
         loadExternalIds(context, item, metadataEditorInfo.ExternalIdInfos);
 
+        populateLanguages(context.querySelector('#selectOriginalLanguage'), languages);
         populateLanguages(context.querySelector('#selectLanguage'), languages);
         populateCountries(context.querySelector('#selectCountry'), countries);
 
