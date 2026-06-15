@@ -16,6 +16,7 @@ import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useCreateUser } from 'apps/dashboard/features/users/api/useCreateUser';
 import { useNavigate } from 'react-router-dom';
+import { isValidUsername } from 'utils/string';
 
 type ItemsArr = {
     Name?: string | null;
@@ -27,6 +28,7 @@ const UserNew = () => {
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ errorToastMessage, setErrorToastMessage ] = useState(globalize.translate('ErrorDefault'));
     const element = useRef<HTMLDivElement>(null);
 
     const handleToastClose = useCallback(() => {
@@ -121,11 +123,25 @@ const UserNew = () => {
         }
 
         const saveUser = () => {
+            const nameValue = (page.querySelector('#txtUsername') as HTMLInputElement).value;
+
+            if (!isValidUsername(nameValue)) {
+                loading.hide();
+                setErrorToastMessage(globalize.translate('MessageInvalidUsername'));
+                setIsErrorToastOpen(true);
+                return;
+            }
+
             const userInput: CreateUserByName = {
-                Name: (page.querySelector('#txtUsername') as HTMLInputElement).value,
+                Name: nameValue,
                 Password: (page.querySelector('#txtPassword') as HTMLInputElement).value
             };
             createUser.mutate({ createUserByName: userInput }, {
+                onError: () => {
+                    loading.hide();
+                    setErrorToastMessage(globalize.translate('ErrorDefault'));
+                    setIsErrorToastOpen(true);
+                },
                 onSuccess: (response) => {
                     const user = response.data;
 
@@ -214,7 +230,7 @@ const UserNew = () => {
             <Toast
                 open={isErrorToastOpen}
                 onClose={handleToastClose}
-                message={globalize.translate('ErrorDefault')}
+                message={errorToastMessage}
             />
             <div ref={element} className='content-primary'>
                 <div className='verticalSection'>

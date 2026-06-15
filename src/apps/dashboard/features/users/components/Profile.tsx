@@ -17,6 +17,8 @@ import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
+import Toast from 'apps/dashboard/components/Toast';
+import { isValidUsername } from 'utils/string';
 
 interface ProfileProps {
     userDto: UserDto;
@@ -34,6 +36,7 @@ const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
 const Profile = ({ userDto }: ProfileProps) => {
     const navigate = useNavigate();
     const [ deleteFoldersAccess, setDeleteFoldersAccess ] = useState<ResetProvider[]>([]);
+    const [ errorMessage, setErrorMessage ] = useState('');
     const libraryMenu = useMemo(async () => ((await import('scripts/libraryMenu')).default), []);
 
     const [ authenticationProviderId, setAuthenticationProviderId ] = useState('');
@@ -214,7 +217,15 @@ const Profile = ({ userDto }: ProfileProps) => {
                 throw new Error('Unexpected null user id or policy');
             }
 
-            user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
+            const nameValue = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
+
+            if (!isValidUsername(nameValue)) {
+                loading.hide();
+                setErrorMessage(globalize.translate('MessageInvalidUsername'));
+                return;
+            }
+
+            user.Name = nameValue;
             user.Policy.IsAdministrator = (page.querySelector('.chkIsAdmin') as HTMLInputElement).checked;
             user.Policy.IsHidden = (page.querySelector('.chkIsHidden') as HTMLInputElement).checked;
             user.Policy.IsDisabled = (page.querySelector('.chkDisabled') as HTMLInputElement).checked;
@@ -241,12 +252,20 @@ const Profile = ({ userDto }: ProfileProps) => {
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
             updateUser.mutate({ userId: user.Id, userDto: user }, {
+                onError: () => {
+                    loading.hide();
+                    setErrorMessage(globalize.translate('ErrorDefault'));
+                },
                 onSuccess: () => {
                     if (user.Id) {
                         updateUserPolicy.mutate({
                             userId: user.Id,
                             userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
                         }, {
+                            onError: () => {
+                                loading.hide();
+                                setErrorMessage(globalize.translate('ErrorDefault'));
+                            },
                             onSuccess: () => {
                                 loading.hide();
                                 navigate('/dashboard/users', {
@@ -306,6 +325,11 @@ const Profile = ({ userDto }: ProfileProps) => {
 
     return (
         <div ref={element}>
+            <Toast
+                open={!!errorMessage}
+                onClose={() => setErrorMessage('')}
+                message={errorMessage}
+            />
             <div
                 className='lnkEditUserPreferencesContainer'
                 style={{ paddingBottom: '1em' }}
