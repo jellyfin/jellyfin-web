@@ -36,7 +36,7 @@ export function toBoolean(value: string | undefined | null, defaultValue = false
  */
 export function isValidUsername(name: string): boolean {
     if (!name.length) return false;
-    return !/[\s\/\+\&\@\#\$\%\^\*\(\)\[\]\{\}\<\>\=\!\?\:\;\,\~\`\|\\\"]/.test(name);
+    return !/[\s/+&@#$%^*()[\]{}<>=!?:;,~`|\\"]/.test(name);
 }
 
 /**

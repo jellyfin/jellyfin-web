@@ -251,30 +251,30 @@ const Profile = ({ userDto }: ProfileProps) => {
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
-            updateUser.mutate({ userId: user.Id, userDto: user }, {
-                onError: () => {
-                    loading.hide();
-                    setErrorMessage(globalize.translate('ErrorDefault'));
-                },
-                onSuccess: () => {
-                    if (user.Id) {
-                        updateUserPolicy.mutate({
-                            userId: user.Id,
-                            userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
-                        }, {
-                            onError: () => {
-                                loading.hide();
-                                setErrorMessage(globalize.translate('ErrorDefault'));
-                            },
-                            onSuccess: () => {
-                                loading.hide();
-                                navigate('/dashboard/users', {
-                                    state: { openSavedToast: true }
-                                });
-                            }
+            const onUpdateError = () => {
+                loading.hide();
+                setErrorMessage(globalize.translate('ErrorDefault'));
+            };
+
+            const onUpdateUserSuccess = () => {
+                if (!user.Id) return;
+                updateUserPolicy.mutate({
+                    userId: user.Id,
+                    userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
+                }, {
+                    onError: onUpdateError,
+                    onSuccess: () => {
+                        loading.hide();
+                        navigate('/dashboard/users', {
+                            state: { openSavedToast: true }
                         });
                     }
-                }
+                });
+            };
+
+            updateUser.mutate({ userId: user.Id, userDto: user }, {
+                onError: onUpdateError,
+                onSuccess: onUpdateUserSuccess
             });
         };
 
