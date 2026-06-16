@@ -18,6 +18,7 @@ import imageLoader from 'components/images/imageLoader';
 import itemContextMenu from 'components/itemContextMenu';
 import itemHelper from 'components/itemHelper';
 import mediaInfo from 'components/mediainfo/mediainfo';
+import actionSheet from 'components/actionSheet/actionSheet';
 import layoutManager from 'components/layoutManager';
 import listView from 'components/listview/listview';
 import loading from 'components/loading/loading';
@@ -45,6 +46,7 @@ import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-button/emby-button';
+import 'elements/emby-button/paper-icon-button-light';
 import 'elements/emby-playstatebutton/emby-playstatebutton';
 import 'elements/emby-ratingbutton/emby-ratingbutton';
 import 'elements/emby-scroller/emby-scroller';
@@ -1767,8 +1769,58 @@ function getVideosHtml(items) {
 function renderSpecials(page, item, user) {
     ServerConnections.getApiClient(item.ServerId).getSpecialFeatures(user.Id, item.Id).then(function (specials) {
         const specialsContent = page.querySelector('#specialsContent');
-        specialsContent.innerHTML = getVideosHtml(specials);
-        imageLoader.lazyChildren(specialsContent);
+        const specialsMenuButton = page.querySelector('#specialsFeaturesMenuButton');
+
+        const allSpecials = specials;
+        const extraTypes = new Set();
+        allSpecials.forEach(special => {
+            if (special.ExtraType && special.ExtraType !== 'Unknown') {
+                extraTypes.add(special.ExtraType);
+            }
+        });
+
+        const menuTypes = ['All', ...extraTypes];
+        let selectedType = 'All';
+
+        function displayFilteredSpecials(filterValue) {
+            selectedType = filterValue;
+            const filtered = filterValue === 'All' ?
+                allSpecials :
+                allSpecials.filter(s => s.ExtraType === filterValue);
+
+            specialsContent.innerHTML = getVideosHtml(filtered);
+            imageLoader.lazyChildren(specialsContent);
+        }
+
+        function showFilterMenu() {
+            const menuItems = menuTypes.map(type => ({
+                id: type,
+                name: type === 'All' ? globalize.translate('All') : globalize.translate(type),
+                selected: type === selectedType
+            }));
+
+            actionSheet.show({
+                items: menuItems,
+                positionTo: specialsMenuButton,
+                resolveOnClick: true,
+                menuItemClass: 'actionSheetMenuItem',
+                offsetLeft: 0,
+                offsetTop: 0
+            }).then(function (type) {
+                displayFilteredSpecials(type);
+            }).catch(() => {
+                // Ignore when the user closes the menu without selecting
+            });
+        }
+
+        if (menuTypes.length > 1) {
+            specialsMenuButton.classList.remove('hide');
+            specialsMenuButton.addEventListener('click', showFilterMenu);
+        } else {
+            specialsMenuButton.classList.add('hide');
+        }
+
+        displayFilteredSpecials('All');
     });
 }
 

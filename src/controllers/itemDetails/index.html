@@ -212,7 +212,12 @@
             </div>
 
             <div id="specialsCollapsible" class="verticalSection detailVerticalSection hide">
-                <h2 class="sectionTitle sectionTitle-cards padded-right">${SpecialFeatures}</h2>
+                <div class="sectionTitleContainer specialsSectionTitleContainer">
+                    <h2 class="sectionTitle sectionTitle-cards padded-right">${SpecialFeatures}</h2>
+                    <button id="specialsFeaturesMenuButton" type="button" is="paper-icon-button-light" class="sectionTitleIconButton specialsFeaturesMenuButton hide" title="${ButtonMore}">
+                        <span class="material-icons more_vert" aria-hidden="true"></span>
+                    </button>
+                </div>
                 <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale no-padding" data-centerfocus="true">
                     <div id="specialsContent" is="emby-itemscontainer" class="scrollSlider focuscontainer-x itemsContainer"></div>
                 </div>
