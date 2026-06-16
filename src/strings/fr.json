@@ -1920,5 +1920,7 @@
     "StillWatchingPrompt": "Toujours en cours de visionnage",
     "StillWatchingOption": "{0} épisodes ou {1} minutes",
     "StopWatching": "Ne plus regarder",
+    "Missing": "Manquant",
+    "Unaired": "Non diffusé",
     "TableOfContents": "Sommaire"
 }

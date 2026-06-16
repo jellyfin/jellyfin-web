@@ -1918,6 +1918,8 @@
     "OriginalLanguage": "原始语言",
     "StillWatchingOption": "{0} 集或 {1} 分钟",
     "StopWatching": "停止观看",
+    "Missing": "缺失",
+    "Unaired": "未播出",
     "TableOfContents": "目录",
     "CardSettings": "卡片设置",
     "StillWatchingPrompt": "仍在观看提示"

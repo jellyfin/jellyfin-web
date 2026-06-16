@@ -1906,6 +1906,8 @@
     "LabelReasons": "Motivos",
     "OnFilesystem": "No sistema de ficheiros: {0}",
     "LabelSyncPlayJoinGroup": "Juntar-se a um grupo",
+    "Missing": "Em falta",
+    "Unaired": "Por estrear",
     "HeaderBackupWarning": "AVISO: Tarefas agendadas em andamento",
     "LabelBackupWarning": "Há tarefas agendadas em andamento. É recomendado pará-las ou esperar que sejam completadas antes de executar a operação de cópia de segurança.",
     "VideoRotationNotSupported": "A rotação de vídeo não é suportada"

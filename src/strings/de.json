@@ -1920,6 +1920,8 @@
     "StillWatchingPrompt": "\"Schaust Du noch\" Frage",
     "StillWatchingOption": "{0} Folgen oder {1} Minuten",
     "StopWatching": "Schauen beenden",
+    "Missing": "Fehlt",
+    "Unaired": "Nicht ausgestrahlt",
     "TableOfContents": "Inhaltsverzeichnis",
     "ConfirmSplitMedia": "Möchtest Du die Medienquellen wirklich in separate Elemente auftrennen?",
     "HeaderSplitMedia": "Medien auseinander trennen"

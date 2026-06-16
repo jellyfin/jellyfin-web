@@ -1870,5 +1870,7 @@
     "ActivitiesLoadError": "アクティビティの読み込みに失敗しました",
     "ApiKeysLoadError": "APIキーの読み込みに失敗しました",
     "ConfirmDeleteCollection": "このコレクションを削除してよろしいですか？",
+    "Missing": "未所有",
+    "Unaired": "未放送",
     "ConfirmDeletePlaylist": "このプレイリストを削除してよろしいですか？"
 }

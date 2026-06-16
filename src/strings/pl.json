@@ -1920,6 +1920,8 @@
     "StillWatchingPrompt": "Monit „Czy nadal oglądasz?”",
     "StillWatchingOption": "Odcinki: {0} lub minuty: {1}",
     "StopWatching": "Zatrzymaj oglądanie",
+    "Missing": "Brak",
+    "Unaired": "Przed emisją",
     "TableOfContents": "Spis treści",
     "ConfirmSplitMedia": "Czy na pewno chcesz podzielić źródła multimediów na osobne elementy?",
     "HeaderSplitMedia": "Podziel multimedia"

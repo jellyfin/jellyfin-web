@@ -1860,5 +1860,7 @@
     "ApiKeysLoadError": "API 키를 불러오는 데 실패하였습니다",
     "ActivitiesLoadError": "활동을 불러오는 데 실패했습니다",
     "Authors": "작가들",
+    "Missing": "누락",
+    "Unaired": "미방영",
     "BrandingLoadError": "브랜딩 세팅을 불러오는 데 실패했습니다"
 }

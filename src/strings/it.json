@@ -1920,5 +1920,7 @@
     "StillWatchingPrompt": "Richiesta Stai ancora guardando",
     "StillWatchingOption": "{0} episodi o {1} minuti",
     "StopWatching": "Smetti di guardare",
+    "Missing": "Mancante",
+    "Unaired": "Non in onda",
     "TableOfContents": "Indice"
 }

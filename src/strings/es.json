@@ -1922,5 +1922,7 @@
     "StillWatchingPrompt": "Aviso de '¿Sigues viendo?'",
     "StillWatchingOption": "{0} episodios o {1} minutos",
     "StopWatching": "Dejar de mirar",
+    "Missing": "Falta",
+    "Unaired": "No emitido",
     "TableOfContents": "Índice"
 }

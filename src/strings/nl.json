@@ -1921,6 +1921,8 @@
     "StopWatching": "Stoppen met kijken",
     "ConfirmDeleteItemByName": "Dit zal \"{0}\" verwijderen van zowel het bestandssysteem als uit je mediabibliotheek. Weet je zeker dat je wilt doorgaan?",
     "CardSettings": "Kaartinstellingen",
+    "Missing": "Ontbreekt",
+    "Unaired": "Niet uitgezonden",
     "ConfirmSplitMedia": "Weet je zeker dat je de mediabronnen wilt opsplitsen tot afzonderlijke items?",
     "HeaderSplitMedia": "Media opsplitsen",
     "Creators": "Bedenkers"
