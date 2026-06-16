@@ -22,6 +22,7 @@ import './style.scss';
 import toast from '../toast/toast';
 import alert from '../alert';
 import template from './mediaLibraryCreator.template.html';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 function onAddLibrary(e) {
     e.preventDefault();
@@ -161,19 +162,19 @@ function renderPaths(page) {
     }
 }
 
-function addMediaLocation(page, path) {
+async function addMediaLocation(page, path) {
     // If the path already exists in the library, don't add it again.
     const isPathInLibrary = pathInfos.some(p => p.Path === path);
     if (isPathInLibrary) return;
 
-    ApiClient.getDirectoryContents(path)
-        .then(() => {
-            pathInfos.push({ Path: path });
-            renderPaths(page);
-        })
-        .catch(() => {
-            //  invalid paths handled by directorybrowser
-        });
+    try {
+        const apiClient = await ServerConnections.getCurrentApiClientAsync();
+        await apiClient.getDirectoryContents(path);
+        pathInfos.push({ Path: path });
+        renderPaths(page);
+    } catch {
+        // invalid paths handled by directorybrowser
+    }
 }
 
 function onRemoveClick(e) {
