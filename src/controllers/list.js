@@ -1074,12 +1074,6 @@ class ItemsView {
             name: globalize.translate('Runtime'),
             value: [ItemSortBy.Runtime, ItemSortBy.SortName].join(',')
         });
-
-        sortBy.push({
-            name: globalize.translate('IndexNumber'),
-            value: [ItemSortBy.IndexNumber, ItemSortBy.SortName].join(',')
-        });
-
         return sortBy;
     }
 
