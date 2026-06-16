@@ -403,10 +403,13 @@ export const useGetItemsViewByType = (
     const currentApi = useApi();
     return useQuery({
         queryKey: [
-            'ItemsViewByType',
+            'User',
+            currentApi.user?.Id,
+            'Items',
+            parentId,
+            'ViewByType',
+            viewType,
             {
-                viewType,
-                parentId,
                 itemType,
                 libraryViewSettings
             }
@@ -942,7 +945,7 @@ export const useGetSuggestionSectionsWithItems = (
     const currentApi = useApi();
     const sections = getSuggestionSections();
     return useQuery({
-        queryKey: ['SuggestionSectionWithItems', { suggestionSectionType }],
+        queryKey: ['SuggestionSectionWithItems', parentId, { suggestionSectionType }],
         queryFn: ({ signal }) =>
             getSectionsWithItems(currentApi, parentId, sections, suggestionSectionType, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId

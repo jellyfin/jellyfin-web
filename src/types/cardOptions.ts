@@ -3,6 +3,7 @@ import type { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-
 import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
 import type { BaseItemDtoImageBlurHashes } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-image-blur-hashes';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import type { QueryKey } from '@tanstack/react-query';
 
 import type { CardShape } from 'components/cardbuilder/utils/shape';
 import type { ItemAction } from 'constants/itemAction';
@@ -126,6 +127,5 @@ export interface CardOptions {
     primaryImageAspectRatio?: number | null;
     rows?: number | null;
     imageType?: ImageType;
-    queryKey?: string[]
+    queryKey?: QueryKey
 }
-

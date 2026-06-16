@@ -2,7 +2,7 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
-import React, { type FC, SetStateAction, useCallback } from 'react';
+import React, { type FC, SetStateAction, useCallback, useMemo } from 'react';
 
 import { useLibrary } from 'apps/experimental/features/libraries/hooks/useLibrary';
 import { getDefaultLibraryViewSettings } from 'apps/experimental/features/libraries/utils/settings';
@@ -36,7 +36,13 @@ const ItemsView: FC = () => {
     const setLibraryViewSettings = setViewSettings ?? ((action: SetStateAction<LibraryViewSettings>) => { /* no-op */ });
     const { isAlphabetPickerEnabled, noItemsMessage } = content ?? {};
 
-    const { __legacyApiClient__ } = useApi();
+    const { __legacyApiClient__, user } = useApi();
+
+    // The query key for all items for the current user.
+    // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
+    const allItemsQueryKey = useMemo(() => ['User', user?.Id, 'Items'], [user?.Id]);
+    // The query key for all views for the current parent item.
+    const allViewsQueryKey = useMemo(() => [...allItemsQueryKey, parentId, 'ViewByType'], [allItemsQueryKey, parentId]);
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
@@ -94,7 +100,7 @@ const ItemsView: FC = () => {
             preferLogo,
             overlayText: !libraryViewSettings.ShowTitle,
             imageType: libraryViewSettings.ImageType,
-            queryKey: ['ItemsViewByType'],
+            queryKey: allViewsQueryKey,
             serverId: __legacyApiClient__?.serverId()
         };
 
@@ -134,6 +140,7 @@ const ItemsView: FC = () => {
         libraryViewSettings.ShowYear,
         libraryViewSettings.CardLayout,
         collectionType,
+        allViewsQueryKey,
         viewType
     ]);
 
@@ -189,7 +196,7 @@ const ItemsView: FC = () => {
                     className={itemsContainerClass}
                     parentId={parentId}
                     reloadItems={itemsResult?.refetch}
-                    queryKey={['ItemsViewByType']}
+                    queryKey={allItemsQueryKey}
                 >
                     {getItems()}
                 </ItemsContainer>
