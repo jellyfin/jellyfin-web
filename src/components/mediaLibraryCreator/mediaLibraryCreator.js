@@ -166,8 +166,14 @@ function addMediaLocation(page, path) {
     const isPathInLibrary = pathInfos.some(p => p.Path === path);
     if (isPathInLibrary) return;
 
-    pathInfos.push({ Path: path });
-    renderPaths(page);
+    ApiClient.getDirectoryContents(path)
+        .then(() => {
+            pathInfos.push({ Path: path });
+            renderPaths(page);
+        })
+        .catch(() => {
+            //  invalid paths handled by directorybrowser
+        });
 }
 
 function onRemoveClick(e) {
