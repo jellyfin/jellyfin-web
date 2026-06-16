@@ -15,6 +15,11 @@ const defaultFiltersOptions = [
     { label: 'ContinueWatching', value: ItemFilter.IsResumable }
 ];
 
+const mutuallyExclusiveFilters: Partial<Record<ItemFilter, ItemFilter>> = {
+    [ItemFilter.IsPlayed]: ItemFilter.IsUnplayed,
+    [ItemFilter.IsUnplayed]: ItemFilter.IsPlayed
+};
+
 interface FiltersStatusProps {
     viewType: LibraryTab;
     libraryViewSettings: LibraryViewSettings;
@@ -39,10 +44,11 @@ const FiltersStatus: FC<FiltersStatusProps> = ({
             event.preventDefault();
             const value = event.target.value as ItemFilter;
             const existingStatus = libraryViewSettings?.Filters?.Status ?? [];
+            const exclusiveFilter = mutuallyExclusiveFilters[value];
 
             const updatedStatus = existingStatus.includes(value) ?
                 existingStatus.filter((filter) => filter !== value) :
-                [...existingStatus, value];
+                [...existingStatus.filter((filter) => filter !== exclusiveFilter), value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
