@@ -2,10 +2,10 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import { UseQueryResult } from '@tanstack/react-query';
 import React, { type FC, type PropsWithChildren, createContext, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useLocalStorage } from 'usehooks-ts';
 
 import useCurrentTab from 'hooks/useCurrentTab';
 import { useGetItemsViewByType } from 'hooks/useFetchItems';
-import { useLocalStorage } from 'hooks/useLocalStorage';
 import { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
@@ -47,11 +47,10 @@ export const LibraryProvider: FC<PropsWithChildren<unknown>> = ({ children }) =>
 
     // Local storage requires the view type to be known upfront so default to movies if unknown
     const settingsViewType = viewType ?? LibraryTab.Movies;
-    const [viewSettings, setViewSettings] =
-        useLocalStorage<LibraryViewSettings>(
-            getSettingsKey(settingsViewType, libraryId),
-            getDefaultLibraryViewSettings(settingsViewType)
-        );
+    const [viewSettings, setViewSettings] = useLocalStorage<LibraryViewSettings>(
+        getSettingsKey(settingsViewType, libraryId),
+        getDefaultLibraryViewSettings(settingsViewType)
+    );
 
     const itemsResult = useGetItemsViewByType(
         viewType,
