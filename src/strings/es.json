@@ -1754,7 +1754,7 @@
     "LabelAudioTagSettings": "Configuración de Etiquetas de Audio",
     "DateModified": "Fecha de modificación",
     "FallbackMaxStreamingBitrateHelp": "El bitrate máximo de streaming se utiliza como alternativa cuando ffprobe no puede determinar el bitrate del flujo de origen. Esto ayuda a prevenir que los clientes soliciten un bitrate de transcodificación excesivamente alto, lo que podría causar fallos en el reproductor y sobrecargar el codificador.",
-    "HeaderAudioAdvanced": "Configuración Avanzada de Audio",
+    "HeaderAudioAdvanced": "Configuración avanzada de audio",
     "LabelAllowFmp4TranscodingContainer": "Permitir contenedor de transcodificación fMP4",
     "LabelCustomTagDelimiters": "Delimitador de Etiqueta Personalizada",
     "LabelCustomTagDelimitersHelp": "Caracteres considerados como delimitadores para separar etiquetas.",
@@ -1910,5 +1910,17 @@
     "LabelBackupWarning": "Hay tareas programadas en ejecución. Se recomienda detenerlas o esperar a que finalicen antes de ejecutar la operación de copia de seguridad.",
     "VideoRotationNotSupported": "La rotación del video no está soportada",
     "LabelSimilarItemProvidersHelp": "Habilite y ordene sus proveedores preferidos de elementos similares según el orden de prioridad.",
-    "HeaderTypeSimilarItemProviders": "Proveedores de elementos similares ({0})"
+    "HeaderTypeSimilarItemProviders": "Proveedores de elementos similares ({0})",
+    "CardSettings": "Ajustes de miniaturas",
+    "ConfirmDeleteItemByName": "Borrar \"{0}\" lo borrará del sistema de archivos y su biblioteca de medios. ¿Estás seguro que quieres continuar?",
+    "ConfirmSplitMedia": "¿Estás seguro que deseas partir los fuentes de medio a elementos separados?",
+    "ConfirmStillWatching": "¿Todavía estás mirando?",
+    "Disabled": "Deshabilitado",
+    "HeaderSplitMedia": "Partir el medio",
+    "LabelOriginalLanguage": "Idioma original",
+    "OriginalLanguage": "Idioma original",
+    "StillWatchingPrompt": "Aviso de '¿Sigues viendo?'",
+    "StillWatchingOption": "{0} episodios o {1} minutos",
+    "StopWatching": "Dejar de mirar",
+    "TableOfContents": "Índice"
 }
