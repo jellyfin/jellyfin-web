@@ -150,7 +150,7 @@ class HtmlAudioPlayer {
             });
 
             // Convert to seconds. Atempo uses a 0-based output timeline, so the resume position in element time is contentSeconds / rate.
-            const atempoRate = parseFloat((val.match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+            const atempoRate = Number.parseFloat((val.match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
             const seconds = (options.playerStartPositionTicks || 0) / 10000000 / atempoRate;
             if (seconds) {
                 val += '#t=' + seconds;
@@ -339,7 +339,7 @@ class HtmlAudioPlayer {
                 this.removeAttribute('controls');
 
                 // Atempo uses a 0-based output timeline, so the resume position in element time is contentTicks / rate.
-                const atempoRate = parseFloat(((self._currentPlayOptions.url || '').match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+                const atempoRate = Number.parseFloat(((self._currentPlayOptions.url || '').match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
                 const startTicks = self._currentPlayOptions.playerStartPositionTicks;
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, startTicks ? startTicks / atempoRate : startTicks);
             }
