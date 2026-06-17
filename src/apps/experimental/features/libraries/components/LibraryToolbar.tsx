@@ -78,8 +78,9 @@ const LibraryToolbar: FC = () => {
     const paginationEnd = paginationLimit ?
         Math.min(startIndex + paginationLimit, totalRecordCount) :
         totalRecordCount;
+    const isUserPaginationEnabled = paginationLimit > 0;
     /** True if the data is larger than the page limit */
-    const isPaginationRequired = paginationLimit > 0 && paginationLimit < totalRecordCount;
+    const isPaginationRequired = isUserPaginationEnabled && paginationLimit < totalRecordCount;
 
     const itemCountDisplay = useMemo(() => {
         if (isPending) return '\u2219'; // Bullet "operator" character as a loading indicator
@@ -225,7 +226,7 @@ const LibraryToolbar: FC = () => {
                         )}
                     </ButtonGroup>
 
-                    {isPaginationEnabled && (
+                    {isPaginationEnabled && isUserPaginationEnabled && (
                         <Pagination
                             setLibraryViewSettings={setLibraryViewSettings}
                             index={startIndex}
