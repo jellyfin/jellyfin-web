@@ -1,15 +1,16 @@
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import Shuffle from '@mui/icons-material/Shuffle';
 import Button from '@mui/material/Button';
 
+import { useLibrary } from 'apps/experimental/features/libraries/hooks/useLibrary';
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 interface ShuffleButtonProps {
     item: ItemDto | undefined
@@ -30,6 +31,10 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
     isTextVisible,
     libraryViewSettings
 }) => {
+    const { itemsResult } = useLibrary();
+    const isPending = itemsResult?.isPending ?? true;
+    const totalRecordCount = itemsResult?.data?.TotalRecordCount ?? 0;
+
     const shuffle = useCallback(() => {
         // For the Homevideos library Videos tab, pass items directly to playback since
         // the playback manager hardcodes MediaTypes: 'Photo' for the Homevideos library
@@ -56,6 +61,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
             title={globalize.translate('Shuffle')}
             startIcon={isTextVisible ? <Shuffle /> : undefined}
             onClick={shuffle}
+            disabled={isPending || totalRecordCount <= 1}
         >
             {isTextVisible ? (
                 globalize.translate('Shuffle')
