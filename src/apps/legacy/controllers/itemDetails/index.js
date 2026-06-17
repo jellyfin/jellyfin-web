@@ -1199,7 +1199,8 @@ function renderItemCollections(page, item, apiClient, context) {
                 overlayText: false,
                 overlayPlayButton: false,
                 coverImage: true,
-                showYear: false,
+                // Similar to "More Like This"
+                showYear: item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Series',
                 context
             });
         }).catch(() => {
