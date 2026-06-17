@@ -149,10 +149,9 @@ class HtmlAudioPlayer {
                 console.error('Failed to add/change gainNode', err);
             });
 
-            // Convert to seconds
-            // Atempo streams start at the resume position server-side, so begin the element at 0.
-            const isAtempoStream = val.includes('AudioPlaybackRate=');
-            const seconds = isAtempoStream ? 0 : (options.playerStartPositionTicks || 0) / 10000000;
+            // Convert to seconds. Atempo uses a 0-based output timeline, so the resume position in element time is contentSeconds / rate.
+            const atempoRate = parseFloat((val.match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+            const seconds = (options.playerStartPositionTicks || 0) / 10000000 / atempoRate;
             if (seconds) {
                 val += '#t=' + seconds;
             }
@@ -339,9 +338,10 @@ class HtmlAudioPlayer {
                 self._started = true;
                 this.removeAttribute('controls');
 
-                // Atempo streams start at the resume position server-side, so skip the element seek.
-                const isAtempoStream = (self._currentPlayOptions.url || '').includes('AudioPlaybackRate=');
-                htmlMediaHelper.seekOnPlaybackStart(self, e.target, isAtempoStream ? 0 : self._currentPlayOptions.playerStartPositionTicks);
+                // Atempo uses a 0-based output timeline, so the resume position in element time is contentTicks / rate.
+                const atempoRate = parseFloat(((self._currentPlayOptions.url || '').match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+                const startTicks = self._currentPlayOptions.playerStartPositionTicks;
+                htmlMediaHelper.seekOnPlaybackStart(self, e.target, startTicks ? startTicks / atempoRate : startTicks);
             }
             Events.trigger(self, 'playing');
         }

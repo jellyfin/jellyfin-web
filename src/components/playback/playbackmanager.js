@@ -1727,15 +1727,8 @@ export class PlaybackManager {
                 if (currentItem?.Type === 'AudioBook') {
                     const rate = getAudiobookPlaybackRate();
                     if (rate) {
-                        const streamInfo = getPlayerData(player).streamInfo;
-                        const startTicks = streamInfo?.playerStartPositionTicks || 0;
-                        // Atempo streams have no content before their start, so rebuild to seek earlier.
-                        if (ticks < startTicks) {
-                            self.restartStream(player, ticks);
-                            return;
-                        }
-                        // element = (ticks - start) / rate
-                        player.currentTime(Number.parseInt(((ticks - startTicks) / rate) / 10000, 10));
+                        // Inverse of getCurrentTicks: element output time = content / rate.
+                        player.currentTime(Number.parseInt((ticks / rate) / 10000, 10));
                         return;
                     }
                 }
@@ -2294,13 +2287,12 @@ export class PlaybackManager {
 
             const streamInfo = getPlayerData(player).streamInfo;
 
-            // Atempo streams are 0-based at wall-clock speed: content = start + element * rate.
+            // The atempo HLS playlist is full and 0-based in output time, so content = currentTime * rate.
             const currentItem = self.currentItem(player);
             if (currentItem?.Type === 'AudioBook' && streamInfo) {
                 const rate = getAudiobookPlaybackRate();
                 if (rate) {
-                    const startTicks = streamInfo.playerStartPositionTicks || 0;
-                    return startTicks + Math.floor(playerTime * rate);
+                    return Math.floor(playerTime * rate);
                 }
             }
 
