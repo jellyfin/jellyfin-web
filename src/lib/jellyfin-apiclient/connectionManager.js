@@ -355,13 +355,17 @@ export default class ConnectionManager {
 
             const sessionApi = api ? getSessionApi(api) : undefined;
 
-            return Promise.allSettled([
-                sessionApi?.reportSessionEnded(),
-                apiClient.logout()
-            ]).then(
-                onLogout,
-                onLogout
-            );
+            const logoutPromises = [
+                apiClient.logout(),
+                sessionApi?.reportSessionEnded()
+            ].filter(Boolean);
+
+            return Promise
+                .allSettled(logoutPromises)
+                .then(
+                    onLogout,
+                    onLogout
+                );
         }
 
         self.getSavedServers = () => {
