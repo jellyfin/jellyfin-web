@@ -1914,7 +1914,7 @@
     "CardSettings": "Kort inställningar",
     "ConfirmDeleteItemByName": "Om du tar bort \"{0}\" kommer den att tas bort både från filsystemet och mediebiblioteket. Är du säker på att du vill fortsätta?",
     "ConfirmStillWatching": "Kollar du fortfarande?",
-    "Disabled": "Avstängd",
+    "Disabled": "Inaktiverad",
     "LabelOriginalLanguage": "Orginal språk",
     "OriginalLanguage": "Orginal språk",
     "StillWatchingOption": "{0} episoder eller {1} minuter",
@@ -1922,5 +1922,6 @@
     "TableOfContents": "Innehållsförteckning",
     "ConfirmSplitMedia": "Är du säker på att du vill dela upp mediakällorna till separata objekt?",
     "HeaderSplitMedia": "Dela upp media",
-    "StillWatchingPrompt": "Tittar du fortfarande"
+    "StillWatchingPrompt": "Tittar du fortfarande",
+    "Creators": "Skaparna"
 }
