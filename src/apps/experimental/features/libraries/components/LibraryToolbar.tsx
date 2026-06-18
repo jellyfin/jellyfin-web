@@ -114,52 +114,48 @@ const LibraryToolbar: FC = () => {
                     marginLeft: 1
                 }}
             >
-                {!isPending && (
-                    <>
-                        <ButtonGroup
-                            variant='contained'
-                        >
-                            {isBtnPlayAllEnabled && totalRecordCount > 0 && (
-                                <PlayAllButton
-                                    item={item}
-                                    items={items}
-                                    viewType={viewType}
-                                    collectionType={collectionType}
-                                    hasFilters={hasFilters}
-                                    isTextVisible={isSmallScreen}
-                                    libraryViewSettings={libraryViewSettings}
-                                />
-                            )}
+                <ButtonGroup
+                    variant='contained'
+                >
+                    {isBtnPlayAllEnabled && (
+                        <PlayAllButton
+                            item={item}
+                            items={items}
+                            viewType={viewType}
+                            collectionType={collectionType}
+                            hasFilters={hasFilters}
+                            isTextVisible={isSmallScreen}
+                            libraryViewSettings={libraryViewSettings}
+                        />
+                    )}
 
-                            {isBtnShuffleEnabled && totalRecordCount > 1 && (
-                                <ShuffleButton
-                                    item={item}
-                                    items={items}
-                                    viewType={viewType}
-                                    collectionType={collectionType}
-                                    hasFilters={hasFilters}
-                                    isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
-                                    libraryViewSettings={libraryViewSettings}
-                                />
-                            )}
+                    {isBtnShuffleEnabled && (
+                        <ShuffleButton
+                            item={item}
+                            items={items}
+                            viewType={viewType}
+                            collectionType={collectionType}
+                            hasFilters={hasFilters}
+                            isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
+                            libraryViewSettings={libraryViewSettings}
+                        />
+                    )}
 
-                            {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
-                                <QueueButton
-                                    item={item}
-                                    items={items}
-                                    hasFilters={hasFilters}
-                                    isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
-                                />
-                            )}
-                        </ButtonGroup>
+                    {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
+                        <QueueButton
+                            item={item}
+                            items={items}
+                            hasFilters={hasFilters}
+                            isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
+                        />
+                    )}
+                </ButtonGroup>
 
-                        {isBtnNewCollectionEnabled && canCreateCollections && (
-                            <NewCollectionButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
-                        )}
-                        {isBtnNewPlaylistEnabled && (
-                            <NewPlaylistButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
-                        )}
-                    </>
+                {isBtnNewCollectionEnabled && canCreateCollections && (
+                    <NewCollectionButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
+                )}
+                {isBtnNewPlaylistEnabled && (
+                    <NewPlaylistButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
                 )}
             </Box>
 
