@@ -59,8 +59,7 @@ class ServerConnections extends ConnectionManager {
                 this.api = api;
             }
 
-            apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) =>
-                apiClient._sdk.subscribe(messageTypes, onMessage, subscriptionIntervals);
+            apiClient.subscribe = apiClient._sdk.subscribe.bind(apiClient._sdk);
         });
     }
 
