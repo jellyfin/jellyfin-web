@@ -1922,5 +1922,6 @@
     "ConfirmDeleteItemByName": "Dit zal \"{0}\" verwijderen van zowel het bestandssysteem als uit je mediabibliotheek. Weet je zeker dat je wilt doorgaan?",
     "CardSettings": "Kaartinstellingen",
     "ConfirmSplitMedia": "Weet je zeker dat je de mediabronnen wilt opsplitsen tot afzonderlijke items?",
-    "HeaderSplitMedia": "Media opsplitsen"
+    "HeaderSplitMedia": "Media opsplitsen",
+    "Creators": "Bedenkers"
 }
