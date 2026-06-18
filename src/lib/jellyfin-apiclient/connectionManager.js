@@ -356,7 +356,7 @@ export default class ConnectionManager {
             const sessionApi = api ? getSessionApi(api) : undefined;
 
             return Promise.allSettled([
-                sessionApi.reportSessionEnded(),
+                sessionApi?.reportSessionEnded(),
                 apiClient.logout()
             ]).then(
                 onLogout,
