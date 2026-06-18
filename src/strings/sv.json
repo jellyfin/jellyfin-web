@@ -1591,7 +1591,7 @@
     "AllowContentWithTagsHelp": "Visa bara media med åtminstone en av de specificerade taggarna.",
     "AllowSubtitleManagement": "Tillåt denna användare att redigera undertexter",
     "HeaderDeleteSeries": "Ta bort Serier",
-    "LabelScanBehavior": "Skanna beteende",
+    "LabelScanBehavior": "Skanningsbeteende",
     "PriorityHigh": "Hög",
     "PriorityAboveNormal": "Över normal",
     "PriorityNormal": "Normal",
