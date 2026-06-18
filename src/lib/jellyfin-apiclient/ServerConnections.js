@@ -60,7 +60,7 @@ class ServerConnections extends ConnectionManager {
             }
 
             apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) =>
-                api.subscribe(messageTypes, onMessage, subscriptionIntervals);
+                apiClient._sdk.subscribe(messageTypes, onMessage, subscriptionIntervals);
         });
     }
 

@@ -12,6 +12,7 @@ import { compareVersions } from 'utils/versions';
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { safeDecodeURIComponent } from 'utils/url';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
 
@@ -56,13 +57,6 @@ function sortByAccess(a, b) {
 }
 
 export default class ConnectionManager {
-    /**
-     * A Map of Api instances with their corresponding
-     * serverIds as keys
-     * @type {Map<string, import('@jellyfin/sdk').Api}
-     */
-    _apis = new Map();
-
     constructor(credentialProvider, appName, appVersion, deviceName, deviceId, capabilities) {
         console.log('Begin ConnectionManager constructor');
 
@@ -104,7 +98,7 @@ export default class ConnectionManager {
 
         self.addApiClient = (apiClient) => {
             self._apiClients.push(apiClient);
-            self._apis.set(apiClient.serverId(), toApi(apiClient));
+            apiClient._sdk ??= toApi(apiClient);
 
             const existingServers = credentialProvider
                 .credentials()
@@ -157,7 +151,7 @@ export default class ConnectionManager {
                 };
                 events.trigger(self, 'apiclientcreated', [apiClient]);
             }
-            self._apis.set(server.Id, toApi(apiClient));
+            apiClient._sdk ??= toApi(apiClient);
 
             console.log('returning instance from getOrAddApiClient');
             return apiClient;
@@ -205,8 +199,17 @@ export default class ConnectionManager {
             apiClient.setAuthenticationInfo(result.AccessToken, result.User.Id);
 
             // Update SDK Api instance
-            self._apis.get(result.ServerId)?.update({
-                accessToken: result.AccessToken
+            apiClient._sdk?.update({
+                basePath: apiClient.serverAddress(),
+                accessToken: apiClient.accessToken(),
+                clientInfo: {
+                    name: safeDecodeURIComponent(apiClient.appName()),
+                    version: safeDecodeURIComponent(apiClient.appVersion())
+                },
+                deviceInfo: {
+                    name: safeDecodeURIComponent(apiClient.deviceName()),
+                    id: safeDecodeURIComponent(apiClient.deviceId())
+                }
             });
 
             afterConnected(apiClient, options);
@@ -347,7 +350,8 @@ export default class ConnectionManager {
                 events.trigger(self, 'localusersignedout', [logoutInfo]);
             };
 
-            const api = self._apis.get(logoutInfo.serverId);
+            apiClient._sdk ??= toApi(apiClient);
+            const api = apiClient._sdk;
 
             const sessionApi = api ? getSessionApi(api) : undefined;
 
@@ -624,6 +628,20 @@ export default class ConnectionManager {
             result.ApiClient.updateServerInfo(server, serverUrl);
             result.ApiClient.setAuthenticationInfo(server.AccessToken, server.UserId);
 
+            // Update SDK Api instance
+            result.ApiClient._sdk?.update({
+                basePath: result.ApiClient.serverAddress(),
+                accessToken: result.ApiClient.accessToken(),
+                clientInfo: {
+                    name: safeDecodeURIComponent(result.ApiClient.appName()),
+                    version: safeDecodeURIComponent(result.ApiClient.appVersion())
+                },
+                deviceInfo: {
+                    name: safeDecodeURIComponent(result.ApiClient.deviceName()),
+                    id: safeDecodeURIComponent(result.ApiClient.deviceId())
+                }
+            });
+
             const resolveActions = function () {
                 resolve(result);
 
@@ -798,13 +816,9 @@ export default class ConnectionManager {
      * @returns {import('@jellyfin/sdk').Api}
      */
     getApi(serverId) {
-        let api = this._apis.get(serverId);
-        if (!api) {
-            api = toApi(this.getOrCreateApiClient(serverId));
-            this._apis.set(serverId, api);
-        }
-
-        return api;
+        const apiClient = this.getApiClient(serverId);
+        apiClient._sdk ??= toApi(apiClient);
+        return apiClient._sdk;
     }
 
     minServerVersion(val) {
