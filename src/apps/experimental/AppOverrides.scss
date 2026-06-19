@@ -38,3 +38,8 @@ $mui-bp-xl: 1536px;
         }
     }
 }
+
+// Fixes OSD header being unclickable with the style applied 
+.skinHeader-withBackground.osdHeader {
+    pointer-events: unset !important;
+}
