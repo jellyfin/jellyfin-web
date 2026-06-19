@@ -27,6 +27,7 @@ export const useServerLog = (name: string, refetchInterval: false | number) => {
         queryKey: ['ServerLog', name],
         queryFn: ({ signal }) => fetchServerLog(api!, name, { signal }),
         enabled: !!api,
-        refetchInterval
+        refetchInterval,
+        staleTime: 0 // ensure we load the latest log data
     });
 };

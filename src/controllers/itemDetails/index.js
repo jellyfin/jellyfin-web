@@ -26,6 +26,7 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -827,7 +828,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
-        renderItemsByName(page, item);
+        renderItemsByName(page, item, user);
     } else if (item.IsFolder) {
         if (item.Type == 'BoxSet') {
             page.querySelector('#listChildrenCollapsible').classList.add('hide');
@@ -989,6 +990,7 @@ function renderDetails(page, instance, item, apiClient, context) {
 
         const metadataTypes = [
             PersonKind.Author,
+            PersonKind.Creator,
             PersonKind.Director,
             PersonKind.Writer,
             BaseItemKind.Studio,
@@ -1455,9 +1457,9 @@ function renderChildren(page, item) {
     }
 }
 
-function renderItemsByName(page, item) {
+function renderItemsByName(page, item, user) {
     import('../../scripts/itemsByName').then(({ default: ItemsByName }) => {
-        ItemsByName.renderItems(page, item);
+        ItemsByName.renderItems(page, item, user);
     });
 }
 
@@ -1862,16 +1864,21 @@ export default function (view, params) {
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
-        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
-            loading.show();
-            apiClient.ajax({
-                type: 'DELETE',
-                url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-            }).then(function () {
-                loading.hide();
+        confirm(globalize.translate('ConfirmSplitMedia'), globalize.translate('HeaderSplitMedia'))
+            .then(() => {
+                loading.show();
+                return apiClient.ajax({
+                    type: 'DELETE',
+                    url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
+                });
+            })
+            .then(() => {
                 reload(instance, page, pageParams);
+                Events.trigger(document, EventType.REFRESH_NEEDED);
+            })
+            .finally(() => {
+                loading.hide();
             });
-        });
     }
 
     function getPlayOptions(startPosition) {

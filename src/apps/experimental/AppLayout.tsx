@@ -12,6 +12,9 @@ import { useApi } from 'hooks/useApi';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
+import LibraryToolbar from './features/libraries/components/LibraryToolbar';
+import { LibraryProvider } from './features/libraries/hooks/useLibrary';
+import { isLibraryPath } from './features/libraries/utils/path';
 
 import './AppOverrides.scss';
 
@@ -29,7 +32,7 @@ export const Component = () => {
     }, [ isDrawerActive, setIsDrawerActive ]);
 
     return (
-        <>
+        <LibraryProvider>
             <Box
                 sx={{
                     position: 'relative',
@@ -45,6 +48,7 @@ export const Component = () => {
                             isDrawerOpen={isDrawerOpen}
                             onDrawerButtonClick={onToggleDrawer}
                         />
+                        {isLibraryPath(location.pathname) && <LibraryToolbar />}
                     </OffsetAppBar>
 
                     {
@@ -73,6 +77,6 @@ export const Component = () => {
             </Box>
             <ThemeCss />
             <CustomCss />
-        </>
+        </LibraryProvider>
     );
 };

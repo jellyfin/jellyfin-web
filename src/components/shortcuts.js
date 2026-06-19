@@ -3,8 +3,10 @@
  */
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
+import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Events from 'utils/events';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import { playbackManager } from './playback/playbackmanager';
@@ -99,7 +101,11 @@ function notifyRefreshNeeded(childElement, itemsContainer) {
     itemsContainer = itemsContainer || dom.parentWithAttribute(childElement, 'is', 'emby-itemscontainer');
 
     if (itemsContainer) {
+        // Legacy webcomponent: directly call a method on the items container if it exists.
         itemsContainer.notifyRefreshNeeded(true);
+    } else {
+        // React component: trigger a global event that the items container listens for.
+        Events.trigger(document, EventType.REFRESH_NEEDED, [childElement]);
     }
 }
 
