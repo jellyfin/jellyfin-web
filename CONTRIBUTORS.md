@@ -108,6 +108,7 @@
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
 - [austinhardaway](https://github.com/austinhardaway)
+- [Mumbolio85](https://github.com/Mumbolio85)
 
 ## Emby Contributors
 
