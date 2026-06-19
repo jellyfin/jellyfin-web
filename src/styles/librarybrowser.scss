@@ -580,7 +580,7 @@
     .layout-mobile & {
         background-attachment: initial;
         background-position: top center;
-        margin-top: 3rem;
+        margin-top: 0;
 
         @media all and (orientation: portrait) and (max-width: 40em) {
             height: 30vh;
@@ -589,6 +589,61 @@
 
     .layout-tv & {
         display: none;
+    }
+}
+
+html.layout-mobile .mainAnimatedPages .itemDetailPage {
+    // Keep mobile details content below the fixed header even when the backdrop is hidden.
+    box-sizing: border-box;
+    padding-top: 3.9em !important;
+    padding-top: calc(3.9em + env(safe-area-inset-top)) !important;
+    position: relative;
+}
+
+html.layout-mobile .mainAnimatedPages .itemDetailPage #itemBackdrop.itemBackdrop {
+    display: block !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    margin-top: 0 !important;
+    pointer-events: none;
+}
+
+html.layout-mobile .mainAnimatedPages .itemDetailPage .detailImageContainer .cardImage,
+html.layout-mobile .mainAnimatedPages .itemDetailPage .detailImageContainer .cardImageContainer.coveredImage {
+    background-color: #000;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+}
+
+@media all and (orientation: landscape) {
+    html.layout-mobile .mainAnimatedPages .itemDetailPage #itemBackdrop.itemBackdrop {
+        // Mobile layout can be forced on wide landscape WebViews, such as VR headset apps.
+        height: 32vh !important;
+        min-height: 10rem !important;
+        max-height: 20rem !important;
+    }
+
+    html.layout-mobile .mainAnimatedPages .itemDetailPage .detailPagePrimaryContainer {
+        min-height: 18rem;
+    }
+
+    html.layout-mobile .mainAnimatedPages .itemDetailPage .detailImageContainer .card {
+        top: 0.5rem !important;
+        bottom: auto !important;
+        width: 10rem !important;
+        max-width: 20vw !important;
+        max-height: none !important;
+    }
+
+    html.layout-mobile[dir="ltr"] .mainAnimatedPages .itemDetailPage .detailPagePrimaryContent {
+        padding-left: calc(5% + 11rem) !important;
+    }
+
+    html.layout-mobile[dir="rtl"] .mainAnimatedPages .itemDetailPage .detailPagePrimaryContent {
+        padding-right: calc(5% + 11rem) !important;
     }
 }
 
@@ -1138,6 +1193,11 @@ div.itemDetailGalleryLink.defaultCardBackground {
         flex-direction: column;
         min-height: 60vh;
     }
+}
+
+html.layout-mobile .mainAnimatedPages .itemDetailPage .detailPageWrapperContainer {
+    position: relative;
+    z-index: 1;
 }
 
 .mediaInfoContent .btnCopy .material-icons {

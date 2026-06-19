@@ -23,10 +23,21 @@ $mui-bp-xl: 1536px;
     padding-top: 0 !important;
 }
 
-.layout-mobile {
+.layout-mobile .itemDetailPage {
+    box-sizing: border-box;
+    padding-top: 3.9em !important;
+    padding-top: calc(3.9em + env(safe-area-inset-top)) !important;
+    position: relative;
+
     .itemBackdrop {
-        // Fix backdrop position on mobile item details page
+        display: block !important;
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 0;
         margin-top: 0 !important;
+        pointer-events: none;
 
         // Add a subtle gradient over the backdrop to ensure the app bar buttons are visible
         &::before {
@@ -35,6 +46,48 @@ $mui-bp-xl: 1536px;
             height: 100%;
             width: 100%;
             background: linear-gradient(180deg, rgba(32, 32, 32, 0.6) 0%, rgba(32, 32, 32, 0.2) 4rem, rgba(0, 0, 0, 0) 50%);
+        }
+    }
+
+    @media all and (orientation: landscape) {
+        .itemBackdrop {
+            height: 32vh !important;
+            min-height: 10rem !important;
+            max-height: 20rem !important;
+        }
+
+        .detailPagePrimaryContainer {
+            min-height: 18rem;
+        }
+
+        .detailImageContainer .card {
+            top: 0.5rem !important;
+            bottom: auto !important;
+            width: 10rem !important;
+            max-width: 20vw !important;
+            max-height: none !important;
+        }
+
+        [dir="ltr"] & .detailPagePrimaryContent {
+            padding-left: calc(5% + 11rem) !important;
+        }
+
+        [dir="rtl"] & .detailPagePrimaryContent {
+            padding-right: calc(5% + 11rem) !important;
+        }
+    }
+
+    .detailPageWrapperContainer {
+        position: relative;
+        z-index: 1;
+    }
+
+    .detailImageContainer {
+        .cardImage,
+        .cardImageContainer.coveredImage {
+            background-color: #000;
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
         }
     }
 }

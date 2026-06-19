@@ -2043,7 +2043,7 @@ export default function (view, params) {
         view.addEventListener('viewshow', function (e) {
             const page = this;
 
-            libraryMenu.setTransparentMenu(!layoutManager.mobile);
+            libraryMenu.setTransparentMenu(true);
 
             if (e.detail.isRestored) {
                 if (currentItem) {
