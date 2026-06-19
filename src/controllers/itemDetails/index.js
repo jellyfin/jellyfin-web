@@ -1340,6 +1340,7 @@ function renderChildren(page, item) {
                 items: result.Items,
                 shape: 'overflowPortrait',
                 showTitle: true,
+                showYear: true,
                 centerText: true,
                 lazy: true,
                 overlayPlayButton: true,
