@@ -141,6 +141,19 @@ function getSelectedMediaSource(page, mediaSources) {
     return mediaSources.filter(m => m.Id === mediaSourceId)[0];
 }
 
+// The resume position follows the selected version. Each version's source carries its own
+// position (MediaSourceInfo.PlaybackPositionTicks), so a multi-version item resumes the selected
+// version rather than another version's offset; single-version items use the item's own user data.
+function getResumePositionTicks(page, item) {
+    const sources = item.MediaSources || [];
+    if (sources.length > 1) {
+        const selectedSource = getSelectedMediaSource(page, sources);
+        return selectedSource ? (selectedSource.PlaybackPositionTicks || 0) : 0;
+    }
+
+    return item.UserData ? (item.UserData.PlaybackPositionTicks || 0) : 0;
+}
+
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
     apiClient.getLiveTvTimers({
         UserId: apiClient.getCurrentUserId(),
@@ -349,7 +362,9 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
 
-        const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
+        // Resume state follows the selected version: a multi-version item is resumable when the
+        // selected version's own source has a saved position, not the primary's coalesced state.
+        const isResumable = getResumePositionTicks(page, item) > 0;
         hideAll(page, 'btnReplay', isResumable);
 
         for (const btnPlay of page.querySelectorAll('.btnPlay')) {
@@ -1907,16 +1922,8 @@ export default function (view, params) {
             return;
         }
 
-        // The displayed item follows the version selection, so its user data carries the
-        // selected version's resume position. While a version switch is still loading the
-        // selection may not match the displayed item yet; start from the beginning then
-        // rather than resuming at another version's position.
-        const selectedSourceId = view.querySelector('.selectSource').value;
-        const startPositionTicks = item.UserData
-            && mode === ItemAction.Resume
-            && (!selectedSourceId || selectedSourceId === item.Id) ?
-            item.UserData.PlaybackPositionTicks :
-            0;
+        // Resume from the position of the version that is about to play (the selected source).
+        const startPositionTicks = mode === ItemAction.Resume ? getResumePositionTicks(view, item) : 0;
 
         playItem(item, startPositionTicks);
     }
