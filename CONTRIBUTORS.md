@@ -107,8 +107,8 @@
 - [Lampan-git](https://github.com/Lampan-git)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
-- [Mumbolio85](https://github.com/Mumbolio85)
 - [austinhardaway](https://github.com/austinhardaway)
+- [Mumbolio85](https://github.com/Mumbolio85)
 
 ## Emby Contributors
 
