@@ -264,6 +264,7 @@ export function canMarkPlayed (item) {
     return item.Type === 'Series'
         || item.Type === 'Season'
         || item.Type === 'BoxSet'
+        || item.Type === 'Folder'
         || item.MediaType === 'Book';
 }
 

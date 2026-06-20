@@ -1,14 +1,15 @@
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { FC, useCallback } from 'react';
 import Button from '@mui/material/Button';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 
+import { useLibrary } from 'apps/experimental/features/libraries/hooks/useLibrary';
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 
 interface PlayAllButtonProps {
     item: ItemDto | undefined
@@ -29,6 +30,10 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
     isTextVisible,
     libraryViewSettings
 }) => {
+    const { itemsResult } = useLibrary();
+    const isPending = itemsResult?.isPending ?? true;
+    const totalRecordCount = itemsResult?.data?.TotalRecordCount ?? 0;
+
     const play = useCallback(() => {
         // For the Homevideos library Videos tab, pass items directly to playback since
         // the playback manager hardcodes MediaTypes: 'Photo' for the Homevideos library
@@ -65,6 +70,7 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
             title={globalize.translate('HeaderPlayAll')}
             startIcon={isTextVisible ? <PlayArrow /> : undefined}
             onClick={play}
+            disabled={isPending || totalRecordCount === 0}
         >
             {isTextVisible ? (
                 globalize.translate('HeaderPlayAll')

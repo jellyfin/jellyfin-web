@@ -1920,5 +1920,7 @@
     "StillWatchingPrompt": "Dotaz na sledování",
     "StillWatchingOption": "{0} epizod nebo {1} minut",
     "StopWatching": "Přestat sledovat",
-    "TableOfContents": "Obsah"
+    "TableOfContents": "Obsah",
+    "ConfirmSplitMedia": "Opravdu chcete rozdělit zdroje médií na samostatné položky?",
+    "HeaderSplitMedia": "Rozdělit média"
 }
