@@ -251,7 +251,7 @@
     "HeaderBranding": "Nhãn hiệu",
     "HeaderBlockItemsWithNoRating": "Khoá những mục không có thông tin đánh giá hoặc thông tin không đáng tin cậy",
     "HeaderAudioSettings": "Cài Đặt Âm Thanh",
-    "HeaderAudioBooks": "Sách Nói",
+    "HeaderAudioBooks": "Sách nói",
     "HeaderAppearsOn": "Xuất Bản Vào",
     "HeaderApp": "Ứng Dụng",
     "HeaderApiKeysHelp": "Ứng dụng ngoài cần có khóa API để giao tiếp với máy chủ. Khóa được cấp theo cách đăng nhập tài khoản người dùng bình thường hoặc cấp khóa theo cách thủ công.",
@@ -1920,5 +1920,7 @@
     "StillWatchingPrompt": "Nhắc Nhở Khi Vẫn Đang Xem",
     "StillWatchingOption": "{0} tập hoặc {1} phút",
     "StopWatching": "Dừng xem",
-    "TableOfContents": "Mục Lục"
+    "TableOfContents": "Mục Lục",
+    "ConfirmSplitMedia": "Bạn có chắc chắn muốn tách các nguồn thông tin đa phương tiện thành các mục riêng biệt không?",
+    "HeaderSplitMedia": "Tách Phương Tiện Riêng Biệt"
 }

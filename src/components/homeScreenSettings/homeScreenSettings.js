@@ -449,7 +449,7 @@ function getCheckboxItems(selector, context, isChecked) {
     return list;
 }
 
-function saveUser(context, user, userSettingsInstance, apiClient) {
+async function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
 
     user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(i => {
@@ -493,7 +493,11 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
         userSettingsInstance.set(`landing-${selectLanding.getAttribute('data-folderid')}`, selectLanding.value);
     }
 
-    return apiClient.updateUserConfiguration(user.Id, user.Configuration);
+    await apiClient.updateUserConfiguration(user.Id, user.Configuration);
+    // Invalidate all user queries
+    void queryClient.invalidateQueries({
+        queryKey: ['User', user.Id]
+    });
 }
 
 function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
