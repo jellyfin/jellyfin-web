@@ -98,7 +98,10 @@ function updateNowPlayingInfo(context, state, serverId) {
         '';
     if (item) {
         const nowPlayingServerId = (item.ServerId || serverId);
-        if (item.Type == 'AudioBook' || item.Type == 'Audio' || item.MediaStreams[0].Type == 'Audio') {
+        const firstMediaStreamType = item.MediaStreams?.[0]?.Type;
+        const isAudioItem = item.Type === 'AudioBook' || item.Type === 'Audio' || firstMediaStreamType === 'Audio';
+
+        if (isAudioItem) {
             let artistsSeries = '';
             let albumName = '';
             if (item.Artists != null) {
@@ -164,17 +167,42 @@ function updateNowPlayingInfo(context, state, serverId) {
         if (autoFocusContextButton) {
             contextButton.focus();
         }
-        const options = {
-            play: false,
-            queue: false,
-            stopPlayback: true,
-            clearQueue: true,
-            openAlbum: false,
-            positionTo: contextButton
-        };
-        const apiClient = ServerConnections.getApiClient(item.ServerId);
+        contextButton.classList.add('hide');
+        context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '';
+        context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
+
+        setImageUrl(context, state, url);
+
+        if (item.ServerId) {
+            setBackdrops([item]);
+        } else {
+            clearBackdrop();
+        }
+
+        if (!item.Id || !nowPlayingServerId) {
+            return;
+        }
+
+        const apiClient = ServerConnections.getApiClient(nowPlayingServerId);
+        if (!apiClient) {
+            return;
+        }
+
         apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
+            const options = {
+                play: false,
+                queue: false,
+                stopPlayback: true,
+                clearQueue: true,
+                openAlbum: false,
+                positionTo: contextButton
+            };
+            const userData = fullItem.UserData || {};
+            const likes = userData.Likes == null ? '' : userData.Likes;
+            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
+            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
             apiClient.getCurrentUser().then(function (user) {
+                contextButton.classList.remove('hide');
                 contextButton.addEventListener('click', function () {
                     itemContextMenu.show(Object.assign({
                         item: fullItem,
@@ -183,18 +211,12 @@ function updateNowPlayingInfo(context, state, serverId) {
                     }, options))
                         .catch(() => { /* no-op */ });
                 });
-            });
-        });
-        setImageUrl(context, state, url);
-        setBackdrops([item]);
-        apiClient.getItem(apiClient.getCurrentUserId(), item.Id).then(function (fullItem) {
-            const userData = fullItem.UserData || {};
-            const likes = userData.Likes == null ? '' : userData.Likes;
-            context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
-            context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '<button is="emby-ratingbutton" type="button" class="paper-icon-button-light" data-id="' + fullItem.Id + '" data-serverid="' + fullItem.ServerId + '" data-itemtype="' + fullItem.Type + '" data-likes="' + likes + '" data-isfavorite="' + userData.IsFavorite + '"><span class="material-icons favorite" aria-hidden="true"></span></button>';
-        });
+            }).catch(() => { /* no-op */ });
+        }).catch(() => { /* no-op */ });
     } else {
         clearBackdrop();
+        context.querySelector('.btnToggleContextMenu').classList.add('hide');
+        context.querySelector('.nowPlayingPageUserDataButtonsTitle').innerHTML = '';
         context.querySelector('.nowPlayingPageUserDataButtons').innerHTML = '';
     }
 }
