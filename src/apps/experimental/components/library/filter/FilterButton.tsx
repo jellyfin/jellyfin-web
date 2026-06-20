@@ -440,7 +440,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         )}
                     </>
                 )}
-                {isFiltersStudiosEnabled() && studios && (
+                {isFiltersStudiosEnabled() && studios && studios.length > 0 && (
                     <Accordion
                         expanded={expanded === 'filtersStudios'}
                         onChange={handleChange('filtersStudios')}

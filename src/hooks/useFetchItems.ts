@@ -20,7 +20,7 @@ import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api'
 import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
-import { keepPreviousData, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
 
@@ -395,18 +395,21 @@ const fetchGetItemsViewByType = async (
 };
 
 export const useGetItemsViewByType = (
-    viewType: LibraryTab,
+    viewType: LibraryTab | undefined,
     parentId: ParentId,
-    itemType: BaseItemKind[],
+    itemType: BaseItemKind[] = [],
     libraryViewSettings: LibraryViewSettings
 ) => {
     const currentApi = useApi();
     return useQuery({
         queryKey: [
-            'ItemsViewByType',
+            'User',
+            currentApi.user?.Id,
+            'Items',
+            parentId,
+            'ViewByType',
+            viewType,
             {
-                viewType,
-                parentId,
                 itemType,
                 libraryViewSettings
             }
@@ -414,15 +417,15 @@ export const useGetItemsViewByType = (
         queryFn: ({ signal }) =>
             fetchGetItemsViewByType(
                 currentApi,
-                viewType,
+                viewType!,
                 parentId,
                 itemType,
-                libraryViewSettings,
+                libraryViewSettings!,
                 { signal }
             ),
         refetchOnWindowFocus: false,
-        placeholderData : keepPreviousData,
         enabled: !!currentApi.api && !!currentApi.user?.Id
+            && viewType
             && [
                 LibraryTab.Movies,
                 LibraryTab.Favorites,
@@ -942,7 +945,7 @@ export const useGetSuggestionSectionsWithItems = (
     const currentApi = useApi();
     const sections = getSuggestionSections();
     return useQuery({
-        queryKey: ['SuggestionSectionWithItems', { suggestionSectionType }],
+        queryKey: ['SuggestionSectionWithItems', parentId, { suggestionSectionType }],
         queryFn: ({ signal }) =>
             getSectionsWithItems(currentApi, parentId, sections, suggestionSectionType, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId

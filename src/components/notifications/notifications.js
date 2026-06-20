@@ -216,65 +216,90 @@ function showPackageInstallNotification(apiClient, installation, status) {
     });
 }
 
+const subscriptions = [];
+
 function subscribeToApiClient(apiClient) {
-    apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], ({ Data }) => {
-        onLibraryChanged(Data, apiClient);
-    });
+    const clientSubscriptions = [
+        apiClient.subscribe?.([OutboundWebSocketMessageType.LibraryChanged], ({ Data }) => {
+            onLibraryChanged(Data, apiClient);
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationCompleted], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'completed');
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationFailed], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'failed');
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationCancelled], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'cancelled');
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstalling], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'progress');
+        }),
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCompleted], ({ Data }) => {
-        showPackageInstallNotification(apiClient, Data, 'completed');
-    });
+        apiClient.subscribe?.([OutboundWebSocketMessageType.ServerShuttingDown], () => {
+            const serverId = apiClient.serverInfo().Id;
+            const notification = {
+                tag: 'restart' + serverId,
+                title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
+            };
+            showNotification(notification, 0, apiClient);
+        }),
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationFailed], ({ Data }) => {
-        showPackageInstallNotification(apiClient, Data, 'failed');
-    });
+        apiClient.subscribe?.([OutboundWebSocketMessageType.ServerRestarting], () => {
+            const serverId = apiClient.serverInfo().Id;
+            const notification = {
+                tag: 'restart' + serverId,
+                title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
+            };
+            showNotification(notification, 0, apiClient);
+        }),
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstallationCancelled], ({ Data }) => {
-        showPackageInstallNotification(apiClient, Data, 'cancelled');
-    });
+        apiClient.subscribe?.([OutboundWebSocketMessageType.RestartRequired], () => {
+            const serverId = apiClient.serverInfo().Id;
+            const notification = {
+                tag: 'restart' + serverId,
+                title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
+            };
 
-    apiClient.subscribe([OutboundWebSocketMessageType.PackageInstalling], ({ Data }) => {
-        showPackageInstallNotification(apiClient, Data, 'progress');
-    });
+            notification.actions =
+                [
+                    {
+                        action: 'restart',
+                        title: globalize.translate('Restart'),
+                        icon: NotificationIcon
+                    }
+                ];
 
-    apiClient.subscribe([OutboundWebSocketMessageType.ServerShuttingDown], () => {
-        const serverId = apiClient.serverInfo().Id;
-        const notification = {
-            tag: 'restart' + serverId,
-            title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
-        };
-        showNotification(notification, 0, apiClient);
-    });
+            showNotification(notification, 0, apiClient);
+        })
+    ].filter(Boolean);
 
-    apiClient.subscribe([OutboundWebSocketMessageType.ServerRestarting], () => {
-        const serverId = apiClient.serverInfo().Id;
-        const notification = {
-            tag: 'restart' + serverId,
-            title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
-        };
-        showNotification(notification, 0, apiClient);
-    });
-
-    apiClient.subscribe([OutboundWebSocketMessageType.RestartRequired], () => {
-        const serverId = apiClient.serverInfo().Id;
-        const notification = {
-            tag: 'restart' + serverId,
-            title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
-        };
-
-        notification.actions =
-            [
-                {
-                    action: 'restart',
-                    title: globalize.translate('Restart'),
-                    icon: NotificationIcon
-                }
-            ];
-
-        showNotification(notification, 0, apiClient);
+    return () => clientSubscriptions.forEach((unsub) => {
+        unsub();
     });
 }
 
-ServerConnections.getApiClients().forEach(subscribeToApiClient);
-Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => subscribeToApiClient(newApiClient));
+/**
+ * Add subscriptions when the apiClient is created
+ */
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
+    subscriptions.push(subscribeToApiClient(newApiClient));
+});
 
+/**
+ * Remove subscriptions when the user logs out
+ */
+Events.on(ServerConnections, 'localusersignedout', () => {
+    subscriptions.forEach((unsub) => {
+        unsub();
+    });
+});
+
+/**
+ * Remove subscriptions when the page unloads
+ */
+window.onbeforeunload = () => {
+    subscriptions.forEach(unsub => {
+        unsub();
+    });
+};
