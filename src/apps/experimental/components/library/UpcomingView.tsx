@@ -33,6 +33,7 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
             cardOptions={{
                 shape: CardShape.BackdropOverflow,
                 showLocationTypeIndicator: false,
+                showTitle: true,
                 showParentTitle: true,
                 preferThumb: true,
                 lazy: true,
