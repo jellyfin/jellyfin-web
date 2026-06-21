@@ -4,35 +4,27 @@ import Box from '@mui/material/Box';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-import type { LibraryViewSettings } from 'types/library';
-
 import 'components/alphaPicker/style.scss';
 
 interface AlphabetPickerProps {
-    libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<
-        React.SetStateAction<LibraryViewSettings>
-    >;
+    value?: string | null;
+    onChange: (value: string | null | undefined) => void;
 }
 
 const LETTER_VALUES = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
-    libraryViewSettings,
-    setLibraryViewSettings
+    value,
+    onChange
 }) => {
     const handleValue = useCallback(
         (
             event: React.MouseEvent<HTMLElement>,
             newValue: string | null | undefined
         ) => {
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                StartIndex: 0,
-                Alphabet: newValue
-            }));
+            onChange(newValue);
         },
-        [setLibraryViewSettings]
+        [onChange]
     );
 
     return (
@@ -52,7 +44,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
         >
             <ToggleButtonGroup
                 orientation='vertical'
-                value={libraryViewSettings.Alphabet}
+                value={value}
                 exclusive
                 color='primary'
                 size='small'
