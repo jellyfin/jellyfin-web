@@ -1905,5 +1905,10 @@
     "LabelProgressAndSpeed": "Напредък / скорост",
     "LabelReasons": "Причини",
     "LabelPlayerSizes": "Размер на плейъра",
-    "LabelPlaybackQuality": "Кадри са пропуснати / повредени"
+    "LabelPlaybackQuality": "Кадри са пропуснати / повредени",
+    "ConfirmSplitMedia": "Сигурни ли сте, че искате да разделите медиините източници на отделни предмети?",
+    "ConfirmStillWatching": "Още ли гледате?",
+    "Creators": "Създатели",
+    "Disabled": "Изключено",
+    "HeaderSplitMedia": "Раздели медиата"
 }
