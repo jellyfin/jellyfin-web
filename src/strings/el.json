@@ -294,7 +294,7 @@
     "HeaderSortBy": "Ταξινόμηση κατά",
     "HeaderSortOrder": "Σειρά ταξινόμησης",
     "HeaderSpecialEpisodeInfo": "Ειδικές πληροφορίες επεισοδίου",
-    "HeaderStartNow": "Ξεκίνα τώρα",
+    "HeaderStartNow": "Εναρξη τώρα",
     "HeaderStatus": "Κατάσταση",
     "HeaderStopRecording": "Διακοπή Εγγραφής",
     "HeaderSubtitleAppearance": "Εμφάνιση υποτίτλων",
@@ -1909,5 +1909,7 @@
     "StillWatchingPrompt": "Προτροπή «Παρακολουθείτε ακόμα;»",
     "StillWatchingOption": "{0} επεισόδια ή {1} λεπτά",
     "StopWatching": "Διακοπή παρακολούθησης",
-    "Creators": "Δημιουργοί"
+    "Creators": "Δημιουργοί",
+    "HeaderSplitMedia": "Διαχωρισμός μέσων",
+    "ConfirmSplitMedia": "Θέλετε σίγουρα να διαχωρίσετε τις πηγές πολυμέσων σε ξεχωριστά στοιχεία;"
 }
