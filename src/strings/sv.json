@@ -1802,7 +1802,7 @@
     "MetadataImagesLoadError": "Laddningen av inställningarna för metadatan misslyckades",
     "Retry": "Försök igen",
     "MetadataNfoLoadError": "Kunde inte ladda metadata NFO inställningar",
-    "CustomSplashScreenSize": "Anpassade bilder borde vara i ett 16x9 förhållande med en storlek av minst 1920x1080.",
+    "CustomSplashScreenSize": "Anpassade bilder bör vara i ett 16x9 förhållande med en storlek av minst 1920x1080.",
     "DeleteCustomImage": "Ta bort anpassad bild",
     "ImageDeleteFailed": "Bilden kunde inte tas bort",
     "ImageUploadCancelled": "Uppladdning av bilden avbröts",
