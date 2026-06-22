@@ -1910,5 +1910,8 @@
     "ConfirmStillWatching": "Още ли гледате?",
     "Creators": "Създатели",
     "Disabled": "Изключено",
-    "HeaderSplitMedia": "Раздели медиата"
+    "HeaderSplitMedia": "Раздели медиата",
+    "OriginalLanguage": "Оригинален език",
+    "StillWatchingOption": "{0} епизода или {1} минути",
+    "StopWatching": "Спрете да гледате"
 }
