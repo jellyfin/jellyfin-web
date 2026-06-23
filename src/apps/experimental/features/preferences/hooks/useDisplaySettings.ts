@@ -102,7 +102,8 @@ async function loadDisplaySettings({
         libraryPageSize: settings.libraryPageSize(),
         maxDaysForNextUp: settings.maxDaysForNextUp(),
         screensaver: settings.screensaver() || 'none',
-        screensaverInterval: settings.backdropScreensaverInterval(),
+        screensaverTime: settings.screensaverTime(),
+        backdropScreensaverInterval: settings.backdropScreensaverInterval(),
         slideshowInterval: settings.slideshowInterval(),
         theme: settings.theme() || defaultTheme?.id || FALLBACK_THEME_ID
     };
@@ -146,7 +147,9 @@ async function saveDisplaySettings({
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));
-    userSettings.backdropScreensaverInterval(newDisplaySettings.screensaverInterval);
+    userSettings.screensaverTime(newDisplaySettings.screensaverTime);
+    userSettings.backdropScreensaverInterval(newDisplaySettings.backdropScreensaverInterval);
+    userSettings.slideshowInterval(newDisplaySettings.slideshowInterval);
     userSettings.theme(newDisplaySettings.theme);
 
     layoutManager.setLayout(normalizeValue(newDisplaySettings.layout));

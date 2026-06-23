@@ -1,27 +1,31 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
+import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import escapeHtml from 'escape-html';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import { getLatestMediaQuery } from 'apps/stable/features/libraries/api/useLatestMedia';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 
 function getFetchLatestItemsFn(
-    serverId: string,
+    apiClient: ApiClient,
+    user: UserDto | undefined,
     parentId: string | undefined,
     collectionType: string | null | undefined,
     { enableOverflow }: SectionOptions
 ) {
     return function () {
-        const apiClient = ServerConnections.getApiClient(serverId);
         let limit = 16;
 
         if (enableOverflow) {
@@ -37,14 +41,23 @@ function getFetchLatestItemsFn(
         }
 
         const options = {
-            Limit: limit,
-            Fields: 'PrimaryImageAspectRatio,Path',
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Thumb',
-            ParentId: parentId
+            userId: user?.Id,
+            limit,
+            fields: [
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.Path
+            ],
+            imageTypeLimit: 1,
+            enableImageTypes: [
+                ImageType.Primary,
+                ImageType.Backdrop,
+                ImageType.Thumb
+            ],
+            parentId
         };
 
-        return apiClient.getLatestItems(options);
+        return queryClient
+            .fetchQuery(getLatestMediaQuery(toApi(apiClient), options));
     };
 }
 
@@ -124,7 +137,7 @@ function renderLatestSection(
 
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType, options);
+    itemsContainer.fetchData = getFetchLatestItemsFn(apiClient, user, parent.Id, parent.CollectionType, options);
     itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType, options);
     itemsContainer.parentContainer = elem;
 }

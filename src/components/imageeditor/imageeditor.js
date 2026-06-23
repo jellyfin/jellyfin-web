@@ -1,4 +1,6 @@
 import { AppFeature } from 'constants/appFeature';
+import { queryClient } from 'utils/query/queryClient';
+
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import dom from '../../utils/dom';
@@ -28,20 +30,17 @@ function getBaseRemoteOptions() {
     return { itemId: currentItem.Id };
 }
 
-function reload(page, item, focusContext) {
+async function reload(page, item, focusContext) {
     loading.show();
 
-    let apiClient;
+    const apiClient = ServerConnections.getApiClient(item ? item.ServerId : currentItem.ServerId);
+    if (!item) item = await apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id);
 
-    if (item) {
-        apiClient = ServerConnections.getApiClient(item.ServerId);
-        reloadItem(page, item, apiClient, focusContext);
-    } else {
-        apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-        apiClient.getItem(apiClient.getCurrentUserId(), currentItem.Id).then(function (itemToReload) {
-            reloadItem(page, itemToReload, apiClient, focusContext);
-        });
-    }
+    // NOTE: We have to invalidate all queries for the user because images can show up in various places in the app and
+    // we want them all to update when changed.
+    void queryClient.invalidateQueries(['User', apiClient.getCurrentUserId()]);
+
+    reloadItem(page, item, apiClient, focusContext);
 }
 
 function addListeners(container, className, eventName, fn) {
@@ -463,4 +462,3 @@ export function show (options) {
 export default {
     show
 };
-

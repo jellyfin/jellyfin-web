@@ -3,8 +3,12 @@ import escapeHTML from 'escape-html';
 
 import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
 import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+import { pluginManager } from 'components/pluginManager';
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
+import { MILLISECONDS_PER_MINUTE } from 'constants/time';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { ID as STILL_WATCHING_ID, StillWatchingConfiguration, StillWatchingOptions } from 'plugins/stillWatching/constants';
 
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
@@ -37,6 +41,7 @@ function populateLanguages(select, languages) {
     let html = '';
 
     html += `<option value=''>${globalize.translate('AnyLanguage')}</option>`;
+    html += `<option value='OriginalLanguage'>${globalize.translate('OriginalLanguage')}</option>`;
 
     for (let i = 0, length = languages.length; i < length; i++) {
         const culture = languages[i];
@@ -132,6 +137,23 @@ function fillChromecastQuality(select, maxVideoWidth) {
     select.value = appSettings.maxChromecastBitrate() || '';
 }
 
+function fillStillWatchingOptions(select, selectedOption) {
+    select.innerHTML = Object.values(StillWatchingOptions).map(value => {
+        let label;
+        if (value === StillWatchingOptions.Disabled) {
+            label = globalize.translate('Disabled');
+        } else {
+            const { count, duration: durationMs } = StillWatchingConfiguration[value];
+            const duration = Math.round(durationMs / MILLISECONDS_PER_MINUTE);
+            label = globalize.translate('StillWatchingOption', count, duration);
+        }
+
+        return `<option value="${value}">${label}</option>`;
+    }).join('');
+
+    select.value = selectedOption || StillWatchingOptions.Default;
+}
+
 function setMaxBitrateFromField(select, isInNetwork, mediatype) {
     if (select.value) {
         appSettings.maxStreamingBitrate(isInNetwork, mediatype, select.value);
@@ -224,6 +246,11 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
         context.querySelector('.fldChromecastQuality').classList.add('hide');
     }
 
+    // Only show the Still Watching option if the plugin is loaded
+    const stillWatchingPlugin = pluginManager.ofType(PluginType.PreplayIntercept).some(p => p.id === STILL_WATCHING_ID);
+    context.querySelector('.fldStillWatchingOption').classList.toggle('hide', !stillWatchingPlugin);
+    fillStillWatchingOptions(context.querySelector('.selectStillWatchingOption'), userSettings.stillWatchingPrompt());
+
     context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
     context.querySelector('.chkPreferFmp4HlsContainer').checked = userSettings.preferFmp4HlsContainer();
     context.querySelector('.chkLimitSegmentLength').checked = userSettings.limitSegmentLength();
@@ -299,6 +326,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.AudioLanguagePreference = context.querySelector('#selectAudioLanguage').value;
     user.Configuration.PlayDefaultAudioTrack = context.querySelector('.chkPlayDefaultAudioTrack').checked;
     user.Configuration.EnableNextEpisodeAutoPlay = context.querySelector('.chkEpisodeAutoPlay').checked;
+    userSettingsInstance.stillWatchingPrompt(context.querySelector('.selectStillWatchingOption').value);
     userSettingsInstance.preferFmp4HlsContainer(context.querySelector('.chkPreferFmp4HlsContainer').checked);
     userSettingsInstance.limitSegmentLength(context.querySelector('.chkLimitSegmentLength').checked);
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);

@@ -59,8 +59,7 @@ export default tseslint.config(
             'new-cap': [
                 'error',
                 {
-                    'capIsNewExceptions': ['jQuery.Deferred'],
-                    'newIsCapExceptionPattern': '\\.default$'
+                    'newIsCapExceptionPattern': String.raw`\.default$`
                 }
             ],
             'no-duplicate-imports': 'error',
@@ -71,6 +70,13 @@ export default tseslint.config(
             'no-redeclare': 'off',
             '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: false }],
             'no-restricted-globals': ['error'].concat(restrictedGlobals),
+            'no-restricted-properties': [
+                'error',
+                {
+                    property: 'replaceChildren',
+                    message: 'replaceChildren is not supported in all target browsers'
+                }
+            ],
             'no-return-assign': 'error',
             'no-return-await': 'error',
             'no-sequences': ['error', { 'allowInParentheses': false }],

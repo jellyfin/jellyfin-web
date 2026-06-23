@@ -22,10 +22,6 @@ export function getCardImageUrl({
     options,
     shape
 }: CardImageUrlParams) {
-    if (!api) {
-        throw new Error('API instance is required to get card image URL');
-    }
-
     item = item.ProgramInfo || item;
 
     const width = options.width;
@@ -142,18 +138,20 @@ export function getCardImageUrl({
         itemId = item.Id;
     }
 
-    if (itemId && imgTag && imgType) {
+    if (api && itemId && imgTag && imgType) {
         if (!height && width && uiAspect) {
             height = width / uiAspect;
         }
+
+        const dpr = window?.devicePixelRatio || 1;
 
         imgUrl = getImageApi(api).getItemImageUrlById(
             itemId,
             imgType,
             {
                 // Dimensions must be rounded or the API will reject the request
-                fillHeight: height ? Math.round(height) : undefined,
-                fillWidth: width ? Math.round(width) : undefined,
+                fillHeight: height ? Math.ceil(height * dpr) : undefined,
+                fillWidth: width ? Math.ceil(width * dpr) : undefined,
                 quality: 96,
                 tag: imgTag
             }

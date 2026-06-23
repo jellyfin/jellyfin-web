@@ -1905,5 +1905,20 @@
     "LabelProgressAndSpeed": "Aurrerapena / abiadura",
     "LabelReasons": "Arrazoiak",
     "LabelPlayerSizes": "Erreproduzitzailearen tamainak",
-    "LabelPlaybackQuality": "Fotograma galduta / hondatuta"
+    "LabelPlaybackQuality": "Fotograma galduta / hondatuta",
+    "VideoRotationNotSupported": "Bideoaren biraketa ez da onartzen",
+    "HeaderTypeSimilarItemProviders": "Antzeko elementu hornitzaileak ({0})",
+    "LabelBackupWarning": "Programatutako zereginak martxan daude. Gomendagarria da gelditzea edo amaitu arte itxarotea babeskopia-eragiketa exekutatu aurretik.",
+    "LabelSimilarItemProvidersHelp": "Gaitu eta sailkatu zure antzeko elementuen hornitzaile hobetsiak lehentasunaren arabera.",
+    "HeaderBackupWarning": "OHARRA: Jarraian programatutako zereginak",
+    "CardSettings": "Txartelaren ezarpenak",
+    "ConfirmDeleteItemByName": "\"{0}\" ezabatzen baduzu, fitxategi-sistematik eta zure multimedia liburutegitik ezabatuko da. Ziur jarraitu nahi duzula?",
+    "ConfirmStillWatching": "Oraindik ikusten ari zara?",
+    "Disabled": "Desgaituta",
+    "LabelOriginalLanguage": "Jatorrizko hizkuntza",
+    "OriginalLanguage": "Jatorrizko hizkuntza",
+    "StillWatchingPrompt": "Oraindik ikusten oharra",
+    "StillWatchingOption": "{0} atal edo {1} minutu",
+    "StopWatching": "Utzi ikusten",
+    "TableOfContents": "Eduki-taula"
 }
