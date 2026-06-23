@@ -1906,5 +1906,13 @@
     "LabelReasons": "Motivos",
     "LabelPlayerSizes": "Dimensões do Reprodutor",
     "LabelPlaybackQuality": "Quadros perdidos / corrompidos",
-    "CardSettings": "Configurações de Cartão"
+    "CardSettings": "Configurações de Cartão",
+    "Creators": "Criadores",
+    "ConfirmStillWatching": "Você ainda está assistindo?",
+    "Disabled": "Desativado",
+    "LabelSimilarItemProvidersHelp": "Ative e ranqueie seus itens similares preferidos em ordem de prioridade.",
+    "LabelOriginalLanguage": "Língua originial",
+    "OriginalLanguage": "Língua original",
+    "StopWatching": "Parar de assistir",
+    "TableOfContents": "Tabela de Conteúdos"
 }
