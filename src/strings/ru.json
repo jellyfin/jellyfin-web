@@ -1894,5 +1894,21 @@
     "Watch": "Отслеживать",
     "TrickplayLoadError": "Не удалось загрузить настройки Trickplay",
     "LabelExternalServerUri": "Внешний URI",
-    "LabelExternalServerUriHelp": "Публикуемый URI сервера для внешнего доступа."
+    "LabelExternalServerUriHelp": "Публикуемый URI сервера для внешнего доступа.",
+    "OnFilesystem": "На файловой системе: {0}",
+    "LabelVideoAttributes": "Атрибуты видео",
+    "LabelVideoColors": "Цвета видео",
+    "LabelVideoBitDepth": "Глубина цвета видео",
+    "LabelAudioAttributes": "Атрибуты аудио",
+    "LabelTargetCodecs": "Целевые кодеки",
+    "LabelProgressAndSpeed": "Прогресс / скорость",
+    "LabelReasons": "Причины",
+    "LabelPlayerSizes": "Размеры плеера",
+    "LabelPlaybackQuality": "Кадров пропущено / повреждено",
+    "LabelSyncPlayJoinGroup": "Присоединиться к группе",
+    "VideoRotationNotSupported": "Поворот видео не поддерживается",
+    "HeaderTypeSimilarItemProviders": "Провайдер похожих элементов ({0})",
+    "LabelBackupWarning": "Есть активные запланированные задачи. Рекомендуем остановить их либо дождаться их выполнения перед созданием бэкапа.",
+    "LabelSimilarItemProvidersHelp": "Включайте и ранжируйте провайдеров похожих элементов порядке приоритета.",
+    "HeaderBackupWarning": "ВНИМАНИЕ: Есть активные запланированные задачи"
 }

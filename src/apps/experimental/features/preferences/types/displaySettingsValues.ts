@@ -17,7 +17,8 @@ export interface DisplaySettingsValues {
     libraryPageSize: number;
     maxDaysForNextUp: number;
     screensaver: string;
-    screensaverInterval: number;
+    screensaverTime: number;
+    backdropScreensaverInterval: number;
     slideshowInterval: number;
     theme: string;
 }

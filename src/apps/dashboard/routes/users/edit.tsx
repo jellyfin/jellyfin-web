@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useUser } from 'apps/dashboard/features/users/api/useUser';
+import { useUser } from 'hooks/api/useUser';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,7 +19,7 @@ import Alert from '@mui/material/Alert';
 export const Component = () => {
     const navigate = useNavigate();
     const { userId, tab } = useParams();
-    const { data: user, isPending, isError } = useUser(userId ? { userId: userId } : undefined);
+    const { data: user, isPending, isError } = useUser({ userId });
 
     const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: UserTab) => {
         navigate(`/dashboard/users/${userId}/${newValue}`);

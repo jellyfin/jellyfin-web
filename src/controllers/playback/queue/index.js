@@ -1,5 +1,6 @@
 import RemoteControl from '../../../components/remotecontrol/remotecontrol';
 import { playbackManager } from '../../../components/playback/playbackmanager';
+import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import libraryMenu from '../../../scripts/libraryMenu';
 import '../../../elements/emby-button/emby-button';
 import '../../../elements/emby-button/paper-icon-button-light';
@@ -38,6 +39,8 @@ export default function (view) {
         libraryMenu.setTransparentMenu(true);
         bindToPlayer(playbackManager.getCurrentPlayer());
         document.addEventListener('keydown', onKeyDown);
+
+        clearBackdrop();
 
         if (remoteControl) {
             remoteControl.onShow();

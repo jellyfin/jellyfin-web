@@ -1,3 +1,5 @@
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+
 import { LibraryTab } from 'types/libraryTab';
 
 import { LibraryRoute } from '../types/LibraryRoute';
@@ -5,6 +7,7 @@ import { LibraryRoute } from '../types/LibraryRoute';
 export const LibraryRoutes: LibraryRoute[] = [
     {
         path: '/livetv',
+        type: CollectionType.Livetv,
         views: [
             {
                 index: 0,
@@ -41,32 +44,71 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/books',
+        type: CollectionType.Books,
         views: [
             {
                 index: 0,
-                label: 'Books',
-                view: LibraryTab.Books,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
             },
             {
                 index: 1,
+                label: 'Books',
+                view: LibraryTab.Books
+            },
+            {
+                index: 2,
+                label: 'Authors',
+                view: LibraryTab.Authors
+            },
+            {
+                index: 3,
                 label: 'Suggestions',
                 view: LibraryTab.Suggestions
             },
             {
-                index: 2,
+                index: 4,
                 label: 'Genres',
                 view: LibraryTab.Genres
             },
             {
-                index: 3,
+                index: 5,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 6,
                 label: 'Favorites',
                 view: LibraryTab.Favorites
             }
         ]
     },
     {
+        path: '/boxsets',
+        type: CollectionType.Boxsets,
+        views: [
+            {
+                index: 0,
+                label: 'Collections',
+                view: LibraryTab.Collections,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            },
+            {
+                index: 2,
+                label: 'Genres',
+                view: LibraryTab.Genres
+            }
+        ]
+    },
+    {
         path: '/movies',
+        type: CollectionType.Movies,
         views: [
             {
                 index: 0,
@@ -93,11 +135,22 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 4,
                 label: 'Genres',
                 view: LibraryTab.Genres
+            },
+            {
+                index: 5,
+                label: 'Studios',
+                view: LibraryTab.Studios
+            },
+            {
+                index: 6,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     },
     {
         path: '/music',
+        type: CollectionType.Music,
         views: [
             {
                 index: 0,
@@ -134,11 +187,17 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 6,
                 label: 'Genres',
                 view: LibraryTab.Genres
+            },
+            {
+                index: 7,
+                label: 'Collections',
+                view: LibraryTab.Collections
             }
         ]
     },
     {
         path: '/tv',
+        type: CollectionType.Tvshows,
         views: [
             {
                 index: 0,
@@ -164,17 +223,28 @@ export const LibraryRoutes: LibraryRoute[] = [
             {
                 index: 4,
                 label: 'TabNetworks',
-                view: LibraryTab.Networks
+                view: LibraryTab.Studios
             },
             {
                 index: 5,
                 label: 'Episodes',
                 view: LibraryTab.Episodes
+            },
+            {
+                index: 6,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 7,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     },
     {
         path: '/homevideos',
+        type: CollectionType.Homevideos,
         views: [
             {
                 index: 0,
@@ -201,11 +271,12 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/musicvideos',
+        type: CollectionType.Musicvideos,
         views: [
             {
                 index: 0,
-                label: 'HeaderVideos',
-                view: LibraryTab.MusicVideos,
+                label: 'Folders',
+                view: LibraryTab.Folders,
                 isDefault: true
             },
             {
@@ -215,8 +286,62 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 2,
+                label: 'HeaderVideos',
+                view: LibraryTab.MusicVideos
+            },
+            {
+                index: 3,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
+            }
+        ]
+    },
+    {
+        path: '/playlists',
+        type: CollectionType.Playlists,
+        views: [
+            {
+                index: 0,
+                label: 'Playlists',
+                view: LibraryTab.Playlists,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            }
+        ]
+    },
+    {
+        path: '/mixed',
+        type: CollectionType.Unknown,
+        views: [
+            {
+                index: 0,
                 label: 'Folders',
-                view: LibraryTab.Folders
+                view: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                index: 1,
+                label: 'Suggestions',
+                view: LibraryTab.Suggestions
+            },
+            {
+                index: 2,
+                label: 'HeaderMedia',
+                view: LibraryTab.Mixed
+            },
+            {
+                index: 3,
+                label: 'Collections',
+                view: LibraryTab.Collections
+            },
+            {
+                index: 4,
+                label: 'Playlists',
+                view: LibraryTab.Playlists
             }
         ]
     }

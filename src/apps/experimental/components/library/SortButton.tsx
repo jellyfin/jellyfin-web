@@ -1,15 +1,15 @@
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { FC, useCallback } from 'react';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import ArrowDownward from '@mui/icons-material/ArrowDownward';
+import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
+import Button from '@mui/material/Button';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
+import Popover from '@mui/material/Popover';
 
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
@@ -24,6 +24,7 @@ type SortOptionsMapping = Record<string, SortOption[]>;
 
 const collectionMovieOptions: SortOption[] = [
     { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random },
     { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
     { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
     { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
@@ -49,6 +50,18 @@ const photosOrPhotoAlbumsOptions = [
     { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
 ];
 
+const videoOrMusicVideoOptions = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random },
+    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
+    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+    { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
+    { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
+    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+    { label: 'Runtime', value: ItemSortBy.Runtime }
+];
+
 const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Movies]: movieOrFavoriteOptions,
     [LibraryTab.Collections]: collectionMovieOptions,
@@ -65,14 +78,14 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.Episodes]: [
         { label: 'Name', value: ItemSortBy.SeriesSortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ],
     [LibraryTab.Albums]: [
         { label: 'Name', value: ItemSortBy.SortName },
@@ -85,13 +98,14 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.Books]: [
         { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed }
     ],
     [LibraryTab.Songs]: [
         { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
         { label: 'Album', value: ItemSortBy.Album },
         { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
         { label: 'Artist', value: ItemSortBy.Artist },
@@ -99,8 +113,7 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
         { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ],
     [LibraryTab.Playlists]: [
         { label: 'Name', value: ItemSortBy.SortName },
@@ -112,32 +125,38 @@ const sortOptionsMapping: SortOptionsMapping = {
     ],
     [LibraryTab.PhotoAlbums]: photosOrPhotoAlbumsOptions,
     [LibraryTab.Photos]: photosOrPhotoAlbumsOptions,
-    [LibraryTab.Videos]: [
+    [LibraryTab.Videos]:videoOrMusicVideoOptions,
+    [LibraryTab.MusicVideos]:videoOrMusicVideoOptions,
+    [LibraryTab.Folders]: [
         { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'Folders', value: ItemSortBy.IsFolder },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ],
-    [LibraryTab.MusicVideos]: [
+    [LibraryTab.Mixed]: [
         { label: 'Name', value: ItemSortBy.SortName },
+        { label: 'OptionRandom', value: ItemSortBy.Random },
+        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
+        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
         { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
+        { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
         { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
+        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
         { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'Runtime', value: ItemSortBy.Runtime },
-        { label: 'OptionRandom', value: ItemSortBy.Random }
+        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
+        { label: 'Runtime', value: ItemSortBy.Runtime }
     ]
 };
 
 const getSortMenuOptions = (viewType: LibraryTab): SortOption[] => {
     return sortOptionsMapping[viewType] || [];
 };
-
-const sortOrderMenuOptions = [
-    { label: 'Ascending', value: SortOrder.Ascending },
-    { label: 'Descending', value: SortOrder.Descending }
-];
 
 interface SortButtonProps {
     viewType: LibraryTab;
@@ -155,6 +174,7 @@ const SortButton: FC<SortButtonProps> = ({
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const id = open ? 'sort-popover' : undefined;
+    const sortMenuOptions = getSortMenuOptions(viewType);
 
     const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -164,20 +184,25 @@ const SortButton: FC<SortButtonProps> = ({
         setAnchorEl(null);
     }, []);
 
-    const onSelectChange = useCallback(
-        (event: SelectChangeEvent) => {
-            const name = event.target.name;
+    const onMenuItemClick = useCallback(
+        (sortBy: ItemSortBy) => {
+            setLibraryViewSettings((prevState) => {
+                let sortOrder: SortOrder = SortOrder.Ascending;
+                // If the user clicks the currently selected sort option, toggle the sort order
+                if (prevState.SortBy === sortBy) {
+                    sortOrder = prevState.SortOrder === SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+                }
 
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                StartIndex: 0,
-                [name]: event.target.value
-            }));
+                return {
+                    ...prevState,
+                    StartIndex: 0,
+                    SortBy: sortBy,
+                    SortOrder: sortOrder
+                };
+            });
         },
         [setLibraryViewSettings]
     );
-
-    const sortMenuOptions = getSortMenuOptions(viewType);
 
     return (
         <>
@@ -205,58 +230,29 @@ const SortButton: FC<SortButtonProps> = ({
                     '& .MuiFormControl-root': { m: 1, width: 200 }
                 }}
             >
-                <FormControl fullWidth>
-                    <InputLabel id='select-sort-label'>
-                        <Typography component='span'>
-                            {globalize.translate('LabelSortBy')}
-                        </Typography>
-                    </InputLabel>
-                    <Select
-                        labelId='select-sort-label'
-                        id='selectSortBy'
-                        value={libraryViewSettings.SortBy}
-                        label={globalize.translate('LabelSortBy')}
-                        name='SortBy'
-                        onChange={onSelectChange}
-                    >
-                        {sortMenuOptions
-                            .map((option) => (
-                                <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                >
-                                    <Typography component='span'>
-                                        {globalize.translate(option.label)}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                    </Select>
-                </FormControl>
-
-                <Divider />
-                <FormControl fullWidth>
-                    <InputLabel id='select-sortorder-label'>
-                        <Typography component='span'>
-                            {globalize.translate('LabelSortOrder')}
-                        </Typography>
-                    </InputLabel>
-                    <Select
-                        labelId='select-sortorder-label'
-                        id='selectSortOrder'
-                        value={libraryViewSettings.SortOrder}
-                        label={globalize.translate('LabelSortOrder')}
-                        name='SortOrder'
-                        onChange={onSelectChange}
-                    >
-                        {sortOrderMenuOptions.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                <Typography component='span'>
-                                    {option.label}
-                                </Typography>
+                <MenuList>
+                    {sortMenuOptions
+                        .map((option) => (
+                            <MenuItem
+                                key={option.value}
+                                // eslint-disable-next-line react/jsx-no-bind
+                                onClick={() => onMenuItemClick(option.value)}
+                            >
+                                <ListItemText>
+                                    {globalize.translate(option.label)}
+                                </ListItemText>
+                                <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
+                                    {libraryViewSettings.SortBy === option.value && (
+                                        libraryViewSettings.SortOrder === SortOrder.Ascending ? (
+                                            <ArrowUpward fontSize='small' />
+                                        ) : (
+                                            <ArrowDownward fontSize='small' />
+                                        ))
+                                    }
+                                </ListItemIcon>
                             </MenuItem>
                         ))}
-                    </Select>
-                </FormControl>
+                </MenuList>
             </Popover>
         </>
     );

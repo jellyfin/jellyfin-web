@@ -1,4 +1,4 @@
-import type { ActivityLogApiGetLogEntriesRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { ActivityLogApiGetLogEntriesRequest } from '@jellyfin/sdk/lib/generated-client/api/activity-log-api';
 import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
 import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
@@ -27,6 +27,7 @@ export const useLogEntries = (
         queryFn: ({ signal }) =>
             fetchLogEntries(api!, requestParams, { signal }),
         enabled: !!api,
-        refetchOnMount: false
+        refetchOnMount: false,
+        staleTime: 0 // ensure we load the latest log entries
     });
 };

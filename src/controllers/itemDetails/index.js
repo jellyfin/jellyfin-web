@@ -1,6 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -25,6 +26,7 @@ import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -39,6 +41,7 @@ import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
 import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -825,7 +828,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
-        renderItemsByName(page, item);
+        renderItemsByName(page, item, user);
     } else if (item.IsFolder) {
         if (item.Type == 'BoxSet') {
             page.querySelector('#listChildrenCollapsible').classList.add('hide');
@@ -859,6 +862,9 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     (item.People || []).forEach(p => {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
+        } else if (p.Type === PersonKind.Artist || p.Type === PersonKind.AlbumArtist) {
+            // TODO remove this exclusion when artists are migrated to the persons endpoint
+            return;
         } else {
             cast.push(p);
         }
@@ -980,10 +986,11 @@ function renderDetails(page, instance, item, apiClient, context) {
     const itemDetailsGroup = page.querySelector('.itemDetailsGroup');
 
     if (itemDetailsGroup) {
-        itemDetailsGroup.replaceChildren();
+        itemDetailsGroup.innerHTML = '';
 
         const metadataTypes = [
             PersonKind.Author,
+            PersonKind.Creator,
             PersonKind.Director,
             PersonKind.Writer,
             BaseItemKind.Studio,
@@ -1450,9 +1457,9 @@ function renderChildren(page, item) {
     }
 }
 
-function renderItemsByName(page, item) {
+function renderItemsByName(page, item, user) {
     import('../../scripts/itemsByName').then(({ default: ItemsByName }) => {
-        ItemsByName.renderItems(page, item);
+        ItemsByName.renderItems(page, item, user);
     });
 }
 
@@ -1857,16 +1864,21 @@ export default function (view, params) {
     }
 
     function splitVersions(instance, page, apiClient, pageParams) {
-        confirm('Are you sure you wish to split the media sources into separate items?', 'Split Media Apart').then(function () {
-            loading.show();
-            apiClient.ajax({
-                type: 'DELETE',
-                url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-            }).then(function () {
-                loading.hide();
+        confirm(globalize.translate('ConfirmSplitMedia'), globalize.translate('HeaderSplitMedia'))
+            .then(() => {
+                loading.show();
+                return apiClient.ajax({
+                    type: 'DELETE',
+                    url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
+                });
+            })
+            .then(() => {
                 reload(instance, page, pageParams);
+                Events.trigger(document, EventType.REFRESH_NEEDED);
+            })
+            .finally(() => {
+                loading.hide();
             });
-        });
     }
 
     function getPlayOptions(startPosition) {
@@ -1992,21 +2004,18 @@ export default function (view, params) {
         setTrailerButtonVisibility(view, currentItem);
     }
 
-    function onWebSocketMessage(e, data) {
-        const msg = data;
+    function onUserDataChanged({ Data }) {
         const apiClient = getApiClient();
 
-        if (msg.MessageType === 'UserDataChanged' && currentItem && msg.Data.UserId == apiClient.getCurrentUserId()) {
-            const key = currentItem.UserData.Key;
-            const userData = msg.Data.UserDataList.filter(function (u) {
-                return u.Key == key;
-            })[0];
+        if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
 
-            if (userData) {
-                currentItem.UserData = userData;
-                reloadPlayButtons(view, currentItem);
-                autoFocus(view);
-            }
+        const key = currentItem.UserData.Key;
+        const userData = (Data?.UserDataList ?? []).find(u => u.Key == key);
+
+        if (userData) {
+            currentItem.UserData = userData;
+            reloadPlayButtons(view, currentItem);
+            autoFocus(view);
         }
     }
 
@@ -2036,6 +2045,7 @@ export default function (view, params) {
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
             updateMiscInfo();
+            refreshSelectedVersion();
         });
         view.addEventListener('viewshow', function (e) {
             const page = this;
@@ -2052,14 +2062,18 @@ export default function (view, params) {
                 reload(self, page, params);
             }
 
-            Events.on(apiClient, 'message', onWebSocketMessage);
+            self._unsubscribeUserData = apiClient.subscribe(
+                [OutboundWebSocketMessageType.UserDataChanged],
+                onUserDataChanged
+            );
             Events.on(playbackManager, 'playerchange', onPlayerChange);
 
             itemShortcuts.on(view.querySelector('.nameContainer'));
         });
         view.addEventListener('viewbeforehide', function () {
             itemShortcuts.off(view.querySelector('.nameContainer'));
-            Events.off(apiClient, 'message', onWebSocketMessage);
+            self._unsubscribeUserData?.();
+            self._unsubscribeUserData = null;
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             libraryMenu.setTransparentMenu(false);
         });
@@ -2078,6 +2092,42 @@ export default function (view, params) {
             // patch currentItem (primary item) with details from the selected MediaSource:
             ...currentItem,
             ...selectedMediaSource
+        });
+    }
+
+    // When the user picks an alternate version, fetch that Video item's own DTO
+    // and refresh the play/user-data buttons so resume position, watched state, and
+    // stack-part count reflect the selected version rather than the primary's.
+    function refreshSelectedVersion() {
+        const selectedId = view.querySelector('.selectSource').value;
+        if (!selectedId || !currentItem || selectedId === currentItem.Id) {
+            reloadPlayButtons(view, currentItem);
+            reloadUserDataButtons(view, currentItem);
+            return;
+        }
+
+        const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
+        const api = toApi(apiClient);
+        getUserLibraryApi(api).getItem({
+            userId: apiClient.getCurrentUserId(),
+            itemId: selectedId
+        }).then(function ({ data: altItem }) {
+            if (view.querySelector('.selectSource').value !== selectedId) {
+                return;
+            }
+            // Keep primary's shared metadata (overview, cast, etc.) and override the
+            // fields that are intrinsic to the playback target (UserData, runtime, parts).
+            const merged = {
+                ...currentItem,
+                UserData: altItem.UserData,
+                RunTimeTicks: altItem.RunTimeTicks,
+                PartCount: altItem.PartCount,
+                MediaStreams: altItem.MediaStreams
+            };
+            reloadPlayButtons(view, merged);
+            reloadUserDataButtons(view, merged);
+        }).catch(function (err) {
+            console.error('failed to load alternate version item', err);
         });
     }
 

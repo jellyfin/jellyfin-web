@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
 import { pluginManager } from 'components/pluginManager';
-import { Plugin, PluginType } from 'types/plugin';
+import { PluginType } from 'constants/pluginType';
+import type { Plugin } from 'types/plugin';
 import globalize from 'lib/globalize';
 
 export function useScreensavers() {

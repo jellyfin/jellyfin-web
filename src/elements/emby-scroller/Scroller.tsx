@@ -158,7 +158,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             return;
         }
 
-        const enableScrollButtons = layoutManager.desktop && isHorizontalEnabled && isScrollButtonsEnabled;
+        const enableScrollButtons = layoutManager.desktop && !browser.touch && isHorizontalEnabled && isScrollButtonsEnabled;
 
         const options = {
             horizontal: isHorizontalEnabled,
