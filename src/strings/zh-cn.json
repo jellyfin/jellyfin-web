@@ -1918,5 +1918,10 @@
     "OriginalLanguage": "原始语言",
     "StillWatchingOption": "{0} 集或 {1} 分钟",
     "StopWatching": "停止观看",
-    "TableOfContents": "目录"
+    "TableOfContents": "目录",
+    "CardSettings": "卡片设置",
+    "StillWatchingPrompt": "仍在观看提示",
+    "ConfirmSplitMedia": "确定要将这些媒体源拆分为单独的项目吗？",
+    "Creators": "主创人员",
+    "HeaderSplitMedia": "拆分媒体"
 }

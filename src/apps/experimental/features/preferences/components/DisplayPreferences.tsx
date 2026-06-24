@@ -145,10 +145,10 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
 
                     <FormControl fullWidth>
                         <TextField
-                            aria-describedby='display-settings-screensaver-interval-description'
-                            value={values.screensaverInterval}
-                            label={globalize.translate('LabelBackdropScreensaverInterval')}
-                            name='screensaverInterval'
+                            aria-describedby='display-settings-screensaver-time-description'
+                            value={values.screensaverTime}
+                            label={globalize.translate('LabelScreensaverTime')}
+                            name='screensaverTime'
                             onChange={onChange}
                             slotProps={{
                                 htmlInput: {
@@ -162,7 +162,31 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                                 }
                             }}
                         />
-                        <FormHelperText id='display-settings-screensaver-interval-description'>
+                        <FormHelperText id='display-settings-screensaver-time-description'>
+                            {globalize.translate('LabelScreensaverTimeHelp')}
+                        </FormHelperText>
+                    </FormControl>
+
+                    <FormControl fullWidth>
+                        <TextField
+                            aria-describedby='display-settings-backdrop-screensaver-interval-description'
+                            value={values.backdropScreensaverInterval}
+                            label={globalize.translate('LabelBackdropScreensaverInterval')}
+                            name='backdropScreensaverInterval'
+                            onChange={onChange}
+                            slotProps={{
+                                htmlInput: {
+                                    inputMode: 'numeric',
+                                    max: '3600',
+                                    min: '1',
+                                    pattern: '[0-9]',
+                                    required: true,
+                                    step: '1',
+                                    type: 'number'
+                                }
+                            }}
+                        />
+                        <FormHelperText id='display-settings-backdrop-screensaver-interval-description'>
                             {globalize.translate('LabelBackdropScreensaverIntervalHelp')}
                         </FormHelperText>
                     </FormControl>

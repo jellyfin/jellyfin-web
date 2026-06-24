@@ -1,3 +1,5 @@
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+
 import { LibraryTab } from 'types/libraryTab';
 
 import { LibraryRoute } from '../types/LibraryRoute';
@@ -5,6 +7,7 @@ import { LibraryRoute } from '../types/LibraryRoute';
 export const LibraryRoutes: LibraryRoute[] = [
     {
         path: '/livetv',
+        type: CollectionType.Livetv,
         views: [
             {
                 index: 0,
@@ -41,6 +44,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/books',
+        type: CollectionType.Books,
         views: [
             {
                 index: 0,
@@ -82,6 +86,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/boxsets',
+        type: CollectionType.Boxsets,
         views: [
             {
                 index: 0,
@@ -103,6 +108,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/movies',
+        type: CollectionType.Movies,
         views: [
             {
                 index: 0,
@@ -144,6 +150,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/music',
+        type: CollectionType.Music,
         views: [
             {
                 index: 0,
@@ -190,6 +197,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/tv',
+        type: CollectionType.Tvshows,
         views: [
             {
                 index: 0,
@@ -236,6 +244,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/homevideos',
+        type: CollectionType.Homevideos,
         views: [
             {
                 index: 0,
@@ -262,6 +271,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/musicvideos',
+        type: CollectionType.Musicvideos,
         views: [
             {
                 index: 0,
@@ -288,6 +298,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/playlists',
+        type: CollectionType.Playlists,
         views: [
             {
                 index: 0,
@@ -304,6 +315,7 @@ export const LibraryRoutes: LibraryRoute[] = [
     },
     {
         path: '/mixed',
+        type: CollectionType.Unknown,
         views: [
             {
                 index: 0,
