@@ -49,8 +49,8 @@ const Profile = ({ userDto }: ProfileProps) => {
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
 
     const handleToastClose = useCallback(() => {
-            setIsErrorToastOpen(false);
-        }, []);
+        setIsErrorToastOpen(false);
+    }, []);
 
     const updateUser = useUpdateUser();
     const updateUserPolicy = useUpdateUserPolicy();

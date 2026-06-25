@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useUser } from 'hooks/api/useUser';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';

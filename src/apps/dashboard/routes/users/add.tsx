@@ -1,5 +1,4 @@
 import type { BaseItemDto, CreateUserByName } from '@jellyfin/sdk/lib/generated-client';
-import type { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 
 import globalize from '../../../../lib/globalize';
@@ -23,23 +22,19 @@ type ItemsArr = {
     Id?: string;
 };
 
-
 const UserNew = () => {
     const navigate = useNavigate();
     const [ channelsItems, setChannelsItems ] = useState<ItemsArr[]>([]);
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
     const element = useRef<HTMLDivElement>(null);
-    
     const handleToastClose = useCallback(() => {
         setIsErrorToastOpen(false);
     }, []);
     const { data: mediaFolders, isSuccess: isMediaFoldersSuccess } = useLibraryMediaFolders();
     const { data: channels, isSuccess: isChannelsSuccess } = useChannels();
-    
     const createUser = useCreateUser();
     const updateUserPolicy = useUpdateUserPolicy();
-    
     const getItemsResult = (items: BaseItemDto[]) => {
         return items.map(item =>
             ({
@@ -48,7 +43,7 @@ const UserNew = () => {
             })
         );
     };
-    
+
     const loadMediaFolders = useCallback((result: BaseItemDto[]) => {
         const page = element.current;
 
@@ -170,7 +165,7 @@ const UserNew = () => {
                         }
                     });
                 },
-                onError: (error) => {
+                onError: () => {
                     loading.hide();
                     setIsErrorToastOpen(true);
                 }
