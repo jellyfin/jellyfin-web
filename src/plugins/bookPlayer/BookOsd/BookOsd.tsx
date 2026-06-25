@@ -90,7 +90,7 @@ const BookOsd: FC<BookOsdProps> = ({
                     <IconButton
                         onClick={onClickWakeLock}
                         icon={wakeLockActive ? 'bedtime_off' : 'bedtime'}
-                        title={globalize.translate(wakeLockActive ? 'ButtonKeepScreenOff' : 'ButtonKeepScreenOn')}
+                        title={globalize.translate(wakeLockActive ? 'ButtonKeepScreenOn' : 'ButtonKeepScreenOff')}
                     />
                 )}
 
