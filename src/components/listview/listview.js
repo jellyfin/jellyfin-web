@@ -418,7 +418,6 @@ export function getListViewHtml(options) {
             html += `<div class="${mediaInfoClass}">`;
             html += mediaInfo.getPrimaryMediaInfoHtml(item, {
                 episodeTitle: false,
-                originalAirDate: false,
                 subtitles: false
 
             });
