@@ -116,6 +116,8 @@
     "ButtonForgotPassword": "Forgot Password",
     "ButtonFullscreen": "Fullscreen",
     "ButtonGotIt": "Got It",
+    "ButtonKeepScreenOff": "Allow screen timeout",
+    "ButtonKeepScreenOn": "Keep screen on",
     "ButtonInfo": "Info",
     "ButtonLearnMore": "Learn More",
     "ButtonLibraryAccess": "Library access",

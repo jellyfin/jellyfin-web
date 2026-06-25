@@ -1,4 +1,5 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import NoSleep from 'nosleep.js';
 import Screenfull from 'screenfull';
 
 import { PluginType } from 'constants/pluginType';
@@ -55,6 +56,10 @@ export class BookPlayer {
         this.addSwipeGestures = this.addSwipeGestures.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
         this.fullscreen = false;
+        this._noSleep = new NoSleep();
+        this.wakeLockEnabled = false;
+        this.toggleWakeLock = this.toggleWakeLock.bind(this);
+        this.onVisibilityChange = this.onVisibilityChange.bind(this);
     }
 
     play(options) {
@@ -68,6 +73,11 @@ export class BookPlayer {
     }
 
     stop() {
+        if (this.wakeLockEnabled) {
+            this._noSleep.disable();
+            this.wakeLockEnabled = false;
+        }
+
         this.unbindEvents();
         this.unmountBookOsd();
 
@@ -190,6 +200,7 @@ export class BookPlayer {
         this.mediaElement?.addEventListener('close', this.onDialogClosed, { once: true });
 
         document.addEventListener('keydown', this.onWindowKeyDown);
+        document.addEventListener('visibilitychange', this.onVisibilityChange);
         this.rendition?.on('keydown', this.onWindowKeyDown);
 
         if (browser.safari) {
@@ -202,6 +213,7 @@ export class BookPlayer {
 
     unbindEvents() {
         document.removeEventListener('keydown', this.onWindowKeyDown);
+        document.removeEventListener('visibilitychange', this.onVisibilityChange);
         this.rendition?.off('keydown', this.onWindowKeyDown);
         this.mediaElement?.removeEventListener('close', this.onDialogClosed);
 
@@ -233,6 +245,30 @@ export class BookPlayer {
 
         // required for mobile apps without browser fullscreen support
         this.fullscreen = !this.fullscreen;
+    }
+
+    async toggleWakeLock() {
+        if (this.wakeLockEnabled) {
+            this._noSleep.disable();
+            this.wakeLockEnabled = false;
+        } else {
+            try {
+                await this._noSleep.enable();
+                this.wakeLockEnabled = true;
+            } catch (err) {
+                console.error('Could not enable wake lock:', err);
+            }
+        }
+    }
+
+    async onVisibilityChange() {
+        if (this.wakeLockEnabled && document.visibilityState === 'visible') {
+            try {
+                await this._noSleep.enable();
+            } catch (err) {
+                console.error('Could not re-enable wake lock:', err);
+            }
+        }
     }
 
     rotateTheme() {
@@ -307,7 +343,8 @@ export class BookPlayer {
             onRotateTheme: this.rotateTheme,
             onDecreaseFontSize: this.decreaseFontSize,
             onIncreaseFontSize: this.increaseFontSize,
-            onToggleFullscreen: Screenfull.isEnabled || window.NativeShell ? this.toggleFullscreen : null
+            onToggleFullscreen: Screenfull.isEnabled || window.NativeShell ? this.toggleFullscreen : null,
+            onToggleWakeLock: this.toggleWakeLock
         }, elem.querySelector('#bookOsdMount'));
 
         return elem;

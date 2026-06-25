@@ -14,6 +14,7 @@ interface BookOsdProps {
     onDecreaseFontSize?: () => void;
     onIncreaseFontSize?: () => void;
     onToggleFullscreen?: () => void;
+    onToggleWakeLock?: () => void;
 }
 
 const BookOsd: FC<BookOsdProps> = ({
@@ -25,14 +26,21 @@ const BookOsd: FC<BookOsdProps> = ({
     onRotateTheme,
     onDecreaseFontSize,
     onIncreaseFontSize,
-    onToggleFullscreen
+    onToggleFullscreen,
+    onToggleWakeLock
 }) => {
     const [fullscreen, setFullscreen] = useState(false);
+    const [wakeLockActive, setWakeLockActive] = useState(false);
 
     const onClickFullscreen = useCallback(() => {
         onToggleFullscreen?.();
         setFullscreen(state => !state);
     }, [onToggleFullscreen]);
+
+    const onClickWakeLock = useCallback(() => {
+        onToggleWakeLock?.();
+        setWakeLockActive(state => !state);
+    }, [onToggleWakeLock]);
 
     return (
         <div className='bookOsd'>
@@ -75,6 +83,14 @@ const BookOsd: FC<BookOsdProps> = ({
                         onClick={onIncreaseFontSize}
                         icon='text_increase'
                         title={globalize.translate('Larger')}
+                    />
+                )}
+
+                {onToggleWakeLock && (
+                    <IconButton
+                        onClick={onClickWakeLock}
+                        icon={wakeLockActive ? 'bedtime_off' : 'bedtime'}
+                        title={globalize.translate(wakeLockActive ? 'ButtonKeepScreenOff' : 'ButtonKeepScreenOn')}
                     />
                 )}
 
