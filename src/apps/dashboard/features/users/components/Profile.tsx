@@ -17,6 +17,7 @@ import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
+import Toast from 'apps/dashboard/components/Toast';
 
 interface ProfileProps {
     userDto: UserDto;
@@ -44,6 +45,12 @@ const Profile = ({ userDto }: ProfileProps) => {
     const { data: mediaFolders, isSuccess: isMediaFoldersSuccess } = useLibraryMediaFolders({ isHidden: false });
     const { data: channels, isSuccess: isChannelsSuccess } = useChannels({ supportsMediaDeletion: true });
     const { data: netConfig, isSuccess: isNetConfigSuccess } = useNetworkConfig();
+
+    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+
+    const handleToastClose = useCallback(() => {
+            setIsErrorToastOpen(false);
+        }, []);
 
     const updateUser = useUpdateUser();
     const updateUserPolicy = useUpdateUserPolicy();
@@ -255,6 +262,10 @@ const Profile = ({ userDto }: ProfileProps) => {
                             }
                         });
                     }
+                },
+                onError: (error) => {
+                    loading.hide();
+                    setIsErrorToastOpen(true);
                 }
             });
         };
@@ -306,6 +317,11 @@ const Profile = ({ userDto }: ProfileProps) => {
 
     return (
         <div ref={element}>
+            <Toast
+                open={isErrorToastOpen}
+                onClose={handleToastClose}
+                message={globalize.translate('ErrorDefault')}
+            />
             <div
                 className='lnkEditUserPreferencesContainer'
                 style={{ paddingBottom: '1em' }}
@@ -332,6 +348,9 @@ const Profile = ({ userDto }: ProfileProps) => {
                         label={globalize.translate('LabelName')}
                         required
                     />
+                    <div className='fieldDescription'>
+                        {globalize.translate('LabelUsernameAllowedCharactersHelp')}
+                    </div>
                 </div>
                 <div className='selectContainer fldSelectLoginProvider hide'>
                     <SelectElement
