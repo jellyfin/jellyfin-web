@@ -64,7 +64,7 @@ function onAddUserSubmit(e) {
 }
 
 function navigateToNextPage() {
-    Dashboard.navigate('wizard/ffmpeg');
+    Dashboard.navigate('wizard/remoteaccess');
 }
 
 export default function (view) {

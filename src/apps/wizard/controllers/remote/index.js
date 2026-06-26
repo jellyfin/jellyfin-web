@@ -8,19 +8,41 @@ import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
+import 'elements/emby-collapse/emby-collapse';
+
+function saveFFmpegPath(page, apiClient) {
+    // The path is optional; when blank the server keeps its bundled build.
+    const path = page.querySelector('#txtFFmpegPath').value.trim();
+    if (!path) {
+        return Promise.resolve();
+    }
+
+    return apiClient.getNamedConfiguration('encoding').then(function (config) {
+        config.EncoderAppPath = path;
+        return apiClient.updateNamedConfiguration('encoding', config);
+    }).catch(function (err) {
+        // The server validates the supplied path and rejects invalid ones.
+        console.error('[Wizard > Remote] failed to save FFmpeg path', err);
+        toast(globalize.translate('FFmpegSavePathNotFound'));
+        err.handled = true;
+        throw err;
+    });
+}
 
 function save(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
     const enableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
 
-    apiClient.ajax({
-        type: 'POST',
-        data: JSON.stringify({
-            EnableRemoteAccess: enableRemoteAccess
-        }),
-        url: apiClient.getUrl('Startup/RemoteAccess'),
-        contentType: 'application/json'
+    saveFFmpegPath(page, apiClient).then(function () {
+        return apiClient.ajax({
+            type: 'POST',
+            data: JSON.stringify({
+                EnableRemoteAccess: enableRemoteAccess
+            }),
+            url: apiClient.getUrl('Startup/RemoteAccess'),
+            contentType: 'application/json'
+        });
     }).then(function () {
         return apiClient.getNamedConfiguration('network').then(function (networkConfig) {
             networkConfig.EnableUPnP = page.querySelector('#chkEnableUPnP').checked;
@@ -48,8 +70,11 @@ function save(page) {
         loading.hide();
         window.location.href = '';
     }).catch(function (err) {
-        console.error('[Wizard > Remote] failed to save remote access settings', err);
-        toast(globalize.translate('ErrorDefault'));
+        // The FFmpeg failure already surfaced a specific message to the user.
+        if (!err || !err.handled) {
+            console.error('[Wizard > Remote] failed to save remote access settings', err);
+            toast(globalize.translate('ErrorDefault'));
+        }
         loading.hide();
     });
 }
@@ -57,17 +82,21 @@ function save(page) {
 function reload(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    apiClient.getNamedConfiguration('network').then(function (config) {
+    Promise.all([
+        apiClient.getNamedConfiguration('network'),
+        apiClient.getNamedConfiguration('encoding')
+    ]).then(function ([config, encodingConfig]) {
         page.querySelector('#chkEnableUPnP').checked = config.EnableUPnP;
         page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
         page.querySelector('#txtPortNumber').value = config.InternalHttpPort || '';
         page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort || '';
         page.querySelector('#txtCertificatePath').value = config.CertificatePath || '';
+        page.querySelector('#txtFFmpegPath').value = encodingConfig.EncoderAppPath || '';
         updateHttpsVisibility(page);
         updateUPnPState(page);
         loading.hide();
     }).catch(function (err) {
-        console.error('[Wizard > Remote] failed to load network configuration', err);
+        console.error('[Wizard > Remote] failed to load configuration', err);
         toast(globalize.translate('ErrorDefault'));
         loading.hide();
     });

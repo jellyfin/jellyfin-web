@@ -51,8 +51,7 @@ function populateCountries(select, allCountries) {
 const DEFAULT_METADATA_LANGUAGE = 'en';
 
 function getDefaultMetadataLanguage(config, cultures) {
-    // Inherit the display language while the server still holds its fresh-install
-    // "en" seed; keep any deliberate choice when navigating back to this step.
+    // Inherit the display language while the server still holds its fresh-install "en" seed.
     const stored = config.PreferredMetadataLanguage || '';
     if (stored && stored !== DEFAULT_METADATA_LANGUAGE) {
         return stored;
