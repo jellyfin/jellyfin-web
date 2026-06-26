@@ -469,6 +469,7 @@ class FilterDialog {
         query.HasTrailer = null;
         query.Tags = null;
         query.Years = '';
+        query.NameStartsWith = null;
     }
 
     show() {
