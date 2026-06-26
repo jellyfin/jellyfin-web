@@ -21,11 +21,9 @@ function saveFFmpegPath(page, apiClient) {
         config.EncoderAppPath = path;
         return apiClient.updateNamedConfiguration('encoding', config);
     }).catch(function (err) {
-        // The server validates the supplied path and rejects invalid ones.
+        // An invalid path is non-fatal; warn the user and keep finishing setup.
         console.error('[Wizard > Remote] failed to save FFmpeg path', err);
         toast(globalize.translate('FFmpegSavePathNotFound'));
-        err.handled = true;
-        throw err;
     });
 }
 
@@ -70,11 +68,8 @@ function save(page) {
         loading.hide();
         window.location.href = '';
     }).catch(function (err) {
-        // The FFmpeg failure already surfaced a specific message to the user.
-        if (!err || !err.handled) {
-            console.error('[Wizard > Remote] failed to save remote access settings', err);
-            toast(globalize.translate('ErrorDefault'));
-        }
+        console.error('[Wizard > Remote] failed to save remote access settings', err);
+        toast(globalize.translate('ErrorDefault'));
         loading.hide();
     });
 }

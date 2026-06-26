@@ -22,7 +22,8 @@ function onUpdateUserComplete(result) {
 }
 
 async function onUpdateUserError(result) {
-    const message = await result.text();
+    // Authentication can reject with a non-Response error, so guard the body read.
+    const message = result && typeof result.text === 'function' ? await result.text() : result;
     console.warn('[Wizard > User] user update failed:', message);
     toast(globalize.translate('ErrorDefault'));
     loading.hide();
@@ -43,9 +44,7 @@ function submit(form) {
             url: apiClient.getUrl('Startup/User'),
             contentType: 'application/json'
         })
-        // Authenticate as the new admin so later wizard steps (e.g. adding
-        // additional users) have the elevated rights those endpoints require.
-        // The server permits authentication before Startup/Complete.
+        // Authenticate as the new admin so later steps have the rights they need.
         .then(function () {
             return apiClient.authenticateUserByName(name, password);
         })
@@ -72,22 +71,23 @@ function onSubmit(e) {
 
 function onViewShow() {
     loading.show();
+    document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
     const page = this;
     const apiClient = ServerConnections.currentApiClient();
     apiClient.getJSON(apiClient.getUrl('Startup/User')).then(function (user) {
+        const password = user.Password || '';
         page.querySelector('#txtUsername').value = user.Name || '';
-        page.querySelector('#txtManualPassword').value = user.Password || '';
+        page.querySelector('#txtManualPassword').value = password;
+        // Keep the confirm field in sync so revisiting and pressing Next still works.
+        page.querySelector('#txtPasswordConfirm').value = password;
         loading.hide();
     });
 }
 
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
-    view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-    });
+    view.addEventListener('viewshow', onViewShow);
     view.addEventListener('viewhide', function () {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     });
-    view.addEventListener('viewshow', onViewShow);
 }
