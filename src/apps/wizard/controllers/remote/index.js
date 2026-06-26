@@ -1,5 +1,6 @@
 import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
+import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
@@ -46,6 +47,10 @@ function save(page) {
     }).then(function () {
         loading.hide();
         window.location.href = '';
+    }).catch(function (err) {
+        console.error('[Wizard > Remote] failed to save remote access settings', err);
+        toast(globalize.translate('ErrorDefault'));
+        loading.hide();
     });
 }
 
@@ -59,6 +64,11 @@ function reload(page) {
         page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort || '';
         page.querySelector('#txtCertificatePath').value = config.CertificatePath || '';
         updateHttpsVisibility(page);
+        updateUPnPState(page);
+        loading.hide();
+    }).catch(function (err) {
+        console.error('[Wizard > Remote] failed to load network configuration', err);
+        toast(globalize.translate('ErrorDefault'));
         loading.hide();
     });
 }
@@ -66,6 +76,16 @@ function reload(page) {
 function updateHttpsVisibility(page) {
     const enabled = page.querySelector('#chkEnableHttps').checked;
     page.querySelector('.httpsFields').classList.toggle('hide', !enabled);
+}
+
+function updateUPnPState(page) {
+    // UPnP is only relevant when remote access is allowed.
+    const enableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
+    const enableUPnP = page.querySelector('#chkEnableUPnP');
+    enableUPnP.disabled = !enableRemoteAccess;
+    if (!enableRemoteAccess) {
+        enableUPnP.checked = false;
+    }
 }
 
 function onSubmit(e) {
@@ -87,19 +107,12 @@ function onUPnPChange() {
     }
 }
 
-function onRemoteAccessChange() {
-    // UPnP is only relevant when remote access is allowed.
-    const enableUPnP = document.querySelector('#chkEnableUPnP');
-    enableUPnP.disabled = !this.checked;
-    if (!this.checked) {
-        enableUPnP.checked = false;
-    }
-}
-
 export default function (view) {
     view.querySelector('.wizardSettingsForm').addEventListener('submit', onSubmit);
     view.querySelector('#chkEnableUPnP').addEventListener('change', onUPnPChange);
-    view.querySelector('#chkRemoteAccess').addEventListener('change', onRemoteAccessChange);
+    view.querySelector('#chkRemoteAccess').addEventListener('change', function () {
+        updateUPnPState(view);
+    });
     view.querySelector('#chkEnableHttps').addEventListener('change', function () {
         updateHttpsVisibility(view);
     });

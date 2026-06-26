@@ -18,14 +18,15 @@ function save(page) {
     const apiClient = ServerConnections.currentApiClient();
     apiClient.getNamedConfiguration(CONFIG_KEY).then(function (config) {
         config.EncoderAppPath = page.querySelector('#txtFFmpegPath').value;
-        apiClient.updateNamedConfiguration(CONFIG_KEY, config).then(function () {
-            loading.hide();
-            navigateToNextPage();
-        }).catch(function () {
-            // The server validates the supplied path and rejects invalid ones.
-            toast(globalize.translate('FFmpegSavePathNotFound'));
-            loading.hide();
-        });
+        return apiClient.updateNamedConfiguration(CONFIG_KEY, config);
+    }).then(function () {
+        loading.hide();
+        navigateToNextPage();
+    }).catch(function (err) {
+        // The server validates the supplied path and rejects invalid ones.
+        console.error('[Wizard > FFmpeg] failed to save FFmpeg path', err);
+        toast(globalize.translate('FFmpegSavePathNotFound'));
+        loading.hide();
     });
 }
 
@@ -40,6 +41,10 @@ function reload(page) {
     const apiClient = ServerConnections.currentApiClient();
     apiClient.getNamedConfiguration(CONFIG_KEY).then(function (config) {
         page.querySelector('#txtFFmpegPath').value = config.EncoderAppPath || '';
+        loading.hide();
+    }).catch(function (err) {
+        console.error('[Wizard > FFmpeg] failed to load encoding configuration', err);
+        toast(globalize.translate('ErrorDefault'));
         loading.hide();
     });
 }

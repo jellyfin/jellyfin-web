@@ -48,24 +48,24 @@ function populateCountries(select, allCountries) {
     select.innerHTML = html;
 }
 
-function getDefaultMetadataLanguage(config, cultures) {
-    // Inherit the display language chosen earlier in the wizard as a sensible
-    // default for the preferred metadata language. The server seeds
-    // PreferredMetadataLanguage with "en" on a fresh install, so we derive from
-    // the UI culture first and only fall back to the stored value when there is
-    // no matching metadata culture.
-    const uiLanguage = (config.UICulture || '').split('-')[0].toLowerCase();
-    if (uiLanguage) {
-        const match = cultures.find(function (culture) {
-            return culture.TwoLetterISOLanguageName === uiLanguage;
-        });
+const DEFAULT_METADATA_LANGUAGE = 'en';
 
-        if (match) {
-            return match.TwoLetterISOLanguageName;
-        }
+function getDefaultMetadataLanguage(config, cultures) {
+    // Inherit the display language while the server still holds its fresh-install
+    // "en" seed; keep any deliberate choice when navigating back to this step.
+    const stored = config.PreferredMetadataLanguage || '';
+    if (stored && stored !== DEFAULT_METADATA_LANGUAGE) {
+        return stored;
     }
 
-    return config.PreferredMetadataLanguage || '';
+    const uiLanguage = (config.UICulture || '').split('-')[0].toLowerCase();
+    if (uiLanguage && cultures.some(function (culture) {
+        return culture.TwoLetterISOLanguageName === uiLanguage;
+    })) {
+        return uiLanguage;
+    }
+
+    return stored;
 }
 
 function reloadData(page, config, cultures, countries) {
