@@ -879,7 +879,7 @@
     "Wednesday": "Miércoles",
     "WelcomeToProject": "¡Bienvenido a Jellyfin!",
     "Whitelist": "Lista blanca",
-    "WizardCompleted": "Eso es todo lo que necesitamos por ahora. Jellyfin a empezado a recolectar información de su biblioteca. Échale un vistazo a nuestras aplicaciones, y después presione <b>Finalizar</b> para ver el <b>Panel de control</b>.",
+    "WizardCompleted": "Eso es todo lo que necesitamos por ahora. Jellyfin ha empezado a recolectar información de su biblioteca. Échale un vistazo a nuestras aplicaciones, y después presione <b>Finalizar</b> para ver el <b>Panel de control</b>.",
     "Writer": "Escritor",
     "XmlTvKidsCategoriesHelp": "Los programas con estas categorías se mostrarán como programas para niños. Separe el múltiplo con '|'.",
     "XmlTvMovieCategoriesHelp": "Los programas con estas categorías se mostrarán como películas. Usa '|' para separar las categorías.",
