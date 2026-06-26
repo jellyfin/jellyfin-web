@@ -19,6 +19,30 @@
                     </label>
                     <div class="fieldDescription checkboxFieldDescription">${EnableUPnPHelp}</div>
                 </div>
+
+                <div class="inputContainer">
+                    <input is="emby-input" type="number" id="txtPortNumber" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelLocalHttpServerPortNumber}" />
+                    <div class="fieldDescription">${LabelLocalHttpServerPortNumberHelp}</div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input type="checkbox" is="emby-checkbox" id="chkEnableHttps" />
+                        <span>${LabelEnableHttps}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${LabelEnableHttpsHelp}</div>
+                </div>
+
+                <div class="httpsFields hide">
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="txtHttpsPort" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelHttpsPort}" />
+                        <div class="fieldDescription">${LabelHttpsPortHelp}</div>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="text" id="txtCertificatePath" label="${LabelCustomCertificatePath}" />
+                        <div class="fieldDescription">${LabelCustomCertificatePathHelp}</div>
+                    </div>
+                </div>
                 <br />
                 <div class="wizardNavigation">
                     <button is="emby-button" type="button" class="raised button-cancel" onclick="history.back();">

@@ -47,6 +47,22 @@ const ROUTES: LegacyRoute[] = [
             controller: 'user/index',
             view: 'user/index.html'
         }
+    },
+    {
+        path: 'users',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'users/index',
+            view: 'users/index.html'
+        }
+    },
+    {
+        path: 'ffmpeg',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'ffmpeg/index',
+            view: 'ffmpeg/index.html'
+        }
     }
 ];
 

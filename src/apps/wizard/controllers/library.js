@@ -370,7 +370,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
 
 window.WizardLibraryPage = {
     next: function () {
-        Dashboard.navigate('wizard/remoteaccess');
+        Dashboard.navigate('wizard/users');
     }
 };
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
