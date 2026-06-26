@@ -108,6 +108,7 @@
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
 - [austinhardaway](https://github.com/austinhardaway)
+- [Alex Dickens](https://github.com/alex-dicko)
 
 ## Emby Contributors
 
