@@ -817,9 +817,16 @@ export default class ConnectionManager {
      * Returns or creates an Api instance for a given
      * server
      * @param {string} serverId The ID of the server
-     * @returns {import('@jellyfin/sdk').Api}
+     * @returns {import('@jellyfin/sdk').Api|undefined}
      */
     getApi(serverId) {
+        // serverId is not available until an ApiClient has connected/authenticated.
+        // Callers handle a missing Api, so return undefined rather than letting
+        // getApiClient() throw ('item or serverId cannot be null') and break startup.
+        if (!serverId) {
+            return undefined;
+        }
+
         const apiClient = this.getApiClient(serverId);
         apiClient._sdk ??= toApi(apiClient);
         return apiClient._sdk;
