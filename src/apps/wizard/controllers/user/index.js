@@ -9,9 +9,9 @@ import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 
 function nextWizardPage() {
-    Dashboard.navigate('wizard/library')
+    Dashboard.navigate('wizard/settings')
         .catch(err => {
-            console.error('[Wizard > User] error navigating to library setup', err);
+            console.error('[Wizard > User] error navigating to metadata settings', err);
         });
 }
 
@@ -48,7 +48,11 @@ function submit(form) {
 function onSubmit(e) {
     const form = this;
 
-    if (form.querySelector('#txtManualPassword').value != form.querySelector('#txtPasswordConfirm').value) {
+    const password = form.querySelector('#txtManualPassword').value;
+
+    if (!password) {
+        toast(globalize.translate('PasswordRequiredForAdmin'));
+    } else if (password != form.querySelector('#txtPasswordConfirm').value) {
         toast(globalize.translate('PasswordMatchError'));
     } else {
         submit(form);

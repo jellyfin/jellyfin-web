@@ -17,14 +17,6 @@ const ROUTES: LegacyRoute[] = [
         }
     },
     {
-        path: 'finish',
-        pageProps: {
-            appType: AppType.Wizard,
-            controller: 'finish/index',
-            view: 'finish/index.html'
-        }
-    },
-    {
         path: 'library',
         pageProps: {
             appType: AppType.Wizard,

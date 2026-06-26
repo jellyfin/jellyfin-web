@@ -48,10 +48,30 @@ function populateCountries(select, allCountries) {
     select.innerHTML = html;
 }
 
+function getDefaultMetadataLanguage(config, cultures) {
+    // Inherit the display language chosen earlier in the wizard as a sensible
+    // default for the preferred metadata language. The server seeds
+    // PreferredMetadataLanguage with "en" on a fresh install, so we derive from
+    // the UI culture first and only fall back to the stored value when there is
+    // no matching metadata culture.
+    const uiLanguage = (config.UICulture || '').split('-')[0].toLowerCase();
+    if (uiLanguage) {
+        const match = cultures.find(function (culture) {
+            return culture.TwoLetterISOLanguageName === uiLanguage;
+        });
+
+        if (match) {
+            return match.TwoLetterISOLanguageName;
+        }
+    }
+
+    return config.PreferredMetadataLanguage || '';
+}
+
 function reloadData(page, config, cultures, countries) {
     populateLanguages(page.querySelector('#selectLanguage'), cultures);
     populateCountries(page.querySelector('#selectCountry'), countries);
-    page.querySelector('#selectLanguage').value = config.PreferredMetadataLanguage;
+    page.querySelector('#selectLanguage').value = getDefaultMetadataLanguage(config, cultures);
     page.querySelector('#selectCountry').value = config.MetadataCountryCode;
     loading.hide();
 }
@@ -68,7 +88,7 @@ function reload(page) {
 }
 
 function navigateToNextPage() {
-    Dashboard.navigate('wizard/remoteaccess');
+    Dashboard.navigate('wizard/library');
 }
 
 function onSubmit(e) {
