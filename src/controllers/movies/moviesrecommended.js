@@ -149,7 +149,7 @@ function getRecommendationHtml(recommendation) {
     return html;
 }
 
-function loadSuggestions(page, userId) {
+function loadSuggestions(page, userId, parentId) {
     const screenWidth = dom.getWindowSize().innerWidth;
     let itemLimit = 5;
     if (screenWidth >= 1600) {
@@ -160,6 +160,7 @@ function loadSuggestions(page, userId) {
 
     const url = ApiClient.getUrl('Movies/Recommendations', {
         userId: userId,
+        ParentId: parentId,
         categoryLimit: 6,
         ItemLimit: itemLimit,
         Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
@@ -223,7 +224,7 @@ function loadSuggestionsTab(view, params, tabContent) {
     const userId = ApiClient.getCurrentUserId();
     loadResume(tabContent, userId, parentId);
     loadLatest(tabContent, userId, parentId);
-    loadSuggestions(tabContent, userId);
+    loadSuggestions(tabContent, userId, parentId);
 }
 
 function getTabs() {
