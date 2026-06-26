@@ -30,16 +30,24 @@ async function onUpdateUserError(result) {
 
 function submit(form) {
     loading.show();
+    const name = form.querySelector('#txtUsername').value.trim();
+    const password = form.querySelector('#txtManualPassword').value;
     const apiClient = ServerConnections.currentApiClient();
     apiClient
         .ajax({
             type: 'POST',
             data: JSON.stringify({
-                Name: form.querySelector('#txtUsername').value.trim(),
-                Password: form.querySelector('#txtManualPassword').value
+                Name: name,
+                Password: password
             }),
             url: apiClient.getUrl('Startup/User'),
             contentType: 'application/json'
+        })
+        // Authenticate as the new admin so later wizard steps (e.g. adding
+        // additional users) have the elevated rights those endpoints require.
+        // The server permits authentication before Startup/Complete.
+        .then(function () {
+            return apiClient.authenticateUserByName(name, password);
         })
         .then(onUpdateUserComplete)
         .catch(onUpdateUserError);

@@ -14,6 +14,14 @@ function navigateToNextPage() {
 }
 
 function save(page) {
+    // The FFmpeg path is optional. When left blank the server keeps using its
+    // auto-detected (bundled) build, so skip the save and move on rather than
+    // sending an empty path for validation.
+    if (!page.querySelector('#txtFFmpegPath').value.trim()) {
+        navigateToNextPage();
+        return;
+    }
+
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
     apiClient.getNamedConfiguration(CONFIG_KEY).then(function (config) {
