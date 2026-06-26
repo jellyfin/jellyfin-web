@@ -1722,7 +1722,7 @@
     "PluginDisableError": "Un error ha ocurrido mientras se deshabilitaba el complemento.",
     "PluginEnableError": "Un error ha ocurrido mientras se habilitaba el complemento.",
     "PluginLoadConfigError": "Un error ha ocurrido mientras se obtenian las páginas de configuración del complemento.",
-    "PluginLoadRepoError": "Un error ha ocurrido mientras se obtenian del repositorio los detalles del complemeno.",
+    "PluginLoadRepoError": "Un error ha ocurrido mientras se obtenían del repositorio los detalles del complemento.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Selecciona el codec de audio preferido al cual transcodificar el contenido del video. Si el codec seleccionado no está soportado el servidor utilizará el siguiente mejor codec disponible.",
     "LibraryInvalidItemIdError": "La biblioteca está en un estado no válido y no se puede editar. Es posible que estés encontrando un error: la ruta en la base de datos no es la ruta correcta en el sistema de archivos.",
     "AlwaysRemuxMp3AudioFilesHelp": "Si tienes archivos en los que tu navegador calcula incorrectamente las marcas de tiempo, habilita esta opción como solución temporal.",
