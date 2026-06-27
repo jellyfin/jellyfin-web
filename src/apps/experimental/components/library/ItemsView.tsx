@@ -2,7 +2,7 @@ import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/bas
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client';
 import { ItemSortBy } from '@jellyfin/sdk/lib/models/api/item-sort-by';
-import React, { type FC, useCallback } from 'react';
+import React, { type FC, useCallback, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
 import { useLocalStorage } from 'hooks/useLocalStorage';
@@ -81,6 +81,19 @@ const ItemsView: FC<ItemsViewProps> = ({
         libraryViewSettings
     );
     const { data: item } = useItem(parentId || undefined);
+
+    // If a stale StartIndex puts us past the last page, reset to page 1.
+    useEffect(() => {
+        if (
+            !isLoading
+            && !isPlaceholderData
+            && libraryViewSettings.StartIndex > 0
+            && (itemsResult?.Items?.length ?? 0) === 0
+            && (itemsResult?.TotalRecordCount ?? 0) > 0
+        ) {
+            setLibraryViewSettings(prev => ({ ...prev, StartIndex: 0 }));
+        }
+    }, [isLoading, isPlaceholderData, itemsResult, libraryViewSettings.StartIndex, setLibraryViewSettings]);
 
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {

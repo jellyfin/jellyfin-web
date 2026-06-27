@@ -1,4 +1,5 @@
 export enum LibraryTab {
+    Actors = 'actors',
     Albums = 'albums',
     AlbumArtists = 'albumartists',
     Artists = 'artists',
@@ -10,6 +11,8 @@ export enum LibraryTab {
     Guide = 'guide',
     Movies = 'movies',
     Networks = 'networks',
+    Crew = 'crew',
+    People = 'people',
     Playlists = 'playlists',
     Programs = 'programs',
     Recordings = 'recordings',

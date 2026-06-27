@@ -48,13 +48,33 @@ const genresTabContent: LibraryTabContent = {
     collectionType: CollectionType.Tvshows
 };
 
+const actorsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Actors,
+    collectionType: CollectionType.Tvshows,
+    isBtnSortEnabled: true,
+    isAlphabetPickerEnabled: true,
+    isBtnFilterEnabled: false,
+    noItemsMessage: 'MessageNoActorsAvailable'
+};
+
+const crewTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Crew,
+    collectionType: CollectionType.Tvshows,
+    isBtnSortEnabled: true,
+    isAlphabetPickerEnabled: true,
+    isBtnFilterEnabled: false,
+    noItemsMessage: 'MessageNoCrewAvailable'
+};
+
 const tvShowsTabMapping: LibraryTabMapping = {
     0: seriesTabContent,
     1: suggestionsTabContent,
     2: upcomingTabContent,
     3: genresTabContent,
     4: networksTabContent,
-    5: episodesTabContent
+    5: episodesTabContent,
+    6: actorsTabContent,
+    7: crewTabContent
 };
 
 const Shows: FC = () => {

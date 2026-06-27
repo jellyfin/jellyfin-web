@@ -104,6 +104,16 @@ const TabRoutes: TabRoute[] = [
                 index: 5,
                 label: 'Genres',
                 value: LibraryTab.Genres
+            },
+            {
+                index: 6,
+                label: 'Actors',
+                value: LibraryTab.Actors
+            },
+            {
+                index: 7,
+                label: 'Crew',
+                value: LibraryTab.Crew
             }
         ]
     },
@@ -181,6 +191,16 @@ const TabRoutes: TabRoute[] = [
                 index: 5,
                 label: 'Episodes',
                 value: LibraryTab.Episodes
+            },
+            {
+                index: 6,
+                label: 'Actors',
+                value: LibraryTab.Actors
+            },
+            {
+                index: 7,
+                label: 'Crew',
+                value: LibraryTab.Crew
             }
         ]
     },
@@ -203,6 +223,16 @@ const TabRoutes: TabRoute[] = [
                 index: 2,
                 label: 'HeaderVideos',
                 value: LibraryTab.Videos
+            },
+            {
+                index: 3,
+                label: 'Actors',
+                value: LibraryTab.Actors
+            },
+            {
+                index: 4,
+                label: 'Crew',
+                value: LibraryTab.Crew
             }
         ]
     }

@@ -31,10 +31,30 @@ const videosTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Video]
 };
 
+const actorsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Actors,
+    collectionType: CollectionType.Homevideos,
+    isBtnSortEnabled: true,
+    isAlphabetPickerEnabled: true,
+    isBtnFilterEnabled: false,
+    noItemsMessage: 'MessageNoActorsAvailable'
+};
+
+const crewTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Crew,
+    collectionType: CollectionType.Homevideos,
+    isBtnSortEnabled: true,
+    isAlphabetPickerEnabled: true,
+    isBtnFilterEnabled: false,
+    noItemsMessage: 'MessageNoCrewAvailable'
+};
+
 const homevideosTabMapping: LibraryTabMapping = {
     0: photosTabContent,
     1: photoAlbumsTabContent,
-    2: videosTabContent
+    2: videosTabContent,
+    3: actorsTabContent,
+    4: crewTabContent
 };
 
 const HomeVideos: FC = () => {

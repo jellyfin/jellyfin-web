@@ -11,6 +11,7 @@ import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
 import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
 import { getMoviesApi } from '@jellyfin/sdk/lib/utils/api/movies-api';
+import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
 import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
 import { getTvShowsApi } from '@jellyfin/sdk/lib/utils/api/tv-shows-api';
 import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
@@ -312,6 +313,38 @@ const fetchGetItemsViewByType = async (
                     }
                 );
                 break;
+            case LibraryTab.Actors:
+            case LibraryTab.People: {
+                const personTypes = viewType === LibraryTab.Actors ? ['Actor'] : undefined;
+                const alphaQuery = getAlphaPickerQuery(libraryViewSettings);
+                const { limit } = getLimitQuery();
+                // The SDK's getPersons() only forwards SDK-known parameters, silently dropping
+                // our server extensions (nameStartsWith, nameLessThan, sortBy, sortOrder,
+                // startIndex, parentId). Build the request URL manually to include all params.
+                const queryParams = new URLSearchParams();
+                queryParams.set('userId', user.Id);
+                queryParams.set('enableImages', 'true');
+                queryParams.set('imageTypeLimit', '1');
+                [libraryViewSettings.ImageType, ImageType.Backdrop].forEach(t => queryParams.append('enableImageTypes', t));
+                queryParams.set('startIndex', String(libraryViewSettings.StartIndex));
+                queryParams.set('sortBy', libraryViewSettings.SortBy);
+                queryParams.set('sortOrder', libraryViewSettings.SortOrder);
+                if (limit) queryParams.set('limit', String(limit));
+                if (alphaQuery.nameStartsWith) queryParams.set('nameStartsWith', alphaQuery.nameStartsWith);
+                if (alphaQuery.nameLessThan) queryParams.set('nameLessThan', alphaQuery.nameLessThan);
+                if (personTypes) personTypes.forEach(t => queryParams.append('personTypes', t));
+                if (parentId) queryParams.set('parentId', String(parentId));
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const apiAny = api as any;
+                response = await apiAny.axiosInstance.get(
+                    `${api.basePath}/Persons?${queryParams.toString()}`,
+                    {
+                        headers: { Authorization: apiAny.authorizationHeader },
+                        signal: options?.signal
+                    }
+                );
+                break;
+            }
             default: {
                 response = await getItemsApi(api).getItems(
                     {
@@ -371,6 +404,7 @@ export const useGetItemsViewByType = (
         placeholderData : keepPreviousData,
         enabled: !!currentApi.api && !!currentApi.user?.Id
             && [
+                LibraryTab.Actors,
                 LibraryTab.Movies,
                 LibraryTab.Favorites,
                 LibraryTab.Collections,
@@ -378,6 +412,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Series,
                 LibraryTab.Episodes,
                 LibraryTab.Networks,
+                LibraryTab.People,
                 LibraryTab.Albums,
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,

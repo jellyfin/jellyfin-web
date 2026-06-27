@@ -5,6 +5,7 @@ import GenresView from './GenresView';
 import ItemsView from './ItemsView';
 import GuideView from './GuideView';
 import ProgramsSectionView from './ProgramsSectionView';
+import CrewView from './CrewView';
 import { LibraryTab } from 'types/libraryTab';
 import type { ParentId } from 'types/library';
 import type { LibraryTabContent } from 'types/libraryTabContent';
@@ -57,6 +58,17 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
 
     if (currentTab.viewType === LibraryTab.Guide) {
         return <GuideView />;
+    }
+
+    if (currentTab.viewType === LibraryTab.Crew) {
+        return (
+            <CrewView
+                parentId={parentId}
+                isBtnSortEnabled={currentTab.isBtnSortEnabled}
+                isAlphabetPickerEnabled={currentTab.isAlphabetPickerEnabled}
+                noItemsMessage={currentTab.noItemsMessage || 'MessageNoItemsAvailable'}
+            />
+        );
     }
 
     return (

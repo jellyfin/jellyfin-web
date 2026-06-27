@@ -42,7 +42,14 @@ const photosOrPhotoAlbumsOptions = [
     { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
 ];
 
+const peopleOrActorsOptions = [
+    { label: 'Name', value: ItemSortBy.SortName },
+    { label: 'OptionRandom', value: ItemSortBy.Random }
+];
+
 const sortOptionsMapping: SortOptionsMapping = {
+    [LibraryTab.Actors]: peopleOrActorsOptions,
+    [LibraryTab.Crew]: peopleOrActorsOptions,
     [LibraryTab.Movies]: movieOrFavoriteOptions,
     [LibraryTab.Trailers]: [
         { label: 'Name', value: ItemSortBy.SortName },

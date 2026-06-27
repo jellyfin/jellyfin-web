@@ -28,7 +28,7 @@ const Pagination: FC<PaginationProps> = ({
     const recordsEnd = limit ?
         Math.min(startIndex + limit, totalRecordCount) :
         totalRecordCount;
-    const showControls = limit > 0 && limit < totalRecordCount;
+    const showControls = limit > 0 && (limit < totalRecordCount || startIndex > 0);
 
     const onNextPageClick = useCallback(() => {
         const newIndex = startIndex + limit;

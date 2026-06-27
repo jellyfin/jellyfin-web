@@ -49,13 +49,33 @@ const genresTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Movie]
 };
 
+const actorsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Actors,
+    collectionType: CollectionType.Movies,
+    isBtnSortEnabled: true,
+    isAlphabetPickerEnabled: true,
+    isBtnFilterEnabled: false,
+    noItemsMessage: 'MessageNoActorsAvailable'
+};
+
+const crewTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Crew,
+    collectionType: CollectionType.Movies,
+    isBtnSortEnabled: true,
+    isAlphabetPickerEnabled: true,
+    isBtnFilterEnabled: false,
+    noItemsMessage: 'MessageNoCrewAvailable'
+};
+
 const moviesTabMapping: LibraryTabMapping = {
     0: moviesTabContent,
     1: suggestionsTabContent,
     2: trailersTabContent,
     3: favoritesTabContent,
     4: collectionsTabContent,
-    5: genresTabContent
+    5: genresTabContent,
+    6: actorsTabContent,
+    7: crewTabContent
 };
 
 const Movies: FC = () => {
