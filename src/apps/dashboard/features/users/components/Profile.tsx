@@ -263,7 +263,7 @@ const Profile = ({ userDto }: ProfileProps) => {
                         });
                     }
                 },
-                onError: (error) => {
+                onError: () => {
                     loading.hide();
                     setIsErrorToastOpen(true);
                 }

@@ -28,13 +28,16 @@ const UserNew = () => {
     const [ mediaFoldersItems, setMediaFoldersItems ] = useState<ItemsArr[]>([]);
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
     const element = useRef<HTMLDivElement>(null);
+
     const handleToastClose = useCallback(() => {
         setIsErrorToastOpen(false);
     }, []);
     const { data: mediaFolders, isSuccess: isMediaFoldersSuccess } = useLibraryMediaFolders();
     const { data: channels, isSuccess: isChannelsSuccess } = useChannels();
+
     const createUser = useCreateUser();
     const updateUserPolicy = useUpdateUserPolicy();
+
     const getItemsResult = (items: BaseItemDto[]) => {
         return items.map(item =>
             ({
