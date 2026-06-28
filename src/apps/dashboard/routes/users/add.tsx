@@ -226,6 +226,7 @@ const UserNew = () => {
                         title={globalize.translate('HeaderAddUser')}
                     />
                 </div>
+
                 <form className='newUserProfileForm'>
                     <div className='inputContainer'>
                         <Input
