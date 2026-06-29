@@ -1,7 +1,10 @@
+import logo from '@jellyfin/ux-web/icon-transparent.png';
+
 import loading from 'components/loading/loading';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
 import dom from 'utils/dom';
+import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
@@ -43,7 +46,9 @@ function onSubmit(e) {
 }
 
 export default function (view) {
+    view.querySelector('.wizardStartLogo').src = logo;
     view.querySelector('.wizardStartForm').addEventListener('submit', onSubmit);
+    renderWizardProgress(view);
 
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');

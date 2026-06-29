@@ -4,7 +4,7 @@
             <form class="wizardUserForm">
                 <div class="verticalSection">
                     <h1 class="sectionTitle">${HeaderAdminAccount}</h1>
-                    <p style="margin-top:2em;">${UserProfilesIntro}</p>
+                    <p class="wizardStepIntro">${UserProfilesIntro}</p>
                     <br />
                     <div class="inputContainer">
                         <input is="emby-input" type="text" id="txtUsername" label="${LabelUsername}" required="required" />
@@ -17,7 +17,7 @@
                     <div class="inputContainer">
                         <input is="emby-input" id="txtPasswordConfirm" type="password" label="${LabelPasswordConfirm}" required="required" />
                     </div>
-                    <p>${MoreUsersCanBeAddedLater}</p>
+                    <p>${MoreUsersCanBeAddedNextStep}</p>
                 </div>
 
                 <div class="wizardNavigation">
@@ -31,6 +31,7 @@
                     </button>
                 </div>
             </form>
+            <div class="wizardProgress" data-step="2"></div>
         </div>
     </div>
 </div>

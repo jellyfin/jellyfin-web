@@ -9,6 +9,7 @@ import dom from 'utils/dom';
 import taskButton from 'scripts/taskbutton';
 import Dashboard, { pageClassOn, pageIdOn } from 'utils/dashboard';
 import imageHelper from 'utils/image';
+import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 
 import 'components/cardbuilder/card.scss';
 import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
@@ -169,6 +170,13 @@ function shouldRefreshLibraryAfterChanges(page) {
 
 function reloadVirtualFolders(page, virtualFolders) {
     let html = '';
+
+    // Adding a library is optional, so label the forward button "Skip" until one exists.
+    const nextLabel = page.querySelector('.btnNextLabel');
+    if (nextLabel) {
+        nextLabel.textContent = globalize.translate(virtualFolders.length ? 'Next' : 'Skip');
+    }
+
     virtualFolders.push({
         Name: globalize.translate('ButtonAddMediaLibrary'),
         icon: 'add_circle',
@@ -370,10 +378,22 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
 
 window.WizardLibraryPage = {
     next: function () {
-        Dashboard.navigate('wizard/users');
+        loading.show();
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.ajax({
+            url: apiClient.getUrl('Startup/Complete'),
+            type: 'POST'
+        }).then(function () {
+            loading.hide();
+            window.location.href = '';
+        }).catch(function (err) {
+            console.error('[Wizard > Library] failed to complete setup', err);
+            loading.hide();
+        });
     }
 };
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
+    renderWizardProgress(this);
     reloadLibrary(this);
 });
 pageIdOn('pageshow', 'mediaLibraryPage', function () {

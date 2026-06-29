@@ -3,15 +3,16 @@ import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
+import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 
 import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 
 function nextWizardPage() {
-    Dashboard.navigate('wizard/settings')
+    Dashboard.navigate('wizard/users')
         .catch(err => {
-            console.error('[Wizard > User] error navigating to metadata settings', err);
+            console.error('[Wizard > User] error navigating to additional users', err);
         });
 }
 
@@ -86,6 +87,7 @@ function onViewShow() {
 
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
+    renderWizardProgress(view);
     view.addEventListener('viewshow', onViewShow);
     view.addEventListener('viewhide', function () {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');

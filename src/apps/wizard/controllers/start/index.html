@@ -3,7 +3,10 @@
         <div class="ui-corner-all ui-shadow wizardContent" style="position:relative;">
             <form class="wizardStartForm">
                 <div>
-                    <h1 style="float:left;">${WelcomeToProject}</h1>
+                    <div style="float:left;display:flex;align-items:center;">
+                        <img class="wizardStartLogo" src="#" alt="" aria-hidden="true" style="height:3.2em;margin-right:0.5em;" />
+                        <h1 style="margin:0;">${WelcomeToProject}</h1>
+                    </div>
                     <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/post-install/setup-wizard/" target="_blank" class="raised raised-alt" style="float:right;margin-top:20px;">
                         <span>${ButtonQuickStartGuide}</span>
                     </a>
@@ -34,6 +37,7 @@
                     </button>
                 </div>
             </form>
+            <div class="wizardProgress" data-step="1"></div>
         </div>
     </div>
 </div>

@@ -9,7 +9,12 @@
                         <input type="checkbox" is="emby-checkbox" id="chkRemoteAccess" checked />
                         <span>${AllowRemoteAccess}</span>
                     </label>
-                    <div class="fieldDescription checkboxFieldDescription">${AllowRemoteAccessHelp}</div>
+                    <div class="fieldDescription checkboxFieldDescription">
+                        <span>${AllowRemoteAccessHelp}</span>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/networking/" target="_blank" class="button-link">
+                            <span>${ButtonLearnMore}</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="checkboxContainer checkboxContainer-withDescription">
@@ -25,7 +30,12 @@
                         <input type="checkbox" is="emby-checkbox" id="chkEnableHttps" />
                         <span>${LabelEnableHttps}</span>
                     </label>
-                    <div class="fieldDescription checkboxFieldDescription">${LabelEnableHttpsHelp}</div>
+                    <div class="fieldDescription checkboxFieldDescription">
+                        <span>${LabelEnableHttpsHelp}</span>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/networking/#https" target="_blank" class="button-link">
+                            <span>${ButtonLearnMore}</span>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="httpsFields hide">
@@ -47,7 +57,20 @@
                         </div>
 
                         <h2>${HeaderTranscoding}</h2>
-                        <p style="margin:1em 0;">${FFmpegSetupHelp}</p>
+                        <div class="selectContainer">
+                            <select is="emby-select" id="selectHardwareAcceleration" label="${LabelHardwareAccelerationType}">
+                                <option value="none">${None}</option>
+                                <option value="amf">AMD AMF</option>
+                                <option value="nvenc">Nvidia NVENC</option>
+                                <option value="qsv">Intel Quicksync (QSV)</option>
+                                <option value="vaapi">Video Acceleration API (VAAPI)</option>
+                                <option value="rkmpp">Rockchip MPP (RKMPP)</option>
+                                <option value="videotoolbox">Apple VideoToolBox</option>
+                                <option value="v4l2m2m">Video4Linux2 (V4L2)</option>
+                            </select>
+                            <div class="fieldDescription">${LabelHardwareAccelerationTypeHelp}</div>
+                        </div>
+                        <p class="wizardParagraph">${FFmpegSetupHelp}</p>
                         <div class="inputContainer">
                             <input is="emby-input" type="text" id="txtFFmpegPath" label="${LabelffmpegPath}" />
                             <div class="fieldDescription">${LabelffmpegPathHelp}</div>
@@ -61,11 +84,12 @@
                         <span>${Previous}</span>
                     </button>
                     <button is="emby-button" type="submit" class="raised button-submit">
-                        <span class="material-icons check" aria-hidden="true"></span>
-                        <span>${LabelFinish}</span>
+                        <span>${Next}</span>
+                        <span class="material-icons arrow_forward" aria-hidden="true"></span>
                     </button>
                 </div>
             </form>
+            <div class="wizardProgress" data-step="5"></div>
         </div>
     </div>
 </div>

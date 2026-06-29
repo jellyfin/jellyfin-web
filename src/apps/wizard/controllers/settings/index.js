@@ -1,6 +1,7 @@
 import loading from 'components/loading/loading';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
+import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -87,7 +88,7 @@ function reload(page) {
 }
 
 function navigateToNextPage() {
-    Dashboard.navigate('wizard/library');
+    Dashboard.navigate('wizard/remoteaccess');
 }
 
 function onSubmit(e) {
@@ -98,6 +99,7 @@ function onSubmit(e) {
 
 export default function (view) {
     view.querySelector('.wizardSettingsForm').addEventListener('submit', onSubmit);
+    renderWizardProgress(view);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         reload(this);

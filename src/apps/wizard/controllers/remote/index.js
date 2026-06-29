@@ -3,6 +3,8 @@ import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Dashboard from 'utils/dashboard';
+import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-input/emby-input';
@@ -10,21 +12,49 @@ import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
 import 'elements/emby-collapse/emby-collapse';
 
-function saveFFmpegPath(page, apiClient) {
-    // The path is optional; when blank the server keeps its bundled build.
+function saveEncoding(page, apiClient) {
+    // The FFmpeg path is optional; when blank the server keeps its bundled build.
     const path = page.querySelector('#txtFFmpegPath').value.trim();
-    if (!path) {
-        return Promise.resolve();
-    }
+    const hardwareAccelerationType = page.querySelector('#selectHardwareAcceleration').value;
 
     return apiClient.getNamedConfiguration('encoding').then(function (config) {
-        config.EncoderAppPath = path;
+        config.HardwareAccelerationType = hardwareAccelerationType;
+        if (path) {
+            config.EncoderAppPath = path;
+        }
         return apiClient.updateNamedConfiguration('encoding', config);
     }).catch(function (err) {
-        // An invalid path is non-fatal; warn the user and keep finishing setup.
-        console.error('[Wizard > Remote] failed to save FFmpeg path', err);
-        toast(globalize.translate('FFmpegSavePathNotFound'));
+        // A bad value here is non-fatal; warn the user and keep finishing setup.
+        console.error('[Wizard > Remote] failed to save transcoding settings', err);
+        toast(globalize.translate(path ? 'FFmpegSavePathNotFound' : 'ErrorDefault'));
     });
+}
+
+function validate(page) {
+    // HTTPS will silently fail to bind on the server without a certificate.
+    if (page.querySelector('#chkEnableHttps').checked
+        && !page.querySelector('#txtCertificatePath').value.trim()) {
+        toast(globalize.translate('MessageHttpsCertificateRequired'));
+        return false;
+    }
+
+    const httpPort = parseInt(page.querySelector('#txtPortNumber').value, 10);
+    const httpsPort = parseInt(page.querySelector('#txtHttpsPort').value, 10);
+    const isValidPort = function (port) {
+        return Number.isNaN(port) || (port >= 1 && port <= 65535);
+    };
+
+    if (!isValidPort(httpPort) || !isValidPort(httpsPort)) {
+        toast(globalize.translate('MessageInvalidPortNumber'));
+        return false;
+    }
+
+    if (!Number.isNaN(httpPort) && httpPort === httpsPort) {
+        toast(globalize.translate('MessagePortsMustDiffer'));
+        return false;
+    }
+
+    return true;
 }
 
 function save(page) {
@@ -32,7 +62,7 @@ function save(page) {
     const apiClient = ServerConnections.currentApiClient();
     const enableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
 
-    saveFFmpegPath(page, apiClient).then(function () {
+    saveEncoding(page, apiClient).then(function () {
         return apiClient.ajax({
             type: 'POST',
             data: JSON.stringify({
@@ -60,13 +90,8 @@ function save(page) {
             return apiClient.updateNamedConfiguration('network', networkConfig);
         });
     }).then(function () {
-        return apiClient.ajax({
-            url: apiClient.getUrl('Startup/Complete'),
-            type: 'POST'
-        });
-    }).then(function () {
         loading.hide();
-        window.location.href = '';
+        Dashboard.navigate('wizard/library');
     }).catch(function (err) {
         console.error('[Wizard > Remote] failed to save remote access settings', err);
         toast(globalize.translate('ErrorDefault'));
@@ -87,6 +112,7 @@ function reload(page) {
         page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort || '';
         page.querySelector('#txtCertificatePath').value = config.CertificatePath || '';
         page.querySelector('#txtFFmpegPath').value = encodingConfig.EncoderAppPath || '';
+        page.querySelector('#selectHardwareAcceleration').value = encodingConfig.HardwareAccelerationType || 'none';
         updateHttpsVisibility(page);
         updateUPnPState(page);
         loading.hide();
@@ -113,8 +139,10 @@ function updateUPnPState(page) {
 }
 
 function onSubmit(e) {
-    save(this);
     e.preventDefault();
+    if (validate(this)) {
+        save(this);
+    }
     return false;
 }
 
@@ -140,6 +168,7 @@ export default function (view) {
     view.querySelector('#chkEnableHttps').addEventListener('change', function () {
         updateHttpsVisibility(view);
     });
+    renderWizardProgress(view);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         reload(this);
