@@ -47,3 +47,7 @@ export function goToPreviousWizardStep(stepId) {
         navigateToStep(WIZARD_STEPS[index - 1]);
     }
 }
+
+export function parsePort(str) {
+    return parseInt(str, 10);
+}

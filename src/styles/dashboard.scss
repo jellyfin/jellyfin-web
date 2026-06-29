@@ -156,6 +156,19 @@ div[data-role=controlgroup] a.ui-btn-active {
     padding-left: 1em;
 }
 
+.addedUsers ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1em;
+}
+
+.addedUsers li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.25em 0;
+}
+
 .content-primary ul:first-child,
 .type-interior .content-primary > .sectionTitleContainer {
     margin-top: 0;
@@ -249,6 +262,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .wizardContent {
+    position: relative;
     max-width: 62em;
     padding: 0.5em 2em 1em;
     margin: 0 auto;
@@ -299,23 +313,6 @@ div[data-role=controlgroup] a.ui-btn-active {
     border-radius: 0.4em;
     background: #00a4dc;
     transition: width 0.3s ease;
-}
-
-.addedUsers ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1em;
-}
-
-.addedUsers li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.25em 0;
-}
-
-.wizardContent {
-    position: relative;
 }
 
 .wizardInfoBox {

@@ -5,8 +5,8 @@ import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
-import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
@@ -43,9 +43,7 @@ function appendAddedUser(page, user) {
 async function getErrorMessage(err) {
     if (err && typeof err.text === 'function') {
         const text = await err.text().catch(() => '');
-        if (text) {
-            return text;
-        }
+        if (text) return text;
     }
     return globalize.translate('ErrorDefault');
 }
@@ -84,9 +82,7 @@ function addUser(form) {
     const name = form.querySelector('#txtNewUsername').value.trim();
 
     // Ignore empty names and guard against a double submit.
-    if (!name || submitButton.disabled) {
-        return;
-    }
+    if (!name || submitButton.disabled) return;
 
     if (passwordElem.value !== passwordConfirmElem.value) {
         toast(globalize.translate('PasswordMatchError'));
@@ -136,37 +132,31 @@ function onAddedUsersClick(e) {
     }
 }
 
+function onShow() {
+    const page = this;
+    // Clear any stale list so we always reflect current server state on revisit.
+    const existingList = page.querySelector('.addedUsers ul');
+    if (existingList) existingList.remove();
+    loading.show();
+    const apiClient = ServerConnections.currentApiClient();
+    apiClient.getJSON(apiClient.getUrl('Users')).then(function (users) {
+        users.filter(u => !u.Policy.IsAdministrator).forEach(u => {
+            appendAddedUser(page, u);
+        });
+        updateNextLabel(page);
+        loading.hide();
+    }).catch(function (err) {
+        console.error('[Wizard > Users] failed to load existing users', err);
+        updateNextLabel(page);
+        loading.hide();
+    });
+}
+
 export default function (view) {
     view.querySelector('.wizardAddUserForm').addEventListener('submit', onAddUserSubmit);
     view.querySelector('.addedUsers').addEventListener('click', onAddedUsersClick);
     view.querySelector('.btnWizardNext').addEventListener('click', function () {
         goToNextWizardStep('users');
     });
-    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        goToPreviousWizardStep('users');
-    });
-    renderWizardProgress(view, 'users');
-    view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-        const page = this;
-        // Clear any stale list so we always reflect current server state on revisit.
-        const existingList = page.querySelector('.addedUsers ul');
-        if (existingList) existingList.remove();
-        loading.show();
-        const apiClient = ServerConnections.currentApiClient();
-        apiClient.getJSON(apiClient.getUrl('Users')).then(function (users) {
-            users.filter(function (u) {
-                return !u.Policy.IsAdministrator;
-            }).forEach(function (u) { appendAddedUser(page, u); });
-            updateNextLabel(page);
-            loading.hide();
-        }).catch(function (err) {
-            console.error('[Wizard > Users] failed to load existing users', err);
-            updateNextLabel(page);
-            loading.hide();
-        });
-    });
-    view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
-    });
+    initWizardStep(view, 'users', { onShow });
 }

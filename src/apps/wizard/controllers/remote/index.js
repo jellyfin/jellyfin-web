@@ -3,58 +3,22 @@ import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
-import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep, parsePort } from 'apps/wizard/controllers/wizardSteps';
+import { validatePort } from 'apps/wizard/controllers/wizardPortValidation';
 
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 
-function validate(page) {
-    // HTTPS will silently fail to bind on the server without a certificate.
-    if (page.querySelector('#chkEnableHttps').checked
-        && !page.querySelector('#txtCertificatePath').value.trim()) {
-        toast(globalize.translate('MessageHttpsCertificateRequired'));
-        return Promise.resolve(false);
-    }
-
-    const httpsPort = parseInt(page.querySelector('#txtHttpsPort').value, 10);
-    if (!Number.isNaN(httpsPort) && (httpsPort < 1 || httpsPort > 65535)) {
-        toast(globalize.translate('MessageInvalidPortNumber'));
-        return Promise.resolve(false);
-    }
-
-    // The HTTP port is set on the next step; both servers can't share a port.
-    const httpPort = parseInt(page.dataset.httpPort, 10);
-    if (!Number.isNaN(httpsPort) && httpsPort === httpPort) {
-        toast(globalize.translate('MessagePortConflict'));
-        return Promise.resolve(false);
-    }
-
-    if (!Number.isNaN(httpsPort) && httpsPort < 1024) {
-        return confirm({
-            title: globalize.translate('HeaderPrivilegedPortWarning'),
-            text: globalize.translate('MessagePrivilegedPortWarning'),
-            primary: 'delete'
-        }).then(function () {
-            return true;
-        }).catch(function () {
-            return false;
-        });
-    }
-
-    return Promise.resolve(true);
-}
-
 function save(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    const enableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
 
     apiClient.ajax({
         type: 'POST',
         data: JSON.stringify({
-            EnableRemoteAccess: enableRemoteAccess
+            EnableRemoteAccess: page.querySelector('#chkRemoteAccess').checked
         }),
         url: apiClient.getUrl('Startup/RemoteAccess'),
         contentType: 'application/json'
@@ -70,7 +34,7 @@ function save(page) {
                 networkConfig.CertificatePassword = certPassword;
             }
 
-            const httpsPort = parseInt(page.querySelector('#txtHttpsPort').value, 10);
+            const httpsPort = parsePort(page.querySelector('#txtHttpsPort').value);
             if (!Number.isNaN(httpsPort)) {
                 networkConfig.InternalHttpsPort = httpsPort;
             }
@@ -127,12 +91,20 @@ function updateUPnPState(page) {
 function onSubmit(e) {
     e.preventDefault();
     const page = this;
-    validate(page).then(function (valid) {
+
+    // HTTPS will silently fail to bind on the server without a certificate.
+    if (page.querySelector('#chkEnableHttps').checked
+        && !page.querySelector('#txtCertificatePath').value.trim()) {
+        toast(globalize.translate('MessageHttpsCertificateRequired'));
+        return;
+    }
+
+    // The HTTP port is set on the next step; both servers can't share a port.
+    validatePort(page.querySelector('#txtHttpsPort').value, page.dataset.httpPort).then(function (valid) {
         if (valid) {
             save(page);
         }
     });
-    return false;
 }
 
 function onUPnPChange() {
@@ -156,15 +128,7 @@ export default function (view) {
     view.querySelector('#chkEnableHttps').addEventListener('change', function () {
         updateHttpsVisibility(view);
     });
-    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        goToPreviousWizardStep('remoteaccess');
-    });
-    renderWizardProgress(view, 'remoteaccess');
-    view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-        reload(this);
-    });
-    view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+    initWizardStep(view, 'remoteaccess', {
+        onShow() { reload(this); }
     });
 }

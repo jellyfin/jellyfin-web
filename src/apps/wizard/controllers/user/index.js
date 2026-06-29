@@ -3,8 +3,8 @@ import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
-import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
@@ -32,10 +32,7 @@ function submit(form) {
     apiClient
         .ajax({
             type: 'POST',
-            data: JSON.stringify({
-                Name: name,
-                Password: password
-            }),
+            data: JSON.stringify({ Name: name, Password: password }),
             url: apiClient.getUrl('Startup/User'),
             contentType: 'application/json'
         })
@@ -63,7 +60,7 @@ function onSubmit(e) {
 
     if (password && password !== form.querySelector('#txtPasswordConfirm').value) {
         toast(globalize.translate('PasswordMatchError'));
-        return false;
+        return;
     }
 
     if (!password) {
@@ -76,16 +73,14 @@ function onSubmit(e) {
         }).catch(function () {
             // User chose to set a password instead
         });
-        return false;
+        return;
     }
 
     submit(form);
-    return false;
 }
 
 function onViewShow() {
     loading.show();
-    document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
     const page = this;
     const apiClient = ServerConnections.currentApiClient();
     apiClient.getJSON(apiClient.getUrl('Startup/User')).then(function (user) {
@@ -97,12 +92,5 @@ function onViewShow() {
 
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
-    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        goToPreviousWizardStep('user');
-    });
-    renderWizardProgress(view, 'user');
-    view.addEventListener('viewshow', onViewShow);
-    view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
-    });
+    initWizardStep(view, 'user', { onShow: onViewShow });
 }

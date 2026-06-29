@@ -374,12 +374,8 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
     renderWizardProgress(this, 'library');
     reloadLibrary(this);
-    this.querySelector('.btnWizardPrev').onclick = function () {
-        goToPreviousWizardStep('library');
-    };
-    this.querySelector('.btnWizardNext').onclick = function () {
-        goToNextWizardStep('library');
-    };
+    this.querySelector('.btnWizardPrev').onclick = () => goToPreviousWizardStep('library');
+    this.querySelector('.btnWizardNext').onclick = () => goToNextWizardStep('library');
 });
 pageIdOn('pageshow', 'mediaLibraryPage', function () {
     const page = this;

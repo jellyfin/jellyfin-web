@@ -1,43 +1,14 @@
-import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
-import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep, parsePort } from 'apps/wizard/controllers/wizardSteps';
+import { validatePort } from 'apps/wizard/controllers/wizardPortValidation';
 
 import 'elements/emby-input/emby-input';
 import 'elements/emby-select/emby-select';
 import 'elements/emby-button/emby-button';
-
-function validate(page) {
-    const httpPort = parseInt(page.querySelector('#txtPortNumber').value, 10);
-    if (!Number.isNaN(httpPort) && (httpPort < 1 || httpPort > 65535)) {
-        toast(globalize.translate('MessageInvalidPortNumber'));
-        return Promise.resolve(false);
-    }
-
-    // The HTTPS port is set on the previous step; both servers can't share a port.
-    const httpsPort = parseInt(page.dataset.httpsPort, 10);
-    if (!Number.isNaN(httpPort) && httpPort === httpsPort) {
-        toast(globalize.translate('MessagePortConflict'));
-        return Promise.resolve(false);
-    }
-
-    if (!Number.isNaN(httpPort) && httpPort < 1024) {
-        return confirm({
-            title: globalize.translate('HeaderPrivilegedPortWarning'),
-            text: globalize.translate('MessagePrivilegedPortWarning'),
-            primary: 'delete'
-        }).then(function () {
-            return true;
-        }).catch(function () {
-            return false;
-        });
-    }
-
-    return Promise.resolve(true);
-}
 
 function updateHardwareAccelerationWarning(page) {
     const enabled = page.querySelector('#selectHardwareAcceleration').value !== 'none';
@@ -63,7 +34,7 @@ function save(page) {
     });
 
     const networkPromise = apiClient.getNamedConfiguration('network').then(function (networkConfig) {
-        const httpPort = parseInt(page.querySelector('#txtPortNumber').value, 10);
+        const httpPort = parsePort(page.querySelector('#txtPortNumber').value);
         if (!Number.isNaN(httpPort)) {
             networkConfig.InternalHttpPort = httpPort;
         }
@@ -104,10 +75,9 @@ function reload(page) {
 function onSubmit(e) {
     e.preventDefault();
     const page = this;
-    validate(page).then(function (valid) {
-        if (valid) {
-            save(page);
-        }
+    // The HTTPS port is set on the previous step; both servers can't share a port.
+    validatePort(page.querySelector('#txtPortNumber').value, page.dataset.httpsPort).then(function (valid) {
+        if (valid) save(page);
     });
     return false;
 }
@@ -117,15 +87,7 @@ export default function (view) {
     view.querySelector('#selectHardwareAcceleration').addEventListener('change', function () {
         updateHardwareAccelerationWarning(view);
     });
-    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        goToPreviousWizardStep('advanced');
-    });
-    renderWizardProgress(view, 'advanced');
-    view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-        reload(this);
-    });
-    view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+    initWizardStep(view, 'advanced', {
+        onShow() { reload(this); }
     });
 }

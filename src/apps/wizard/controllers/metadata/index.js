@@ -1,51 +1,19 @@
+import escapeHtml from 'escape-html';
+
 import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
-import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
 
-function populateLanguages(select, cultures) {
-    select.innerHTML = cultures.map(function (c) {
-        return '<option value="' + c.TwoLetterISOLanguageName + '">' + c.DisplayName + '</option>';
+function populateSelect(select, items, valueKey, labelKey) {
+    select.innerHTML = items.map(function (item) {
+        return `<option value="${escapeHtml(item[valueKey])}">${escapeHtml(item[labelKey])}</option>`;
     }).join('');
-}
-
-function populateCountries(select, countries) {
-    select.innerHTML = countries.map(function (c) {
-        return '<option value="' + c.TwoLetterISORegionName + '">' + c.DisplayName + '</option>';
-    }).join('');
-}
-
-function getDefaultMetadataLanguage(config, cultures) {
-    const stored = config.PreferredMetadataLanguage || '';
-    if (stored && stored !== 'en') {
-        return stored;
-    }
-    const uiLanguage = (config.UICulture || '').split('-')[0].toLowerCase();
-    if (uiLanguage && cultures.some(function (c) {
-        return c.TwoLetterISOLanguageName === uiLanguage;
-    })) {
-        return uiLanguage;
-    }
-    return stored;
-}
-
-function getDefaultMetadataCountry(config, countries) {
-    if (config.MetadataCountryCode) {
-        return config.MetadataCountryCode;
-    }
-    // Fall back to the region from the display locale (e.g. en-US -> US).
-    const region = (config.UICulture || '').split('-')[1];
-    if (region && countries.some(function (c) {
-        return c.TwoLetterISORegionName === region.toUpperCase();
-    })) {
-        return region.toUpperCase();
-    }
-    return '';
 }
 
 function reload(page) {
@@ -56,10 +24,10 @@ function reload(page) {
         apiClient.getCultures(),
         apiClient.getCountries()
     ]).then(function ([config, cultures, countries]) {
-        populateLanguages(page.querySelector('#selectMetadataLanguage'), cultures);
-        populateCountries(page.querySelector('#selectMetadataCountry'), countries);
-        page.querySelector('#selectMetadataLanguage').value = getDefaultMetadataLanguage(config, cultures);
-        page.querySelector('#selectMetadataCountry').value = getDefaultMetadataCountry(config, countries);
+        populateSelect(page.querySelector('#selectMetadataLanguage'), cultures, 'TwoLetterISOLanguageName', 'DisplayName');
+        populateSelect(page.querySelector('#selectMetadataCountry'), countries, 'TwoLetterISORegionName', 'DisplayName');
+        page.querySelector('#selectMetadataLanguage').value = config.PreferredMetadataLanguage || '';
+        page.querySelector('#selectMetadataCountry').value = config.MetadataCountryCode || '';
         loading.hide();
     }).catch(function (err) {
         console.error('[Wizard > Metadata] failed to load options', err);
@@ -96,15 +64,7 @@ export default function (view) {
         save(view);
         return false;
     });
-    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        goToPreviousWizardStep('metadata');
-    });
-    renderWizardProgress(view, 'metadata');
-    view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-        reload(view);
-    });
-    view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+    initWizardStep(view, 'metadata', {
+        onShow() { reload(view); }
     });
 }

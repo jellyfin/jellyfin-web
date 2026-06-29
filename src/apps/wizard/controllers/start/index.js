@@ -3,7 +3,7 @@ import logo from '@jellyfin/ux-web/icon-transparent.png';
 import loading from 'components/loading/loading';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from 'utils/dom';
-import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
+import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
 import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'elements/emby-button/emby-button';
@@ -52,27 +52,21 @@ function onSubmit(e) {
 export default function (view) {
     view.querySelector('.wizardStartLogo').src = logo;
     view.querySelector('.wizardStartForm').addEventListener('submit', onSubmit);
-    renderWizardProgress(view, 'start');
-
-    view.addEventListener('viewshow', function () {
-        document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-        loading.show();
-        const page = this;
-        const apiClient = ServerConnections.currentApiClient();
-
-        Promise.all([
-            apiClient.getPublicSystemInfo(),
-            apiClient.getJSON(apiClient.getUrl('Startup/Configuration')),
-            apiClient.getJSON(apiClient.getUrl('Localization/Options'))
-        ]).then(([ systemInfo, config, languageOptions ]) => {
-            loadPage(page, systemInfo, config, languageOptions);
-        }).catch(function (err) {
-            console.error('[Wizard > Start] failed to load page data', err);
-            loading.hide();
-        });
-    });
-
-    view.addEventListener('viewhide', function () {
-        document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
+    initWizardStep(view, 'start', {
+        onShow() {
+            loading.show();
+            const page = this;
+            const apiClient = ServerConnections.currentApiClient();
+            Promise.all([
+                apiClient.getPublicSystemInfo(),
+                apiClient.getJSON(apiClient.getUrl('Startup/Configuration')),
+                apiClient.getJSON(apiClient.getUrl('Localization/Options'))
+            ]).then(([systemInfo, config, languageOptions]) => {
+                loadPage(page, systemInfo, config, languageOptions);
+            }).catch(function (err) {
+                console.error('[Wizard > Start] failed to load page data', err);
+                loading.hide();
+            });
+        }
     });
 }
