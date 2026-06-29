@@ -120,9 +120,8 @@ function removeUser(page, item) {
 }
 
 function onAddUserSubmit(e) {
-    addUser(this);
     e.preventDefault();
-    return false;
+    addUser(this);
 }
 
 function onAddedUsersClick(e) {

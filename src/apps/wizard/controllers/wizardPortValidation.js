@@ -3,7 +3,6 @@ import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { parsePort } from 'apps/wizard/controllers/wizardSteps';
 
-// Returns Promise<boolean>. conflictPortStr is the "other" port that must differ.
 export function validatePort(portStr, conflictPortStr) {
     const port = parsePort(portStr);
 

@@ -62,7 +62,6 @@ export default function (view) {
     view.querySelector('.wizardMetadataForm').addEventListener('submit', function (e) {
         e.preventDefault();
         save(view);
-        return false;
     });
     initWizardStep(view, 'metadata', {
         onShow() { reload(view); }

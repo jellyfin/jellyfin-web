@@ -17,7 +17,6 @@ export function renderWizardProgress(view, stepId) {
         + `<div class="wizardProgressFill" style="width:${percent}%;"></div></div>`;
 }
 
-// Handles the per-step boilerplate: progress bar, prev button, header class.
 export function initWizardStep(view, stepId, { onShow } = {}) {
     renderWizardProgress(view, stepId);
 

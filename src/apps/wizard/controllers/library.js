@@ -171,7 +171,6 @@ function shouldRefreshLibraryAfterChanges(page) {
 
 function reloadVirtualFolders(page, virtualFolders) {
     let html = '';
-
     virtualFolders.push({
         Name: globalize.translate('ButtonAddMediaLibrary'),
         icon: 'add_circle',

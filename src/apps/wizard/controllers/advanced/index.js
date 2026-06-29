@@ -79,7 +79,6 @@ function onSubmit(e) {
     validatePort(page.querySelector('#txtPortNumber').value, page.dataset.httpsPort).then(function (valid) {
         if (valid) save(page);
     });
-    return false;
 }
 
 export default function (view) {
