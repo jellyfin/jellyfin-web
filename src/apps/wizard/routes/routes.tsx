@@ -17,14 +17,6 @@ const ROUTES: LegacyRoute[] = [
         }
     },
     {
-        path: 'remoteaccess',
-        pageProps: {
-            appType: AppType.Wizard,
-            controller: 'remote/index',
-            view: 'remote/index.html'
-        }
-    },
-    {
         path: 'library',
         pageProps: {
             appType: AppType.Wizard,
@@ -33,11 +25,35 @@ const ROUTES: LegacyRoute[] = [
         }
     },
     {
+        path: 'metadata',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'metadata/index',
+            view: 'metadata/index.html'
+        }
+    },
+    {
+        path: 'remoteaccess',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'remote/index',
+            view: 'remote/index.html'
+        }
+    },
+    {
         path: 'start',
         pageProps: {
             appType: AppType.Wizard,
             controller: 'start/index',
             view: 'start/index.html'
+        }
+    },
+    {
+        path: 'summary',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'summary/index',
+            view: 'summary/index.html'
         }
     },
     {

@@ -13,7 +13,6 @@ import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 
 import 'components/cardbuilder/card.scss';
 import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
-import 'elements/emby-select/emby-select';
 
 function addVirtualFolder(page) {
     import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
@@ -171,12 +170,6 @@ function shouldRefreshLibraryAfterChanges(page) {
 
 function reloadVirtualFolders(page, virtualFolders) {
     let html = '';
-
-    // Adding a library is optional, so label the forward button "Skip" until one exists.
-    const nextLabel = page.querySelector('.btnNextLabel');
-    if (nextLabel) {
-        nextLabel.textContent = globalize.translate(virtualFolders.length ? 'Next' : 'Skip');
-    }
 
     virtualFolders.push({
         Name: globalize.translate('ButtonAddMediaLibrary'),
@@ -377,85 +370,14 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
     return html;
 }
 
-function populateMetadataLanguages(select, cultures) {
-    select.innerHTML = cultures.map(function (c) {
-        return '<option value="' + c.TwoLetterISOLanguageName + '">' + c.DisplayName + '</option>';
-    }).join('');
-}
-
-function populateMetadataCountries(select, countries) {
-    select.innerHTML = countries.map(function (c) {
-        return '<option value="' + c.TwoLetterISORegionName + '">' + c.DisplayName + '</option>';
-    }).join('');
-}
-
-function getDefaultMetadataLanguage(config, cultures) {
-    const stored = config.PreferredMetadataLanguage || '';
-    if (stored && stored !== 'en') {
-        return stored;
-    }
-    const uiLanguage = (config.UICulture || '').split('-')[0].toLowerCase();
-    if (uiLanguage && cultures.some(function (c) { return c.TwoLetterISOLanguageName === uiLanguage; })) {
-        return uiLanguage;
-    }
-    return stored;
-}
-
-function reloadMetadata(page) {
-    const apiClient = ServerConnections.currentApiClient();
-    Promise.all([
-        apiClient.getJSON(apiClient.getUrl('Startup/Configuration')),
-        apiClient.getCultures(),
-        apiClient.getCountries()
-    ]).then(function ([config, cultures, countries]) {
-        const langSelect = page.querySelector('#selectMetadataLanguage');
-        const countrySelect = page.querySelector('#selectMetadataCountry');
-        populateMetadataLanguages(langSelect, cultures);
-        populateMetadataCountries(countrySelect, countries);
-        langSelect.value = getDefaultMetadataLanguage(config, cultures);
-        countrySelect.value = config.MetadataCountryCode || '';
-    }).catch(function (err) {
-        console.error('[Wizard > Library] failed to load metadata options', err);
-    });
-}
-
-window.WizardLibraryPage = {
-    next: function () {
-        const page = document.querySelector('#wizardLibraryPage');
-        loading.show();
-        const apiClient = ServerConnections.currentApiClient();
-        apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
-            config.PreferredMetadataLanguage = page.querySelector('#selectMetadataLanguage').value;
-            config.MetadataCountryCode = page.querySelector('#selectMetadataCountry').value;
-            return apiClient.ajax({
-                type: 'POST',
-                data: JSON.stringify(config),
-                url: apiClient.getUrl('Startup/Configuration'),
-                contentType: 'application/json'
-            });
-        }).then(function () {
-            return apiClient.ajax({
-                url: apiClient.getUrl('Startup/Complete'),
-                type: 'POST'
-            });
-        }).then(function () {
-            loading.hide();
-            window.location.href = '';
-        }).catch(function (err) {
-            console.error('[Wizard > Library] failed to complete setup', err);
-            loading.hide();
-        });
-    }
-};
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
     renderWizardProgress(this);
     reloadLibrary(this);
-    reloadMetadata(this);
     this.querySelector('.btnWizardPrev').onclick = function () {
-        Dashboard.navigate('wizard/advanced');
+        window.history.back();
     };
-    this.querySelector('.btnWizardFinish').onclick = function () {
-        window.WizardLibraryPage.next();
+    this.querySelector('.btnWizardNext').onclick = function () {
+        Dashboard.navigate('wizard/summary');
     };
 });
 pageIdOn('pageshow', 'mediaLibraryPage', function () {

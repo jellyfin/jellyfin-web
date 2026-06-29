@@ -314,6 +314,79 @@ div[data-role=controlgroup] a.ui-btn-active {
     padding: 0.25em 0;
 }
 
+.wizardContent {
+    position: relative;
+}
+
+.wizardInfoBox {
+    margin-bottom: 1.5em;
+}
+
+.wizardInfoBoxIcon {
+    vertical-align: middle;
+    margin-right: 0.4em;
+}
+
+.wizardStartHeader {
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+.wizardStartLogo {
+    height: 3.2em;
+    margin-right: 0.5em;
+}
+
+.wizardStartTitle {
+    margin: 0;
+}
+
+.wizardStartGuideLink {
+    float: right;
+    margin-top: 20px;
+}
+
+.wizardNavigation--right {
+    text-align: right;
+}
+
+.wizardLibraryTitle {
+    display: inline-block;
+}
+
+.wizardLibraryHelpLink {
+    margin-top: -10px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2em;
+}
+
+.wizardSummaryList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.4em;
+    margin: 1.5em 0;
+    padding: 0;
+}
+
+.wizardSummaryRow {
+    display: flex;
+    gap: 1em;
+    align-items: baseline;
+}
+
+.wizardSummaryLabel {
+    font-weight: bold;
+    min-width: 10em;
+    flex-shrink: 0;
+}
+
+.wizardSummaryValue {
+    margin: 0;
+    opacity: 0.8;
+}
+
 .scheduledTaskPaperIconItem {
     outline: 0 !important;
 }

@@ -46,7 +46,7 @@ function save(page) {
 
     Promise.all([encodingPromise, networkPromise]).then(function () {
         loading.hide();
-        Dashboard.navigate('wizard/library');
+        Dashboard.navigate('wizard/metadata');
     }).catch(function (err) {
         console.error('[Wizard > Advanced] failed to save settings', err);
         toast(globalize.translate('ErrorDefault'));
@@ -83,7 +83,7 @@ function onSubmit(e) {
 export default function (view) {
     view.querySelector('.wizardAdvancedForm').addEventListener('submit', onSubmit);
     view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        Dashboard.navigate('wizard/remoteaccess');
+        window.history.back();
     });
     renderWizardProgress(view);
     view.addEventListener('viewshow', function () {

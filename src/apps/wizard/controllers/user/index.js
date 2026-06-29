@@ -1,3 +1,4 @@
+import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
@@ -64,18 +65,29 @@ function submit(form) {
 
 function onSubmit(e) {
     const form = this;
-
     const password = form.querySelector('#txtManualPassword').value;
 
-    if (!password) {
-        toast(globalize.translate('PasswordRequiredForAdmin'));
-    } else if (password != form.querySelector('#txtPasswordConfirm').value) {
+    e.preventDefault();
+
+    if (password && password !== form.querySelector('#txtPasswordConfirm').value) {
         toast(globalize.translate('PasswordMatchError'));
-    } else {
-        submit(form);
+        return false;
     }
 
-    e.preventDefault();
+    if (!password) {
+        confirm({
+            title: globalize.translate('HeaderAdminPasswordWarning'),
+            text: globalize.translate('MessageAdminPasswordBlankWarning'),
+            primary: 'delete'
+        }).then(function () {
+            submit(form);
+        }).catch(function () {
+            // User chose to set a password instead
+        });
+        return false;
+    }
+
+    submit(form);
     return false;
 }
 
@@ -97,7 +109,7 @@ function onViewShow() {
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
     view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        Dashboard.navigate('wizard/start');
+        window.history.back();
     });
     renderWizardProgress(view);
     view.addEventListener('viewshow', onViewShow);

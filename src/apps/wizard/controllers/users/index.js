@@ -124,7 +124,7 @@ export default function (view) {
     view.querySelector('.addedUsers').addEventListener('click', onAddedUsersClick);
     view.querySelector('.btnWizardNext').addEventListener('click', navigateToNextPage);
     view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        Dashboard.navigate('wizard/user');
+        window.history.back();
     });
     renderWizardProgress(view);
     view.addEventListener('viewshow', function () {
@@ -136,8 +136,9 @@ export default function (view) {
         loading.show();
         const apiClient = ServerConnections.currentApiClient();
         apiClient.getJSON(apiClient.getUrl('Users')).then(function (users) {
-            users.filter(function (u) { return !u.Policy.IsAdministrator; })
-                .forEach(function (u) { appendAddedUser(page, u); });
+            users.filter(function (u) {
+                return !u.Policy.IsAdministrator;
+            }).forEach(function (u) { appendAddedUser(page, u); });
             updateNextLabel(page);
             loading.hide();
         }).catch(function (err) {

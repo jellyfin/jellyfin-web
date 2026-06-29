@@ -44,6 +44,7 @@ function save(page) {
             networkConfig.EnableUPnP = page.querySelector('#chkEnableUPnP').checked;
             networkConfig.EnableHttps = page.querySelector('#chkEnableHttps').checked;
             networkConfig.CertificatePath = page.querySelector('#txtCertificatePath').value || null;
+            networkConfig.CertificatePassword = page.querySelector('#txtCertificatePassword').value || null;
 
             const httpsPort = parseInt(page.querySelector('#txtHttpsPort').value, 10);
             if (!Number.isNaN(httpsPort)) {
@@ -72,6 +73,7 @@ function reload(page) {
         page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
         page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort || '';
         page.querySelector('#txtCertificatePath').value = config.CertificatePath || '';
+        page.querySelector('#txtCertificatePassword').value = config.CertificatePassword || '';
         updateHttpsVisibility(page);
         updateUPnPState(page);
         loading.hide();
@@ -128,7 +130,7 @@ export default function (view) {
         updateHttpsVisibility(view);
     });
     view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        Dashboard.navigate('wizard/users');
+        window.history.back();
     });
     renderWizardProgress(view);
     view.addEventListener('viewshow', function () {
