@@ -9,26 +9,6 @@ import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
-import 'elements/emby-select/emby-select';
-import 'elements/emby-collapse/emby-collapse';
-
-function saveEncoding(page, apiClient) {
-    // The FFmpeg path is optional; when blank the server keeps its bundled build.
-    const path = page.querySelector('#txtFFmpegPath').value.trim();
-    const hardwareAccelerationType = page.querySelector('#selectHardwareAcceleration').value;
-
-    return apiClient.getNamedConfiguration('encoding').then(function (config) {
-        config.HardwareAccelerationType = hardwareAccelerationType;
-        if (path) {
-            config.EncoderAppPath = path;
-        }
-        return apiClient.updateNamedConfiguration('encoding', config);
-    }).catch(function (err) {
-        // A bad value here is non-fatal; warn the user and keep finishing setup.
-        console.error('[Wizard > Remote] failed to save transcoding settings', err);
-        toast(globalize.translate(path ? 'FFmpegSavePathNotFound' : 'ErrorDefault'));
-    });
-}
 
 function validate(page) {
     // HTTPS will silently fail to bind on the server without a certificate.
@@ -38,19 +18,9 @@ function validate(page) {
         return false;
     }
 
-    const httpPort = parseInt(page.querySelector('#txtPortNumber').value, 10);
     const httpsPort = parseInt(page.querySelector('#txtHttpsPort').value, 10);
-    const isValidPort = function (port) {
-        return Number.isNaN(port) || (port >= 1 && port <= 65535);
-    };
-
-    if (!isValidPort(httpPort) || !isValidPort(httpsPort)) {
+    if (!Number.isNaN(httpsPort) && (httpsPort < 1 || httpsPort > 65535)) {
         toast(globalize.translate('MessageInvalidPortNumber'));
-        return false;
-    }
-
-    if (!Number.isNaN(httpPort) && httpPort === httpsPort) {
-        toast(globalize.translate('MessagePortsMustDiffer'));
         return false;
     }
 
@@ -62,25 +32,18 @@ function save(page) {
     const apiClient = ServerConnections.currentApiClient();
     const enableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
 
-    saveEncoding(page, apiClient).then(function () {
-        return apiClient.ajax({
-            type: 'POST',
-            data: JSON.stringify({
-                EnableRemoteAccess: enableRemoteAccess
-            }),
-            url: apiClient.getUrl('Startup/RemoteAccess'),
-            contentType: 'application/json'
-        });
+    apiClient.ajax({
+        type: 'POST',
+        data: JSON.stringify({
+            EnableRemoteAccess: enableRemoteAccess
+        }),
+        url: apiClient.getUrl('Startup/RemoteAccess'),
+        contentType: 'application/json'
     }).then(function () {
         return apiClient.getNamedConfiguration('network').then(function (networkConfig) {
             networkConfig.EnableUPnP = page.querySelector('#chkEnableUPnP').checked;
             networkConfig.EnableHttps = page.querySelector('#chkEnableHttps').checked;
             networkConfig.CertificatePath = page.querySelector('#txtCertificatePath').value || null;
-
-            const httpPort = parseInt(page.querySelector('#txtPortNumber').value, 10);
-            if (!Number.isNaN(httpPort)) {
-                networkConfig.InternalHttpPort = httpPort;
-            }
 
             const httpsPort = parseInt(page.querySelector('#txtHttpsPort').value, 10);
             if (!Number.isNaN(httpsPort)) {
@@ -91,7 +54,7 @@ function save(page) {
         });
     }).then(function () {
         loading.hide();
-        Dashboard.navigate('wizard/library');
+        Dashboard.navigate('wizard/advanced');
     }).catch(function (err) {
         console.error('[Wizard > Remote] failed to save remote access settings', err);
         toast(globalize.translate('ErrorDefault'));
@@ -104,15 +67,13 @@ function reload(page) {
     const apiClient = ServerConnections.currentApiClient();
     Promise.all([
         apiClient.getNamedConfiguration('network'),
-        apiClient.getNamedConfiguration('encoding')
-    ]).then(function ([config, encodingConfig]) {
+        apiClient.getJSON(apiClient.getUrl('Startup/RemoteAccess'))
+    ]).then(function ([config, remoteConfig]) {
+        page.querySelector('#chkRemoteAccess').checked = remoteConfig.EnableRemoteAccess !== false;
         page.querySelector('#chkEnableUPnP').checked = config.EnableUPnP;
         page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
-        page.querySelector('#txtPortNumber').value = config.InternalHttpPort || '';
         page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort || '';
         page.querySelector('#txtCertificatePath').value = config.CertificatePath || '';
-        page.querySelector('#txtFFmpegPath').value = encodingConfig.EncoderAppPath || '';
-        page.querySelector('#selectHardwareAcceleration').value = encodingConfig.HardwareAccelerationType || 'none';
         updateHttpsVisibility(page);
         updateUPnPState(page);
         loading.hide();
@@ -151,8 +112,7 @@ function onUPnPChange() {
     if (this.checked) {
         confirm({
             title: globalize.translate('HeaderUPnPSecurityWarning'),
-            text: globalize.translate('MessageUPnPSecurityWarning'),
-            primary: 'delete'
+            text: globalize.translate('MessageUPnPSecurityWarning')
         }).catch(() => {
             this.checked = false;
         });
@@ -167,6 +127,9 @@ export default function (view) {
     });
     view.querySelector('#chkEnableHttps').addEventListener('change', function () {
         updateHttpsVisibility(view);
+    });
+    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
+        Dashboard.navigate('wizard/users');
     });
     renderWizardProgress(view);
     view.addEventListener('viewshow', function () {

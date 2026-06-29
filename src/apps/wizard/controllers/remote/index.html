@@ -49,37 +49,9 @@
                     </div>
                 </div>
 
-                <div is="emby-collapse" title="${HeaderAdvancedSettings}">
-                    <div class="collapseContent">
-                        <div class="inputContainer">
-                            <input is="emby-input" type="number" id="txtPortNumber" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelLocalHttpServerPortNumber}" />
-                            <div class="fieldDescription">${LabelLocalHttpServerPortNumberHelp}</div>
-                        </div>
-
-                        <h2>${HeaderTranscoding}</h2>
-                        <div class="selectContainer">
-                            <select is="emby-select" id="selectHardwareAcceleration" label="${LabelHardwareAccelerationType}">
-                                <option value="none">${None}</option>
-                                <option value="amf">AMD AMF</option>
-                                <option value="nvenc">Nvidia NVENC</option>
-                                <option value="qsv">Intel Quicksync (QSV)</option>
-                                <option value="vaapi">Video Acceleration API (VAAPI)</option>
-                                <option value="rkmpp">Rockchip MPP (RKMPP)</option>
-                                <option value="videotoolbox">Apple VideoToolBox</option>
-                                <option value="v4l2m2m">Video4Linux2 (V4L2)</option>
-                            </select>
-                            <div class="fieldDescription">${LabelHardwareAccelerationTypeHelp}</div>
-                        </div>
-                        <p class="wizardParagraph">${FFmpegSetupHelp}</p>
-                        <div class="inputContainer">
-                            <input is="emby-input" type="text" id="txtFFmpegPath" label="${LabelffmpegPath}" />
-                            <div class="fieldDescription">${LabelffmpegPathHelp}</div>
-                        </div>
-                    </div>
-                </div>
                 <br />
                 <div class="wizardNavigation">
-                    <button is="emby-button" type="button" class="raised button-cancel" onclick="history.back();">
+                    <button is="emby-button" type="button" class="raised button-cancel btnWizardPrev">
                         <span class="material-icons arrow_back" aria-hidden="true"></span>
                         <span>${Previous}</span>
                     </button>
@@ -89,7 +61,7 @@
                     </button>
                 </div>
             </form>
-            <div class="wizardProgress" data-step="5"></div>
+            <div class="wizardProgress" data-step="4"></div>
         </div>
     </div>
 </div>

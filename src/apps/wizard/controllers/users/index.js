@@ -116,17 +116,35 @@ function onAddedUsersClick(e) {
 }
 
 function navigateToNextPage() {
-    Dashboard.navigate('wizard/settings');
+    Dashboard.navigate('wizard/remoteaccess');
 }
 
 export default function (view) {
     view.querySelector('.wizardAddUserForm').addEventListener('submit', onAddUserSubmit);
     view.querySelector('.addedUsers').addEventListener('click', onAddedUsersClick);
     view.querySelector('.btnWizardNext').addEventListener('click', navigateToNextPage);
+    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
+        Dashboard.navigate('wizard/user');
+    });
     renderWizardProgress(view);
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
-        updateNextLabel(this);
+        const page = this;
+        // Clear any stale list so we always reflect current server state on revisit.
+        const existingList = page.querySelector('.addedUsers ul');
+        if (existingList) existingList.remove();
+        loading.show();
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getJSON(apiClient.getUrl('Users')).then(function (users) {
+            users.filter(function (u) { return !u.Policy.IsAdministrator; })
+                .forEach(function (u) { appendAddedUser(page, u); });
+            updateNextLabel(page);
+            loading.hide();
+        }).catch(function (err) {
+            console.error('[Wizard > Users] failed to load existing users', err);
+            updateNextLabel(page);
+            loading.hide();
+        });
     });
     view.addEventListener('viewhide', function () {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');

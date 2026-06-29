@@ -9,6 +9,14 @@ import { type LegacyRoute, toViewManagerPageRoute } from 'components/router/Lega
 
 const ROUTES: LegacyRoute[] = [
     {
+        path: 'advanced',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'advanced/index',
+            view: 'advanced/index.html'
+        }
+    },
+    {
         path: 'remoteaccess',
         pageProps: {
             appType: AppType.Wizard,
@@ -22,14 +30,6 @@ const ROUTES: LegacyRoute[] = [
             appType: AppType.Wizard,
             controller: 'library',
             view: 'library.html'
-        }
-    },
-    {
-        path: 'settings',
-        pageProps: {
-            appType: AppType.Wizard,
-            controller: 'settings/index',
-            view: 'settings/index.html'
         }
     },
     {

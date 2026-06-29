@@ -29,14 +29,18 @@ function save(page) {
         config.ServerName = page.querySelector('#txtServerName').value;
         config.UICulture = page.querySelector('#selectLocalizationLanguage').value;
 
-        apiClient.ajax({
+        return apiClient.ajax({
             type: 'POST',
             data: JSON.stringify(config),
             url: apiClient.getUrl('Startup/Configuration'),
             contentType: 'application/json'
-        }).then(function () {
-            Dashboard.navigate('wizard/user');
         });
+    }).then(function () {
+        loading.hide();
+        Dashboard.navigate('wizard/user');
+    }).catch(function (err) {
+        console.error('[Wizard > Start] failed to save server name / language', err);
+        loading.hide();
     });
 }
 
@@ -62,6 +66,9 @@ export default function (view) {
             apiClient.getJSON(apiClient.getUrl('Localization/Options'))
         ]).then(([ systemInfo, config, languageOptions ]) => {
             loadPage(page, systemInfo, config, languageOptions);
+        }).catch(function (err) {
+            console.error('[Wizard > Start] failed to load page data', err);
+            loading.hide();
         });
     });
 

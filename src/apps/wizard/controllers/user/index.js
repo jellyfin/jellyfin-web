@@ -46,8 +46,17 @@ function submit(form) {
             contentType: 'application/json'
         })
         // Authenticate as the new admin so later steps have the rights they need.
+        // Skip re-auth if already logged in with the same account.
         .then(function () {
-            return apiClient.authenticateUserByName(name, password);
+            return apiClient.getCurrentUser()
+                .then(function (currentUser) {
+                    if (currentUser.Name !== name) {
+                        return apiClient.authenticateUserByName(name, password);
+                    }
+                })
+                .catch(function () {
+                    return apiClient.authenticateUserByName(name, password);
+                });
         })
         .then(onUpdateUserComplete)
         .catch(onUpdateUserError);
@@ -87,6 +96,9 @@ function onViewShow() {
 
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
+    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
+        Dashboard.navigate('wizard/start');
+    });
     renderWizardProgress(view);
     view.addEventListener('viewshow', onViewShow);
     view.addEventListener('viewhide', function () {

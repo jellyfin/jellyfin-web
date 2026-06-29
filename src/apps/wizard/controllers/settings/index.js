@@ -13,15 +13,18 @@ function save(page) {
     apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
         config.PreferredMetadataLanguage = page.querySelector('#selectLanguage').value;
         config.MetadataCountryCode = page.querySelector('#selectCountry').value;
-        apiClient.ajax({
+        return apiClient.ajax({
             type: 'POST',
             data: JSON.stringify(config),
             url: apiClient.getUrl('Startup/Configuration'),
             contentType: 'application/json'
-        }).then(function () {
-            loading.hide();
-            navigateToNextPage();
         });
+    }).then(function () {
+        loading.hide();
+        navigateToNextPage();
+    }).catch(function (err) {
+        console.error('[Wizard > Settings] failed to save metadata settings', err);
+        loading.hide();
     });
 }
 
@@ -84,6 +87,9 @@ function reload(page) {
     const promise3 = apiClient.getCountries();
     Promise.all([promise1, promise2, promise3]).then(function (responses) {
         reloadData(page, responses[0], responses[1], responses[2]);
+    }).catch(function (err) {
+        console.error('[Wizard > Settings] failed to load metadata options', err);
+        loading.hide();
     });
 }
 
