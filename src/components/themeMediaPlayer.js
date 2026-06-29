@@ -7,7 +7,6 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { ItemKind } from 'types/base/models/item-kind';
 import Events from 'utils/events.ts';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playback/playbackmanager';
@@ -78,9 +77,9 @@ const excludeTypes = [
 ];
 
 async function loadThemeMedia(serverId, itemId) {
+    const api = ServerConnections.getApi(serverId);
     const apiClient = ServerConnections.getApiClient(serverId);
-    const api = toApi(apiClient);
-    const userId = apiClient.getCurrentUserId();
+    const userId = apiClient?.getCurrentUserId();
 
     try {
         const item = await queryClient.fetchQuery(getItemQuery(

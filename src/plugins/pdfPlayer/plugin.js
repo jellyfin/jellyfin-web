@@ -1,7 +1,6 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
 import { PluginType } from 'constants/pluginType';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
@@ -210,7 +209,12 @@ export class PdfPlayer {
         };
 
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const api = toApi(ServerConnections.getApiClient(item));
+            const api = ServerConnections.getApi(item.ServerId);
+            if (!api) {
+                console.error('[PdfPlayer] no Api instance available for server', item.ServerId);
+                return;
+            }
+
             const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
 
             this.bindEvents();

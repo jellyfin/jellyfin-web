@@ -6,7 +6,6 @@ import { getRecordingsQuery } from 'apps/stable/features/liveTv/api/useRecording
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
@@ -17,9 +16,10 @@ function getLatestRecordingsFetchFn(
     { enableOverflow }: SectionOptions
 ) {
     return function () {
+        const api = ServerConnections.getApi(serverId);
         const apiClient = ServerConnections.getApiClient(serverId);
-        return queryClient.fetchQuery(getRecordingsQuery(toApi(apiClient), {
-            userId: apiClient.getCurrentUserId(),
+        return queryClient.fetchQuery(getRecordingsQuery(api, {
+            userId: apiClient?.getCurrentUserId(),
             limit: enableOverflow ? 12 : 5,
             fields: [ ItemFields.PrimaryImageAspectRatio ],
             enableTotalRecordCount: false,

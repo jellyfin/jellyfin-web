@@ -10,7 +10,6 @@ import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import dom from 'utils/dom';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
@@ -203,7 +202,13 @@ function getFetchDataFn(section) {
         const userId = apiClient.getCurrentUserId();
 
         if (section.types === BaseItemKind.Studio) {
-            return getStudiosApi(toApi(apiClient))
+            const api = ServerConnections.getApi(apiClient.serverId());
+            if (!api) {
+                console.error('[Favorites] no Api instance available for server', apiClient.serverId());
+                return Promise.resolve(undefined);
+            }
+
+            return getStudiosApi(api)
                 .getStudios({
                     userId,
                     isFavorite: true,
@@ -376,4 +381,3 @@ class FavoritesTab {
 }
 
 export default FavoritesTab;
-

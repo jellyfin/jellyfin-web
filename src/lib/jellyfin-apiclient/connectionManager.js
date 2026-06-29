@@ -792,8 +792,8 @@ export default class ConnectionManager {
 
     /**
      * Gets the ApiClient for a given BaseItem or ServerId.
-     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
-     * @returns {import('jellyfin-apiclient').ApiClient}
+     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | null | undefined} item
+     * @returns {import('jellyfin-apiclient').ApiClient | undefined}
      */
     getApiClient(item) {
         if (!item) {
