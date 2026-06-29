@@ -19,7 +19,6 @@ function updateNextLabel(page) {
     nextLabel.textContent = globalize.translate(hasUsers ? 'Next' : 'Skip');
 }
 
-// The rendered list is the source of truth, so a recreated view starts clean.
 function appendAddedUser(page, user) {
     let list = page.querySelector('.addedUsers ul');
     if (!list) {

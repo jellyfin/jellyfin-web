@@ -47,7 +47,6 @@ function submit(form) {
             contentType: 'application/json'
         })
         // Authenticate as the new admin so later steps have the rights they need.
-        // Skip re-auth if already logged in with the same account.
         .then(function () {
             return apiClient.getCurrentUser()
                 .then(function (currentUser) {

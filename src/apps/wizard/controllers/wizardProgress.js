@@ -1,9 +1,6 @@
-// Total number of pages in the setup wizard, defined in one place so the
-// per-page markup only declares its own step and carries no magic numbers.
+// Update here when adding or removing wizard steps.
 const TOTAL_STEPS = 8;
 
-// Renders the "step / total" label and matching progress bar for a wizard page.
-// Each page supplies its position via a `data-step` attribute on `.wizardProgress`.
 export function renderWizardProgress(view) {
     const container = view.querySelector('.wizardProgress');
     if (!container) {

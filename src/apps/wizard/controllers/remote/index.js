@@ -108,7 +108,6 @@ function onSubmit(e) {
 }
 
 function onUPnPChange() {
-    // Warn the user about the security implications before enabling UPnP.
     if (this.checked) {
         confirm({
             title: globalize.translate('HeaderUPnPSecurityWarning'),
