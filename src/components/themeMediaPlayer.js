@@ -33,6 +33,7 @@ function playThemeMedia(items, ownerId) {
 
         currentThemeItems.forEach((i) => {
             i.playOptions = {
+                aspectRatio: 'cover',
                 fullscreen: false,
                 enableRemotePlayers: false
             };
