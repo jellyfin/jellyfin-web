@@ -91,6 +91,32 @@ function showSubtitleMenu(context, player, button) {
     });
 }
 
+function getAudiobookChapterImageUrl(item, positionTicks, maxHeight) {
+    if (item?.Type !== 'AudioBook' || !item.Chapters?.length || positionTicks == null) {
+        return null;
+    }
+
+    let currentIndex = -1;
+    for (let i = item.Chapters.length - 1; i >= 0; i--) {
+        if (item.Chapters[i].StartPositionTicks <= positionTicks) {
+            currentIndex = i;
+            break;
+        }
+    }
+
+    if (currentIndex < 0 || !item.Chapters[currentIndex].ImageTag) {
+        return null;
+    }
+
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    return apiClient.getScaledImageUrl(item.Id, {
+        maxHeight,
+        tag: item.Chapters[currentIndex].ImageTag,
+        type: 'Chapter',
+        index: currentIndex
+    });
+}
+
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
     const displayName = item ?
@@ -151,9 +177,9 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageTitle').classList.add('hide');
         }
 
-        const url = getImageUrl(item, {
-            maxHeight: 300
-        });
+        const positionTicks = state.PlayState ? state.PlayState.PositionTicks : null;
+        const url = getAudiobookChapterImageUrl(item, positionTicks, 300)
+            || getImageUrl(item, { maxHeight: 300 });
 
         let contextButton = context.querySelector('.btnToggleContextMenu');
         // We remove the previous event listener by replacing the item in each update event
@@ -312,7 +338,7 @@ export default function () {
         }
 
         updatePlayPauseState(playState.IsPaused, item != null);
-        updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null, item);
+        updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
         updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
 
         if (item && item.MediaType == 'Video') {
