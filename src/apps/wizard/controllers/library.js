@@ -169,8 +169,13 @@ function shouldRefreshLibraryAfterChanges(page) {
     return page.id === 'mediaLibraryPage';
 }
 
+function updateNextLabel(page, hasLibraries) {
+    page.querySelector('.btnNextLabel').textContent = globalize.translate(hasLibraries ? 'Next' : 'Skip');
+}
+
 function reloadVirtualFolders(page, virtualFolders) {
     let html = '';
+    updateNextLabel(page, virtualFolders.length > 0);
     virtualFolders.push({
         Name: globalize.translate('ButtonAddMediaLibrary'),
         icon: 'add_circle',
