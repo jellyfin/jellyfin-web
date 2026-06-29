@@ -64,7 +64,7 @@ function showBackdrop(type, parentId) {
 }
 
 async function showSplashScreen() {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     const brandingOptions = await queryClient.fetchQuery(getBrandingOptionsQuery(api));
     if (brandingOptions.SplashscreenEnabled) {
         setBackdropImages([
@@ -95,4 +95,3 @@ pageClassOn('pageshow', 'page', function () {
         }
     }
 });
-

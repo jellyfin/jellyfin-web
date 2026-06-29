@@ -3740,7 +3740,7 @@ export class PlaybackManager {
                 let _unsubscribeRemoteControl;
                 Events.on(ServerConnections, 'localusersignedin', () => {
                     _unsubscribeRemoteControl?.();
-                    const api = ServerConnections.getCurrentApi();
+                    const api = ServerConnections.getApi();
                     _unsubscribeRemoteControl = api?.subscribe(
                         [OutboundWebSocketMessageType.ServerShuttingDown, OutboundWebSocketMessageType.ServerRestarting],
                         self.setDefaultPlayerActive.bind(self)
