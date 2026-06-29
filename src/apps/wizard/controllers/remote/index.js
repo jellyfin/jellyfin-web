@@ -65,11 +65,9 @@ function save(page) {
 function reload(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
-    Promise.all([
-        apiClient.getNamedConfiguration('network'),
-        apiClient.getJSON(apiClient.getUrl('Startup/RemoteAccess'))
-    ]).then(function ([config, remoteConfig]) {
-        page.querySelector('#chkRemoteAccess').checked = remoteConfig.EnableRemoteAccess !== false;
+    apiClient.getNamedConfiguration('network').then(function (config) {
+        // EnableRemoteAccess lives in NetworkConfiguration, not the startup endpoint.
+        page.querySelector('#chkRemoteAccess').checked = config.EnableRemoteAccess !== false;
         page.querySelector('#chkEnableUPnP').checked = config.EnableUPnP;
         page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
         page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort || '';
@@ -112,7 +110,8 @@ function onUPnPChange() {
     if (this.checked) {
         confirm({
             title: globalize.translate('HeaderUPnPSecurityWarning'),
-            text: globalize.translate('MessageUPnPSecurityWarning')
+            text: globalize.translate('MessageUPnPSecurityWarning'),
+            primary: 'delete'
         }).catch(() => {
             this.checked = false;
         });
