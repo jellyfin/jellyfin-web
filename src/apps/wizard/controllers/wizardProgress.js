@@ -1,20 +1,23 @@
-// Update here when adding or removing wizard steps.
-const TOTAL_STEPS = 8;
+import escapeHtml from 'escape-html';
 
-export function renderWizardProgress(view) {
+import globalize from 'lib/globalize';
+import { getWizardStepNumber, TOTAL_WIZARD_STEPS } from 'apps/wizard/controllers/wizardSteps';
+
+export function renderWizardProgress(view, stepId) {
     const container = view.querySelector('.wizardProgress');
     if (!container) {
         return;
     }
 
-    const step = parseInt(container.dataset.step, 10);
-    if (Number.isNaN(step)) {
+    const step = getWizardStepNumber(stepId);
+    if (!step) {
         return;
     }
 
-    const percent = (step / TOTAL_STEPS) * 100;
-    container.innerHTML = '<span class="wizardProgressLabel">' + step + ' / ' + TOTAL_STEPS + '</span>'
-        + '<div class="wizardProgressTrack" role="progressbar" aria-valuenow="' + step + '" aria-valuemin="1" aria-valuemax="' + TOTAL_STEPS + '" aria-label="Step ' + step + ' of ' + TOTAL_STEPS + '">'
+    const percent = (step / TOTAL_WIZARD_STEPS) * 100;
+    const label = globalize.translate('LabelWizardStep', step, TOTAL_WIZARD_STEPS);
+    container.innerHTML = '<span class="wizardProgressLabel">' + step + ' / ' + TOTAL_WIZARD_STEPS + '</span>'
+        + '<div class="wizardProgressTrack" role="progressbar" aria-valuenow="' + step + '" aria-valuemin="1" aria-valuemax="' + TOTAL_WIZARD_STEPS + '" aria-label="' + escapeHtml(label) + '">'
         + '<div class="wizardProgressFill" style="width:' + percent + '%;"></div></div>';
 }
 

@@ -7,9 +7,10 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from 'utils/dom';
 import taskButton from 'scripts/taskbutton';
-import Dashboard, { pageClassOn, pageIdOn } from 'utils/dashboard';
+import { pageClassOn, pageIdOn } from 'utils/dashboard';
 import imageHelper from 'utils/image';
 import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'components/cardbuilder/card.scss';
 import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
@@ -371,13 +372,13 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
 }
 
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
-    renderWizardProgress(this);
+    renderWizardProgress(this, 'library');
     reloadLibrary(this);
     this.querySelector('.btnWizardPrev').onclick = function () {
-        window.history.back();
+        goToPreviousWizardStep('library');
     };
     this.querySelector('.btnWizardNext').onclick = function () {
-        Dashboard.navigate('wizard/summary');
+        goToNextWizardStep('library');
     };
 });
 pageIdOn('pageshow', 'mediaLibraryPage', function () {

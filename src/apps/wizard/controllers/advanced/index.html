@@ -12,6 +12,7 @@
                 <div class="inputContainer">
                     <input is="emby-input" type="number" id="txtPortNumber" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelLocalHttpServerPortNumber}" />
                     <div class="fieldDescription">${LabelLocalHttpServerPortNumberHelp}</div>
+                    <div class="fieldDescription">${WizardPortRestartNote}</div>
                 </div>
 
                 <h2>${HeaderTranscoding}</h2>
@@ -26,7 +27,13 @@
                         <option value="videotoolbox">Apple VideoToolBox</option>
                         <option value="v4l2m2m">Video4Linux2 (V4L2)</option>
                     </select>
-                    <div class="fieldDescription">${LabelHardwareAccelerationTypeHelp}</div>
+                    <div class="fieldDescription">
+                        <span>${LabelHardwareAccelerationTypeHelp}</span>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/administration/hardware-acceleration/" target="_blank" class="button-link">
+                            <span>${ButtonLearnMore}</span>
+                        </a>
+                    </div>
+                    <div class="hardwareAccelerationWarning fieldDescription hide">${HardwareAccelerationWarning}</div>
                 </div>
                 <p class="wizardParagraph">${FFmpegSetupHelp}</p>
                 <div class="inputContainer">
@@ -46,7 +53,7 @@
                     </button>
                 </div>
             </form>
-            <div class="wizardProgress" data-step="5"></div>
+            <div class="wizardProgress"></div>
         </div>
     </div>
 </div>

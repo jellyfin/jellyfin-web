@@ -1,11 +1,12 @@
 import escapeHtml from 'escape-html';
 
+import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Dashboard from 'utils/dashboard';
 import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
@@ -49,29 +50,18 @@ async function getErrorMessage(err) {
     return globalize.translate('ErrorDefault');
 }
 
-function addUser(form) {
+function createUser(form) {
     const page = form.closest('.page');
     const nameElem = form.querySelector('#txtNewUsername');
     const passwordElem = form.querySelector('#txtNewUserPassword');
     const passwordConfirmElem = form.querySelector('#txtNewUserPasswordConfirm');
     const submitButton = form.querySelector('button[type="submit"]');
-    const name = nameElem.value.trim();
-
-    // Ignore empty names and guard against a double submit.
-    if (!name || submitButton.disabled) {
-        return;
-    }
-
-    if (passwordElem.value !== passwordConfirmElem.value) {
-        toast(globalize.translate('PasswordMatchError'));
-        return;
-    }
 
     loading.show();
     submitButton.disabled = true;
     const apiClient = ServerConnections.currentApiClient();
     apiClient.createUser({
-        Name: name,
+        Name: nameElem.value.trim(),
         Password: passwordElem.value
     }).then(function (user) {
         appendAddedUser(page, user);
@@ -85,6 +75,38 @@ function addUser(form) {
         submitButton.disabled = false;
         loading.hide();
     });
+}
+
+function addUser(form) {
+    const passwordElem = form.querySelector('#txtNewUserPassword');
+    const passwordConfirmElem = form.querySelector('#txtNewUserPasswordConfirm');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const name = form.querySelector('#txtNewUsername').value.trim();
+
+    // Ignore empty names and guard against a double submit.
+    if (!name || submitButton.disabled) {
+        return;
+    }
+
+    if (passwordElem.value !== passwordConfirmElem.value) {
+        toast(globalize.translate('PasswordMatchError'));
+        return;
+    }
+
+    if (!passwordElem.value) {
+        confirm({
+            title: globalize.translate('HeaderUserPasswordWarning'),
+            text: globalize.translate('MessageUserPasswordBlankWarning'),
+            primary: 'delete'
+        }).then(function () {
+            createUser(form);
+        }).catch(function () {
+            // User chose to set a password instead
+        });
+        return;
+    }
+
+    createUser(form);
 }
 
 function removeUser(page, item) {
@@ -114,18 +136,16 @@ function onAddedUsersClick(e) {
     }
 }
 
-function navigateToNextPage() {
-    Dashboard.navigate('wizard/remoteaccess');
-}
-
 export default function (view) {
     view.querySelector('.wizardAddUserForm').addEventListener('submit', onAddUserSubmit);
     view.querySelector('.addedUsers').addEventListener('click', onAddedUsersClick);
-    view.querySelector('.btnWizardNext').addEventListener('click', navigateToNextPage);
-    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        window.history.back();
+    view.querySelector('.btnWizardNext').addEventListener('click', function () {
+        goToNextWizardStep('users');
     });
-    renderWizardProgress(view);
+    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
+        goToPreviousWizardStep('users');
+    });
+    renderWizardProgress(view, 'users');
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         const page = this;

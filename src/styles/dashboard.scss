@@ -373,7 +373,21 @@ div[data-role=controlgroup] a.ui-btn-active {
 .wizardSummaryRow {
     display: flex;
     gap: 1em;
-    align-items: baseline;
+    align-items: center;
+    width: 100%;
+    padding: 0.6em 0.75em;
+    border: 0;
+    border-radius: 0.2em;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.wizardSummaryRow:hover,
+.wizardSummaryRow:focus-visible {
+    background: rgba(127, 127, 127, 0.2);
 }
 
 .wizardSummaryLabel {
@@ -384,7 +398,18 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .wizardSummaryValue {
     margin: 0;
+    flex: 1;
     opacity: 0.8;
+}
+
+.wizardSummaryEditIcon {
+    font-size: 1.2em;
+    opacity: 0;
+}
+
+.wizardSummaryRow:hover .wizardSummaryEditIcon,
+.wizardSummaryRow:focus-visible .wizardSummaryEditIcon {
+    opacity: 0.6;
 }
 
 .scheduledTaskPaperIconItem {

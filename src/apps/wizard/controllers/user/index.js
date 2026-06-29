@@ -3,24 +3,17 @@ import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Dashboard from 'utils/dashboard';
 import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 
-function nextWizardPage() {
-    Dashboard.navigate('wizard/users')
-        .catch(err => {
-            console.error('[Wizard > User] error navigating to additional users', err);
-        });
-}
-
 function onUpdateUserComplete(result) {
     console.debug('[Wizard > User] user update complete:', result);
     loading.hide();
-    nextWizardPage();
+    goToNextWizardStep('user');
 }
 
 async function onUpdateUserError(result) {
@@ -96,11 +89,8 @@ function onViewShow() {
     const page = this;
     const apiClient = ServerConnections.currentApiClient();
     apiClient.getJSON(apiClient.getUrl('Startup/User')).then(function (user) {
-        const password = user.Password || '';
+        // Don't pull the password back into the DOM; only the username is safe to restore.
         page.querySelector('#txtUsername').value = user.Name || '';
-        page.querySelector('#txtManualPassword').value = password;
-        // Keep the confirm field in sync so revisiting and pressing Next still works.
-        page.querySelector('#txtPasswordConfirm').value = password;
         loading.hide();
     });
 }
@@ -108,9 +98,9 @@ function onViewShow() {
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
     view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        window.history.back();
+        goToPreviousWizardStep('user');
     });
-    renderWizardProgress(view);
+    renderWizardProgress(view, 'user');
     view.addEventListener('viewshow', onViewShow);
     view.addEventListener('viewhide', function () {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');

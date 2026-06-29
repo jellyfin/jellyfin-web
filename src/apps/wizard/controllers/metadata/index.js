@@ -2,8 +2,8 @@ import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Dashboard from 'utils/dashboard';
 import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
@@ -34,6 +34,20 @@ function getDefaultMetadataLanguage(config, cultures) {
     return stored;
 }
 
+function getDefaultMetadataCountry(config, countries) {
+    if (config.MetadataCountryCode) {
+        return config.MetadataCountryCode;
+    }
+    // Fall back to the region from the display locale (e.g. en-US -> US).
+    const region = (config.UICulture || '').split('-')[1];
+    if (region && countries.some(function (c) {
+        return c.TwoLetterISORegionName === region.toUpperCase();
+    })) {
+        return region.toUpperCase();
+    }
+    return '';
+}
+
 function reload(page) {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
@@ -45,7 +59,7 @@ function reload(page) {
         populateLanguages(page.querySelector('#selectMetadataLanguage'), cultures);
         populateCountries(page.querySelector('#selectMetadataCountry'), countries);
         page.querySelector('#selectMetadataLanguage').value = getDefaultMetadataLanguage(config, cultures);
-        page.querySelector('#selectMetadataCountry').value = config.MetadataCountryCode || '';
+        page.querySelector('#selectMetadataCountry').value = getDefaultMetadataCountry(config, countries);
         loading.hide();
     }).catch(function (err) {
         console.error('[Wizard > Metadata] failed to load options', err);
@@ -68,7 +82,7 @@ function save(page) {
         });
     }).then(function () {
         loading.hide();
-        Dashboard.navigate('wizard/library');
+        goToNextWizardStep('metadata');
     }).catch(function (err) {
         console.error('[Wizard > Metadata] failed to save metadata settings', err);
         toast(globalize.translate('ErrorDefault'));
@@ -83,9 +97,9 @@ export default function (view) {
         return false;
     });
     view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        window.history.back();
+        goToPreviousWizardStep('metadata');
     });
-    renderWizardProgress(view);
+    renderWizardProgress(view, 'metadata');
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         reload(view);

@@ -2,9 +2,9 @@ import logo from '@jellyfin/ux-web/icon-transparent.png';
 
 import loading from 'components/loading/loading';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Dashboard from 'utils/dashboard';
 import dom from 'utils/dom';
 import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
@@ -37,7 +37,7 @@ function save(page) {
         });
     }).then(function () {
         loading.hide();
-        Dashboard.navigate('wizard/user');
+        goToNextWizardStep('start');
     }).catch(function (err) {
         console.error('[Wizard > Start] failed to save server name / language', err);
         loading.hide();
@@ -52,7 +52,7 @@ function onSubmit(e) {
 export default function (view) {
     view.querySelector('.wizardStartLogo').src = logo;
     view.querySelector('.wizardStartForm').addEventListener('submit', onSubmit);
-    renderWizardProgress(view);
+    renderWizardProgress(view, 'start');
 
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');

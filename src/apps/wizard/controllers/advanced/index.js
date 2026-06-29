@@ -1,9 +1,10 @@
+import confirm from 'components/confirm/confirm';
 import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Dashboard from 'utils/dashboard';
 import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
 
 import 'elements/emby-input/emby-input';
 import 'elements/emby-select/emby-select';
@@ -13,9 +14,34 @@ function validate(page) {
     const httpPort = parseInt(page.querySelector('#txtPortNumber').value, 10);
     if (!Number.isNaN(httpPort) && (httpPort < 1 || httpPort > 65535)) {
         toast(globalize.translate('MessageInvalidPortNumber'));
-        return false;
+        return Promise.resolve(false);
     }
-    return true;
+
+    // The HTTPS port is set on the previous step; both servers can't share a port.
+    const httpsPort = parseInt(page.dataset.httpsPort, 10);
+    if (!Number.isNaN(httpPort) && httpPort === httpsPort) {
+        toast(globalize.translate('MessagePortConflict'));
+        return Promise.resolve(false);
+    }
+
+    if (!Number.isNaN(httpPort) && httpPort < 1024) {
+        return confirm({
+            title: globalize.translate('HeaderPrivilegedPortWarning'),
+            text: globalize.translate('MessagePrivilegedPortWarning'),
+            primary: 'delete'
+        }).then(function () {
+            return true;
+        }).catch(function () {
+            return false;
+        });
+    }
+
+    return Promise.resolve(true);
+}
+
+function updateHardwareAccelerationWarning(page) {
+    const enabled = page.querySelector('#selectHardwareAcceleration').value !== 'none';
+    page.querySelector('.hardwareAccelerationWarning').classList.toggle('hide', !enabled);
 }
 
 function save(page) {
@@ -46,7 +72,7 @@ function save(page) {
 
     Promise.all([encodingPromise, networkPromise]).then(function () {
         loading.hide();
-        Dashboard.navigate('wizard/metadata');
+        goToNextWizardStep('advanced');
     }).catch(function (err) {
         console.error('[Wizard > Advanced] failed to save settings', err);
         toast(globalize.translate('ErrorDefault'));
@@ -62,8 +88,11 @@ function reload(page) {
         apiClient.getNamedConfiguration('encoding')
     ]).then(function ([networkConfig, encodingConfig]) {
         page.querySelector('#txtPortNumber').value = networkConfig.InternalHttpPort || '';
+        // Remember the HTTPS port (set on the previous step) so we can reject a port collision here.
+        page.dataset.httpsPort = networkConfig.InternalHttpsPort || '';
         page.querySelector('#txtFFmpegPath').value = encodingConfig.EncoderAppPath || '';
         page.querySelector('#selectHardwareAcceleration').value = encodingConfig.HardwareAccelerationType || 'none';
+        updateHardwareAccelerationWarning(page);
         loading.hide();
     }).catch(function (err) {
         console.error('[Wizard > Advanced] failed to load settings', err);
@@ -74,18 +103,24 @@ function reload(page) {
 
 function onSubmit(e) {
     e.preventDefault();
-    if (validate(this)) {
-        save(this);
-    }
+    const page = this;
+    validate(page).then(function (valid) {
+        if (valid) {
+            save(page);
+        }
+    });
     return false;
 }
 
 export default function (view) {
     view.querySelector('.wizardAdvancedForm').addEventListener('submit', onSubmit);
-    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
-        window.history.back();
+    view.querySelector('#selectHardwareAcceleration').addEventListener('change', function () {
+        updateHardwareAccelerationWarning(view);
     });
-    renderWizardProgress(view);
+    view.querySelector('.btnWizardPrev').addEventListener('click', function () {
+        goToPreviousWizardStep('advanced');
+    });
+    renderWizardProgress(view, 'advanced');
     view.addEventListener('viewshow', function () {
         document.querySelector('.skinHeader').classList.add('noHomeButtonHeader');
         reload(this);
