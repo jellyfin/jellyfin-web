@@ -310,7 +310,36 @@ export function getAudiobookPlaybackRate() {
     return (rate && Math.abs(rate - 1) > 0.001) ? rate : null;
 }
 
-function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
+function getAudiobookCumulativeOffsetTicks(sources, index) {
+    let offset = 0;
+    for (let i = 0; i < index; i++) {
+        offset += sources[i].RunTimeTicks || 0;
+    }
+    return offset;
+}
+
+function getAudiobookPartForGlobalTicks(sources, globalTicks) {
+    if (!sources || sources.length <= 1) {
+        return null;
+    }
+
+    let offset = 0;
+    for (let i = 0; i < sources.length; i++) {
+        const runtime = sources[i].RunTimeTicks || 0;
+        if (globalTicks < offset + runtime || i === sources.length - 1) {
+            return {
+                index: i,
+                source: sources[i],
+                localTicks: Math.max(0, globalTicks - offset)
+            };
+        }
+        offset += runtime;
+    }
+
+    return null;
+}
+
+function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues, mediaSourceId) {
     const url = 'Audio/' + item.Id + '/universal';
 
     startingPlaySession++;
@@ -333,6 +362,10 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         EnableAudioVbrEncoding: transcodingProfile.EnableAudioVbrEncoding
     };
 
+    if (mediaSourceId) {
+        params.MediaSourceId = mediaSourceId;
+    }
+
     if (item.Type === 'AudioBook') {
         const rate = getAudiobookPlaybackRate();
         if (rate) {
@@ -343,7 +376,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
     return apiClient.getUrl(url, params);
 }
 
-function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition) {
+function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition, mediaSourceId) {
     const transcodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
         return p.Type === 'Audio' && p.Context === 'Streaming';
     })[0];
@@ -366,7 +399,16 @@ function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, api
 
     const maxValues = getAudioMaxValues(deviceProfile);
 
-    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues });
+    return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, { maxBitrate, ...maxValues }, mediaSourceId);
+}
+
+function applyAudiobookStreamUrl(item, mediaSource, deviceProfile, maxBitrate, apiClient, startPosition) {
+    if (item.Type !== BaseItemKind.AudioBook || !mediaSource) {
+        return;
+    }
+
+    mediaSource.StreamUrl = getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition, mediaSource.Id);
+    mediaSource.enableDirectPlay = false;
 }
 
 function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -431,7 +473,7 @@ function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
 }
 
 async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
-    if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
+    if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && item.Type !== BaseItemKind.AudioBook && !player.useServerPlaybackInfoForAudio) {
         return {
             MediaSources: [
                 {
@@ -679,7 +721,9 @@ function getNowPlayingItemForReporting(player, item, mediaSource) {
     const nowPlayingItem = Object.assign({}, item);
 
     if (mediaSource) {
-        nowPlayingItem.RunTimeTicks = mediaSource.RunTimeTicks;
+        if (item.Type !== 'AudioBook') {
+            nowPlayingItem.RunTimeTicks = mediaSource.RunTimeTicks;
+        }
         nowPlayingItem.MediaStreams = mediaSource.MediaStreams;
 
         // not needed
@@ -1691,33 +1735,9 @@ export class PlaybackManager {
             player = player || self._currentPlayer;
             const item = self.currentItem(player);
             const chapters = item?.Chapters || [];
-            const sources = getPlayerData(player).audiobookSources;
 
-            if (!sources || sources.length <= 1 || !chapters[chapterIndex]) {
-                if (chapters[chapterIndex]) {
-                    self.seek(chapters[chapterIndex].StartPositionTicks, player);
-                }
-                return;
-            }
-
-            const currentSource = self.currentMediaSource(player);
-            const currentSourceIndex = sources.findIndex(s => s.Id === currentSource?.Id);
-
-            let targetSourceIndex = 0;
-            const targetChapterStart = chapters[chapterIndex].StartPositionTicks;
-            for (let i = sources.length - 1; i >= 0; i--) {
-                if ((chapters[i]?.StartPositionTicks || 0) <= targetChapterStart) {
-                    targetSourceIndex = i;
-                    break;
-                }
-            }
-
-            const localTicks = targetChapterStart - (chapters[targetSourceIndex]?.StartPositionTicks || 0);
-
-            if (targetSourceIndex === currentSourceIndex) {
-                self.seek(localTicks, player);
-            } else {
-                changeStream(player, localTicks, { mediaSourceId: sources[targetSourceIndex].Id });
+            if (chapters[chapterIndex]) {
+                self.seek(chapters[chapterIndex].StartPositionTicks, player);
             }
         };
 
@@ -1759,6 +1779,22 @@ export class PlaybackManager {
         }
 
         function changeStream(player, ticks, params) {
+            if (params == null) {
+                const seekItem = self.currentItem(player);
+                const seekSources = getPlayerData(player).audiobookSources;
+                if (seekItem?.Type === BaseItemKind.AudioBook && seekSources?.length > 1) {
+                    const target = getAudiobookPartForGlobalTicks(seekSources, ticks);
+                    if (target) {
+                        const seekCurrentSource = self.currentMediaSource(player);
+                        if (target.source.Id !== seekCurrentSource?.Id) {
+                            changeStream(player, target.localTicks, { mediaSourceId: target.source.Id });
+                            return;
+                        }
+                        ticks = target.localTicks;
+                    }
+                }
+            }
+
             if (canPlayerSeek(player) && params == null) {
                 const currentItem = self.currentItem(player);
                 if (currentItem?.Type === 'AudioBook') {
@@ -1815,6 +1851,8 @@ export class PlaybackManager {
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, params.mediaSourceId || currentMediaSource.Id, liveStreamId, options).then(function (result) {
                     if (validatePlaybackInfoResult(self, result)) {
                         currentMediaSource = result.MediaSources[0];
+
+                        applyAudiobookStreamUrl(currentItem, currentMediaSource, deviceProfile, maxBitrate, apiClient, ticks);
 
                         const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
                         streamInfo.fullscreen = currentPlayOptions.fullscreen;
@@ -2300,6 +2338,11 @@ export class PlaybackManager {
                 throw new Error('player cannot be null');
             }
 
+            const currentItem = self.currentItem(player);
+            if (currentItem?.Type === BaseItemKind.AudioBook && getPlayerData(player).audiobookSources?.length > 1 && currentItem.RunTimeTicks) {
+                return currentItem.RunTimeTicks;
+            }
+
             const mediaSource = self.currentMediaSource(player);
 
             if (mediaSource?.RunTimeTicks) {
@@ -2315,6 +2358,18 @@ export class PlaybackManager {
             return playerDuration;
         };
 
+        function getAudiobookSourceOffsetTicks(player) {
+            const sources = getPlayerData(player).audiobookSources;
+            if (!sources || sources.length <= 1) {
+                return 0;
+            }
+
+            const currentSource = self.currentMediaSource(player);
+            const currentSourceIndex = sources.findIndex(s => s.Id === currentSource?.Id);
+
+            return getAudiobookCumulativeOffsetTicks(sources, currentSourceIndex);
+        }
+
         function getCurrentTicks(player) {
             if (!player) {
                 throw new Error('player cannot be null');
@@ -2328,10 +2383,11 @@ export class PlaybackManager {
             if (currentItem?.Type === 'AudioBook' && streamInfo) {
                 const rate = getAudiobookPlaybackRate();
                 if (rate) {
-                    return Math.floor(playerTime * rate);
+                    return Math.floor(playerTime * rate) + getAudiobookSourceOffsetTicks(player);
                 }
-            }
 
+                return playerTime + (streamInfo.transcodingOffsetTicks || 0) + getAudiobookSourceOffsetTicks(player);
+            }
 
             if (streamInfo) {
                 playerTime += streamInfo.transcodingOffsetTicks || 0;
@@ -2785,6 +2841,16 @@ export class PlaybackManager {
                 }
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {
+                    const audiobookSources = getPlayerData(player).audiobookSources;
+                    let audiobookStartPosition = startPosition;
+                    if (item.Type === BaseItemKind.AudioBook && audiobookSources?.length > 1 && startPosition > 0) {
+                        const target = getAudiobookPartForGlobalTicks(audiobookSources, startPosition);
+                        if (target && target.index > 0) {
+                            mediaSource = target.source;
+                            audiobookStartPosition = target.localTicks;
+                        }
+                    }
+
                     if (trackOptions.DefaultSecondarySubtitleStreamIndex != null) {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = trackOptions.DefaultSecondarySubtitleStreamIndex;
                     }
@@ -2804,7 +2870,9 @@ export class PlaybackManager {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     }
 
-                    const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
+                    applyAudiobookStreamUrl(item, mediaSource, deviceProfile, maxBitrate, apiClient, audiobookStartPosition);
+
+                    const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, audiobookStartPosition, player);
                     streamInfo.aspectRatio = playOptions.aspectRatio;
                     streamInfo.fullscreen = playOptions.fullscreen;
 
@@ -2859,6 +2927,8 @@ export class PlaybackManager {
                     };
 
                     return getPlaybackMediaSource(player, apiClient, deviceProfile, item, options.mediaSourceId, mediaOptions).then(function (mediaSource) {
+                        applyAudiobookStreamUrl(item, mediaSource, deviceProfile, maxBitrate, apiClient, startPosition);
+
                         return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
                     });
                 });
@@ -3033,6 +3103,10 @@ export class PlaybackManager {
 
         function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options) {
             options.isPlayback = true;
+
+            if (item.Type === BaseItemKind.AudioBook) {
+                mediaSourceId = null;
+            }
 
             return getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options).then(function (playbackInfoResult) {
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
@@ -3948,12 +4022,7 @@ export class PlaybackManager {
         const chapters = item.Chapters || [];
         const sources = this.getAudiobookSources(player);
 
-        let ticks = this.getCurrentTicks(player);
-        if (sources?.length > 1) {
-            const currentSource = this.currentMediaSource(player);
-            const currentSourceIndex = sources.findIndex(s => s.Id === currentSource?.Id);
-            ticks += chapters[currentSourceIndex]?.StartPositionTicks || 0;
-        }
+        const ticks = this.getCurrentTicks(player);
 
         const nextChap = chapters.find(c => c.StartPositionTicks > ticks);
         if (nextChap) {
@@ -3973,11 +4042,6 @@ export class PlaybackManager {
         const sources = this.getAudiobookSources(player);
 
         let ticks = this.getCurrentTicks(player);
-        if (sources?.length > 1) {
-            const currentSource = this.currentMediaSource(player);
-            const currentSourceIndex = sources.findIndex(s => s.Id === currentSource?.Id);
-            ticks += chapters[currentSourceIndex]?.StartPositionTicks || 0;
-        }
 
         ticks -= 100000000;
 

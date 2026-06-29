@@ -505,7 +505,6 @@ function clipBufferedRangesToChapter(bufferedRanges, bounds) {
 function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
     const bounds = chapterModeActive() ? getChapterBounds(positionTicks, runtimeTicks) : null;
 
-
     // See bindEvents for why this is necessary
     if (positionSlider && !positionSlider.dragging) {
         if (bounds) {
@@ -553,6 +552,12 @@ function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
             chapterNameElement.textContent = '';
             chapterNameElement.classList.add('hide');
         }
+    }
+
+    const playingItem = getPlayingItem();
+    if (playingItem?.Type === 'AudioBook' && playingItem.Chapters?.length) {
+        setNowPlayingImage(getChapterImageUrl(playingItem, positionTicks, 70)
+            || getImageUrl(playingItem, { height: 70 }));
     }
 }
 
@@ -606,6 +611,43 @@ function setLyricButtonActiveStatus() {
     lyricButton.classList.toggle('buttonActive', isLyricPageActive);
 }
 
+function getChapterImageUrl(item, positionTicks, height) {
+    if (item?.Type !== 'AudioBook' || !item.Chapters?.length) {
+        return null;
+    }
+
+    const chapter = getCurrentChapter(positionTicks, item.Chapters);
+    if (!chapter?.ImageTag) {
+        return null;
+    }
+
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    return apiClient.getScaledImageUrl(item.Id, {
+        height,
+        tag: chapter.ImageTag,
+        type: 'Chapter',
+        index: item.Chapters.indexOf(chapter)
+    });
+}
+
+function setNowPlayingImage(url) {
+    if (url === nowPlayingImageUrl) {
+        return;
+    }
+
+    if (url) {
+        nowPlayingImageUrl = url;
+        imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
+        nowPlayingImageElement.style.display = null;
+        nowPlayingTextElement.style.marginLeft = null;
+    } else {
+        nowPlayingImageUrl = null;
+        nowPlayingImageElement.style.backgroundImage = '';
+        nowPlayingImageElement.style.display = 'none';
+        nowPlayingTextElement.style.marginLeft = '1em';
+    }
+}
+
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
 
@@ -632,23 +674,11 @@ function updateNowPlayingInfo(state) {
 
     const imgHeight = 70;
 
-    const url = nowPlayingItem ? getImageUrl(nowPlayingItem, {
-        height: imgHeight
-    }) : null;
+    const positionTicks = state.PlayState ? state.PlayState.PositionTicks : null;
+    const url = getChapterImageUrl(nowPlayingItem, positionTicks, imgHeight)
+        || (nowPlayingItem ? getImageUrl(nowPlayingItem, { height: imgHeight }) : null);
 
-    if (url !== nowPlayingImageUrl) {
-        if (url) {
-            nowPlayingImageUrl = url;
-            imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
-            nowPlayingImageElement.style.display = null;
-            nowPlayingTextElement.style.marginLeft = null;
-        } else {
-            nowPlayingImageUrl = null;
-            nowPlayingImageElement.style.backgroundImage = '';
-            nowPlayingImageElement.style.display = 'none';
-            nowPlayingTextElement.style.marginLeft = '1em';
-        }
-    }
+    setNowPlayingImage(url);
 
     if (nowPlayingItem.Id) {
         const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
