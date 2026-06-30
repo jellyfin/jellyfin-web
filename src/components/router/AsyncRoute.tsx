@@ -18,9 +18,9 @@ const importRoute = (page: string, type: AppType) => {
     switch (type) {
         case AppType.Dashboard:
             return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
-        case AppType.Experimental:
+        case AppType.Modern:
             return import(/* webpackChunkName: "[request]" */ `../../apps/modern/routes/${page}`);
-        case AppType.Stable:
+        case AppType.Legacy:
             return import(/* webpackChunkName: "[request]" */ `../../apps/legacy/routes/${page}`);
     }
 };
@@ -28,7 +28,7 @@ const importRoute = (page: string, type: AppType) => {
 export const toAsyncPageRoute = ({
     path,
     page,
-    type = AppType.Stable
+    type = AppType.Legacy
 }: AsyncRoute): RouteObject => {
     return {
         path,

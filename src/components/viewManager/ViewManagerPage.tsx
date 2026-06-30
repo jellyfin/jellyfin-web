@@ -80,7 +80,7 @@ const loadView = async (
  * NOTE: Any new pages should use the generic Page component instead.
  */
 const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
-    appType = AppType.Stable,
+    appType = AppType.Legacy,
     controller,
     view,
     type,
