@@ -598,13 +598,17 @@ function setFieldVisibilities(context, item) {
 
     if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo) {
         showElement('#fldArtist', context);
-        showElement('#fldAlbumArtist', context);
     } else {
         hideElement('#fldArtist', context);
+    }
+
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo || item.Type === BaseItemKind.AudioBook) {
+        showElement('#fldAlbumArtist', context);
+    } else {
         hideElement('#fldAlbumArtist', context);
     }
 
-    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo) {
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo || item.Type === BaseItemKind.AudioBook) {
         showElement('#fldAlbum', context);
     } else {
         hideElement('#fldAlbum', context);
