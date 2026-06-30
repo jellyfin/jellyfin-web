@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
-import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
+import { EXPERIMENTAL_APP_ROUTES } from 'apps/modern/routes/routes';
 import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
 import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 import AppHeader from 'components/AppHeader';

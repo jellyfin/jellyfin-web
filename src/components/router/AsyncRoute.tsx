@@ -19,7 +19,7 @@ const importRoute = (page: string, type: AppType) => {
         case AppType.Dashboard:
             return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
         case AppType.Experimental:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/experimental/routes/${page}`);
+            return import(/* webpackChunkName: "[request]" */ `../../apps/modern/routes/${page}`);
         case AppType.Stable:
             return import(/* webpackChunkName: "[request]" */ `../../apps/stable/routes/${page}`);
     }
