@@ -127,6 +127,7 @@
     padding: 0.1em 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    overflow-wrap: anywhere;
     font-weight: 400;
 }
 
@@ -134,8 +135,8 @@
     line-height: 1.2em;
 }
 
-.listItemBodyText-nowrap {
-    white-space: nowrap;
+.listItemBodyText-truncate {
+    overflow-wrap: normal;
 }
 
 .listItemImage {
