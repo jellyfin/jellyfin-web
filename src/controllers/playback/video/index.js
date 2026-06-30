@@ -28,6 +28,7 @@ import '../../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../../styles/videoosd.scss';
 import shell from '../../../scripts/shell';
 import SubtitleSync from '../../../components/subtitlesync/subtitlesync';
+import CustomPlaybackRate from '../../../components/customplaybackrate/customplaybackrate';
 import { appRouter } from '../../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from '../../../scripts/libraryMenu';
@@ -990,6 +991,11 @@ export default function (view) {
                 playbackManager.enableShowingSubtitleOffset(player);
                 toggleSubtitleSync();
             }
+        } else if (selectedOption === 'playbackrate') {
+            const player = currentPlayer;
+            if (player) {
+                toggleCustomPlaybackRate();
+            }
         }
     }
 
@@ -1186,6 +1192,16 @@ export default function (view) {
             subtitleSyncOverlay.toggle(action);
         } else if (player) {
             subtitleSyncOverlay = new SubtitleSync(player);
+        }
+    }
+
+    function toggleCustomPlaybackRate(action) {
+        const player = currentPlayer;
+        if (customPlaybackRateOverlay) {
+            customPlaybackRateOverlay.toggle(action);
+        } else if (player) {
+            customPlaybackRateOverlay = new CustomPlaybackRate(player);
+            customPlaybackRateOverlay.toggle(action);
         }
     }
 
@@ -1631,6 +1647,7 @@ export default function (view) {
     let programEndDateMs = 0;
     let playbackStartTimeTicks = 0;
     let subtitleSyncOverlay;
+    let customPlaybackRateOverlay;
     let trickplayResolution = null;
     const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
     const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
