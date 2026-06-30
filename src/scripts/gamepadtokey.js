@@ -170,29 +170,22 @@ _ButtonPressedState.setdPadRight = function (newPressedState) {
     _dPadRightPressed = newPressedState;
 };
 
-const delayTimes = {};
-
-function delay(key) {
-    const time = delayTimes[key] || 0;
-    const now = new Date().getTime();
-
-    return (now - time) >= 200;
-}
-
-function resetDelay(key) {
-    delayTimes[key] = new Date().getTime();
-}
-
-const throttleTimes = {};
+const keydownCounter = {};
+const times = {};
 
 function throttle(key) {
-    const time = throttleTimes[key] || delayTimes[key];
+    const time = times[key] || 0;
     const now = new Date().getTime();
-    return (now - time) >= 33;
+
+    if (keydownCounter[key] === 1) {
+        return (now - time) >= 200;
+    } else {
+        return (now - time) >= 40;
+    }
 }
 
 function resetThrottle(key) {
-    throttleTimes[key] = new Date().getTime();
+    times[key] = new Date().getTime();
 }
 
 const isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
@@ -237,18 +230,17 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
         // always fire if this is the initial down press
         if (oldPressedState === false) {
             fire = true;
-            resetDelay(key);
+            keydownCounter[key] = 0;
         } else if (enableRepeatKeyDown) {
-            fire = delay(key) && throttle(key);
+            fire = throttle(key);
         }
 
         if (fire && keyCode) {
             newPressedEvent = raiseEvent('keydown', key, keyCode);
+            keydownCounter[key]++;
             resetThrottle(key);
         }
     } else if (newPressedState === false && oldPressedState === true) {
-        resetDelay(key);
-
         // button up
         if (keyCode) {
             newPressedEvent = raiseEvent('keyup', key, keyCode);
@@ -360,7 +352,7 @@ function runInputLoop() {
 
 function startInputLoop() {
     if (!inputLoopTimer) {
-        inputLoopTimer = setInterval(runInputLoop, 15);
+        inputLoopTimer = setInterval(runInputLoop, 20);
     }
 }
 
