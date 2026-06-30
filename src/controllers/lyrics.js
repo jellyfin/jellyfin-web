@@ -1,7 +1,7 @@
 import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
 import escapeHtml from 'escape-html';
 
-import { AutoScroll } from 'apps/stable/features/lyrics/constants/autoScroll';
+import { AutoScroll } from 'apps/legacy/features/lyrics/constants/autoScroll';
 import autoFocuser from 'components/autoFocuser';
 import { appRouter } from 'components/router/appRouter';
 import layoutManager from 'components/layoutManager';

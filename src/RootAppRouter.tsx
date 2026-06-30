@@ -9,7 +9,7 @@ import {
 
 import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
 import { EXPERIMENTAL_APP_ROUTES } from 'apps/modern/routes/routes';
-import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
+import { STABLE_APP_ROUTES } from 'apps/legacy/routes/routes';
 import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';

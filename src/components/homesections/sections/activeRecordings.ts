@@ -2,7 +2,7 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import { getRecordingsQuery } from 'apps/stable/features/liveTv/api/useRecordings';
+import { getRecordingsQuery } from 'apps/legacy/features/liveTv/api/useRecordings';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';

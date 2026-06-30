@@ -1,6 +1,6 @@
 import escapeHtml from 'escape-html';
 
-import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
+import { PlayerEvent } from 'apps/legacy/features/playback/constants/playerEvent';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
 import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';

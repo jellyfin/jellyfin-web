@@ -1,4 +1,4 @@
-import { SubtitleStylingOption } from 'apps/stable/features/playback/constants/subtitleStylingOption';
+import { SubtitleStylingOption } from 'apps/legacy/features/playback/constants/subtitleStylingOption';
 import browser from 'scripts/browser';
 import type { UserSettings } from 'scripts/settings/userSettings';
 
