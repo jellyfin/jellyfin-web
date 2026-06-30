@@ -32,15 +32,13 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
 
         (await libraryMenu).setTitle(user.Name);
 
-        if (user.HasConfiguredPassword) {
-            if (!user.Policy?.IsAdministrator) {
-                (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
-            }
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
-        } else {
-            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
+        // user.HasConfiguredPassword always returns true since the server fix in
+        // jellyfin/jellyfin#14950 (it used to leak whether another user was passwordless),
+        // so we just show the current-password field and the reset button for non-admins.
+        if (!user.Policy?.IsAdministrator) {
+            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
         }
+        (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
 
         const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
         (page.querySelector('.passwordSection') as HTMLDivElement).classList.toggle('hide', !canChangePassword);
@@ -88,14 +86,8 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
                 return;
             }
 
-            let currentPassword = (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value;
+            const currentPassword = (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value;
             const newPassword = (page.querySelector('#txtNewPassword') as HTMLInputElement).value;
-
-            if ((page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.contains('hide')) {
-                // Firefox does not respect autocomplete=off, so clear it if the field is supposed to be hidden (and blank)
-                // This should only happen when user.HasConfiguredPassword is false, but this information is not passed on
-                currentPassword = '';
-            }
 
             window.ApiClient.updateUserPassword(user.Id, currentPassword, newPassword).then(function () {
                 loading.hide();

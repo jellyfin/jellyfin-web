@@ -156,7 +156,7 @@ function loadUserList(context, apiClient, users) {
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += `<div class="cardContent" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
+        html += `<div class="cardContent" data-username="${user.Name}" data-userid="${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -226,13 +226,10 @@ export default function (view, params) {
             const context = view;
             const id = cardContent.getAttribute('data-userid');
             const name = cardContent.getAttribute('data-username');
-            const haspw = cardContent.getAttribute('data-haspw');
 
             if (id === 'manual') {
                 context.querySelector('#txtManualName').value = '';
                 showManualForm(context, true);
-            } else if (haspw == 'false') {
-                authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
                 context.querySelector('#txtManualName').value = name;
                 context.querySelector('#txtManualPassword').value = '';
