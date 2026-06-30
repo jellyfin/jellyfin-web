@@ -16,17 +16,14 @@ import Backdrop from 'components/Backdrop';
 import layoutManager from 'components/layoutManager';
 import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
-import { LayoutMode } from 'constants/layoutMode';
 import appTheme from 'themes';
 import { ThemeStorageManager } from 'themes/themeStorageManager';
-
-const isModernLayout = layoutManager.layout === LayoutMode.Experimental;
 
 const router = createHashRouter([
     {
         element: <RootAppLayout />,
         children: [
-            ...(isModernLayout ? MODERN_APP_ROUTES : LEGACY_APP_ROUTES),
+            ...(layoutManager.modern ? MODERN_APP_ROUTES : LEGACY_APP_ROUTES),
             ...DASHBOARD_APP_ROUTES,
             ...WIZARD_APP_ROUTES,
             {
@@ -59,7 +56,7 @@ function RootAppLayout() {
             storageManager={ThemeStorageManager}
         >
             <Backdrop />
-            <AppHeader isHidden={isModernLayout || isNewLayoutPath} />
+            <AppHeader isHidden={layoutManager.modern || isNewLayoutPath} />
 
             <Outlet />
         </ThemeProvider>

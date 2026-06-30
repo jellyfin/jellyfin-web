@@ -7,7 +7,6 @@ import loading from '../loading/loading';
 import alert from '../alert';
 
 import layoutManager from 'components/layoutManager';
-import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
@@ -405,7 +404,7 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            const isModernLayout = layoutManager.layout === LayoutMode.Experimental;
+            const isModernLayout = layoutManager.modern;
 
             if (isModernLayout && item.CollectionType == CollectionType.Books) {
                 url = `#/books?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
