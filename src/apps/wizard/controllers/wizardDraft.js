@@ -1,5 +1,4 @@
-// Single in-memory draft accumulating every wizard step's changes until Finish.
-// Lost on a hard reload by design - avoids persisting plaintext passwords.
+// In-memory only, lost on reload by design - avoids persisting plaintext passwords.
 const draft = {
     config: {},
     users: [],
@@ -9,8 +8,7 @@ const draft = {
     libraries: []
 };
 
-// Tracks which apply* stages have already succeeded, so a retry after a partial
-// failure doesn't redo idempotent work or re-POST a non-idempotent one (e.g. Complete).
+// Tracks succeeded apply stages so a retry skips redoing work or re-POSTing Complete.
 const appliedStages = new Set();
 let completed = false;
 
@@ -23,8 +21,7 @@ function hasDraftData() {
         || draft.libraries.length > 0;
 }
 
-// Warn before an accidental refresh/close wipes the in-memory draft, but only once
-// the user has actually entered data and only until the wizard finishes successfully.
+// Only warn once data exists and before the wizard finishes, to avoid losing the draft.
 window.addEventListener('beforeunload', function (e) {
     if (!completed && hasDraftData()) {
         e.preventDefault();
@@ -43,10 +40,7 @@ export function markWizardCompleted() {
 function applyConfig(apiClient) {
     if (Object.keys(draft.config).length === 0) return Promise.resolve();
     return apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
-        // Read-modify-write against the live server config; only the wizard's own fields
-        // are overwritten, but a concurrent external change to those same fields between
-        // this GET and the POST below would still be lost. Not fixable without API support
-        // for partial updates. The `|| {}` guards against an empty/no-content response.
+        // Read-modify-write: a concurrent external edit to these fields is lost (no partial-update API).
         const merged = Object.assign(config || {}, draft.config);
         return apiClient.ajax({
             type: 'POST',
