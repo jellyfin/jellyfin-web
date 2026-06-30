@@ -33,7 +33,7 @@ const BrandingOption = {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();
@@ -61,7 +61,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const loader = async () => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) return {};
 
     return queryClient.ensureQueryData(

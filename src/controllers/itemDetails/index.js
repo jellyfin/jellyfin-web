@@ -40,7 +40,6 @@ import * as userSettings from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -1847,7 +1846,7 @@ window.ItemDetailPage = new ItemDetailPage();
 
 export default function (view, params) {
     function getApiClient() {
-        return params.serverId ? ServerConnections.getApiClient(params.serverId) : ApiClient;
+        return params.serverId ? ServerConnections.getApiClient(params.serverId) : ServerConnections.currentApiClient();
     }
 
     function reload(instance, page, pageParams) {
@@ -1958,7 +1957,12 @@ export default function (view, params) {
     }
 
     function onDownloadClick() {
-        const api = toApi(getApiClient());
+        const api = ServerConnections.getApi(currentItem.ServerId);
+        if (!api) {
+            console.error('[ItemDetails] no Api instance available for server', currentItem.ServerId);
+            return;
+        }
+
         const url = getLibraryApi(api).getDownloadUrl({ itemId: currentItem.Id });
         download([{
             url,
@@ -2107,9 +2111,14 @@ export default function (view, params) {
         }
 
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-        const api = toApi(apiClient);
+        const api = ServerConnections.getApi(currentItem.ServerId);
+        if (!api) {
+            console.error('[ItemDetails] no Api instance available for server', currentItem.ServerId);
+            return;
+        }
+
         getUserLibraryApi(api).getItem({
-            userId: apiClient.getCurrentUserId(),
+            userId: apiClient?.getCurrentUserId(),
             itemId: selectedId
         }).then(function ({ data: altItem }) {
             if (view.querySelector('.selectSource').value !== selectedId) {

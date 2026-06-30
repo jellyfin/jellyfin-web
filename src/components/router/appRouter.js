@@ -10,7 +10,6 @@ import layoutManager from 'components/layoutManager';
 import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 import { history } from 'RootAppRouter';
 
@@ -137,8 +136,8 @@ class AppRouter {
     showItem(item, serverId, options) {
         // TODO: Refactor this so it only gets items, not strings.
         if (typeof item === 'string') {
+            const api = ServerConnections.getApi(serverId);
             const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
-            const api = toApi(apiClient);
             const userId = apiClient.getCurrentUserId();
 
             queryClient

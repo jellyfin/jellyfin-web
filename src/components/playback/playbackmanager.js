@@ -32,7 +32,6 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
 import * as bitrateTest from 'utils/bitrateTest';
 
@@ -441,8 +440,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
         StartTimeTicks: options.startPosition || 0
     };
 
-    const api = toApi(apiClient);
-    const mediaInfoApi = getMediaInfoApi(api);
+    const api = ServerConnections.getApi(apiClient.serverId());
 
     if (options.isPlayback) {
         query.IsPlayback = true;
@@ -501,7 +499,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     query.DeviceProfile = deviceProfile;
 
-    const res = await mediaInfoApi.getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
+    const res = await getMediaInfoApi(api).getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
     return res.data;
 }
 
@@ -1400,6 +1398,7 @@ export class PlaybackManager {
                 return player.setMaxStreamingBitrate(options);
             }
 
+            const api = ServerConnections.getApi(self.currentItem(player).ServerId);
             const apiClient = ServerConnections.getApiClient(self.currentItem(player).ServerId);
 
             apiClient.getEndpointInfo().then(function (endpointInfo) {
@@ -1409,7 +1408,7 @@ export class PlaybackManager {
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
-                    promise = bitrateTest.detectBitrate(toApi(apiClient), true);
+                    promise = bitrateTest.detectBitrate(api, true);
                 } else {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
                     promise = Promise.resolve(options.maxBitrate);
@@ -2366,8 +2365,6 @@ export class PlaybackManager {
 
             playOptions.isFirstItem = playOptions.isFirstItem || !prevSource;
 
-            const apiClient = ServerConnections.getApiClient(item.ServerId);
-
             // TODO: This should be the media type requested, not the original media type
             const mediaType = item.MediaType;
 
@@ -2378,7 +2375,7 @@ export class PlaybackManager {
                         loading.show();
                     }
                 })
-                .then(() => detectBitrate(apiClient, item, mediaType))
+                .then(() => detectBitrate(item, mediaType))
                 .then((bitrate) => {
                     return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
                         .catch(onPlaybackRejection);
@@ -2579,7 +2576,10 @@ export class PlaybackManager {
             }
         }
 
-        function detectBitrate(apiClient, item, mediaType) {
+        function detectBitrate(item, mediaType) {
+            const api = ServerConnections.getApi(item.ServerId);
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
+
             // FIXME: This is gnarly, but don't want to change too much here in a bugfix
             return Promise.resolve()
                 .then(() => {
@@ -2590,7 +2590,7 @@ export class PlaybackManager {
                     return apiClient.getEndpointInfo()
                         .then((endpointInfo) => {
                             if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return bitrateTest.detectBitrate(toApi(apiClient))
+                                return bitrateTest.detectBitrate(api)
                                     .then((bitrate) => {
                                         appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
                                         return bitrate;
@@ -3740,7 +3740,7 @@ export class PlaybackManager {
                 let _unsubscribeRemoteControl;
                 Events.on(ServerConnections, 'localusersignedin', () => {
                     _unsubscribeRemoteControl?.();
-                    const api = ServerConnections.getCurrentApi();
+                    const api = ServerConnections.getApi();
                     _unsubscribeRemoteControl = api?.subscribe(
                         [OutboundWebSocketMessageType.ServerShuttingDown, OutboundWebSocketMessageType.ServerRestarting],
                         self.setDefaultPlayerActive.bind(self)
