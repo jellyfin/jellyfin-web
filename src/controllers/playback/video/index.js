@@ -1941,7 +1941,7 @@ export default function (view) {
         playbackManager.nextChapter(currentPlayer);
     });
     view.querySelector('.btnNextTrack').addEventListener('click', function () {
-        playbackManager.nextTrack(currentPlayer);
+        playbackManager.nextTrack(currentPlayer, true);
     });
     btnRewind.addEventListener('click', function () {
         playbackManager.rewind(currentPlayer);
