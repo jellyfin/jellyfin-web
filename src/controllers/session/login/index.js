@@ -66,8 +66,8 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 
         const connectUrl = apiClient.getUrl('/QuickConnect/Connect?Secret=' + json.Secret);
 
-        const interval = setInterval(function() {
-            apiClient.getJSON(connectUrl).then(async function(data) {
+        const interval = setInterval(function () {
+            apiClient.getJSON(connectUrl).then(async function (data) {
                 if (!data.Authenticated) {
                     return;
                 }
@@ -101,7 +101,7 @@ function authenticateQuickConnect(apiClient, targetUrl) {
         }, 5000, connectUrl);
 
         return true;
-    }, function(e) {
+    }, function (e) {
         Dashboard.alert({
             message: globalize.translate('QuickConnectNotActive'),
             title: globalize.translate('HeaderError')
@@ -134,6 +134,14 @@ function showManualForm(context, showCancel, focusPassword) {
     } else {
         context.querySelector('.btnCancel').classList.add('hide');
     }
+}
+
+function togglePasswordVisibility(context) {
+    const passwordInput = context.querySelector('#txtManualPassword');
+    const icon = context.querySelector('.togglePasswordVisibility');
+
+    icon.innerHTML = passwordInput.type === 'password' ? 'visibility_off' : 'visibility';
+    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
 }
 
 function loadUserList(context, apiClient, users) {
@@ -242,10 +250,20 @@ export default function (view, params) {
     });
     view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
         appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
+        const passwordInput = view.querySelector('#txtManualPassword');
+        const icon = view.querySelector('.togglePasswordVisibility');
+
+        icon.innerHTML = 'visibility';
+        passwordInput.type = 'password'; // Reset password visibility
         authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
         e.preventDefault();
         return false;
     });
+
+    view.querySelector('.togglePasswordVisibility').addEventListener('click', function () {
+        togglePasswordVisibility(view);
+    });
+
     view.querySelector('.btnForgotPassword').addEventListener('click', function () {
         Dashboard.navigate('forgotpassword');
     });
