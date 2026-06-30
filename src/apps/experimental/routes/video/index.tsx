@@ -56,7 +56,7 @@ const VideoPage: FC = () => {
                         left: 0,
                         right: 0,
                         color: 'white',
-                        pointerEvents: 'unset !important',
+                        pointerEvents: 'unset !important'
                     }}
                 >
                     <AppToolbar
