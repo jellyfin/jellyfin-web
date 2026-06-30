@@ -1,12 +1,11 @@
 import escapeHtml from 'escape-html';
 
 import confirm from 'components/confirm/confirm';
-import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
 import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { getWizardDraft } from 'apps/wizard/controllers/wizardDraft';
 
 import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
@@ -15,108 +14,82 @@ import 'elements/emby-button/paper-icon-button-light';
 
 // Adding users is optional, so the forward button reads "Skip" until at least one exists.
 function updateNextLabel(page) {
-    const nextLabel = page.querySelector('.btnNextLabel');
-    const hasUsers = !!page.querySelector('.addedUsers li');
-    nextLabel.textContent = globalize.translate(hasUsers ? 'Next' : 'Skip');
+    const draft = getWizardDraft();
+    page.querySelector('.btnNextLabel').textContent = globalize.translate(draft.users.length ? 'Next' : 'Skip');
 }
 
-function appendAddedUser(page, user) {
+function renderAddedUsers(page) {
+    const draft = getWizardDraft();
     let list = page.querySelector('.addedUsers ul');
     if (!list) {
         list = document.createElement('ul');
         page.querySelector('.addedUsers').appendChild(list);
     }
 
-    const item = document.createElement('li');
-    item.dataset.userId = user.Id;
-    item.innerHTML = '<span class="addedUserName"></span>'
-        + '<button type="button" is="paper-icon-button-light" class="btnRemoveUser" title="' + escapeHtml(globalize.translate('Delete')) + '">'
-        + '<span class="material-icons delete" aria-hidden="true"></span>'
-        + '</button>';
+    list.innerHTML = draft.users.map(function (user, index) {
+        return '<li data-index="' + index + '">'
+            + '<span class="addedUserName"></span>'
+            + '<button type="button" is="paper-icon-button-light" class="btnRemoveUser" title="' + escapeHtml(globalize.translate('Delete')) + '">'
+            + '<span class="material-icons delete" aria-hidden="true"></span>'
+            + '</button>'
+            + '</li>';
+    }).join('');
+
     // Set the user-supplied name via textContent to avoid HTML injection.
-    item.querySelector('.addedUserName').textContent = user.Name;
-    list.appendChild(item);
+    list.querySelectorAll('li').forEach(function (item, index) {
+        item.querySelector('.addedUserName').textContent = draft.users[index].Name;
+    });
+
     updateNextLabel(page);
 }
 
-// The server may explain why creation failed (e.g. a duplicate name); surface that text.
-async function getErrorMessage(err) {
-    if (err && typeof err.text === 'function') {
-        const text = await err.text().catch(() => '');
-        if (text) return text;
-    }
-    return globalize.translate('ErrorDefault');
-}
-
-function createUser(form) {
+function addUser(form) {
+    const draft = getWizardDraft();
     const page = form.closest('.page');
     const nameElem = form.querySelector('#txtNewUsername');
     const passwordElem = form.querySelector('#txtNewUserPassword');
     const passwordConfirmElem = form.querySelector('#txtNewUserPasswordConfirm');
-    const submitButton = form.querySelector('button[type="submit"]');
+    const name = nameElem.value.trim();
 
-    loading.show();
-    submitButton.disabled = true;
-    const apiClient = ServerConnections.currentApiClient();
-    apiClient.createUser({
-        Name: nameElem.value.trim(),
-        Password: passwordElem.value
-    }).then(function (user) {
-        appendAddedUser(page, user);
-        nameElem.value = '';
-        passwordElem.value = '';
-        passwordConfirmElem.value = '';
-    }).catch(async function (err) {
-        console.error('[Wizard > Users] failed to create user', err);
-        toast(await getErrorMessage(err));
-    }).finally(function () {
-        submitButton.disabled = false;
-        loading.hide();
-    });
-}
-
-function addUser(form) {
-    const passwordElem = form.querySelector('#txtNewUserPassword');
-    const passwordConfirmElem = form.querySelector('#txtNewUserPasswordConfirm');
-    const submitButton = form.querySelector('button[type="submit"]');
-    const name = form.querySelector('#txtNewUsername').value.trim();
-
-    // Ignore empty names and guard against a double submit.
-    if (!name || submitButton.disabled) return;
+    if (!name) return;
 
     if (passwordElem.value !== passwordConfirmElem.value) {
         toast(globalize.translate('PasswordMatchError'));
         return;
     }
 
+    const addNow = function () {
+        if (draft.users.some(u => u.Name.toLowerCase() === name.toLowerCase())) {
+            toast(globalize.translate('ErrorDefault'));
+            return;
+        }
+
+        draft.users.push({ Name: name, Password: passwordElem.value });
+        renderAddedUsers(page);
+        nameElem.value = '';
+        passwordElem.value = '';
+        passwordConfirmElem.value = '';
+    };
+
     if (!passwordElem.value) {
         confirm({
             title: globalize.translate('HeaderUserPasswordWarning'),
             text: globalize.translate('MessageUserPasswordBlankWarning'),
             primary: 'delete'
-        }).then(function () {
-            createUser(form);
-        }).catch(function () {
+        }).then(addNow).catch(function () {
             // User chose to set a password instead
         });
         return;
     }
 
-    createUser(form);
+    addNow();
 }
 
 function removeUser(page, item) {
-    loading.show();
-    const apiClient = ServerConnections.currentApiClient();
-    apiClient.deleteUser(item.dataset.userId).then(function () {
-        item.remove();
-        updateNextLabel(page);
-    }).catch(function (err) {
-        console.error('[Wizard > Users] failed to remove user', err);
-        toast(globalize.translate('ErrorDefault'));
-    }).finally(function () {
-        loading.hide();
-    });
+    const draft = getWizardDraft();
+    const index = parseInt(item.dataset.index, 10);
+    draft.users.splice(index, 1);
+    renderAddedUsers(page);
 }
 
 function onAddUserSubmit(e) {
@@ -132,23 +105,7 @@ function onAddedUsersClick(e) {
 }
 
 function onShow() {
-    const page = this;
-    // Clear any stale list so we always reflect current server state on revisit.
-    const existingList = page.querySelector('.addedUsers ul');
-    if (existingList) existingList.remove();
-    loading.show();
-    const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Users')).then(function (users) {
-        users.filter(u => !u.Policy.IsAdministrator).forEach(u => {
-            appendAddedUser(page, u);
-        });
-        updateNextLabel(page);
-        loading.hide();
-    }).catch(function (err) {
-        console.error('[Wizard > Users] failed to load existing users', err);
-        updateNextLabel(page);
-        loading.hide();
-    });
+    renderAddedUsers(this);
 }
 
 export default function (view) {

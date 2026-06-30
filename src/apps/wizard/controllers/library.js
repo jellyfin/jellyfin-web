@@ -2,18 +2,16 @@ import escapeHtml from 'escape-html';
 
 import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
 import confirm from 'components/confirm/confirm';
-import loading from 'components/loading/loading';
+import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from 'utils/dom';
-import taskButton from 'scripts/taskbutton';
-import { pageClassOn, pageIdOn } from 'utils/dashboard';
+import { pageClassOn } from 'utils/dashboard';
 import imageHelper from 'utils/image';
 import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
 import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { getWizardDraft } from 'apps/wizard/controllers/wizardDraft';
 
 import 'components/cardbuilder/card.scss';
-import 'elements/emby-itemrefreshindicator/emby-itemrefreshindicator';
 
 function addVirtualFolder(page) {
     import('components/mediaLibraryCreator/mediaLibraryCreator').then(({ default: MediaLibraryCreator }) => {
@@ -21,34 +19,32 @@ function addVirtualFolder(page) {
             collectionTypeOptions: getCollectionTypeOptions().filter(function (f) {
                 return !f.hidden;
             }),
-            refresh: shouldRefreshLibraryAfterChanges(page)
+            onCreate(library) {
+                const draft = getWizardDraft();
+                const isDuplicate = draft.libraries.some(l => l.Name.toLowerCase() === library.Name.toLowerCase());
+                if (isDuplicate) {
+                    toast(globalize.translate('ErrorDefault'));
+                    return false;
+                }
+                draft.libraries.push(library);
+            }
         }).then(function (hasChanges) {
             if (hasChanges) {
-                reloadLibrary(page);
+                renderVirtualFolders(page);
             }
         });
     });
 }
 
-function editVirtualFolder(page, virtualFolder) {
-    import('components/mediaLibraryEditor/mediaLibraryEditor').then(({ default: MediaLibraryEditor }) => {
-        new MediaLibraryEditor({
-            refresh: shouldRefreshLibraryAfterChanges(page),
-            library: virtualFolder
-        }).then(function (hasChanges) {
-            if (hasChanges) {
-                reloadLibrary(page);
-            }
-        });
-    });
-}
-
-function deleteVirtualFolder(page, virtualFolder) {
+function deleteVirtualFolder(page, index) {
+    const draft = getWizardDraft();
+    const virtualFolder = draft.libraries[index];
     let msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
 
-    if (virtualFolder.Locations.length) {
+    const locations = virtualFolder.LibraryOptions.PathInfos.map(p => p.Path);
+    if (locations.length) {
         msg += '<br/><br/>' + globalize.translate('MessageTheFollowingLocationWillBeRemovedFromLibrary') + '<br/><br/>';
-        msg += virtualFolder.Locations.join('<br/>');
+        msg += locations.join('<br/>');
     }
 
     confirm({
@@ -57,68 +53,36 @@ function deleteVirtualFolder(page, virtualFolder) {
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
     }).then(function () {
-        const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
-        ServerConnections.currentApiClient()
-            .removeVirtualFolder(virtualFolder.Name, refreshAfterChange)
-            .then(function () {
-                reloadLibrary(page);
-            });
+        draft.libraries.splice(index, 1);
+        renderVirtualFolders(page);
     });
 }
 
-function refreshVirtualFolder(page, virtualFolder) {
-    import('components/refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
-        new RefreshDialog({
-            itemIds: [virtualFolder.ItemId],
-            serverId: ServerConnections.currentApiClient().serverId(),
-            mode: 'scan'
-        }).show();
-    });
-}
-
-function renameVirtualFolder(page, virtualFolder) {
+function renameVirtualFolder(page, index) {
     import('components/prompt/prompt').then(({ default: prompt }) => {
+        const draft = getWizardDraft();
+        const virtualFolder = draft.libraries[index];
         prompt({
             label: globalize.translate('LabelNewName'),
             description: globalize.translate('MessageRenameMediaFolder'),
             confirmText: globalize.translate('ButtonRename')
         }).then(function (newName) {
             if (newName && newName != virtualFolder.Name) {
-                const refreshAfterChange = shouldRefreshLibraryAfterChanges(page);
-                ServerConnections.currentApiClient()
-                    .renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange)
-                    .then(function () {
-                        reloadLibrary(page);
-                    });
+                virtualFolder.Name = newName;
+                renderVirtualFolders(page);
             }
         });
     });
 }
 
-function showCardMenu(page, elem, virtualFolders) {
+function showCardMenu(page, elem) {
     const card = dom.parentWithClass(elem, 'card');
     const index = parseInt(card.getAttribute('data-index'), 10);
-    const virtualFolder = virtualFolders[index];
     const menuItems = [];
-    menuItems.push({
-        name: globalize.translate('EditImages'),
-        id: 'editimages',
-        icon: 'photo'
-    });
-    menuItems.push({
-        name: globalize.translate('ManageLibrary'),
-        id: 'edit',
-        icon: 'folder'
-    });
     menuItems.push({
         name: globalize.translate('ButtonRename'),
         id: 'rename',
         icon: 'mode_edit'
-    });
-    menuItems.push({
-        name: globalize.translate('ScanLibrary'),
-        id: 'refresh',
-        icon: 'refresh'
     });
     menuItems.push({
         name: globalize.translate('ButtonRemove'),
@@ -132,48 +96,33 @@ function showCardMenu(page, elem, virtualFolders) {
             positionTo: elem,
             callback: function (resultId) {
                 switch (resultId) {
-                    case 'edit':
-                        editVirtualFolder(page, virtualFolder);
-                        break;
-
-                    case 'editimages':
-                        editImages(page, virtualFolder);
-                        break;
-
                     case 'rename':
-                        renameVirtualFolder(page, virtualFolder);
+                        renameVirtualFolder(page, index);
                         break;
 
                     case 'delete':
-                        deleteVirtualFolder(page, virtualFolder);
+                        deleteVirtualFolder(page, index);
                         break;
-
-                    case 'refresh':
-                        refreshVirtualFolder(page, virtualFolder);
                 }
             }
         });
     });
 }
 
-function reloadLibrary(page) {
-    loading.show();
-    ServerConnections.currentApiClient()
-        .getVirtualFolders()
-        .then(function (result) {
-            reloadVirtualFolders(page, result);
-        });
-}
-
-function shouldRefreshLibraryAfterChanges(page) {
-    return page.id === 'mediaLibraryPage';
-}
-
 function updateNextLabel(page, hasLibraries) {
     page.querySelector('.btnNextLabel').textContent = globalize.translate(hasLibraries ? 'Next' : 'Skip');
 }
 
-function reloadVirtualFolders(page, virtualFolders) {
+function renderVirtualFolders(page) {
+    const draft = getWizardDraft();
+    const virtualFolders = draft.libraries.map(function (library) {
+        return {
+            Name: library.Name,
+            CollectionType: library.CollectionType,
+            Locations: library.LibraryOptions.PathInfos.map(p => p.Path)
+        };
+    });
+
     let html = '';
     updateNextLabel(page, virtualFolders.length > 0);
     virtualFolders.push({
@@ -189,7 +138,7 @@ function reloadVirtualFolders(page, virtualFolders) {
 
     for (let i = 0; i < virtualFolders.length; i++) {
         const virtualFolder = virtualFolders[i];
-        html += getVirtualFolderHtml(page, virtualFolder, i);
+        html += getVirtualFolderHtml(virtualFolder, i);
     }
 
     const divVirtualFolders = page.querySelector('#divVirtualFolders');
@@ -199,36 +148,11 @@ function reloadVirtualFolders(page, virtualFolders) {
     const btnCardMenuElements = divVirtualFolders.querySelectorAll('.btnCardMenu');
     btnCardMenuElements.forEach(function (btn) {
         btn.addEventListener('click', function () {
-            showCardMenu(page, btn, virtualFolders);
+            showCardMenu(page, btn);
         });
     });
     divVirtualFolders.querySelector('#addLibrary').addEventListener('click', function () {
         addVirtualFolder(page);
-    });
-
-    const libraryEditElements = divVirtualFolders.querySelectorAll('.editLibrary');
-    libraryEditElements.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            const card = dom.parentWithClass(btn, 'card');
-            const index = parseInt(card.getAttribute('data-index'), 10);
-            const virtualFolder = virtualFolders[index];
-
-            if (virtualFolder.ItemId) {
-                editVirtualFolder(page, virtualFolder);
-            }
-        });
-    });
-    loading.hide();
-}
-
-function editImages(page, virtualFolder) {
-    import('components/imageeditor/imageeditor').then((imageEditor) => {
-        imageEditor.show({
-            itemId: virtualFolder.ItemId,
-            serverId: ServerConnections.currentApiClient().serverId()
-        }).then(function () {
-            reloadLibrary(page);
-        });
     });
 }
 
@@ -269,46 +193,32 @@ function getCollectionTypeOptions() {
     }];
 }
 
-function getVirtualFolderHtml(page, virtualFolder, index) {
+function getVirtualFolderHtml(virtualFolder, index) {
     let html = '';
 
     const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
-    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="min-width:33.3%;" data-index="' + index + '" data-id="' + virtualFolder.ItemId + '">';
+    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="min-width:33.3%;" data-index="' + index + '">';
 
     html += '<div class="cardBox visualCardBox">';
     html += '<div class="cardScalable visualCardBox-cardScalable">';
     html += '<div class="cardPadder cardPadder-backdrop"></div>';
     html += '<div class="cardContent">';
-    let imgUrl = '';
-
-    if (virtualFolder.PrimaryImageItemId) {
-        imgUrl = ServerConnections.currentApiClient()
-            .getScaledImageUrl(virtualFolder.PrimaryImageItemId, {
-                maxWidth: Math.round(dom.getScreenWidth() * 0.40),
-                type: 'Primary'
-            });
-    }
 
     let hasCardImageContainer;
 
-    if (imgUrl) {
-        html += `<div class="cardImageContainer editLibrary ${imgUrl ? '' : getDefaultBackgroundClass()}" style="cursor:pointer">`;
-        html += `<img src="${imgUrl}" style="width:100%" />`;
-        hasCardImageContainer = true;
-    } else if (!virtualFolder.showNameWithIcon) {
-        html += `<div class="cardImageContainer editLibrary ${getDefaultBackgroundClass()}" style="cursor:pointer;">`;
+    if (!virtualFolder.showNameWithIcon) {
+        html += `<div class="cardImageContainer ${getDefaultBackgroundClass()}">`;
         html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
         hasCardImageContainer = true;
     }
 
     if (hasCardImageContainer) {
         html += '<div class="cardIndicators backdropCardIndicators">';
-        html += '<div is="emby-itemrefreshindicator"' + (virtualFolder.RefreshProgress || virtualFolder.RefreshStatus && virtualFolder.RefreshStatus !== 'Idle' ? '' : ' class="hide"') + ' data-progress="' + (virtualFolder.RefreshProgress || 0) + '" data-status="' + virtualFolder.RefreshStatus + '"></div>';
         html += '</div>';
         html += '</div>';
     }
 
-    if (!imgUrl && virtualFolder.showNameWithIcon) {
+    if (virtualFolder.showNameWithIcon) {
         html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
         html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
 
@@ -377,26 +287,7 @@ function getVirtualFolderHtml(page, virtualFolder, index) {
 
 pageClassOn('pageshow', 'mediaLibraryPage', function () {
     renderWizardProgress(this, 'library');
-    reloadLibrary(this);
+    renderVirtualFolders(this);
     this.querySelector('.btnWizardPrev').onclick = () => goToPreviousWizardStep('library');
     this.querySelector('.btnWizardNext').onclick = () => goToNextWizardStep('library');
 });
-pageIdOn('pageshow', 'mediaLibraryPage', function () {
-    const page = this;
-    taskButton({
-        mode: 'on',
-        progressElem: page.querySelector('.refreshProgress'),
-        taskKey: 'RefreshLibrary',
-        button: page.querySelector('.btnRefresh')
-    });
-});
-pageIdOn('pagebeforehide', 'mediaLibraryPage', function () {
-    const page = this;
-    taskButton({
-        mode: 'off',
-        progressElem: page.querySelector('.refreshProgress'),
-        taskKey: 'RefreshLibrary',
-        button: page.querySelector('.btnRefresh')
-    });
-});
-

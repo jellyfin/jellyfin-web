@@ -5,43 +5,32 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from 'utils/dom';
 import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
 import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { getWizardDraft } from 'apps/wizard/controllers/wizardDraft';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
 
 function loadPage(page, systemInfo, config, languageOptions) {
+    const draft = getWizardDraft().config;
+
     const serverNameElem = page.querySelector('#txtServerName');
-    serverNameElem.value = config.ServerName || systemInfo.ServerName;
+    serverNameElem.value = draft.ServerName ?? config.ServerName ?? systemInfo.ServerName;
 
     const languageElem = page.querySelector('#selectLocalizationLanguage');
     languageElem.innerHTML = languageOptions.map(function (l) {
         return '<option value="' + l.Value + '">' + l.Name + '</option>';
     }).join('');
-    languageElem.value = config.UICulture;
+    languageElem.value = draft.UICulture ?? config.UICulture;
 
     loading.hide();
 }
 
 function save(page) {
-    loading.show();
-    const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
-        config.ServerName = page.querySelector('#txtServerName').value;
-        config.UICulture = page.querySelector('#selectLocalizationLanguage').value;
-
-        return apiClient.ajax({
-            type: 'POST',
-            data: JSON.stringify(config),
-            url: apiClient.getUrl('Startup/Configuration'),
-            contentType: 'application/json'
-        });
-    }).then(function () {
-        loading.hide();
-        goToNextWizardStep('start');
-    }).catch(function (err) {
-        console.error('[Wizard > Start] failed to save server name / language', err);
-        loading.hide();
+    Object.assign(getWizardDraft().config, {
+        ServerName: page.querySelector('#txtServerName').value,
+        UICulture: page.querySelector('#selectLocalizationLanguage').value
     });
+    goToNextWizardStep('start');
 }
 
 function onSubmit(e) {

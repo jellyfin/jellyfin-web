@@ -5,6 +5,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
 import { goToNextWizardStep, parsePort } from 'apps/wizard/controllers/wizardSteps';
 import { validatePort } from 'apps/wizard/controllers/wizardPortValidation';
+import { getWizardDraft } from 'apps/wizard/controllers/wizardDraft';
 
 import 'elements/emby-input/emby-input';
 import 'elements/emby-select/emby-select';
@@ -16,53 +17,35 @@ function updateHardwareAccelerationWarning(page) {
 }
 
 function save(page) {
-    loading.show();
-    const apiClient = ServerConnections.currentApiClient();
+    const draft = getWizardDraft();
     const path = page.querySelector('#txtFFmpegPath').value.trim();
-    const hardwareAccelerationType = page.querySelector('#selectHardwareAcceleration').value;
 
-    const encodingPromise = apiClient.getNamedConfiguration('encoding').then(function (config) {
-        config.HardwareAccelerationType = hardwareAccelerationType;
-        if (path) {
-            config.EncoderAppPath = path;
-        }
-        return apiClient.updateNamedConfiguration('encoding', config);
-    }).catch(function (err) {
-        // A bad FFmpeg path is non-fatal; warn and continue.
-        console.error('[Wizard > Advanced] failed to save encoding settings', err);
-        toast(globalize.translate(path ? 'FFmpegSavePathNotFound' : 'ErrorDefault'));
-    });
+    draft.encoding.HardwareAccelerationType = page.querySelector('#selectHardwareAcceleration').value;
+    if (path) {
+        draft.encoding.EncoderAppPath = path;
+    }
 
-    const networkPromise = apiClient.getNamedConfiguration('network').then(function (networkConfig) {
-        const httpPort = parsePort(page.querySelector('#txtPortNumber').value);
-        if (!Number.isNaN(httpPort)) {
-            networkConfig.InternalHttpPort = httpPort;
-        }
-        return apiClient.updateNamedConfiguration('network', networkConfig);
-    });
+    const httpPort = parsePort(page.querySelector('#txtPortNumber').value);
+    if (!Number.isNaN(httpPort)) {
+        draft.network.InternalHttpPort = httpPort;
+    }
 
-    Promise.all([encodingPromise, networkPromise]).then(function () {
-        loading.hide();
-        goToNextWizardStep('advanced');
-    }).catch(function (err) {
-        console.error('[Wizard > Advanced] failed to save settings', err);
-        toast(globalize.translate('ErrorDefault'));
-        loading.hide();
-    });
+    goToNextWizardStep('advanced');
 }
 
 function reload(page) {
     loading.show();
+    const draft = getWizardDraft();
     const apiClient = ServerConnections.currentApiClient();
     Promise.all([
         apiClient.getNamedConfiguration('network'),
         apiClient.getNamedConfiguration('encoding')
     ]).then(function ([networkConfig, encodingConfig]) {
-        page.querySelector('#txtPortNumber').value = networkConfig.InternalHttpPort || '';
+        page.querySelector('#txtPortNumber').value = draft.network.InternalHttpPort || networkConfig.InternalHttpPort || '';
         // Remember the HTTPS port (set on the previous step) so we can reject a port collision here.
-        page.dataset.httpsPort = networkConfig.InternalHttpsPort || '';
-        page.querySelector('#txtFFmpegPath').value = encodingConfig.EncoderAppPath || '';
-        page.querySelector('#selectHardwareAcceleration').value = encodingConfig.HardwareAccelerationType || 'none';
+        page.dataset.httpsPort = draft.network.InternalHttpsPort || networkConfig.InternalHttpsPort || '';
+        page.querySelector('#txtFFmpegPath').value = (draft.encoding.EncoderAppPath ?? encodingConfig.EncoderAppPath) || '';
+        page.querySelector('#selectHardwareAcceleration').value = draft.encoding.HardwareAccelerationType || encodingConfig.HardwareAccelerationType || 'none';
         updateHardwareAccelerationWarning(page);
         loading.hide();
     }).catch(function (err) {

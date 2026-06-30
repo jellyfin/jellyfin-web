@@ -6,63 +6,48 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
 import { goToNextWizardStep, parsePort } from 'apps/wizard/controllers/wizardSteps';
 import { validatePort } from 'apps/wizard/controllers/wizardPortValidation';
+import { getWizardDraft } from 'apps/wizard/controllers/wizardDraft';
 
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 
 function save(page) {
-    loading.show();
-    const apiClient = ServerConnections.currentApiClient();
+    const draft = getWizardDraft();
 
-    apiClient.ajax({
-        type: 'POST',
-        data: JSON.stringify({
-            EnableRemoteAccess: page.querySelector('#chkRemoteAccess').checked
-        }),
-        url: apiClient.getUrl('Startup/RemoteAccess'),
-        contentType: 'application/json'
-    }).then(function () {
-        return apiClient.getNamedConfiguration('network').then(function (networkConfig) {
-            networkConfig.EnableUPnP = page.querySelector('#chkEnableUPnP').checked;
-            networkConfig.EnableHttps = page.querySelector('#chkEnableHttps').checked;
-            networkConfig.CertificatePath = page.querySelector('#txtCertificatePath').value || null;
+    draft.remoteAccess.EnableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
 
-            // Leave the stored password untouched when the field is blank, so it isn't cleared on revisit.
-            const certPassword = page.querySelector('#txtCertificatePassword').value;
-            if (certPassword) {
-                networkConfig.CertificatePassword = certPassword;
-            }
+    draft.network.EnableUPnP = page.querySelector('#chkEnableUPnP').checked;
+    draft.network.EnableHttps = page.querySelector('#chkEnableHttps').checked;
+    draft.network.CertificatePath = page.querySelector('#txtCertificatePath').value || null;
 
-            const httpsPort = parsePort(page.querySelector('#txtHttpsPort').value);
-            if (!Number.isNaN(httpsPort)) {
-                networkConfig.InternalHttpsPort = httpsPort;
-            }
+    // Leave the stored password untouched when the field is blank, so it isn't cleared on revisit.
+    const certPassword = page.querySelector('#txtCertificatePassword').value;
+    if (certPassword) {
+        draft.network.CertificatePassword = certPassword;
+    }
 
-            return apiClient.updateNamedConfiguration('network', networkConfig);
-        });
-    }).then(function () {
-        loading.hide();
-        goToNextWizardStep('remoteaccess');
-    }).catch(function (err) {
-        console.error('[Wizard > Remote] failed to save remote access settings', err);
-        toast(globalize.translate('ErrorDefault'));
-        loading.hide();
-    });
+    const httpsPort = parsePort(page.querySelector('#txtHttpsPort').value);
+    if (!Number.isNaN(httpsPort)) {
+        draft.network.InternalHttpsPort = httpsPort;
+    }
+
+    goToNextWizardStep('remoteaccess');
 }
 
 function reload(page) {
     loading.show();
+    const draft = getWizardDraft();
     const apiClient = ServerConnections.currentApiClient();
     apiClient.getNamedConfiguration('network').then(function (config) {
-        // EnableRemoteAccess lives in NetworkConfiguration, not the startup endpoint.
-        page.querySelector('#chkRemoteAccess').checked = config.EnableRemoteAccess !== false;
-        page.querySelector('#chkEnableUPnP').checked = config.EnableUPnP;
-        page.querySelector('#chkEnableHttps').checked = config.EnableHttps;
-        page.querySelector('#txtHttpsPort').value = config.InternalHttpsPort || '';
-        page.querySelector('#txtCertificatePath').value = config.CertificatePath || '';
+        // EnableRemoteAccess lives in NetworkConfiguration, not the startup endpoint; prefer the draft if set.
+        page.querySelector('#chkRemoteAccess').checked = draft.remoteAccess.EnableRemoteAccess ?? (config.EnableRemoteAccess !== false);
+        page.querySelector('#chkEnableUPnP').checked = draft.network.EnableUPnP ?? config.EnableUPnP;
+        page.querySelector('#chkEnableHttps').checked = draft.network.EnableHttps ?? config.EnableHttps;
+        page.querySelector('#txtHttpsPort').value = draft.network.InternalHttpsPort || config.InternalHttpsPort || '';
+        page.querySelector('#txtCertificatePath').value = (draft.network.CertificatePath ?? config.CertificatePath) || '';
         // Remember the HTTP port (set on the next step) so we can reject a port collision here.
-        page.dataset.httpPort = config.InternalHttpPort || '';
+        page.dataset.httpPort = draft.network.InternalHttpPort || config.InternalHttpPort || '';
         updateHttpsVisibility(page);
         updateUPnPState(page);
         loading.hide();
