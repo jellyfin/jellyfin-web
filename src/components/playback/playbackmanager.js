@@ -13,6 +13,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
 import PlayQueueManager from './playqueuemanager';
+import { getAudiobookCumulativeOffsetTicks, getAudiobookPartForGlobalTicks } from './audiobookTimeline';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
@@ -308,35 +309,6 @@ let startingPlaySession = new Date().getTime();
 export function getAudiobookPlaybackRate() {
     const rate = Number.parseFloat(userSettings.get('audioBookPlaybackRate'));
     return (rate && Math.abs(rate - 1) > 0.001) ? rate : null;
-}
-
-function getAudiobookCumulativeOffsetTicks(sources, index) {
-    let offset = 0;
-    for (let i = 0; i < index; i++) {
-        offset += sources[i].RunTimeTicks || 0;
-    }
-    return offset;
-}
-
-function getAudiobookPartForGlobalTicks(sources, globalTicks) {
-    if (!sources || sources.length <= 1) {
-        return null;
-    }
-
-    let offset = 0;
-    for (let i = 0; i < sources.length; i++) {
-        const runtime = sources[i].RunTimeTicks || 0;
-        if (globalTicks < offset + runtime || i === sources.length - 1) {
-            return {
-                index: i,
-                source: sources[i],
-                localTicks: Math.max(0, globalTicks - offset)
-            };
-        }
-        offset += runtime;
-    }
-
-    return null;
 }
 
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues, mediaSourceId) {
@@ -1410,7 +1382,7 @@ export class PlaybackManager {
             player = player || self._currentPlayer;
             if (player && enableLocalPlaylistManagement(player)) {
                 loading.show();
-                const ticks = positionTicks != null ? positionTicks : getCurrentTicks(player);
+                const ticks = positionTicks ?? getCurrentTicks(player);
                 changeStream(player, ticks, {});
             }
         };
@@ -1778,34 +1750,48 @@ export class PlaybackManager {
             return player.duration();
         }
 
-        function changeStream(player, ticks, params) {
-            if (params == null) {
-                const seekItem = self.currentItem(player);
-                const seekSources = getPlayerData(player).audiobookSources;
-                if (seekItem?.Type === BaseItemKind.AudioBook && seekSources?.length > 1) {
-                    const target = getAudiobookPartForGlobalTicks(seekSources, ticks);
-                    if (target) {
-                        const seekCurrentSource = self.currentMediaSource(player);
-                        if (target.source.Id !== seekCurrentSource?.Id) {
-                            changeStream(player, target.localTicks, { mediaSourceId: target.source.Id });
-                            return;
-                        }
-                        ticks = target.localTicks;
+        function remapAudiobookSeekTicks(player, ticks) {
+            const seekItem = self.currentItem(player);
+            const seekSources = getPlayerData(player).audiobookSources;
+            if (seekItem?.Type === BaseItemKind.AudioBook && seekSources?.length > 1) {
+                const target = getAudiobookPartForGlobalTicks(seekSources, ticks);
+                if (target) {
+                    const seekCurrentSource = self.currentMediaSource(player);
+                    if (target.source.Id !== seekCurrentSource?.Id) {
+                        changeStream(player, target.localTicks, { mediaSourceId: target.source.Id });
+                        return null;
                     }
+                    return target.localTicks;
                 }
             }
 
-            if (canPlayerSeek(player) && params == null) {
-                const currentItem = self.currentItem(player);
-                if (currentItem?.Type === 'AudioBook') {
-                    const rate = getAudiobookPlaybackRate();
-                    if (rate) {
-                        // Inverse of getCurrentTicks: element output time = content / rate.
-                        player.currentTime(Number.parseInt((ticks / rate) / 10000, 10));
-                        return;
-                    }
+            return ticks;
+        }
+
+        function seekPlayerToTicks(player, ticks) {
+            const currentItem = self.currentItem(player);
+            if (currentItem?.Type === 'AudioBook') {
+                const rate = getAudiobookPlaybackRate();
+                if (rate) {
+                    // Inverse of getCurrentTicks: element output time = content / rate.
+                    player.currentTime(Number.parseInt((ticks / rate) / 10000, 10));
+                    return;
                 }
-                player.currentTime(parseInt(ticks / 10000, 10));
+            }
+            player.currentTime(Number.parseInt(ticks / 10000, 10));
+        }
+
+        function changeStream(player, ticks, params) {
+            if (params == null) {
+                const remappedTicks = remapAudiobookSeekTicks(player, ticks);
+                if (remappedTicks === null) {
+                    return;
+                }
+                ticks = remappedTicks;
+            }
+
+            if (canPlayerSeek(player) && params == null) {
+                seekPlayerToTicks(player, ticks);
                 return;
             }
 

@@ -502,63 +502,83 @@ function clipBufferedRangesToChapter(bufferedRanges, bounds) {
     return clipped;
 }
 
-function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
-    const bounds = chapterModeActive() ? getChapterBounds(positionTicks, runtimeTicks) : null;
-
+function updatePositionSliderValue(positionTicks, runtimeTicks, bounds) {
     // See bindEvents for why this is necessary
-    if (positionSlider && !positionSlider.dragging) {
-        if (bounds) {
-            positionSlider.value = (positionTicks - bounds.start) / bounds.duration * 100;
-        } else if (runtimeTicks) {
-            let pct = positionTicks / runtimeTicks;
-            pct *= 100;
+    if (!positionSlider || positionSlider.dragging) {
+        return;
+    }
 
-            positionSlider.value = pct;
-        } else {
-            positionSlider.value = 0;
+    if (bounds) {
+        positionSlider.value = (positionTicks - bounds.start) / bounds.duration * 100;
+    } else if (runtimeTicks) {
+        positionSlider.value = positionTicks / runtimeTicks * 100;
+    } else {
+        positionSlider.value = 0;
+    }
+}
+
+function updatePositionSliderBuffered(positionTicks, runtimeTicks, bounds, bufferedRanges) {
+    if (!positionSlider) {
+        return;
+    }
+
+    // Buffered ranges are in whole-book scale; in chapter mode, clip and rescale them to the chapter.
+    if (bounds) {
+        positionSlider.setBufferedRanges(clipBufferedRangesToChapter(bufferedRanges, bounds), bounds.duration, positionTicks - bounds.start);
+    } else {
+        positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
+    }
+}
+
+function updateCurrentTimeText(positionTicks, runtimeTicks, bounds) {
+    if (!currentTimeElement) {
+        return;
+    }
+
+    let timeText;
+    if (bounds) {
+        timeText = datetime.getDisplayRunningTime(positionTicks - bounds.start)
+            + ' / ' + datetime.getDisplayRunningTime(bounds.duration);
+    } else {
+        timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+        if (runtimeTicks) {
+            timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
         }
     }
 
-    if (positionSlider) {
-        // Buffered ranges are in whole-book scale; in chapter mode, clip and rescale them to the chapter.
-        if (bounds) {
-            positionSlider.setBufferedRanges(clipBufferedRangesToChapter(bufferedRanges, bounds), bounds.duration, positionTicks - bounds.start);
-        } else {
-            positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
-        }
+    currentTimeElement.innerHTML = timeText;
+}
+
+function updateChapterNameLabel(positionTicks) {
+    if (!chapterNameElement) {
+        return;
     }
 
-    if (currentTimeElement) {
-        let timeText;
-        if (bounds) {
-            timeText = datetime.getDisplayRunningTime(positionTicks - bounds.start)
-                + ' / ' + datetime.getDisplayRunningTime(bounds.duration);
-        } else {
-            timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
-            if (runtimeTicks) {
-                timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
-            }
-        }
-
-        currentTimeElement.innerHTML = timeText;
+    const chapter = getCurrentChapter(positionTicks, getActiveChapters());
+    if (chapter) {
+        chapterNameElement.textContent = '· ' + chapter.Name;
+        chapterNameElement.classList.remove('hide');
+    } else {
+        chapterNameElement.textContent = '';
+        chapterNameElement.classList.add('hide');
     }
+}
 
-    if (chapterNameElement) {
-        const chapter = getCurrentChapter(positionTicks, getActiveChapters());
-        if (chapter) {
-            chapterNameElement.textContent = '· ' + chapter.Name;
-            chapterNameElement.classList.remove('hide');
-        } else {
-            chapterNameElement.textContent = '';
-            chapterNameElement.classList.add('hide');
-        }
-    }
-
+function updateChapterArtwork(positionTicks) {
     const playingItem = getPlayingItem();
     if (playingItem?.Type === 'AudioBook' && playingItem.Chapters?.length) {
         setNowPlayingImage(getChapterImageUrl(playingItem, positionTicks, 70)
             || getImageUrl(playingItem, { height: 70 }));
     }
+}
+
+function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
+    const bounds = chapterModeActive() ? getChapterBounds(positionTicks, runtimeTicks) : null;
+    updatePositionSliderValue(positionTicks, runtimeTicks, bounds);
+    updatePositionSliderBuffered(positionTicks, runtimeTicks, bounds, bufferedRanges);
+    updateCurrentTimeText(positionTicks, runtimeTicks, bounds);
+    updateChapterNameLabel(positionTicks);
+    updateChapterArtwork(positionTicks);
 }
 
 function updatePlayerVolumeState(isMuted, volumeLevel) {
