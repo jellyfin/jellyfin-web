@@ -561,6 +561,16 @@ export class HtmlVideoPlayer {
         this.setCurrentTrackElement(index, SECONDARY_TEXT_TRACK_INDEX);
     }
 
+    refreshSubtitleAppearance() {
+        if (typeof this.#customTrackIndex === 'number' && this.#customTrackIndex !== -1) {
+            this.setCurrentTrackElement(this.#customTrackIndex, PRIMARY_TEXT_TRACK_INDEX, true);
+        }
+
+        if (typeof this.#customSecondaryTrackIndex === 'number' && this.#customSecondaryTrackIndex !== -1) {
+            this.setCurrentTrackElement(this.#customSecondaryTrackIndex, SECONDARY_TEXT_TRACK_INDEX, true);
+        }
+    }
+
     resetSubtitleOffset() {
         this.#currentTrackOffset = 0;
         this.#secondaryTrackOffset = 0;
@@ -1234,7 +1244,7 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setTrackForDisplay(videoElement, track, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+    setTrackForDisplay(videoElement, track, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX, force = false) {
         if (!track) {
             // Destroy all tracks by passing undefined if there is no valid primary track
             this.destroyCustomTrack(videoElement, this.isSecondaryTrack(targetTextTrackIndex) ? targetTextTrackIndex : undefined);
@@ -1247,7 +1257,7 @@ export class HtmlVideoPlayer {
         }
 
         // skip if already playing this track
-        if (targetTrackIndex === track.Index) {
+        if (!force && targetTrackIndex === track.Index) {
             return;
         }
 
@@ -1368,7 +1378,7 @@ export class HtmlVideoPlayer {
             // Exit if the video element was destroyed while fetching subtitles
             if (!this.#mediaElement) return;
 
-            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
             if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
@@ -1405,11 +1415,16 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
+    #getSubtitleAppearanceItemKey(item) {
+        const itemId = item?.Id ?? this._currentPlayOptions?.item?.Id;
+        return itemId ? `subtitleappearance_${itemId}` : undefined;
+    }
+
     setSubtitleAppearance(elem, innerElem) {
         subtitleAppearanceHelper.applyStyles({
             text: innerElem,
             window: elem
-        }, userSettings.getSubtitleAppearanceSettings());
+        }, userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey()));
     }
 
     /**
@@ -1434,7 +1449,10 @@ export class HtmlVideoPlayer {
             document.getElementsByTagName('head')[0].appendChild(styleElem);
         }
 
-        styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings()), '.htmlvideoplayer');
+        const subtitleAppearanceKey = this.#getSubtitleAppearanceItemKey();
+        const appearanceSettings = userSettings.getSubtitleAppearanceSettingsWithFallback(subtitleAppearanceKey);
+        const styles = subtitleAppearanceHelper.getStyles(appearanceSettings);
+        styleElem.innerHTML = this.getCueCss(styles, '.htmlvideoplayer');
     }
 
     /**
@@ -1487,7 +1505,7 @@ export class HtmlVideoPlayer {
 
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
-            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
             const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
             // add some cues to show the text
@@ -1548,7 +1566,7 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setCurrentTrackElement(streamIndex, targetTextTrackIndex) {
+    setCurrentTrackElement(streamIndex, targetTextTrackIndex, force = false) {
         console.debug(`setting new text track index to: ${streamIndex}`);
 
         const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
@@ -1583,7 +1601,7 @@ export class HtmlVideoPlayer {
                 mediaStreamTextTracks.forEach((t) => {
                     t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
                 });
-                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex);
+                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex, force);
                 if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
                     if (streamIndex !== -1) {
                         player.setCueAppearance();
