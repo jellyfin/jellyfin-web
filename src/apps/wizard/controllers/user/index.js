@@ -16,7 +16,8 @@ function onUpdateUserComplete(result) {
     goToNextWizardStep('user');
 }
 
-async function onUpdateUserError(result) {
+async function onUpdateUserError(form, result) {
+    form.querySelector('button[type="submit"]').disabled = false;
     // Authentication can reject with a non-Response error, so guard the body read.
     const message = result && typeof result.text === 'function' ? await result.text() : result;
     console.warn('[Wizard > User] user update failed:', message);
@@ -25,6 +26,7 @@ async function onUpdateUserError(result) {
 }
 
 function submit(form) {
+    form.querySelector('button[type="submit"]').disabled = true;
     loading.show();
     const name = form.querySelector('#txtUsername').value.trim();
     const password = form.querySelector('#txtManualPassword').value;
@@ -49,7 +51,7 @@ function submit(form) {
                 });
         })
         .then(onUpdateUserComplete)
-        .catch(onUpdateUserError);
+        .catch(result => onUpdateUserError(form, result));
 }
 
 function onSubmit(e) {

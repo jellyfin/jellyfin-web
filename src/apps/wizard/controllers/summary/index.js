@@ -64,7 +64,9 @@ function loadSummary(view) {
     });
 }
 
-function finish() {
+function finish(e) {
+    const btn = e.currentTarget;
+    btn.disabled = true;
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
     applyWizardDraft(apiClient).then(function () {
@@ -81,6 +83,7 @@ function finish() {
             globalize.translate('ErrorDefault');
         toast(message);
         loading.hide();
+        btn.disabled = false;
     });
 }
 
