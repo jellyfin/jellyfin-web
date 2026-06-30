@@ -11,7 +11,7 @@ import { ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 import VideoPage from './video';
 
-export const EXPERIMENTAL_APP_ROUTES: RouteObject[] = [
+export const APP_ROUTES: RouteObject[] = [
     {
         path: '/*',
         lazy: () => import('../AppLayout'),

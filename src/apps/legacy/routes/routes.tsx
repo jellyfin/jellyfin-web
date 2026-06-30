@@ -12,7 +12,7 @@ import AppLayout from '../AppLayout';
 import { ASYNC_PUBLIC_ROUTES, ASYNC_USER_ROUTES } from './asyncRoutes';
 import { LEGACY_PUBLIC_ROUTES, LEGACY_USER_ROUTES } from './legacyRoutes';
 
-export const STABLE_APP_ROUTES: RouteObject[] = [
+export const APP_ROUTES: RouteObject[] = [
     {
         path: '/*',
         Component: AppLayout,

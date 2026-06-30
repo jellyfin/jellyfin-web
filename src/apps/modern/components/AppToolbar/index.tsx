@@ -3,7 +3,7 @@ import React, { type FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { appRouter, PUBLIC_PATHS } from 'components/router/appRouter';
-import AppToolbar from 'components/toolbar/AppToolbar';
+import BaseToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
 
 import RemotePlayButton from './RemotePlayButton';
@@ -17,7 +17,7 @@ interface AppToolbarProps {
     onDrawerButtonClick: (event: React.MouseEvent<HTMLElement>) => void
 }
 
-const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
+const AppToolbar: FC<AppToolbarProps> = ({
     isDrawerAvailable,
     isDrawerOpen,
     onDrawerButtonClick
@@ -34,7 +34,7 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
 
     return (
-        <AppToolbar
+        <BaseToolbar
             buttons={!isPublicPath && (
                 <>
                     <SyncPlayButton />
@@ -60,8 +60,8 @@ const ExperimentalAppToolbar: FC<AppToolbarProps> = ({
                     )}
                 </Stack>
             )}
-        </AppToolbar>
+        </BaseToolbar>
     );
 };
 
-export default ExperimentalAppToolbar;
+export default AppToolbar;
