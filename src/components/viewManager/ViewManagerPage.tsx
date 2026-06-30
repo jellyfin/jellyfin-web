@@ -53,8 +53,8 @@ const importController = (
             ]);
         default:
             return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+                import(/* webpackChunkName: "[request]" */ `../../apps/legacy/controllers/${controller}`),
+                import(/* webpackChunkName: "[request]" */ `../../apps/legacy/controllers/${view}`)
                     .then(html => globalize.translateHtml(html))
             ]);
     }
