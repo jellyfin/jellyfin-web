@@ -1170,8 +1170,14 @@ function renderItemCollections(page, item, apiClient, context) {
         return;
     }
 
-    const api = toApi(apiClient);
+    const api = ServerConnections.getApi(item.ServerId);
     const userId = apiClient.getCurrentUserId();
+
+    if (!api) {
+        console.error('[renderItemCollections] No Api instance available for server', item.ServerId);
+        section.classList.add('hide');
+        return;
+    }
 
     getLibraryApi(api)
         .getItemCollections({
