@@ -1923,5 +1923,6 @@
     "StillWatchingPrompt": "仍在观看提示",
     "ConfirmSplitMedia": "确定要将这些媒体源拆分为单独的项目吗？",
     "Creators": "主创人员",
-    "HeaderSplitMedia": "拆分媒体"
+    "HeaderSplitMedia": "拆分媒体",
+    "IndexNumber": "索引编号"
 }
