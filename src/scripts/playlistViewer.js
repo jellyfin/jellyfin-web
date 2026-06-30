@@ -2,7 +2,6 @@ import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
 
 import listView from 'components/listview/listview';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 function getFetchPlaylistItemsFn(apiClient, itemId) {
     return function () {
@@ -31,8 +30,13 @@ function getItemsHtmlFn(playlistId, isEditable = false) {
 }
 
 async function init(page, item) {
+    const api = ServerConnections.getApi(item.ServerId);
     const apiClient = ServerConnections.getApiClient(item.ServerId);
-    const api = toApi(apiClient);
+
+    if (!api || !apiClient) {
+        console.error('[PlaylistViewer] No Api or ApiClient instance is available', { api, apiClient });
+        return;
+    }
 
     let isEditable = false;
     const { data } = await getPlaylistsApi(api)

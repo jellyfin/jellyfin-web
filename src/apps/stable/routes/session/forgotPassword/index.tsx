@@ -17,7 +17,7 @@ export const ForgotPasswordPage = () => {
 
     const forgotPasswordMutation = useMutation({
         mutationFn: async (enteredUsername: string) => {
-            const currentApi = ServerConnections.getCurrentApi();
+            const currentApi = ServerConnections.getApi();
             if (!currentApi) {
                 throw new Error('API not available');
             }

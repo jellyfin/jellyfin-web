@@ -13,7 +13,7 @@ import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/c
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
@@ -26,6 +26,8 @@ function getFetchLatestItemsFn(
     { enableOverflow }: SectionOptions
 ) {
     return function () {
+        const api = ServerConnections.getApi(apiClient.serverId());
+
         let limit = 16;
 
         if (enableOverflow) {
@@ -57,7 +59,7 @@ function getFetchLatestItemsFn(
         };
 
         return queryClient
-            .fetchQuery(getLatestMediaQuery(toApi(apiClient), options));
+            .fetchQuery(getLatestMediaQuery(api, options));
     };
 }
 

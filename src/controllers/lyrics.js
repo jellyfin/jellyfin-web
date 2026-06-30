@@ -13,7 +13,6 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import keyboardNavigation from 'scripts/keyboardNavigation';
 import LibraryMenu from 'scripts/libraryMenu';
 import Events from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import '../styles/lyrics.scss';
 
@@ -132,10 +131,13 @@ export default function (view) {
     }
 
     function getLyrics(serverId, itemId) {
-        const apiClient = ServerConnections.getApiClient(serverId);
-        const lyricsApi = getLyricsApi(toApi(apiClient));
+        const api = ServerConnections.getApi(serverId);
+        if (!api) {
+            console.error('[Lyrics] no Api instance available for server', serverId);
+            return;
+        }
 
-        return lyricsApi.getLyrics({ itemId })
+        return getLyricsApi(api).getLyrics({ itemId })
             .then(({ data }) => {
                 if (!data.Lyrics?.length) {
                     throw new Error('No lyrics returned');

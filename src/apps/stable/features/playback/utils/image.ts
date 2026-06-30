@@ -14,23 +14,29 @@ interface ImageOptions {
 function getSeriesImageUrl(item: ItemDto, options: ImageOptions = {}) {
     if (!item.ServerId) return null;
 
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    if (!apiClient) {
+        console.error('[getSeriesImageUrl] No ApiClient instance available for serverId', item.ServerId);
+        return null;
+    }
+
     if (item.SeriesId && options.type === ImageType.Primary && item.SeriesPrimaryImageTag) {
         options.tag = item.SeriesPrimaryImageTag;
 
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+        return apiClient.getScaledImageUrl(item.SeriesId, options);
     }
 
     if (options.type === ImageType.Thumb) {
         if (item.SeriesId && item.SeriesThumbImageTag) {
             options.tag = item.SeriesThumbImageTag;
 
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+            return apiClient.getScaledImageUrl(item.SeriesId, options);
         }
 
         if (item.ParentThumbItemId && item.ParentThumbImageTag) {
             options.tag = item.ParentThumbImageTag;
 
-            return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+            return apiClient.getScaledImageUrl(item.ParentThumbItemId, options);
         }
     }
 
@@ -40,6 +46,12 @@ function getSeriesImageUrl(item: ItemDto, options: ImageOptions = {}) {
 export function getImageUrl(item: ItemDto, options: ImageOptions = {}) {
     if (!item.ServerId) return null;
 
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    if (!apiClient) {
+        console.error('[getImageUrl] No ApiClient instance available for serverId', item.ServerId);
+        return null;
+    }
+
     options.type = options.type || ImageType.Primary;
 
     if (item.Type === BaseItemKind.Episode) return getSeriesImageUrl(item, options);
@@ -48,12 +60,12 @@ export function getImageUrl(item: ItemDto, options: ImageOptions = {}) {
 
     if (itemId && item.ImageTags?.[options.type]) {
         options.tag = item.ImageTags[options.type] ?? undefined;
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(itemId, options);
+        return apiClient.getScaledImageUrl(itemId, options);
     }
 
     if (item.AlbumId && item.AlbumPrimaryImageTag) {
         options.tag = item.AlbumPrimaryImageTag;
-        return ServerConnections.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+        return apiClient.getScaledImageUrl(item.AlbumId, options);
     }
 
     return null;

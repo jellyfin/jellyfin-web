@@ -35,25 +35,28 @@ const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
         bottomText = nowPlayingItem.ProductionYear.toString();
     }
 
-    if (nowPlayingItem.ImageTags?.Logo) {
-        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(nowPlayingItem.Id!, {
-            tag: nowPlayingItem.ImageTags.Logo,
-            maxHeight: 24,
-            maxWidth: 130,
-            type: 'Logo'
-        });
-    } else if (nowPlayingItem.ParentLogoImageTag) {
-        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(nowPlayingItem.ParentLogoItemId!, {
-            tag: nowPlayingItem.ParentLogoImageTag,
-            maxHeight: 24,
-            maxWidth: 130,
-            type: 'Logo'
-        });
+    const apiClient = ServerConnections.getApiClient(session.ServerId);
+    if (apiClient) {
+        if (nowPlayingItem.ImageTags?.Logo) {
+            imgUrl = apiClient.getScaledImageUrl(nowPlayingItem.Id!, {
+                tag: nowPlayingItem.ImageTags.Logo,
+                maxHeight: 24,
+                maxWidth: 130,
+                type: 'Logo'
+            });
+        } else if (nowPlayingItem.ParentLogoImageTag) {
+            imgUrl = apiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId!, {
+                tag: nowPlayingItem.ParentLogoImageTag,
+                maxHeight: 24,
+                maxWidth: 130,
+                type: 'Logo'
+            });
+        }
     }
 
     return {
-        topText: topText,
-        bottomText: bottomText,
+        topText,
+        bottomText,
         image: imgUrl
     };
 };
