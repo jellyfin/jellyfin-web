@@ -48,13 +48,17 @@ const VideoPage: FC = () => {
                 in={isVisible}
                 easing='fade-out'
             >
-                <Box sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    color: 'white'
-                }}>
+                <Box
+                    className='skinHeader skinHeader-withBackground skinHeader-blurred osdHeader'
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        color: 'white',
+                        pointerEvents: 'unset !important'
+                    }}
+                >
                     <AppToolbar
                         isDrawerAvailable={false}
                         isDrawerOpen={false}
