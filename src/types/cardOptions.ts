@@ -66,6 +66,7 @@ export interface CardOptions {
     showCurrentProgram?: boolean;
     showCurrentProgramTime?: boolean;
     showItemCounts?: boolean;
+    showOverview?: boolean;
     showPersonRoleOrType?: boolean;
     showProgressBar?: boolean;
     showPremiereDate?: boolean;
