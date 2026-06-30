@@ -1917,10 +1917,10 @@
     "OriginalLanguage": "Llengua original",
     "StillWatchingOption": "{0} episodis o {1} minuts",
     "TableOfContents": "Taulell de continguts",
-    "ConfirmDeleteItemByName": "Eliminar \"{0}\" l'eliminarà del sistema de fitxers i de la mediateca. N'esteu segur, que desitgeu continuar?",
-    "ConfirmSplitMedia": "Esteu segur que voleu dividir les fonts multimèdia en elements separats?",
+    "ConfirmDeleteItemByName": "Eliminar \"{0}\" l'eliminarà del sistema de fitxers i la mediateca. N'esteu segur, que desitgeu continuar?",
+    "ConfirmSplitMedia": "N'esteu segur, que voleu dividir les fonts multimèdia en elements separats?",
     "Creators": "Creadors",
-    "HeaderSplitMedia": "Dividir els continguts multimèdia",
+    "HeaderSplitMedia": "Divideix els continguts multimèdia",
     "StillWatchingPrompt": "Avís de continuació de reproducció",
-    "StopWatching": "Deixar de visualitzar"
+    "StopWatching": "Deixa de veure"
 }
