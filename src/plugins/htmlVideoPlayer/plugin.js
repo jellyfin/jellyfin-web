@@ -1993,6 +1993,15 @@ export class HtmlVideoPlayer {
         return null;
     }
 
+    /**
+     * Returns true if this player requires server-side transcoding for playback speed changes.
+     * On webOS, Tizen, and similar TV platforms, the native HTML5 playbackRate property
+     * does not properly handle audio (audio is muted or broken at non-1x speeds).
+     */
+    requiresServerPlaybackRate() {
+        return browser.web0s || browser.tizen || browser.orsay || browser.operaTv;
+    }
+
     getSupportedPlaybackRates() {
         return [{
             name: '0.5x',
