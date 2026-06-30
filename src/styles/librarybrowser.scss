@@ -1245,7 +1245,19 @@ div.itemDetailGalleryLink.defaultCardBackground {
     vertical-align: middle;
 }
 
-/* these next two rules are for the scroller element headers */
+.specialsSectionTitleContainer {
+    display: flex;
+    align-items: center;
+}
+
+.specialsFeaturesMenuButton {
+    margin-left: 0 !important;
+}
+
+#specialsFeaturesMenuButton .material-icons {
+  font-size: 2em !important;
+}
+
 .sectionTitleContainer-cards {
     margin: 0;
     padding-top: 1.25em;
