@@ -47,8 +47,11 @@ function addUser(form) {
 
     if (!name) return;
 
+    passwordConfirmElem.setCustomValidity('');
+
     if (passwordElem.value !== passwordConfirmElem.value) {
-        toast(globalize.translate('PasswordMatchError'));
+        passwordConfirmElem.setCustomValidity(globalize.translate('PasswordMatchError'));
+        form.reportValidity();
         return;
     }
 
@@ -91,6 +94,10 @@ function onAddUserSubmit(e) {
     addUser(this);
 }
 
+function onPasswordConfirmInput(e) {
+    e.target.setCustomValidity('');
+}
+
 function onAddedUsersClick(e) {
     const removeButton = e.target.closest('.btnRemoveUser');
     if (removeButton) {
@@ -104,6 +111,7 @@ function onShow() {
 
 export default function (view) {
     view.querySelector('.wizardAddUserForm').addEventListener('submit', onAddUserSubmit);
+    view.querySelector('#txtNewUserPasswordConfirm').addEventListener('input', onPasswordConfirmInput);
     view.querySelector('.addedUsers').addEventListener('click', onAddedUsersClick);
     view.querySelector('.btnWizardNext').addEventListener('click', function () {
         goToNextWizardStep('users');

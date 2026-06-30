@@ -55,11 +55,15 @@ function submit(form) {
 function onSubmit(e) {
     const form = this;
     const password = form.querySelector('#txtManualPassword').value;
+    const confirmElem = form.querySelector('#txtPasswordConfirm');
 
     e.preventDefault();
 
-    if (password && password !== form.querySelector('#txtPasswordConfirm').value) {
-        toast(globalize.translate('PasswordMatchError'));
+    confirmElem.setCustomValidity('');
+
+    if (password && password !== confirmElem.value) {
+        confirmElem.setCustomValidity(globalize.translate('PasswordMatchError'));
+        form.reportValidity();
         return;
     }
 
@@ -90,7 +94,12 @@ function onViewShow() {
     });
 }
 
+function onPasswordConfirmInput(e) {
+    e.target.setCustomValidity('');
+}
+
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
+    view.querySelector('#txtPasswordConfirm').addEventListener('input', onPasswordConfirmInput);
     initWizardStep(view, 'user', { onShow: onViewShow });
 }
