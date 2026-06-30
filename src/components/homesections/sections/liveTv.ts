@@ -4,7 +4,7 @@ import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-field
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import { getRecommendedProgramsQuery } from 'apps/stable/features/liveTv/api/useRecommendedPrograms';
+import { getRecommendedProgramsQuery } from 'apps/legacy/features/liveTv/api/useRecommendedPrograms';
 import { appRouter } from 'components/router/appRouter';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';

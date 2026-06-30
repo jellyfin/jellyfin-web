@@ -7,7 +7,6 @@ import loading from '../loading/loading';
 import alert from '../alert';
 
 import layoutManager from 'components/layoutManager';
-import { LayoutMode } from 'constants/layoutMode';
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
@@ -405,9 +404,9 @@ class AppRouter {
         }
 
         if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
-            const isExperimentalLayout = layoutManager.layout === LayoutMode.Experimental;
+            const isModernLayout = layoutManager.modern;
 
-            if (isExperimentalLayout && item.CollectionType == CollectionType.Books) {
+            if (isModernLayout && item.CollectionType == CollectionType.Books) {
                 url = `#/books?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options?.section === 'latest') {
@@ -446,11 +445,11 @@ class AppRouter {
                 return url;
             }
 
-            if (isExperimentalLayout && item.CollectionType == CollectionType.Homevideos) {
+            if (isModernLayout && item.CollectionType == CollectionType.Homevideos) {
                 return '#/homevideos?topParentId=' + item.Id;
             }
 
-            if (isExperimentalLayout && item.CollectionType == CollectionType.Musicvideos) {
+            if (isModernLayout && item.CollectionType == CollectionType.Musicvideos) {
                 url = `#/musicvideos?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options?.section === 'latest') {
@@ -459,15 +458,15 @@ class AppRouter {
                 return url;
             }
 
-            if (isExperimentalLayout && item.CollectionType == CollectionType.Boxsets) {
+            if (isModernLayout && item.CollectionType == CollectionType.Boxsets) {
                 return `#/boxsets?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
             }
 
-            if (isExperimentalLayout && item.CollectionType == CollectionType.Playlists) {
+            if (isModernLayout && item.CollectionType == CollectionType.Playlists) {
                 return `#/playlists?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
             }
 
-            if (isExperimentalLayout && item.CollectionType == null && item.Type === 'CollectionFolder') {
+            if (isModernLayout && item.CollectionType == null && item.Type === 'CollectionFolder') {
                 url = `#/mixed?topParentId=${item.Id}&collectionType=mixed`;
 
                 if (options?.section === 'latest') {
