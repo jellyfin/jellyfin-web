@@ -1920,5 +1920,9 @@
     "StillWatchingPrompt": "Toujours en cours de visionnage",
     "StillWatchingOption": "{0} épisodes ou {1} minutes",
     "StopWatching": "Ne plus regarder",
-    "TableOfContents": "Sommaire"
+    "TableOfContents": "Sommaire",
+    "ConfirmSplitMedia": "Êtes-vous sûr de vouloir diviser les sources multimédias en éléments distincts ?",
+    "Creators": "Créateurs",
+    "HeaderSplitMedia": "Séparer les supports",
+    "IndexNumber": "Numéro d'index"
 }

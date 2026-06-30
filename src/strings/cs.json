@@ -1922,5 +1922,7 @@
     "StopWatching": "Přestat sledovat",
     "TableOfContents": "Obsah",
     "ConfirmSplitMedia": "Opravdu chcete rozdělit zdroje médií na samostatné položky?",
-    "HeaderSplitMedia": "Rozdělit média"
+    "HeaderSplitMedia": "Rozdělit média",
+    "Creators": "Tvůrci",
+    "IndexNumber": "Indexové číslo"
 }
