@@ -17,6 +17,12 @@ export function renderWizardProgress(view, stepId) {
         + `<div class="wizardProgressFill" style="width:${percent}%;"></div></div>`;
 }
 
+// Steps where adding an item is optional read "Skip" instead of "Next" until one exists.
+export function updateNextButtonLabel(page, hasItems) {
+    const elem = page.querySelector('.btnNextLabel');
+    if (elem) elem.textContent = globalize.translate(hasItems ? 'Next' : 'Skip');
+}
+
 export function initWizardStep(view, stepId, { onShow } = {}) {
     renderWizardProgress(view, stepId);
 

@@ -3,7 +3,7 @@ import escapeHtml from 'escape-html';
 import confirm from 'components/confirm/confirm';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
-import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
+import { initWizardStep, updateNextButtonLabel } from 'apps/wizard/controllers/wizardProgress';
 import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
 import { getWizardDraft } from 'apps/wizard/controllers/wizardDraft';
 
@@ -11,12 +11,6 @@ import 'styles/dashboard.scss';
 import 'elements/emby-input/emby-input';
 import 'elements/emby-button/emby-button';
 import 'elements/emby-button/paper-icon-button-light';
-
-// Adding users is optional, so the forward button reads "Skip" until at least one exists.
-function updateNextLabel(page) {
-    const draft = getWizardDraft();
-    page.querySelector('.btnNextLabel').textContent = globalize.translate(draft.users.length ? 'Next' : 'Skip');
-}
 
 function renderAddedUsers(page) {
     const draft = getWizardDraft();
@@ -40,7 +34,7 @@ function renderAddedUsers(page) {
         item.querySelector('.addedUserName').textContent = draft.users[index].Name;
     });
 
-    updateNextLabel(page);
+    updateNextButtonLabel(page, draft.users.length > 0);
 }
 
 function addUser(form) {

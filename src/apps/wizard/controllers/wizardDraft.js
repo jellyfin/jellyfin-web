@@ -9,17 +9,48 @@ const draft = {
     libraries: []
 };
 
+// Tracks which apply* stages have already succeeded, so a retry after a partial
+// failure doesn't redo idempotent work or re-POST a non-idempotent one (e.g. Complete).
+const appliedStages = new Set();
+let completed = false;
+
+function hasDraftData() {
+    return Object.keys(draft.config).length > 0
+        || draft.users.length > 0
+        || Object.keys(draft.remoteAccess).length > 0
+        || Object.keys(draft.network).length > 0
+        || Object.keys(draft.encoding).length > 0
+        || draft.libraries.length > 0;
+}
+
+// Warn before an accidental refresh/close wipes the in-memory draft, but only once
+// the user has actually entered data and only until the wizard finishes successfully.
+window.addEventListener('beforeunload', function (e) {
+    if (!completed && hasDraftData()) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
+
 export function getWizardDraft() {
     return draft;
+}
+
+export function markWizardCompleted() {
+    completed = true;
 }
 
 function applyConfig(apiClient) {
     if (Object.keys(draft.config).length === 0) return Promise.resolve();
     return apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
-        Object.assign(config, draft.config);
+        // Read-modify-write against the live server config; only the wizard's own fields
+        // are overwritten, but a concurrent external change to those same fields between
+        // this GET and the POST below would still be lost. Not fixable without API support
+        // for partial updates. The `|| {}` guards against an empty/no-content response.
+        const merged = Object.assign(config || {}, draft.config);
         return apiClient.ajax({
             type: 'POST',
-            data: JSON.stringify(config),
+            data: JSON.stringify(merged),
             url: apiClient.getUrl('Startup/Configuration'),
             contentType: 'application/json'
         });
@@ -50,16 +81,16 @@ function applyRemoteAccess(apiClient) {
 function applyNetwork(apiClient) {
     if (Object.keys(draft.network).length === 0) return Promise.resolve();
     return apiClient.getNamedConfiguration('network').then(function (networkConfig) {
-        Object.assign(networkConfig, draft.network);
-        return apiClient.updateNamedConfiguration('network', networkConfig);
+        const merged = Object.assign(networkConfig || {}, draft.network);
+        return apiClient.updateNamedConfiguration('network', merged);
     });
 }
 
 function applyEncoding(apiClient) {
     if (Object.keys(draft.encoding).length === 0) return Promise.resolve();
     return apiClient.getNamedConfiguration('encoding').then(function (encodingConfig) {
-        Object.assign(encodingConfig, draft.encoding);
-        return apiClient.updateNamedConfiguration('encoding', encodingConfig);
+        const merged = Object.assign(encodingConfig || {}, draft.encoding);
+        return apiClient.updateNamedConfiguration('encoding', merged);
     }).catch(function (err) {
         // A bad FFmpeg path is non-fatal; warn and continue, matching the original per-step behavior.
         console.error('[Wizard] failed to apply encoding settings', err);
@@ -91,13 +122,15 @@ export async function applyWizardDraft(apiClient) {
         ['remoteAccess', applyRemoteAccess],
         ['encoding', applyEncoding],
         ['libraries', applyLibraries],
-        ['complete', applyComplete],
-        ['network', applyNetwork]
+        ['network', applyNetwork],
+        ['complete', applyComplete]
     ];
 
     for (const [stage, apply] of stages) {
+        if (appliedStages.has(stage)) continue;
         try {
             await apply(apiClient);
+            appliedStages.add(stage);
         } catch (err) {
             err.wizardStage = stage;
             throw err;

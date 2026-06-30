@@ -5,10 +5,9 @@ import confirm from 'components/confirm/confirm';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import dom from 'utils/dom';
-import { pageClassOn } from 'utils/dashboard';
 import imageHelper from 'utils/image';
-import { renderWizardProgress } from 'apps/wizard/controllers/wizardProgress';
-import { goToNextWizardStep, goToPreviousWizardStep } from 'apps/wizard/controllers/wizardSteps';
+import { initWizardStep, updateNextButtonLabel } from 'apps/wizard/controllers/wizardProgress';
+import { goToNextWizardStep } from 'apps/wizard/controllers/wizardSteps';
 import { getWizardDraft } from 'apps/wizard/controllers/wizardDraft';
 
 import 'components/cardbuilder/card.scss';
@@ -109,10 +108,6 @@ function showCardMenu(page, elem) {
     });
 }
 
-function updateNextLabel(page, hasLibraries) {
-    page.querySelector('.btnNextLabel').textContent = globalize.translate(hasLibraries ? 'Next' : 'Skip');
-}
-
 function renderVirtualFolders(page) {
     const draft = getWizardDraft();
     const virtualFolders = draft.libraries.map(function (library) {
@@ -124,7 +119,7 @@ function renderVirtualFolders(page) {
     });
 
     let html = '';
-    updateNextLabel(page, virtualFolders.length > 0);
+    updateNextButtonLabel(page, virtualFolders.length > 0);
     virtualFolders.push({
         Name: globalize.translate('ButtonAddMediaLibrary'),
         icon: 'add_circle',
@@ -285,9 +280,11 @@ function getVirtualFolderHtml(virtualFolder, index) {
     return html;
 }
 
-pageClassOn('pageshow', 'mediaLibraryPage', function () {
-    renderWizardProgress(this, 'library');
-    renderVirtualFolders(this);
-    this.querySelector('.btnWizardPrev').onclick = () => goToPreviousWizardStep('library');
-    this.querySelector('.btnWizardNext').onclick = () => goToNextWizardStep('library');
-});
+export default function (view) {
+    view.querySelector('.btnWizardNext').addEventListener('click', function () {
+        goToNextWizardStep('library');
+    });
+    initWizardStep(view, 'library', {
+        onShow() { renderVirtualFolders(this); }
+    });
+}

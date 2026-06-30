@@ -15,9 +15,13 @@ const WIZARD_STEPS = [
 export const TOTAL_WIZARD_STEPS = WIZARD_STEPS.length;
 
 function indexOfStep(stepId) {
-    return WIZARD_STEPS.findIndex(function (s) {
+    const index = WIZARD_STEPS.findIndex(function (s) {
         return s.id === stepId;
     });
+    if (index === -1) {
+        console.error('[Wizard] unknown step id "' + stepId + '" - check it matches an entry in WIZARD_STEPS');
+    }
+    return index;
 }
 
 export function getWizardStepNumber(stepId) {

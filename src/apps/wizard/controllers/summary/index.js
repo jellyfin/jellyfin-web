@@ -6,9 +6,19 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
 import { initWizardStep } from 'apps/wizard/controllers/wizardProgress';
-import { getWizardDraft, applyWizardDraft } from 'apps/wizard/controllers/wizardDraft';
+import { getWizardDraft, applyWizardDraft, markWizardCompleted } from 'apps/wizard/controllers/wizardDraft';
 
 import 'elements/emby-button/emby-button';
+
+// Maps wizardDraft.js apply-stage names to a translatable label for error messages.
+const STAGE_LABEL_KEYS = {
+    config: 'WizardSummaryServer',
+    users: 'WizardSummaryAdditionalUsers',
+    remoteAccess: 'WizardSummaryRemoteAccess',
+    libraries: 'WizardSummaryLibraries',
+    network: 'WizardSummaryNetwork',
+    complete: 'WizardSummaryFinish'
+};
 
 function renderSummaryRow(label, value, route) {
     return '<button type="button" class="wizardSummaryRow" data-route="' + route + '">'
@@ -58,13 +68,18 @@ function finish() {
     loading.show();
     const apiClient = ServerConnections.currentApiClient();
     applyWizardDraft(apiClient).then(function () {
+        markWizardCompleted();
         loading.hide();
         // Setup completion changes auth state; replace history so back doesn't re-enter the wizard.
         window.location.replace(window.location.pathname);
     }).catch(function (err) {
         console.error('[Wizard > Summary] failed to complete setup', err);
         console.error('[Wizard > Summary] failed wizard stage', err.wizardStage);
-        toast(globalize.translate('ErrorDefault'));
+        const labelKey = STAGE_LABEL_KEYS[err.wizardStage];
+        const message = labelKey ?
+            globalize.translate('WizardErrorStageFailed', globalize.translate(labelKey)) :
+            globalize.translate('ErrorDefault');
+        toast(message);
         loading.hide();
     });
 }
