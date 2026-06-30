@@ -2,10 +2,11 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import React, { type FC } from 'react';
 
-import PageTabContent from 'apps/modern/components/library/PageTabContent';
 import viewsByKind from 'apps/modern/features/libraries/constants/views';
 import Page from 'components/Page';
 import useCurrentTab from 'hooks/useCurrentTab';
+
+import PageTabContent from './PageTabContent';
 
 interface LibraryPageProps {
     type: CollectionType

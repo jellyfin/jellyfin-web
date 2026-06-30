@@ -6,16 +6,6 @@ import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import React, { type SetStateAction, useMemo, type FC } from 'react';
 
-import FilterButton from 'apps/modern/components/library/filter/FilterButton';
-import LibraryViewMenu from 'apps/modern/components/library/LibraryViewMenu';
-import NewCollectionButton from 'apps/modern/components/library/NewCollectionButton';
-import NewPlaylistButton from 'apps/modern/components/library/NewPlaylistButton';
-import Pagination from 'apps/modern/components/library/Pagination';
-import PlayAllButton from 'apps/modern/components/library/PlayAllButton';
-import QueueButton from 'apps/modern/components/library/QueueButton';
-import ShuffleButton from 'apps/modern/components/library/ShuffleButton';
-import SortButton from 'apps/modern/components/library/SortButton';
-import ViewSettingsButton from 'apps/modern/components/library/ViewSettingsButton';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { useApi } from 'hooks/useApi';
 import { useItem } from 'hooks/useItem';
@@ -23,6 +13,17 @@ import { useUserSettings } from 'hooks/useUserSettings';
 import globalize from 'lib/globalize';
 import type { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+
+import FilterButton from './filter/FilterButton';
+import LibraryViewMenu from './LibraryViewMenu';
+import NewCollectionButton from './NewCollectionButton';
+import NewPlaylistButton from './NewPlaylistButton';
+import Pagination from './Pagination';
+import PlayAllButton from './PlayAllButton';
+import QueueButton from './QueueButton';
+import ShuffleButton from './ShuffleButton';
+import SortButton from './SortButton';
+import ViewSettingsButton from './ViewSettingsButton';
 
 import { useLibrary } from '../hooks/useLibrary';
 import { getDefaultLibraryViewSettings } from '../utils/settings';

@@ -12,7 +12,7 @@ import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import NoItemsMessage from 'components/common/NoItemsMessage';
-import SectionContainer from '../../../../components/common/SectionContainer';
+import SectionContainer from 'components/common/SectionContainer';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
 import type { ItemDto } from 'types/base/models/item-dto';
