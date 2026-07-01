@@ -1,6 +1,6 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { PluginType } from 'constants/pluginType';
 
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
@@ -8,7 +8,6 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 import './style.scss';
@@ -101,13 +100,13 @@ export class PdfPlayer {
         const key = keyboardnavigation.getKeyName(e);
 
         switch (key) {
-            case 'l':
+            case 'KeyL':
             case 'ArrowRight':
             case 'Right':
                 e.preventDefault();
                 this.next();
                 break;
-            case 'j':
+            case 'KeyJ':
             case 'ArrowLeft':
             case 'Left':
                 e.preventDefault();
@@ -210,7 +209,12 @@ export class PdfPlayer {
         };
 
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const api = toApi(ServerConnections.getApiClient(item));
+            const api = ServerConnections.getApi(item.ServerId);
+            if (!api) {
+                console.error('[PdfPlayer] no Api instance available for server', item.ServerId);
+                return;
+            }
+
             const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
 
             this.bindEvents();

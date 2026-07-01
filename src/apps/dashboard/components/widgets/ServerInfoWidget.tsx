@@ -76,7 +76,8 @@ const ServerInfoWidget = ({
                         sx={{
                             fontWeight: 'bold'
                         }}
-                        disabled={isScanning}
+                        loading={isScanning}
+                        loadingPosition='start'
                     >
                         {globalize.translate('ButtonScanAllLibraries')}
                     </Button>

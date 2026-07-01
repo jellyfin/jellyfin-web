@@ -2,8 +2,8 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import type { CardOptions } from 'types/cardOptions';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import { getDefaultText } from './cardBuilder';
 import { CardShape } from './utils/shape';
@@ -31,7 +31,7 @@ export function buildCardImage(
     }
 
     const image = getCardImageUrl({
-        api: toApi(apiClient),
+        api: ServerConnections.getApi(apiClient.serverId()),
         item,
         options,
         shape
@@ -66,7 +66,7 @@ export function buildCardImage(
             <div
                 class="cardImageContainer coveredImage cardContent lazy"
                 style="cursor: default;"
-                data-src="${imgUrl}"
+                data-src="${imgUrl || ''}"
                 ${blurhashAttrib}
             ></div>
         </div>

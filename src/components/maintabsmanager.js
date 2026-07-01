@@ -1,5 +1,6 @@
 import dom from '../utils/dom';
 import browser from '../scripts/browser';
+import layoutManager from './layoutManager';
 import Events from '../utils/events.ts';
 import '../elements/emby-tabs/emby-tabs';
 import '../elements/emby-button/emby-button';
@@ -46,7 +47,7 @@ function allowSwipe(target) {
 }
 
 function configureSwipeTabs(view, currentElement) {
-    if (!browser.touch) {
+    if (!browser.touch || layoutManager.modern) {
         return;
     }
 
