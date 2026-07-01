@@ -48,7 +48,7 @@
     "globals": "17.7.0",
     "html-loader": "5.1.0",
     "html-webpack-plugin": "5.6.7",
-    "jsdom": "28.1.0",
+    "jsdom": "29.1.1",
     "mini-css-extract-plugin": "2.10.2",
     "postcss": "8.5.15",
     "postcss-loader": "8.2.1",
