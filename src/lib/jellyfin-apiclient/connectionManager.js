@@ -792,8 +792,8 @@ export default class ConnectionManager {
 
     /**
      * Gets the ApiClient for a given BaseItem or ServerId.
-     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
-     * @returns {import('jellyfin-apiclient').ApiClient}
+     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | null | undefined} item
+     * @returns {import('jellyfin-apiclient').ApiClient | undefined}
      */
     getApiClient(item) {
         if (!item) {
@@ -814,12 +814,23 @@ export default class ConnectionManager {
     }
 
     /**
-     * Returns or creates an Api instance for a given
-     * server
-     * @param {string} serverId The ID of the server
-     * @returns {import('@jellyfin/sdk').Api}
+     * Returns or creates an Api instance for a given server. If no serverId is provided,
+     * the last used server will be used instead.
+     * @param {string} [serverId] The ID of the server
+     * @returns {import('@jellyfin/sdk').Api|undefined}
      */
     getApi(serverId) {
+        // If no serverId is provided, try to use the last used server
+        if (!serverId) {
+            const server = this.getLastUsedServer();
+            serverId = server?.Id;
+        }
+
+        // If no serverId is available still, return undefined
+        if (!serverId) {
+            return undefined;
+        }
+
         const apiClient = this.getApiClient(serverId);
         apiClient._sdk ??= toApi(apiClient);
         return apiClient._sdk;

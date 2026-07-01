@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-import { getDefaultViewIndex, getViewForIndex, setLastSelectedView } from 'apps/experimental/features/libraries/utils/path';
+import { getDefaultViewIndex, getViewForIndex, setLastSelectedView } from 'apps/modern/features/libraries/utils/path';
 
 const useCurrentTab = () => {
     const location = useLocation();

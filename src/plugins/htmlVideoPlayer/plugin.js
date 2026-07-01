@@ -2,7 +2,7 @@ import DOMPurify from 'dompurify';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
-import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
+import { useCustomSubtitles } from 'apps/legacy/features/playback/utils/subtitleStyles';
 import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleappearancehelper';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';

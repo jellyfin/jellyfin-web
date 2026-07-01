@@ -4,7 +4,6 @@ import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
 import { getUserQuery } from 'hooks/api/useUser';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import browser from '../../scripts/browser';
@@ -246,10 +245,11 @@ class DisplaySettings {
         loading.show();
 
         const userId = self.options.userId;
+        const api = ServerConnections.getApi(self.options.serverId);
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
-        const user = await queryClient.fetchQuery(getUserQuery(toApi(apiClient), { userId }));
+        const user = await queryClient.fetchQuery(getUserQuery(api, { userId }));
         await userSettings.setUserInfo(userId, apiClient);
 
         self.dataLoaded = true;

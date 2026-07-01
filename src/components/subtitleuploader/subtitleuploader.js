@@ -1,7 +1,6 @@
 import escapeHtml from 'escape-html';
-
 import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
@@ -96,12 +95,16 @@ async function onSubmit(e) {
     const isForced = dlg.querySelector('#chkIsForced').checked;
     const isHearingImpaired = dlg.querySelector('#chkIsHearingImpaired').checked;
 
-    const subtitleApi = getSubtitleApi(toApi(ServerConnections.getApiClient(currentServerId)));
+    const api = ServerConnections.getApi(currentServerId);
+    if (!api) {
+        console.error('[SubtitleUploader] No Api instance available for server', currentServerId);
+        return;
+    }
 
     const data = await readFileAsBase64(file);
     const format = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
 
-    subtitleApi.uploadSubtitle({
+    getSubtitleApi(api).uploadSubtitle({
         itemId: currentItemId,
         uploadSubtitleDto: { Data: data, Language: language, IsForced: isForced, Format: format, IsHearingImpaired: isHearingImpaired }
     }).then(function () {
