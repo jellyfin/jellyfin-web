@@ -188,47 +188,40 @@ function getCollectionTypeOptions() {
     }];
 }
 
-function getVirtualFolderHtml(virtualFolder, index) {
-    let html = '';
-
-    const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
-    html += '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="min-width:33.3%;" data-index="' + index + '">';
-
-    html += '<div class="cardBox visualCardBox">';
-    html += '<div class="cardScalable visualCardBox-cardScalable">';
-    html += '<div class="cardPadder cardPadder-backdrop"></div>';
-    html += '<div class="cardContent">';
-
-    let hasCardImageContainer;
-
-    if (!virtualFolder.showNameWithIcon) {
-        html += `<div class="cardImageContainer ${getDefaultBackgroundClass()}">`;
-        html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
-        hasCardImageContainer = true;
-    }
-
-    if (hasCardImageContainer) {
-        html += '<div class="cardIndicators backdropCardIndicators">';
-        html += '</div>';
-        html += '</div>';
-    }
+function getVirtualFolderCardImageHtml(virtualFolder) {
+    const icon = virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType);
 
     if (virtualFolder.showNameWithIcon) {
-        html += '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
-        html += '<span class="cardImageIcon material-icons ' + (virtualFolder.icon || imageHelper.getLibraryIcon(virtualFolder.CollectionType)) + '" aria-hidden="true"></span>';
-
-        if (virtualFolder.showNameWithIcon) {
-            html += '<div style="margin:1em 0;position:width:100%;">';
-            html += escapeHtml(virtualFolder.Name);
-            html += '</div>';
-        }
-
+        let html = '<h3 class="cardImageContainer addLibrary" style="position:absolute;top:0;left:0;right:0;bottom:0;cursor:pointer;flex-direction:column;">';
+        html += '<span class="cardImageIcon material-icons ' + icon + '" aria-hidden="true"></span>';
+        html += '<div style="margin:1em 0;position:width:100%;">';
+        html += escapeHtml(virtualFolder.Name);
+        html += '</div>';
         html += '</h3>';
+        return html;
     }
 
+    let html = `<div class="cardImageContainer ${getDefaultBackgroundClass()}">`;
+    html += '<span class="cardImageIcon material-icons ' + icon + '" aria-hidden="true"></span>';
+    html += '<div class="cardIndicators backdropCardIndicators"></div>';
     html += '</div>';
-    html += '</div>';
-    html += '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
+    return html;
+}
+
+function getVirtualFolderLocationsHtml(virtualFolder) {
+    if (virtualFolder.showLocations === false) {
+        return "<div class='cardText cardText-secondary'>&nbsp;</div>";
+    }
+
+    if (virtualFolder.Locations.length === 1) {
+        return "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>" + escapeHtml(virtualFolder.Locations[0]) + '</div>';
+    }
+
+    return "<div class='cardText cardText-secondary'>" + globalize.translate('NumLocationsValue', virtualFolder.Locations.length) + '</div>';
+}
+
+function getVirtualFolderCardFooterHtml(virtualFolder) {
+    let html = '<div class="cardFooter visualCardBox-cardFooter">'; // always show menu unless explicitly hidden
 
     if (virtualFolder.showMenu !== false) {
         const dirTextAlign = globalize.getIsRTL() ? 'left' : 'right';
@@ -238,49 +231,39 @@ function getVirtualFolderHtml(virtualFolder, index) {
     }
 
     html += "<div class='cardText'>";
-
-    if (virtualFolder.showNameWithIcon) {
-        html += '&nbsp;';
-    } else {
-        html += escapeHtml(virtualFolder.Name);
-    }
-
+    html += virtualFolder.showNameWithIcon ? '&nbsp;' : escapeHtml(virtualFolder.Name);
     html += '</div>';
-    let typeName = getCollectionTypeOptions().filter(function (t) {
-        return t.value == virtualFolder.CollectionType;
-    })[0];
-    typeName = typeName ? typeName.name : globalize.translate('Other');
+
+    const typeMatch = getCollectionTypeOptions().find(t => t.value == virtualFolder.CollectionType);
+    const typeName = typeMatch ? typeMatch.name : globalize.translate('Other');
     html += "<div class='cardText cardText-secondary'>";
-
-    if (virtualFolder.showType === false) {
-        html += '&nbsp;';
-    } else {
-        html += typeName;
-    }
-
+    html += virtualFolder.showType === false ? '&nbsp;' : typeName;
     html += '</div>';
 
-    if (virtualFolder.showLocations === false) {
-        html += "<div class='cardText cardText-secondary'>";
-        html += '&nbsp;';
-        html += '</div>';
-    } else if (virtualFolder.Locations.length && virtualFolder.Locations.length === 1) {
-        html += "<div class='cardText cardText-secondary' dir='ltr' style='text-align:left;'>";
-        html += escapeHtml(virtualFolder.Locations[0]);
-        html += '</div>';
-    } else {
-        html += "<div class='cardText cardText-secondary'>";
-        html += globalize.translate('NumLocationsValue', virtualFolder.Locations.length);
-        html += '</div>';
-    }
+    html += getVirtualFolderLocationsHtml(virtualFolder);
 
     html += '</div>';
+    return html;
+}
+
+function getVirtualFolderHtml(virtualFolder, index) {
+    const elementId = virtualFolder.elementId ? `id="${virtualFolder.elementId}" ` : '';
+    let html = '<div ' + elementId + 'class="card backdropCard scalableCard backdropCard-scalable" style="min-width:33.3%;" data-index="' + index + '">';
+
+    html += '<div class="cardBox visualCardBox">';
+    html += '<div class="cardScalable visualCardBox-cardScalable">';
+    html += '<div class="cardPadder cardPadder-backdrop"></div>';
+    html += '<div class="cardContent">';
+    html += getVirtualFolderCardImageHtml(virtualFolder);
+    html += '</div>';
+    html += '</div>';
+    html += getVirtualFolderCardFooterHtml(virtualFolder);
     html += '</div>';
     html += '</div>';
     return html;
 }
 
-export default function (view) {
+export default function initLibraryView(view) {
     view.querySelector('.btnWizardNext').addEventListener('click', function () {
         goToNextWizardStep('library');
     });

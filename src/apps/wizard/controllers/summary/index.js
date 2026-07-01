@@ -49,7 +49,7 @@ function loadSummary(view) {
             + renderSummaryRow(globalize.translate('WizardSummaryAdditionalUsers'), String(draft.users.length), 'wizard/users')
             + renderSummaryRow(globalize.translate('WizardSummaryMetadataLanguage'), metadataLanguage, 'wizard/metadata')
             + renderSummaryRow(globalize.translate('WizardSummaryLibraries'), String(draft.libraries.length), 'wizard/library')
-            + renderSummaryRow(globalize.translate('WizardSummaryRemoteAccess'), draft.remoteAccess.EnableRemoteAccess !== false ? yes : no, 'wizard/remoteaccess')
+            + renderSummaryRow(globalize.translate('WizardSummaryRemoteAccess'), draft.remoteAccess.EnableRemoteAccess === false ? no : yes, 'wizard/remoteaccess')
             + renderSummaryRow(globalize.translate('WizardSummaryHttps'), draft.network.EnableHttps ? yes : no, 'wizard/remoteaccess')
             + renderSummaryRow(globalize.translate('WizardSummaryUpnp'), draft.network.EnableUPnP ? yes : no, 'wizard/remoteaccess')
             + renderSummaryRow(globalize.translate('WizardSummaryHttpPort'), String(draft.network.InternalHttpPort || ''), 'wizard/advanced')
@@ -94,7 +94,7 @@ function onSummaryClick(e) {
     }
 }
 
-export default function (view) {
+export default function initSummaryView(view) {
     view.querySelector('.btnWizardFinish').addEventListener('click', finish);
     view.querySelector('.wizardSummaryList').addEventListener('click', onSummaryClick);
     initWizardStep(view, 'summary', {

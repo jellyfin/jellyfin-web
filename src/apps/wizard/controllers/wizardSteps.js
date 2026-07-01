@@ -53,5 +53,5 @@ export function goToPreviousWizardStep(stepId) {
 }
 
 export function parsePort(str) {
-    return parseInt(str, 10);
+    return Number.parseInt(str, 10);
 }

@@ -10,14 +10,14 @@
                 </div>
 
                 <div class="inputContainer">
-                    <input is="emby-input" type="number" id="txtPortNumber" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelLocalHttpServerPortNumber}" />
+                    <input is="emby-input" type="number" id="txtPortNumber" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelLocalHttpServerPortNumber}" aria-label="${LabelLocalHttpServerPortNumber}" />
                     <div class="fieldDescription">${LabelLocalHttpServerPortNumberHelp}</div>
                     <div class="fieldDescription">${WizardPortRestartNote}</div>
                 </div>
 
                 <h2>${HeaderTranscoding}</h2>
                 <div class="selectContainer">
-                    <select is="emby-select" id="selectHardwareAcceleration" label="${LabelHardwareAccelerationType}">
+                    <select is="emby-select" id="selectHardwareAcceleration" label="${LabelHardwareAccelerationType}" aria-label="${LabelHardwareAccelerationType}">
                         <option value="none">${None}</option>
                         <option value="amf">AMD AMF</option>
                         <option value="nvenc">Nvidia NVENC</option>
@@ -37,7 +37,7 @@
                 </div>
                 <p class="wizardParagraph">${FFmpegSetupHelp}</p>
                 <div class="inputContainer">
-                    <input is="emby-input" type="text" id="txtFFmpegPath" label="${LabelffmpegPath}" />
+                    <input is="emby-input" type="text" id="txtFFmpegPath" label="${LabelffmpegPath}" aria-label="${LabelffmpegPath}" />
                     <div class="fieldDescription">${LabelffmpegPathHelp}</div>
                 </div>
 

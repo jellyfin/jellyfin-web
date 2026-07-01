@@ -84,7 +84,7 @@ function addUser(form) {
 
 function removeUser(page, item) {
     const draft = getWizardDraft();
-    const index = parseInt(item.dataset.index, 10);
+    const index = Number.parseInt(item.dataset.index, 10);
     draft.users.splice(index, 1);
     renderAddedUsers(page);
 }
@@ -109,7 +109,7 @@ function onShow() {
     renderAddedUsers(this);
 }
 
-export default function (view) {
+export default function initUsersView(view) {
     view.querySelector('.wizardAddUserForm').addEventListener('submit', onAddUserSubmit);
     view.querySelector('#txtNewUserPasswordConfirm').addEventListener('input', onPasswordConfirmInput);
     view.querySelector('.addedUsers').addEventListener('click', onAddedUsersClick);

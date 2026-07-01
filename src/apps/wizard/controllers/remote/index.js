@@ -75,7 +75,7 @@ function updateUPnPState(page) {
 
 function onSubmit(e) {
     e.preventDefault();
-    const page = this;
+    const page = e.currentTarget;
 
     // HTTPS will silently fail to bind on the server without a certificate.
     if (page.querySelector('#chkEnableHttps').checked

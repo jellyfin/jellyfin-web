@@ -57,14 +57,14 @@ function reload(page) {
 
 function onSubmit(e) {
     e.preventDefault();
-    const page = this;
+    const page = e.currentTarget;
     // The HTTPS port is set on the previous step; both servers can't share a port.
     validatePort(page.querySelector('#txtPortNumber').value, page.dataset.httpsPort).then(function (valid) {
         if (valid) save(page);
     });
 }
 
-export default function (view) {
+export default function initAdvancedView(view) {
     view.querySelector('.wizardAdvancedForm').addEventListener('submit', onSubmit);
     view.querySelector('#selectHardwareAcceleration').addEventListener('change', function () {
         updateHardwareAccelerationWarning(view);

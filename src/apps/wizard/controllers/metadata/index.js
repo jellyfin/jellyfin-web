@@ -46,7 +46,7 @@ function save(page) {
     goToNextWizardStep('metadata');
 }
 
-export default function (view) {
+export default function initMetadataView(view) {
     view.querySelector('.wizardMetadataForm').addEventListener('submit', function (e) {
         e.preventDefault();
         save(view);

@@ -40,15 +40,15 @@
 
                 <div class="httpsFields hide">
                     <div class="inputContainer">
-                        <input is="emby-input" type="number" id="txtHttpsPort" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelHttpsPort}" />
+                        <input is="emby-input" type="number" id="txtHttpsPort" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelHttpsPort}" aria-label="${LabelHttpsPort}" />
                         <div class="fieldDescription">${LabelHttpsPortHelp}</div>
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtCertificatePath" label="${LabelCustomCertificatePath}" />
+                        <input is="emby-input" type="text" id="txtCertificatePath" label="${LabelCustomCertificatePath}" aria-label="${LabelCustomCertificatePath}" />
                         <div class="fieldDescription">${LabelCustomCertificatePathHelp}</div>
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" type="password" id="txtCertificatePassword" label="${LabelCertificatePassword}" />
+                        <input is="emby-input" type="password" id="txtCertificatePassword" label="${LabelCertificatePassword}" aria-label="${LabelCertificatePassword}" />
                         <div class="fieldDescription">${LabelCertificatePasswordHelp}</div>
                     </div>
                 </div>

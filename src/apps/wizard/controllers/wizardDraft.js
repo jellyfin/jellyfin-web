@@ -54,8 +54,8 @@ function applyConfig(apiClient) {
 function applyUsers(apiClient) {
     if (draft.users.length === 0) return Promise.resolve();
     return apiClient.getJSON(apiClient.getUrl('Users')).then(function (existingUsers) {
-        const existingNames = existingUsers.map(u => u.Name.toLowerCase());
-        const usersToCreate = draft.users.filter(u => !existingNames.includes(u.Name.toLowerCase()));
+        const existingNames = new Set(existingUsers.map(u => u.Name.toLowerCase()));
+        const usersToCreate = draft.users.filter(u => !existingNames.has(u.Name.toLowerCase()));
         return usersToCreate.reduce(function (promise, user) {
             return promise.then(() => apiClient.createUser({ Name: user.Name, Password: user.Password }));
         }, Promise.resolve());
@@ -94,8 +94,8 @@ function applyEncoding(apiClient) {
 function applyLibraries(apiClient) {
     if (draft.libraries.length === 0) return Promise.resolve();
     return apiClient.getVirtualFolders().then(function (existingFolders) {
-        const existingNames = existingFolders.map(f => f.Name.toLowerCase());
-        const librariesToCreate = draft.libraries.filter(l => !existingNames.includes(l.Name.toLowerCase()));
+        const existingNames = new Set(existingFolders.map(f => f.Name.toLowerCase()));
+        const librariesToCreate = draft.libraries.filter(l => !existingNames.has(l.Name.toLowerCase()));
         return librariesToCreate.reduce(function (promise, library) {
             return promise.then(() => apiClient.addVirtualFolder(library.Name, library.CollectionType, true, library.LibraryOptions));
         }, Promise.resolve());

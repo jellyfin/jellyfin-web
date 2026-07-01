@@ -10,13 +10,13 @@
 
                 <form class="wizardAddUserForm">
                     <div class="inputContainer">
-                        <input is="emby-input" type="text" id="txtNewUsername" label="${LabelName}" required="required" />
+                        <input is="emby-input" type="text" id="txtNewUsername" label="${LabelName}" aria-label="${LabelName}" required="required" />
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" type="password" id="txtNewUserPassword" label="${LabelPassword}" />
+                        <input is="emby-input" type="password" id="txtNewUserPassword" label="${LabelPassword}" aria-label="${LabelPassword}" />
                     </div>
                     <div class="inputContainer">
-                        <input is="emby-input" type="password" id="txtNewUserPasswordConfirm" label="${LabelPasswordConfirm}" />
+                        <input is="emby-input" type="password" id="txtNewUserPasswordConfirm" label="${LabelPasswordConfirm}" aria-label="${LabelPasswordConfirm}" />
                     </div>
                     <button is="emby-button" type="submit" class="raised block">
                         <span class="material-icons person_add" aria-hidden="true"></span>

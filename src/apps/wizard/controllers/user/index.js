@@ -51,7 +51,7 @@ function submit(form) {
                 });
         })
         .then(onUpdateUserComplete)
-        .catch(result => onUpdateUserError(form, result));
+        .catch(error => onUpdateUserError(form, error));
 }
 
 function onSubmit(e) {
