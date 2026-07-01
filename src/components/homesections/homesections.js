@@ -2,8 +2,8 @@ import layoutManager from 'components/layoutManager';
 import { DEFAULT_SECTIONS, HomeSectionType } from 'constants/homeSectionType';
 import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import globalize from 'lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import Dashboard from 'utils/dashboard';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import { loadRecordings } from './sections/activeRecordings';
@@ -56,9 +56,10 @@ function getAllSectionsToShow(userSettings) {
 }
 
 export function loadSections(elem, apiClient, user, userSettings) {
+    const api = ServerConnections.getApi(apiClient.serverId());
     const userId = user.Id || apiClient.getCurrentUserId();
     return queryClient
-        .fetchQuery(getUserViewsQuery(toApi(apiClient), { userId }))
+        .fetchQuery(getUserViewsQuery(api, { userId }))
         .then(result => result.Items || [])
         .then(function (userViews) {
             let html = '';
@@ -186,4 +187,3 @@ export default {
     pause,
     resume
 };
-

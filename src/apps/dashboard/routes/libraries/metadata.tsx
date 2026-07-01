@@ -21,7 +21,7 @@ import { ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();

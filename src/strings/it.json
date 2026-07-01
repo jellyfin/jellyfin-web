@@ -1787,7 +1787,7 @@
     "HeaderNextVideo": "Prossimo video",
     "MediaSegmentProvidersHelp": "Abilita e classifica i tuoi provider di segmenti multimediali preferiti in ordine di priorità.",
     "AutoSubtitleStylingHelp": "Questa modalità passerà automaticamente dal meccanismo di stile dei sottotitoli nativo a quello personalizzato in base al tipo di dispositivo.",
-    "Custom": "Funzioni",
+    "Custom": "Personalizzata",
     "CustomSubtitleStylingHelp": "Lo stile dei sottotitoli funzionerà sulla maggior parte dei dispositivi, ma comporta un ulteriore sovraccarico in termini di prestazioni.",
     "LabelMediaSegmentProviders": "Provider di segmenti multimediali",
     "LabelSubtitleStyling": "Stile dei sottotitoli",
@@ -1920,5 +1920,8 @@
     "StillWatchingPrompt": "Richiesta Stai ancora guardando",
     "StillWatchingOption": "{0} episodi o {1} minuti",
     "StopWatching": "Smetti di guardare",
-    "TableOfContents": "Indice"
+    "TableOfContents": "Indice",
+    "Creators": "Creatori",
+    "ConfirmSplitMedia": "Sei sicuro di voler dividere le fonti multimediali in elementi separati?",
+    "HeaderSplitMedia": "Suddividi media"
 }

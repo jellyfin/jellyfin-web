@@ -879,7 +879,7 @@
     "Wednesday": "Miércoles",
     "WelcomeToProject": "¡Bienvenido a Jellyfin!",
     "Whitelist": "Lista blanca",
-    "WizardCompleted": "Eso es todo lo que necesitamos por ahora. Jellyfin a empezado a recolectar información de su biblioteca. Échale un vistazo a nuestras aplicaciones, y después presione <b>Finalizar</b> para ver el <b>Panel de control</b>.",
+    "WizardCompleted": "Eso es todo lo que necesitamos por ahora. Jellyfin ha empezado a recolectar información de su biblioteca. Échale un vistazo a nuestras aplicaciones, y después presione <b>Finalizar</b> para ver el <b>Panel de control</b>.",
     "Writer": "Escritor",
     "XmlTvKidsCategoriesHelp": "Los programas con estas categorías se mostrarán como programas para niños. Separe el múltiplo con '|'.",
     "XmlTvMovieCategoriesHelp": "Los programas con estas categorías se mostrarán como películas. Usa '|' para separar las categorías.",
@@ -1722,7 +1722,7 @@
     "PluginDisableError": "Un error ha ocurrido mientras se deshabilitaba el complemento.",
     "PluginEnableError": "Un error ha ocurrido mientras se habilitaba el complemento.",
     "PluginLoadConfigError": "Un error ha ocurrido mientras se obtenian las páginas de configuración del complemento.",
-    "PluginLoadRepoError": "Un error ha ocurrido mientras se obtenian del repositorio los detalles del complemeno.",
+    "PluginLoadRepoError": "Un error ha ocurrido mientras se obtenían del repositorio los detalles del complemento.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Selecciona el codec de audio preferido al cual transcodificar el contenido del video. Si el codec seleccionado no está soportado el servidor utilizará el siguiente mejor codec disponible.",
     "LibraryInvalidItemIdError": "La biblioteca está en un estado no válido y no se puede editar. Es posible que estés encontrando un error: la ruta en la base de datos no es la ruta correcta en el sistema de archivos.",
     "AlwaysRemuxMp3AudioFilesHelp": "Si tienes archivos en los que tu navegador calcula incorrectamente las marcas de tiempo, habilita esta opción como solución temporal.",
@@ -1922,5 +1922,6 @@
     "StillWatchingPrompt": "Aviso de '¿Sigues viendo?'",
     "StillWatchingOption": "{0} episodios o {1} minutos",
     "StopWatching": "Dejar de mirar",
-    "TableOfContents": "Índice"
+    "TableOfContents": "Índice",
+    "Creators": "Creadores"
 }

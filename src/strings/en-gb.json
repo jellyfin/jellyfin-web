@@ -1922,5 +1922,6 @@
     "TableOfContents": "Table of Contents",
     "VideoRotationNotSupported": "The video rotation is not supported",
     "ConfirmSplitMedia": "Are you sure you wish to split the media sources into separate items?",
-    "HeaderSplitMedia": "Split Media Apart"
+    "HeaderSplitMedia": "Split Media Apart",
+    "Creators": "Creators"
 }
