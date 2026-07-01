@@ -25,7 +25,7 @@ import type { MetadataConfiguration } from '@jellyfin/sdk/lib/generated-client/m
 const CONFIG_KEY = 'metadata';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();

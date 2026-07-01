@@ -1910,5 +1910,18 @@
     "LabelBackupWarning": "Es laufen geplante Aufgaben ab. Es wird empfohlen, sie zu stoppen oder zu warten, bis sie fertig sind, bevor das Backup ausgeführt wird.",
     "HeaderBackupWarning": "WARNUNG: Laufende geplante Aufgaben",
     "HeaderTypeSimilarItemProviders": "Anbieter ähnlicher Artikel ({0})",
-    "LabelSimilarItemProvidersHelp": "Aktiviere und bewerte deine bevorzugten Anbieter ähnlicher Artikel in Reihenfolge der Wichtigkeit."
+    "LabelSimilarItemProvidersHelp": "Aktiviere und bewerte deine bevorzugten Anbieter ähnlicher Artikel in Reihenfolge der Wichtigkeit.",
+    "CardSettings": "Karten-Einstellungen",
+    "ConfirmDeleteItemByName": "\"{0}\" zu löschen wird es sowohl aus dem Dateisystem als auch aus deiner Medienbibliothek entfernen. Bist Du sicher, dass Du fortfahren möchtest?",
+    "ConfirmStillWatching": "Schaust Du noch zu?",
+    "Disabled": "Deaktiviert",
+    "LabelOriginalLanguage": "Originalsprache",
+    "OriginalLanguage": "Or",
+    "StillWatchingPrompt": "\"Schaust Du noch\" Frage",
+    "StillWatchingOption": "{0} Folgen oder {1} Minuten",
+    "StopWatching": "Schauen beenden",
+    "TableOfContents": "Inhaltsverzeichnis",
+    "ConfirmSplitMedia": "Möchtest Du die Medienquellen wirklich in separate Elemente auftrennen?",
+    "HeaderSplitMedia": "Medien auseinander trennen",
+    "Creators": "Ersteller"
 }

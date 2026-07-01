@@ -21,14 +21,14 @@ class LayoutManager {
     tv = false;
     mobile = false;
     desktop = false;
-    experimental = false;
+    modern = false;
 
     get layout() {
         if (this.tv) return LayoutMode.Tv;
-        if (this.experimental) return LayoutMode.Experimental;
+        if (this.modern) return LayoutMode.Modern;
         if (this.mobile) return LayoutMode.Mobile;
         if (this.desktop) return LayoutMode.Desktop;
-        return LayoutMode.Experimental;
+        return LayoutMode.Modern;
     }
 
     setLayout(layout = '', save = true) {
@@ -43,8 +43,8 @@ class LayoutManager {
         }
 
         console.debug('[LayoutManager] using layout mode', layoutValue);
-        this.experimental = layoutValue === LayoutMode.Experimental;
-        if (this.experimental) {
+        this.modern = layoutValue === LayoutMode.Modern;
+        if (this.modern) {
             const legacyLayoutMode = browser.mobile ? LayoutMode.Mobile : LayoutMode.Desktop;
             console.debug('[LayoutManager] using legacy layout mode', legacyLayoutMode);
             setLayout(this, legacyLayoutMode, legacyLayoutMode);
@@ -56,7 +56,11 @@ class LayoutManager {
     }
 
     getSavedLayout() {
-        return appSettings.get(SETTING_KEY);
+        const saved = appSettings.get(SETTING_KEY);
+        // Validate that the saved layout is a supported layout mode
+        if (saved && Object.values(LayoutMode).includes(saved)) {
+            return saved;
+        }
     }
 
     autoLayout() {

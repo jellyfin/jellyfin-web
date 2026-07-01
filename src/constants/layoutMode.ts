@@ -4,8 +4,8 @@ export enum LayoutMode {
     Auto = 'auto',
     /** The legacy desktop layout. */
     Desktop = 'desktop',
-    /** The modern React based layout. */
-    Experimental = 'experimental',
+    /** The modern responsive layout. */
+    Modern = 'modern',
     /** The legacy mobile layout. */
     Mobile = 'mobile',
     /** The TV layout. */

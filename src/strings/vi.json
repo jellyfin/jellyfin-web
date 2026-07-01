@@ -251,7 +251,7 @@
     "HeaderBranding": "Nhãn hiệu",
     "HeaderBlockItemsWithNoRating": "Khoá những mục không có thông tin đánh giá hoặc thông tin không đáng tin cậy",
     "HeaderAudioSettings": "Cài Đặt Âm Thanh",
-    "HeaderAudioBooks": "Sách Nói",
+    "HeaderAudioBooks": "Sách nói",
     "HeaderAppearsOn": "Xuất Bản Vào",
     "HeaderApp": "Ứng Dụng",
     "HeaderApiKeysHelp": "Ứng dụng ngoài cần có khóa API để giao tiếp với máy chủ. Khóa được cấp theo cách đăng nhập tài khoản người dùng bình thường hoặc cấp khóa theo cách thủ công.",
@@ -1910,5 +1910,18 @@
     "HeaderBackupWarning": "CẢNH BÁO: Các tác vụ theo lịch trình đang chạy",
     "VideoRotationNotSupported": "Xoay video không được hỗ trợ",
     "HeaderTypeSimilarItemProviders": "Nhà cung cấp mục tương tự ({0})",
-    "LabelSimilarItemProvidersHelp": "Kích hoạt và xếp hạng các nhà cung cấp mặt hàng tương tự ưa thích của bạn theo thứ tự ưu tiên."
+    "LabelSimilarItemProvidersHelp": "Kích hoạt và xếp hạng các nhà cung cấp mặt hàng tương tự ưa thích của bạn theo thứ tự ưu tiên.",
+    "CardSettings": "Cài đặt thẻ",
+    "ConfirmDeleteItemByName": "Xóa \"{0}\" sẽ xóa nó khỏi cả hệ thống tệp và thư viện phương tiện của bạn. Bạn có chắc chắn muốn tiếp tục không?",
+    "ConfirmStillWatching": "Bạn vẫn đang xem chứ?",
+    "Disabled": "Đã Tắt",
+    "LabelOriginalLanguage": "Ngôn ngữ gốc",
+    "OriginalLanguage": "Ngôn ngữ gốc",
+    "StillWatchingPrompt": "Nhắc Nhở Khi Vẫn Đang Xem",
+    "StillWatchingOption": "{0} tập hoặc {1} phút",
+    "StopWatching": "Dừng xem",
+    "TableOfContents": "Mục Lục",
+    "ConfirmSplitMedia": "Bạn có chắc chắn muốn tách các nguồn thông tin đa phương tiện thành các mục riêng biệt không?",
+    "HeaderSplitMedia": "Tách Phương Tiện Riêng Biệt",
+    "Creators": "Người tạo"
 }

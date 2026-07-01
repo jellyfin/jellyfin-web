@@ -990,5 +990,6 @@
     "Create": "Crear",
     "DeleteRepositoryConfirmation": "Está seguro de querer borrar este repositorio?",
     "ButtonAddProvider": "Engadir provedor",
-    "ButtonAddTunerDevice": "Engadir sintonizador"
+    "ButtonAddTunerDevice": "Engadir sintonizador",
+    "Authors": "Autores"
 }
