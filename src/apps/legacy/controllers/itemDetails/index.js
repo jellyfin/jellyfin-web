@@ -1204,6 +1204,7 @@ function renderItemCollections(page, item, apiClient, context) {
                 showParentTitle: false,
                 overlayText: false,
                 overlayPlayButton: false,
+                wrapTitle: true,
                 coverImage: true,
                 // Similar to "More Like This"
                 showYear: item.Type === 'Movie' || item.Type === 'Trailer' || item.Type === 'Series',
@@ -1738,6 +1739,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
         overlayMoreButton: true,
         showAddToCollection: false,
         showRemoveFromCollection: true,
+        wrapTitle: true,
         collectionId: parentItem.Id
     });
     html += '</div>';
