@@ -1920,5 +1920,9 @@
     "StopWatching": "停止觀看",
     "HeaderBackupWarning": "警告：有排程工作正喺度執行緊",
     "TableOfContents": "目錄",
-    "VideoRotationNotSupported": "唔支援呢條影片旋轉角度"
+    "VideoRotationNotSupported": "唔支援呢條影片旋轉角度",
+    "ConfirmSplitMedia": "你確定要將媒體來源拆散做獨立項目？",
+    "Creators": "創作人",
+    "HeaderSplitMedia": "拆分媒體",
+    "IndexNumber": "索引編號"
 }
