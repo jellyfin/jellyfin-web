@@ -26,7 +26,7 @@ $mui-bp-xl: 1536px;
 .layout-mobile {
     .itemBackdrop {
         // Fix backdrop position on mobile item details page
-        margin-top: 0 !important;
+        margin-top: -48px !important;
 
         // Add a subtle gradient over the backdrop to ensure the app bar buttons are visible
         &::before {
