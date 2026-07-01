@@ -1,4 +1,4 @@
-import { LayoutMode } from 'constants/layoutMode';
+import { LayoutMode, LegacyLayoutModes } from 'constants/layoutMode';
 
 import { appHost } from './apphost';
 import browser from '../scripts/browser';
@@ -23,28 +23,23 @@ class LayoutManager {
     desktop = false;
     modern = false;
 
-    get layout() {
-        if (this.tv) return LayoutMode.Tv;
-        if (this.modern) return LayoutMode.Modern;
-        if (this.mobile) return LayoutMode.Mobile;
-        if (this.desktop) return LayoutMode.Desktop;
-        return LayoutMode.Modern;
-    }
-
     setLayout(layout = '', save = true) {
         const layoutValue = (!layout || layout === LayoutMode.Auto) ? '' : layout;
+        const isLegacyLayout = LegacyLayoutModes.has(layoutValue);
+        // Normalize layout mode to the base mode (e.g. 'mobile-legacy' -> 'mobile')
+        const normalizedLayout = layoutValue.split('-')[0];
 
         if (!layoutValue) {
             this.autoLayout();
         } else {
-            setLayout(this, LayoutMode.Mobile, layoutValue);
-            setLayout(this, LayoutMode.Tv, layoutValue);
-            setLayout(this, LayoutMode.Desktop, layoutValue);
+            setLayout(this, LayoutMode.Mobile, normalizedLayout);
+            setLayout(this, LayoutMode.Tv, normalizedLayout);
+            setLayout(this, LayoutMode.Desktop, normalizedLayout);
         }
 
-        console.debug('[LayoutManager] using layout mode', layoutValue);
-        this.modern = layoutValue === LayoutMode.Modern;
-        if (this.modern) {
+        console.debug('[LayoutManager] using layout mode', normalizedLayout);
+        this.modern = !isLegacyLayout;
+        if (layoutValue === LayoutMode.Modern) {
             const legacyLayoutMode = browser.mobile ? LayoutMode.Mobile : LayoutMode.Desktop;
             console.debug('[LayoutManager] using legacy layout mode', legacyLayoutMode);
             setLayout(this, legacyLayoutMode, legacyLayoutMode);
