@@ -27,6 +27,13 @@ export const getViewForIndex = (path: string, index: number) => {
 };
 
 /**
+ * Utility function to get the collection type for a specified URL path.
+ */
+export const getCollectionTypeForPath = (path: string) => (
+    LibraryRoutes.find(route => route.path === path)?.type
+);
+
+/**
  * Utility function to check if a path is a details path.
  */
 export const isDetailsPath = (path: string) => (

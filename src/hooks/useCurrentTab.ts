@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-import { getDefaultViewIndex, getViewForIndex, setLastSelectedView } from 'apps/modern/features/libraries/utils/path';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+
+import { getCollectionTypeForPath, getDefaultViewIndex, getViewForIndex, setLastSelectedView } from 'apps/modern/features/libraries/utils/path';
+import { LibraryTab } from 'types/libraryTab';
 
 const useCurrentTab = () => {
     const location = useLocation();
@@ -20,7 +23,16 @@ const useCurrentTab = () => {
     // selector (falling back to the library default when that selector isn't available).
     useEffect(() => {
         const view = getViewForIndex(location.pathname, activeTab);
-        if (view) setLastSelectedView(view);
+        const collectionType = getCollectionTypeForPath(location.pathname);
+        // The dedicated Playlists and Collections libraries have those views as their own
+        // default. Merely visiting them shouldn't stick every other library on its
+        // Playlists/Collections tab, so don't remember them here.
+        const isVirtualCollectionDefault =
+            (view === LibraryTab.Playlists && collectionType === CollectionType.Playlists)
+            || (view === LibraryTab.Collections && collectionType === CollectionType.Boxsets);
+        if (view && !isVirtualCollectionDefault) {
+            setLastSelectedView(view);
+        }
     }, [location.pathname, activeTab]);
 
     return {
