@@ -3146,7 +3146,7 @@ export class PlaybackManager {
             }
         };
 
-        self.previousTrack = function (player) {
+        self.previousTrack = async function (player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.previousTrack();
@@ -3164,6 +3164,30 @@ export class PlaybackManager {
                     playInternal(newItem, newItemPlayOptions, function () {
                         setPlaylistState(newItem.PlaylistItemId, newIndex);
                     }, getPreviousSource(player));
+                }
+            } else {
+                const state = self.getPlayerState(player);
+                const item = state.NowPlayingItem;
+                if (item?.Type === 'Episode') {
+                    const apiClient = ServerConnections.getApiClient(item.ServerId);
+                    const episodes = await apiClient.getEpisodes(item.SeriesId, {
+                        adjacentTo: item.Id
+                    });
+                    const newEpisodeIndex = episodes.Items.findIndex(i => i.Id == item.Id) - 1;
+
+                    const newItem = episodes.Items[newEpisodeIndex];
+
+                    if (newItem) {
+                        const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
+                        newItemPlayOptions.startPositionTicks = 0;
+
+                        playInternal(newItem, newItemPlayOptions, function () {
+                            self._playQueueManager.queueNext([newItem]);
+                            Events.trigger(player, 'playlistitemadd');
+                            self.movePlaylistItem(newItem.PlaylistItemId, 0, player);
+                            setPlaylistState(newItem.PlaylistItemId, 0);
+                        }, getPreviousSource(player));
+                    }
                 }
             }
         };
