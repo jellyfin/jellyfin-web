@@ -1924,5 +1924,6 @@
     "ConfirmSplitMedia": "Czy na pewno chcesz podzielić źródła multimediów na osobne elementy?",
     "HeaderSplitMedia": "Podziel multimedia",
     "Creators": "Twórcy",
-    "IndexNumber": "Numer indeksu"
+    "IndexNumber": "Numer indeksu",
+    "NoCastTargets": "Brak dostępnych docelowych urządzeń do przesyłania"
 }
