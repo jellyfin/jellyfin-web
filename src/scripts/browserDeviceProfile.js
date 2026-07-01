@@ -463,6 +463,13 @@ function getPhysicalAudioChannels(options, videoTestElement) {
 
     // AC3/EAC3 hinted that device is able to play dolby surround sound.
     if (isAc3Eac3Supported && isSurroundSoundSupportedBrowser) {
+        // Desktop Safari (Apple Silicon) crackles when it downmixes multichannel audio
+        // to a stereo output device. When the real output is known to be stereo, trust it
+        // so the server downmixes cleanly instead of Safari. jellyfin/jellyfin#15999
+        if (browser.safari && !browser.iOS && speakerCount > 0 && speakerCount <= 2) {
+            return speakerCount;
+        }
+
         return speakerCount > 6 ? speakerCount : 6;
     }
 
