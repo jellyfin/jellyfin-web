@@ -18,12 +18,8 @@ function updateHardwareAccelerationWarning(page) {
 
 function save(page) {
     const draft = getWizardDraft();
-    const path = page.querySelector('#txtFFmpegPath').value.trim();
 
     draft.encoding.HardwareAccelerationType = page.querySelector('#selectHardwareAcceleration').value;
-    if (path) {
-        draft.encoding.EncoderAppPath = path;
-    }
 
     const httpPort = parsePort(page.querySelector('#txtPortNumber').value);
     if (!Number.isNaN(httpPort)) {
@@ -44,7 +40,6 @@ function reload(page) {
         page.querySelector('#txtPortNumber').value = draft.network.InternalHttpPort || networkConfig.InternalHttpPort || '';
         // Remember the HTTPS port (set on the previous step) so we can reject a port collision here.
         page.dataset.httpsPort = draft.network.InternalHttpsPort || networkConfig.InternalHttpsPort || '';
-        page.querySelector('#txtFFmpegPath').value = (draft.encoding.EncoderAppPath ?? encodingConfig.EncoderAppPath) || '';
         page.querySelector('#selectHardwareAcceleration').value = draft.encoding.HardwareAccelerationType || encodingConfig.HardwareAccelerationType || 'none';
         updateHardwareAccelerationWarning(page);
         loading.hide();
