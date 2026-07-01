@@ -17,49 +17,49 @@ import { LibraryTab } from 'types/libraryTab';
 
 type SortOption = {
     label: string;
-    value: ItemSortBy;
+    value: ItemSortBy[];
 };
 
 type SortOptionsMapping = Record<string, SortOption[]>;
 
 const collectionMovieOptions: SortOption[] = [
-    { label: 'Name', value: ItemSortBy.SortName },
-    { label: 'OptionRandom', value: ItemSortBy.Random },
-    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
+    { label: 'Name', value: [ItemSortBy.SortName] },
+    { label: 'OptionRandom', value: [ItemSortBy.Random] },
+    { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+    { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+    { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
+    { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] }
 ];
 
 const movieOrFavoriteOptions = [
-    { label: 'Name', value: ItemSortBy.SortName },
-    { label: 'OptionRandom', value: ItemSortBy.Random },
-    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-    { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
-    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-    { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-    { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-    { label: 'Runtime', value: ItemSortBy.Runtime }
+    { label: 'Name', value: [ItemSortBy.SortName] },
+    { label: 'OptionRandom', value: [ItemSortBy.Random] },
+    { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+    { label: 'OptionCriticRating', value: [ItemSortBy.CriticRating, ItemSortBy.SortName] },
+    { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+    { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
+    { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
+    { label: 'OptionPlayCount', value: [ItemSortBy.PlayCount, ItemSortBy.SortName] },
+    { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+    { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
 ];
 
 const photosOrPhotoAlbumsOptions = [
-    { label: 'Name', value: ItemSortBy.SortName },
-    { label: 'OptionRandom', value: ItemSortBy.Random },
-    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
+    { label: 'Name', value: [ItemSortBy.SortName] },
+    { label: 'OptionRandom', value: [ItemSortBy.Random] },
+    { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] }
 ];
 
 const videoOrMusicVideoOptions = [
-    { label: 'Name', value: ItemSortBy.SortName },
-    { label: 'OptionRandom', value: ItemSortBy.Random },
-    { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-    { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-    { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-    { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-    { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-    { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-    { label: 'Runtime', value: ItemSortBy.Runtime }
+    { label: 'Name', value: [ItemSortBy.SortName] },
+    { label: 'OptionRandom', value: [ItemSortBy.Random] },
+    { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+    { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+    { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
+    { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
+    { label: 'OptionPlayCount', value: [ItemSortBy.PlayCount, ItemSortBy.SortName] },
+    { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+    { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
 ];
 
 const sortOptionsMapping: SortOptionsMapping = {
@@ -67,91 +67,91 @@ const sortOptionsMapping: SortOptionsMapping = {
     [LibraryTab.Collections]: collectionMovieOptions,
     [LibraryTab.Favorites]: movieOrFavoriteOptions,
     [LibraryTab.Series]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-        { label: 'OptionDateShowAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
-        { label: 'OptionDatePlayed', value: ItemSortBy.SeriesDatePlayed },
-        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate }
+        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+        { label: 'OptionDateShowAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+        { label: 'OptionDateEpisodeAdded', value: [ItemSortBy.DateLastContentAdded, ItemSortBy.SortName] },
+        { label: 'OptionDatePlayed', value: [ItemSortBy.SeriesDatePlayed, ItemSortBy.SortName] },
+        { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] }
     ],
     [LibraryTab.Episodes]: [
-        { label: 'Name', value: ItemSortBy.SeriesSortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'Runtime', value: ItemSortBy.Runtime }
+        { label: 'Name', value: [ItemSortBy.SeriesSortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+        { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
+        { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
+        { label: 'OptionPlayCount', value: [ItemSortBy.PlayCount, ItemSortBy.SortName] },
+        { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
     ],
     [LibraryTab.Albums]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
-        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
-        { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated }
+        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'AlbumArtist', value: [ItemSortBy.AlbumArtist, ItemSortBy.SortName] },
+        { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+        { label: 'OptionCriticRating', value: [ItemSortBy.CriticRating, ItemSortBy.SortName] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] }
     ],
     [LibraryTab.Books]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionReleaseDate', value: ItemSortBy.ProductionYear },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'IndexNumber', value: ItemSortBy.IndexNumber }
+        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+        { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
+        { label: 'IndexNumber', value: [ItemSortBy.IndexNumber, ItemSortBy.SortName] }
     ],
     [LibraryTab.Songs]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'Album', value: ItemSortBy.Album },
-        { label: 'AlbumArtist', value: ItemSortBy.AlbumArtist },
-        { label: 'Artist', value: ItemSortBy.Artist },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'Runtime', value: ItemSortBy.Runtime }
+        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'Album', value: [ItemSortBy.Album, ItemSortBy.SortName] },
+        { label: 'AlbumArtist', value: [ItemSortBy.AlbumArtist, ItemSortBy.SortName] },
+        { label: 'Artist', value: [ItemSortBy.Artist, ItemSortBy.SortName] },
+        { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+        { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
+        { label: 'OptionPlayCount', value: [ItemSortBy.PlayCount, ItemSortBy.SortName] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
     ],
     [LibraryTab.Playlists]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlaylistUpdated', value: ItemSortBy.DateLastContentAdded },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'Runtime', value: ItemSortBy.Runtime }
+        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+        { label: 'OptionDatePlaylistUpdated', value: [ItemSortBy.DateLastContentAdded, ItemSortBy.SortName] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
     ],
     [LibraryTab.PhotoAlbums]: photosOrPhotoAlbumsOptions,
     [LibraryTab.Photos]: photosOrPhotoAlbumsOptions,
     [LibraryTab.Videos]:videoOrMusicVideoOptions,
     [LibraryTab.MusicVideos]:videoOrMusicVideoOptions,
     [LibraryTab.Folders]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'Folders', value: ItemSortBy.IsFolder },
-        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'Runtime', value: ItemSortBy.Runtime }
+        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+        { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+        { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
+        { label: 'Folders', value: [ItemSortBy.IsFolder, ItemSortBy.SortName] },
+        { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
+        { label: 'OptionPlayCount', value: [ItemSortBy.PlayCount, ItemSortBy.SortName] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
     ],
     [LibraryTab.Mixed]: [
-        { label: 'Name', value: ItemSortBy.SortName },
-        { label: 'OptionRandom', value: ItemSortBy.Random },
-        { label: 'OptionCommunityRating', value: ItemSortBy.CommunityRating },
-        { label: 'OptionCriticRating', value: ItemSortBy.CriticRating },
-        { label: 'OptionDateAdded', value: ItemSortBy.DateCreated },
-        { label: 'OptionDateEpisodeAdded', value: ItemSortBy.DateLastContentAdded },
-        { label: 'OptionDatePlayed', value: ItemSortBy.DatePlayed },
-        { label: 'OptionParentalRating', value: ItemSortBy.OfficialRating },
-        { label: 'OptionPlayCount', value: ItemSortBy.PlayCount },
-        { label: 'OptionReleaseDate', value: ItemSortBy.PremiereDate },
-        { label: 'Runtime', value: ItemSortBy.Runtime }
+        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionRandom', value: [ItemSortBy.Random] },
+        { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
+        { label: 'OptionCriticRating', value: [ItemSortBy.CriticRating, ItemSortBy.SortName] },
+        { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
+        { label: 'OptionDateEpisodeAdded', value: [ItemSortBy.DateLastContentAdded, ItemSortBy.SortName] },
+        { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
+        { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
+        { label: 'OptionPlayCount', value: [ItemSortBy.PlayCount, ItemSortBy.SortName] },
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
     ]
 };
 
@@ -186,11 +186,11 @@ const SortButton: FC<SortButtonProps> = ({
     }, []);
 
     const onMenuItemClick = useCallback(
-        (sortBy: ItemSortBy) => {
+        (sortBy: ItemSortBy[]) => {
             setLibraryViewSettings((prevState) => {
                 let sortOrder: SortOrder = SortOrder.Ascending;
                 // If the user clicks the currently selected sort option, toggle the sort order
-                if (prevState.SortBy === sortBy) {
+                if (prevState.SortBy[0] === sortBy[0]) {
                     sortOrder = prevState.SortOrder === SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
                 }
 
@@ -235,7 +235,7 @@ const SortButton: FC<SortButtonProps> = ({
                     {sortMenuOptions
                         .map((option) => (
                             <MenuItem
-                                key={option.value}
+                                key={option.value.join(',')}
                                 // eslint-disable-next-line react/jsx-no-bind
                                 onClick={() => onMenuItemClick(option.value)}
                             >
@@ -243,7 +243,7 @@ const SortButton: FC<SortButtonProps> = ({
                                     {globalize.translate(option.label)}
                                 </ListItemText>
                                 <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
-                                    {libraryViewSettings.SortBy === option.value && (
+                                    {libraryViewSettings.SortBy[0] === option.value[0] && (
                                         libraryViewSettings.SortOrder === SortOrder.Ascending ? (
                                             <ArrowUpward fontSize='small' />
                                         ) : (
