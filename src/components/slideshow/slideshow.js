@@ -300,6 +300,13 @@ export default function (options) {
     }
 
     /**
+     * Resets the global idle timer so an active slideshow does not get covered by the screensaver.
+     */
+    function notifySlideshowActivity() {
+        inputManager.notifyMouseMove();
+    }
+
+    /**
      * Handles zoom changes.
      */
     function onZoomChange(swiper, scale, imageEl, slideEl) {
@@ -385,6 +392,7 @@ export default function (options) {
 
             swiperInstance.on('autoplayStart', onAutoplayStart);
             swiperInstance.on('autoplayStop', onAutoplayStop);
+            swiperInstance.on('slideChange', notifySlideshowActivity);
 
             if (useFakeZoomImage) {
                 swiperInstance.on('zoomChange', onZoomChange);
