@@ -535,7 +535,9 @@ class SessionPlayer {
     }
 
     getRepeatMode() {
-        // not supported?
+        let state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.RepeatMode || 'RepeatNone';
     }
 
     setQueueShuffleMode(mode) {
@@ -545,7 +547,9 @@ class SessionPlayer {
     }
 
     getQueueShuffleMode() {
-        // not supported?
+        let state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.PlaybackOrder === 'Shuffle' ? 'Shuffle' : 'Sorted';
     }
 
     displayContent(options) {
