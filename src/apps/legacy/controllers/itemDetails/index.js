@@ -1793,6 +1793,11 @@ function renderScenes(page, item) {
         page.querySelector('#scenesCollapsible').classList.remove('hide');
         const scenesContent = page.querySelector('#scenesContent');
 
+        const sceneHeader = page.querySelector('#scenesCollapsible .sectionTitle');
+        if (sceneHeader) {
+            sceneHeader.textContent = globalize.translate(item.Type === 'AudioBook' ? 'HeaderChapters' : 'HeaderScenes');
+        }
+
         import('components/cardbuilder/chaptercardbuilder').then(({ default: chaptercardbuilder }) => {
             chaptercardbuilder.buildChapterCards(item, chapters, {
                 itemsContainer: scenesContent,

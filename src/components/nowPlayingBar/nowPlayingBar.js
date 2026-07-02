@@ -14,6 +14,7 @@ import { appHost } from '../apphost';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
 import itemContextMenu from '../itemContextMenu';
+import * as userSettings from '../../scripts/settings/userSettings';
 import '../../elements/emby-button/paper-icon-button-light';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import appFooter from '../appFooter/appFooter';
@@ -25,6 +26,7 @@ let currentPlayer;
 let currentPlayerSupportedCommands = [];
 
 let currentTimeElement;
+let chapterNameElement;
 let nowPlayingImageElement;
 let nowPlayingImageUrl;
 let nowPlayingTextElement;
@@ -55,6 +57,7 @@ function getNowPlayingBarHtml() {
 
     html += '<div class="nowPlayingBarTop">';
     html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
+    html += '<div class="sliderMarkerContainer"></div>';
     html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
     html += '</div>';
 
@@ -76,6 +79,7 @@ function getNowPlayingBarHtml() {
     }
 
     html += '<div class="nowPlayingBarCurrentTime"></div>';
+    html += '<div class="nowPlayingBarChapterName hide"></div>';
     html += '</div>';
 
     html += '<div class="nowPlayingBarRight">';
@@ -145,10 +149,21 @@ function onPlayPauseClick() {
 
 function bindEvents(elem) {
     currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime');
+    chapterNameElement = elem.querySelector('.nowPlayingBarChapterName');
     nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
     nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
     nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons');
     positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
+    positionSlider.getMarkerInfo = function () {
+        // In chapter mode the slider spans a single chapter, so whole-book markers don't apply.
+        if (chapterModeActive()) return [];
+        const item = getPlayingItem();
+        if (!item?.Chapters?.length || !item.RunTimeTicks) return [];
+        return item.Chapters.map(chapter => ({
+            name: chapter.Name,
+            progress: chapter.StartPositionTicks / item.RunTimeTicks
+        }));
+    };
     muteButton = elem.querySelector('.muteButton');
     playPauseButtons = elem.querySelectorAll('.playPauseButton');
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
@@ -174,12 +189,27 @@ function bindEvents(elem) {
 
     elem.querySelector('.nextTrackButton').addEventListener('click', function () {
         if (currentPlayer) {
-            playbackManager.nextTrack(currentPlayer);
+            const item = playbackManager.currentItem(currentPlayer);
+            if (item?.Type === 'AudioBook' && item.Chapters?.length > 0) {
+                playbackManager.nextChapter(currentPlayer);
+            } else {
+                playbackManager.nextTrack(currentPlayer);
+            }
         }
     });
 
     elem.querySelector('.previousTrackButton').addEventListener('click', function (e) {
         if (currentPlayer) {
+            const item = playbackManager.currentItem(currentPlayer);
+            if (item?.Type === 'AudioBook' && item.Chapters?.length > 0) {
+                // Cancel this event if doubleclick is fired. The dblclick handler goes to previous track.
+                if (e.detail > 1) {
+                    return;
+                }
+                playbackManager.previousChapter(currentPlayer);
+                return;
+            }
+
             if (playbackManager.isPlayingAudio(currentPlayer)) {
                 // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
                 if (e.detail > 1 ) {
@@ -257,6 +287,15 @@ function bindEvents(elem) {
         if (currentPlayer) {
             const newPercent = parseFloat(this.value);
 
+            if (chapterModeActive()) {
+                const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+                const bounds = getChapterBounds(positionTicks, playbackManager.duration(currentPlayer));
+                if (bounds) {
+                    playbackManager.seek(bounds.start + (bounds.duration * newPercent / 100), currentPlayer);
+                    return;
+                }
+            }
+
             playbackManager.seekPercent(newPercent, currentPlayer);
         }
     });
@@ -268,11 +307,26 @@ function bindEvents(elem) {
             return '--:--';
         }
 
-        let ticks = currentRuntimeTicks;
-        ticks /= 100;
-        ticks *= value;
+        if (chapterModeActive() && currentPlayer) {
+            const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+            const bounds = getChapterBounds(positionTicks, currentRuntimeTicks);
+            if (bounds) {
+                return datetime.getDisplayRunningTime(bounds.duration / 100 * value);
+            }
+        }
 
-        return datetime.getDisplayRunningTime(ticks);
+        const ticks = currentRuntimeTicks / 100 * value;
+        let text = datetime.getDisplayRunningTime(ticks);
+
+        const chapters = getActiveChapters();
+        if (chapters?.length) {
+            const chapter = getCurrentChapter(ticks, chapters);
+            if (chapter) {
+                text += ' · ' + chapter.Name;
+            }
+        }
+
+        return text;
     };
 
     elem.addEventListener('click', function (e) {
@@ -396,31 +450,135 @@ function updateRepeatModeDisplay(repeatMode) {
     }
 }
 
-function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
-    // See bindEvents for why this is necessary
-    if (positionSlider && !positionSlider.dragging) {
-        if (runtimeTicks) {
-            let pct = positionTicks / runtimeTicks;
-            pct *= 100;
-
-            positionSlider.value = pct;
-        } else {
-            positionSlider.value = 0;
+function getCurrentChapter(positionTicks, chapters) {
+    if (!chapters?.length || positionTicks == null) return null;
+    for (let i = chapters.length - 1; i >= 0; i--) {
+        if (chapters[i].StartPositionTicks <= positionTicks) {
+            return chapters[i];
         }
     }
+    return null;
+}
 
-    if (positionSlider) {
-        positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
+function getPlayingItem() {
+    return currentPlayer ? playbackManager.currentItem(currentPlayer) : null;
+}
+
+function getActiveChapters() {
+    return getPlayingItem()?.Chapters;
+}
+
+function chapterModeActive() {
+    if (userSettings.audiobookProgressMode() !== 'chapter') return false;
+    const item = getPlayingItem();
+    return item?.Type === 'AudioBook' && item.Chapters?.length > 0;
+}
+
+function getChapterBounds(positionTicks, bookRuntimeTicks) {
+    const chapters = getActiveChapters();
+    if (!chapters?.length || positionTicks == null) return null;
+    for (let i = chapters.length - 1; i >= 0; i--) {
+        if (chapters[i].StartPositionTicks <= positionTicks) {
+            const start = chapters[i].StartPositionTicks;
+            const isLast = i + 1 >= chapters.length;
+            const end = isLast ? bookRuntimeTicks : chapters[i + 1].StartPositionTicks;
+            if (end == null || end <= start) return null;
+            return { start, end, duration: end - start, chapter: chapters[i], index: i };
+        }
+    }
+    return null;
+}
+
+function clipBufferedRangesToChapter(bufferedRanges, bounds) {
+    if (!bufferedRanges?.length) return [];
+    const clipped = [];
+    for (const range of bufferedRanges) {
+        const start = Math.max(range.start, bounds.start);
+        const end = Math.min(range.end, bounds.end);
+        if (end > start) {
+            clipped.push({ start: start - bounds.start, end: end - bounds.start });
+        }
+    }
+    return clipped;
+}
+
+function updatePositionSliderValue(positionTicks, runtimeTicks, bounds) {
+    // See bindEvents for why this is necessary
+    if (!positionSlider || positionSlider.dragging) {
+        return;
     }
 
-    if (currentTimeElement) {
-        let timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
+    if (bounds) {
+        positionSlider.value = (positionTicks - bounds.start) / bounds.duration * 100;
+    } else if (runtimeTicks) {
+        positionSlider.value = positionTicks / runtimeTicks * 100;
+    } else {
+        positionSlider.value = 0;
+    }
+}
+
+function updatePositionSliderBuffered(positionTicks, runtimeTicks, bounds, bufferedRanges) {
+    if (!positionSlider) {
+        return;
+    }
+
+    // Buffered ranges are in whole-book scale; in chapter mode, clip and rescale them to the chapter.
+    if (bounds) {
+        positionSlider.setBufferedRanges(clipBufferedRangesToChapter(bufferedRanges, bounds), bounds.duration, positionTicks - bounds.start);
+    } else {
+        positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
+    }
+}
+
+function updateCurrentTimeText(positionTicks, runtimeTicks, bounds) {
+    if (!currentTimeElement) {
+        return;
+    }
+
+    let timeText;
+    if (bounds) {
+        timeText = datetime.getDisplayRunningTime(positionTicks - bounds.start)
+            + ' / ' + datetime.getDisplayRunningTime(bounds.duration);
+    } else {
+        timeText = positionTicks == null ? '--:--' : datetime.getDisplayRunningTime(positionTicks);
         if (runtimeTicks) {
             timeText += ' / ' + datetime.getDisplayRunningTime(runtimeTicks);
         }
-
-        currentTimeElement.innerHTML = timeText;
     }
+
+    currentTimeElement.innerHTML = timeText;
+}
+
+function updateChapterNameLabel(positionTicks) {
+    if (!chapterNameElement) {
+        return;
+    }
+
+    const chapter = getCurrentChapter(positionTicks, getActiveChapters());
+    if (chapter) {
+        chapterNameElement.textContent = '· ' + chapter.Name;
+        chapterNameElement.classList.remove('hide');
+    } else {
+        chapterNameElement.textContent = '';
+        chapterNameElement.classList.add('hide');
+    }
+}
+
+function updateChapterArtwork(positionTicks) {
+    const playingItem = getPlayingItem();
+    if (playingItem?.Type === 'AudioBook' && playingItem.Chapters?.length) {
+        setNowPlayingImage(getChapterImageUrl(playingItem, positionTicks, 70)
+            || getImageUrl(playingItem, { height: 70 }));
+    }
+}
+
+function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
+    const bounds = chapterModeActive() ? getChapterBounds(positionTicks, runtimeTicks) : null;
+    updatePositionSliderValue(positionTicks, runtimeTicks, bounds);
+    updatePositionSliderBuffered(positionTicks, runtimeTicks, bounds, bufferedRanges);
+    updateCurrentTimeText(positionTicks, runtimeTicks, bounds);
+    updateChapterNameLabel(positionTicks);
+    updateChapterArtwork(positionTicks);
 }
 
 function updatePlayerVolumeState(isMuted, volumeLevel) {
@@ -473,6 +631,43 @@ function setLyricButtonActiveStatus() {
     lyricButton.classList.toggle('buttonActive', isLyricPageActive);
 }
 
+function getChapterImageUrl(item, positionTicks, height) {
+    if (item?.Type !== 'AudioBook' || !item.Chapters?.length) {
+        return null;
+    }
+
+    const chapter = getCurrentChapter(positionTicks, item.Chapters);
+    if (!chapter?.ImageTag) {
+        return null;
+    }
+
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    return apiClient.getScaledImageUrl(item.Id, {
+        height,
+        tag: chapter.ImageTag,
+        type: 'Chapter',
+        index: item.Chapters.indexOf(chapter)
+    });
+}
+
+function setNowPlayingImage(url) {
+    if (url === nowPlayingImageUrl) {
+        return;
+    }
+
+    if (url) {
+        nowPlayingImageUrl = url;
+        imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
+        nowPlayingImageElement.style.display = null;
+        nowPlayingTextElement.style.marginLeft = null;
+    } else {
+        nowPlayingImageUrl = null;
+        nowPlayingImageElement.style.backgroundImage = '';
+        nowPlayingImageElement.style.display = 'none';
+        nowPlayingTextElement.style.marginLeft = '1em';
+    }
+}
+
 function updateNowPlayingInfo(state) {
     const nowPlayingItem = state.NowPlayingItem;
 
@@ -499,23 +694,11 @@ function updateNowPlayingInfo(state) {
 
     const imgHeight = 70;
 
-    const url = nowPlayingItem ? getImageUrl(nowPlayingItem, {
-        height: imgHeight
-    }) : null;
+    const positionTicks = state.PlayState ? state.PlayState.PositionTicks : null;
+    const url = getChapterImageUrl(nowPlayingItem, positionTicks, imgHeight)
+        || (nowPlayingItem ? getImageUrl(nowPlayingItem, { height: imgHeight }) : null);
 
-    if (url !== nowPlayingImageUrl) {
-        if (url) {
-            nowPlayingImageUrl = url;
-            imageLoader.lazyImage(nowPlayingImageElement, nowPlayingImageUrl);
-            nowPlayingImageElement.style.display = null;
-            nowPlayingTextElement.style.marginLeft = null;
-        } else {
-            nowPlayingImageUrl = null;
-            nowPlayingImageElement.style.backgroundImage = '';
-            nowPlayingImageElement.style.display = 'none';
-            nowPlayingTextElement.style.marginLeft = '1em';
-        }
-    }
+    setNowPlayingImage(url);
 
     if (nowPlayingItem.Id) {
         const apiClient = ServerConnections.getApiClient(nowPlayingItem.ServerId);
@@ -677,7 +860,7 @@ function onTimeUpdate() {
 
     const player = this;
     currentRuntimeTicks = playbackManager.duration(player);
-    updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+    updateTimeDisplay(playbackManager.getCurrentTicks(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
 }
 
 function releaseCurrentPlayer() {

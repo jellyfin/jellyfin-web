@@ -526,6 +526,7 @@ export function setContentType(parent, contentType) {
     const hasChapterOptions = !contentType /* Mixed */ || CHAPTER_CONTENT_TYPES.includes(contentType);
     parent.querySelector('.trickplaySettingsSection').classList.toggle('hide', !hasChapterOptions);
     parent.querySelector('.chapterSettingsSection').classList.toggle('hide', !hasChapterOptions);
+    parent.querySelector('.cueChapterSection').classList.toggle('hide', contentType !== CollectionType.Books);
 
     if (contentType === 'tvshows') {
         parent.querySelector('.chkAutomaticallyGroupSeriesContainer').classList.remove('hide');
@@ -710,6 +711,7 @@ export function getLibraryOptions(parent) {
         EnableTrickplayImageExtraction: parent.querySelector('.chkExtractTrickplayImages').checked,
         ExtractChapterImagesDuringLibraryScan: parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked,
         EnableChapterImageExtraction: parent.querySelector('.chkExtractChapterImages').checked,
+        PreferCueSidecarForAudiobookChapters: parent.querySelector('.chkPreferCueSidecar').checked,
         EnableInternetProviders: true,
         SaveLocalMetadata: parent.querySelector('#chkSaveLocal').checked,
         EnableAutomaticSeriesGrouping: parent.querySelector('.chkAutomaticallyGroupSeries').checked,
@@ -784,6 +786,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('.chkSaveTrickplayLocally').checked = options.SaveTrickplayWithMedia;
     parent.querySelector('.chkExtractChaptersDuringLibraryScan').checked = options.ExtractChapterImagesDuringLibraryScan;
     parent.querySelector('.chkExtractChapterImages').checked = options.EnableChapterImageExtraction;
+    parent.querySelector('.chkPreferCueSidecar').checked = options.PreferCueSidecarForAudiobookChapters;
     parent.querySelector('#chkSaveLocal').checked = options.SaveLocalMetadata;
     parent.querySelector('.chkAutomaticallyGroupSeries').checked = options.EnableAutomaticSeriesGrouping;
     parent.querySelector('#chkEnableEmbeddedTitles').checked = options.EnableEmbeddedTitles;

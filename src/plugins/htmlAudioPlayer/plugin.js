@@ -102,6 +102,7 @@ class HtmlAudioPlayer {
             self._started = false;
             self._timeUpdated = false;
             self._currentTime = null;
+            self._pendingSeekTarget = null;
 
             const elem = createMediaElement();
 
@@ -149,8 +150,8 @@ class HtmlAudioPlayer {
                 console.error('Failed to add/change gainNode', err);
             });
 
-            // Convert to seconds
-            const seconds = (options.playerStartPositionTicks || 0) / 10000000;
+            const atempoRate = Number.parseFloat((val.match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+            const seconds = (options.playerStartPositionTicks || 0) / 10000000 / atempoRate;
             if (seconds) {
                 val += '#t=' + seconds;
             }
@@ -312,10 +313,15 @@ class HtmlAudioPlayer {
         }
 
         function onTimeUpdate() {
-            // Get the player position + the transcoding offset
             const time = this.currentTime;
 
-            // Don't trigger events after user stop
+            if (self._pendingSeekTarget !== null) {
+                if (time < self._pendingSeekTarget) {
+                    return;
+                }
+                self._pendingSeekTarget = null;
+            }
+
             if (!self._isFadingOut) {
                 self._currentTime = time;
                 Events.trigger(self, 'timeupdate');
@@ -337,7 +343,13 @@ class HtmlAudioPlayer {
                 self._started = true;
                 this.removeAttribute('controls');
 
-                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
+                const atempoRate = Number.parseFloat(((self._currentPlayOptions.url || '').match(/AudioPlaybackRate=([\d.]+)/) || [])[1]) || 1;
+                const startTicks = self._currentPlayOptions.playerStartPositionTicks;
+                const adjustedTicks = startTicks ? startTicks / atempoRate : startTicks;
+                if (adjustedTicks) {
+                    self._pendingSeekTarget = adjustedTicks / 10000000;
+                }
+                htmlMediaHelper.seekOnPlaybackStart(self, e.target, adjustedTicks);
             }
             Events.trigger(self, 'playing');
         }

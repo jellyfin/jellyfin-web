@@ -9,7 +9,7 @@ import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
-import { playbackManager } from '../playback/playbackmanager';
+import { playbackManager, getAudiobookPlaybackRate } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
@@ -91,6 +91,32 @@ function showSubtitleMenu(context, player, button) {
     });
 }
 
+function getAudiobookChapterImageUrl(item, positionTicks, maxHeight) {
+    if (item?.Type !== 'AudioBook' || !item.Chapters?.length || positionTicks == null) {
+        return null;
+    }
+
+    let currentIndex = -1;
+    for (let i = item.Chapters.length - 1; i >= 0; i--) {
+        if (item.Chapters[i].StartPositionTicks <= positionTicks) {
+            currentIndex = i;
+            break;
+        }
+    }
+
+    if (currentIndex < 0 || !item.Chapters[currentIndex].ImageTag) {
+        return null;
+    }
+
+    const apiClient = ServerConnections.getApiClient(item.ServerId);
+    return apiClient.getScaledImageUrl(item.Id, {
+        maxHeight,
+        tag: item.Chapters[currentIndex].ImageTag,
+        type: 'Chapter',
+        index: currentIndex
+    });
+}
+
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
     const displayName = item ?
@@ -151,9 +177,9 @@ function updateNowPlayingInfo(context, state, serverId) {
             context.querySelector('.nowPlayingPageTitle').classList.add('hide');
         }
 
-        const url = getImageUrl(item, {
-            maxHeight: 300
-        });
+        const positionTicks = state.PlayState ? state.PlayState.PositionTicks : null;
+        const url = getAudiobookChapterImageUrl(item, positionTicks, 300)
+            || getImageUrl(item, { maxHeight: 300 });
 
         let contextButton = context.querySelector('.btnToggleContextMenu');
         // We remove the previous event listener by replacing the item in each update event
@@ -228,6 +254,82 @@ function updateSupportedCommands(context, commands) {
         const enableButton = commands.indexOf(all[i].getAttribute('data-command')) !== -1;
         all[i].disabled = !enableButton;
     }
+}
+
+function formatBookRemaining(remainingTicks, rate) {
+    const TICKS_PER_MINUTE = 600000000;
+    const safeRate = rate > 0 ? rate : 1;
+    const totalMinutes = Math.max(0, Math.round(remainingTicks / safeRate / TICKS_PER_MINUTE));
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    let text = hours > 0 ? `${hours}h ${minutes}m left` : `${minutes}m left`;
+    if (safeRate !== 1) {
+        text += ` (${safeRate}x)`;
+    }
+    return text;
+}
+
+function updateRemotePositionSlider(context, positionTicks, runtimeTicks, bounds) {
+    const positionSlider = context.querySelector('.nowPlayingPositionSlider');
+    if (!positionSlider || positionSlider.dragging) {
+        return;
+    }
+
+    if (bounds) {
+        positionSlider.value = (positionTicks - bounds.start) / bounds.duration * 100;
+    } else if (runtimeTicks) {
+        positionSlider.value = positionTicks / runtimeTicks * 100;
+    } else {
+        positionSlider.value = 0;
+    }
+}
+
+function updateRemoteTimeText(context, positionTicks, runtimeTicks, bounds) {
+    const positionTimeEl = context.querySelector('.positionTime');
+    const runtimeEl = context.querySelector('.runtime');
+    const bookRemainingEl = context.querySelector('.nowPlayingBookRemaining');
+
+    if (bounds) {
+        positionTimeEl.innerHTML = Number.isFinite(positionTicks) ? datetime.getDisplayRunningTime(positionTicks - bounds.start) : '--:--';
+        runtimeEl.innerHTML = Number.isFinite(positionTicks) ? '-' + datetime.getDisplayRunningTime(bounds.end - positionTicks) : '--:--';
+        if (bookRemainingEl) {
+            const rate = getAudiobookPlaybackRate() || 1;
+            bookRemainingEl.textContent = formatBookRemaining(runtimeTicks - positionTicks, rate);
+            bookRemainingEl.classList.remove('hide');
+        }
+        return;
+    }
+
+    positionTimeEl.innerHTML = Number.isFinite(positionTicks) ? datetime.getDisplayRunningTime(positionTicks) : '--:--';
+    runtimeEl.innerHTML = Number.isFinite(runtimeTicks) ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+    if (bookRemainingEl) {
+        bookRemainingEl.classList.add('hide');
+    }
+}
+
+function updateRemoteChapterName(context, positionTicks, chapters) {
+    const chapterNameEl = context.querySelector('.nowPlayingChapterName');
+    if (!chapterNameEl) {
+        return;
+    }
+
+    if (!(chapters?.length) || !Number.isFinite(positionTicks)) {
+        chapterNameEl.style.display = 'none';
+        return;
+    }
+
+    let chapter;
+    let chapterIndex = -1;
+    for (let i = chapters.length - 1; i >= 0; i--) {
+        if (chapters[i].StartPositionTicks <= positionTicks) {
+            chapter = chapters[i];
+            chapterIndex = i;
+            break;
+        }
+    }
+
+    chapterNameEl.textContent = chapter ? (chapter.Name || ('Chapter ' + (chapterIndex + 1))) : '';
+    chapterNameEl.style.display = chapter ? 'block' : 'none';
 }
 
 export default function () {
@@ -425,22 +527,40 @@ export default function () {
         buttonVisible(btnPlayPause, isActive);
     }
 
-    function updateTimeDisplay(positionTicks, runtimeTicks) {
-        const context = dlg;
-        const positionSlider = context.querySelector('.nowPlayingPositionSlider');
+    function getChapterList() {
+        return playbackManager.currentItem(currentPlayer)?.Chapters || lastPlayerState?.NowPlayingItem?.Chapters;
+    }
 
-        if (positionSlider && !positionSlider.dragging) {
-            if (runtimeTicks) {
-                let pct = positionTicks / runtimeTicks;
-                pct *= 100;
-                positionSlider.value = pct;
-            } else {
-                positionSlider.value = 0;
+    function chapterModeActive() {
+        if (userSettings.audiobookProgressMode() !== 'chapter') return false;
+        return lastPlayerState?.NowPlayingItem?.Type === 'AudioBook' && getChapterList()?.length > 0;
+    }
+
+    function getChapterBounds(positionTicks, bookRuntimeTicks) {
+        const chapters = getChapterList();
+        if (!chapters?.length || positionTicks == null) return null;
+        for (let i = chapters.length - 1; i >= 0; i--) {
+            if (chapters[i].StartPositionTicks <= positionTicks) {
+                const start = chapters[i].StartPositionTicks;
+                const isLast = i + 1 >= chapters.length;
+                const end = isLast ? bookRuntimeTicks : chapters[i + 1].StartPositionTicks;
+                if (end == null || end <= start) return null;
+                return { start, end, duration: end - start, chapter: chapters[i], index: i };
             }
         }
+        return null;
+    }
 
-        context.querySelector('.positionTime').innerHTML = Number.isFinite(positionTicks) ? datetime.getDisplayRunningTime(positionTicks) : '--:--';
-        context.querySelector('.runtime').innerHTML = Number.isFinite(runtimeTicks) ? datetime.getDisplayRunningTime(runtimeTicks) : '--:--';
+    function updateTimeDisplay(positionTicks, runtimeTicks) {
+        const context = dlg;
+        const bounds = chapterModeActive() ? getChapterBounds(positionTicks, runtimeTicks) : null;
+        updateRemotePositionSlider(context, positionTicks, runtimeTicks, bounds);
+        updateRemoteTimeText(context, positionTicks, runtimeTicks, bounds);
+        updateRemoteChapterName(context, positionTicks, getChapterList());
+
+        if (lastPlayerState?.NowPlayingItem?.Type === 'AudioBook') {
+            updateChapterHighlight(context, positionTicks);
+        }
     }
 
     function getPlaylistItems(player) {
@@ -448,6 +568,18 @@ export default function () {
     }
 
     function loadPlaylist(context, player) {
+        if (lastPlayerState?.NowPlayingItem?.Type === 'AudioBook') {
+            const chapters = getChapterList();
+            if (chapters?.length) {
+                loadChapterList(context, chapters);
+                return;
+            }
+        }
+
+        if (!layoutManager.mobile) {
+            context.querySelector('.btnSavePlaylist').classList.remove('hide');
+        }
+
         getPlaylistItems(player).then(function (items) {
             if (items.length === 0) {
                 return;
@@ -502,6 +634,78 @@ export default function () {
 
             imageLoader.lazyChildren(itemsContainer);
         });
+    }
+
+    function loadChapterList(context, chapters) {
+        lastArtworkChapterIndex = -1;
+        if (layoutManager.mobile) {
+            context.querySelector('.btnTogglePlaylist').classList.remove('hide');
+        }
+        context.querySelector('.btnSavePlaylist').classList.add('hide');
+
+        const positionTicks = currentPlayer ? playbackManager.getCurrentTicks(currentPlayer) : 0;
+        let currentIndex = -1;
+        for (let i = chapters.length - 1; i >= 0; i--) {
+            if (chapters[i].StartPositionTicks <= positionTicks) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        let html = '';
+        chapters.forEach(function (chapter, index) {
+            const name = escapeHtml(chapter.Name || ('Chapter ' + (index + 1)));
+            const isActive = index === currentIndex;
+            html += '<div class="listItem listItem-border chapterListItem'
+                + (isActive ? ' chapterListItemActive' : '') + '"'
+                + ' data-chapter-index="' + index + '"'
+                + ' data-start-ticks="' + chapter.StartPositionTicks + '">';
+            html += '<div class="listItemBody"><div class="listItemBodyText">' + name + '</div></div>';
+            html += '</div>';
+        });
+
+        context.querySelector('.playlist').innerHTML = html;
+    }
+
+    function updateChapterHighlight(context, positionTicks) {
+        const itemsContainer = context.querySelector('.playlist');
+        if (!itemsContainer.querySelector('.chapterListItem')) return;
+
+        const chapters = getChapterList();
+        if (!chapters?.length) return;
+
+        let currentIndex = -1;
+        for (let i = chapters.length - 1; i >= 0; i--) {
+            if (chapters[i].StartPositionTicks <= positionTicks) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        itemsContainer.querySelectorAll('.chapterListItem').forEach(function (row) {
+            const idx = Number.parseInt(row.dataset.chapterIndex, 10);
+            row.classList.toggle('chapterListItemActive', idx === currentIndex);
+        });
+
+        if (currentIndex !== lastArtworkChapterIndex) {
+            lastArtworkChapterIndex = currentIndex;
+            const item = lastPlayerState?.NowPlayingItem;
+            if (item && currentIndex >= 0) {
+                const chapter = chapters[currentIndex];
+                if (chapter.ImageTag) {
+                    const apiClient = ServerConnections.getApiClient(item.ServerId);
+                    const url = apiClient.getScaledImageUrl(item.Id, {
+                        maxHeight: 300,
+                        tag: chapter.ImageTag,
+                        type: 'Chapter',
+                        index: currentIndex
+                    });
+                    setImageUrl(context, lastPlayerState, url);
+                } else {
+                    setImageUrl(context, lastPlayerState, getImageUrl(item, { maxHeight: 300 }));
+                }
+            }
+        }
     }
 
     function onPlaybackStart(e, state) {
@@ -585,7 +789,7 @@ export default function () {
             lastUpdateTime = now;
             const player = this;
             currentRuntimeTicks = playbackManager.duration(player);
-            updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks);
+            updateTimeDisplay(playbackManager.getCurrentTicks(player), currentRuntimeTicks);
         }
     }
 
@@ -718,7 +922,12 @@ export default function () {
         });
         context.querySelector('.btnNextTrack').addEventListener('click', function () {
             if (currentPlayer) {
-                playbackManager.nextTrack(currentPlayer);
+                const item = playbackManager.currentItem(currentPlayer);
+                if (item?.Type === 'AudioBook' && item.Chapters?.length > 0) {
+                    playbackManager.nextChapter(currentPlayer);
+                } else {
+                    playbackManager.nextTrack(currentPlayer);
+                }
             }
         });
         context.querySelector('.btnRewind').addEventListener('click', function () {
@@ -745,6 +954,16 @@ export default function () {
 
         context.querySelector('.btnPreviousTrack').addEventListener('click', function (e) {
             if (currentPlayer) {
+                const item = playbackManager.currentItem(currentPlayer);
+                if (item?.Type === 'AudioBook' && item.Chapters?.length > 0) {
+                    // Cancel this event if doubleclick is fired. The dblclick handler goes to previous track.
+                    if (e.detail > 1) {
+                        return;
+                    }
+                    playbackManager.previousChapter(currentPlayer);
+                    return;
+                }
+
                 if (playbackManager.isPlayingAudio(currentPlayer)) {
                     // Cancel this event if doubleclick is fired. The actual previousTrack will be processed by the 'dblclick' event
                     if (e.detail > 1 ) {
@@ -777,6 +996,16 @@ export default function () {
 
             if (currentPlayer) {
                 const newPercent = parseFloat(value);
+
+                if (chapterModeActive()) {
+                    const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+                    const bounds = getChapterBounds(positionTicks, playbackManager.duration(currentPlayer));
+                    if (bounds) {
+                        playbackManager.seek(bounds.start + (bounds.duration * newPercent / 100), currentPlayer);
+                        return;
+                    }
+                }
+
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
         });
@@ -788,10 +1017,40 @@ export default function () {
                 return '--:--';
             }
 
-            let ticks = currentRuntimeTicks;
-            ticks /= 100;
-            ticks *= value;
-            return datetime.getDisplayRunningTime(ticks);
+            if (chapterModeActive() && currentPlayer) {
+                const positionTicks = playbackManager.getCurrentTicks(currentPlayer);
+                const bounds = getChapterBounds(positionTicks, currentRuntimeTicks);
+                if (bounds) {
+                    return datetime.getDisplayRunningTime(bounds.duration / 100 * value);
+                }
+            }
+
+            const ticks = currentRuntimeTicks / 100 * value;
+            let text = datetime.getDisplayRunningTime(ticks);
+
+            const chapters = state.NowPlayingItem.Chapters;
+            if (chapters?.length) {
+                let chapter;
+                for (let i = chapters.length - 1; i >= 0; i--) {
+                    if (chapters[i].StartPositionTicks <= ticks) {
+                        chapter = chapters[i];
+                        break;
+                    }
+                }
+                if (chapter) text += ' · ' + chapter.Name;
+            }
+
+            return text;
+        };
+
+        positionSlider.getMarkerInfo = function () {
+            if (chapterModeActive()) return [];
+            const item = lastPlayerState?.NowPlayingItem;
+            if (!item?.Chapters?.length || !item.RunTimeTicks) return [];
+            return item.Chapters.map(chapter => ({
+                name: chapter.Name,
+                progress: chapter.StartPositionTicks / item.RunTimeTicks
+            }));
         };
 
         context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
@@ -809,6 +1068,13 @@ export default function () {
             const newIndex = e.detail.newIndex;
             const playlistItemId = e.detail.playlistItemId;
             playbackManager.movePlaylistItem(playlistItemId, newIndex, currentPlayer);
+        });
+        playlistContainer.addEventListener('click', function (e) {
+            const row = e.target.closest('[data-chapter-index]');
+            if (row && currentPlayer) {
+                const chapterIndex = Number.parseInt(row.dataset.chapterIndex, 10);
+                playbackManager.seekToAudiobookChapter(chapterIndex, currentPlayer);
+            }
         });
         context.querySelector('.btnSavePlaylist').addEventListener('click', savePlaylist);
         context.querySelector('.btnTogglePlaylist').addEventListener('click', function () {
@@ -920,6 +1186,7 @@ export default function () {
     let currentPlayerSupportedCommands = [];
     let lastUpdateTime = 0;
     let currentRuntimeTicks = 0;
+    let lastArtworkChapterIndex = -1;
     const self = this;
 
     self.init = function (ownerView, context) {
