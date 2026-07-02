@@ -167,6 +167,10 @@ const UserNew = () => {
                             setIsErrorToastOpen(true);
                         }
                     });
+                },
+                onError: () => {
+                    loading.hide();
+                    setIsErrorToastOpen(true);
                 }
             });
         };
@@ -231,6 +235,9 @@ const UserNew = () => {
                             label={globalize.translate('LabelName')}
                             required
                         />
+                        <div className='fieldDescription'>
+                            {globalize.translate('LabelUsernameAllowedCharactersHelp')}
+                        </div>
                     </div>
                     <div className='inputContainer'>
                         <Input
