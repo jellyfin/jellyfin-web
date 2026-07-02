@@ -133,6 +133,10 @@ html {
     color: var(--jf-palette-primary-main, $primary-main);
 }
 
+.emby-scrollbuttons {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
 a[data-role="button"],
 .fab,
 .raised {
