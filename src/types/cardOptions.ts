@@ -18,6 +18,7 @@ export interface CardOptions {
     items?: ItemDto[] | null;
     allowBottomPadding?: boolean;
     centerText?: boolean;
+    wrapTitle?: boolean;
     coverImage?: boolean;
     inheritThumb?: boolean;
     overlayMoreButton?: boolean;
