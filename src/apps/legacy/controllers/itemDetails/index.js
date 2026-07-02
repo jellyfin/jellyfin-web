@@ -2043,7 +2043,9 @@ export default function (view, params) {
                             const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
 
                             if (parentId) {
-                                appRouter.showItem(parentId, item.ServerId);
+                                apiClient.getItem(apiClient.getCurrentUserId(), parentId).then(function(parentItem) {
+                                    appRouter.showItem(parentItem);
+                                });
                             } else {
                                 appRouter.goHome();
                             }
