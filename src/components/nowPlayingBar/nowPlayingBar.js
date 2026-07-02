@@ -20,6 +20,7 @@ import appFooter from '../appFooter/appFooter';
 import itemShortcuts from '../shortcuts';
 import './nowPlayingBar.scss';
 import '../../elements/emby-slider/emby-slider';
+import LibraryMenu from 'scripts/libraryMenu';
 
 let currentPlayer;
 let currentPlayerSupportedCommands = [];
@@ -474,6 +475,7 @@ function setLyricButtonActiveStatus() {
 }
 
 function updateNowPlayingInfo(state) {
+    let newTitle;
     const nowPlayingItem = state.NowPlayingItem;
 
     const textLines = nowPlayingItem ? getItemTextLines(nowPlayingItem) : undefined;
@@ -485,6 +487,7 @@ function updateNowPlayingInfo(state) {
         if (textLines.length > 1 && textLines[1]) {
             const text = document.createElement('a');
             text.innerText = textLines[1];
+            newTitle = textLines[1];
             secondaryText.appendChild(text);
         }
 
@@ -492,11 +495,18 @@ function updateNowPlayingInfo(state) {
             const text = document.createElement('a');
             text.innerText = textLines[0];
             itemText.appendChild(text);
+
+            if (newTitle) {
+                newTitle += ' - ';
+            }
+
+            newTitle += text.innerText;
         }
         nowPlayingTextElement.appendChild(itemText);
         nowPlayingTextElement.appendChild(secondaryText);
     }
 
+    document.title = newTitle || LibraryMenu.setDefaultTitle();
     const imgHeight = 70;
 
     const url = nowPlayingItem ? getImageUrl(nowPlayingItem, {
@@ -612,6 +622,7 @@ function hideNowPlayingBar() {
 function onPlaybackStopped(e, state) {
     console.debug('[nowPlayingBar:onPlaybackStopped] event: ' + e.type);
 
+    LibraryMenu.setDefaultTitle();
     const player = this;
 
     if (player.isLocalPlayer) {
