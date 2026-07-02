@@ -40,9 +40,7 @@ class QueueCore {
 
         console.debug('SyncPlay updatePlayQueue:', newPlayQueue);
 
-        const serverId = apiClient.serverInfo().Id;
-
-        this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId).then((previous) => {
+        this.onPlayQueueUpdate(apiClient, newPlayQueue).then((previous) => {
             if (newPlayQueue.LastUpdate.getTime() < this.getLastUpdateTime()) {
                 console.warn('SyncPlay updatePlayQueue: trying to apply old update.', newPlayQueue);
                 throw new Error('Trying to apply old update');
@@ -115,17 +113,17 @@ class QueueCore {
      * @param {string} serverId The server identifier.
      * @returns {Promise} A promise that gets resolved when update is applied.
      */
-    onPlayQueueUpdate(apiClient, playQueueUpdate, serverId) {
+    onPlayQueueUpdate(apiClient, playQueueUpdate) {
         const oldPlayQueueUpdate = this.lastPlayQueueUpdate;
         const oldPlaylist = this.playlist;
+
+        if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
+            return Promise.reject(new Error('Trying to apply old update'));
+        }
 
         const itemIds = playQueueUpdate.Playlist.map(queueItem => queueItem.ItemId);
 
         if (!itemIds.length) {
-            if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
-                return Promise.reject(new Error('Trying to apply old update'));
-            }
-
             this.lastPlayQueueUpdate = playQueueUpdate;
             this.playlist = [];
 
@@ -138,26 +136,25 @@ class QueueCore {
         return Helper.getItemsForPlayback(apiClient, {
             Ids: itemIds.join(',')
         }).then((result) => {
-            return Helper.translateItemsForPlayback(apiClient, result.Items, {
-                ids: itemIds,
-                serverId: serverId
-            }).then((items) => {
-                if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
-                    throw new Error('Trying to apply old update');
-                }
+            const items = result.Items;
 
-                for (let i = 0; i < items.length; i++) {
-                    items[i].PlaylistItemId = playQueueUpdate.Playlist[i].PlaylistItemId;
-                }
+            if (items.length > 1) {
+                items.sort(function (a, b) {
+                    return itemIds.indexOf(a.Id) - itemIds.indexOf(b.Id);
+                });
+            }
 
-                this.lastPlayQueueUpdate = playQueueUpdate;
-                this.playlist = items;
+            for (let i = 0; i < items.length; i++) {
+                items[i].PlaylistItemId = playQueueUpdate.Playlist[i].PlaylistItemId;
+            }
 
-                return {
-                    playQueueUpdate: oldPlayQueueUpdate,
-                    playlist: oldPlaylist
-                };
-            });
+            this.lastPlayQueueUpdate = playQueueUpdate;
+            this.playlist = items;
+
+            return {
+                playQueueUpdate: oldPlayQueueUpdate,
+                playlist: oldPlaylist
+            };
         });
     }
 
