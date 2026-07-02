@@ -1925,5 +1925,7 @@
     "LabelProgressAndSpeed": "Progress / speed",
     "LabelReasons": "Reasons",
     "LabelPlayerSizes": "Player sizes",
-    "LabelPlaybackQuality": "Frame dropped / corrupted"
+    "LabelPlaybackQuality": "Frame dropped / corrupted",
+    "Chapter": "Chapter",
+    "Chapters": "Chapters"
 }
