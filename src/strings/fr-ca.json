@@ -1923,5 +1923,6 @@
     "StillWatchingOption": "{0} épisodes ou {1} minutes",
     "StopWatching": "Ne plus regarder",
     "HeaderBackupWarning": "AVERTISSEMENT : Tâches planifiées en cours",
-    "TableOfContents": "Table des matières"
+    "TableOfContents": "Table des matières",
+    "IndexNumber": "Numéro d'index"
 }

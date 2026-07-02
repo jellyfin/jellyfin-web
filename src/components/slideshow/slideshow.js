@@ -7,7 +7,6 @@ import screenfull from 'screenfull';
 
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { randomInt } from 'utils/number';
 
 import dialogHelper from '../dialogHelper/dialogHelper';
@@ -92,14 +91,14 @@ function getBackdropImageUrl(item, options, apiClient) {
  * @returns {string} URL of the item's image.
  */
 function getImgUrl(item, user) {
+    const api = ServerConnections.getApi(item.ServerId);
     const apiClient = ServerConnections.getApiClient(item);
-    const api = toApi(apiClient);
     const imageOptions = {};
 
     if (item.BackdropImageTags?.length) {
         return getBackdropImageUrl(item, imageOptions, apiClient);
     } else {
-        if (item.MediaType === 'Photo' && user?.Policy.EnableContentDownloading) {
+        if (api && item.MediaType === 'Photo' && user?.Policy.EnableContentDownloading) {
             return getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
         }
         imageOptions.type = 'Primary';

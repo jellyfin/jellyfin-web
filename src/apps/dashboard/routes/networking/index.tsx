@@ -31,7 +31,7 @@ import Switch from '@mui/material/Switch';
 const CONFIG_KEY = 'network';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();

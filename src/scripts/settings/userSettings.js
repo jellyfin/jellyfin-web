@@ -1,9 +1,9 @@
 import { getDisplayPreferencesQuery } from 'hooks/api/useDisplayPreferences';
 import { getUserQuery } from 'hooks/api/useUser';
 import { QUERY_KEY } from 'hooks/useUsers';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { StillWatchingOptions } from 'plugins/stillWatching/constants';
 import Events from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 import { toBoolean } from 'utils/string';
 
@@ -78,9 +78,10 @@ export class UserSettings {
 
         const self = this;
 
+        const api = ServerConnections.getApi(apiClient.serverId());
         return queryClient
             .fetchQuery(getDisplayPreferencesQuery(
-                toApi(apiClient),
+                api,
                 {
                     displayPreferencesId: DISPLAY_PREFERENCES_ID,
                     client: CLIENT_ID,
@@ -149,8 +150,9 @@ export class UserSettings {
                 });
         }
 
+        const api = ServerConnections.getApi(apiClient.serverId());
         return queryClient
-            .fetchQuery(getUserQuery(toApi(apiClient), { userId: this.currentUserId }))
+            .fetchQuery(getUserQuery(api, { userId: this.currentUserId }))
             .then(user => user.Configuration);
     }
 

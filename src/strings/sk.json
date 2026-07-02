@@ -1923,5 +1923,6 @@
     "StopWatching": "Prestať pozerať",
     "HeaderBackupWarning": "UPOZORNENIE: Momentálne prebiehajú naplánované úlohy",
     "TableOfContents": "Obsah",
-    "VideoRotationNotSupported": "Otočenie videa nie je podporované"
+    "VideoRotationNotSupported": "Otočenie videa nie je podporované",
+    "IndexNumber": "Indexové číslo"
 }

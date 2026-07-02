@@ -5,7 +5,6 @@ import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import TouchHelper from 'scripts/touchHelper';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
@@ -327,7 +326,11 @@ export class BookPlayer {
 
         return new Promise((resolve, reject) => {
             import('epubjs').then(({ default: epubjs }) => {
-                const api = toApi(ServerConnections.getApiClient(item));
+                const api = ServerConnections.getApi(item.ServerId);
+                if (!api) {
+                    console.error('[BookPlayer] no Api instance available for server', item.ServerId);
+                    return;
+                }
                 const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
                 const book = epubjs(downloadHref, { openAs: 'epub' });
 
