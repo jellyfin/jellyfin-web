@@ -17,8 +17,9 @@ import { calculateTotal, calculateUsedPercentage } from '../utils/space';
 import StorageTypeIcon from './StorageTypeIcon';
 
 interface StorageListItemProps {
-    label: string
-    folder?: FolderStorageDto
+    label: string,
+    folder?: FolderStorageDto,
+    showFilesystemLabel?: boolean
 }
 
 const getStatusColor = (percent: number) => {
@@ -39,7 +40,8 @@ const getStorageTypeText = (type?: string | null) => {
 
 const StorageListItem: FC<StorageListItemProps> = ({
     label,
-    folder
+    folder,
+    showFilesystemLabel
 }) => {
     const readableUsedSpace = (typeof folder?.UsedSpace === 'undefined' || folder.UsedSpace < 0) ?
         '?' : getReadableSize(folder.UsedSpace);
@@ -86,12 +88,14 @@ const StorageListItem: FC<StorageListItemProps> = ({
                                 flexWrap: 'wrap'
                             }}
                         >
-                            <Typography
-                                variant='body2'
-                                color='textSecondary'
-                            >
-                                {globalize.translate('OnFilesystem', folder?.DeviceId || '?')}
-                            </Typography>
+                            {showFilesystemLabel && (
+                                <Typography
+                                    variant='body2'
+                                    color='textSecondary'
+                                >
+                                    {globalize.translate('OnFilesystem', folder?.DeviceId || '?')}
+                                </Typography>
+                            )}
                             <Typography
                                 variant='body2'
                                 color='textSecondary'
