@@ -21,7 +21,10 @@ import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation, useSubmit } from 'react-router-dom';
 import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
-import type { EncodingOptions } from '@jellyfin/sdk/lib/generated-client/models/encoding-options';
+import type { EncodingOptions as SdkEncodingOptions } from '@jellyfin/sdk/lib/generated-client/models/encoding-options';
+
+// LiveStreamKeepSeconds is not yet in the published SDK — remove once the SDK is updated.
+type EncodingOptions = SdkEncodingOptions & { LiveStreamKeepSeconds?: number };
 import { HardwareAccelerationType } from '@jellyfin/sdk/lib/generated-client/models/hardware-acceleration-type';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
@@ -878,6 +881,22 @@ export const Component = () => {
                                 slotProps={{
                                     htmlInput: {
                                         min: 10,
+                                        max: 3600,
+                                        step: 1
+                                    }
+                                }}
+                            />
+
+                            <TextField
+                                name='LiveStreamKeepSeconds'
+                                value={config.LiveStreamKeepSeconds}
+                                onChange={onConfigChange}
+                                label={globalize.translate('LabelLiveStreamKeepSeconds')}
+                                helperText={globalize.translate('LabelLiveStreamKeepSecondsHelp')}
+                                type='number'
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
                                         max: 3600,
                                         step: 1
                                     }

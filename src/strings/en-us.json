@@ -41,6 +41,8 @@
     "LabelThrottleDelaySecondsHelp": "Time in seconds after which the transcoder will be throttled. Must be large enough for the client to maintain a healthy buffer. Only works if throttling is enabled.",
     "LabelSegmentKeepSeconds": "Time to keep segments",
     "LabelSegmentKeepSecondsHelp": "Time in seconds for which segments should be kept after they are downloaded by the client. Only works if segment deletion is enabled.",
+    "LabelLiveStreamKeepSeconds": "Live stream rewind buffer (seconds)",
+    "LabelLiveStreamKeepSecondsHelp": "Number of seconds of live TV capture to keep in a rolling chunk buffer for rewinding. Set to 0 to disable the buffer and use the legacy single-growing-file behaviour.",
     "AllowHWTranscodingHelp": "Allow the tuner to transcode streams on the fly. This may help reduce transcoding required by the server.",
     "AllowMediaConversion": "Allow media conversion",
     "AllowMediaConversionHelp": "Grant or deny access to the convert media feature.",
