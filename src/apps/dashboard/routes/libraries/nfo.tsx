@@ -26,7 +26,7 @@ import type { XbmcMetadataOptions } from '@jellyfin/sdk/lib/generated-client/mod
 const CONFIG_KEY = 'xbmcmetadata';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();

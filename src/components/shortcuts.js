@@ -7,7 +7,6 @@ import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import { playbackManager } from './playback/playbackmanager';
 import inputManager from '../scripts/inputManager';
@@ -132,20 +131,20 @@ function showContextMenu(card, options = {}) {
             }
         }
 
+        const api = ServerConnections.getApi(item.ServerId);
         const apiClient = ServerConnections.getApiClient(item.ServerId);
-        const api = toApi(apiClient);
 
         Promise.all([
             // Import the item menu component
             import('./itemContextMenu'),
             // Fetch the current user
-            apiClient.getCurrentUser(),
+            apiClient?.getCurrentUser(),
             // Fetch playlist perms if item is a child of a playlist
-            playlistId ?
+            api && playlistId ?
                 getPlaylistsApi(api)
                     .getPlaylistUser({
                         playlistId,
-                        userId: apiClient.getCurrentUserId()
+                        userId: apiClient?.getCurrentUserId()
                     })
                     .then(({ data }) => data)
                     .catch(err => {

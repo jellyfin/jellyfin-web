@@ -1923,5 +1923,7 @@
     "CardSettings": "Kaartinstellingen",
     "ConfirmSplitMedia": "Weet je zeker dat je de mediabronnen wilt opsplitsen tot afzonderlijke items?",
     "HeaderSplitMedia": "Media opsplitsen",
-    "Creators": "Bedenkers"
+    "Creators": "Bedenkers",
+    "IndexNumber": "Indexnummer",
+    "NoCastTargets": "Geen cast-apparaten beschikbaar"
 }
