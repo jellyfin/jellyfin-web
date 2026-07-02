@@ -1646,6 +1646,48 @@ export class PlaybackManager {
             return index !== -1 && self.isSubtitleStreamExternal(index, player);
         };
 
+        /**
+         * Gets the current subtitle track events in a normalized format.
+         * This method attempts to get subtitle events from either:
+         * 1. The player's getCurrentTrackEvents method (for Jellyfin events)
+         * 2. The player's getTextTracks method (for VTT cues)
+         *
+         * @param {Object} player - The player instance to get subtitle events from
+         * @returns {Array<{startTime: number, endTime: number, text: string}>|null} An array of normalized subtitle events or null if none found
+         */
+        self.getCurrentSubtitleTrackEvents = function (player) {
+            player = player || self._currentPlayer;
+
+            // Try to get events using the new method
+            if (player?.getCurrentTrackEvents) {
+                const events = player.getCurrentTrackEvents();
+                if (events?.length) {
+                    // Convert ticks to seconds format
+                    return events.map(event => ({
+                        startTime: event.StartPositionTicks / TICKS_PER_SECOND,
+                        endTime: event.EndPositionTicks / TICKS_PER_SECOND,
+                        text: event.Text || ''
+                    }));
+                }
+            }
+
+            // Try to get text tracks using the player's getTextTracks method
+            if (player?.getTextTracks) {
+                const textTracks = player.getTextTracks();
+                const activeTrack = textTracks?.[0];
+                if (activeTrack?.cues?.length) {
+                    // Convert VTTCues to our format
+                    return Array.from(activeTrack.cues).map(cue => ({
+                        startTime: cue.startTime,
+                        endTime: cue.endTime,
+                        text: cue.text || ''
+                    }));
+                }
+            }
+
+            return null;
+        };
+
         self.seek = function (ticks, player) {
             ticks = Math.max(0, ticks);
 
