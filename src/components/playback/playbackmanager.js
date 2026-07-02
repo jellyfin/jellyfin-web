@@ -516,6 +516,18 @@ function getOptimalMediaSource(apiClient, item, versions) {
         for (let i = 0, length = versions.length; i < length; i++) {
             versions[i].enableDirectPlay = results[i] || false;
         }
+
+        // The played item's own media source carries its resume state, so it must stay selected as
+        // long as it is playable at all - an unplayable codec means transcoding it, not silently
+        // switching to an alternate version.
+        const ownSource = versions.find(function (v) {
+            return v.Id === item.Id;
+        });
+
+        if (ownSource && (ownSource.enableDirectPlay || ownSource.SupportsDirectStream || ownSource.SupportsTranscoding)) {
+            return ownSource;
+        }
+
         let optimalVersion = versions.filter(function (v) {
             return v.enableDirectPlay;
         })[0];
@@ -1741,6 +1753,8 @@ export class PlaybackManager {
 
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, currentMediaSource.Id, liveStreamId, options).then(function (result) {
                     if (validatePlaybackInfoResult(self, result)) {
+                        // Changing streams requests only the active source; keep the version availability flag.
+                        result.MediaSources[0].hasAlternateVersions = currentMediaSource.hasAlternateVersions;
                         currentMediaSource = result.MediaSources[0];
 
                         const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
@@ -2069,11 +2083,21 @@ export class PlaybackManager {
         }
 
         function filterEpisodes(episodesResult, firstItem, options) {
+            let startItemFound = false;
             for (const [index, e] of episodesResult.Items.entries()) {
                 if (e.Id === firstItem.Id) {
                     episodesResult.StartIndex = index;
+                    startItemFound = true;
                     break;
                 }
+            }
+
+            // An alternate version is not part of the episode listing, so the result starts at
+            // its primary episode instead. Keep playing the version the user picked by selecting
+            // it as the media source of that primary (unless a source was explicitly chosen).
+            if (!startItemFound && episodesResult.Items.length) {
+                episodesResult.StartIndex = 0;
+                options.mediaSourceId = options.mediaSourceId || firstItem.Id;
             }
 
             // TODO: fix calling code to read episodesResult.StartIndex instead when set.
@@ -2953,6 +2977,11 @@ export class PlaybackManager {
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
+                            // Remember whether alternate versions exists
+                            mediaSource.hasAlternateVersions = playbackInfoResult.MediaSources.length > 1
+                                || item.MediaSources?.length > 1
+                                || (!!mediaSourceId && mediaSourceId !== item.Id);
+
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
@@ -3127,6 +3156,32 @@ export class PlaybackManager {
             };
         }
 
+        // Find the id of the version (media source) of an item whose name matches the
+        // currently playing version, so track navigation keeps the same version across episodes.
+        function getMatchingMediaSourceId(apiClient, item, prevSource) {
+            const versionName = prevSource?.Name;
+            if (!versionName || !prevSource.hasAlternateVersions) {
+                return Promise.resolve(null);
+            }
+
+            const findMatch = function (mediaSources) {
+                if (!mediaSources || mediaSources.length < 2) {
+                    return null;
+                }
+                const match = mediaSources.find(source => source.Name === versionName);
+                return match ? match.Id : null;
+            };
+
+            // Queue items usually only carry their primary media source, so the merged alternate versions are missing.
+            if (item.MediaSources?.length > 1) {
+                return Promise.resolve(findMatch(item.MediaSources));
+            }
+
+            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id)
+                .then(fullItem => findMatch(fullItem.MediaSources))
+                .catch(() => null);
+        }
+
         self.nextTrack = function (player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
@@ -3138,11 +3193,19 @@ export class PlaybackManager {
             if (newItemInfo) {
                 console.debug('playing next track');
 
+                const prevSource = getPreviousSource(player);
                 const newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
+                const apiClient = ServerConnections.getApiClient(newItemInfo.item.ServerId);
 
-                playInternal(newItemInfo.item, newItemPlayOptions, function () {
-                    setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
-                }, getPreviousSource(player));
+                getMatchingMediaSourceId(apiClient, newItemInfo.item, prevSource).then(function (mediaSourceId) {
+                    if (mediaSourceId) {
+                        newItemPlayOptions.mediaSourceId = mediaSourceId;
+                    }
+
+                    playInternal(newItemInfo.item, newItemPlayOptions, function () {
+                        setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
+                    }, prevSource);
+                });
             }
         };
 
@@ -3158,12 +3221,20 @@ export class PlaybackManager {
                 const newItem = playlist[newIndex];
 
                 if (newItem) {
+                    const prevSource = getPreviousSource(player);
                     const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
                     newItemPlayOptions.startPositionTicks = 0;
+                    const apiClient = ServerConnections.getApiClient(newItem.ServerId);
 
-                    playInternal(newItem, newItemPlayOptions, function () {
-                        setPlaylistState(newItem.PlaylistItemId, newIndex);
-                    }, getPreviousSource(player));
+                    getMatchingMediaSourceId(apiClient, newItem, prevSource).then(function (mediaSourceId) {
+                        if (mediaSourceId) {
+                            newItemPlayOptions.mediaSourceId = mediaSourceId;
+                        }
+
+                        playInternal(newItem, newItemPlayOptions, function () {
+                            setPlaylistState(newItem.PlaylistItemId, newIndex);
+                        }, prevSource);
+                    });
                 }
             }
         };
