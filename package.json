@@ -114,7 +114,7 @@
     "idb-keyval": "6.2.5",
     "intersection-observer": "0.12.2",
     "jellyfin-apiclient": "1.11.0",
-    "jquery": "3.7.1",
+    "jquery": "4.0.0",
     "jstree": "3.3.17",
     "libarchive.js": "2.0.2",
     "libpgs": "0.8.1",
