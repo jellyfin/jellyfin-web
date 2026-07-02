@@ -1,6 +1,3 @@
-import DOMPurify from 'dompurify';
-import markdownIt from 'markdown-it';
-
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
@@ -19,6 +16,7 @@ import toast from 'components/toast/toast';
 import dialogHelper from 'components/dialogHelper/dialogHelper';
 import baseAlert from 'components/alert';
 import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
+import { sanitizeLoginDisclaimer } from './utils/loginDisclaimerSanitizer';
 
 import './login.scss';
 
@@ -296,8 +294,7 @@ export default function (view, params) {
         apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
-            // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
+            loginDisclaimer.innerHTML = sanitizeLoginDisclaimer(options.LoginDisclaimer);
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';
