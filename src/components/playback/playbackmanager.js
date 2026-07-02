@@ -721,6 +721,9 @@ export class PlaybackManager {
 
         this._playQueueManager = new PlayQueueManager();
 
+        this._sessionStarted = false;
+        this._playSessionId = null;
+
         self.currentItem = function (player) {
             if (!player) {
                 throw new Error('player cannot be null');
@@ -2317,33 +2320,51 @@ export class PlaybackManager {
 
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
-            return getIntros(firstItem, apiClient, options).then(function (introsResult) {
-                const introItems = introsResult.Items;
-                let introPlayOptions;
+            const shouldFetchIntros = !self._sessionStarted
+                                    || self._playSessionId !== apiClient.serverId();
 
-                firstItem.playOptions = truncatePlayOptions(options);
+            if (shouldFetchIntros) {
+                self._sessionStarted = true;
+                self._playSessionId = apiClient.serverId();
 
-                if (introItems.length) {
-                    introPlayOptions = {
-                        fullscreen: firstItem.playOptions.fullscreen
-                    };
-                } else {
-                    introPlayOptions = firstItem.playOptions;
-                }
+                return getIntros(firstItem, apiClient, options).then(function (introsResult) {
+                    const introItems = introsResult.Items;
+                    let introPlayOptions;
 
-                items = introItems.concat(items);
+                    firstItem.playOptions = truncatePlayOptions(options);
 
-                // Needed by players that manage their own playlist
-                introPlayOptions.items = items;
-                introPlayOptions.startIndex = playStartIndex;
+                    if (introItems.length) {
+                        introPlayOptions = {
+                            fullscreen: firstItem.playOptions.fullscreen
+                        };
+                    } else {
+                        introPlayOptions = firstItem.playOptions;
+                    }
 
-                return playInternal(items[playStartIndex], introPlayOptions, function () {
+                    items = introItems.concat(items);
+
+                    // Needed by players that manage their own playlist
+                    introPlayOptions.items = items;
+                    introPlayOptions.startIndex = playStartIndex;
+
+                    return playInternal(items[playStartIndex], introPlayOptions, function () {
+                        self._playQueueManager.setPlaylist(items);
+
+                        setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
+                        loading.hide();
+                    });
+                });
+            } else {
+                const newPlayOptions = truncatePlayOptions(options);
+                newPlayOptions.items = items;
+                newPlayOptions.startIndex = playStartIndex;
+
+                return playInternal(items[playStartIndex], newPlayOptions, function() {
                     self._playQueueManager.setPlaylist(items);
-
                     setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
                     loading.hide();
                 });
-            });
+            }
         }
 
         // Set playlist state. Using a method allows for overloading in derived player implementations
@@ -3482,6 +3503,8 @@ export class PlaybackManager {
             state.NextItem = playbackStopInfo.nextItem;
 
             if (!nextItem) {
+                self._sessionStarted = false;
+                self._playSessionId = null;
                 self._playQueueManager.reset();
             }
 
