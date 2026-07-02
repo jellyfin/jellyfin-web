@@ -345,4 +345,14 @@ export const LibraryRoutes: LibraryRoute[] = [
             }
         ]
     }
+    ,
+    {
+        path: '/favorites',
+        views: [
+            { index: 0, label: 'Movies', view: LibraryTab.Movies, isDefault: true },
+            { index: 1, label: 'Shows', view: LibraryTab.Series },
+            { index: 2, label: 'Episodes', view: LibraryTab.Episodes }
+        ]
+    }
 ];
+

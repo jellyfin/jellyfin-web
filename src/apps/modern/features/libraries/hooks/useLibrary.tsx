@@ -1,3 +1,4 @@
+import defaultViewContent from '../constants/views/defaults';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { UseQueryResult } from '@tanstack/react-query';
 import React, { type FC, type PropsWithChildren, createContext, useContext, useMemo } from 'react';
@@ -42,7 +43,10 @@ export const LibraryProvider: FC<PropsWithChildren<unknown>> = ({ children }) =>
     const isLibPath = isLibraryPath(pathname);
     const id = libraryId ?? undefined;
 
-    const content = useMemo(() => collectionType && getViewContent(collectionType, activeTab), [collectionType, activeTab]);
+    const content = useMemo(() => {
+        if (collectionType) return getViewContent(collectionType, activeTab);
+        return route?.views[activeTab] ? { ...defaultViewContent, viewType: route.views[activeTab].view } as LibraryTabContent : undefined;
+    }, [collectionType, activeTab, route]);
     const viewType = content?.viewType;
 
     // Local storage requires the view type to be known upfront so default to movies if unknown

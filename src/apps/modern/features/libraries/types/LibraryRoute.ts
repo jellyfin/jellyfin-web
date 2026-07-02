@@ -10,6 +10,6 @@ interface LibraryViewDefinition {
 
 export interface LibraryRoute {
     path: string,
-    type: CollectionType,
+    type?: CollectionType,
     views: LibraryViewDefinition[]
 }
