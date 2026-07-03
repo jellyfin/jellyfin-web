@@ -26,6 +26,21 @@ export const getSuggestionSections = (): Section[] => {
         {
             name: 'HeaderContinueWatching',
             apiMethod: SectionApiMethod.ResumeItems,
+            itemTypes: 'Movie,Series',
+            type: SectionType.ContinueWatchingMixed,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Movie, BaseItemKind.Series]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                preferThumb: true,
+                shape: CardShape.BackdropOverflow,
+                showYear: true
+            }
+        },
+        {
+            name: 'HeaderContinueWatching',
+            apiMethod: SectionApiMethod.ResumeItems,
             itemTypes: 'Movie',
             type: SectionType.ContinueWatchingMovies,
             parametersOptions: {
@@ -57,11 +72,25 @@ export const getSuggestionSections = (): Section[] => {
             itemTypes: 'Book',
             type: SectionType.LatestBooks,
             parametersOptions: {
-                includeItemTypes: [BaseItemKind.Book]
+                includeItemTypes: [BaseItemKind.AudioBook, BaseItemKind.Book]
             },
             cardOptions: {
                 overlayPlayButton: true,
                 shape: CardShape.PortraitOverflow
+            }
+        },
+        {
+            name: 'HeaderLatestMedia',
+            apiMethod: SectionApiMethod.LatestMedia,
+            itemTypes: 'Movie,Series',
+            type: SectionType.LatestMixed,
+            parametersOptions: {
+                includeItemTypes: [BaseItemKind.Movie, BaseItemKind.Series]
+            },
+            cardOptions: {
+                overlayPlayButton: true,
+                shape: CardShape.PortraitOverflow,
+                showYear: true
             }
         },
         {

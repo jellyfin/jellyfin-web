@@ -677,7 +677,7 @@ export default function (options) {
     const hlsInFmp4VideoCodecs = [];
 
     if (canPlayAv1(videoTestElement)
-        && (browser.safari || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || browser.opera)))) {
+        && (browser.safari || browser.tizen || browser.web0s || (!browser.mobile && (browser.edgeChromium || browser.firefox || browser.chrome || browser.opera)))) {
         // disable av1 on non-safari mobile browsers since it can be very slow software decoding
         hlsInFmp4VideoCodecs.push('av1');
     }
@@ -853,6 +853,12 @@ export default function (options) {
     const hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls();
     let enableFmp4Hls = userSettings.preferFmp4HlsContainer();
     if ((browser.safari || browser.tizen || browser.web0s) && !canPlayNativeHlsInFmp4()) {
+        enableFmp4Hls = false;
+    }
+
+    // fMP4 in Firefox 149 is largely broken due to bad moof::traf::tfdt handling
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=2026875
+    if (browser.firefox && browser.versionMajor == 149) {
         enableFmp4Hls = false;
     }
 
@@ -1519,10 +1525,13 @@ export default function (options) {
     });
 
     if (browser.web0s && supportsDolbyVision(options)) {
-        // Disallow direct playing of DOVI media in containers not ts or mp4.
+        // Adjust DOVI container rules based on WebOS version.
+        // On WebOS 25 and newer, mp4, ts, and mkv containers are allowed.
+        // On WebOS 24 and lower, only mp4 and ts containers are allowed.
+        const allowedContainers = browser.web0sVersion >= 25 ? ['mp4', 'ts', 'mkv'] : ['mp4', 'ts'];
         profile.CodecProfiles.push({
             Type: 'Video',
-            Container: '-mp4,ts',
+            Container: '-' + allowedContainers.join(','),
             Codec: 'hevc',
             Conditions: [
                 {

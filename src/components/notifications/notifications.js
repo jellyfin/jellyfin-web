@@ -1,9 +1,9 @@
-import serverNotifications from '../../scripts/serverNotifications';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import NotificationIcon from './notificationicon.png';
 
@@ -216,60 +216,90 @@ function showPackageInstallNotification(apiClient, installation, status) {
     });
 }
 
-Events.on(serverNotifications, 'LibraryChanged', function (e, apiClient, data) {
-    onLibraryChanged(data, apiClient);
+const subscriptions = [];
+
+function subscribeToApiClient(apiClient) {
+    const clientSubscriptions = [
+        apiClient.subscribe?.([OutboundWebSocketMessageType.LibraryChanged], ({ Data }) => {
+            onLibraryChanged(Data, apiClient);
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationCompleted], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'completed');
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationFailed], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'failed');
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstallationCancelled], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'cancelled');
+        }),
+        apiClient.subscribe?.([OutboundWebSocketMessageType.PackageInstalling], ({ Data }) => {
+            showPackageInstallNotification(apiClient, Data, 'progress');
+        }),
+
+        apiClient.subscribe?.([OutboundWebSocketMessageType.ServerShuttingDown], () => {
+            const serverId = apiClient.serverInfo().Id;
+            const notification = {
+                tag: 'restart' + serverId,
+                title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
+            };
+            showNotification(notification, 0, apiClient);
+        }),
+
+        apiClient.subscribe?.([OutboundWebSocketMessageType.ServerRestarting], () => {
+            const serverId = apiClient.serverInfo().Id;
+            const notification = {
+                tag: 'restart' + serverId,
+                title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
+            };
+            showNotification(notification, 0, apiClient);
+        }),
+
+        apiClient.subscribe?.([OutboundWebSocketMessageType.RestartRequired], () => {
+            const serverId = apiClient.serverInfo().Id;
+            const notification = {
+                tag: 'restart' + serverId,
+                title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
+            };
+
+            notification.actions =
+                [
+                    {
+                        action: 'restart',
+                        title: globalize.translate('Restart'),
+                        icon: NotificationIcon
+                    }
+                ];
+
+            showNotification(notification, 0, apiClient);
+        })
+    ].filter(Boolean);
+
+    return () => clientSubscriptions.forEach((unsub) => {
+        unsub();
+    });
+}
+
+/**
+ * Add subscriptions when the apiClient is created
+ */
+Events.on(ServerConnections, 'apiclientcreated', (e, newApiClient) => {
+    subscriptions.push(subscribeToApiClient(newApiClient));
 });
 
-Events.on(serverNotifications, 'PackageInstallationCompleted', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'completed');
+/**
+ * Remove subscriptions when the user logs out
+ */
+Events.on(ServerConnections, 'localusersignedout', () => {
+    subscriptions.forEach((unsub) => {
+        unsub();
+    });
 });
 
-Events.on(serverNotifications, 'PackageInstallationFailed', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'failed');
-});
-
-Events.on(serverNotifications, 'PackageInstallationCancelled', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'cancelled');
-});
-
-Events.on(serverNotifications, 'PackageInstalling', function (e, apiClient, data) {
-    showPackageInstallNotification(apiClient, data, 'progress');
-});
-
-Events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient) {
-    const serverId = apiClient.serverInfo().Id;
-    const notification = {
-        tag: 'restart' + serverId,
-        title: globalize.translate('ServerNameIsShuttingDown', apiClient.serverInfo().Name)
-    };
-    showNotification(notification, 0, apiClient);
-});
-
-Events.on(serverNotifications, 'ServerRestarting', function (e, apiClient) {
-    const serverId = apiClient.serverInfo().Id;
-    const notification = {
-        tag: 'restart' + serverId,
-        title: globalize.translate('ServerNameIsRestarting', apiClient.serverInfo().Name)
-    };
-    showNotification(notification, 0, apiClient);
-});
-
-Events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
-    const serverId = apiClient.serverInfo().Id;
-    const notification = {
-        tag: 'restart' + serverId,
-        title: globalize.translate('PleaseRestartServerName', apiClient.serverInfo().Name)
-    };
-
-    notification.actions =
-        [
-            {
-                action: 'restart',
-                title: globalize.translate('Restart'),
-                icon: NotificationIcon
-            }
-        ];
-
-    showNotification(notification, 0, apiClient);
-});
-
+/**
+ * Remove subscriptions when the page unloads
+ */
+window.onbeforeunload = () => {
+    subscriptions.forEach(unsub => {
+        unsub();
+    });
+};

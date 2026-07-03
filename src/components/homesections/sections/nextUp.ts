@@ -1,37 +1,51 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import { getNextUpQuery } from 'apps/legacy/features/libraries/api/useNextUp';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import type { UserSettings } from 'scripts/settings/userSettings';
+import { toIsoDateOnlyString } from 'utils/date';
+import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 
 function getNextUpFetchFn(
-    serverId: string,
+    apiClient: ApiClient,
     userSettings: UserSettings,
     { enableOverflow }: SectionOptions
 ) {
     return function () {
-        const apiClient = ServerConnections.getApiClient(serverId);
+        const api = ServerConnections.getApi(apiClient.serverId());
         const oldestDateForNextUp = new Date();
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
-        return apiClient.getNextUpEpisodes({
-            Limit: enableOverflow ? 24 : 15,
-            Fields: 'PrimaryImageAspectRatio,DateCreated,Path,MediaSourceCount',
-            UserId: apiClient.getCurrentUserId(),
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-            EnableTotalRecordCount: false,
-            DisableFirstEpisode: false,
-            NextUpDateCutoff: oldestDateForNextUp.toISOString(),
-            EnableResumable: false,
-            EnableRewatching: userSettings.enableRewatchingInNextUp()
-        });
+        return queryClient
+            .fetchQuery(getNextUpQuery(api, {
+                userId: apiClient.getCurrentUserId(),
+                limit: enableOverflow ? 24 : 15,
+                fields: [
+                    ItemFields.PrimaryImageAspectRatio,
+                    ItemFields.DateCreated,
+                    ItemFields.Path,
+                    ItemFields.MediaSourceCount
+                ],
+                imageTypeLimit: 1,
+                enableImageTypes: [
+                    ImageType.Primary,
+                    ImageType.Backdrop,
+                    ImageType.Thumb
+                ],
+                enableTotalRecordCount: false,
+                nextUpDateCutoff: toIsoDateOnlyString(oldestDateForNextUp),
+                enableResumable: false,
+                enableRewatching: userSettings.enableRewatchingInNextUp()
+            }));
     };
 }
 
@@ -101,7 +115,7 @@ export function loadNextUp(
 
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
-    itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId(), userSettings, options);
+    itemsContainer.fetchData = getNextUpFetchFn(apiClient, userSettings, options);
     itemsContainer.getItemsHtml = getNextUpItemsHtmlFn(userSettings.useEpisodeImagesInNextUpAndResume(), options);
     itemsContainer.parentContainer = elem;
 }

@@ -1886,5 +1886,20 @@
     "UsersEditPageError": "Не ўдалося загрузіць старонку рэдагавання карыстальніка",
     "TrickplayLoadError": "Не ўдалося загрузіць налады Trickplay",
     "LabelExternalServerUri": "Знешні URI",
-    "LabelExternalServerUriHelp": "Апублікаваны URI сервера для знешняга доступу."
+    "LabelExternalServerUriHelp": "Апублікаваны URI сервера для знешняга доступу.",
+    "HeaderLatestMusicVideos": "Нядаўна дададзеныя музычныя відэа",
+    "Disabled": "Адключана",
+    "LabelOriginalLanguage": "Арыгінальная мова",
+    "LabelSyncPlayJoinGroup": "Далучыцца да групы",
+    "OnFilesystem": "У файлавай сістэме: {0}",
+    "OriginalLanguage": "Арыгінальная мова",
+    "TableOfContents": "Змест",
+    "LabelVideoAttributes": "Атрыбуты відэа",
+    "LabelVideoColors": "Колеры відэа",
+    "LabelAudioAttributes": "Атрыбуты аўдыя",
+    "LabelProgressAndSpeed": "Прагрэс / хуткасць",
+    "LabelReasons": "Прычыны",
+    "LabelPlayerSizes": "Памеры прайгравальніка",
+    "ActivitiesLoadError": "Не ўдалося загрузіць актыўнасць",
+    "VideoRotationNotSupported": "Паварот відэа не падтрымліваецца"
 }

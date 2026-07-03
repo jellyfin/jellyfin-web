@@ -1,30 +1,42 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import { getRecommendedProgramsQuery } from 'apps/legacy/features/liveTv/api/useRecommendedPrograms';
 import { appRouter } from 'components/router/appRouter';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import globalize from 'lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 
 function getOnNowFetchFn(
-    serverId: string
+    apiClient: ApiClient
 ) {
     return function () {
-        const apiClient = ServerConnections.getApiClient(serverId);
-        return apiClient.getLiveTvRecommendedPrograms({
-            userId: apiClient.getCurrentUserId(),
-            IsAiring: true,
-            limit: 24,
-            ImageTypeLimit: 1,
-            EnableImageTypes: 'Primary,Thumb,Backdrop',
-            EnableTotalRecordCount: false,
-            Fields: 'ChannelInfo,PrimaryImageAspectRatio'
-        });
+        const api = ServerConnections.getApi(apiClient.serverId());
+        return queryClient
+            .fetchQuery(getRecommendedProgramsQuery(api, {
+                userId: apiClient.getCurrentUserId(),
+                isAiring: true,
+                limit: 24,
+                imageTypeLimit: 1,
+                enableImageTypes: [
+                    ImageType.Primary,
+                    ImageType.Thumb,
+                    ImageType.Backdrop
+                ],
+                enableTotalRecordCount: false,
+                fields: [
+                    ItemFields.ChannelInfo,
+                    ItemFields.PrimaryImageAspectRatio
+                ]
+            }));
     };
 }
 
@@ -56,16 +68,17 @@ function getOnNowItemsHtmlFn(
 
 function buildSection(
     elem: HTMLElement,
-    serverId: string,
+    apiClient: ApiClient,
     options: SectionOptions
 ) {
-    let html = '';
+    const serverId = apiClient.serverId();
 
     elem.classList.remove('padded-left');
     elem.classList.remove('padded-right');
     elem.classList.remove('padded-bottom');
     elem.classList.remove('verticalSection');
 
+    let html = '';
     html += '<div class="verticalSection">';
     html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
     html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LiveTV') + '</h2>';
@@ -151,7 +164,7 @@ function buildSection(
     const itemsContainer: SectionContainerElement | null = elem.querySelector('.itemsContainer');
     if (!itemsContainer) return;
     itemsContainer.parentContainer = elem;
-    itemsContainer.fetchData = getOnNowFetchFn(serverId);
+    itemsContainer.fetchData = getOnNowFetchFn(apiClient);
     itemsContainer.getItemsHtml = getOnNowItemsHtmlFn(options);
 }
 
@@ -165,17 +178,27 @@ export function loadLiveTV(
         return Promise.resolve();
     }
 
-    return apiClient.getLiveTvRecommendedPrograms({
-        userId: apiClient.getCurrentUserId(),
-        IsAiring: true,
-        limit: 1,
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Thumb,Backdrop',
-        EnableTotalRecordCount: false,
-        Fields: 'ChannelInfo,PrimaryImageAspectRatio'
-    }).then(function (result) {
-        if (result.Items?.length) {
-            buildSection(elem, apiClient.serverId(), options);
-        }
-    });
+    const api = ServerConnections.getApi(apiClient.serverId());
+    return queryClient
+        .fetchQuery(getRecommendedProgramsQuery(api, {
+            userId: apiClient.getCurrentUserId(),
+            isAiring: true,
+            limit: 1,
+            imageTypeLimit: 1,
+            enableImageTypes: [
+                ImageType.Primary,
+                ImageType.Thumb,
+                ImageType.Backdrop
+            ],
+            enableTotalRecordCount: false,
+            fields: [
+                ItemFields.ChannelInfo,
+                ItemFields.PrimaryImageAspectRatio
+            ]
+        }))
+        .then(programs => {
+            if (programs.Items?.length) {
+                buildSection(elem, apiClient, options);
+            }
+        });
 }

@@ -1,15 +1,15 @@
 import type { LibraryUpdateInfo } from '@jellyfin/sdk/lib/generated-client/models/library-update-info';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { ApiClient } from 'jellyfin-apiclient';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
-import { useQueryClient } from '@tanstack/react-query';
+import { type QueryKey, useQueryClient } from '@tanstack/react-query';
 
+import { useApi } from 'hooks/useApi';
 import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
-import serverNotifications from 'scripts/serverNotifications';
 import inputManager from 'scripts/inputManager';
 import dom from 'utils/dom';
 import browser from 'scripts/browser';
@@ -44,7 +44,7 @@ export interface ItemsContainerProps {
     parentId?: ParentId;
     reloadItems?: () => void;
     getItemsHtml?: () => string;
-    queryKey?: string[]
+    queryKey?: QueryKey
 }
 
 const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
@@ -60,11 +60,13 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     children
 }) => {
     const queryClient = useQueryClient();
+    const { api } = useApi();
     const { mutateAsync: playlistsMoveItemMutation } = usePlaylistsMoveItemMutation();
     const itemsContainerRef = useRef<HTMLDivElement>(null);
     const multiSelectref = useRef<MultiSelect | null>(null);
     const sortableref = useRef<Sortable | null>(null);
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const unsubscribeRef = useRef<Array<() => void>>([]);
 
     const onClick = useCallback((e: MouseEvent) => {
         const itemsContainer = itemsContainerRef.current as HTMLDivElement;
@@ -173,13 +175,9 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         }
     }, []);
 
-    const invalidateQueries = useCallback(async () => {
-        await queryClient.invalidateQueries({
-            queryKey,
-            type: 'all',
-            refetchType: 'active'
-        });
-    }, [queryClient, queryKey]);
+    const invalidateQueries = useCallback(() => (
+        queryClient.invalidateQueries({ queryKey })
+    ), [queryClient, queryKey]);
 
     const notifyRefreshNeeded = useCallback(
         (isInForeground: boolean) => {
@@ -193,51 +191,23 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         [reloadItems]
     );
 
-    const onUserDataChanged = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onTimerCreated = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onSeriesTimerCreated = useCallback(async () => {
-        await invalidateQueries();
-    }, [invalidateQueries]);
-
-    const onTimerCancelled = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
-    const onSeriesTimerCancelled = useCallback(async () => {
-        await invalidateQueries();
-    },
-    [invalidateQueries]
-    );
-
     const onLibraryChanged = useCallback(
-        (_e: Event, _apiClient: ApiClient, data: LibraryUpdateInfo) => {
+        ({ Data }: { Data?: LibraryUpdateInfo }) => {
             if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
                 // yes this is an assumption
                 return;
             }
 
-            const itemsAdded = data.ItemsAdded ?? [];
-            const itemsRemoved = data.ItemsRemoved ?? [];
+            const itemsAdded = Data?.ItemsAdded ?? [];
+            const itemsRemoved = Data?.ItemsRemoved ?? [];
             if (!itemsAdded.length && !itemsRemoved.length) {
                 return;
             }
 
             if (parentId) {
-                const foldersAddedTo = data.FoldersAddedTo ?? [];
-                const foldersRemovedFrom = data.FoldersRemovedFrom ?? [];
-                const collectionFolders = data.CollectionFolders ?? [];
+                const foldersAddedTo = Data?.FoldersAddedTo ?? [];
+                const foldersRemovedFrom = Data?.FoldersRemovedFrom ?? [];
+                const collectionFolders = Data?.CollectionFolders ?? [];
 
                 if (
                     foldersAddedTo.indexOf(parentId) === -1
@@ -301,6 +271,23 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         []
     );
 
+    const subscribe = useCallback(() => {
+        if (api) {
+            unsubscribeRef.current = [
+                api.subscribe([OutboundWebSocketMessageType.UserDataChanged], invalidateQueries),
+                api.subscribe([OutboundWebSocketMessageType.TimerCreated], invalidateQueries),
+                api.subscribe([OutboundWebSocketMessageType.TimerCancelled], invalidateQueries),
+                api.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], invalidateQueries),
+                api.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], invalidateQueries),
+                api.subscribe([OutboundWebSocketMessageType.LibraryChanged], onLibraryChanged)
+            ];
+        }
+    }, [
+        api,
+        invalidateQueries,
+        onLibraryChanged
+    ]);
+
     useEffect(() => {
         const itemsContainer = itemsContainerRef.current;
 
@@ -356,12 +343,16 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
         itemShortcuts.on(itemsContainer, getShortcutOptions());
 
-        Events.on(serverNotifications, 'UserDataChanged', onUserDataChanged);
-        Events.on(serverNotifications, 'TimerCreated', onTimerCreated);
-        Events.on(serverNotifications, 'TimerCancelled', onTimerCancelled);
-        Events.on(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-        Events.on(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
-        Events.on(serverNotifications, 'LibraryChanged', onLibraryChanged);
+        // Subscribe to websocket messages
+        subscribe();
+
+        const unSubAll = () => {
+            unsubscribeRef.current.forEach(unsub => {
+                unsub();
+            });
+            unsubscribeRef.current = [];
+        };
+
         Events.on(playbackManager, 'playbackstop', onPlaybackStopped);
 
         return () => {
@@ -377,31 +368,26 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
             itemShortcuts.off(itemsContainer, getShortcutOptions());
 
-            Events.off(serverNotifications, 'UserDataChanged', onUserDataChanged);
-            Events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-            Events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-            Events.off( serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-            Events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
-            Events.off(serverNotifications, 'LibraryChanged', onLibraryChanged);
+            // Unsubscribe from websocket messages
+            unSubAll();
+
             Events.off(playbackManager, 'playbackstop', onPlaybackStopped);
         };
     }, [
+        api,
+        subscribe,
         destroyDragReordering,
         destroyMultiSelect,
         initDragReordering,
         initMultiSelect,
+        invalidateQueries,
         isContextMenuEnabled,
         isDragreOrderEnabled,
         isMultiSelectEnabled,
         onClick,
         onContextMenu,
         onLibraryChanged,
-        onPlaybackStopped,
-        onSeriesTimerCancelled,
-        onSeriesTimerCreated,
-        onTimerCancelled,
-        onTimerCreated,
-        onUserDataChanged
+        onPlaybackStopped
     ]);
 
     const itemsContainerClass = classNames(
