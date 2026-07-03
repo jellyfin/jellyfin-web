@@ -164,6 +164,11 @@ class HtmlAudioPlayer {
                 elem.crossOrigin = crossOrigin;
             }
 
+            // This avoids the AudioContext being suspended when Safari is put into background
+            if ('audioSession' in navigator) {
+               navigator.audioSession.type = 'playback';
+            }
+
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
                 return new Promise(function (resolve, reject) {
                     requireHlsPlayer(async () => {
