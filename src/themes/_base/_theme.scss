@@ -1,4 +1,4 @@
-@use './palette' as palette;
+@use "./palette" as palette;
 
 // Theme options
 $dark: true !default;
@@ -29,6 +29,10 @@ $appBar-defaultBg: #202020 !default;
 // NOTE: This color is not part of the MUI theme
 $appBar-transparentBg: rgba(0, 0, 0, 0.4) !default;
 $filledInput-bg: rgba(255, 255, 255, 0.09) !default;
+// NOTE: Defaults to $filledInput-bg so dark themes keep their seamless look
+$filledInput-borderColor: $filledInput-bg !default;
+// NOTE: Card border radius — matches the default in card.scss; exposed as --jf-card-borderRadius for custom user themes
+$card-borderRadius: 0.2em !default;
 $alert-infoFilledBg: #0288d1 !default;
 $alert-infoFilledColor: #fff !default;
 $button-inheritContainedBg: #424242 !default;
@@ -40,6 +44,7 @@ $snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
 :root {
     --jf-palette-background-defaultImage: #{$background-defaultImage};
     --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
+    --jf-card-borderRadius: #{$card-borderRadius};
 }
 
 * {
@@ -128,7 +133,11 @@ html {
     color: var(--jf-palette-primary-main, $primary-main);
 }
 
-a[data-role=button],
+.emby-scrollbuttons {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+a[data-role="button"],
 .fab,
 .raised {
     background: var(--jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
@@ -179,10 +188,23 @@ a[data-role=button],
 
 .collapseContent,
 .formDialogFooter:not(.formDialogFooter-clear),
-.formDialogHeader:not(.formDialogHeader-clear),
+.formDialogHeader:not(.formDialogHeader-clear) {
+    background-color: var(--jf-palette-background-paper, $background-paper);
+}
+
 .paperList,
 .visualCardBox {
     background-color: var(--jf-palette-background-paper, $background-paper);
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder,
+.cardContent,
+.cardImageContainer,
+.blurhash-canvas,
+.itemDetailImage,
+.cardOverlayContainer {
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
@@ -299,7 +321,7 @@ a[data-role=button],
 .emby-input,
 .emby-textarea {
     background: var(--jf-palette-FilledInput-bg, $filledInput-bg);
-    border-color: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
     border-width: 0.16em;
     border-style: solid;
@@ -314,7 +336,7 @@ a[data-role=button],
     // NOTE: This should use `FilledInput-bg` to match other form elements,
     // but that will break the native dropdown styling
     background: var(--jf-palette-background-paper, $background-paper);
-    border-color: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
     border-width: 0.16em;
     border-style: solid;
@@ -466,6 +488,14 @@ a[data-role=button],
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
     border-color: var(--jf-palette-primary-main, $primary-main) !important;
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+// The show-focus border is 0.5em wide (see card.scss), so the outer ring's
+// border-radius must add that offset to stay flush with the card's corners.
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: calc(var(--jf-card-borderRadius, $card-borderRadius) + 0.5em);
 }
 
 ::-webkit-scrollbar-track {
