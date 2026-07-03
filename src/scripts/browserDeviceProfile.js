@@ -1609,7 +1609,8 @@ export default function (options) {
                 Method: 'External'
             });
             profile.SubtitleProfiles.push({
-                Format: 'mks',
+                Format: 'vobsub',
+                Container: 'mks',
                 Method: 'External'
             });
         }
