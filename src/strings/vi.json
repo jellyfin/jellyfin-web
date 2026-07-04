@@ -1923,5 +1923,7 @@
     "TableOfContents": "Mục Lục",
     "ConfirmSplitMedia": "Bạn có chắc chắn muốn tách các nguồn thông tin đa phương tiện thành các mục riêng biệt không?",
     "HeaderSplitMedia": "Tách Phương Tiện Riêng Biệt",
-    "Creators": "Người tạo"
+    "Creators": "Người tạo",
+    "IndexNumber": "Số Chỉ Mục",
+    "NoCastTargets": "Không có mục tiêu sử dụng"
 }
