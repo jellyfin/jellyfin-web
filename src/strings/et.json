@@ -1916,5 +1916,14 @@
     "HeaderSplitMedia": "Lahuta meediaallikad",
     "HeaderTypeSimilarItemProviders": "Sarnase sisu pakkujad ({0})",
     "IndexNumber": "Järjekorranumber",
-    "LabelSimilarItemProvidersHelp": "Luba ja järjesta oma eelistatud sarnase sisu pakkujad prioriteedi alusel."
+    "LabelSimilarItemProvidersHelp": "Luba ja järjesta oma eelistatud sarnase sisu pakkujad prioriteedi alusel.",
+    "LabelOriginalLanguage": "Algkeel",
+    "NoCastTargets": "Ühtegi ülekandeseadet ei leitud",
+    "OriginalLanguage": "Algkeel",
+    "StillWatchingPrompt": "Vaatamise jätkamise küsimus",
+    "StillWatchingOption": "{0} episoodi või {1} minutit",
+    "StopWatching": "Lõpeta vaatamine",
+    "TableOfContents": "Sisukord",
+    "Unwatch": "Tühista vaatamine",
+    "Watch": "Vaata"
 }
