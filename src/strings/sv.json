@@ -1923,5 +1923,6 @@
     "ConfirmSplitMedia": "Är du säker på att du vill dela upp mediakällorna till separata objekt?",
     "HeaderSplitMedia": "Dela upp media",
     "StillWatchingPrompt": "Tittar du fortfarande",
-    "Creators": "Skaparna"
+    "Creators": "Skaparna",
+    "IndexNumber": "Indexnummer"
 }
