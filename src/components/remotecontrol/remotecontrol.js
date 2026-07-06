@@ -31,6 +31,7 @@ import '../../elements/emby-slider/emby-slider';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
+const msToSec = 1000;
 
 function showAudioMenu(context, player, button) {
     const currentIndex = playbackManager.getAudioStreamIndex(player);
@@ -221,6 +222,24 @@ function buttonVisible(btn, enabled) {
     }
 }
 
+function setSkipButtonSeconds(button, lengthMs) {
+    const textElement = button.querySelector('.skipButtonText');
+    if (textElement) {
+        textElement.textContent = Math.round(lengthMs / msToSec);
+    }
+}
+
+function updateSkipButtonIcons(context) {
+    const rewindButton = context.querySelector('.btnRewind');
+    if (rewindButton) {
+        setSkipButtonSeconds(rewindButton, userSettings.skipBackLength());
+    }
+    const fastForwardButton = context.querySelector('.btnFastForward');
+    if (fastForwardButton) {
+        setSkipButtonSeconds(fastForwardButton, userSettings.skipForwardLength());
+    }
+}
+
 function updateSupportedCommands(context, commands) {
     const all = context.querySelectorAll('.btnCommand');
 
@@ -298,6 +317,7 @@ export default function () {
             buttonVisible(context.querySelector('.btnRewind'), item != null);
             buttonVisible(context.querySelector('.btnFastForward'), item != null);
         }
+        updateSkipButtonIcons(context);
         const positionSlider = context.querySelector('.nowPlayingPositionSlider');
 
         if (positionSlider && item && item.RunTimeTicks) {
@@ -755,7 +775,7 @@ export default function () {
                     // to the previous track, unless we are at the first track so no previous track exists.
                     // currentTime is in msec.
 
-                    if (playbackManager.currentTime(currentPlayer) >= 5 * 1000 || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 0) {
+                    if (playbackManager.currentTime(currentPlayer) >= 5 * msToSec || playbackManager.getCurrentPlaylistIndex(currentPlayer) <= 0) {
                         playbackManager.seekPercent(0, currentPlayer);
                         // This is done automatically by playbackManager, however, setting this here gives instant visual feedback.
                         // TODO: Check why seekPercent doesn't reflect the changes inmmediately, so we can remove this workaround.
