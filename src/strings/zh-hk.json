@@ -388,7 +388,7 @@
     "EnableQuickConnect": "喺呢部伺服器啟用快速連線功能",
     "EnablePhotosHelp": "系統會自動搵返啲相，並將佢哋同其他媒體檔一齊顯示。",
     "EnablePhotos": "顯示相片",
-    "EnableNextVideoInfoOverlayHelp": "喺影片就快播完嗰陣，顯示播放清單下一條片嘅資訊。",
+    "EnableNextVideoInfoOverlayHelp": "喺影片就快完咗嗰陣，顯示播放清單下一條片嘅資訊。",
     "EnableNextVideoInfoOverlay": "播放嗰陣顯示下一條片嘅資訊",
     "EnableHardwareEncoding": "啟用硬體編碼",
     "EnableFasterAnimationsHelp": "用更快速嘅動畫同過渡效果。",
