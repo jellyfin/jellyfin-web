@@ -28,10 +28,10 @@ import ConfirmDialog from 'components/ConfirmDialog';
 
 export const Component = () => {
     const { api } = useApi();
-    const { data: backups, isPending, isError } = useBackups();
     const [ isCreateFormOpen, setIsCreateFormOpen ] = useState(false);
     const [ backupInProgress, setBackupInProgress ] = useState(false);
     const [ restoreInProgress, setRestoreInProgress ] = useState(false);
+    const { data: backups, isPending, isError } = useBackups(!backupInProgress && !restoreInProgress);
     const [ isRestoreSuccess, setIsRestoreSuccess ] = useState(false);
     const [ isErrorOccurred, setIsErrorOccurred ] = useState(false);
     const [ isRestoreDialogOpen, setIsRestoreDialogOpen ] = useState(false);
