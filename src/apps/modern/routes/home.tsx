@@ -39,9 +39,9 @@ const Home = () => {
     const documentRef = useRef<Document>(document);
     const element = useRef<HTMLDivElement>(null);
 
-    const setTitle = async () => {
+    const setTitle = useCallback(async () => {
         (await libraryMenu).setTitle(null);
-    };
+    }, [libraryMenu]);
 
     const getTabs = () => {
         return [{
@@ -128,7 +128,7 @@ const Home = () => {
             currentTabController.onResume({});
         }
         (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
-    }, [ initialTabIndex, mainTabsManager ]);
+    }, [ setTitle, initialTabIndex, mainTabsManager ]);
 
     const onPause = useCallback(() => {
         const currentTabController = tabController.current;

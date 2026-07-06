@@ -77,6 +77,8 @@ function hasKeyboard(browser) {
 
 function iOSversion() {
     // MacIntel: Apple iPad Pro 11 iOS 13.1
+    // this property is not officially deprecated but merely discouraged
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
         const tests = [
             // Original test for getting full iOS version number in iOS 2.0+
@@ -85,6 +87,8 @@ function iOSversion() {
             /Version\/(\d+)/
         ];
         for (const test of tests) {
+            // this property is also not officially deprecated
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             const matches = RegExp(test).exec(navigator.appVersion);
             if (matches) {
                 return [

@@ -73,6 +73,9 @@ function within(number, num1, num2) {
 // Other global values
 const dragMouseEvents = ['mousemove', 'mouseup'];
 const dragTouchEvents = ['touchmove', 'touchend'];
+
+// modern browsers will always return true but this might be required for TVs
+// eslint-disable-next-line @typescript-eslint/no-deprecated
 const wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
 const interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
 

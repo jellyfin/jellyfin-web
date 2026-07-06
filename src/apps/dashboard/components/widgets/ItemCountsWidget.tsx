@@ -5,7 +5,7 @@ import MusicNote from '@mui/icons-material/MusicNote';
 import MusicVideo from '@mui/icons-material/MusicVideo';
 import Tv from '@mui/icons-material/Tv';
 import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Grid2';
 import SvgIcon from '@mui/material/SvgIcon';
 import React, { useMemo } from 'react';
 
@@ -77,7 +77,7 @@ const ItemCountsWidget = () => {
 
     return (
         <Box>
-            <Grid
+            <Grid2
                 container
                 spacing={2}
                 sx={{
@@ -85,17 +85,14 @@ const ItemCountsWidget = () => {
                 }}
             >
                 {cards.map(card => (
-                    <Grid
+                    <Grid2
                         key={card.metrics.map(metric => metric.label).join('-')}
-                        item
-                        xs={12}
-                        sm={6}
-                        lg={4}
+                        size={{ xs: 12, sm: 6, lg: 4 }}
                     >
                         <MetricCard {...card} />
-                    </Grid>
+                    </Grid2>
                 ))}
-            </Grid>
+            </Grid2>
         </Box>
     );
 };

@@ -54,6 +54,9 @@ function requireHlsPlayer(callback) {
     import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
+        // https://github.com/video-dev/hls.js/blob/master/MIGRATING.md?plain=1#L27
+        // TODO use default value instead since upstream will eventually delegate this to browsers
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         hls.DefaultConfig.liveBackBufferLength = 90;
         window.Hls = hls;
         callback();
