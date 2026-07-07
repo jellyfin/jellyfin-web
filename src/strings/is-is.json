@@ -466,5 +466,11 @@
     "LabelSegmentKeepSeconds": "Tími til að halda bútum",
     "LabelSegmentKeepSecondsHelp": "Tími í sekúndum sem bútum er haldið eftir að biðlarinn halar þeim niður. Virkar einungis ef heimilt er að eyða bútum.",
     "AllowFmp4TranscodingContainerHelp": "Leyfa fMP4 umritunarílát fyrir þennan móttakara til að virkja HEVC og HDR efni. Ekki eru allir móttakarar samhæfir þessum íláti. Slökktu á þessu ef þú lendir í vandræðum með spilun.",
-    "AlwaysBurnInSubtitleWhenTranscoding": "Alltaf brenna inn texta við umritun"
+    "AlwaysBurnInSubtitleWhenTranscoding": "Alltaf brenna inn texta við umritun",
+    "ActivitiesLoadError": "Ekki tókst að hlaða inn efni",
+    "AllowStreamSharingHelp": "Gefa leyfi fyrir Jellyfin til að afrita \"mpegts\" streyminu frá móttakaranum og deila afritaða steyminu með m notenda. Þetta er gagnlegt þegar móttakarinn hefur hámarksfjölda fyrir streymi, en getur valdið spilunarvillum.",
+    "AlwaysBurnInSubtitleWhenTranscodingHelp": "Brennir alla texta þegar umkóðun hefst. Þetta tryggir samstillingu texta eftir umkóðun á kostnað hægari umkóðun.",
+    "AllowTonemappingHelp": "Með litavörpun er hægt að breyta myndbandi úr HDR yfir í SDR án þess að tapa litum og smáatriðum, sem skiptir öllu máli svo upprunalegu myndina skili sér rétt. Sem stendur virkar þetta aðeins með 10-bita HDR10, HLG og Dolby Vision(DoVi) myndböndum. Þetta krefst þess að viðeigandi GPGPU-keyrsluumhverfi sé til staðar.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Kveiktu á þessu sem bráðabirgðalausn ef vafrinn spilar ekki skrárnar eða sýnir rangan tíma í spilaranum.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Virkjaðu þetta sem bráðabirgðalausn ef vafrinn þinn reiknar tímastimpla rangt."
 }
