@@ -1,16 +1,16 @@
 import { Api } from '@jellyfin/sdk/lib/api';
-import { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
-import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
+import { LibraryApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { AxiosRequestConfig } from 'axios';
 import { QUERY_OPTIONS } from '../constants/queryOptions';
 
 export const fetchItemsByType = async (
     api: Api,
     userId?: string,
-    params?: ItemsApiGetItemsRequest,
+    params?: LibraryApiGetItemsRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getItemsApi(api).getItems(
+    const response = await getLibraryApi(api).getItems(
         {
             ...QUERY_OPTIONS,
             userId,

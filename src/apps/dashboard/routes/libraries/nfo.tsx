@@ -1,4 +1,4 @@
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -40,7 +40,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         EnableExtraThumbsDuplication: data.EnableExtraThumbsDuplication?.toString() === 'on'
     };
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: newConfig });
 
     void queryClient.invalidateQueries({

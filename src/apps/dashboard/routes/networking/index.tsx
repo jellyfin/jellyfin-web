@@ -21,7 +21,7 @@ import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { QUERY_KEY as CONFIG_QUERY_KEY } from 'hooks/useConfiguration';
 import { queryClient } from 'utils/query/queryClient';
 import { encodePublishedServerUris, getPublishedServerUris, PublishedServerUris, splitString } from 'apps/dashboard/features/networking/utils';
@@ -69,7 +69,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     newConfig.PublishedServerUriBySubnet = encodePublishedServerUris(publishedServerUri);
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: newConfig });
 
     void queryClient.invalidateQueries({
