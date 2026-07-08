@@ -2,6 +2,8 @@
 
 // Theme options
 $dark: true !default;
+// Enable rounded person cards (e.g. for actors/directors)
+$rounded-person-cards: false !default;
 
 // Color palette
 $common-white: palette.$common-white !default;
@@ -39,11 +41,23 @@ $button-inheritContainedBg: #424242 !default;
 $button-inheritContainedHoverBg: #616161 !default;
 $snackbarContent-bg: #303030 !default;
 $snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
+// Secondary/accent color used for focus and interactive states.
+// Defaults to $primary-main so all existing themes are unaffected.
+$secondary-main: $primary-main !default;
+$secondary-contrastText: $primary-contrastText !default;
+// Background for legacy Jellyfin surface elements (paperList, visualCardBox, etc.).
+// Kept separate from $background-paper so themes can use a translucent overlay here
+// while $background-paper stays solid for MUI components (menus, dropdowns).
+$surface-overlay: $background-paper !default;
+// Optional CSS gradient applied over $appBar-defaultBg on the header and detail ribbon.
+// Set to a CSS gradient value to enable; leave as none to use only the solid colour.
+$appBar-gradient: none !default;
 
 // Assign custom css variables not part of the MUI theme palette
 :root {
     --jf-palette-background-defaultImage: #{$background-defaultImage};
     --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
+    --jf-palette-AppBar-gradient: #{$appBar-gradient};
     --jf-card-borderRadius: #{$card-borderRadius};
 }
 
@@ -71,12 +85,21 @@ html {
     border-color: var(--jf-palette-divider, $divider);
 }
 
-.skinHeader-withBackground {
+.skinHeader-withBackground,
+.detailRibbon {
     background-color: var(--jf-palette-AppBar-defaultBg, $appBar-defaultBg);
+    background-image: var(--jf-palette-AppBar-gradient, $appBar-gradient);
+}
+
+.detailRibbon {
+    .layout-tv & {
+        background: none;
+    }
 }
 
 .skinHeader.semiTransparent {
     background-color: var(--jf-palette-AppBar-transparentBg, $appBar-transparentBg);
+    background-image: none;
     backdrop-filter: none !important;
 
     .layout-tv & {
@@ -100,9 +123,7 @@ html {
 }
 
 .backgroundContainer,
-.dialog,
 .nowPlayingPlaylist,
-.nowPlayingContextMenu,
 html {
     background-color: var(--jf-palette-background-default, $background-default);
     background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
@@ -113,6 +134,11 @@ html {
 
 .backgroundContainer.withBackdrop {
     opacity: 0.86;
+}
+
+.dialog,
+.nowPlayingContextMenu {
+    background-color: var(--jf-palette-background-default, $background-default);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -130,7 +156,7 @@ html {
 }
 
 .paper-icon-button-light.show-focus:focus {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .emby-scrollbuttons {
@@ -143,9 +169,12 @@ a[data-role="button"],
     background: var(--jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
     color: var(--jf-palette-text-secondary, $text-secondary);
 
-    &:focus,
     &:hover {
         background: var(--jf-palette-Button-inheritContainedHoverBg, $button-inheritContainedHoverBg);
+    }
+
+    &:focus {
+        background: var(--jf-palette-secondary-main, $secondary-main);
     }
 }
 
@@ -153,9 +182,13 @@ a[data-role="button"],
     background: var(--jf-palette-primary-main, $primary-main);
     color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 
-    &:focus,
     &:hover {
         background: var(--jf-palette-primary-dark, $primary-dark);
+    }
+
+    &:focus {
+        background: var(--jf-palette-secondary-main, $secondary-main);
+        color: var(--jf-palette-secondary-contrastText, $secondary-contrastText);
     }
 }
 
@@ -179,7 +212,7 @@ a[data-role="button"],
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .checkboxOutline {
@@ -189,12 +222,12 @@ a[data-role="button"],
 .collapseContent,
 .formDialogFooter:not(.formDialogFooter-clear),
 .formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: var(--jf-palette-background-paper, $background-paper);
+    background-color: $surface-overlay;
 }
 
 .paperList,
 .visualCardBox {
-    background-color: var(--jf-palette-background-paper, $background-paper);
+    background-color: $surface-overlay;
     border-radius: var(--jf-card-borderRadius, $card-borderRadius);
 }
 
@@ -205,6 +238,14 @@ a[data-role="button"],
 .itemDetailImage,
 .cardOverlayContainer {
     border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: $surface-overlay;
+}
+
+.cardPadder .cardImageIcon {
+    color: $surface-overlay;
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
@@ -228,6 +269,39 @@ a[data-role="button"],
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
     opacity: 0.5;
+}
+
+@if $rounded-person-cards {
+    .personCard {
+        .cardScalable {
+            border-radius: 50% !important;
+            border: 1px solid transparent;
+        }
+
+        .overflowPortraitCard {
+            width: 40vw;
+        }
+
+        .coveredImage {
+            background-position-y: 20%;
+            border-radius: 50%;
+        }
+
+        .cardOverlayContainer {
+            clip-path: circle(50% at 50% 50%);
+        }
+
+        .cardOverlayButton-br {
+            right: 20%;
+        }
+
+        .cardPadder-overflowPortrait,
+        .cardPadder-portrait {
+            padding-bottom: 100%;
+            contain: strict;
+            border-radius: 50% !important;
+        }
+    }
 }
 
 .toast {
@@ -274,8 +348,8 @@ a[data-role="button"],
     }
 
     &-tv:focus {
-        background-color: var(--jf-palette-primary-main, $primary-main);
-        color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+        background-color: var(--jf-palette-secondary-main, $secondary-main);
+        color: var(--jf-palette-secondary-contrastText, $secondary-contrastText);
     }
 }
 
@@ -328,7 +402,7 @@ a[data-role="button"],
     border-radius: 0.2em;
 
     &:focus {
-        border-color: var(--jf-palette-primary-main, $primary-main);
+        border-color: var(--jf-palette-secondary-main, $secondary-main);
     }
 }
 
@@ -349,12 +423,12 @@ a[data-role="button"],
 }
 
 .emby-select-withcolor:focus {
-    border-color: var(--jf-palette-primary-main, $primary-main) !important;
+    border-color: var(--jf-palette-secondary-main, $secondary-main) !important;
 }
 
 .emby-select-tv-withcolor:focus {
-    background-color: var(--jf-palette-primary-main, $primary-main) !important;
-    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
+    background-color: var(--jf-palette-secondary-main, $secondary-main) !important;
+    color: var(--jf-palette-secondary-contrastText, $secondary-contrastText) !important;
 }
 
 .emby-checkbox:checked + span + .checkboxOutline {
@@ -362,7 +436,7 @@ a[data-role="button"],
 }
 
 .emby-checkbox:focus + span + .checkboxOutline {
-    border-color: var(--jf-palette-common-white, $common-white);
+    border-color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .emby-checkbox:checked + span + .checkboxOutline,
@@ -371,7 +445,7 @@ a[data-role="button"],
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
-    border-color: var(--jf-palette-primary-main, $primary-main);
+    border-color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .itemProgressBarForeground-recording {
@@ -415,7 +489,7 @@ a[data-role="button"],
 
 .emby-tab-button.show-focus:focus,
 .emby-tab-button:hover {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .channelPrograms,
@@ -461,7 +535,7 @@ a[data-role="button"],
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .guide-date-tab-button.show-focus:focus {
@@ -487,7 +561,7 @@ a[data-role="button"],
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
-    border-color: var(--jf-palette-primary-main, $primary-main) !important;
+    border-color: var(--jf-palette-secondary-main, $secondary-main) !important;
     border-radius: var(--jf-card-borderRadius, $card-borderRadius);
 }
 
@@ -555,4 +629,10 @@ a[data-role="button"],
     &:hover {
         color: var(--jf-palette-primary-main, $primary-main);
     }
+}
+
+/* emby-radio style override */
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles svg .mdl-radio__outer-circle,
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles svg .mdl-radio__inner-circle {
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
