@@ -38,7 +38,9 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
         const observer = new IntersectionObserver(
             (entries) => {
                 if (entries[0]?.isIntersecting && hasNextPage && !isFetchingNextPage) {
-                    void fetchNextPage();
+                    fetchNextPage().catch(err => {
+                        console.error('[GenresItemsContainer] failed to fetch next page', err);
+                    });
                 }
             },
             { rootMargin: '200px' }
