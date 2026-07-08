@@ -2,16 +2,22 @@
 
 /* Background color for headers and detail ribbon */
 $header-background: #230c33;
+
 /* Accent teal for indicators, progress bar and checked state (brighter than primary) */
 $teal-bright: rgb(12, 232, 214);
+
 /* Background color for footers */
 $footer-blue: #06256f;
+
 /* Background color for info badges */
 $info-background: #dbe6ff;
+
 /* Transparent backdrop for dialogs and overlays */
 $surface: rgba(0, 0, 0, 0.5);
+
 /* Primary text color */
 $text-primary: #f8f8fe;
+
 /* Gradient used across headers, footers, and detail ribbon */
 $header-gradient: linear-gradient(to right, #000420 0%, $footer-blue 18%, #2b052b 38%, #2b052b 68%, $footer-blue 81%, #000420 100%);
 
