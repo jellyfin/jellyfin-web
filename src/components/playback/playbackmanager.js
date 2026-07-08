@@ -132,13 +132,17 @@ function normalizeName(t) {
 function getItemsForPlayback(serverId, query) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
-    if (query.Ids && query.Ids.split(',').length === 1) {
-        const itemId = query.Ids.split(',');
+    query.Fields = ['Chapters', 'Trickplay'];
+    query.ExcludeLocationTypes = 'Virtual';
+    query.EnableTotalRecordCount = false;
+    query.CollapseBoxSetItems = false;
 
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+    if (query.Ids && query.Ids.split(',').length === 1) {
+        return getItems(apiClient, apiClient.getCurrentUserId(), query).then(function (result) {
+            const item = result.Items[0];
             return {
-                Items: [item],
-                TotalRecordCount: 1
+                Items: item ? [item] : [],
+                TotalRecordCount: result.TotalRecordCount || (item ? 1 : 0)
             };
         });
     } else {
@@ -147,13 +151,31 @@ function getItemsForPlayback(serverId, query) {
         } else {
             query.Limit = query.Limit || 300;
         }
-        query.Fields = ['Chapters', 'Trickplay'];
-        query.ExcludeLocationTypes = 'Virtual';
-        query.EnableTotalRecordCount = false;
-        query.CollapseBoxSetItems = false;
 
         return getItems(apiClient, apiClient.getCurrentUserId(), query);
     }
+}
+
+async function ensurePlaybackFields(items) {
+    if (!items.length) {
+        return items;
+    }
+
+    const serverId = items[0].ServerId;
+    const shouldRefetch = serverId
+        && items.every(item => item.ServerId === serverId)
+        && items.some(item => (item.MediaType === MediaType.Audio || item.MediaType === MediaType.Video) && item.Chapters == null);
+
+    if (!shouldRefetch) {
+        return items;
+    }
+
+    const result = await getItemsForPlayback(serverId, {
+        Ids: items.map(item => item.Id).join(',')
+    });
+
+    const itemsById = new Map(result.Items.map(item => [item.Id, item]));
+    return items.map(item => itemsById.get(item.Id) || item);
 }
 
 function createStreamInfoFromUrlItem(item) {
@@ -1819,7 +1841,7 @@ export class PlaybackManager {
                 const result = await promise;
                 return result ? result.Items : items;
             } else {
-                return items;
+                return ensurePlaybackFields(items);
             }
         }
 

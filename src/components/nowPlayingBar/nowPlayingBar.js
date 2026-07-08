@@ -3,6 +3,7 @@ import { getItemTextLines } from 'apps/legacy/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import escapeHtml from 'escape-html';
 
 import datetime from '../../scripts/datetime';
 import Events from '../../utils/events.ts';
@@ -28,11 +29,14 @@ let currentTimeElement;
 let nowPlayingImageElement;
 let nowPlayingImageUrl;
 let nowPlayingTextElement;
+let nowPlayingChapterElement;
 let nowPlayingUserData;
 let muteButton;
 let volumeSlider;
 let volumeSliderContainer;
 let playPauseButtons;
+let previousChapterButton;
+let nextChapterButton;
 let positionSlider;
 let toggleAirPlayButton;
 let toggleRepeatButton;
@@ -55,6 +59,7 @@ function getNowPlayingBarHtml() {
 
     html += '<div class="nowPlayingBarTop">';
     html += '<div class="nowPlayingBarPositionContainer sliderContainer" dir="ltr">';
+    html += '<div class="sliderMarkerContainer"></div>';
     html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider" data-slider-keep-progress="true"/>';
     html += '</div>';
 
@@ -67,10 +72,12 @@ function getNowPlayingBarHtml() {
     html += '<div class="nowPlayingBarCenter" dir="ltr">';
 
     html += `<button is="paper-icon-button-light" class="previousTrackButton mediaButton" title="${globalize.translate('ButtonPreviousTrack')}"><span class="material-icons skip_previous" aria-hidden="true"></span></button>`;
+    html += `<button is="paper-icon-button-light" class="previousChapterButton mediaButton hide" title="${globalize.translate('PreviousChapter')}"><span class="material-icons undo" aria-hidden="true"></span></button>`;
 
     html += `<button is="paper-icon-button-light" class="playPauseButton mediaButton" title="${globalize.translate('ButtonPause')}"><span class="material-icons pause" aria-hidden="true"></span></button>`;
 
     html += `<button is="paper-icon-button-light" class="stopButton mediaButton" title="${globalize.translate('ButtonStop')}"><span class="material-icons stop" aria-hidden="true"></span></button>`;
+    html += `<button is="paper-icon-button-light" class="nextChapterButton mediaButton hide" title="${globalize.translate('NextChapter')}"><span class="material-icons redo" aria-hidden="true"></span></button>`;
     if (!layoutManager.mobile) {
         html += `<button is="paper-icon-button-light" class="nextTrackButton mediaButton" title="${globalize.translate('ButtonNextTrack')}"><span class="material-icons skip_next" aria-hidden="true"></span></button>`;
     }
@@ -143,12 +150,83 @@ function onPlayPauseClick() {
     playbackManager.playPause(currentPlayer);
 }
 
+function getChapterDisplayName(chapter, index) {
+    return chapter.Name || datetime.getDisplayRunningTime(chapter.StartPositionTicks) || `${index + 1}`;
+}
+
+function getChapterAtPosition(item, positionTicks) {
+    let chapter;
+    let index = -1;
+
+    for (let i = 0, length = (item.Chapters || []).length; i < length; i++) {
+        const currentChapter = item.Chapters[i];
+
+        if (positionTicks < currentChapter.StartPositionTicks) {
+            break;
+        }
+
+        chapter = currentChapter;
+        index = i;
+    }
+
+    return {
+        chapter,
+        index
+    };
+}
+
+function hasChapterInfo(item) {
+    return (item?.Chapters || []).length > 1;
+}
+
+function getChapterMarkerInfo(item) {
+    if (!item?.RunTimeTicks) {
+        return [];
+    }
+
+    return (item.Chapters || []).map(chapter => ({
+        name: chapter.Name,
+        progress: chapter.StartPositionTicks / item.RunTimeTicks
+    }));
+}
+
+function updateChapterButtons(item, canSeek) {
+    const showChapterButtons = hasChapterInfo(item) && canSeek;
+
+    previousChapterButton?.classList.toggle('hide', !showChapterButtons);
+    nextChapterButton?.classList.toggle('hide', !showChapterButtons);
+}
+
+function updateChapterDisplay(item, positionTicks) {
+    if (!nowPlayingChapterElement) {
+        return;
+    }
+
+    if (!hasChapterInfo(item) || !Number.isFinite(positionTicks)) {
+        nowPlayingChapterElement.textContent = '';
+        nowPlayingChapterElement.classList.add('hide');
+        return;
+    }
+
+    const { chapter, index } = getChapterAtPosition(item, positionTicks);
+
+    if (chapter) {
+        nowPlayingChapterElement.textContent = getChapterDisplayName(chapter, index);
+        nowPlayingChapterElement.classList.remove('hide');
+    } else {
+        nowPlayingChapterElement.textContent = '';
+        nowPlayingChapterElement.classList.add('hide');
+    }
+}
+
 function bindEvents(elem) {
     currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime');
     nowPlayingImageElement = elem.querySelector('.nowPlayingImage');
     nowPlayingTextElement = elem.querySelector('.nowPlayingBarText');
     nowPlayingUserData = elem.querySelector('.nowPlayingBarUserDataButtons');
     positionSlider = elem.querySelector('.nowPlayingBarPositionSlider');
+    previousChapterButton = elem.querySelector('.previousChapterButton');
+    nextChapterButton = elem.querySelector('.nextChapterButton');
     muteButton = elem.querySelector('.muteButton');
     playPauseButtons = elem.querySelectorAll('.playPauseButton');
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
@@ -170,6 +248,18 @@ function bindEvents(elem) {
 
     playPauseButtons.forEach((button) => {
         button.addEventListener('click', onPlayPauseClick);
+    });
+
+    previousChapterButton.addEventListener('click', function () {
+        if (currentPlayer) {
+            playbackManager.previousChapter(currentPlayer);
+        }
+    });
+
+    nextChapterButton.addEventListener('click', function () {
+        if (currentPlayer) {
+            playbackManager.nextChapter(currentPlayer);
+        }
     });
 
     elem.querySelector('.nextTrackButton').addEventListener('click', function () {
@@ -261,7 +351,7 @@ function bindEvents(elem) {
         }
     });
 
-    positionSlider.getBubbleText = function (value) {
+    positionSlider.getBubbleHtml = function (value) {
         const state = lastPlayerState;
 
         if (!state?.NowPlayingItem || !currentRuntimeTicks) {
@@ -272,7 +362,27 @@ function bindEvents(elem) {
         ticks /= 100;
         ticks *= value;
 
-        return datetime.getDisplayRunningTime(ticks);
+        const runtimeText = datetime.getDisplayRunningTime(ticks);
+        const { chapter, index } = getChapterAtPosition(state.NowPlayingItem, ticks);
+
+        if (hasChapterInfo(state.NowPlayingItem) && chapter) {
+            return '<div class="nowPlayingBarChapterBubble">'
+                + `<div class="sliderBubbleText">${runtimeText}</div>`
+                + `<div class="nowPlayingBarChapterBubbleName">${escapeHtml(getChapterDisplayName(chapter, index))}</div>`
+                + '</div>';
+        }
+
+        return runtimeText;
+    };
+
+    positionSlider.getMarkerInfo = function () {
+        const item = lastPlayerState?.NowPlayingItem;
+
+        if (!hasChapterInfo(item)) {
+            return [];
+        }
+
+        return getChapterMarkerInfo(item);
     };
 
     elem.addEventListener('click', function (e) {
@@ -372,6 +482,8 @@ function updatePlayerStateInternal(event, state, player) {
     updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
     updateNowPlayingInfo(state);
+    updateChapterButtons(nowPlayingItem, playState.CanSeek);
+    updateChapterDisplay(nowPlayingItem, playState.PositionTicks);
     updateLyricButton(nowPlayingItem);
 }
 
@@ -487,6 +599,9 @@ function updateNowPlayingInfo(state) {
             text.innerText = textLines[1];
             secondaryText.appendChild(text);
         }
+        nowPlayingChapterElement = document.createElement('span');
+        nowPlayingChapterElement.classList.add('nowPlayingBarChapterText', 'hide');
+        secondaryText.appendChild(nowPlayingChapterElement);
 
         if (textLines[0]) {
             const text = document.createElement('a');
@@ -677,7 +792,9 @@ function onTimeUpdate() {
 
     const player = this;
     currentRuntimeTicks = playbackManager.duration(player);
-    updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+    const positionTicks = playbackManager.currentTime(player) * 10000;
+    updateTimeDisplay(positionTicks, currentRuntimeTicks, playbackManager.getBufferedRanges(player));
+    updateChapterDisplay(playbackManager.currentItem(player), positionTicks);
 }
 
 function releaseCurrentPlayer() {
