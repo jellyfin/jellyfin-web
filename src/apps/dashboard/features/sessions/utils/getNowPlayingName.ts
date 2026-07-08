@@ -1,4 +1,4 @@
-import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
+import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
 import itemHelper from 'components/itemHelper';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import globalize from 'lib/globalize';
@@ -11,7 +11,7 @@ type NowPlayingInfo = {
     image?: string;
 };
 
-const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
+const getNowPlayingName = (session: SessionInfoDto): NowPlayingInfo => {
     let imgUrl = '';
     const nowPlayingItem = session.NowPlayingItem;
     // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
