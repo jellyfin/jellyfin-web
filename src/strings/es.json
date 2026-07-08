@@ -312,7 +312,7 @@
     "Images": "Imágenes",
     "ImportFavoriteChannelsHelp": "Sólo los canales guardados como favoritos en el sintonizador se importarán.",
     "InstallingPackage": "Instalando {0} (versión {1})",
-    "InstantMix": "Mix instantáneo",
+    "InstantMix": "Mezcla instantánea",
     "ItemCount": "Elementos {0}",
     "Items": "Elementos",
     "Kids": "Infantil",
@@ -1433,7 +1433,7 @@
     "ButtonClose": "Cerrar",
     "ButtonBackspace": "Retroceso",
     "AddToFavorites": "Añadir a favoritos",
-    "ItemDetails": "Detalles del objeto",
+    "ItemDetails": "Detalles del elemento",
     "EnableRewatchingNextUpHelp": "Mostrar episodios vistos en la sección 'Volver a ver'.",
     "EnableRewatchingNextUp": "Activar Volver a ver",
     "Digital": "Digital",
@@ -1923,5 +1923,7 @@
     "StillWatchingOption": "{0} episodios o {1} minutos",
     "StopWatching": "Dejar de mirar",
     "TableOfContents": "Índice",
-    "Creators": "Creadores"
+    "Creators": "Creadores",
+    "NoCastTargets": "No hay dispositivos de transmisión disponibles.",
+    "IndexNumber": "Número de índice"
 }
