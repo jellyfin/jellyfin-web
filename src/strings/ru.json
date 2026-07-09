@@ -1920,5 +1920,6 @@
     "LabelOriginalLanguage": "Оригинальный язык",
     "NoCastTargets": "Нет доступных устройств для трансляции",
     "OriginalLanguage": "Оригинальный язык",
-    "StillWatchingPrompt": "Подсказка „Всё ещё смотрите?“"
+    "StillWatchingPrompt": "Подсказка „Всё ещё смотрите?“",
+    "TableOfContents": "Оглавление"
 }
