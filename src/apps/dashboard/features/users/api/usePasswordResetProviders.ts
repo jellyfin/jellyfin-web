@@ -1,11 +1,12 @@
 import { Api } from '@jellyfin/sdk';
 import { useQuery } from '@tanstack/react-query';
-import { useApi } from 'hooks/useApi';
-import { getSessionApi } from '@jellyfin/sdk/lib/utils/api/session-api';
 import type { AxiosRequestConfig } from 'axios';
 
+import { useApi } from 'hooks/useApi';
+import { getAuthenticationApi } from 'utils/sdk/authentication-api';
+
 const fetchPasswordResetProviders = async (api: Api, options?: AxiosRequestConfig) => {
-    const response = await getSessionApi(api).getPasswordResetProviders(options);
+    const response = await getAuthenticationApi(api).getPasswordResetProviders(options);
 
     return response.data;
 };

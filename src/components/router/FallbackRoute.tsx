@@ -42,6 +42,7 @@ const FallbackRoute = () => {
             id='fallbackPage'
             title={globalize.translate('HeaderPageNotFound')}
             className='mainAnimatedPage libraryPage'
+            shouldAutoFocus
         >
             <div className='padded-left padded-right'>
                 <h1>{globalize.translate('HeaderPageNotFound')}</h1>

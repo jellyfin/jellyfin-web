@@ -6,38 +6,27 @@
     z-index: 100;
     background: #fff;
 
-    display: flex;
-    flex-direction: column;
-
-    .topButtons {
-        z-index: 1002;
-        width: 100%;
-        color: #000;
-        opacity: 0.7;
-    }
-
-    .bookPlayerContainer {
-        flex-grow: 1;
-    }
-
-    #btnBookplayerToc {
-        float: left;
-        margin: 0.5vh 0.5vh 0.5vh 2vw;
-    }
-
-    #btnBookplayerExit {
-        float: right;
-        margin: 0.5vh 2vw 0.5vh 0.5vh;
+    .bookplayerButton {
+        margin: 0.5vh;
     }
 
     .bookplayerErrorMsg {
         text-align: center;
     }
+}
 
-    #btnBookplayerPrev,
-    #btnBookplayerNext {
-        margin: 0.5vh 0.5vh;
-    }
+#bookPlayerContainer {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    width: 100%;
+    top: 5vh;
+    height: 90vh;
+}
+
+#bookPlayerContainer.fullscreen {
+    top: calc(5vh + env(safe-area-inset-top));
+    height: calc(90vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
 
 #dialogToc {
@@ -49,10 +38,6 @@
 
     .bookplayerButtonIcon {
         color: black;
-    }
-
-    .bookplayerButton {
-        margin: 0.5vh;
     }
 
     .toc {
@@ -85,6 +70,14 @@
             color: #00a4dc;
             text-decoration: none;
         }
+    }
+}
+
+// TODO disable landscape on mobile devices
+@media (orientation: landscape) and (max-width: 60em) {
+    #bookPlayerContainer {
+        top: 10vh;
+        height: 80vh;
     }
 }
 

@@ -1,5 +1,4 @@
-@use '../../styles/mixins' as *;
-@use './palette' as palette;
+@use "./palette" as palette;
 
 // Theme options
 $dark: true !default;
@@ -7,6 +6,8 @@ $dark: true !default;
 // Color palette
 $common-white: palette.$common-white !default;
 $background-default: palette.$background-default !default;
+// NOTE: This is not part of the MUI theme but is used for the page background image in some themes
+$background-defaultImage: none !default;
 $background-paper: palette.$background-paper !default;
 $primary-main: palette.$primary-main !default;
 $primary-dark: palette.$primary-dark !default;
@@ -28,6 +29,10 @@ $appBar-defaultBg: #202020 !default;
 // NOTE: This color is not part of the MUI theme
 $appBar-transparentBg: rgba(0, 0, 0, 0.4) !default;
 $filledInput-bg: rgba(255, 255, 255, 0.09) !default;
+// NOTE: Defaults to $filledInput-bg so dark themes keep their seamless look
+$filledInput-borderColor: $filledInput-bg !default;
+// NOTE: Card border radius — matches the default in card.scss; exposed as --jf-card-borderRadius for custom user themes
+$card-borderRadius: 0.2em !default;
 $alert-infoFilledBg: #0288d1 !default;
 $alert-infoFilledColor: #fff !default;
 $button-inheritContainedBg: #424242 !default;
@@ -37,7 +42,9 @@ $snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
 
 // Assign custom css variables not part of the MUI theme palette
 :root {
+    --jf-palette-background-defaultImage: #{$background-defaultImage};
     --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
+    --jf-card-borderRadius: #{$card-borderRadius};
 }
 
 * {
@@ -47,25 +54,29 @@ $snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
 
 .skinHeader,
 html {
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    color: var(--jf-palette-text-secondary, $text-secondary);
 }
 
 .wizardStartForm,
 .ui-corner-all,
 .ui-shadow {
-    @include var(background-color, --jf-palette-background-default, $background-default);
+    background-color: var(--jf-palette-background-default, $background-default);
+    background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .emby-collapsible-button {
-    @include var(border-color, --jf-palette-divider, $divider);
+    border-color: var(--jf-palette-divider, $divider);
 }
 
 .skinHeader-withBackground {
-    @include var(background-color, --jf-palette-AppBar-defaultBg, $appBar-defaultBg);
+    background-color: var(--jf-palette-AppBar-defaultBg, $appBar-defaultBg);
 }
 
 .skinHeader.semiTransparent {
-    @include var(background-color, --jf-palette-AppBar-transparentBg, $appBar-transparentBg);
+    background-color: var(--jf-palette-AppBar-transparentBg, $appBar-transparentBg);
     backdrop-filter: none !important;
 
     .layout-tv & {
@@ -74,7 +85,14 @@ html {
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: if($dark, url(@jellyfin/ux-web/banner-light.png), url(@jellyfin/ux-web/banner-dark.png));
+    background-image:
+        if(
+            /* NOTE: Stylelint seems to lack support for if() syntax currently */
+            /* stylelint-disable-next-line @stylistic/function-whitespace-after */
+            sass($dark): url(@jellyfin/ux-web/banner-light.png);
+            /* stylelint-disable-next-line @stylistic/function-whitespace-after */
+            else: url(@jellyfin/ux-web/banner-dark.png);
+        );
 
     .layout-tv & {
         background-image: url(@jellyfin/ux-web/icon-transparent.png);
@@ -86,7 +104,11 @@ html {
 .nowPlayingPlaylist,
 .nowPlayingContextMenu,
 html {
-    @include var(background-color, --jf-palette-background-default, $background-default);
+    background-color: var(--jf-palette-background-default, $background-default);
+    background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .backgroundContainer.withBackdrop {
@@ -95,47 +117,51 @@ html {
 
 @media (hover: hover) and (pointer: fine) {
     .paper-icon-button-light:hover:not(:disabled) {
-        @include var(color, --jf-palette-primary-main, $primary-main);
+        color: var(--jf-palette-primary-main, $primary-main);
         background-color: $primary-hover;
         background-color: rgba(var(--jf-palette-primary-mainChannel) / var(--jf-palette-action-selectedOpacity));
     }
 }
 
 .paper-icon-button-light:active:not(:disabled) {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
     background-color: $primary-hover;
     background-color: rgba(var(--jf-palette-primary-mainChannel) / var(--jf-palette-action-selectedOpacity));
 }
 
 .paper-icon-button-light.show-focus:focus {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
-a[data-role=button],
+.emby-scrollbuttons {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+a[data-role="button"],
 .fab,
 .raised {
-    @include var(background, --jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    background: var(--jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
+    color: var(--jf-palette-text-secondary, $text-secondary);
 
     &:focus,
     &:hover {
-        @include var(background, --jf-palette-Button-inheritContainedHoverBg, $button-inheritContainedHoverBg);
+        background: var(--jf-palette-Button-inheritContainedHoverBg, $button-inheritContainedHoverBg);
     }
 }
 
 .button-submit {
-    @include var(background, --jf-palette-primary-main, $primary-main);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 
     &:focus,
     &:hover {
-        @include var(background, --jf-palette-primary-dark, $primary-dark);
+        background: var(--jf-palette-primary-dark, $primary-dark);
     }
 }
 
 .button-delete {
-    @include var(background, --jf-palette-error-main, $error-main);
-    @include var(color, --jf-palette-error-contrastText, $error-contrastText);
+    background: var(--jf-palette-error-main, $error-main);
+    color: var(--jf-palette-error-contrastText, $error-contrastText);
 }
 
 .checkboxLabel {
@@ -147,13 +173,13 @@ a[data-role=button],
 .inputLabelUnfocused,
 .paperListLabel,
 .textareaLabelUnfocused {
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    color: var(--jf-palette-text-secondary, $text-secondary);
 }
 
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .checkboxOutline {
@@ -162,10 +188,23 @@ a[data-role=button],
 
 .collapseContent,
 .formDialogFooter:not(.formDialogFooter-clear),
-.formDialogHeader:not(.formDialogHeader-clear),
+.formDialogHeader:not(.formDialogHeader-clear) {
+    background-color: var(--jf-palette-background-paper, $background-paper);
+}
+
 .paperList,
 .visualCardBox {
-    @include var(background-color, --jf-palette-background-paper, $background-paper);
+    background-color: var(--jf-palette-background-paper, $background-paper);
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder,
+.cardContent,
+.cardImageContainer,
+.blurhash-canvas,
+.itemDetailImage,
+.cardOverlayContainer {
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
@@ -179,11 +218,11 @@ a[data-role=button],
 .nowPlayingBarSecondaryText,
 .programSecondaryTitle,
 .secondaryText {
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    color: var(--jf-palette-text-secondary, $text-secondary);
 }
 
 .actionsheetDivider {
-    @include var(background, --jf-palette-divider, $divider);
+    background: var(--jf-palette-divider, $divider);
 }
 
 .cardFooter-vibrant .cardText-secondary {
@@ -192,72 +231,85 @@ a[data-role=button],
 }
 
 .toast {
-    @include var(background, --jf-palette-SnackbarContent-bg, $snackbarContent-bg);
-    @include var(color, --jf-palette-SnackbarContent-color, $snackbarContent-color);
+    background: var(--jf-palette-SnackbarContent-bg, $snackbarContent-bg);
+    color: var(--jf-palette-SnackbarContent-color, $snackbarContent-color);
 }
 
 .appfooter,
 .playlistSectionButton {
-    @include var(background, --jf-palette-background-paper, $background-paper);
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    background: var(--jf-palette-background-paper, $background-paper);
+    color: var(--jf-palette-text-secondary, $text-secondary);
 }
 
 .itemSelectionPanel {
-    @include var(border-color, --jf-palette-primary-main, $primary-main);
+    border-color: var(--jf-palette-primary-main, $primary-main);
     border-width: 1px;
     border-style: solid;
 }
 
 .selectionCommandsPanel {
-    @include var(background, --jf-palette-primary-main, $primary-main);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
+
+    .paper-icon-button-light:not(:disabled) {
+        color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+
+        &:hover,
+        &:focus {
+            background-color: var(--jf-palette-primary-dark, $primary-dark);
+        }
+    }
 }
 
 .upNextDialog-countdownText {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .alphaPickerButton {
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    color: var(--jf-palette-text-secondary, $text-secondary);
     background-color: transparent;
 
     &-selected {
-        @include var(color, --jf-palette-text-primary, $text-primary);
+        color: var(--jf-palette-text-primary, $text-primary);
     }
 
     &-tv:focus {
-        @include var(background-color, --jf-palette-primary-main, $primary-main);
-        @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+        background-color: var(--jf-palette-primary-main, $primary-main);
+        color: var(--jf-palette-primary-contrastText, $primary-contrastText);
     }
 }
 
-.noBackdropTransparency .detailPagePrimaryContainer,
-.noBackdropTransparency .detailPageSecondaryContainer {
-    @include var(background-color, --jf-palette-background-default, $background-default);
+.noBackdropTransparency .detailPageWrapperContainer {
+    background-color: var(--jf-palette-background-default, $background-default);
+    background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
+    background-attachment: fixed;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .listItem-border {
-    @include var(border-color, --jf-palette-divider, $divider);
+    border-color: var(--jf-palette-divider, $divider);
 }
 
 .listItem:focus {
-    @include var(background-color, --jf-palette-action-focus, $action-focus);
+    background-color: var(--jf-palette-action-focus, $action-focus);
 }
 
 .listItem:hover {
-    @include var(background-color, --jf-palette-action-hover, $action-hover);
+    background-color: var(--jf-palette-action-hover, $action-hover);
 }
 
 .progressring-spiner {
-    @include var(border-color, --jf-palette-primary-main, $primary-main);
+    border-color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .button-flat:hover {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .button-link {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .mediaInfoText {
@@ -268,23 +320,23 @@ a[data-role=button],
 
 .emby-input,
 .emby-textarea {
-    @include var(background, --jf-palette-FilledInput-bg, $filledInput-bg);
-    @include var(border-color, --jf-palette-FilledInput-bg, $filledInput-bg);
+    background: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
     border-width: 0.16em;
     border-style: solid;
     border-radius: 0.2em;
 
     &:focus {
-        @include var(border-color, --jf-palette-primary-main, $primary-main);
+        border-color: var(--jf-palette-primary-main, $primary-main);
     }
 }
 
 .emby-select-withcolor {
     // NOTE: This should use `FilledInput-bg` to match other form elements,
     // but that will break the native dropdown styling
-    @include var(background, --jf-palette-background-paper, $background-paper);
-    @include var(border-color, --jf-palette-FilledInput-bg, $filledInput-bg);
+    background: var(--jf-palette-background-paper, $background-paper);
+    border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
     border-width: 0.16em;
     border-style: solid;
@@ -292,78 +344,78 @@ a[data-role=button],
 }
 
 .emby-select-withcolor > option {
-    @include var(background, --jf-palette-background-paper, $background-paper);
+    background: var(--jf-palette-background-paper, $background-paper);
     color: inherit;
 }
 
 .emby-select-withcolor:focus {
-    @include var(border-color, --jf-palette-primary-main, $primary-main, true);
+    border-color: var(--jf-palette-primary-main, $primary-main) !important;
 }
 
 .emby-select-tv-withcolor:focus {
-    @include var(background-color, --jf-palette-primary-main, $primary-main, true);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText, true);
+    background-color: var(--jf-palette-primary-main, $primary-main) !important;
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
 }
 
 .emby-checkbox:checked + span + .checkboxOutline {
-    @include var(border-color, --jf-palette-primary-main, $primary-main);
+    border-color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .emby-checkbox:focus + span + .checkboxOutline {
-    @include var(border-color, --jf-palette-common-white, $common-white);
+    border-color: var(--jf-palette-common-white, $common-white);
 }
 
 .emby-checkbox:checked + span + .checkboxOutline,
 .itemProgressBarForeground {
-    @include var(background-color, --jf-palette-primary-main, $primary-main);
+    background-color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
-    @include var(border-color, --jf-palette-primary-main, $primary-main);
+    border-color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .itemProgressBarForeground-recording {
-    @include var(background-color, --jf-palette-error-light, $error-light);
+    background-color: var(--jf-palette-error-light, $error-light);
 }
 
 .countIndicator,
 .fullSyncIndicator,
 .mediaSourceIndicator,
 .playedIndicator {
-    @include var(background, --jf-palette-primary-main, $primary-main);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 }
 
 .mainDrawer,
 .drawer-open {
-    @include var(background-color, --jf-palette-background-default, $background-default);
+    background-color: var(--jf-palette-background-default, $background-default);
 }
 
 .navMenuOption:hover {
-    @include var(background, --jf-palette-action-hover, $action-hover);
+    background: var(--jf-palette-action-hover, $action-hover);
 }
 
 .navMenuOption-selected {
-    @include var(background, --jf-palette-primary-main, $primary-main, true);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+    background: var(--jf-palette-primary-main, $primary-main) !important;
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 }
 
 .emby-button.show-focus:focus {
-    @include var(background, --jf-palette-primary-main, $primary-main);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+    background: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 }
 
 .emby-tab-button {
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    color: var(--jf-palette-text-secondary, $text-secondary);
 }
 
 .emby-tab-button-active {
-    @include var(color, --jf-palette-text-primary, $text-primary);
+    color: var(--jf-palette-text-primary, $text-primary);
 }
 
 .emby-tab-button.show-focus:focus,
 .emby-tab-button:hover {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .channelPrograms,
@@ -394,8 +446,8 @@ a[data-role=button],
 
 .guide-channelHeaderCell:focus,
 .programCell:focus {
-    @include var(background-color, --jf-palette-primary-main, $primary-main, true);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText, true);
+    background-color: var(--jf-palette-primary-main, $primary-main) !important;
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
 }
 
 .guide-programTextIcon {
@@ -409,33 +461,41 @@ a[data-role=button],
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
 .guide-date-tab-button.show-focus:focus {
-    @include var(background-color, --jf-palette-primary-main, $primary-main);
-    @include var(color, --jf-palette-primary-contrastText, $primary-contrastText);
+    background-color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 }
 
 .infoBanner {
-    @include var(background, --jf-palette-Alert-infoFilledBg, $alert-infoFilledBg);
-    @include var(color, --jf-palette-Alert-infoFilledColor, $alert-infoFilledColor);
+    background: var(--jf-palette-Alert-infoFilledBg, $alert-infoFilledBg);
+    color: var(--jf-palette-Alert-infoFilledColor, $alert-infoFilledColor);
     padding: 1em;
     border-radius: 0.25em;
 }
 
 .ratingbutton-icon-withrating,
 .playstatebutton-icon-played {
-    @include var(color, --jf-palette-error-light, $error-light);
+    color: var(--jf-palette-error-light, $error-light);
 }
 
 .buttonActive {
-    @include var(color, --jf-palette-primary-main, $primary-main, true);
+    color: var(--jf-palette-primary-main, $primary-main) !important;
 }
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
-    @include var(border-color, --jf-palette-primary-main, $primary-main, true);
+    border-color: var(--jf-palette-primary-main, $primary-main) !important;
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+// The show-focus border is 0.5em wide (see card.scss), so the outer ring's
+// border-radius must add that offset to stay flush with the card's corners.
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: calc(var(--jf-card-borderRadius, $card-borderRadius) + 0.5em);
 }
 
 ::-webkit-scrollbar-track {
@@ -463,36 +523,36 @@ a[data-role=button],
 }
 
 .metadataSidebarIcon {
-    @include var(color, --jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-primary-main, $primary-main);
 }
 
 #comicsPlayer,
 #bookPlayer,
 #pdfPlayer {
-    @include var(background-color, --jf-palette-background-default, $background-default);
+    background-color: var(--jf-palette-background-default, $background-default);
 }
 
 #comicsPlayer .swiper-pagination {
-    @include var(background-color, --jf-palette-background-default, $background-default);
-    @include var(color, --jf-palette-text-primary, $text-primary);
+    background-color: var(--jf-palette-background-default, $background-default);
+    color: var(--jf-palette-text-primary, $text-primary);
 }
 
-#bookPlayer .topButtons,
+#bookPlayer .bookOsdRow,
 #comicsPlayer .actionButtonIcon,
 #pdfPlayer .actionButtonIcon {
-    @include var(color, --jf-palette-text-primary, $text-primary);
+    color: var(--jf-palette-text-primary, $text-primary);
 }
 
 #dialogToc {
-    @include var(background-color, --jf-palette-background-default, $background-default);
+    background-color: var(--jf-palette-background-default, $background-default);
 }
 
 #dialogToc .toc li a,
 #dialogToc .bookplayerButtonIcon {
-    @include var(color, --jf-palette-text-secondary, $text-secondary);
+    color: var(--jf-palette-text-secondary, $text-secondary);
 
     &:active,
     &:hover {
-        @include var(color, --jf-palette-primary-main, $primary-main);
+        color: var(--jf-palette-primary-main, $primary-main);
     }
 }

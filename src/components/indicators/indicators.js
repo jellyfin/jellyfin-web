@@ -6,8 +6,8 @@ import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {
     return (item.MediaType === 'Video' && item.Type !== 'TvChannel')
-        || item.Type === 'AudioBook'
-        || item.Type === 'AudioPodcast';
+        || item.Type === 'Book'
+        || item.Type === 'AudioBook';
 }
 
 export function getProgressHtml(pct, options) {

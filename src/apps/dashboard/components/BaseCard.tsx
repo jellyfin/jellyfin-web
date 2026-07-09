@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
 import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import { Link, To } from 'react-router-dom';
@@ -85,7 +85,7 @@ const BaseCard = ({
                     }
                 }}>
                 <Stack flexGrow={1} direction='row'>
-                    <Stack flexGrow={1}>
+                    <Stack flexGrow={1} sx={{ overflow: 'hidden' }}>
                         <Typography gutterBottom sx={{
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',

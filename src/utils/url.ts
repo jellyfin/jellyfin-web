@@ -36,6 +36,20 @@ export const getParameterByName = (name: string, url?: string | null | undefined
         url = getLocationSearch();
     }
 
-    // eslint-disable-next-line compat/compat
     return new URLSearchParams(url).get(name) || '';
+};
+
+/**
+ * Safely decodes a URI component, returning the original value if decoding fails.
+ * This is useful for handling cases where the value may or may not be encoded.
+ * @param value The value to decode.
+ * @returns The decoded value.
+ */
+export const safeDecodeURIComponent = (value: string) => {
+    try {
+        return decodeURIComponent(value);
+    } catch {
+        // If decoding fails, return the original value, this can happen for values that are not encoded.
+        return value;
+    }
 };

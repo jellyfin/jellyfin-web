@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography';
 import { useLocalizationOptions } from 'apps/dashboard/features/settings/api/useLocalizationOptions';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
+import { QUERY_KEY as CONFIGURATION_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
+import { QUERY_KEY as SYSTEM_INFO_QUERY_KEY } from 'hooks/useSystemInfo';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -21,15 +22,15 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const { data: config } = await getSystemApi(api).getConfiguration();
     const formData = await request.formData();
 
     config.ServerName = formData.get('ServerName')?.toString();
@@ -40,11 +41,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     config.LibraryScanFanoutConcurrency = parseInt(formData.get('LibraryScanFanoutConcurrency')?.toString() || '0', 10);
     config.ParallelImageEncodingLimit = parseInt(formData.get('ParallelImageEncodingLimit')?.toString() || '0', 10);
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
     void queryClient.invalidateQueries({
-        queryKey: [ QUERY_KEY ]
+        queryKey: [ CONFIGURATION_QUERY_KEY ]
+    });
+    void queryClient.invalidateQueries({
+        queryKey: [ SYSTEM_INFO_QUERY_KEY ]
     });
 
     return {

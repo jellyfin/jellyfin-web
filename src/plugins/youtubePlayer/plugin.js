@@ -1,8 +1,9 @@
+import { PluginType } from 'constants/pluginType';
+
 import browser from '../../scripts/browser';
 import { appRouter } from '../../components/router/appRouter';
 import loading from '../../components/loading/loading';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 /* globals YT */
@@ -140,7 +141,7 @@ function onPlaying(instance, playOptions, resolve) {
 function setCurrentSrc(instance, elem, options) {
     return new Promise(function (resolve, reject) {
         instance._currentSrc = options.url;
-        const params = new URLSearchParams(options.url.split('?')[1]); /* eslint-disable-line compat/compat */
+        const params = new URLSearchParams(options.url.split('?')[1]);
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         window.onYouTubeIframeAPIReady = function () {

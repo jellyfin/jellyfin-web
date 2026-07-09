@@ -2,9 +2,10 @@ import DOMPurify from 'dompurify';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
-import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
+import { useCustomSubtitles } from 'apps/legacy/features/playback/utils/subtitleStyles';
 import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleappearancehelper';
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { MediaError } from 'types/mediaError';
@@ -40,7 +41,6 @@ import globalize from '../../lib/globalize';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
@@ -1370,6 +1370,9 @@ export class HtmlVideoPlayer {
      */
     renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
         this.fetchSubtitles(track, item).then((subtitleData) => {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
@@ -1483,7 +1486,10 @@ export class HtmlVideoPlayer {
         }
 
         // download the track json
-        this.fetchSubtitles(track, item).then(function (data) {
+        this.fetchSubtitles(track, item).then(data => {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
@@ -2139,6 +2145,8 @@ export class HtmlVideoPlayer {
         };
         categories.push(mediaCategory);
 
+        const mediaInfos = [];
+        mediaInfos.push(this._hlsPlayer ? 'HLS' : 'Video');
         if (playOptions.url) {
             //  create an anchor element (note: no need to append this element to the document)
             let link = document.createElement('a');
@@ -2147,24 +2155,15 @@ export class HtmlVideoPlayer {
             const protocol = (link.protocol || '').replace(':', '');
 
             if (protocol) {
-                mediaCategory.stats.push({
-                    label: globalize.translate('LabelProtocol'),
-                    value: protocol
-                });
+                mediaInfos.push(`(${protocol})`);
             }
 
             link = null;
         }
-
-        if (this._hlsPlayer) {
+        if (mediaInfos.length) {
             mediaCategory.stats.push({
                 label: globalize.translate('LabelStreamType'),
-                value: 'HLS'
-            });
-        } else {
-            mediaCategory.stats.push({
-                label: globalize.translate('LabelStreamType'),
-                value: 'Video'
+                value: mediaInfos.join('  ')
             });
         }
 
@@ -2179,37 +2178,37 @@ export class HtmlVideoPlayer {
         let height = Math.round(rect.height * devicePixelRatio);
         let width = Math.round(rect.width * devicePixelRatio);
 
-        // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
+        const viewInfos = [];
+        // Don't show player dimensions on smart TVs because the app UI could be lower
+        // resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {
-            videoCategory.stats.push({
-                label: globalize.translate('LabelPlayerDimensions'),
-                value: `${width}x${height}`
-            });
+            viewInfos.push(`${width}x${height}`);
         }
 
         height = mediaElement.videoHeight;
         width = mediaElement.videoWidth;
-
         if (width && height) {
+            viewInfos.push(`${width}x${height}`);
+        }
+        if (viewInfos.length) {
             videoCategory.stats.push({
-                label: globalize.translate('LabelVideoResolution'),
-                value: `${width}x${height}`
+                label: globalize.translate('LabelPlayerSizes'),
+                value: viewInfos.join(' / ')
             });
         }
 
         if (mediaElement.getVideoPlaybackQuality) {
             const playbackQuality = mediaElement.getVideoPlaybackQuality();
-
             const droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
-            videoCategory.stats.push({
-                label: globalize.translate('LabelDroppedFrames'),
-                value: droppedVideoFrames
-            });
-
             const corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
+
+            const qualityInfos = [];
+            qualityInfos.push(droppedVideoFrames);
+            qualityInfos.push(corruptedVideoFrames);
+
             videoCategory.stats.push({
-                label: globalize.translate('LabelCorruptedFrames'),
-                value: corruptedVideoFrames
+                label: globalize.translate('LabelPlaybackQuality'),
+                value: qualityInfos.join(' / ')
             });
         }
 

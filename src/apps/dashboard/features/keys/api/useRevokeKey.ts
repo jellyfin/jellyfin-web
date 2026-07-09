@@ -1,5 +1,5 @@
-import type { ApiKeyApiRevokeKeyRequest } from '@jellyfin/sdk/lib/generated-client';
-import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
+import type { AuthenticationApiRevokeKeyRequest } from '@jellyfin/sdk/lib/generated-client/api/authentication-api';
+import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
@@ -9,8 +9,8 @@ export const useRevokeKey = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: ApiKeyApiRevokeKeyRequest) => (
-            getApiKeyApi(api!)
+        mutationFn: (params: AuthenticationApiRevokeKeyRequest) => (
+            getAuthenticationApi(api!)
                 .revokeKey(params)
         ),
         onSuccess: () => {

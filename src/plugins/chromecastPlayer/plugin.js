@@ -1,3 +1,5 @@
+import { PluginType } from 'constants/pluginType';
+
 import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
@@ -5,7 +7,6 @@ import globalize from '../../lib/globalize';
 import CastSenderApi from './castSenderApi';
 import alert from '../../components/alert';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 
@@ -342,9 +343,8 @@ class CastPlayer {
 
         /* If serverAddress is localhost,this address can not be used for the cast receiver device.
          * Use the local address (ULA, Unique Local Address) in that case.
-	 */
+         */
         const serverAddress = apiClient.serverAddress();
-        // eslint-disable-next-line compat/compat
         const hostname = (new URL(serverAddress)).hostname;
         const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
         const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
@@ -387,18 +387,18 @@ class CastPlayer {
 
     /**
      * Callback function for loadMedia success
-     * @param {Object} mediaSession A new media object.
+     * @param {Object} media A new media object.
      */
-    onMediaDiscovered(how, mediaSession) {
-        console.debug('[chromecastPlayer] new media session ID:' + mediaSession.mediaSessionId + ' (' + how + ')');
-        this.currentMediaSession = mediaSession;
+    onMediaDiscovered(how, media) {
+        console.debug('[chromecastPlayer] new media session ID:' + media.mediaSessionId + ' (' + how + ')');
+        this.currentMediaSession = media;
 
         if (how === 'loadMedia') {
             this.castPlayerState = PLAYER_STATE.PLAYING;
         }
 
         if (how === 'activeSession') {
-            this.castPlayerState = mediaSession.playerState;
+            this.castPlayerState = media.playerState;
         }
 
         this.currentMediaSession.addUpdateListener(this.mediaStatusUpdateHandler);

@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
-import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
+import { getImageUrl } from 'apps/legacy/features/playback/utils/image';
+import { getItemTextLines } from 'apps/legacy/features/playback/utils/itemText';
 import { AppFeature } from 'constants/appFeature';
 import { ItemAction } from 'constants/itemAction';
 
@@ -19,7 +19,7 @@ import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 
 import '../cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';

@@ -1,15 +1,14 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { Archive } from 'libarchive.js';
 
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import loading from '../../components/loading/loading';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/router/appRouter';
 import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from '../../types/plugin.ts';
 
 import './style.scss';
 
@@ -295,7 +294,12 @@ export class ComicsPlayer {
             workerUrl: appRouter.baseUrl() + '/libraries/worker-bundle.js'
         });
 
-        const api = toApi(ServerConnections.getApiClient(item));
+        const api = ServerConnections.getApi(item.ServerId);
+        if (!api) {
+            console.error('[ComicsPlayer] no Api instance available for server', item.ServerId);
+            return;
+        }
+
         const downloadUrl = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
         this.archiveSource = new ArchiveSource(downloadUrl);
 
@@ -408,7 +412,6 @@ class ArchiveSource {
         });
 
         for (const file of files) {
-            /* eslint-disable-next-line compat/compat */
             const url = URL.createObjectURL(file.file);
             this.urls.push(url);
         }
@@ -416,7 +419,6 @@ class ArchiveSource {
 
     release() {
         this.files = [];
-        /* eslint-disable-next-line compat/compat */
         this.urls.forEach(URL.revokeObjectURL);
         this.urls = [];
     }

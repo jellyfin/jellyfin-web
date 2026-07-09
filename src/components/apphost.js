@@ -183,7 +183,7 @@ function supportsFullscreen() {
 }
 
 function getDefaultLayout() {
-    return LayoutMode.Experimental;
+    return LayoutMode.Modern;
 }
 
 function supportsHtmlMediaAutoplay() {
@@ -456,6 +456,3 @@ if (window.addEventListener) {
     window.addEventListener('focus', onAppVisible);
     window.addEventListener('blur', onAppHidden);
 }
-
-// load app host on module load
-appHost.init();

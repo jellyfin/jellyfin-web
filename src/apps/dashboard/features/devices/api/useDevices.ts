@@ -1,7 +1,7 @@
-import type { DevicesApiGetDevicesRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { DeviceApiGetDevicesRequest } from '@jellyfin/sdk/lib/generated-client/api/device-api';
 import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
-import { getDevicesApi } from '@jellyfin/sdk/lib/utils/api/devices-api';
+import { getDeviceApi } from '@jellyfin/sdk/lib/utils/api/device-api';
 import { useQuery } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
@@ -10,10 +10,10 @@ export const QUERY_KEY = 'Devices';
 
 const fetchDevices = async (
     api: Api,
-    requestParams?: DevicesApiGetDevicesRequest,
+    requestParams?: DeviceApiGetDevicesRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getDevicesApi(api).getDevices(requestParams, {
+    const response = await getDeviceApi(api).getDevices(requestParams, {
         signal: options?.signal
     });
 
@@ -21,13 +21,14 @@ const fetchDevices = async (
 };
 
 export const useDevices = (
-    requestParams: DevicesApiGetDevicesRequest
+    requestParams: DeviceApiGetDevicesRequest
 ) => {
     const { api } = useApi();
     return useQuery({
         queryKey: [QUERY_KEY, requestParams],
         queryFn: ({ signal }) =>
             fetchDevices(api!, requestParams, { signal }),
-        enabled: !!api
+        enabled: !!api,
+        staleTime: 0 // ensure we load the latest device data
     });
 };

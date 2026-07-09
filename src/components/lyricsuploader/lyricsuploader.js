@@ -1,7 +1,6 @@
 import escapeHtml from 'escape-html';
+import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';
 
-import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
@@ -90,12 +89,13 @@ async function onSubmit(e) {
     loading.show();
     const dlg = dom.parentWithClass(this, 'dialog');
 
-    const api = toApi(ServerConnections.getApiClient(currentServerId));
-    const lyricsApi = getLyricsApi(api);
+    const api = ServerConnections.getApi(currentServerId);
     const data = await readFileAsText(file);
 
-    lyricsApi.uploadLyrics({
-        itemId: currentItemId, fileName: file.name, body: data
+    getLyricApi(api).uploadLyrics({
+        itemId: currentItemId,
+        fileName: file.name,
+        body: data
     }).then(function () {
         dlg.querySelector('#uploadLyrics').value = '';
         loading.hide();

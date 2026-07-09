@@ -10,7 +10,7 @@ import itemHelper from 'components/itemHelper';
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import datetime from 'scripts/datetime';
-import { isUsingLiveTvNaming } from '../cardBuilderUtils';
+import { isUsingLiveTvNaming } from '../utils/builder';
 import { getDataAttributes } from 'utils/items';
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
@@ -29,7 +29,8 @@ export function getCardLogoUrl(
     let imgType;
     let imgTag;
     let itemId;
-    const logoHeight = 40;
+    const dpr = window?.devicePixelRatio || 1;
+    const logoHeight = Math.round(40 * dpr);
 
     if (cardOptions.showChannelLogo && item.ChannelPrimaryImageTag) {
         imgType = ImageType.Primary;

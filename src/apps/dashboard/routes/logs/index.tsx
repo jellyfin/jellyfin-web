@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import globalize from 'lib/globalize';
@@ -20,11 +20,11 @@ import { ActionData } from 'types/actionData';
 import LogItemList from 'apps/dashboard/features/logs/components/LogItemList';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const { data: config } = await getSystemApi(api).getConfiguration();
 
     const enableWarningMessage = formData.get('EnableWarningMessage');
     config.EnableSlowResponseWarning = enableWarningMessage === 'on';
@@ -34,7 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         config.SlowResponseThresholdMs = parseInt(responseTime.toString(), 10);
     }
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
     return {
