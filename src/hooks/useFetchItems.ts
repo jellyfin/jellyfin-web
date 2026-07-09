@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { ItemsApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/items-api';
-import type { PlaylistsApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client/api/playlists-api';
+import type { LibraryApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
+import type { PlaylistApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client/api/playlist-api';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
@@ -8,18 +8,17 @@ import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filte
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
+import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
-import { getGenresApi } from '@jellyfin/sdk/lib/utils/api/genres-api';
-import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
-import { getMoviesApi } from '@jellyfin/sdk/lib/utils/api/movies-api';
-import { getPersonsApi } from '@jellyfin/sdk/lib/utils/api/persons-api';
-import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
-import { getTvShowsApi } from '@jellyfin/sdk/lib/utils/api/tv-shows-api';
-import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
-import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+import { getGenreApi } from '@jellyfin/sdk/lib/utils/api/genre-api';
+import { getMovieApi } from '@jellyfin/sdk/lib/utils/api/movie-api';
+import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
+import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
+import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
-import { getPlaystateApi } from '@jellyfin/sdk/lib/utils/api/playstate-api';
+import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
@@ -37,12 +36,12 @@ import type { ItemDto } from 'types/base/models/item-dto';
 
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
-    parametersOptions: ItemsApiGetItemsRequest,
+    parametersOptions: LibraryApiGetItemsRequest,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getItemsApi(api).getItems(
+        const response = await getLibraryApi(api).getItems(
             {
                 userId: user.Id,
                 ...parametersOptions
@@ -55,7 +54,7 @@ const fetchGetItems = async (
     }
 };
 
-export const useGetItems = (parametersOptions: ItemsApiGetItemsRequest) => {
+export const useGetItems = (parametersOptions: LibraryApiGetItemsRequest) => {
     const currentApi = useApi();
     const isRandom = Boolean(parametersOptions.sortBy?.includes(ItemSortBy.Random));
 
@@ -82,7 +81,7 @@ const fetchGetMovieRecommendations = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getMoviesApi(api).getMovieRecommendations(
+        const response = await getMovieApi(api).getMovieRecommendations(
             {
                 userId: user.Id,
                 fields: [
@@ -118,7 +117,7 @@ const fetchGetGenres = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getGenresApi(api).getGenres(
+        const response = await getGenreApi(api).getGenres(
             {
                 userId: user.Id,
                 sortBy: [ItemSortBy.SortName],
@@ -153,7 +152,7 @@ const fetchGetStudios = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getStudiosApi(api).getStudios(
+        const response = await getStudioApi(api).getStudios(
             {
                 userId: user.Id,
                 includeItemTypes: itemType,
@@ -236,7 +235,7 @@ const fetchGetItemsViewByType = async (
         let response;
         switch (viewType) {
             case LibraryTab.AlbumArtists: {
-                response = await getArtistsApi(api).getAlbumArtists(
+                response = await getArtistApi(api).getAlbumArtists(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
@@ -257,7 +256,7 @@ const fetchGetItemsViewByType = async (
                 break;
             }
             case LibraryTab.Artists: {
-                response = await getArtistsApi(api).getArtists(
+                response = await getArtistApi(api).getArtists(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
@@ -278,7 +277,7 @@ const fetchGetItemsViewByType = async (
                 break;
             }
             case LibraryTab.Authors: {
-                response = await getPersonsApi(api).getPersons(
+                response = await getPersonApi(api).getPersons(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
@@ -297,7 +296,7 @@ const fetchGetItemsViewByType = async (
                 break;
             }
             case LibraryTab.Studios:
-                response = await getStudiosApi(api).getStudios(
+                response = await getStudioApi(api).getStudios(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
@@ -330,7 +329,7 @@ const fetchGetItemsViewByType = async (
                 break;
             }
             case LibraryTab.Folders: {
-                response = await getItemsApi(api).getItems(
+                response = await getLibraryApi(api).getItems(
                     {
                         userId: user.Id,
                         recursive: false,
@@ -366,7 +365,7 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             default: {
-                response = await getItemsApi(api).getItems(
+                response = await getLibraryApi(api).getItems(
                     {
                         userId: user.Id,
                         recursive: true,
@@ -454,11 +453,11 @@ export const useGetItemsViewByType = (
 
 const fetchPlaylistsMoveItem = async (
     currentApi: JellyfinApiContext,
-    requestParameters: PlaylistsApiMoveItemRequest
+    requestParameters: PlaylistApiMoveItemRequest
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getPlaylistsApi(api).moveItem({
+        const response = await getPlaylistApi(api).moveItem({
             ...requestParameters
         });
         return response.data;
@@ -468,7 +467,7 @@ const fetchPlaylistsMoveItem = async (
 export const usePlaylistsMoveItemMutation = () => {
     const currentApi = useApi();
     return useMutation({
-        mutationFn: (requestParameters: PlaylistsApiMoveItemRequest) =>
+        mutationFn: (requestParameters: PlaylistApiMoveItemRequest) =>
             fetchPlaylistsMoveItem(currentApi, requestParameters )
     });
 };
@@ -531,7 +530,7 @@ const fetchUpcomingEpisodes = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getTvShowsApi(api).getUpcomingEpisodes(
+        const response = await getShowApi(api).getUpcomingEpisodes(
             {
                 userId: user.Id,
                 startIndex,
@@ -588,13 +587,13 @@ const fetchUpdateFavoriteStatus = async (
     const { api, user } = currentApi;
     if (api && user?.Id) {
         if (isFavorite) {
-            const response = await getUserLibraryApi(api).unmarkFavoriteItem({
+            const response = await getUserDataApi(api).unmarkFavoriteItem({
                 userId: user.Id,
                 itemId: itemId
             });
             return response.data.IsFavorite;
         } else {
-            const response = await getUserLibraryApi(api).markFavoriteItem({
+            const response = await getUserDataApi(api).markFavoriteItem({
                 userId: user.Id,
                 itemId: itemId
             });
@@ -624,13 +623,13 @@ const fetchUpdatePlayedState = async (
     const { api, user } = currentApi;
     if (api && user?.Id) {
         if (isPlayed) {
-            const response = await getPlaystateApi(api).markUnplayedItem({
+            const response = await getUserDataApi(api).markUnplayedItem({
                 userId: user.Id,
                 itemId: itemId
             });
             return response.data.Played;
         } else {
-            const response = await getPlaystateApi(api).markPlayedItem({
+            const response = await getUserDataApi(api).markPlayedItem({
                 userId: user.Id,
                 itemId: itemId
             });
@@ -823,7 +822,7 @@ const fetchGetSectionItems = async (
             }
             case SectionApiMethod.NextUp: {
                 response = (
-                    await getTvShowsApi(api).getNextUp(
+                    await getShowApi(api).getNextUp(
                         {
                             userId: user.Id,
                             limit: 25,
@@ -850,7 +849,7 @@ const fetchGetSectionItems = async (
             }
             case SectionApiMethod.ResumeItems: {
                 response = (
-                    await getItemsApi(api).getResumeItems(
+                    await getLibraryApi(api).getResumeItems(
                         {
                             userId: user.Id,
                             parentId: parentId ?? undefined,
@@ -876,7 +875,7 @@ const fetchGetSectionItems = async (
             }
             case SectionApiMethod.LatestMedia: {
                 response = (
-                    await getUserLibraryApi(api).getLatestMedia(
+                    await getLibraryApi(api).getLatestMedia(
                         {
                             userId: user.Id,
                             fields: [
@@ -897,7 +896,7 @@ const fetchGetSectionItems = async (
             }
             default: {
                 response = (
-                    await getItemsApi(api).getItems(
+                    await getLibraryApi(api).getItems(
                         {
                             userId: user.Id,
                             parentId: parentId ?? undefined,

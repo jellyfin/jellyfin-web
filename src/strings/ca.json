@@ -1922,5 +1922,7 @@
     "Creators": "Creadors",
     "HeaderSplitMedia": "Divideix els continguts multimèdia",
     "StillWatchingPrompt": "Avís de continuació de reproducció",
-    "StopWatching": "Deixa de veure"
+    "StopWatching": "Deixa de veure",
+    "NoCastTargets": "No hi ha objectius d'emissió disponibles",
+    "IndexNumber": "Número d'índex"
 }

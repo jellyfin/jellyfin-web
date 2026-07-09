@@ -1914,7 +1914,7 @@
     "CardSettings": "اعدادت البطاقة",
     "ConfirmDeleteItemByName": "حذف\"{0}\" سيقوم بحذفه من نظام الملفات و مكتبك وسائطك معا. هل انت متأكد من رغبتك في المتابعة؟",
     "ConfirmStillWatching": "هل مازلت تشاهد؟",
-    "Disabled": "مثبّط",
+    "Disabled": "غير نشط",
     "LabelOriginalLanguage": "لغة أصلية",
     "OriginalLanguage": "لغة أصلية",
     "StillWatchingPrompt": "ملقم متابعة المشاهدة",
@@ -1923,5 +1923,7 @@
     "TableOfContents": "جدول المحتويات",
     "HeaderSplitMedia": "تقسيم الوسائط منفصلة",
     "ConfirmSplitMedia": "هل انت متأكد من رغبتك في تقسيم مصادر الوسائط إلى عناصر منفصلة؟",
-    "Creators": "مكوّنين"
+    "Creators": "مكوّنين",
+    "IndexNumber": "رقم المؤشر",
+    "NoCastTargets": "لا اهداف بث متوفرة"
 }
