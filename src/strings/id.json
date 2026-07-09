@@ -2007,5 +2007,6 @@
     "MessageBackupDisclaimer": "Tergantung dari besar perpustakaan anda, proses backup akan memakan beberapa waktu.",
     "MessageBackupInProgress": "Backup dalam proses",
     "MessageForgotPasswordPinReset": "Masukan PIN disini untuk menyelesaikan reset Password",
-    "PluginLoadConfigError": "Terjadi kesalah ketika mencoba mendapatkan halaman konfigurasi plugin."
+    "PluginLoadConfigError": "Terjadi kesalah ketika mencoba mendapatkan halaman konfigurasi plugin.",
+    "PluginUninstallError": "Kesalahan terjadi ketika menguninstall plugin."
 }

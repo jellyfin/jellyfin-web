@@ -168,8 +168,8 @@
     "stylelint": "stylelint \"src/**/*.{css,scss}\""
   },
   "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=9.6.4 <11.0.0",
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0",
     "yarn": "YARN NO LONGER USED - use npm instead."
   }
 }

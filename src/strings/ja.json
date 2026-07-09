@@ -137,7 +137,7 @@
     "DeleteUser": "ユーザーの削除",
     "DeleteUserConfirmation": "このユーザーを削除してよろしいですか？",
     "Descending": "降順",
-    "Desktop": "デスクトップ",
+    "Desktop": "デスクトップ(旧)",
     "DetectingDevices": "検出デバイス",
     "DeviceAccessHelp": "これは、識別できるデバイスにのみ適用され、ブラウザへのアクセスを妨げることはありません。 ユーザーのデバイスアクセスをフィルタリングすると、ここで承認されるまで新しいデバイスを使用できなくなります。",
     "DirectPlaying": "ダイレクト再生",
@@ -853,7 +853,7 @@
     "LabelUsername": "ユーザー名",
     "MinutesAfter": "分後",
     "MinutesBefore": "分前",
-    "Mobile": "モバイル",
+    "Mobile": "モバイル(旧)",
     "Monday": "月曜日",
     "MoveLeft": "左に移動",
     "MoveRight": "右に移動",
@@ -1025,7 +1025,7 @@
     "LabelMaxBackdropsPerItem": "アイテムごとの背景の最大数",
     "LabelLoginDisclaimerHelp": "ログインページの下部に表示されるメッセージです。",
     "LabelLockItemToPreventChanges": "この項目をロックして、今後のメタデータ変更を防止します",
-    "LabelLibraryPageSizeHelp": "ライブラリのページに表示するアイテムの数を指定します。0を指定するとページングを無効にします。",
+    "LabelLibraryPageSizeHelp": "ライブラリのページに表示するアイテムの数を指定します。0を指定するとページングを無効にします。この設定を0または100を超える値にすると、不具合やパフォーマンスの低下を招く可能性があることにご注意ください。",
     "LabelLibraryPageSize": "ライブラリページの表示数",
     "LabelKodiMetadataUserHelp": "他のアプリで利用するために、視聴データを NFO ファイルに保存します。",
     "LabelKodiMetadataUser": "ユーザー視聴データをNFOファイルに保存",
@@ -2060,5 +2060,9 @@
     "MessageBackupInProgress": "バックアップ中",
     "MessageForgotPasswordPinReset": "パスワードリセットを完了するには、ここにPINを入力してください",
     "MessageSplitVersionsError": "バージョンの分割に失敗しました",
-    "Native": "ネイティブ"
+    "Native": "ネイティブ",
+    "ButtonAddProvider": "プロバイダーを追加",
+    "ButtonAddTunerDevice": "チューナー機器を追加",
+    "LabelSlideshowInterval": "写真のスライドショー間隔",
+    "LabelSlideshowIntervalHelp": "スライドショーで各写真が表示される秒数。"
 }
