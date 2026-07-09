@@ -415,7 +415,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
             Type: item.Type,
             CollectionType: item.CollectionType,
             IsFolder: item.IsFolder
-        }));
+        }, null, null, options.context));
     }
 
     if (showOtherText) {
@@ -609,9 +609,10 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
  * @param {Object} item - Item used to generate the action button.
  * @param {string} text - Text of the action button.
  * @param {string} serverId - ID of the server.
+ * @param {string} [context] - Router context (e.g. `folders`) used to resolve the link URL, so the title links to the same view as the card image.
  * @returns {string} HTML markup of the action button.
  */
-function getTextActionButton(item, text, serverId) {
+function getTextActionButton(item, text, serverId, context) {
     if (!text) {
         text = itemHelper.getDisplayName(item);
     }
@@ -622,7 +623,7 @@ function getTextActionButton(item, text, serverId) {
         return text;
     }
 
-    const url = appRouter.getRouteUrl(item);
+    const url = appRouter.getRouteUrl(item, { context });
     let html = '<a href="' + url + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' class="itemAction textActionButton" title="' + text + `" data-action="${ItemAction.Link}">`;
     html += text;
     html += '</a>';
