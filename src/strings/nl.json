@@ -1924,5 +1924,6 @@
     "ConfirmSplitMedia": "Weet je zeker dat je de mediabronnen wilt opsplitsen tot afzonderlijke items?",
     "HeaderSplitMedia": "Media opsplitsen",
     "Creators": "Bedenkers",
-    "IndexNumber": "Indexnummer"
+    "IndexNumber": "Indexnummer",
+    "NoCastTargets": "Geen cast-apparaten beschikbaar"
 }

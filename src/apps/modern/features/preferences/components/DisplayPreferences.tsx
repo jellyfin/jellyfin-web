@@ -47,8 +47,8 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
                         value={values.layout}
                     >
                         <MenuItem value={LayoutMode.Auto}>{globalize.translate('Auto')}</MenuItem>
-                        <MenuItem value={LayoutMode.Desktop}>{globalize.translate('Desktop')}</MenuItem>
-                        <MenuItem value={LayoutMode.Mobile}>{globalize.translate('Mobile')}</MenuItem>
+                        <MenuItem value={LayoutMode.DesktopLegacy}>{globalize.translate('Desktop')}</MenuItem>
+                        <MenuItem value={LayoutMode.MobileLegacy}>{globalize.translate('Mobile')}</MenuItem>
                         <MenuItem value={LayoutMode.Tv}>{globalize.translate('TV')}</MenuItem>
                     </Select>
                     <FormHelperText component={Stack} id='display-settings-layout-description'>

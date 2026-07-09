@@ -1,13 +1,24 @@
 /** The different layout modes supported by the web app. */
-export enum LayoutMode {
+export const enum LayoutMode {
     /** Automatic layout - the app chose the best layout for the detected device. */
     Auto = 'auto',
-    /** The legacy desktop layout. */
+    /** The desktop layout. */
     Desktop = 'desktop',
+    /** The legacy desktop layout. */
+    DesktopLegacy = 'desktop-legacy',
     /** The modern responsive layout. */
     Modern = 'modern',
-    /** The legacy mobile layout. */
+    /** The mobile layout. */
     Mobile = 'mobile',
+    /** The legacy mobile layout. */
+    MobileLegacy = 'mobile-legacy',
     /** The TV layout. */
     Tv = 'tv'
 };
+
+/** The layout modes that use the legacy app. */
+export const LegacyLayoutModes = new Set([
+    LayoutMode.DesktopLegacy,
+    LayoutMode.MobileLegacy,
+    LayoutMode.Tv
+]);

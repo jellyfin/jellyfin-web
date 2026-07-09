@@ -103,14 +103,14 @@ progress::-webkit-progress-value {
     background: #ff77f1;
 }
 
-div[data-role=controlgroup] .controlGroupButton.ui-btn-active,
-div[data-role=controlgroup] a.ui-btn-active {
+div[data-role="controlgroup"] .controlGroupButton.ui-btn-active,
+div[data-role="controlgroup"] a.ui-btn-active {
     background: #55828b !important;
     color: #e1e5f2 !important;
 }
 
 .controlGroupButton,
-a[data-role=button] {
+a[data-role="button"] {
     background: rgba(2, 43, 58, 0.521) !important;
 }
 
@@ -288,7 +288,7 @@ a[data-role=button] {
     color: rgba(255, 255, 255, 0.78);
 }
 
-@supports (backdrop-filter:blur(10px)) or (-webkit-backdrop-filter:blur(10px)) {
+@supports (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) {
     .appfooter {
         background: rgba(6, 37, 111, 0.7);
         backdrop-filter: blur(20px);
@@ -570,7 +570,7 @@ a[data-role=button] {
 
 .personCard .cardScalable {
     border-radius: 50% !important;
-    border: 1px solid rgb(255, 255, 255);
+    border: 1px solid transparent;
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {
@@ -637,7 +637,8 @@ a[data-role=button] {
 }
 
 .personCard .coveredImage {
-    clip-path: circle(50% at 50% 50%);
+    background-position-y: 20%;
+    border-radius: 50%;
 }
 
 .personCard .cardOverlayContainer {

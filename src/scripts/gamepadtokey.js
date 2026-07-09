@@ -170,13 +170,18 @@ _ButtonPressedState.setdPadRight = function (newPressedState) {
     _dPadRightPressed = newPressedState;
 };
 
+const keydownCounter = {};
 const times = {};
 
 function throttle(key) {
     const time = times[key] || 0;
     const now = new Date().getTime();
 
-    return (now - time) >= 200;
+    if (keydownCounter[key] === 1) {
+        return (now - time) >= 200;
+    } else {
+        return (now - time) >= 40;
+    }
 }
 
 function resetThrottle(key) {
@@ -225,17 +230,17 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
         // always fire if this is the initial down press
         if (oldPressedState === false) {
             fire = true;
-            resetThrottle(key);
+            keydownCounter[key] = 0;
         } else if (enableRepeatKeyDown) {
             fire = throttle(key);
         }
 
         if (fire && keyCode) {
             newPressedEvent = raiseEvent('keydown', key, keyCode);
+            keydownCounter[key]++;
+            resetThrottle(key);
         }
     } else if (newPressedState === false && oldPressedState === true) {
-        resetThrottle(key);
-
         // button up
         if (keyCode) {
             newPressedEvent = raiseEvent('keyup', key, keyCode);
@@ -343,18 +348,16 @@ function runInputLoop() {
             }
         }
     }
-    // Schedule the next one
-    inputLoopTimer = requestAnimationFrame(runInputLoop);
 }
 
 function startInputLoop() {
     if (!inputLoopTimer) {
-        runInputLoop();
+        inputLoopTimer = setInterval(runInputLoop, 20);
     }
 }
 
 function stopInputLoop() {
-    cancelAnimationFrame(inputLoopTimer);
+    clearInterval(inputLoopTimer);
     inputLoopTimer = undefined;
 }
 

@@ -96,6 +96,14 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
                     />
                 </MenuItem>
             ))}
+
+            {isChromecastPluginLoaded && playbackTargets.length === 0 && (
+                <MenuItem disabled>
+                    <ListItemText>
+                        {globalize.translate('NoCastTargets')}
+                    </ListItemText>
+                </MenuItem>
+            )}
         </Menu>
     );
 };
