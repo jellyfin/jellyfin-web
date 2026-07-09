@@ -1,5 +1,5 @@
 import type { Api } from '@jellyfin/sdk/lib/api';
-import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -12,7 +12,7 @@ const fetchItem = async (
     userId: string,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getUserLibraryApi(api)
+    const response = await getLibraryApi(api)
         .getItem({ userId, itemId }, options);
     return response.data as ItemDto;
 };
