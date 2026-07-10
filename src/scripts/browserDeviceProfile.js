@@ -253,14 +253,25 @@ function supportsHdr10(options) {
             || browser.safari && ((browser.iOS && browser.iOSVersion >= 11) || browser.osx)
             // Chrome mobile and Firefox have no client side tone-mapping
             // Edge Chromium 121+ fixed the tone-mapping color issue on Nvidia
-            || browser.edgeChromium && (browser.versionMajor >= 121)
-            || browser.chrome && !browser.mobile
+            // Desktop Chromium tone-mapping to SDR is unreliable (dark picture) with
+            // hardware decoding, so only report HDR support when the display is in
+            // HDR mode and no tone-mapping is needed. The video-dynamic-range query
+            // is still flagged as experimental in Chromium, so use dynamic-range.
+            || browser.edgeChromium && (browser.versionMajor >= 121) && window.matchMedia('(dynamic-range: high)').matches
+            || browser.chrome && !browser.mobile && window.matchMedia('(dynamic-range: high)').matches
             // Firefox 100+ has support for HDR on macOS/OS X. It requires OS support, which was
             // added in macOS 10.15 Catalina. If enabling HDR on other platforms, be careful about
             // allowing HDR VP9 in mp4 containers.
             //  * https://www.mozilla.org/en-US/firefox/100.0/releasenotes/
             //  * https://bugzilla.mozilla.org/show_bug.cgi?id=1915265
             || browser.firefox && browser.osx && (!browser.iphone && !browser.ipod && !browser.ipad) && (browser.versionMajor >= 100)
+            // Firefox reports HDR video support on other platforms through the
+            // video-dynamic-range media query (Windows support is experimental in
+            // Firefox 148). It evaluates to standard until HDR playback is available,
+            // so this cannot match versions before 148. The HDR VP9 color issue in
+            // mp4 containers noted above was fixed in Firefox 131.
+            //  * https://mozillagfx.wordpress.com/2026/01/16/experimental-high-dynamic-range-video-playback-on-windows-in-firefox-nightly-148/
+            || browser.firefox && !browser.mobile && !browser.osx && window.matchMedia('(video-dynamic-range: high)').matches
     );
 }
 
