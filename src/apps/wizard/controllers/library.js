@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 
 import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';

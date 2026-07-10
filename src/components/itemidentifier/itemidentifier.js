@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 /**
  * Module for itemidentifier media item.

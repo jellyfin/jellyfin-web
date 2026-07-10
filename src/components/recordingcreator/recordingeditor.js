@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';

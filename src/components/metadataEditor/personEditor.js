@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 
 import dialogHelper from '../dialogHelper/dialogHelper';

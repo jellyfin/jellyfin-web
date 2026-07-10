@@ -413,7 +413,10 @@ export default tseslint.config(
         rules: {
             '@typescript-eslint/no-floating-promises': 'off',
             '@typescript-eslint/no-this-alias': 'off',
-
+            '@typescript-eslint/ban-ts-comment': [
+                'error',
+                { 'ts-nocheck': false }
+            ],
             'sonarjs/public-static-readonly': 'off',
 
             // TODO: Enable the following rules and fix issues

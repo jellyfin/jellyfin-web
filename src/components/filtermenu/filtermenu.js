@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 import dom from '../../utils/dom';
 import focusManager from '../focusManager';

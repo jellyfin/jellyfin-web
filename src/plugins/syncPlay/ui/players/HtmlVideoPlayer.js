@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that manages the HtmlVideoPlayer for SyncPlay.
  * @module components/syncPlay/ui/players/HtmlVideoPlayer

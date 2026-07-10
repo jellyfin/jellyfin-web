@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 import listView from 'components/listview/listview';

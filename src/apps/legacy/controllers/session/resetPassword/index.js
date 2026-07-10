@@ -1,3 +1,4 @@
+// @ts-nocheck
 import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
 

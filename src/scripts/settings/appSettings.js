@@ -1,3 +1,4 @@
+// @ts-nocheck
 import browser from 'scripts/browser';
 import Events from '../../utils/events.ts';
 import { toBoolean } from '../../utils/string.ts';

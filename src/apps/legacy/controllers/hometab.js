@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as userSettings from 'scripts/settings/userSettings';
 import focusManager from 'components/focusManager';
 import homeSections from 'components/homesections/homesections';

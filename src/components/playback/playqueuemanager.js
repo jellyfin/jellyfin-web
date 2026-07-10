@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { randomInt } from '../../utils/number.ts';
 
 let currentId = 0;

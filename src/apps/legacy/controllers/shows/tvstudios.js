@@ -1,3 +1,4 @@
+// @ts-nocheck
 import loading from 'components/loading/loading';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 

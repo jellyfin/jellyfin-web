@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 /**
  * Useful DOM utilities.

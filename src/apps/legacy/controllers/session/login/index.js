@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DOMPurify from 'dompurify';
 import markdownIt from 'markdown-it';
 

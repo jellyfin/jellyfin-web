@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * "Shortcut" action handlers for BaseItems.
  */
