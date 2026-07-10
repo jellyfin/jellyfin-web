@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';

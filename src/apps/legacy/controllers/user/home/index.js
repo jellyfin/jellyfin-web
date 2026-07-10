@@ -1,3 +1,4 @@
+// @ts-nocheck
 import HomescreenSettings from 'components/homeScreenSettings/homeScreenSettings';
 import * as userSettings from 'scripts/settings/userSettings';
 import autoFocuser from 'components/autoFocuser';

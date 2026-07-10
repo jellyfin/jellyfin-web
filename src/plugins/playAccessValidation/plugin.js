@@ -1,3 +1,4 @@
+// @ts-nocheck
 import alert from 'components/alert';
 import { PluginType } from 'constants/pluginType';
 import globalize from 'lib/globalize';

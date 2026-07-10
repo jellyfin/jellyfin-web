@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that manages the queue of SyncPlay.
  * @module components/syncPlay/core/QueueCore

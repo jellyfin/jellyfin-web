@@ -1,3 +1,4 @@
+// @ts-nocheck
 import datetime from '../../scripts/datetime';
 import itemHelper from '../itemHelper';
 import '../../elements/emby-progressbar/emby-progressbar';

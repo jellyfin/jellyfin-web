@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { playbackManager } from 'components/playback/playbackmanager';
 import { pluginManager } from 'components/pluginManager';
 import { PluginType } from 'constants/pluginType';

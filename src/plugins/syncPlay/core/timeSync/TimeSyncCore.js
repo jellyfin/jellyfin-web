@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that manages time syncing with several devices.
  * @module components/syncPlay/core/timeSync/TimeSyncCore

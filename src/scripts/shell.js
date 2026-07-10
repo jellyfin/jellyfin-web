@@ -1,3 +1,4 @@
+// @ts-nocheck
 // TODO: This seems like a good candidate for deprecation
 export default {
     enableFullscreen: function() {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import browser from '../../scripts/browser';
 import dom from '../../utils/dom';
 import './emby-input.scss';

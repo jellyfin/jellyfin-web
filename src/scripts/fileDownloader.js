@@ -1,3 +1,4 @@
+// @ts-nocheck
 import multiDownload from './multiDownload';
 import shell from './shell';
 

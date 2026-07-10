@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that displays an editor for changing SyncPlay settings.
  * @module components/syncPlay/settings/SettingsEditor

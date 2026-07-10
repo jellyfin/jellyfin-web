@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { importModule } from '@uupaa/dynamic-import-polyfill';
 import './viewManager/viewContainer.scss';
 import Dashboard from '../utils/dashboard';

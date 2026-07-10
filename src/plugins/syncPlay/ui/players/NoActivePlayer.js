@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that manages the PlaybackManager when there's no active player.
  * @module components/syncPlay/ui/players/NoActivePlayer

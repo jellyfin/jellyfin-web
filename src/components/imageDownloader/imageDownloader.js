@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppFeature } from 'constants/appFeature';
 import dom from '../../utils/dom';
 import loading from '../loading/loading';

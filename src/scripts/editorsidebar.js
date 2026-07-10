@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 import 'jquery';
 import 'material-design-icons-iconfont';

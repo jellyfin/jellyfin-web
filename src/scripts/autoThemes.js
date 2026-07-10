@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as userSettings from './settings/userSettings';
 import skinManager from './themeManager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';

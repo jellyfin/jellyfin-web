@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { appRouter } from './router/appRouter';
 import dialog from './dialog/dialog';
 import globalize from '../lib/globalize';

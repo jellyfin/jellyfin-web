@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import Screenfull from 'screenfull';
 

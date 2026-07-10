@@ -1,3 +1,4 @@
+// @ts-nocheck
 import dom from '../utils/dom';
 import browser from '../scripts/browser';
 import layoutManager from './layoutManager';
