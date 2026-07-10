@@ -1,4 +1,3 @@
-// @ts-nocheck
 import DOMPurify from 'dompurify';
 import markdownIt from 'markdown-it';
 
@@ -23,17 +22,31 @@ import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder'
 
 import './login.scss';
 
+/**
+ * @typedef {import('jellyfin-apiclient').ApiClient} ApiClient
+ * @typedef {import('@jellyfin/sdk/lib/generated-client').AuthenticationResult} AuthenticationResult
+ * @typedef {import('@jellyfin/sdk/lib/generated-client').UserDto} UserDto
+ * @typedef {import('@jellyfin/sdk/lib/generated-client').BrandingOptionsDto} BrandingOptionsDto
+ */
+
 const enableFocusTransform = !browser.slow && !browser.edge;
 
+/**
+* @param {HTMLElement} page
+* @param {ApiClient} apiClient
+* @param {string} url
+* @param {string} username
+* @param {string} password
+*/
 function authenticateUserByName(page, apiClient, url, username, password) {
     loading.show();
     apiClient.authenticateUserByName(username, password).then(function (result) {
-        const user = result.User;
+        const user = /** @type {UserDto} */ (result.User);
         loading.hide();
 
         onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
     }, function (response) {
-        page.querySelector('#txtManualPassword').value = '';
+        /** @type {HTMLInputElement} */ (page.querySelector('#txtManualPassword')).value = '';
         loading.hide();
 
         const UnauthorizedOrForbidden = [401, 403];
@@ -49,8 +62,13 @@ function authenticateUserByName(page, apiClient, url, username, password) {
     });
 }
 
+/**
+ * @param {ApiClient} apiClient
+ * @param {string} targetUrl
+ */
 function authenticateQuickConnect(apiClient, targetUrl) {
     const url = apiClient.getUrl('/QuickConnect/Initiate');
+    // @ts-expect-error: The signature of ajax has just one argument. TODO: This should be investigated
     apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then(function (json) {
         if (!json.Secret || !json.Code) {
             console.error('Malformed quick connect response', json);
@@ -82,7 +100,8 @@ function authenticateQuickConnect(apiClient, targetUrl) {
                 }
 
                 const result = await apiClient.quickConnect(data.Secret);
-                onLoginSuccessful(result.User.Id, result.AccessToken, apiClient, targetUrl);
+                const user = /** @type {UserDto} */ (result.User);
+                onLoginSuccessful(user.Id, result.AccessToken, apiClient, targetUrl);
             }, function (e) {
                 clearInterval(interval);
 
@@ -113,30 +132,50 @@ function authenticateQuickConnect(apiClient, targetUrl) {
     });
 }
 
+/**
+ * @param {string | null | undefined} id
+ * @param {string | null | undefined} accessToken
+ * @param {ApiClient} apiClient
+ * @param {string} url
+ */
 function onLoginSuccessful(id, accessToken, apiClient, url) {
     Dashboard.onServerChanged(id, accessToken, apiClient);
     Dashboard.navigate(url || 'home');
 }
 
+/**
+ * Hide the user cards (i.e., the '.visualLoginForm') and show the manual form
+ * @param {HTMLElement} context
+ * @param {boolean} showCancel
+ * @param {boolean?} [focusPassword]
+ */
 function showManualForm(context, showCancel, focusPassword) {
-    context.querySelector('.chkRememberLogin').checked = appSettings.enableAutoLogin();
-    context.querySelector('.manualLoginForm').classList.remove('hide');
-    context.querySelector('.visualLoginForm').classList.add('hide');
-    context.querySelector('.btnManual').classList.add('hide');
+    /** @type {HTMLInputElement}*/ (context.querySelector('.chkRememberLogin')).checked = appSettings.enableAutoLogin();
+    /** @type {Element} */ (context.querySelector('.manualLoginForm')).classList.remove('hide');
+    /** @type {Element} */ (context.querySelector('.visualLoginForm')).classList.add('hide');
+    /** @type {Element} */ (context.querySelector('.btnManual')).classList.add('hide');
 
     if (focusPassword) {
-        context.querySelector('#txtManualPassword').focus();
+        /** @type {HTMLInputElement}*/ (context.querySelector('#txtManualPassword')).focus();
     } else {
-        context.querySelector('#txtManualName').focus();
+        /** @type {HTMLInputElement}*/ (context.querySelector('#txtManualName')).focus();
     }
 
     if (showCancel) {
-        context.querySelector('.btnCancel').classList.remove('hide');
+        /** @type {Element} */ (context.querySelector('.btnCancel')).classList.remove('hide');
     } else {
-        context.querySelector('.btnCancel').classList.add('hide');
+        /** @type {Element} */ (context.querySelector('.btnCancel')).classList.add('hide');
     }
 }
 
+/**
+ * Transform UserDto objects into html and inject them into the user div (#divUsers).
+ * This creates the user icons for users that are not hidden on the login screen.
+ *
+ * @param {HTMLElement} context
+ * @param {ApiClient} apiClient
+ * @param {UserDto[]} users
+ */
 function loadUserList(context, apiClient, users) {
     let html = '';
 
@@ -161,7 +200,7 @@ function loadUserList(context, apiClient, users) {
         let imgUrl;
 
         if (user.PrimaryImageTag) {
-            imgUrl = apiClient.getUserImageUrl(user.Id, {
+            imgUrl = apiClient.getUserImageUrl(/** @type {string} */ (user.Id), {
                 width: 300,
                 tag: user.PrimaryImageTag,
                 type: 'Primary'
@@ -183,10 +222,15 @@ function loadUserList(context, apiClient, users) {
         html += '</button>';
     }
 
-    context.querySelector('#divUsers').innerHTML = html;
+    /** @type {Element} */ (context.querySelector('#divUsers')).innerHTML = html;
 }
 
+/**
+ * @param {HTMLElement} view
+ * @param {Object.<string, string>} params
+ */
 export default function (view, params) {
+    /** @returns {ApiClient} */
     function getApiClient() {
         const serverId = params.serverid;
 
@@ -194,9 +238,12 @@ export default function (view, params) {
             return ServerConnections.getOrCreateApiClient(serverId);
         }
 
+        // TODO: This should be investigated
+        // @ts-expect-error: It appears we're returning a type definition here instead of an instance of the object, but this code works, so it's not as it seems
         return ApiClient;
     }
 
+    /** @returns {string} */
     function getTargetUrl() {
         if (params.url) {
             try {
@@ -210,56 +257,63 @@ export default function (view, params) {
     }
 
     function showVisualForm() {
-        view.querySelector('.visualLoginForm').classList.remove('hide');
-        view.querySelector('.manualLoginForm').classList.add('hide');
-        view.querySelector('.btnManual').classList.remove('hide');
+        /** @type {Element} */ (view.querySelector('.visualLoginForm')).classList.remove('hide');
+        /** @type {Element} */ (view.querySelector('.manualLoginForm')).classList.add('hide');
+        /** @type {Element} */ (view.querySelector('.btnManual')).classList.remove('hide');
 
         import('components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(view);
         });
     }
 
-    view.querySelector('#divUsers').addEventListener('click', function (e) {
-        const card = dom.parentWithClass(e.target, 'card');
+    // On user selected one of the user cards
+    /** @type {Element} */ (view.querySelector('#divUsers')).addEventListener('click', function (e) {
+        const card = dom.parentWithClass(/** @type {HTMLElement} */ (e.target), 'card');
         const cardContent = card ? card.querySelector('.cardContent') : null;
 
         if (cardContent) {
             const context = view;
             const id = cardContent.getAttribute('data-userid');
-            const name = cardContent.getAttribute('data-username');
+            const name = /** @type {string} */ (cardContent.getAttribute('data-username'));
             const haspw = cardContent.getAttribute('data-haspw');
 
             if (id === 'manual') {
-                context.querySelector('#txtManualName').value = '';
+                /** @type {HTMLInputElement} */ (context.querySelector('#txtManualName')).value = '';
                 showManualForm(context, true);
             } else if (haspw == 'false') {
                 authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
-                context.querySelector('#txtManualName').value = name;
-                context.querySelector('#txtManualPassword').value = '';
+                /** @type {HTMLInputElement} */ (context.querySelector('#txtManualName')).value = name;
+                /** @type {HTMLInputElement} */ (context.querySelector('#txtManualPassword')).value = '';
                 showManualForm(context, true, true);
             }
         }
     });
-    view.querySelector('.manualLoginForm').addEventListener('submit', function (e) {
-        appSettings.enableAutoLogin(view.querySelector('.chkRememberLogin').checked);
-        authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector('#txtManualName').value, view.querySelector('#txtManualPassword').value);
+    /** @type {Element} */ (view.querySelector('.manualLoginForm')).addEventListener('submit', function (e) {
+        appSettings.enableAutoLogin(/** @type {HTMLInputElement} */ (view.querySelector('.chkRememberLogin')).checked);
+        authenticateUserByName(
+            view,
+            getApiClient(),
+            getTargetUrl(),
+            /** @type {HTMLInputElement} */ (view.querySelector('#txtManualName')).value,
+            /** @type {HTMLInputElement} */ (view.querySelector('#txtManualPassword')).value
+        );
         e.preventDefault();
         return false;
     });
-    view.querySelector('.btnForgotPassword').addEventListener('click', function () {
+    /** @type {Element} */ (view.querySelector('.btnForgotPassword')).addEventListener('click', function () {
         Dashboard.navigate('forgotpassword');
     });
-    view.querySelector('.btnCancel').addEventListener('click', showVisualForm);
-    view.querySelector('.btnQuick').addEventListener('click', function () {
+    /** @type {Element} */ (view.querySelector('.btnCancel')).addEventListener('click', showVisualForm);
+    /** @type {Element} */ (view.querySelector('.btnQuick')).addEventListener('click', function () {
         authenticateQuickConnect(getApiClient(), getTargetUrl());
         return false;
     });
-    view.querySelector('.btnManual').addEventListener('click', function () {
-        view.querySelector('#txtManualName').value = '';
+    /** @type {Element} */ (view.querySelector('.btnManual')).addEventListener('click', function () {
+        /** @type {HTMLInputElement} */ (view.querySelector('#txtManualName')).value = '';
         showManualForm(view, true);
     });
-    view.querySelector('.btnSelectServer').addEventListener('click', function () {
+    /** @type {Element} */ (view.querySelector('.btnSelectServer')).addEventListener('click', function () {
         Dashboard.selectServer();
     });
 
@@ -268,7 +322,7 @@ export default function (view, params) {
         libraryMenu.setTransparentMenu(true);
 
         if (!appHost.supports(AppFeature.MultiServer)) {
-            view.querySelector('.btnSelectServer').classList.add('hide');
+            /** @type {Element} */ (view.querySelector('.btnSelectServer')).classList.add('hide');
         }
 
         const apiClient = getApiClient();
@@ -276,7 +330,7 @@ export default function (view, params) {
         apiClient.getQuickConnect('Enabled')
             .then(enabled => {
                 if (enabled === true) {
-                    view.querySelector('.btnQuick').classList.remove('hide');
+                    /** @type {Element} */ (view.querySelector('.btnQuick')).classList.remove('hide');
                 }
             })
             .catch(() => {
@@ -288,14 +342,14 @@ export default function (view, params) {
                 showVisualForm();
                 loadUserList(view, apiClient, users);
             } else {
-                view.querySelector('#txtManualName').value = '';
+                /** @type {HTMLInputElement} */ (view.querySelector('#txtManualName')).value = '';
                 showManualForm(view, false, false);
             }
         }).catch().then(function () {
             loading.hide();
         });
-        apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
-            const loginDisclaimer = view.querySelector('.loginDisclaimer');
+        apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(/** @param {BrandingOptionsDto} options */ function (options) {
+            const loginDisclaimer = /** @type {Element} */ (view.querySelector('.loginDisclaimer'));
 
             // eslint-disable-next-line sonarjs/disabled-auto-escaping
             loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
