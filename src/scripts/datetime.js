@@ -1,6 +1,10 @@
-// @ts-nocheck
 import globalize from 'lib/globalize';
 
+/**
+ * @param {string | null | undefined } s
+ * @param {boolean} [toLocal]: If not set, assumed true
+ * @returns {Date}
+ */
 export function parseISO8601Date(s, toLocal) {
     // parenthese matches:
     // year month day    hours minutes seconds
@@ -8,6 +12,8 @@ export function parseISO8601Date(s, toLocal) {
     // tzstring plusminus hours minutes
     const re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
 
+    /** @type {(string | number)[] | null} */
+    // @ts-expect-error: Some functions call this with potentially undefined `s`s and so we get a type error here
     const d = s.match(re);
 
     // "2010-12-07T11:00:00.000-09:00" parses to:
@@ -24,13 +30,14 @@ export function parseISO8601Date(s, toLocal) {
     // parse strings, leading zeros into proper ints
     const a = [1, 2, 3, 4, 5, 6, 10, 11];
     for (const i in a) {
-        d[a[i]] = parseInt(d[a[i]], 10);
+        d[a[i]] = parseInt(/** @type {string} */ (d[a[i]]), 10);
     }
-    d[7] = parseFloat(d[7]);
+    d[7] = parseFloat(/** @type {string} */ (d[7]));
 
     // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
     // note that month is 0-11, not 1-12
     // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
+    // @ts-expect-error: d is being used to hold strings and numbers and so the type checker can't tell that we know at this point that they are numbers
     let ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
 
     // if there are milliseconds, add them
@@ -40,9 +47,9 @@ export function parseISO8601Date(s, toLocal) {
 
     // if there's a timezone, calculate it
     if (d[8] !== 'Z' && d[10]) {
-        let offset = d[10] * 60 * 60 * 1000;
+        let offset = /** @type {number} */ (d[10]) * 60 * 60 * 1000;
         if (d[11]) {
-            offset += d[11] * 60 * 1000;
+            offset += /** @type {number} */ (d[11]) * 60 * 1000;
         }
         if (d[9] === '-') {
             ms -= offset;
@@ -57,9 +64,10 @@ export function parseISO8601Date(s, toLocal) {
 }
 
 /**
-     * Return a string in '{}h {}m' format for duration.
-     * @param {number} ticks - Duration in ticks.
-     */
+ * Return a string in '{}h {}m' format for duration.
+ * @param {number} ticks - Duration in ticks.
+ * @returns {string}
+ */
 export function getDisplayDuration(ticks) {
     const totalMinutes = Math.round(ticks / 600000000) || 1;
     const totalHours = Math.floor(totalMinutes / 60);
@@ -72,6 +80,10 @@ export function getDisplayDuration(ticks) {
     return result.join(' ');
 }
 
+/**
+ * @param {number} ticks
+ * @returns {string}
+ */
 export function getDisplayRunningTime(ticks) {
     const ticksPerHour = 36000000000;
     const ticksPerMinute = 600000000;
@@ -94,8 +106,10 @@ export function getDisplayRunningTime(ticks) {
     ticks -= (minutes * ticksPerMinute);
 
     if (minutes < 10 && hours) {
+        // @ts-expect-error: Assigning string to the same variable that was a number
         minutes = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
     } else {
+        // @ts-expect-error: Assigning string to the same variable that was a number
         minutes = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
     }
     parts.push(minutes);
@@ -104,8 +118,10 @@ export function getDisplayRunningTime(ticks) {
     seconds = Math.floor(seconds);
 
     if (seconds < 10) {
+        // @ts-expect-error: Assigning string to the same variable that was a number
         seconds = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
     } else {
+        // @ts-expect-error: Assigning string to the same variable that was a number
         seconds = seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
     }
     parts.push(seconds);
@@ -118,11 +134,17 @@ const toLocaleTimeStringSupportsLocales = function () {
         // eslint-disable-next-line sonarjs/no-ignored-return
         new Date().toLocaleTimeString('i');
     } catch (e) {
+        // @ts-expect-error: Type of `e` is unknown
         return e.name === 'RangeError';
     }
     return false;
 }();
 
+/**
+ * @template T
+ * @param {{ [key: string]: T }} options
+ * @returns {{ name: string, value: T }[]}
+ */
 function getOptionList(options) {
     const list = [];
 
@@ -136,6 +158,11 @@ function getOptionList(options) {
     return list;
 }
 
+/**
+ * @param { Date | number } date
+ * @param {Object} [options]
+ * @returns {string}
+ */
 export function toLocaleString(date, options) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -154,6 +181,11 @@ export function toLocaleString(date, options) {
     return date.toLocaleString();
 }
 
+/**
+ * @param {Date} date
+ * @param {Object} [options]
+ * @returns {string}
+ */
 export function toLocaleDateString(date, options) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -186,6 +218,11 @@ export function toLocaleDateString(date, options) {
     return date.toLocaleDateString();
 }
 
+/**
+ * @param {Date} date
+ * @param {Object} [options]
+ * @returns {string}
+ */
 export function toLocaleTimeString(date, options) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -204,6 +241,10 @@ export function toLocaleTimeString(date, options) {
     return date.toLocaleTimeString();
 }
 
+/**
+ * @param {Date | string} date
+ * @returns {string}
+ */
 export function getDisplayDateTime(date) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -213,13 +254,18 @@ export function getDisplayDateTime(date) {
         try {
             date = parseISO8601Date(date, true);
         } catch {
-            return date;
+            // Since parseISO8601Date failed, date is still a string
+            return /** @type {string} */ (date);
         }
     }
 
     return toLocaleString(date);
 }
 
+/**
+ * @param { Date | string | null | undefined } date
+ * @returns {string}
+ */
 export function getDisplayTime(date) {
     if (!date) {
         throw new Error('date cannot be null');
@@ -229,7 +275,8 @@ export function getDisplayTime(date) {
         try {
             date = parseISO8601Date(date, true);
         } catch {
-            return date;
+            // Since parseISO8601Date failed, date is still a string
+            return /** @type {string} */ (date);
         }
     }
 
@@ -252,9 +299,9 @@ export function getDisplayTime(date) {
         if (!hour) {
             hour = 12;
         }
-        let minutes = date.getMinutes();
+        let minutes = /** @type {string | number} */ (date.getMinutes());
 
-        if (minutes < 10) {
+        if (/** @type {number} */ (minutes) < 10) {
             minutes = '0' + minutes;
         }
 
@@ -274,6 +321,11 @@ export function getDisplayTime(date) {
     return time;
 }
 
+/**
+ * @param {Date} date
+ * @param {number} offsetInDays
+ * @returns {boolean}
+ */
 export function isRelativeDay(date, offsetInDays) {
     if (!date) {
         throw new Error('date cannot be null');
