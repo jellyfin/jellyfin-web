@@ -33,6 +33,7 @@ import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
 import { bindSkipSegment } from './skipsegment.ts';
+import { getPlaybackRetryStartTicks } from './playbackPosition.ts';
 import * as bitrateTest from 'utils/bitrateTest';
 
 const UNLIMITED_ITEMS = -1;
@@ -3418,7 +3419,11 @@ export class PlaybackManager {
 
                 // Auto switch to transcoding
                 if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
-                    const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
+                    const startTime = getPlaybackRetryStartTicks(
+                        getCurrentTicks(player),
+                        streamInfo.playerStartPositionTicks,
+                        streamInfo.started
+                    );
                     const isRemoteSource = streamInfo.item.LocationType === 'Remote';
                     // force transcoding and only allow remuxing for remote source like liveTV, but only for initial trial
                     const tryVideoStreamCopy = isRemoteSource && !isAlreadyFallbacking;

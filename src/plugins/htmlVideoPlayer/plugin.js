@@ -44,6 +44,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
+import { PlaybackTimeCache } from '../../components/playback/playbackPosition.ts';
 
 /**
  * Returns resolved URL.
@@ -289,10 +290,7 @@ export class HtmlVideoPlayer {
      * @type {boolean | undefined}
      */
     #timeUpdated;
-    /**
-     * @type {number | null | undefined}
-     */
-    #currentTime;
+    #currentTime = new PlaybackTimeCache();
 
     /**
      * @private (used in other files)
@@ -397,7 +395,7 @@ export class HtmlVideoPlayer {
         this.#started = false;
         this.#timeUpdated = false;
 
-        this.#currentTime = null;
+        this.#currentTime.reset();
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
@@ -922,7 +920,7 @@ export class HtmlVideoPlayer {
             this.ensureValidVideo(elem);
         }
 
-        this.#currentTime = time;
+        this.#currentTime.update(time);
 
         const currentPlayOptions = this._currentPlayOptions;
         // Not sure yet how this is coming up null since we never null it out, but it is causing app crashes
@@ -1798,12 +1796,14 @@ export class HtmlVideoPlayer {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             if (val != null) {
-                mediaElement.currentTime = val / 1000;
+                const time = val / 1000;
+                this.#currentTime.set(time);
+                mediaElement.currentTime = time;
                 return;
             }
 
-            const currentTime = this.#currentTime;
-            if (currentTime) {
+            const currentTime = this.#currentTime.get();
+            if (currentTime != null) {
                 return currentTime * 1000;
             }
 
