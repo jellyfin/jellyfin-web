@@ -325,6 +325,34 @@ function renderSubtitleSelections(page, mediaSources) {
     }
 }
 
+function isItemActiveInPlayer(item) {
+    const player = playbackManager.getCurrentPlayer();
+    if (!player || !item) return false;
+    const playingItem = playbackManager.currentItem(player);
+    return !!playingItem && playingItem.Id === item.Id;
+}
+
+/** Syncs the banner play button icon/title with the live playback state. */
+function updatePlayButtonState(page, item) {
+    const isActive = isItemActiveInPlayer(item);
+    const isPlaying = isActive && !playbackManager.paused();
+
+    for (const btnPlay of page.querySelectorAll('.btnPlay')) {
+        const icon = btnPlay.querySelector('.detailButton-icon');
+        if (icon) {
+            icon.classList.toggle('pause', isPlaying);
+            icon.classList.toggle('play_arrow', !isPlaying);
+        }
+        if (isPlaying) {
+            btnPlay.title = globalize.translate('ButtonPause');
+        } else if (isActive || item?.UserData?.PlaybackPositionTicks > 0) {
+            btnPlay.title = globalize.translate('ButtonResume');
+        } else {
+            btnPlay.title = globalize.translate('Play');
+        }
+    }
+}
+
 function reloadPlayButtons(page, item) {
     let canPlay = false;
 
@@ -578,6 +606,7 @@ function reloadFromItem(instance, page, params, item, user) {
     renderTimerEditor(page, item, apiClient, user);
     setInitialCollapsibleState(page, item, apiClient, params.context, user);
     const canPlay = reloadPlayButtons(page, item);
+    updatePlayButtonState(page, item);
 
     setTrailerButtonVisibility(page, item);
 
@@ -1781,9 +1810,37 @@ function renderAdditionalParts(page, item, user) {
     });
 }
 
-function renderScenes(page, item) {
-    let chapters = item.Chapters || [];
+let _chapterCleanup = null;
 
+function renderScenes(page, item) {
+    const allChapters = item.Chapters || [];
+    const isAudioBook = item.Type === 'AudioBook';
+
+    // Audiobook chapters: reuse the album track list's children section
+    if (isAudioBook && allChapters.length) {
+        page.querySelector('#scenesCollapsible').classList.add('hide');
+
+        import('components/cardbuilder/audiobookChapterList').then(({ buildAudiobookChapterList, unbindLiveUpdates }) => {
+            _chapterCleanup = unbindLiveUpdates;
+            const childrenCollapsible = page.querySelector('#listChildrenCollapsible');
+            const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
+
+            // Same treatment as MusicAlbum
+            childrenCollapsible.classList.remove('hide');
+            childrenCollapsible.classList.add('verticalSection-extrabottompadding');
+            childrenCollapsible.querySelector('.sectionTitle').classList.add('hide');
+            childrenItemsContainer.classList.add('vertical-list');
+            childrenItemsContainer.classList.remove('vertical-wrap');
+
+            buildAudiobookChapterList(item, allChapters, {
+                itemsContainer: childrenItemsContainer
+            });
+        });
+        return;
+    }
+
+    // Video chapters: image card grid (requires images)
+    let chapters = allChapters;
     if (chapters.length && !chapters[0].ImageTag) {
         chapters = [];
     }
@@ -1965,6 +2022,17 @@ export default function (view, params) {
             return;
         }
 
+        // Control the active player instead of starting a new playback
+        if (isItemActiveInPlayer(item)) {
+            if (mode === ItemAction.Resume) {
+                playbackManager.playPause();
+            } else {
+                playbackManager.seek(0);
+                playbackManager.unpause();
+            }
+            return;
+        }
+
         playItem(item, item.UserData && mode === ItemAction.Resume ? item.UserData.PlaybackPositionTicks : 0);
     }
 
@@ -2055,9 +2123,53 @@ export default function (view, params) {
         });
     }
 
+    let _detailBoundPlayer = null;
+
+    function onDetailPlayState() {
+        updatePlayButtonState(view, currentItem);
+    }
+
+    function unbindDetailPlayerEvents() {
+        if (_detailBoundPlayer) {
+            Events.off(_detailBoundPlayer, 'pause', onDetailPlayState);
+            Events.off(_detailBoundPlayer, 'unpause', onDetailPlayState);
+            _detailBoundPlayer = null;
+        }
+    }
+
+    function bindDetailPlayerEvents() {
+        unbindDetailPlayerEvents();
+        const player = playbackManager.getCurrentPlayer();
+        if (player) {
+            _detailBoundPlayer = player;
+            Events.on(player, 'pause', onDetailPlayState);
+            Events.on(player, 'unpause', onDetailPlayState);
+        }
+        onDetailPlayState();
+    }
+
+    function onDetailPlaybackStart() {
+        bindDetailPlayerEvents();
+    }
+
+    function onDetailPlaybackStop(e, stopInfo) {
+        unbindDetailPlayerEvents();
+
+        // Refresh the resume position ahead of the server's UserDataChanged
+        const state = stopInfo?.state;
+        const stoppedItem = state?.NowPlayingItem;
+        const positionTicks = state?.PlayState?.PositionTicks;
+        if (currentItem?.UserData && stoppedItem?.Id === currentItem.Id && positionTicks != null) {
+            currentItem.UserData.PlaybackPositionTicks = positionTicks;
+        }
+
+        onDetailPlayState();
+    }
+
     function onPlayerChange() {
         renderTrackSelections(view, self, currentItem);
         setTrailerButtonVisibility(view, currentItem);
+        bindDetailPlayerEvents();
     }
 
     function onUserDataChanged({ Data }) {
@@ -2071,6 +2183,7 @@ export default function (view, params) {
         if (userData) {
             currentItem.UserData = userData;
             reloadPlayButtons(view, currentItem);
+            updatePlayButtonState(view, currentItem);
             autoFocus(view);
         }
     }
@@ -2123,6 +2236,9 @@ export default function (view, params) {
                 onUserDataChanged
             );
             Events.on(playbackManager, 'playerchange', onPlayerChange);
+            Events.on(playbackManager, 'playbackstart', onDetailPlaybackStart);
+            Events.on(playbackManager, 'playbackstop', onDetailPlaybackStop);
+            bindDetailPlayerEvents();
 
             itemShortcuts.on(view.querySelector('.nameContainer'));
         });
@@ -2130,7 +2246,14 @@ export default function (view, params) {
             itemShortcuts.off(view.querySelector('.nameContainer'));
             self._unsubscribeUserData?.();
             self._unsubscribeUserData = null;
+            if (_chapterCleanup) {
+                _chapterCleanup();
+                _chapterCleanup = null;
+            }
             Events.off(playbackManager, 'playerchange', onPlayerChange);
+            Events.off(playbackManager, 'playbackstart', onDetailPlaybackStart);
+            Events.off(playbackManager, 'playbackstop', onDetailPlaybackStop);
+            unbindDetailPlayerEvents();
             libraryMenu.setTransparentMenu(false);
         });
         view.addEventListener('viewdestroy', function () {
