@@ -299,7 +299,7 @@ button::-moz-focus-inner {
 }
 
 .cardText {
-    padding: 0.06em 0.5em;
+    padding: 0.06em 2px; // 2px horizontal padding to avoid touching multiselect border
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
