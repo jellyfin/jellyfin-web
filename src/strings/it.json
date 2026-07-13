@@ -1924,5 +1924,6 @@
     "Creators": "Creatori",
     "ConfirmSplitMedia": "Sei sicuro di voler dividere le fonti multimediali in elementi separati?",
     "HeaderSplitMedia": "Suddividi media",
-    "IndexNumber": "Numero indice"
+    "IndexNumber": "Numero indice",
+    "NoCastTargets": "Nessuna destinazione di trasmissione disponibile"
 }

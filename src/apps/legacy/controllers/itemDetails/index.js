@@ -2,7 +2,6 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -2171,7 +2170,7 @@ export default function (view, params) {
             return;
         }
 
-        getUserLibraryApi(api).getItem({
+        getLibraryApi(api).getItem({
             userId: apiClient?.getCurrentUserId(),
             itemId: selectedId
         }).then(function ({ data: altItem }) {

@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { TrickplayScanBehavior } from '@jellyfin/sdk/lib/generated-client/models/trickplay-scan-behavior';
 import { ProcessPriorityClass } from '@jellyfin/sdk/lib/generated-client/models/process-priority-class';
 import { ActionData } from 'types/actionData';
@@ -30,7 +30,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const { data: config } = await getSystemApi(api).getConfiguration();
 
     const options = config.TrickplayOptions;
     if (!options) throw new Error('Unexpected null TrickplayOptions');
@@ -48,7 +48,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     options.JpegQuality = parseInt(data.JpegQuality.toString() || '90', 10);
     options.ProcessThreads = parseInt(data.TrickplayThreads.toString() || '1', 10);
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
     void queryClient.invalidateQueries({

@@ -104,61 +104,21 @@ const LibraryToolbar: FC = () => {
         >
             <LibraryViewMenu />
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexGrow: {
-                        xs: 1,
-                        sm: 0
-                    },
-                    justifyContent: 'flex-end',
-                    marginLeft: 1
-                }}
-            >
-                <ButtonGroup
-                    variant='contained'
+            {!MENU_ONLY_VIEWS.includes(viewType) && (
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexGrow: {
+                            xs: 1,
+                            sm: 0
+                        },
+                        justifyContent: 'flex-end',
+                        marginLeft: 1
+                    }}
                 >
-                    {isBtnPlayAllEnabled && (
-                        <PlayAllButton
-                            item={item}
-                            items={items}
-                            viewType={viewType}
-                            collectionType={collectionType}
-                            hasFilters={hasFilters}
-                            isTextVisible={isSmallScreen}
-                            libraryViewSettings={libraryViewSettings}
-                        />
-                    )}
-
-                    {isBtnShuffleEnabled && (
-                        <ShuffleButton
-                            item={item}
-                            items={items}
-                            viewType={viewType}
-                            collectionType={collectionType}
-                            hasFilters={hasFilters}
-                            isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
-                            libraryViewSettings={libraryViewSettings}
-                        />
-                    )}
-
-                    {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
-                        <QueueButton
-                            item={item}
-                            items={items}
-                            hasFilters={hasFilters}
-                            isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
-                        />
-                    )}
-                </ButtonGroup>
-
-                {isBtnNewCollectionEnabled && canCreateCollections && (
-                    <NewCollectionButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
-                )}
-                {isBtnNewPlaylistEnabled && (
-                    <NewPlaylistButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
-                )}
-            </Box>
+                    <Chip label={itemCountDisplay} />
+                </Box>
+            )}
 
             {!MENU_ONLY_VIEWS.includes(viewType) && (
                 <Stack
@@ -174,7 +134,10 @@ const LibraryToolbar: FC = () => {
                             sm: 'auto'
                         },
                         flexGrow: 1,
-                        marginTop: 0.5,
+                        marginTop: {
+                            xs: 1,
+                            sm: 0.5
+                        },
                         marginBottom: 0.5
                     }}
                 >
@@ -188,7 +151,49 @@ const LibraryToolbar: FC = () => {
                             }
                         }}
                     >
-                        <Chip label={itemCountDisplay} />
+                        <ButtonGroup
+                            variant='contained'
+                        >
+                            {isBtnPlayAllEnabled && (
+                                <PlayAllButton
+                                    item={item}
+                                    items={items}
+                                    viewType={viewType}
+                                    collectionType={collectionType}
+                                    hasFilters={hasFilters}
+                                    isTextVisible={isSmallScreen}
+                                    libraryViewSettings={libraryViewSettings}
+                                />
+                            )}
+
+                            {isBtnShuffleEnabled && (
+                                <ShuffleButton
+                                    item={item}
+                                    items={items}
+                                    viewType={viewType}
+                                    collectionType={collectionType}
+                                    hasFilters={hasFilters}
+                                    isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
+                                    libraryViewSettings={libraryViewSettings}
+                                />
+                            )}
+
+                            {isBtnQueueEnabled && item && playbackManager.canQueue(item) && (
+                                <QueueButton
+                                    item={item}
+                                    items={items}
+                                    hasFilters={hasFilters}
+                                    isTextVisible={isSmallScreen && !isBtnPlayAllEnabled && !isBtnShuffleEnabled}
+                                />
+                            )}
+                        </ButtonGroup>
+
+                        {isBtnNewCollectionEnabled && canCreateCollections && (
+                            <NewCollectionButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
+                        )}
+                        {isBtnNewPlaylistEnabled && (
+                            <NewPlaylistButton isTextVisible={isSmallScreen} queryKey={allItemsQueryKey} />
+                        )}
                     </Box>
 
                     <ButtonGroup

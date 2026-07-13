@@ -1,7 +1,7 @@
 import { Api } from '@jellyfin/sdk';
-import { ArtistsApiGetArtistsRequest } from '@jellyfin/sdk/lib/generated-client/api/artists-api';
+import { ArtistApiGetArtistsRequest } from '@jellyfin/sdk/lib/generated-client/api/artist-api';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { getArtistsApi } from '@jellyfin/sdk/lib/utils/api/artists-api';
+import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
@@ -11,10 +11,10 @@ import { isMusic } from '../utils/search';
 const fetchArtists = async (
     api: Api,
     userId: string,
-    params?: ArtistsApiGetArtistsRequest,
+    params?: ArtistApiGetArtistsRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getArtistsApi(api).getArtists(
+    const response = await getArtistApi(api).getArtists(
         {
             ...QUERY_OPTIONS,
             userId,

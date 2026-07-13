@@ -3,7 +3,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import { RecordingStatus } from '@jellyfin/sdk/lib/generated-client/models/recording-status';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 import { appHost } from './apphost';
 import { AppFeature } from 'constants/appFeature';
@@ -167,7 +167,7 @@ export async function canEditPlaylist(user, item) {
     const api = ServerConnections.getApi(item.ServerId);
 
     try {
-        const { data: permissions } = await getPlaylistsApi(api)
+        const { data: permissions } = await getPlaylistApi(api)
             .getPlaylistUser({
                 userId: user.Id,
                 playlistId: item.Id

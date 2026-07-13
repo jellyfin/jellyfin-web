@@ -1,4 +1,4 @@
-import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 import listView from 'components/listview/listview';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -39,7 +39,7 @@ async function init(page, item) {
     }
 
     let isEditable = false;
-    const { data } = await getPlaylistsApi(api)
+    const { data } = await getPlaylistApi(api)
         .getPlaylistUser({
             playlistId: item.Id,
             userId: apiClient.getCurrentUserId()
