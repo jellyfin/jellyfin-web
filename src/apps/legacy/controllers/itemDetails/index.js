@@ -856,8 +856,15 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#specialsCollapsible').classList.add('hide');
     }
 
+    const mergeablePersonTypes = new Set([
+        PersonKind.Writer,
+        PersonKind.Director,
+        PersonKind.Producer
+    ]);
+
     const cast = [];
     const guestCast = [];
+    const crewByPersonId = new Map();
     (item.People || []).forEach(p => {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
@@ -865,7 +872,17 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
             // TODO remove this exclusion when artists are migrated to the persons endpoint
             return;
         } else {
-            cast.push(p);
+            const isMergeableCrew = p.Id && mergeablePersonTypes.has(p.Type);
+            const existingIndex = isMergeableCrew ? crewByPersonId.get(p.Id) : undefined;
+
+            if (existingIndex !== undefined) {
+                cast[existingIndex].RoleList.push({ Type: p.Type, Role: p.Role });
+            } else {
+                if (isMergeableCrew) {
+                    crewByPersonId.set(p.Id, cast.length);
+                }
+                cast.push(isMergeableCrew ? { ...p, RoleList: [{ Type: p.Type, Role: p.Role }] } : p);
+            }
         }
     });
 
