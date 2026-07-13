@@ -2040,7 +2040,14 @@ export default function (view, params) {
                 itemContextMenu.show(getContextMenuOptions(selectedItem, user, button))
                     .then(function (result) {
                         if (result.deleted) {
-                            appRouter.back();
+                            const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
+                            if (appRouter.canGoBack()) {
+                                appRouter.back();
+                            } else if (parentId) {
+                                appRouter.showItem(parentId, item.ServerId);
+                            } else {
+                                appRouter.goHome();
+                            }
                         } else if (result.updated) {
                             reload(self, view, params);
                         }
