@@ -1,0 +1,141 @@
+// Rows reuse .listItem / .listItem-border / .listItemBody from listview for
+// album-track-like appearance; the overrides below cover chapter specifics.
+.audiobookChapterItem {
+    position: relative;
+
+    // Let the hover bubble escape the row (.listItem clips + contains)
+    overflow: visible;
+    contain: none;
+}
+
+.audiobookChapterItem:hover,
+.audiobookChapterItem:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.audiobookChapterItem.chapterItem-played {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.audiobookChapterItem.chapterItem-playing {
+    background: rgba(255, 255, 255, 0.04);
+
+    // Leave room for the bottom-anchored seek slider
+    padding-bottom: 0.7em;
+}
+
+.audiobookChapterItem-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6em;
+    flex-shrink: 0;
+    margin-inline-start: 0.5em;
+}
+
+.audiobookChapterItem-index {
+    flex-shrink: 0;
+    min-width: 1.8em;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9em;
+}
+
+.audiobookChapterItem-iconComplete {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.audiobookChapterItem-iconPlaying {
+    font-size: 1.1em;
+    color: #00a4dc;
+}
+
+// The play button hides at rest and replaces the resting glyph on hover/focus
+.audiobookChapterItem-iconPlay {
+    font-size: 1.1em;
+    color: #00a4dc;
+    display: none;
+}
+
+.audiobookChapterItem:hover,
+.audiobookChapterItem:focus-within {
+    .audiobookChapterItem-iconComplete {
+        display: none;
+    }
+
+    .audiobookChapterItem-iconPlay {
+        display: inline-flex;
+    }
+}
+
+.chapterItem-playing .audiobookChapterItem-name {
+    font-weight: 600;
+}
+
+.audiobookChapterItem-time {
+    font-size: 0.85em;
+    flex-shrink: 0;
+    margin-inline-end: 1em;
+}
+
+.audiobookChapterItem-restart {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    margin-inline-end: 0.6em;
+
+    &:hover {
+        color: #00a4dc;
+    }
+}
+
+// Seekable progress slider anchored along the bottom edge of the playing
+// row. The visible track aligns with the row content: from the left edge of
+// the status icon to the right edge of the timestamp. The slider pads its
+// track by 0.54em (half thumb) inside its container, so subtract that.
+.audiobookChapterItem-sliderContainer {
+    position: absolute;
+    left: calc(0.5em + 0.5em - 0.54em); // row padding + status icon margin - track padding
+    right: calc(0.25em + 1em - 0.54em); // row padding + timestamp margin - track padding
+    bottom: 0;
+}
+
+// Positioned in viewport coords by updateBubbleHtml; JS handles centering
+.audiobookChapterItem-sliderContainer .sliderBubble {
+    position: fixed;
+    z-index: 1000;
+    transform: none;
+}
+
+// Pending TV seek: a second grey dot marks the position awaiting OK while
+// the blue thumb keeps tracking live playback. Lives on the bubble track
+// rail, vertically centered on the 1.25em slider container.
+.audiobookChapterSlider-pendingDot {
+    position: absolute;
+    top: 0.625em;
+    width: 1.08em;
+    height: 1.08em;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+// TV overrides last: their .layout-tv prefix raises specificity above the
+// base row rules, so ordering them here keeps no-descending-specificity happy.
+
+// Highlight the focused chapter row (rows are normal focus stops)
+.layout-tv .audiobookChapterItem:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 0.14em #00a4dc;
+    border-radius: 0.2em;
+}
+
+// Seeking is done with the D-pad; the restart button is redundant
+.layout-tv .audiobookChapterItem-restart {
+    display: none;
+}
