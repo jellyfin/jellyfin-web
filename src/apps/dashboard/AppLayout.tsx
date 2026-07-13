@@ -79,6 +79,7 @@ export const Component: FC = () => {
                             buttons={
                                 <HelpButton />
                             }
+                            className='dashboard-appBar'
                         >
                             {isMetadataManager && (
                                 <ServerButton />
