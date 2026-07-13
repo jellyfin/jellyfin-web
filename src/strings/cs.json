@@ -184,7 +184,7 @@
     "HeaderApiKeys": "Klíče k API",
     "HeaderApiKeysHelp": "Externí aplikace musí mít klíč k API, aby mohly komunikovat se serverem. Klíče jsou vydávány přihlášením k běžnému uživatelskému účtu nebo ruční žádostí o klíč.",
     "HeaderApp": "Aplikace",
-    "HeaderAudioBooks": "Audio knihy",
+    "HeaderAudioBooks": "Audioknihy",
     "HeaderAudioSettings": "Nastavení zvuku",
     "HeaderBranding": "Značka",
     "HeaderCancelRecording": "Zrušit nahrávání",
@@ -1920,5 +1920,10 @@
     "StillWatchingPrompt": "Dotaz na sledování",
     "StillWatchingOption": "{0} epizod nebo {1} minut",
     "StopWatching": "Přestat sledovat",
-    "TableOfContents": "Obsah"
+    "TableOfContents": "Obsah",
+    "ConfirmSplitMedia": "Opravdu chcete rozdělit zdroje médií na samostatné položky?",
+    "HeaderSplitMedia": "Rozdělit média",
+    "Creators": "Tvůrci",
+    "IndexNumber": "Indexové číslo",
+    "NoCastTargets": "Nejsou k dispozici žádné obrazovky"
 }

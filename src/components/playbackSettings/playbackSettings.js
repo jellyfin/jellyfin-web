@@ -1,8 +1,8 @@
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
 import escapeHTML from 'escape-html';
 
-import { MediaSegmentAction } from 'apps/stable/features/playback/constants/mediaSegmentAction';
-import { getId, getMediaSegmentAction } from 'apps/stable/features/playback/utils/mediaSegmentSettings';
+import { MediaSegmentAction } from 'apps/legacy/features/playback/constants/mediaSegmentAction';
+import { getId, getMediaSegmentAction } from 'apps/legacy/features/playback/utils/mediaSegmentSettings';
 import { pluginManager } from 'components/pluginManager';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';

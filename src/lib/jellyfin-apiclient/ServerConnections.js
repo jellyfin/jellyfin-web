@@ -6,7 +6,6 @@ import { setUserInfo } from 'scripts/settings/userSettings';
 import { detectBitrate } from 'utils/bitrateTest';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 
 import ConnectionManager from './connectionManager';
@@ -53,26 +52,9 @@ class ServerConnections extends ConnectionManager {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
 
-            // Bridge the SDK websocket subscribe API onto the legacy ApiClient.
-            // The SDK Api is lazily created on first use so the access token is available.
-            let _sdkApi = null;
-            apiClient.subscribe = (messageTypes, onMessage, subscriptionIntervals) => {
-                if (!_sdkApi) {
-                    _sdkApi = toApi(apiClient);
-                }
-
-                // Keep the SDK Api's access token in sync with the legacy client.
-                // The first subscribe call may happen before authentication completes
-                // (e.g. from notifications.js at module load time), leaving _sdkApi
-                // with no token and a WebSocket that never connects. Calling update()
-                // triggers WebSocketService.updateUrl() which reconnects automatically.
-                const accessToken = apiClient.accessToken();
-                if (accessToken && _sdkApi.accessToken !== accessToken) {
-                    _sdkApi.update({ accessToken });
-                }
-
-                return _sdkApi.subscribe(messageTypes, onMessage, subscriptionIntervals);
-            };
+            // Calling getApi will ensure apiClient._sdk is initialized.
+            this.getApi(apiClient.serverId());
+            apiClient.subscribe = apiClient._sdk.subscribe.bind(apiClient._sdk);
         });
     }
 
@@ -111,6 +93,8 @@ class ServerConnections extends ConnectionManager {
         if (apiClient) {
             this.localApiClient = apiClient;
             window.ApiClient = apiClient;
+            // Calling getApi will ensure apiClient._sdk is initialized.
+            this.getApi(apiClient.serverId());
         }
     }
 
@@ -137,17 +121,6 @@ class ServerConnections extends ConnectionManager {
     }
 
     /**
-     * Gets the Api that is currently connected.
-     * @returns {import(@jellyfin/sdk).Api|undefined} The current Api instance.
-     */
-    getCurrentApi() {
-        const apiClient = this.currentApiClient();
-        if (!apiClient) return;
-
-        return toApi(apiClient);
-    }
-
-    /**
      * Gets the ApiClient that is currently connected or throws if not defined.
      * @async
      * @returns {Promise<ApiClient>} The current ApiClient instance.
@@ -162,7 +135,7 @@ class ServerConnections extends ConnectionManager {
     onLocalUserSignedIn(user) {
         const apiClient = this.getApiClient(user.ServerId);
         this.setLocalApiClient(apiClient);
-        setTimeout(() => detectBitrate(toApi(apiClient), true), 6000);
+        setTimeout(() => detectBitrate(this.getApi(user.ServerId), true), 6000);
         return setUserInfo(user.Id, apiClient).then(() => {
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedIn === 'function') {
                 return window.NativeShell.onLocalUserSignedIn(user, apiClient.accessToken());

@@ -1194,7 +1194,7 @@
     "MusicVideos": "Zenei videók",
     "Image": "Kép",
     "Other": "Egyéb",
-    "Data": "Adatok",
+    "Data": "Adat",
     "EnableQuickConnect": "Gyors kapcsolódás engedélyezése a szerveren",
     "EnableAutoCast": "Beállítás alapértelmezettként",
     "ButtonUseQuickConnect": "Gyors kapcsolódás használata",
@@ -1920,5 +1920,10 @@
     "StillWatchingPrompt": "Még mindig nézem üzenet",
     "StillWatchingOption": "{0} epizód vagy {1} perc",
     "StopWatching": "Hagyd abba a nézést",
-    "TableOfContents": "Tartalomjegyzék"
+    "TableOfContents": "Tartalomjegyzék",
+    "Creators": "Alkotók",
+    "ConfirmSplitMedia": "Biztosan külön elemekre szeretnéd osztani a médiaforrásokat?",
+    "HeaderSplitMedia": "Szétválasztjuk a médiát",
+    "IndexNumber": "Index szám",
+    "NoCastTargets": "Nincs elérhető célpont"
 }

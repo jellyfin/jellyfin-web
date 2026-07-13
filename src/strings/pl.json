@@ -234,7 +234,7 @@
     "HeaderApiKeysHelp": "Aplikacje zewnętrzne muszą posiadać klucz API, aby móc komunikować się z serwerem. Klucze wydawane są po zalogowaniu się za pomocą konta lub ręcznie nadając aplikacji klucz.",
     "HeaderApp": "Aplikacja",
     "HeaderAppearsOn": "Występuje",
-    "HeaderAudioBooks": "Książka mówiona",
+    "HeaderAudioBooks": "Audiobooki",
     "HeaderAudioSettings": "Ustawienia dźwięku",
     "HeaderBlockItemsWithNoRating": "Blokuj pozycje z brakującą lub nierozpoznaną kategorią wiekową",
     "HeaderBranding": "Dostosowywanie",
@@ -1920,5 +1920,10 @@
     "StillWatchingPrompt": "Monit „Czy nadal oglądasz?”",
     "StillWatchingOption": "Odcinki: {0} lub minuty: {1}",
     "StopWatching": "Zatrzymaj oglądanie",
-    "TableOfContents": "Spis treści"
+    "TableOfContents": "Spis treści",
+    "ConfirmSplitMedia": "Czy na pewno chcesz podzielić źródła multimediów na osobne elementy?",
+    "HeaderSplitMedia": "Podziel multimedia",
+    "Creators": "Twórcy",
+    "IndexNumber": "Numer indeksu",
+    "NoCastTargets": "Brak dostępnych docelowych urządzeń do przesyłania"
 }

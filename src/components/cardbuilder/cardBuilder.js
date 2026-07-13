@@ -15,7 +15,6 @@ import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getItemTypeIcon, getLibraryIcon } from 'utils/image';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import focusManager from '../focusManager';
 import imageLoader from '../images/imageLoader';
@@ -746,7 +745,7 @@ function buildCard(index, item, apiClient, options) {
 
     // TODO move card creation code to Card component
 
-    const imgInfo = getCardImageUrl({ api: toApi(apiClient), item, options, shape });
+    const imgInfo = getCardImageUrl({ api: ServerConnections.getApi(apiClient.serverId()), item, options, shape });
     const imgUrl = imgInfo.imgUrl;
     const blurhash = imgInfo.blurhash;
     const forceName = imgInfo.forceName;

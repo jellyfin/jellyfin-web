@@ -12,14 +12,14 @@ import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'rea
 import { ActionData } from 'types/actionData';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const { data: config } = await getSystemApi(api).getConfiguration();
     const formData = await request.formData();
 
     const minResumePercentage = formData.get('MinResumePercentage')?.toString();
@@ -34,7 +34,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (maxAudiobookResume) config.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
     if (minResumeDuration) config.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
     void queryClient.invalidateQueries({

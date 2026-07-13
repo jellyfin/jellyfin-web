@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
+import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -27,7 +27,7 @@ import InputDialog from 'components/InputDialog';
 import { useSendMessage } from '../../sessions/api/useSendMessage';
 
 type DeviceCardProps = {
-    device: SessionInfo;
+    device: SessionInfoDto;
 };
 
 const DeviceCard = ({ device }: DeviceCardProps) => {

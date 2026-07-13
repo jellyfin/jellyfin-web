@@ -95,6 +95,8 @@ function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex
 
     if (btnNextPage) {
         btnNextPage.addEventListener('click', function () {
+            btnNextPage.disabled = true;
+            if (btnPreviousPage) btnPreviousPage.disabled = true;
             browsableImageStartIndex += browsableImagePageSize;
             reloadBrowsableImages(page, apiClient);
         });
@@ -102,6 +104,8 @@ function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex
 
     if (btnPreviousPage) {
         btnPreviousPage.addEventListener('click', function () {
+            btnPreviousPage.disabled = true;
+            if (btnNextPage) btnNextPage.disabled = true;
             browsableImageStartIndex -= browsableImagePageSize;
             reloadBrowsableImages(page, apiClient);
         });
