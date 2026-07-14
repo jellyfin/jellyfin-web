@@ -246,6 +246,7 @@ export class PdfPlayer {
     loadPage(number) {
         const prefix = 'page';
         const pad = 2;
+        const canvas = document.querySelector('#canvas');
 
         // generate list of cached pages by padding the requested page on both sides
         const pages = [prefix + number];
@@ -265,7 +266,7 @@ export class PdfPlayer {
         }
 
         // show the requested page
-        document.querySelector('#canvas')?.replaceWith(this.pages[prefix + number]);
+        canvas?.parentNode.replaceChild(this.pages[prefix + number], canvas);
 
         // delete all pages outside the cache area
         for (const page in this.pages) {
@@ -278,13 +279,15 @@ export class PdfPlayer {
     renderPage(canvas, number) {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
-            const current = document.querySelector('#canvas');
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((current.clientHeight / original.height), (current.clientWidth / original.width)) * devicePixelRatio;
-            const viewport = page.getViewport({ scale });
+            const scale = Math.min((window.innerHeight / original.height * 0.9), (window.innerWidth / original.width));
+            const viewport = page.getViewport({ scale: scale * devicePixelRatio });
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
+
+            canvas.style.width = `${original.width * scale}px`;
+            canvas.style.height = `${original.height * scale}px`;
 
             const context = canvas.getContext('2d');
 

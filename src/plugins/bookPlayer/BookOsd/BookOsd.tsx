@@ -107,7 +107,7 @@ const BookOsd: FC<BookOsdProps> = ({
                     <IconButton
                         onClick={onClickDirection}
                         icon={direction ? 'arrow_circle_left' : 'arrow_circle_right'}
-                        title={direction ? 'Right to Left' : 'Left to Right'}
+                        title={globalize.translate(direction ? 'ViewRightToLeft' : 'ViewLeftToRight')}
                     />
                 )}
 
@@ -115,7 +115,7 @@ const BookOsd: FC<BookOsdProps> = ({
                     <IconButton
                         onClick={onClickLayout}
                         icon={layout ? 'import_contacts' : 'devices_fold'}
-                        title={layout ? 'Double Page View' : 'Single Page View'}
+                        title={globalize.translate(layout ? 'ViewDoublePage' : 'ViewSinglePage')}
                     />
                 )}
 
