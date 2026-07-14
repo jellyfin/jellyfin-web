@@ -39,8 +39,8 @@ EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
     };
 
     const serverId = dom.parentWithAttribute(this, 'data-serverid').getAttribute('data-serverid');
-    this._wsUnsubscribers = ServerConnections.getApiClient(serverId)
-        .subscribe([OutboundWebSocketMessageType.RefreshProgress], handler);
+    this._wsUnsubscribers = [ServerConnections.getApiClient(serverId)
+        .subscribe([OutboundWebSocketMessageType.RefreshProgress], handler)];
 };
 
 EmbyItemRefreshIndicatorPrototype.attachedCallback = function () {
