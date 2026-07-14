@@ -302,7 +302,7 @@ ItemsContainerPrototype.attachedCallback = function () {
     this._wsApiClientCreatedHandler = (e, newApiClient) => {
         this._wsUnsubscribers = (this._wsUnsubscribers ?? []).concat(subscribeToApiClient(newApiClient));
     };
-    this._wsUnsubscribers = ServerConnections.getApiClients().flatMap(subscribeToApiClient);
+    this._wsUnsubscribers = [subscribeToApiClient(ServerConnections.currentApiClient())];
 
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 
