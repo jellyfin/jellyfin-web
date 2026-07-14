@@ -1,5 +1,5 @@
-import type { BrandingOptions } from '@jellyfin/sdk/lib/generated-client/models/branding-options';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import type { BrandingOptionsDto } from '@jellyfin/sdk/lib/generated-client/models/branding-options-dto';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import Delete from '@mui/icons-material/Delete';
 import Upload from '@mui/icons-material/Upload';
@@ -33,19 +33,19 @@ const BrandingOption = {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
 
-    const brandingOptions: BrandingOptions = {
+    const brandingOptions: BrandingOptionsDto = {
         CustomCss: data.CustomCss?.toString(),
         LoginDisclaimer: data.LoginDisclaimer?.toString(),
         SplashscreenEnabled: data.SplashscreenEnabled?.toString() === 'on'
     };
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateNamedConfiguration({
             key: BRANDING_CONFIG_KEY,
             body: JSON.stringify(brandingOptions)
@@ -61,7 +61,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const loader = async () => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) return {};
 
     return queryClient.ensureQueryData(
@@ -150,7 +150,7 @@ export const Component = () => {
     const setSplashscreenEnabled = useCallback(async (_: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {
         setIsSplashscreenEnabled(isEnabled);
 
-        await getConfigurationApi(api!)
+        await getSystemApi(api!)
             .updateNamedConfiguration({
                 key: BRANDING_CONFIG_KEY,
                 body: JSON.stringify({

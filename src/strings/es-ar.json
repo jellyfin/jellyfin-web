@@ -1872,5 +1872,9 @@
     "HeaderDeleteCollection": "Eliminar colección",
     "HeaderDeletePlaylist": "Eliminar lista de reproducción",
     "NewPlaylist": "Nueva Lista de Reproducción",
-    "OptionDatePlaylistUpdated": "Fecha en que se actualizó la Lista de Reproducción"
+    "OptionDatePlaylistUpdated": "Fecha en que se actualizó la Lista de Reproducción",
+    "ActivitiesLoadError": "No se pudieron cargar las actividades",
+    "ApiKeysLoadError": "Error al cargar las claves de la API",
+    "Authors": "Autores",
+    "BrandingLoadError": "No se pudieron cargar los ajustes de marca"
 }

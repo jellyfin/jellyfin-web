@@ -421,6 +421,10 @@ function resetRefreshInterval(itemsContainer, intervalMs) {
 }
 
 function onDataFetched(result) {
+    // Skip updating if getItemsHtml is not defined.
+    // This happens when the view is unloaded while the request is still pending.
+    if (!this.getItemsHtml) return;
+
     const items = result.Items || result;
 
     const parentContainer = this.parentContainer;
@@ -476,4 +480,3 @@ document.registerElement('emby-itemscontainer', {
     prototype: ItemsContainerPrototype,
     extends: 'div'
 });
-

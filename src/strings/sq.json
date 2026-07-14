@@ -627,5 +627,7 @@
     "GoHome": "Shko tek shtëpia",
     "HardwareAccelerationWarning": "Aktivizimi i përshpejtimit të harduerit mund të shkaktojë paqëndrueshmëri në disa mjedise. Sigurohuni që sistemi juaj operativ dhe drajverët e videos janë plotësisht të përditësuar. Nëse keni vështirësi në luajtjen e videos pasi ta aktivizoni këtë, do t'ju duhet ta ndryshoni cilësimin përsëri në Asnjë.",
     "HeaderAllRecordings": "Të gjitha xhirimet",
-    "HeaderBackupsHelp": "Krijo dhe restauro snapshote të serverit tënd që mund të përfshijnë databazën, metadata, titra dhe trickplay."
+    "HeaderBackupsHelp": "Krijo dhe restauro snapshote të serverit tënd që mund të përfshijnë databazën, metadata, titra dhe trickplay.",
+    "ActivitiesLoadError": "Dështoi ngarkimi i aktiviteteve",
+    "ApiKeysLoadError": "Ngarkimi i çelësave API dështoi"
 }

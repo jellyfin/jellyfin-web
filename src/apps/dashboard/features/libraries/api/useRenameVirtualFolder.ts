@@ -3,19 +3,18 @@ import { LibraryStructureApiRenameVirtualFolderRequest } from '@jellyfin/sdk/lib
 import { useMutation } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+
+import { invalidateVirtualFolders } from './invalidateVirtualFolders';
 
 export const useRenameVirtualFolder = () => {
-    const { api } = useApi();
+    const { api, user } = useApi();
     return useMutation({
         mutationFn: (params: LibraryStructureApiRenameVirtualFolderRequest) => (
             getLibraryStructureApi(api!)
                 .renameVirtualFolder(params)
         ),
         onSuccess: () => {
-            void queryClient.invalidateQueries({
-                queryKey: [ 'VirtualFolders' ]
-            });
+            invalidateVirtualFolders(user);
         }
     });
 };

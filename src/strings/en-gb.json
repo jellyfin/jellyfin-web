@@ -263,7 +263,7 @@
     "HeaderApiKeysHelp": "External applications are required to have an API key in order to communicate with the server. Keys are issued by logging in with a normal user account or manually granting the application a key.",
     "HeaderApp": "App",
     "HeaderAppearsOn": "Appears On",
-    "HeaderAudioBooks": "Audio Books",
+    "HeaderAudioBooks": "Audiobooks",
     "HeaderAudioSettings": "Audio Settings",
     "HeaderBranding": "Branding",
     "HeaderCancelRecording": "Cancel Recording",
@@ -1920,5 +1920,10 @@
     "StopWatching": "Stop watching",
     "HeaderBackupWarning": "WARNING: Ongoing scheduled tasks",
     "TableOfContents": "Table of Contents",
-    "VideoRotationNotSupported": "The video rotation is not supported"
+    "VideoRotationNotSupported": "The video rotation is not supported",
+    "ConfirmSplitMedia": "Are you sure you wish to split the media sources into separate items?",
+    "HeaderSplitMedia": "Split Media Apart",
+    "Creators": "Creators",
+    "IndexNumber": "Index Number",
+    "NoCastTargets": "No cast targets available"
 }

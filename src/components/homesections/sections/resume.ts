@@ -4,13 +4,13 @@ import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-field
 import type { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import { getResumeItemsQuery } from 'apps/stable/features/libraries/api/useResumeItems';
+import { getResumeItemsQuery } from 'apps/legacy/features/libraries/api/useResumeItems';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import globalize from 'lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { queryClient } from 'utils/query/queryClient';
 import type { UserSettings } from 'scripts/settings/userSettings';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 
@@ -25,6 +25,7 @@ function getItemsToResumeFn(
     { enableOverflow }: SectionOptions
 ) {
     return function () {
+        const api = ServerConnections.getApi(apiClient.serverId());
         const limit = enableOverflow ? 12 : 5;
 
         const options = {
@@ -42,7 +43,7 @@ function getItemsToResumeFn(
         };
 
         return queryClient
-            .fetchQuery(getResumeItemsQuery(toApi(apiClient), options));
+            .fetchQuery(getResumeItemsQuery(api, options));
     };
 }
 

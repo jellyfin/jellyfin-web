@@ -1920,5 +1920,10 @@
     "StillWatchingPrompt": "Запит «Ви все ще дивитеся?»",
     "StillWatchingOption": "{0} епізодів або {1} хвилин",
     "StopWatching": "Припинити дивитися",
-    "TableOfContents": "Зміст"
+    "TableOfContents": "Зміст",
+    "ConfirmSplitMedia": "Ви впевнені, що хочете розділити медіаджерела на окремі елементи?",
+    "HeaderSplitMedia": "Розділити медіафайл",
+    "Creators": "Творці",
+    "IndexNumber": "Номер індексу",
+    "NoCastTargets": "Немає пристроїв для трансляції"
 }
