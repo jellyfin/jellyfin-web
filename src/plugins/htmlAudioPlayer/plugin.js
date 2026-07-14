@@ -115,6 +115,11 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
+                if (browser.iOS) {
+                    // createMediaElementSource breaks playbackRate and pitch on iOS WebKit
+                    return;
+                }
+
                 let normalizationGain;
                 if (userSettings.selectAudioNormalization() == 'TrackGain') {
                     normalizationGain = options.item.NormalizationGain
