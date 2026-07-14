@@ -1883,7 +1883,7 @@
     "NetworkingPageLoadError": "Không thể tải cài đặt mạng",
     "ResetFilters": "Đặt lại bộ lọc",
     "ResumeLoadError": "Không thể tải cài đặt tiếp tục",
-    "StreamingLoadError": "Không thể tải cài đặt trang phát trực tuyến",
+    "StreamingLoadError": "Không thể tải cài đặt trang truyền phát",
     "LabelExternalServerUri": "URI bên ngoài",
     "LabelExternalServerUriHelp": "Địa chỉ URI máy chủ đã công bố để truy cập từ bên ngoài.",
     "Authors": "Tác giả",
