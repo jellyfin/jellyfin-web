@@ -4,6 +4,7 @@ import Screenfull from 'screenfull';
 import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
+import screenSaverManager from 'scripts/screensavermanager';
 import TouchHelper from 'scripts/touchHelper';
 
 import loading from '../../components/loading/loading';
@@ -61,6 +62,7 @@ export class BookPlayer {
         this.cancellationToken = false;
         this.loaded = false;
 
+        screenSaverManager.block();
         loading.show();
         const elem = this.createMediaElement(options);
         return this.setCurrentSrc(elem, options);
@@ -69,6 +71,7 @@ export class BookPlayer {
     stop() {
         this.unbindEvents();
         this.unmountBookOsd();
+        screenSaverManager.unblock();
 
         const stopInfo = {
             src: this.item

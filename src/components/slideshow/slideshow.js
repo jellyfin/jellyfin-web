@@ -576,6 +576,8 @@ export default function (options) {
         inputManager.off(window, onInputCommand);
         /* eslint-disable-next-line compat/compat */
         document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
+
+        currentOptions.onClose?.();
     }
 
     /**
