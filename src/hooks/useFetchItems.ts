@@ -355,6 +355,8 @@ const fetchGetItemsViewByType = async (
         }
         return response.data as ItemDtoQueryResult;
     }
+
+    return {};
 };
 
 export const useGetItemsViewByType = (
