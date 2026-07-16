@@ -14,9 +14,8 @@ interface Star {
 }
 
 function randomBetween(min: number, max: number): number {
-    // NOSONAR: Math.random() is used purely for cosmetic star placement/timing,
-    // not for any security-sensitive purpose.
-    return min + Math.random() * (max - min);
+    // Cosmetic randomness only (star position/timing) - not security-sensitive.
+    return min + Math.random() * (max - min); // NOSONAR
 }
 
 function easeInOut(t: number): number {
@@ -57,7 +56,7 @@ class StarfieldScreensaver {
     private lastFrameTime = 0;
     private prefersReducedMotion = false;
 
-    private spawnStar = (): void => {
+    private readonly spawnStar = (): void => {
         if (!this.width || !this.height) return;
 
         const fadeIn = randomBetween(600, 1600);
@@ -78,7 +77,7 @@ class StarfieldScreensaver {
         });
     };
 
-    private scheduleNextSpawn = (delayOverride?: number): void => {
+    private readonly scheduleNextSpawn = (delayOverride?: number): void => {
         const delay = delayOverride ?? randomBetween(80, 260);
 
         this.spawnTimeoutId = setTimeout(() => {
@@ -93,7 +92,7 @@ class StarfieldScreensaver {
         }, delay);
     };
 
-    private draw = (dt: number): void => {
+    private readonly draw = (dt: number): void => {
         const { ctx } = this;
         if (!ctx) return;
 
@@ -125,7 +124,7 @@ class StarfieldScreensaver {
         }
     };
 
-    private tick = (now: number): void => {
+    private readonly tick = (now: number): void => {
         const dt = now - (this.lastFrameTime || now);
         this.lastFrameTime = now;
 
@@ -134,7 +133,7 @@ class StarfieldScreensaver {
         this.rafId = requestAnimationFrame(this.tick);
     };
 
-    private resizeCanvas = (): void => {
+    private readonly resizeCanvas = (): void => {
         const { canvas, ctx } = this;
         if (!canvas || !ctx) return;
 
@@ -186,7 +185,7 @@ class StarfieldScreensaver {
         }
     }
 
-    show = (): void => {
+    readonly show = (): void => {
         this.prefersReducedMotion = !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
         this.buildDom();
@@ -201,7 +200,7 @@ class StarfieldScreensaver {
         this.rafId = requestAnimationFrame(this.tick);
     };
 
-    hide = (): Promise<void> => {
+    readonly hide = (): Promise<void> => {
         this.stopTimers();
 
         this.container?.remove();
