@@ -1925,5 +1925,6 @@
     "HeaderSplitMedia": "Tách Phương Tiện Riêng Biệt",
     "Creators": "Người tạo",
     "IndexNumber": "Số Chỉ Mục",
-    "NoCastTargets": "Không có mục tiêu sử dụng"
+    "NoCastTargets": "Không có mục tiêu sử dụng",
+    "MessageNoEpisodesFound": "Hiện chưa có tập nào."
 }
