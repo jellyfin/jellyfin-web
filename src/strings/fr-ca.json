@@ -1925,5 +1925,6 @@
     "HeaderBackupWarning": "AVERTISSEMENT : Tâches planifiées en cours",
     "TableOfContents": "Table des matières",
     "IndexNumber": "Numéro d'index",
-    "NoCastTargets": "Aucune cible de casting disponible"
+    "NoCastTargets": "Aucune cible de casting disponible",
+    "MessageNoEpisodesFound": "Aucun n'est épisode disponible pour le moment."
 }

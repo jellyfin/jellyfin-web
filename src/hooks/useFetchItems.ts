@@ -187,14 +187,14 @@ export const useGetQueryFiltersLegacy = (
 
 const fetchGetItemsViewByType = async (
     currentApi: JellyfinApiContext,
-    viewType: LibraryTab,
+    viewType: LibraryTab | undefined,
     parentId: ParentId,
     itemType: BaseItemKind[],
     libraryViewSettings: LibraryViewSettings,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
-    if (api && user?.Id) {
+    if (api && user?.Id && viewType) {
         const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
         let response;
         switch (viewType) {
@@ -355,6 +355,8 @@ const fetchGetItemsViewByType = async (
         }
         return response.data as ItemDtoQueryResult;
     }
+
+    return {};
 };
 
 export const useGetItemsViewByType = (
@@ -380,7 +382,7 @@ export const useGetItemsViewByType = (
         queryFn: ({ signal }) =>
             fetchGetItemsViewByType(
                 currentApi,
-                viewType!,
+                viewType,
                 parentId,
                 itemType,
                 libraryViewSettings!,

@@ -57,19 +57,32 @@ export const getEpisodeFilter = (
     viewType: LibraryTab,
     libraryViewSettings: LibraryViewSettings
 ) => {
+    const episodeFilters = libraryViewSettings.Filters?.EpisodeFilter;
+    const isMissingSelected = episodeFilters?.includes(EpisodeFilter.IsMissing);
+    const isUnairedSelected = episodeFilters?.includes(EpisodeFilter.IsUnaired);
+
+    let isMissing: boolean | undefined;
+    let isUnaired: boolean | undefined;
+
+    if (viewType === LibraryTab.Episodes) {
+        if (isMissingSelected) {
+            isMissing = true;
+            if (!isUnairedSelected) {
+                isUnaired = false;
+            }
+        } else if (isUnairedSelected) {
+            isUnaired = true;
+        } else {
+            isMissing = false;
+        }
+    }
+
     return {
-        parentIndexNumber: libraryViewSettings.Filters?.EpisodeFilter?.includes(
-            EpisodeFilter.ParentIndexNumber
-        ) ?
+        parentIndexNumber: episodeFilters?.includes(EpisodeFilter.ParentIndexNumber) ?
             0 :
             undefined,
-        isMissing:
-            viewType === LibraryTab.Episodes ?
-                !!libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsMissing) :
-                undefined,
-        isUnaired: libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsUnaired) ?
-            true :
-            undefined
+        isMissing,
+        isUnaired
     };
 };
 

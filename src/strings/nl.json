@@ -1925,5 +1925,6 @@
     "HeaderSplitMedia": "Media opsplitsen",
     "Creators": "Bedenkers",
     "IndexNumber": "Indexnummer",
-    "NoCastTargets": "Geen cast-apparaten beschikbaar"
+    "NoCastTargets": "Geen cast-apparaten beschikbaar",
+    "MessageNoEpisodesFound": "Er zijn momenteel geen afleveringen beschikbaar."
 }
