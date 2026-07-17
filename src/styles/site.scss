@@ -7,15 +7,29 @@
 @keyframes fadein {
     from {
         opacity: 0;
+        transform: translateY(0.5em);
     }
 
     to {
         opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes page-enter {
+    from {
+        opacity: 0;
+        transform: translateY(0.8em);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 .splashLogo {
-    animation: fadein 0.5s;
+    animation: fadein 0.5s var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
     width: 30%;
     height: 30%;
     background-image: url(@jellyfin/ux-web/icon-transparent.png);
@@ -87,6 +101,7 @@ body {
 
 .mainAnimatedPage {
     contain: style size !important;
+    animation: page-enter var(--jf-dur-slow, 400ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .pageContainer {
@@ -145,7 +160,7 @@ form {
 
 .headroom {
     will-change: transform;
-    transition: transform 200ms linear;
+    transition: transform var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 
     &--pinned {
         transform: translateY(0%);
