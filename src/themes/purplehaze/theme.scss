@@ -21,9 +21,9 @@ html {
 }
 
 .skinHeader.semiTransparent {
-    backdrop-filter: none !important;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-    background-color: rgba(0, 0, 0, 0.3);
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(var(--jf-glass-blur-subtle, 12px));
 }
 
 .layout-tv .skinHeader.semiTransparent {

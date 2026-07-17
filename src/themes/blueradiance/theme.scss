@@ -16,7 +16,12 @@
     $alert-infoFilledBg: #111,
     $alert-infoFilledColor: #ddd,
     $button-inheritContainedBg: rgba(0, 0, 0, 0.5),
-    $button-inheritContainedHoverBg: rgba(0, 0, 0, 0.7)
+    $button-inheritContainedHoverBg: rgba(0, 0, 0, 0.7),
+
+    // Glass tokens
+    $glass-bg: rgba(1, 20, 50, 0.65),
+    $glass-bg-strong: rgba(1, 20, 50, 0.82),
+    $glass-border: rgba(255, 255, 255, 0.08)
 );
 
 /* Card background color variants */
@@ -42,10 +47,11 @@
 
 /* Detail ribbon on item details pages */
 .detailRibbon {
-    background: #303030;
-    background: linear-gradient(to right, #291a31, #033664, #011432, #141a3a, #291a31);
+    background: linear-gradient(to right, rgba(41, 26, 49, 0.6), rgba(3, 54, 100, 0.6), rgba(1, 20, 50, 0.6), rgba(20, 26, 58, 0.6), rgba(41, 26, 49, 0.6));
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
 
     .layout-tv & {
         background: none;
+        backdrop-filter: none;
     }
 }

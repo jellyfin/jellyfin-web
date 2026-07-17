@@ -21,7 +21,7 @@ $header-gradient: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, 
     $divider: rgba(0, 0, 0, 0.158),
     // Components
     $appBar-defaultBg: $header-background,
-    $appBar-transparentBg: rgba(213, 233, 242, 0.86),
+    $appBar-transparentBg: rgba(213, 233, 242, 0.72),
     $filledInput-bg: rgba(255, 255, 255, 0.9),
     $filledInput-borderColor: rgba(0, 0, 0, 0.158),
     $alert-infoFilledBg: #fff3a5,
@@ -31,7 +31,13 @@ $header-gradient: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, 
     $snackbarContent-bg: #303030,
     $snackbarContent-color: rgba(255, 255, 255, 0.87),
     // Card border radius
-    $card-borderRadius: 0.5rem
+    $card-borderRadius: 0.5rem,
+    // Glass tokens
+    $glass-bg: rgba(255, 255, 255, 0.72),
+    $glass-bg-strong: rgba(255, 255, 255, 0.88),
+    $glass-bg-subtle: rgba(0, 0, 0, 0.03),
+    $glass-border: rgba(0, 0, 0, 0.06),
+    $glass-border-strong: rgba(0, 0, 0, 0.12)
 );
 
 /* Override alpha picker selected colors */
@@ -68,8 +74,8 @@ $header-gradient: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, 
 .appfooter,
 .playlistSectionButton {
     color: rgba(0, 0, 0, 0.7);
-    background: $header-background;
-    background: $header-gradient;
+    background: var(--jf-glass-bg-strong, $header-background);
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
@@ -108,11 +114,12 @@ $header-gradient: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, 
 
 /* Detail ribbon on item details pages */
 .detailRibbon {
-    background: $header-background;
-    background: $header-gradient;
+    background: var(--jf-glass-bg-strong, $header-background);
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
 
     .layout-tv & {
         background: none;
+        backdrop-filter: none;
     }
 }
 

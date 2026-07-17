@@ -4,7 +4,7 @@
     padding: 0;
     border: none;
     max-height: 84%;
-    border-radius: 0.1em !important;
+    border-radius: var(--jf-radius-lg, 0.75em) !important;
 }
 
 .actionsheet-not-fullscreen {
@@ -36,8 +36,9 @@
     font-weight: inherit;
     box-shadow: none;
     flex-shrink: 0;
-    border-radius: 0;
+    border-radius: var(--jf-radius-sm, 0.3em);
     margin: 0;
+    transition: background-color var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .actionSheetMenuItem:focus {

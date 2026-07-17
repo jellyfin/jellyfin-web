@@ -14,11 +14,16 @@
 
     // Components
     $appBar-defaultBg: #0c2450,
-    $appBar-transparentBg: rgba(12, 36, 80, 0.86),
+    $appBar-transparentBg: rgba(12, 36, 80, 0.72),
     $alert-infoFilledBg: #fff3a5,
     $alert-infoFilledColor: #000,
     $button-inheritContainedBg: #082845,
-    $button-inheritContainedHoverBg: #143451
+    $button-inheritContainedHoverBg: #143451,
+
+    // Glass tokens
+    $glass-bg: rgba(12, 36, 80, 0.65),
+    $glass-bg-strong: rgba(12, 36, 80, 0.82),
+    $glass-border: rgba(255, 255, 255, 0.08)
 );
 
 /* Card background color variants */
@@ -44,9 +49,11 @@
 
 /* Detail ribbon on item details pages */
 .detailRibbon {
-    background-color: #081b3b;
+    background-color: rgba(8, 27, 59, 0.55);
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
 
     .layout-tv & {
         background: none;
+        backdrop-filter: none;
     }
 }

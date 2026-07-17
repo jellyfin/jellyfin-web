@@ -8,8 +8,6 @@
     font-size: inherit;
     font-family: inherit;
     color: inherit;
-
-    /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;
     outline-width: 0;
     user-select: none;
@@ -18,17 +16,16 @@
     padding: 0.9em 1em;
     vertical-align: middle;
     border: 0;
-    border-radius: 0.2em;
+    border-radius: var(--jf-radius-md, 0.5em);
     font-weight: 600;
-
-    /* Disable webkit tap highlighting */
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     text-decoration: none;
-
-    /* Not crazy about this but it normalizes heights between anchors and buttons */
     line-height: 1.35;
     transform-origin: center;
-    transition: 0.2s;
+    transition:
+        background-color var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+        box-shadow var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+        transform var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .emby-button.show-focus:focus {
@@ -67,7 +64,7 @@
 
 .fab {
     display: inline-flex;
-    border-radius: 50%;
+    border-radius: var(--jf-radius-pill, 999px);
     padding: 0.6em;
     box-sizing: border-box;
     align-items: center;
@@ -104,17 +101,16 @@
     padding: 0.556em;
     vertical-align: middle;
     border: 0;
-
-    /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;
     overflow: hidden;
-    border-radius: 50%;
-
-    /* Disable webkit tap highlighting */
+    border-radius: var(--jf-radius-pill, 999px);
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     justify-content: center;
     transform-origin: center;
-    transition: 0.2s;
+    transition:
+        background-color var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+        color var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+        transform var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .paper-icon-button-light.show-focus:focus {
@@ -171,8 +167,8 @@
     align-items: center;
     justify-content: center;
     font-size: 82%;
-    border-radius: 100em;
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    border-radius: var(--jf-radius-pill, 999px);
+    box-shadow: var(--jf-shadow-1, 0 2px 8px rgba(0, 0, 0, 0.18));
     background: #03a9f4;
     font-weight: bold;
 }

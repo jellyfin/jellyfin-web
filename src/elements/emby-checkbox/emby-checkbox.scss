@@ -53,11 +53,14 @@
     margin: 0;
     overflow: hidden;
     border: 0.14em solid currentcolor;
-    border-radius: 0.14em;
+    border-radius: var(--jf-radius-sm, 0.3em);
     z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition:
+        border-color var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+        background-color var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .checkboxIcon {
