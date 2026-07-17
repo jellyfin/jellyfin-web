@@ -1701,5 +1701,19 @@
     "AudioSampleRateNotSupported": "La frecuencia de muestreo del audio no es compatible",
     "AnamorphicVideoNotSupported": "El video anamórfico no es compatible",
     "Trickplay": "Trickplay",
-    "LabelTrickplayAccel": "Habilitar decodificación por hardware"
+    "LabelTrickplayAccel": "Habilitar decodificación por hardware",
+    "ActivitiesLoadError": "Hubo un error al cargar las actividades",
+    "ApiKeysLoadError": "Error al cargar las API keys",
+    "Authors": "Autores",
+    "BrandingLoadError": "Error al cargar los ajustes de branding",
+    "CardSettings": "Ajustes de tarjeta",
+    "ConfirmSplitMedia": "¿Está seguro de que desea dividir los archivos multimedia en ítems independientes?",
+    "ConfirmStillWatching": "¿Sigue mirando?",
+    "ContinueReading": "Continuar leyendo",
+    "Creators": "Creadores",
+    "DevicesLoadError": "Error al cargar dispositivos",
+    "Disabled": "Deshabilitado",
+    "HeaderLatestBooks": "Libros añadidos recientemente",
+    "HeaderLatestMusicVideos": "Videos musicales añadidos recientemente",
+    "HeaderSplitMedia": "Separar Archivo Multimedia"
 }
