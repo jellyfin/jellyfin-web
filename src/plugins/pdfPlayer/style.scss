@@ -1,3 +1,11 @@
+#container {
+    position: relative;
+    display: grid;
+    place-items: center;
+    top: 5vh;
+    height: 90vh;
+}
+
 #pdfPlayer {
     position: relative;
     height: 100%;
@@ -8,7 +16,6 @@
 
     #canvas {
         position: relative;
-        top: 5vh;
         display: block;
         margin: auto;
     }

@@ -142,13 +142,13 @@ export class PdfPlayer {
     bindEvents() {
         this.mediaElement?.addEventListener('close', this.onDialogClosed, { once: true });
         document.addEventListener('keydown', this.onWindowKeyDown);
-        document.addEventListener('touchstart', this.onTouchStart);
+        document.querySelector('#container')?.addEventListener('touchstart', this.onTouchStart);
     }
 
     unbindEvents() {
         this.mediaElement?.removeEventListener('close', this.onDialogClosed);
         document.removeEventListener('keydown', this.onWindowKeyDown);
-        document.removeEventListener('touchstart', this.onTouchStart);
+        document.querySelector('#container')?.removeEventListener('touchstart', this.onTouchStart);
     }
 
     createMediaElement(options) {
@@ -169,7 +169,7 @@ export class PdfPlayer {
             });
 
             elem.id = 'pdfPlayer';
-            elem.innerHTML = '<div id="bookOsdMount"></div><canvas id="canvas"></canvas>';
+            elem.innerHTML = '<div id="bookOsdMount"></div><div id="container"><canvas id="canvas"></canvas></div>';
 
             dialogHelper.open(elem);
         }
