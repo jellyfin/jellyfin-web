@@ -132,7 +132,7 @@ export default function (options) {
     let hideTimeout;
     /** Last coordinates of the mouse pointer. */
     let lastMouseMoveData;
-    /** Instance of zoom control **/
+    /** @type {ZoomControl|undefined} Instance of zoom control */
     let zoomControl;
 
     /**
