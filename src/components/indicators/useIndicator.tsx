@@ -223,8 +223,9 @@ const useIndicator = (item: ItemDto) => {
             let endDate = 1;
 
             try {
-                startDate = datetime.parseISO8601Date(item.StartDate).getTime();
-                endDate = datetime.parseISO8601Date(item.EndDate).getTime();
+                // If either StartDate or EndDate are null or undefined, this will throw an Error
+                startDate = datetime.parseISO8601Date(item.StartDate as string).getTime();
+                endDate = datetime.parseISO8601Date(item.EndDate as string).getTime();
             } catch (err) {
                 console.error(err);
             }
