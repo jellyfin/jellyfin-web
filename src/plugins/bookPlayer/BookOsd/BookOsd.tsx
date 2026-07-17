@@ -41,7 +41,7 @@ const BookOsd: FC<BookOsdProps> = ({
     const settings = userSettings.getComicsPlayerSettings(item.Id!) as ComicsPlayerSettings;
 
     const [direction, setDirection] = useState(settings.langDir === 'rtl');
-    const [layout, setLayout] = useState(settings.pagesPerView === 1);
+    const [layout, setLayout] = useState(settings.pagesPerView === 2);
     const [fullscreen, setFullscreen] = useState(false);
 
     const onClickDirection = useCallback(() => {
