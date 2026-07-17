@@ -24,3 +24,80 @@
         width: fit-content;
     }
 }
+
+@keyframes login-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(1em) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.manualLoginForm {
+    animation: login-card-in var(--jf-dur-slow, 400ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+    background-color: var(--jf-glass-bg-strong, rgba(22, 22, 26, 0.82));
+    backdrop-filter: blur(var(--jf-glass-blur-strong, 32px));
+    border: 1px solid var(--jf-glass-border, rgba(255, 255, 255, 0.08));
+    border-radius: var(--jf-radius-lg, 0.75em);
+    box-shadow: var(--jf-shadow-3, 0 8px 32px rgba(0, 0, 0, 0.28));
+    padding: 2.5em 2em;
+    max-width: 420px;
+}
+
+.visualLoginForm {
+    animation: login-card-in var(--jf-dur-slow, 400ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+
+    h1 {
+        margin-bottom: 1em;
+    }
+}
+
+.manualLoginForm .sectionTitle {
+    margin-bottom: 1.5em;
+}
+
+.manualLoginForm .inputContainer {
+    margin-bottom: 1.2em;
+}
+
+.manualLoginForm .checkboxContainer {
+    margin: 1.2em 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.manualLoginForm .button-submit {
+    width: 100%;
+    margin-top: 0.5em;
+    padding: 0.8em;
+    font-size: 1.05em;
+    font-weight: 600;
+}
+
+.manualLoginForm .btnCancel {
+    width: 100%;
+    padding: 0.8em;
+}
+
+.readOnlyContent .raised {
+    margin-bottom: 0.6em;
+    padding: 0.8em;
+}
+
+#divUsers .cardBox {
+    animation: login-card-in var(--jf-dur-slow, 400ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+#divUsers .visualCardBox {
+    border-radius: var(--jf-radius-lg, 0.75em);
+    overflow: hidden;
+}
+
+#divUsers .cardImageContainer {
+    border-radius: var(--jf-radius-lg, 0.75em);
+}

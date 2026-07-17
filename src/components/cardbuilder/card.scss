@@ -90,8 +90,6 @@ button::-moz-focus-inner {
     margin: 0.6em;
     transition: none;
     border: 0 solid transparent;
-
-    /* These both are needed in case cardBox is a button */
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: none !important;
     contain: layout;
@@ -100,7 +98,7 @@ button::-moz-focus-inner {
 
 .card.show-animation .cardBox {
     will-change: transform;
-    transition: transform 200ms ease-out;
+    transition: transform var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .card.show-focus:not(.show-animation) .cardBox {
@@ -110,11 +108,23 @@ button::-moz-focus-inner {
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
     border: 0.5em solid transparent;
-    border-radius: 0.7em; /* card border + card border-radius */
+    border-radius: calc(var(--jf-card-borderRadius, 0.5em) + 0.5em);
 }
 
 .card.show-animation:focus > .cardBox {
     transform: scale(1.07, 1.07);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .card-hoverable:hover > .cardBox {
+        transform: scale(1.03);
+        transition: transform var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+    }
+
+    .card-hoverable:hover .visualCardBox {
+        box-shadow: var(--jf-shadow-3, 0 8px 32px rgba(0, 0, 0, 0.28));
+        transition: box-shadow var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+    }
 }
 
 .cardBox-bottompadded {
@@ -154,10 +164,10 @@ button::-moz-focus-inner {
     font-weight: 500;
     width: 2em;
     height: 2em;
-    border-radius: 50%;
+    border-radius: var(--jf-radius-pill, 999px);
     color: #fff;
     background: rgb(51, 136, 204);
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--jf-shadow-1, 0 2px 8px rgba(0, 0, 0, 0.18));
     z-index: 1;
 }
 
@@ -165,7 +175,7 @@ button::-moz-focus-inner {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    border-radius: 0.2em;
+    border-radius: var(--jf-card-borderRadius, 0.5em);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,7 +211,7 @@ button::-moz-focus-inner {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 0.2em;
+    border-radius: var(--jf-card-borderRadius, 0.5em);
 
     /* Needed in case this is a button */
     display: block;
@@ -234,17 +244,18 @@ button::-moz-focus-inner {
 }
 
 .cardBox:not(.visualCardBox) .cardPadder {
-    border-radius: 0.2em;
-    background-color: #242424;
+    border-radius: var(--jf-card-borderRadius, 0.5em);
+    background-color: #1a1a1e;
 }
 
 .blurhash-canvas {
-    border-radius: 0.2em;
+    border-radius: var(--jf-card-borderRadius, 0.5em);
 }
 
 .cardContent-shadow,
 .cardBox:not(.visualCardBox) .cardPadder {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    box-shadow: var(--jf-shadow-1, 0 2px 8px rgba(0, 0, 0, 0.18));
+    transition: box-shadow var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .cardImage {
@@ -274,12 +285,14 @@ button::-moz-focus-inner {
 }
 
 .visualCardBox {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    border-radius: 0.2em;
+    box-shadow: var(--jf-shadow-1, 0 2px 8px rgba(0, 0, 0, 0.18));
+    border-radius: var(--jf-card-borderRadius, 0.5em);
+    transition: box-shadow var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 .innerCardFooter {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(var(--jf-glass-blur-subtle, 12px));
     position: absolute;
     bottom: 0;
     left: 0;
@@ -464,8 +477,9 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayButtonIcon {
-    background-color: rgba(0, 0, 0, 0.7) !important;
-    border-radius: 100em;
+    background-color: var(--jf-glass-bg-strong, rgba(0, 0, 0, 0.7)) !important;
+    backdrop-filter: blur(var(--jf-glass-blur-subtle, 12px));
+    border-radius: var(--jf-radius-pill, 999px);
     width: 1.5em !important;
     height: 1.5em !important;
     justify-content: center;
@@ -492,11 +506,13 @@ button::-moz-focus-inner {
     height: 2.6em;
     top: 50%;
     left: 50%;
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    border: 0.06em solid rgba(255, 255, 255, 0.6);
+    background-color: var(--jf-glass-bg-strong, rgba(0, 0, 0, 0.5)) !important;
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
+    border: 0.06em solid var(--jf-glass-border-strong, rgba(255, 255, 255, 0.6));
+    border-radius: var(--jf-radius-pill, 999px);
     padding: 0.38em !important;
     color: rgba(255, 255, 255, 0.76);
-    transition: transform 200ms ease-out;
+    transition: transform var(--jf-dur-mid, 240ms) var(--jf-ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
 
 .bannerCard {
@@ -816,16 +832,17 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayContainer {
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--jf-glass-bg, rgba(28, 28, 32, 0.65));
+    backdrop-filter: blur(var(--jf-glass-blur-subtle, 12px));
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     user-select: none;
-    border-radius: 0.2em;
+    border-radius: var(--jf-card-borderRadius, 0.5em);
 
     /** Disable pointer events for the overlay container, but allow them for its children */
     pointer-events: none;
@@ -844,7 +861,7 @@ button::-moz-focus-inner {
 
 .cardOverlayButton-hover {
     opacity: 0;
-    transition: 0.2s;
+    transition: opacity var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
     background: transparent;
     padding: 0.25em;
 }
@@ -862,7 +879,9 @@ button::-moz-focus-inner {
 }
 
 .cardOverlayContainer > .cardOverlayFab-primary {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--jf-glass-bg-strong, rgba(0, 0, 0, 0.7));
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
+    border-radius: var(--jf-radius-pill, 999px);
     font-size: 130%;
     padding: 0;
     width: 3em;
@@ -872,9 +891,9 @@ button::-moz-focus-inner {
     position: absolute;
     top: 50%;
     left: 50%;
+    transition: transform var(--jf-dur-mid, 240ms) var(--jf-ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
 
 .cardOverlayContainer > .cardOverlayFab-primary:hover {
     transform: scale(1.4, 1.4);
-    transition: 0.2s;
 }

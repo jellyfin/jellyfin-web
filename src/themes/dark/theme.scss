@@ -22,11 +22,15 @@
     background-color: #007ea8;
 }
 
-/* Detail ribbon on item details pages */
+/* Detail ribbon on item details pages — frosted glass */
 .detailRibbon {
-    background: rgba(var(--jf-palette-background-paperChannel, 32 32 32) / 0.8);
+    background: rgba(var(--jf-palette-background-paperChannel, 32 32 32) / 0.6);
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
+    border-top: 1px solid var(--jf-glass-border, transparent);
 
     .layout-tv & {
         background: none;
+        backdrop-filter: none;
+        border: none;
     }
 }

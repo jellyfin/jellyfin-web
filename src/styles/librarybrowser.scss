@@ -219,7 +219,9 @@
     display: flex;
     flex-direction: column;
     contain: layout style paint;
-    transition: background ease-in-out 0.5s;
+    transition:
+        background-color var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+        backdrop-filter var(--jf-dur-mid, 240ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
     padding-top: env(safe-area-inset-top);
@@ -248,7 +250,7 @@
 }
 
 .selectedMediaFolder {
-    background-color: #f2f2f2 !important;
+    background-color: var(--jf-glass-bg-subtle, rgba(255, 255, 255, 0.04)) !important;
 }
 
 .navMenuOption {
@@ -912,10 +914,11 @@
 
 .itemDetailImage {
     width: 100% !important;
-    box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.75);
+    box-shadow: var(--jf-shadow-3, 0 8px 32px rgba(0, 0, 0, 0.28));
+    border-radius: var(--jf-radius-lg, 0.75em);
 
     [dir="rtl"] & {
-        box-shadow: 0 0 0.5em 0.1em rgba(0, 0, 0, 0.75);
+        box-shadow: var(--jf-shadow-3, 0 8px 32px rgba(0, 0, 0, 0.28));
     }
 }
 
@@ -1034,6 +1037,17 @@ div.itemDetailGalleryLink.defaultCardBackground {
     align-items: center;
     margin: 0 !important;
     padding: 0.7em 0.7em !important;
+    border-radius: var(--jf-radius-md, 0.5em);
+    transition:
+        background-color var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1)),
+        transform var(--jf-dur-fast, 140ms) var(--jf-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .detailButton:hover {
+        background-color: var(--jf-glass-bg-subtle, rgba(255, 255, 255, 0.04));
+        transform: translateY(-2px);
+    }
 }
 
 @media all and (min-width: 29em) {

@@ -15,8 +15,8 @@
 progress {
     appearance: none;
     margin: 0;
-    background: #ccc !important;
-    border-radius: 0.2em;
+    background: var(--jf-glass-bg-subtle, #ccc) !important;
+    border-radius: var(--jf-radius-pill, 999px);
     border: none;
 }
 
@@ -25,20 +25,22 @@ progress[role]::after {
 }
 
 progress::-webkit-progress-bar {
-    background: #ccc;
+    background: var(--jf-glass-bg-subtle, #ccc);
 }
 
 progress::-moz-progress-bar {
-    background-color: #00a4dc;
+    background-color: var(--jf-palette-primary-main, #00a4dc);
+    border-radius: var(--jf-radius-pill, 999px);
 }
 
 progress::-webkit-progress-value {
-    background-color: #00a4dc;
+    background-color: var(--jf-palette-primary-main, #00a4dc);
+    border-radius: var(--jf-radius-pill, 999px);
 }
 
 progress[aria-valuenow]::before {
-    border-radius: 0.4em;
-    background-color: #00a4dc;
+    border-radius: var(--jf-radius-pill, 999px);
+    background-color: var(--jf-palette-primary-main, #00a4dc);
 }
 
 .localnav {
@@ -66,7 +68,7 @@ progress[aria-valuenow]::before {
 
 .layout-mobile .adminDrawerLogo {
     padding: 1.5em 1em 1.2em;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--jf-glass-border, #e0e0e0);
     margin-bottom: 1em;
     display: block;
 }
@@ -76,7 +78,7 @@ progress[aria-valuenow]::before {
 }
 
 a[data-role=button] {
-    background: #292929;
+    background: var(--jf-glass-bg, #292929);
     background-clip: padding-box;
     -webkit-font-smoothing: antialiased;
     user-select: none;
@@ -88,6 +90,7 @@ a[data-role=button] {
     padding: 0.8em 1em;
     text-align: center;
     text-decoration: none !important;
+    border-radius: var(--jf-radius-md, 0.5em);
 }
 
 div[data-role=controlgroup] a[data-role=button] {
@@ -120,8 +123,8 @@ div[data-role=controlgroup] a[data-role=button] + a[data-role=button] {
 }
 
 div[data-role=controlgroup] a.ui-btn-active {
-    background: #00a4dc !important;
-    color: #292929 !important;
+    background: var(--jf-palette-primary-main, #00a4dc) !important;
+    color: var(--jf-palette-primary-contrastText, #292929) !important;
 }
 
 .sessionAppInfo img {
@@ -375,7 +378,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .playbackProgress > div {
     z-index: 1000;
-    background-color: #00a4dc;
+    background-color: var(--jf-palette-primary-main, #00a4dc);
 }
 
 .transcodingProgress > div {
@@ -384,7 +387,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .backgroundProgress > div {
-    background-color: #303030;
+    background-color: var(--jf-palette-background-paper, #303030);
 }
 
 @media all and (max-width: 34.375em) {

@@ -16,11 +16,21 @@
 
     // Components
     $appBar-defaultBg: #e8e8e8,
-    $appBar-transparentBg: rgba(232, 232, 232, 0.86),
+    $appBar-transparentBg: rgba(232, 232, 232, 0.72),
     $alert-infoFilledBg: #fff3a5,
     $alert-infoFilledColor: #000,
     $button-inheritContainedBg: #d8d8d8,
-    $button-inheritContainedHoverBg: #ccc
+    $button-inheritContainedHoverBg: #ccc,
+
+    // Glass tokens for light mode
+    $glass-bg: rgba(255, 255, 255, 0.72),
+    $glass-bg-strong: rgba(255, 255, 255, 0.88),
+    $glass-bg-subtle: rgba(0, 0, 0, 0.03),
+    $glass-border: rgba(0, 0, 0, 0.06),
+    $glass-border-strong: rgba(0, 0, 0, 0.12),
+    $shadow-1: 0 2px 8px rgba(0, 0, 0, 0.08),
+    $shadow-2: 0 4px 16px rgba(0, 0, 0, 0.1),
+    $shadow-3: 0 8px 32px rgba(0, 0, 0, 0.14)
 );
 
 // Override the alpha picker selected colors
@@ -50,14 +60,18 @@
     background-color: #f57f17;
 }
 
-/* Detail ribbon on item details pages */
+/* Detail ribbon on item details pages — frosted glass */
 .detailRibbon {
-    background-color: #303030;
-    color: #ccc;
-    color: rgba(255, 255, 255, 0.87);
+    background-color: rgba(48, 48, 48, 0.55);
+    color: #fff;
+    color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(var(--jf-glass-blur, 20px));
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 
     .layout-tv & {
         background: none;
+        backdrop-filter: none;
+        border: none;
         color: inherit;
     }
 }

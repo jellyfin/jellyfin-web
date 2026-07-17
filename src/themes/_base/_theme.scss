@@ -40,16 +40,87 @@ $button-inheritContainedHoverBg: #616161 !default;
 $snackbarContent-bg: #303030 !default;
 $snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
 
+// ============================================================================
+// GLASSMORPHISM DESIGN TOKENS
+// These power the modernized UI. They are exposed as CSS custom properties so
+// per-theme stylesheets can override them. Values use !default so concrete
+// themes can customize the glass intensity, blur, and elevation per mode.
+// ============================================================================
+
+// -- Surface (glass) translucency --
+// NOTE: Defaults are for dark mode; light theme overrides these via `@use ... with (...)`
+$glass-bg: rgba(28, 28, 32, 0.65) !default;
+$glass-bg-strong: rgba(22, 22, 26, 0.82) !default;
+$glass-bg-subtle: rgba(255, 255, 255, 0.04) !default;
+$glass-border: rgba(255, 255, 255, 0.08) !default;
+$glass-border-strong: rgba(255, 255, 255, 0.14) !default;
+
+// -- Backdrop blur intensity --
+$glass-blur: 20px !default;
+$glass-blur-strong: 32px !default;
+$glass-blur-subtle: 12px !default;
+
+// -- Elevation / shadows --
+$shadow-1: 0 2px 8px rgba(0, 0, 0, 0.18) !default;
+$shadow-2: 0 4px 16px rgba(0, 0, 0, 0.22) !default;
+$shadow-3: 0 8px 32px rgba(0, 0, 0, 0.28) !default;
+$shadow-glow: 0 0 24px rgba(var(--jf-palette-primary-mainChannel, 0 164 220) / 0.18) !default;
+
+// -- Radii --
+$radius-sm: 0.3em !default;
+$radius-md: 0.5em !default;
+$radius-lg: 0.75em !default;
+$radius-xl: 1.2em !default;
+$radius-pill: 999px !default;
+
+// -- Motion --
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1) !default;
+$ease-in-out: cubic-bezier(0.65, 0, 0.35, 1) !default;
+$ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1) !default;
+$dur-fast: 140ms !default;
+$dur-mid: 240ms !default;
+$dur-slow: 400ms !default;
+
+// -- Card radius override (modernized) --
+$card-borderRadius: $radius-md !default;
+
 // Assign custom css variables not part of the MUI theme palette
 :root {
     --jf-palette-background-defaultImage: #{$background-defaultImage};
     --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
     --jf-card-borderRadius: #{$card-borderRadius};
+
+    // Glass tokens
+    --jf-glass-bg: #{$glass-bg};
+    --jf-glass-bg-strong: #{$glass-bg-strong};
+    --jf-glass-bg-subtle: #{$glass-bg-subtle};
+    --jf-glass-border: #{$glass-border};
+    --jf-glass-border-strong: #{$glass-border-strong};
+    --jf-glass-blur: #{$glass-blur};
+    --jf-glass-blur-strong: #{$glass-blur-strong};
+    --jf-glass-blur-subtle: #{$glass-blur-subtle};
+    --jf-shadow-1: #{$shadow-1};
+    --jf-shadow-2: #{$shadow-2};
+    --jf-shadow-3: #{$shadow-3};
+    --jf-radius-sm: #{$radius-sm};
+    --jf-radius-md: #{$radius-md};
+    --jf-radius-lg: #{$radius-lg};
+    --jf-radius-xl: #{$radius-xl};
+    --jf-ease-out: #{$ease-out};
+    --jf-ease-in-out: #{$ease-in-out};
+    --jf-ease-spring: #{$ease-spring};
+    --jf-dur-fast: #{$dur-fast};
+    --jf-dur-mid: #{$dur-mid};
+    --jf-dur-slow: #{$dur-slow};
 }
+
+// ============================================================================
+// GLOBAL BASE STYLES
+// ============================================================================
 
 * {
     scrollbar-width: thin;
-    scrollbar-color: #3b3b3b #202020;
+    scrollbar-color: var(--jf-glass-border-strong, #3b3b3b) transparent;
 }
 
 .skinHeader,
@@ -60,27 +131,35 @@ html {
 .wizardStartForm,
 .ui-corner-all,
 .ui-shadow {
-    background-color: var(--jf-palette-background-default, $background-default);
+    background-color: var(--jf-glass-bg-strong, $background-default);
     background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
     background-position: top center;
     background-repeat: no-repeat;
     background-size: cover;
+    backdrop-filter: blur(var(--jf-glass-blur, $glass-blur));
 }
 
 .emby-collapsible-button {
-    border-color: var(--jf-palette-divider, $divider);
+    border-color: var(--jf-glass-border, $divider);
 }
 
+// -- Frosted glass header --
 .skinHeader-withBackground {
-    background-color: var(--jf-palette-AppBar-defaultBg, $appBar-defaultBg);
+    background-color: var(--jf-glass-bg, $appBar-defaultBg);
+    backdrop-filter: blur(var(--jf-glass-blur, $glass-blur));
+    border-bottom: 1px solid var(--jf-glass-border, transparent);
+    transition:
+        background-color var(--jf-dur-mid, $dur-mid) var(--jf-ease-out, $ease-out),
+        backdrop-filter var(--jf-dur-mid, $dur-mid) var(--jf-ease-out, $ease-out);
 }
 
 .skinHeader.semiTransparent {
     background-color: var(--jf-palette-AppBar-transparentBg, $appBar-transparentBg);
-    backdrop-filter: none !important;
+    backdrop-filter: blur(var(--jf-glass-blur-subtle, $glass-blur-subtle));
 
     .layout-tv & {
         background: none;
+        backdrop-filter: none;
     }
 }
 
@@ -142,26 +221,39 @@ a[data-role="button"],
 .raised {
     background: var(--jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
     color: var(--jf-palette-text-secondary, $text-secondary);
+    border-radius: var(--jf-radius-md, $radius-md);
+    transition:
+        background var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out),
+        box-shadow var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out),
+        transform var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out);
 
     &:focus,
     &:hover {
         background: var(--jf-palette-Button-inheritContainedHoverBg, $button-inheritContainedHoverBg);
+        box-shadow: var(--jf-shadow-1, $shadow-1);
     }
 }
 
 .button-submit {
     background: var(--jf-palette-primary-main, $primary-main);
     color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+    border-radius: var(--jf-radius-md, $radius-md);
+    transition:
+        background var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out),
+        box-shadow var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out),
+        transform var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out);
 
     &:focus,
     &:hover {
         background: var(--jf-palette-primary-dark, $primary-dark);
+        box-shadow: var(--jf-shadow-1, $shadow-1);
     }
 }
 
 .button-delete {
     background: var(--jf-palette-error-main, $error-main);
     color: var(--jf-palette-error-contrastText, $error-contrastText);
+    border-radius: var(--jf-radius-md, $radius-md);
 }
 
 .checkboxLabel {
@@ -186,16 +278,20 @@ a[data-role="button"],
     border-color: currentColor;
 }
 
+// -- Glass surfaces for dialogs, cards, lists --
 .collapseContent,
 .formDialogFooter:not(.formDialogFooter-clear),
 .formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: var(--jf-palette-background-paper, $background-paper);
+    background-color: var(--jf-glass-bg-strong, $background-paper);
+    backdrop-filter: blur(var(--jf-glass-blur, $glass-blur));
 }
 
 .paperList,
 .visualCardBox {
-    background-color: var(--jf-palette-background-paper, $background-paper);
+    background-color: var(--jf-glass-bg, $background-paper);
     border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+    border: 1px solid var(--jf-glass-border, transparent);
+    box-shadow: var(--jf-shadow-1, $shadow-1);
 }
 
 .cardBox:not(.visualCardBox) .cardPadder,
@@ -222,7 +318,7 @@ a[data-role="button"],
 }
 
 .actionsheetDivider {
-    background: var(--jf-palette-divider, $divider);
+    background: var(--jf-glass-border, $divider);
 }
 
 .cardFooter-vibrant .cardText-secondary {
@@ -231,14 +327,20 @@ a[data-role="button"],
 }
 
 .toast {
-    background: var(--jf-palette-SnackbarContent-bg, $snackbarContent-bg);
+    background: var(--jf-glass-bg-strong, $snackbarContent-bg);
     color: var(--jf-palette-SnackbarContent-color, $snackbarContent-color);
+    backdrop-filter: blur(var(--jf-glass-blur, $glass-blur));
+    border: 1px solid var(--jf-glass-border, transparent);
+    border-radius: var(--jf-radius-md, $radius-md);
+    box-shadow: var(--jf-shadow-2, $shadow-2);
 }
 
 .appfooter,
 .playlistSectionButton {
-    background: var(--jf-palette-background-paper, $background-paper);
+    background: var(--jf-glass-bg-strong, $background-paper);
     color: var(--jf-palette-text-secondary, $text-secondary);
+    backdrop-filter: blur(var(--jf-glass-blur, $glass-blur));
+    border-top: 1px solid var(--jf-glass-border, transparent);
 }
 
 .itemSelectionPanel {
@@ -268,6 +370,8 @@ a[data-role="button"],
 .alphaPickerButton {
     color: var(--jf-palette-text-secondary, $text-secondary);
     background-color: transparent;
+    border-radius: var(--jf-radius-sm, $radius-sm);
+    transition: color var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out);
 
     &-selected {
         color: var(--jf-palette-text-primary, $text-primary);
@@ -289,7 +393,7 @@ a[data-role="button"],
 }
 
 .listItem-border {
-    border-color: var(--jf-palette-divider, $divider);
+    border-color: var(--jf-glass-border, $divider);
 }
 
 .listItem:focus {
@@ -323,12 +427,16 @@ a[data-role="button"],
     background: var(--jf-palette-FilledInput-bg, $filledInput-bg);
     border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
-    border-width: 0.16em;
+    border-width: 0.1em;
     border-style: solid;
-    border-radius: 0.2em;
+    border-radius: var(--jf-radius-sm, $radius-sm);
+    transition:
+        border-color var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out),
+        box-shadow var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out);
 
     &:focus {
         border-color: var(--jf-palette-primary-main, $primary-main);
+        box-shadow: 0 0 0 1px var(--jf-palette-primary-main, $primary-main);
     }
 }
 
@@ -338,9 +446,9 @@ a[data-role="button"],
     background: var(--jf-palette-background-paper, $background-paper);
     border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
-    border-width: 0.16em;
+    border-width: 0.1em;
     border-style: solid;
-    border-radius: 0.2em;
+    border-radius: var(--jf-radius-sm, $radius-sm);
 }
 
 .emby-select-withcolor > option {
@@ -386,9 +494,12 @@ a[data-role="button"],
     color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 }
 
+// -- Frosted glass drawer --
 .mainDrawer,
 .drawer-open {
-    background-color: var(--jf-palette-background-default, $background-default);
+    background-color: var(--jf-glass-bg-strong, $background-default);
+    backdrop-filter: blur(var(--jf-glass-blur, $glass-blur));
+    border-right: 1px solid var(--jf-glass-border, transparent);
 }
 
 .navMenuOption:hover {
@@ -470,10 +581,11 @@ a[data-role="button"],
 }
 
 .infoBanner {
-    background: var(--jf-palette-Alert-infoFilledBg, $alert-infoFilledBg);
+    background: var(--jf-glass-bg-subtle, $alert-infoFilledBg);
     color: var(--jf-palette-Alert-infoFilledColor, $alert-infoFilledColor);
     padding: 1em;
-    border-radius: 0.25em;
+    border-radius: var(--jf-radius-md, $radius-md);
+    border: 1px solid var(--jf-glass-border, transparent);
 }
 
 .ratingbutton-icon-withrating,
@@ -498,24 +610,35 @@ a[data-role="button"],
     border-radius: calc(var(--jf-card-borderRadius, $card-borderRadius) + 0.5em);
 }
 
+// -- Modernized scrollbars --
+::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+}
+
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background: transparent;
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #3b3b3b;
-}
-
-.layout-desktop ::-webkit-scrollbar,
-.layout-tv ::-webkit-scrollbar {
-    width: 0.4em;
-    height: 0.4em;
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb:horizontal,
 ::-webkit-scrollbar-thumb:vertical {
-    border-radius: 2px;
-    background: center no-repeat #888;
+    border-radius: var(--jf-radius-pill, $radius-pill);
+    background: var(--jf-glass-border-strong, rgba(255, 255, 255, 0.18));
+    transition: background var(--jf-dur-fast, $dur-fast) var(--jf-ease-out, $ease-out);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--jf-palette-text-secondary, rgba(255, 255, 255, 0.4));
+}
+
+.layout-desktop ::-webkit-scrollbar,
+.layout-tv ::-webkit-scrollbar {
+    width: 0.45em;
+    height: 0.45em;
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {
@@ -544,7 +667,8 @@ a[data-role="button"],
 }
 
 #dialogToc {
-    background-color: var(--jf-palette-background-default, $background-default);
+    background-color: var(--jf-glass-bg-strong, $background-default);
+    backdrop-filter: blur(var(--jf-glass-blur, $glass-blur));
 }
 
 #dialogToc .toc li a,
