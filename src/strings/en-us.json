@@ -1208,7 +1208,7 @@
     "MessageReenableUser": "See below to reenable",
     "MessageRenameMediaFolder": "Renaming a media library will cause all metadata to be lost, proceed with caution.",
     "MessageRepositoryInstallDisclaimer": "WARNING: Installing a third party plugin repository carries risks. It may contain unstable or malicious code, and may change at any time. Only install repositories from authors that you trust.",
-    "MessageRestoreDisclaimer": "WARNING: You are about to restore from a previous backup. Your server will be rendered unusable for the duration of the process and any new data created since the backup will be lost.",
+    "MessageRestoreDisclaimer": "WARNING: You are about to restore from a previous backup. Your server will be rendered unusable for the duration of the process and any new data created since the backup will be lost.\n\nBackups should only be restored to the same version they were created on. Restoring a backup to a different version is unsupported and may render the server unusable.",
     "MessageRestoreInProgress": "Restore in progress",
     "MessageRestoreSuccess": "Restore successfully completed",
     "MessageSent": "Message sent.",
