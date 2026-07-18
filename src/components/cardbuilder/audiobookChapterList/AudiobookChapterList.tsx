@@ -25,8 +25,8 @@ const AudiobookChapterList: FC<AudiobookChapterListProps> = ({ item, chapters })
     const containerRef = useRef<HTMLDivElement>(null);
 
     const playingIndex = useMemo(() => (
-        chapters.findIndex((chapter, i) => getChapterState(chapter, i, chapters, positionTicks) === 'playing')
-    ), [chapters, positionTicks]);
+        chapters.findIndex((chapter, i) => getChapterState(chapter, i, chapters, positionTicks, item.RunTimeTicks || 0) === 'playing')
+    ), [chapters, positionTicks, item.RunTimeTicks]);
 
     // Auto-scroll when the active chapter changes
     useEffect(() => {
