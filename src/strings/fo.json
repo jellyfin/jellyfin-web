@@ -357,5 +357,12 @@
     "LabelZipCode": "Postnummar",
     "ListPaging": "{0}-{1} av {2}",
     "Live": "Beinleiðis",
-    "LiveTV": "Beinleiðis sjónvarp"
+    "LiveTV": "Beinleiðis sjónvarp",
+    "MediaInfoAspectRatio": "Støddarlutfall",
+    "MediaInfoDefault": "Forsett",
+    "MediaInfoPath": "Leið",
+    "MediaInfoResolution": "Loysni",
+    "MediaSegmentAction.None": "Einki",
+    "MediaSegmentAction.Skip": "Leyp um",
+    "MediaSegmentType.Commercial": "Lýsing"
 }
