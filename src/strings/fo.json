@@ -364,5 +364,18 @@
     "MediaInfoResolution": "Loysni",
     "MediaSegmentAction.None": "Einki",
     "MediaSegmentAction.Skip": "Leyp um",
-    "MediaSegmentType.Commercial": "Lýsing"
+    "MediaSegmentType.Commercial": "Lýsing",
+    "MessageWaitingForServer": "Bíðar eftir ambætara...",
+    "MillisecondsUnit": "ms",
+    "Monday": "Mánadag",
+    "Movies": "Filmar",
+    "MoviesAndShows": "Filmar og røðir",
+    "MusicAlbum": "Tónleikaútgáva",
+    "Mute": "Doyv",
+    "NewEpisodes": "Nýggir partar",
+    "No": "Nei",
+    "NumLocationsValue": "{0} skjáttur",
+    "Option3D": "3D",
+    "OptionBluray": "BD",
+    "OptionDaily": "Dagliga"
 }
