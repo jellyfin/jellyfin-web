@@ -342,5 +342,20 @@
     "LabelPlaceOfBirth": "Føðistaður",
     "LabelQsvDevice": "QSV-eind",
     "LabelReleaseDate": "Útgávudagur",
-    "LabelServerHost": "Vertur"
+    "LabelServerHost": "Vertur",
+    "LabelServerHostHelp": "192.168.1.100:8096 ella https://mínambætari.fo",
+    "LabelServerVersion": "Ambætaraútgáva",
+    "LabelSortBy": "Raða eftir",
+    "LabelTag": "Spjaldur",
+    "Bold": "Feitt",
+    "LabelUser": "Brúkari",
+    "LabelUsername": "Brúkaranavn",
+    "LabelVaapiDevice": "VA-API-eind",
+    "LabelVersion": "Útgáva",
+    "LabelVersionInstalled": "{0} innløgd",
+    "LabelYear": "Ár",
+    "LabelZipCode": "Postnummar",
+    "ListPaging": "{0}-{1} av {2}",
+    "Live": "Beinleiðis",
+    "LiveTV": "Beinleiðis sjónvarp"
 }
