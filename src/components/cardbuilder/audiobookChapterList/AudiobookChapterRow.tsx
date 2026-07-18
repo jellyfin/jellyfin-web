@@ -60,8 +60,8 @@ const AudiobookChapterRow: FC<AudiobookChapterRowProps> = ({
     const sliderRef = useRef<JfSliderHandle>(null);
 
     const runTimeTicks = item.RunTimeTicks || 0;
-    const state = getChapterState(chapter, chapterIndex, chapters, positionTicks);
-    const progress = getChapterProgress(chapter, chapterIndex, chapters, positionTicks);
+    const state = getChapterState(chapter, chapterIndex, chapters, positionTicks, runTimeTicks);
+    const progress = getChapterProgress(chapter, chapterIndex, chapters, positionTicks, runTimeTicks);
     const chapterStart = chapter.StartPositionTicks ?? 0;
     const chapterDurationTicks = getChapterDurationTicks(chapter, chapterIndex, chapters, runTimeTicks);
     const timeDisplay = getChapterTimeDisplay(chapter, chapterIndex, chapters, state, positionTicks, runTimeTicks);

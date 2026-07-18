@@ -11,19 +11,21 @@ export function getChapterProgress(
     chapter: ChapterInfo,
     chapterIndex: number,
     chapters: ChapterInfo[],
-    positionTicks: number | null
+    positionTicks: number | null,
+    itemRunTimeTicks: number
 ): number | null {
     if (positionTicks == null || positionTicks <= 0) return null;
 
     const chapterStart = chapter.StartPositionTicks ?? 0;
     const nextChapter = chapters[chapterIndex + 1];
-    const chapterEnd = nextChapter ? nextChapter.StartPositionTicks ?? null : null;
+    // The last chapter ends at the item runtime, matching getChapterDurationTicks
+    const chapterEnd = nextChapter ? nextChapter.StartPositionTicks ?? null : (itemRunTimeTicks || null);
 
     if (positionTicks < chapterStart) return null;
     if (chapterEnd != null && positionTicks >= chapterEnd) return 1;
 
     // Currently in this chapter
-    if (chapterEnd == null) return 0; // last chapter, no end boundary known
+    if (chapterEnd == null) return 0; // end boundary unknown
     const duration = chapterEnd - chapterStart;
     if (duration <= 0) return 0;
     return (positionTicks - chapterStart) / duration;
@@ -33,9 +35,10 @@ export function getChapterState(
     chapter: ChapterInfo,
     chapterIndex: number,
     chapters: ChapterInfo[],
-    positionTicks: number | null
+    positionTicks: number | null,
+    itemRunTimeTicks: number
 ): ChapterState {
-    const progress = getChapterProgress(chapter, chapterIndex, chapters, positionTicks);
+    const progress = getChapterProgress(chapter, chapterIndex, chapters, positionTicks, itemRunTimeTicks);
     if (progress === null) return 'unplayed';
     if (progress >= 1) return 'played';
     return 'playing';
