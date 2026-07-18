@@ -1,0 +1,166 @@
+// Reusable seek/progress slider — the React counterpart to emby-slider.
+// Dimensions mirror emby-slider: 0.2em rail, 1.08em thumb, 1.25em hit area,
+// track inset by 0.54em (half thumb) so the thumb stays within the bounds.
+
+.jfSlider {
+    position: relative;
+    height: 1.25em;
+    display: flex;
+    flex-direction: row;
+}
+
+// The resting rail, centered vertically and inset to align with the thumb path.
+.jfSlider-rail {
+    position: absolute;
+    top: 50%;
+    left: 0.54em;
+    right: 0.54em;
+    height: 0.2em;
+    margin-top: -0.1em;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.jfSlider-buffered {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.jfSlider-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background-color: #00a4dc;
+
+    .jfSlider-clear & {
+        background-color: transparent;
+    }
+
+    [dir="rtl"] & {
+        left: auto;
+        right: 0;
+    }
+}
+
+// Chapter/segment markers on the track (inset to match the rail).
+.jfSlider-marker {
+    position: absolute;
+    top: 50%;
+    width: 2px;
+    height: 12px;
+    margin: 0 0.54em;
+    transform: translate3d(0, -25%, 0);
+    pointer-events: none;
+
+    &.unwatched {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &.watched {
+        background-color: #00a4dc;
+    }
+}
+
+// Staged (pending) TV seek marker: a grey dot awaiting OK while the blue fill
+// keeps tracking live playback. `left` is computed by the component to match
+// the native thumb travel (inset by half a thumb at each end).
+.jfSlider-pendingMarker {
+    position: absolute;
+    top: 50%;
+    width: 1.08em;
+    height: 1.08em;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+// Native range input stacked over the rail; transparent track, styled thumb.
+.jfSlider-input {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    outline: 0;
+    cursor: pointer;
+    z-index: 1;
+    font-size: inherit;
+
+    &::-webkit-slider-runnable-track {
+        background: transparent;
+    }
+
+    &::-moz-range-track {
+        background: transparent;
+    }
+
+    &::-webkit-slider-thumb {
+        appearance: none;
+        width: 1.08em;
+        height: 1.08em;
+        border: none;
+        border-radius: 50%;
+        background: #00a4dc;
+        transition: transform 0.2s;
+    }
+
+    &::-moz-range-thumb {
+        width: 1.08em;
+        height: 1.08em;
+        border: none;
+        border-radius: 50%;
+        background: #00a4dc;
+        transition: transform 0.2s;
+    }
+
+    &:disabled {
+        &::-webkit-slider-thumb {
+            display: none;
+        }
+
+        &::-moz-range-thumb {
+            display: none;
+        }
+    }
+}
+
+// While staging, the input thumb stays on the live position (blue); the staged
+// position is shown separately by .jfSlider-pendingMarker.
+
+.jfSlider-bubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(-50%, -120%, 0);
+    background: #282828;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.jfSlider-bubbleText {
+    margin: 0;
+    padding: 0.5em 0.75em;
+}
+
+// Hover / TV focus enlarges the thumb, matching emby-slider.
+.jfSlider-input:hover,
+.jfSlider-input:focus {
+    &::-webkit-slider-thumb {
+        transform: scale(1.3);
+    }
+
+    &::-moz-range-thumb {
+        transform: scale(1.3);
+    }
+}

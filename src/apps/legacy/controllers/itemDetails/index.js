@@ -22,6 +22,7 @@ import layoutManager from 'components/layoutManager';
 import listView from 'components/listview/listview';
 import loading from 'components/loading/loading';
 import ItemDetailsMetadataList from 'components/itemDetails/ItemDetailsMetadataList';
+import AudiobookChapterList from 'components/cardbuilder/audiobookChapterList/AudiobookChapterList';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
@@ -1820,22 +1821,20 @@ function renderScenes(page, item) {
     if (isAudioBook && allChapters.length) {
         page.querySelector('#scenesCollapsible').classList.add('hide');
 
-        import('components/cardbuilder/audiobookChapterList').then(({ buildAudiobookChapterList, unbindLiveUpdates }) => {
-            _chapterCleanup = unbindLiveUpdates;
-            const childrenCollapsible = page.querySelector('#listChildrenCollapsible');
-            const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
+        const childrenCollapsible = page.querySelector('#listChildrenCollapsible');
+        const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
 
-            // Same treatment as MusicAlbum
-            childrenCollapsible.classList.remove('hide');
-            childrenCollapsible.classList.add('verticalSection-extrabottompadding');
-            childrenCollapsible.querySelector('.sectionTitle').classList.add('hide');
-            childrenItemsContainer.classList.add('vertical-list');
-            childrenItemsContainer.classList.remove('vertical-wrap');
+        // Same treatment as MusicAlbum
+        childrenCollapsible.classList.remove('hide');
+        childrenCollapsible.classList.add('verticalSection-extrabottompadding');
+        childrenCollapsible.querySelector('.sectionTitle').classList.add('hide');
+        childrenItemsContainer.classList.add('vertical-list');
+        childrenItemsContainer.classList.remove('vertical-wrap');
 
-            buildAudiobookChapterList(item, allChapters, {
-                itemsContainer: childrenItemsContainer
-            });
-        });
+        // The React chapter list renders directly into the items container so
+        // its rows remain the effective children of the emby-itemscontainer.
+        // The returned unmount runs on view teardown via _chapterCleanup.
+        _chapterCleanup = renderComponent(AudiobookChapterList, { item, chapters: allChapters }, childrenItemsContainer);
         return;
     }
 
