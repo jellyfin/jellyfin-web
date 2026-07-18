@@ -29,7 +29,7 @@ const enableFocusTransform = !browser.slow && !browser.edge;
 function authenticateUserByName(page: HTMLElement, apiClient: ApiClient, url: string, username: string, password: string) {
     loading.show();
     apiClient.authenticateUserByName(username, password).then(function (result) {
-        const user = result.User as UserDto;
+        const user = result.User!;
         loading.hide();
 
         onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
@@ -85,7 +85,7 @@ function authenticateQuickConnect(apiClient: ApiClient, targetUrl: string) {
                 }
 
                 const result = await apiClient.quickConnect(data.Secret);
-                onLoginSuccessful((result.User as UserDto).Id, result.AccessToken, apiClient, targetUrl);
+                onLoginSuccessful(result.User!.Id, result.AccessToken, apiClient, targetUrl);
             }, function (e) {
                 clearInterval(interval);
 
@@ -124,9 +124,9 @@ function onLoginSuccessful(id: string | null | undefined, accessToken: string | 
 
 function showManualForm(context: HTMLElement, showCancel: boolean, focusPassword?: boolean) {
     (context.querySelector('.chkRememberLogin') as HTMLInputElement).checked = appSettings.enableAutoLogin();
-    (context.querySelector('.manualLoginForm') as Element).classList.remove('hide');
-    (context.querySelector('.visualLoginForm') as Element).classList.add('hide');
-    (context.querySelector('.btnManual') as Element).classList.add('hide');
+    context.querySelector('.manualLoginForm')!.classList.remove('hide');
+    context.querySelector('.visualLoginForm')!.classList.add('hide');
+    context.querySelector('.btnManual')!.classList.add('hide');
 
     if (focusPassword) {
         (context.querySelector('#txtManualPassword') as HTMLInputElement).focus();
@@ -135,9 +135,9 @@ function showManualForm(context: HTMLElement, showCancel: boolean, focusPassword
     }
 
     if (showCancel) {
-        (context.querySelector('.btnCancel') as Element).classList.remove('hide');
+        context.querySelector('.btnCancel')!.classList.remove('hide');
     } else {
-        (context.querySelector('.btnCancel') as Element).classList.add('hide');
+        context.querySelector('.btnCancel')!.classList.add('hide');
     }
 }
 
@@ -165,7 +165,7 @@ function loadUserList(context: HTMLElement, apiClient: ApiClient, users: UserDto
         let imgUrl;
 
         if (user.PrimaryImageTag) {
-            imgUrl = apiClient.getUserImageUrl(user.Id as string, {
+            imgUrl = apiClient.getUserImageUrl(user.Id!, {
                 width: 300,
                 tag: user.PrimaryImageTag,
                 type: 'Primary'
@@ -187,7 +187,7 @@ function loadUserList(context: HTMLElement, apiClient: ApiClient, users: UserDto
         html += '</button>';
     }
 
-    (context.querySelector('#divUsers') as Element).innerHTML = html;
+    context.querySelector('#divUsers')!.innerHTML = html;
 }
 
 export default function (view: HTMLElement, params: Record<string, string>) {
@@ -216,9 +216,9 @@ export default function (view: HTMLElement, params: Record<string, string>) {
     }
 
     function showVisualForm() {
-        (view.querySelector('.visualLoginForm') as Element).classList.remove('hide');
-        (view.querySelector('.manualLoginForm') as Element).classList.add('hide');
-        (view.querySelector('.btnManual') as Element).classList.remove('hide');
+        view.querySelector('.visualLoginForm')!.classList.remove('hide');
+        view.querySelector('.manualLoginForm')!.classList.add('hide');
+        view.querySelector('.btnManual')!.classList.remove('hide');
 
         // Should we be handling this promise?
         void import('components/autoFocuser').then(({ default: autoFocuser }) => {
@@ -226,14 +226,14 @@ export default function (view: HTMLElement, params: Record<string, string>) {
         });
     }
 
-    (view.querySelector('#divUsers') as Element).addEventListener('click', function (e) {
+    view.querySelector('#divUsers')!.addEventListener('click', function (e) {
         const card = dom.parentWithClass(e.target as HTMLElement, 'card');
         const cardContent = card ? card.querySelector('.cardContent') : null;
 
         if (cardContent) {
             const context = view;
             const id = cardContent.getAttribute('data-userid');
-            const name = cardContent.getAttribute('data-username') as string;
+            const name = cardContent.getAttribute('data-username')!;
             const haspw = cardContent.getAttribute('data-haspw');
 
             if (id === 'manual') {
@@ -248,25 +248,25 @@ export default function (view: HTMLElement, params: Record<string, string>) {
             }
         }
     });
-    (view.querySelector('.manualLoginForm') as Element).addEventListener('submit', function (e) {
+    view.querySelector('.manualLoginForm')!.addEventListener('submit', function (e) {
         appSettings.enableAutoLogin((view.querySelector('.chkRememberLogin') as HTMLInputElement).checked);
         authenticateUserByName(view, getApiClient(), getTargetUrl(), (view.querySelector('#txtManualName') as HTMLInputElement).value, (view.querySelector('#txtManualPassword') as HTMLInputElement).value);
         e.preventDefault();
         return false;
     });
-    (view.querySelector('.btnForgotPassword') as Element).addEventListener('click', function () {
+    view.querySelector('.btnForgotPassword')!.addEventListener('click', function () {
         void Dashboard.navigate('forgotpassword');
     });
-    (view.querySelector('.btnCancel') as Element).addEventListener('click', showVisualForm);
-    (view.querySelector('.btnQuick') as Element).addEventListener('click', function () {
+    view.querySelector('.btnCancel')!.addEventListener('click', showVisualForm);
+    view.querySelector('.btnQuick')!.addEventListener('click', function () {
         authenticateQuickConnect(getApiClient(), getTargetUrl());
         return false;
     });
-    (view.querySelector('.btnManual') as Element).addEventListener('click', function () {
+    view.querySelector('.btnManual')!.addEventListener('click', function () {
         (view.querySelector('#txtManualName') as HTMLInputElement).value = '';
         showManualForm(view, true);
     });
-    (view.querySelector('.btnSelectServer') as Element).addEventListener('click', function () {
+    view.querySelector('.btnSelectServer')!.addEventListener('click', function () {
         Dashboard.selectServer();
     });
 
@@ -275,7 +275,7 @@ export default function (view: HTMLElement, params: Record<string, string>) {
         libraryMenu.setTransparentMenu(true);
 
         if (!appHost.supports(AppFeature.MultiServer)) {
-            (view.querySelector('.btnSelectServer') as Element).classList.add('hide');
+            view.querySelector('.btnSelectServer')!.classList.add('hide');
         }
 
         const apiClient = getApiClient();
@@ -283,7 +283,7 @@ export default function (view: HTMLElement, params: Record<string, string>) {
         apiClient.getQuickConnect('Enabled')
             .then(enabled => {
                 if (enabled === true) {
-                    (view.querySelector('.btnQuick') as Element).classList.remove('hide');
+                    view.querySelector('.btnQuick')!.classList.remove('hide');
                 }
             })
             .catch(() => {
@@ -304,7 +304,7 @@ export default function (view: HTMLElement, params: Record<string, string>) {
         });
         // Should this promise be awaited?
         void apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options: BrandingOptionsDto) {
-            const loginDisclaimer = (view.querySelector('.loginDisclaimer') as Element);
+            const loginDisclaimer = view.querySelector('.loginDisclaimer')!;
 
             // eslint-disable-next-line sonarjs/disabled-auto-escaping
             loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
