@@ -26,7 +26,7 @@ function readProgress(item: ItemDto): PlaybackProgress {
 
     if (player && isActiveForItem) {
         return {
-            positionTicks: playbackManager.currentTime(player) * 10000,
+            positionTicks: playbackManager.getCurrentTicks(player),
             isActiveForItem: true,
             isPaused: playbackManager.paused()
         };
