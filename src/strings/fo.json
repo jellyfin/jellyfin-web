@@ -161,7 +161,7 @@
     "SubtitleWhite": "Hvítt",
     "Arranger": "Fyrireikari",
     "SubtitleYellow": "Gult",
-    "AskAdminToCreateLibrary": "Bið ein fyrisitari upprætta eitt savn.",
+    "AskAdminToCreateLibrary": "Bið ein umsitara stovna eitt savn.",
     "TabAccess": "Atgongd",
     "TypeOptionPluralEpisode": "Partar",
     "TitlePlayback": "Avspæling",
@@ -204,5 +204,6 @@
     "Genres": "Greinar",
     "AirPlay": "AirPlay",
     "Photos": "Ljósmyndir",
-    "AndOtherArtists": "{0} og {1} onnur listafólk."
+    "AndOtherArtists": "{0} og {1} onnur listafólk.",
+    "Authors": "Høvundar"
 }
