@@ -52,7 +52,7 @@ function authenticateUserByName(page: HTMLElement, apiClient: ApiClient, url: st
 
 function authenticateQuickConnect(apiClient: ApiClient, targetUrl: string) {
     const url = apiClient.getUrl('/QuickConnect/Initiate');
-    // @ts-expect-error: The signature of ajax has just one argument. TODO: This should be investigated
+    // @ts-expect-error: The signature of ajax has just one argument. The `true` can probably be removed with no consequences
     apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then(function (json) {
         if (!json.Secret || !json.Code) {
             console.error('Malformed quick connect response', json);
@@ -198,8 +198,7 @@ export default function (view: HTMLElement, params: Record<string, string>) {
             return ServerConnections.getOrCreateApiClient(serverId);
         }
 
-        // TODO: This should be investigated
-        // @ts-expect-error: It appears we're returning a type definition here instead of an instance of the object, but this code works, so it's not as it seems
+        // @ts-expect-error: We're returning a type definition instead of an instance. This path is probably never hit since it would break if it were.
         return ApiClient;
     }
 
