@@ -205,5 +205,7 @@
     "AirPlay": "AirPlay",
     "Photos": "Ljósmyndir",
     "AndOtherArtists": "{0} og {1} onnur listafólk.",
-    "Authors": "Høvundar"
+    "Authors": "Høvundar",
+    "Author": "Høvundur",
+    "Authorize": "Samgilda"
 }
