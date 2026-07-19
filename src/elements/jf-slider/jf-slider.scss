@@ -153,9 +153,13 @@
     padding: 0.5em 0.75em;
 }
 
-// Hover / TV focus enlarges the thumb, matching emby-slider.
-.jfSlider-input:hover,
-.jfSlider-input:focus {
+// Hover enlarges the thumb, matching emby-slider's desktop behavior.
+// Deliberately NOT on :focus — the input stays focused after a click, and a
+// resident transform on the thumb stops Chromium repainting it when the value
+// is updated programmatically (the thumb freezes until blur). emby scaled on
+// focus only on TV (.show-focus); add an equivalent opt-in if a TV caller
+// ever focuses the input directly.
+.jfSlider-input:hover {
     &::-webkit-slider-thumb {
         transform: scale(1.3);
     }
