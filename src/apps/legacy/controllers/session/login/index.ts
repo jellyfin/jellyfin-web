@@ -34,7 +34,7 @@ function authenticateUserByName(page: HTMLElement, apiClient: ApiClient, url: st
 
         onLoginSuccessful(user.Id, result.AccessToken, apiClient, url);
     }, function (response) {
-        (page.querySelector('#txtManualPassword') as HTMLInputElement).value = '';
+        page.querySelector<HTMLInputElement>('#txtManualPassword')!.value = '';
         loading.hide();
 
         const UnauthorizedOrForbidden = [401, 403];
@@ -52,14 +52,12 @@ function authenticateUserByName(page: HTMLElement, apiClient: ApiClient, url: st
 
 function authenticateQuickConnect(apiClient: ApiClient, targetUrl: string) {
     const url = apiClient.getUrl('/QuickConnect/Initiate');
-    // @ts-expect-error: The signature of ajax has just one argument. The `true` can probably be removed with no consequences
     apiClient.ajax({ type: 'POST', url }, true).then(res => res.json()).then(function (json) {
         if (!json.Secret || !json.Code) {
             console.error('Malformed quick connect response', json);
             return false;
         }
 
-        // Should we be awaiting this promise?
         void baseAlert({
             dialogOptions: {
                 id: 'quickConnectAlert'
@@ -118,20 +116,19 @@ function authenticateQuickConnect(apiClient: ApiClient, targetUrl: string) {
 
 function onLoginSuccessful(id: string | null | undefined, accessToken: string | null | undefined, apiClient: ApiClient, url: string) {
     Dashboard.onServerChanged(id, accessToken, apiClient);
-    // Should we be handling the promise from navigate?
     void Dashboard.navigate(url || 'home');
 }
 
 function showManualForm(context: HTMLElement, showCancel: boolean, focusPassword?: boolean) {
-    (context.querySelector('.chkRememberLogin') as HTMLInputElement).checked = appSettings.enableAutoLogin();
+    context.querySelector<HTMLInputElement>('.chkRememberLogin')!.checked = appSettings.enableAutoLogin();
     context.querySelector('.manualLoginForm')!.classList.remove('hide');
     context.querySelector('.visualLoginForm')!.classList.add('hide');
     context.querySelector('.btnManual')!.classList.add('hide');
 
     if (focusPassword) {
-        (context.querySelector('#txtManualPassword') as HTMLInputElement).focus();
+        context.querySelector<HTMLInputElement>('#txtManualPassword')!.focus();
     } else {
-        (context.querySelector('#txtManualName') as HTMLElement).focus();
+        context.querySelector<HTMLElement>('#txtManualName')!.focus();
     }
 
     if (showCancel) {
@@ -198,7 +195,7 @@ export default function (view: HTMLElement, params: Record<string, string>) {
             return ServerConnections.getOrCreateApiClient(serverId);
         }
 
-        // @ts-expect-error: We're returning a type definition instead of an instance. This path is probably never hit since it would break if it were.
+        // @ts-expect-error: This works because it returns window.ApiClient, but we shouldn't use it in the new code.
         return ApiClient;
     }
 
@@ -219,7 +216,6 @@ export default function (view: HTMLElement, params: Record<string, string>) {
         view.querySelector('.manualLoginForm')!.classList.add('hide');
         view.querySelector('.btnManual')!.classList.remove('hide');
 
-        // Should we be handling this promise?
         void import('components/autoFocuser').then(({ default: autoFocuser }) => {
             autoFocuser.autoFocus(view);
         });
@@ -236,20 +232,20 @@ export default function (view: HTMLElement, params: Record<string, string>) {
             const haspw = cardContent.getAttribute('data-haspw');
 
             if (id === 'manual') {
-                (context.querySelector('#txtManualName') as HTMLInputElement).value = '';
+                context.querySelector<HTMLInputElement>('#txtManualName')!.value = '';
                 showManualForm(context, true);
             } else if (haspw == 'false') {
                 authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
-                (context.querySelector('#txtManualName') as HTMLInputElement).value = name;
-                (context.querySelector('#txtManualPassword') as HTMLInputElement).value = '';
+                context.querySelector<HTMLInputElement>('#txtManualName')!.value = name;
+                context.querySelector<HTMLInputElement>('#txtManualPassword')!.value = '';
                 showManualForm(context, true, true);
             }
         }
     });
     view.querySelector('.manualLoginForm')!.addEventListener('submit', function (e) {
-        appSettings.enableAutoLogin((view.querySelector('.chkRememberLogin') as HTMLInputElement).checked);
-        authenticateUserByName(view, getApiClient(), getTargetUrl(), (view.querySelector('#txtManualName') as HTMLInputElement).value, (view.querySelector('#txtManualPassword') as HTMLInputElement).value);
+        appSettings.enableAutoLogin(view.querySelector<HTMLInputElement>('.chkRememberLogin')!.checked);
+        authenticateUserByName(view, getApiClient(), getTargetUrl(), view.querySelector<HTMLInputElement>('#txtManualName')!.value, view.querySelector<HTMLInputElement>('#txtManualPassword')!.value);
         e.preventDefault();
         return false;
     });
@@ -262,7 +258,7 @@ export default function (view: HTMLElement, params: Record<string, string>) {
         return false;
     });
     view.querySelector('.btnManual')!.addEventListener('click', function () {
-        (view.querySelector('#txtManualName') as HTMLInputElement).value = '';
+        view.querySelector<HTMLInputElement>('#txtManualName')!.value = '';
         showManualForm(view, true);
     });
     view.querySelector('.btnSelectServer')!.addEventListener('click', function () {
@@ -289,13 +285,12 @@ export default function (view: HTMLElement, params: Record<string, string>) {
                 console.debug('Failed to get QuickConnect status');
             });
 
-        // Should we be awaiting this promise?
         void apiClient.getPublicUsers().then(function (users) {
             if (users.length) {
                 showVisualForm();
                 loadUserList(view, apiClient, users);
             } else {
-                (view.querySelector('#txtManualName') as HTMLInputElement).value = '';
+                view.querySelector<HTMLInputElement>('#txtManualName')!.value = '';
                 showManualForm(view, false, false);
             }
         }).catch().then(function () {
