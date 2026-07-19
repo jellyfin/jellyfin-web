@@ -9,9 +9,11 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 
+import browser from 'scripts/browser';
 import layoutManager from 'components/layoutManager';
 import globalize from 'lib/globalize';
 import { getKeyName } from 'scripts/keyboardNavigation';
+import { decimalCount } from 'utils/number';
 
 import './jf-slider.scss';
 
@@ -65,6 +67,8 @@ export interface JfSliderProps {
      * instead of following the drag position. Mirrors data-slider-keep-progress.
      */
     keepProgress?: boolean;
+    /** Render the fill transparent (rail only). emby's setIsClear. */
+    isClear?: boolean;
     /** Draw a lighter "buffered" band. Values share the slider's min/max scale. */
     bufferedRanges?: SliderRange[];
     /** Position (min/max scale) past which buffered bands are hidden. */
@@ -80,15 +84,21 @@ export interface JfSliderProps {
     updateBubbleHtml?: (bubble: HTMLElement, value: number) => boolean;
     /** Enable TV D-pad seeking (Left/Right). Defaults to layoutManager.tv. */
     enableKeyboardDragging?: boolean;
-    /** Keyboard step per Left/Right press, in value units. */
+    /** Keyboard step per Left/Right press. Used for both unless overridden below. */
     keyboardStep?: number;
+    /** Left/back step; falls back to keyboardStep. OSD skip-back can differ from forward. */
+    keyboardStepBack?: number;
+    /** Right/forward step; falls back to keyboardStep. */
+    keyboardStepForward?: number;
     /**
      * "stage" (TV default): Left/Right stage a pending seek shown by a second
      * marker; playback isn't touched until OK. onChange fires only on commit.
      * "live": every value change is reported immediately.
      */
     keyboardMode?: 'live' | 'stage';
-    /** Fired while dragging/hovering with the previewed value (0 = pointer). */
+    /** Live value on every change while dragging (e.g. volume). Never null, never on hover. */
+    onInput?: (value: number) => void;
+    /** Bubble/preview value while dragging or hovering; null on leave. */
     onPreview?: (value: number | null) => void;
     /** Fired when a value is committed (drag release, keyboard commit, click). */
     onChange?: (value: number) => void;
@@ -117,6 +127,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
     ariaLabel,
     focusable = true,
     keepProgress = false,
+    isClear = false,
     bufferedRanges,
     bufferedPosition,
     markers,
@@ -124,7 +135,10 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
     updateBubbleHtml,
     enableKeyboardDragging = layoutManager.tv,
     keyboardStep,
+    keyboardStepBack,
+    keyboardStepForward,
     keyboardMode = layoutManager.tv ? 'stage' : 'live',
+    onInput,
     onPreview,
     onChange,
     onActivate
@@ -149,12 +163,18 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
     // the drag position instead.
     const fillValue = (dragging && !keepProgress && bubbleValue != null) ? bubbleValue : value;
     const fillPercent = valueToPercent(fillValue);
-    // In "stage" mode the input thumb stays on the live value (the pending
-    // position is shown only by jfSlider-pendingMarker); during a pointer drag
-    // it follows the drag.
-    const inputValue = (dragging && bubbleValue != null) ? bubbleValue : value;
 
-    const effectiveStep = keyboardStep ?? (step > 0 ? step : 1);
+    const stepBack = keyboardStepBack ?? keyboardStep ?? (step > 0 ? step : 1);
+    const stepForward = keyboardStepForward ?? keyboardStep ?? (step > 0 ? step : 1);
+
+    // Snap a value to `step` on the min..max scale, matching emby-slider so
+    // callers see the same quantised values the native input would settle on.
+    const snap = useCallback((v: number) => {
+        if (step <= 0) return clamp(v, min, max);
+        const decimals = Math.max(decimalCount(min), decimalCount(step));
+        const snapped = Math.round((v - min) / step) * step + min;
+        return clamp(parseFloat(snapped.toFixed(decimals)), min, max);
+    }, [step, min, max]);
 
     // Buffered band: first range that isn't already behind `bufferedPosition`.
     const buffered = useMemo(() => {
@@ -198,43 +218,6 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         onPreview?.(null);
     }, [onPreview]);
 
-    // React maps a range input's native `input` event to onChange, so it fires
-    // on every value change during a drag; treat it as preview only.
-    const onInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setDragging(true);
-        showBubble(parseFloat(e.target.value));
-    }, [showBubble]);
-
-    // The native `change` event (drag release) is not surfaced distinctly by
-    // React for range inputs, so listen for it directly to commit the seek.
-    useEffect(() => {
-        const input = inputRef.current;
-        if (!input) return;
-        const onNativeChange = () => {
-            setDragging(false);
-            hideBubble();
-            onChange?.(parseFloat(input.value));
-        };
-        input.addEventListener('change', onNativeChange);
-        return () => input.removeEventListener('change', onNativeChange);
-    }, [hideBubble, onChange]);
-
-    // Pointer hover preview (no drag).
-    const onPointerMove = useCallback((e: React.PointerEvent<HTMLInputElement>) => {
-        if (dragging) return;
-        const track = trackRef.current;
-        if (!track) return;
-        const rect = track.getBoundingClientRect();
-        if (rect.width <= 0) return;
-        let fraction = (e.clientX - rect.left) / rect.width;
-        if (globalize.getIsElementRTL(track)) fraction = (rect.right - e.clientX) / rect.width;
-        showBubble(min + clamp(fraction, 0, 1) * range);
-    }, [dragging, showBubble, min, range]);
-
-    const onPointerLeave = useCallback(() => {
-        if (!dragging) hideBubble();
-    }, [dragging, hideBubble]);
-
     const commitPending = useCallback(() => {
         if (pendingValue == null) return false;
         const target = pendingValue;
@@ -249,20 +232,133 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         hideBubble();
     }, [hideBubble]);
 
+    // React surfaces the native `input` event as onChange; it fires on every
+    // drag tick. Preview it in the bubble and emit the live value.
+    const onDragInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setDragging(true);
+        const v = snap(parseFloat(e.target.value));
+        showBubble(v);
+        onInput?.(v);
+    }, [snap, showBubble, onInput]);
+
+    // The native `change` event (drag release) isn't surfaced distinctly by
+    // React for range inputs, so listen for it directly to commit the seek.
+    // Read the value from the input itself: it is always current when the
+    // event fires, with no React state round-trip to race against. Hold the
+    // committed position in pendingValue so the thumb stays there until the
+    // live `value` reflects the seek (the next timeupdate tick).
+    useEffect(() => {
+        const input = inputRef.current;
+        if (!input) return;
+        const onNativeChange = () => {
+            setDragging(false);
+            hideBubble();
+            const committed = snap(parseFloat(input.value));
+            setPendingValue(committed);
+            onChange?.(committed);
+        };
+        input.addEventListener('change', onNativeChange);
+        return () => input.removeEventListener('change', onNativeChange);
+    }, [hideBubble, onChange, snap]);
+
+    // pendingValue plays two roles by mode. In "stage" (keyboard/TV) it's the
+    // staged target, drawn by jfSlider-pendingMarker while the thumb keeps
+    // tracking live `value`. In "live" (mouse) it's a committed position the
+    // thumb itself holds until `value` catches up.
+    const thumbHeld = keyboardMode !== 'stage' && pendingValue != null;
+
+    // The input is uncontrolled so the native thumb owns its position during a
+    // drag (no controlled-value fight). Push the live `value` into it except
+    // while the thumb is being held — during a drag, or a mouse hold.
+    useEffect(() => {
+        const input = inputRef.current;
+        if (input && !dragging && !thumbHeld) input.value = String(value);
+    }, [value, dragging, thumbHeld]);
+
+    // Release a mouse hold on the first `value` update after the commit — that
+    // update is the player reflecting the seek, so the thumb can resume tracking
+    // live progress. Record the value at hold-start to detect it (a proximity
+    // window is unreliable: `value` can jump many steps per tick). Scoped to
+    // thumbHeld so keyboard staging — which also uses pendingValue but must
+    // survive playback ticks until the user commits — is unaffected.
+    const heldFromValue = useRef<number | null>(null);
+    useEffect(() => {
+        if (!thumbHeld) {
+            heldFromValue.current = null;
+        } else if (heldFromValue.current == null) {
+            heldFromValue.current = value;
+        } else if (value !== heldFromValue.current) {
+            setPendingValue(null);
+        }
+    }, [value, thumbHeld]);
+
+    // Pointer hover preview (no drag).
+    const onPointerMove = useCallback((e: React.PointerEvent<HTMLInputElement>) => {
+        if (dragging) return;
+        const track = trackRef.current;
+        if (!track) return;
+        const rect = track.getBoundingClientRect();
+        if (rect.width <= 0) return;
+        let fraction = (e.clientX - rect.left) / rect.width;
+        if (globalize.getIsElementRTL(track)) fraction = (rect.right - e.clientX) / rect.width;
+        showBubble(snap(min + clamp(fraction, 0, 1) * range));
+    }, [dragging, showBubble, snap, min, range]);
+
+    const onPointerLeave = useCallback(() => {
+        if (!dragging) hideBubble();
+    }, [dragging, hideBubble]);
+
+    // iOS Safari doesn't update a range input's value on touch drag, so map the
+    // touch position to a value ourselves. Harmless elsewhere but only wired on iOS.
+    const valueFromClientX = useCallback((clientX: number) => {
+        const track = trackRef.current;
+        if (!track) return null;
+        const rect = track.getBoundingClientRect();
+        if (rect.width <= 0) return null;
+        let fraction = (clientX - rect.left) / rect.width;
+        if (globalize.getIsElementRTL(track)) fraction = (rect.right - clientX) / rect.width;
+        return snap(min + clamp(fraction, 0, 1) * range);
+    }, [snap, min, range]);
+
+    const onTouchDrag = useCallback((e: React.TouchEvent<HTMLInputElement>) => {
+        if (e.touches.length !== 1) return;
+        const v = valueFromClientX(e.touches[0].clientX);
+        if (v == null) return;
+        // Suppress the trailing pointermove/click iOS emits after touch.
+        if (e.type === 'touchstart') e.preventDefault();
+        setDragging(true);
+        showBubble(v);
+        onInput?.(v);
+    }, [valueFromClientX, showBubble, onInput]);
+
+    // Commit from the touch's own coordinates: a quick tap ends before staged
+    // state has round-tripped through React, same as the pointer path.
+    const onTouchEnd = useCallback((e: React.TouchEvent<HTMLInputElement>) => {
+        setDragging(false);
+        hideBubble();
+        const v = valueFromClientX(e.changedTouches[0].clientX);
+        if (v != null) onChange?.(v);
+    }, [hideBubble, valueFromClientX, onChange]);
+
+    const touchHandlers = browser.iOS ?
+        { onTouchStart: onTouchDrag, onTouchMove: onTouchDrag, onTouchEnd } :
+        undefined;
+
     // Step by one keyboard increment. In "stage" mode this moves the pending
     // marker; in "live" mode it seeks immediately.
     const stepKeyboard = useCallback((direction: 'left' | 'right') => {
-        const delta = direction === 'left' ? -effectiveStep : effectiveStep;
+        const delta = direction === 'left' ? -stepBack : stepForward;
         if (keyboardMode === 'stage') {
-            const next = clamp((pendingValue ?? value) + delta, min, max);
+            const next = snap((pendingValue ?? value) + delta);
             setPendingValue(next);
             showBubble(next);
         } else {
-            const next = clamp(value + delta, min, max);
+            const next = snap(value + delta);
             showBubble(next);
+            onInput?.(next);
             onChange?.(next);
         }
-    }, [effectiveStep, keyboardMode, pendingValue, value, min, max, showBubble, onChange]);
+    }, [stepBack, stepForward, keyboardMode, pendingValue, value, snap, showBubble, onInput, onChange]);
 
     const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
         if (!enableKeyboardDragging) return;
@@ -300,6 +396,12 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         clearPending();
     }, [clearPending]);
 
+    // A click that seeks is consumed by the slider; don't let it bubble to a
+    // clickable ancestor (e.g. a list row) and trigger its action too.
+    const onClick = useCallback((e: React.MouseEvent<HTMLInputElement>) => {
+        e.stopPropagation();
+    }, []);
+
     useImperativeHandle(ref, () => ({
         input: inputRef.current,
         nudge: (direction) => {
@@ -311,12 +413,14 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         clearPendingSeek: clearPending
     }), [stepKeyboard, pendingValue, commitPending, clearPending]);
 
-    const staging = pendingValue != null;
+    // The staged marker is a keyboard/TV affordance; a mouse hold moves the
+    // thumb instead, so it must not draw a marker.
+    const staging = keyboardMode === 'stage' && pendingValue != null;
 
     return (
         <div
             ref={trackRef}
-            className={classNames('jfSlider', className, { 'jfSlider-staging': staging })}
+            className={classNames('jfSlider', className, { 'jfSlider-staging': staging, 'jfSlider-clear': isClear })}
             dir={globalize.getIsRTL() ? 'rtl' : 'ltr'}
         >
             <div className='jfSlider-rail'>
@@ -337,7 +441,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
                     aria-hidden='true'
                 />
             ))}
-            {staging && (
+            {staging && !dragging && (
                 <span
                     className='jfSlider-pendingMarker'
                     // Match the native thumb travel: centred at 0.54em (half
@@ -353,15 +457,17 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
                 min={min}
                 max={max}
                 step={step}
-                value={inputValue}
+                defaultValue={value}
                 disabled={disabled}
                 aria-label={ariaLabel}
                 tabIndex={focusable ? undefined : -1}
-                onChange={onInput}
+                onChange={onDragInput}
+                onClick={onClick}
                 onPointerMove={onPointerMove}
                 onPointerLeave={onPointerLeave}
                 onKeyDown={onKeyDown}
                 onBlur={onBlur}
+                {...touchHandlers}
             />
             {bubbleValue != null && bubbleTextFor(bubbleValue) != null && (
                 <div ref={bubbleRef} className='jfSlider-bubble'>
