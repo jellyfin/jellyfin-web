@@ -5,9 +5,8 @@ import { createRoot, type Root } from 'react-dom/client';
 vi.mock('components/layoutManager', () => ({ default: { tv: false, mobile: false } }));
 vi.mock('lib/globalize', () => ({ default: { getIsRTL: vi.fn(() => false), getIsElementRTL: vi.fn(() => false) } }));
 vi.mock('scripts/keyboardNavigation', () => ({ getKeyName: (e: KeyboardEvent) => e.key }));
-// iOS: this is the whole point of this file — the touch handlers are only wired
-// when browser.iOS is true, and that flag is a static boolean on the mock, so it
-// must live in a separate file from the pointer/keyboard tests.
+// Touch handlers only wire up when browser.iOS is true. That's a static mock
+// value, hence a separate file from the pointer/keyboard tests.
 vi.mock('scripts/browser', () => ({ default: { iOS: true } }));
 
 import globalize from 'lib/globalize';
@@ -15,8 +14,7 @@ import Slider from './Slider';
 
 (globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true;
 
-// Touch flows are synchronous: dispatching the event runs the handler and its
-// re-render within act() before it returns, so tests assert immediately after.
+// Touch flows are synchronous — everything runs inside act(), so no awaiting.
 
 let container: HTMLElement;
 let root: Root;
@@ -56,9 +54,8 @@ function stubTrackRect(track: HTMLElement, { left = 0, width = 100 } = {}) {
     });
 }
 
-// jsdom has no TouchEvent; React reads `touches`/`changedTouches`/`type` and
-// `preventDefault` off the native event, so a plain Event with those props set
-// exercises the same code path a real touch would.
+// jsdom has no TouchEvent; React reads touches/changedTouches/type off the
+// native event, so a plain Event with those props hits the same path.
 function touch(type: 'touchstart' | 'touchmove' | 'touchend', xs: number[]) {
     const evt = new Event(type, { bubbles: true, cancelable: true }) as Event & {
         touches: { clientX: number }[];
@@ -73,12 +70,12 @@ function touch(type: 'touchstart' | 'touchmove' | 'touchend', xs: number[]) {
 describe('jf-slider: touch (iOS)', () => {
     it('touchstart maps a snapped clientX value, shows the bubble, previews input, preventDefault', () => {
         const onInput = vi.fn();
-        // step 10 + clientX 34 pins both the clientX->value mapping and the snap.
+        // step 10 + clientX 34 exercises both the mapping and the snap.
         const { input, track } = render({ value: 0, min: 0, max: 100, step: 10, onInput });
         stubTrackRect(track);
         const evt = touch('touchstart', [34]);
-        // React registers touchstart/touchmove as passive, so defaultPrevented
-        // won't reflect the call; assert the handler invoked preventDefault.
+        // touchstart/touchmove are passive, so defaultPrevented won't reflect
+        // the call — spy on preventDefault instead.
         const prevent = vi.spyOn(evt, 'preventDefault');
         act(() => {
             input.dispatchEvent(evt);
@@ -126,7 +123,7 @@ describe('jf-slider: touch (iOS)', () => {
         expect(container.querySelector('.jfSlider-bubble')).toBeNull();
     });
 
-    // Snapping, the rect.width<=0 guard, and the RTL fraction-flip all live in the
-    // shared valueFromClientX mapper, already pinned by the pointer-path tests in
-    // Slider.test.tsx; the tests above prove the touch handlers are wired to it.
+    // Snapping, the width<=0 guard and the RTL flip live in the shared mapper,
+    // already covered by the pointer tests in Slider.test.tsx; these just prove
+    // the touch handlers reach it.
 });

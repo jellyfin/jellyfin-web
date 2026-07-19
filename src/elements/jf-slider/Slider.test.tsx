@@ -12,13 +12,11 @@ import Slider, { type JfSliderProps, type JfSliderHandle } from './Slider';
 
 (globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true;
 
-// Every flow under test is synchronous: a DOM event dispatch runs React's
-// handler, setState and the re-render within act() before it returns, so tests
-// assert immediately after — no awaiting, matching the component's own paths
-// (no timers/promises/suspense anywhere in Slider's event handling).
+// Every flow here is synchronous — the dispatch, handler and re-render all
+// run inside act(), so tests assert immediately with no awaiting.
 
-// Set the value the way a browser does during a user gesture (bypassing
-// React's value setter so its internal tracker sees a real change).
+// Set the value the browser way, bypassing React's setter so its internal
+// value tracker sees a real change.
 function setNativeValue(input: HTMLInputElement, value: string) {
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
     setter?.set?.call(input, value);
@@ -36,8 +34,8 @@ interface Harness {
 
 const mounted: Harness[] = [];
 
-// Mount a Slider once; `render` re-renders it with new props (same root so the
-// value-prop-tracking effects behave like a live parent re-render).
+// Mount a Slider once; `render` re-renders into the same root, so the
+// value-tracking effects see it as a live parent re-render.
 function mount(): Harness {
     const container = document.createElement('div');
     document.body.appendChild(container);
@@ -85,7 +83,6 @@ afterEach(() => {
     while (mounted.length) mounted.pop()?.unmount();
 });
 
-// One drag "tick": the browser sets the input value and fires `input`.
 function dragTick(input: HTMLInputElement, value: string) {
     act(() => {
         setNativeValue(input, value);
@@ -93,15 +90,14 @@ function dragTick(input: HTMLInputElement, value: string) {
     });
 }
 
-// The drag release: the browser fires `change`. The handler reads input.value,
-// so callers must have set it (via dragTick or setNativeValue) beforehand.
+// Drag release fires `change`; the handler reads input.value, so callers must
+// have set it (via dragTick or setNativeValue) first.
 function dragRelease(input: HTMLInputElement) {
     act(() => {
         input.dispatchEvent(new Event('change', { bubbles: true }));
     });
 }
 
-// Dispatch a keydown; returns the event so callers can assert defaultPrevented.
 function keydown(input: HTMLInputElement, key: string): KeyboardEvent {
     const evt = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
     act(() => {
@@ -146,8 +142,7 @@ function stubTrackRect(track: HTMLElement, { left = 0, width = 100 } = {}) {
 const fillWidth = (container: HTMLElement) =>
     container.querySelector<HTMLElement>('.jfSlider-fill')?.style.width;
 
-// Invoke an imperative-handle method inside act (its state updates flush
-// synchronously) and return its result.
+// Call a handle method inside act() so its state updates flush.
 function callHandle<T>(fn: () => T): T {
     let result: T;
     act(() => {
@@ -237,8 +232,7 @@ describe('jf-slider: drag input/change -> onInput/onChange', () => {
         const onChange = vi.fn();
         const h = mount();
         h.render({ value: 0, step: 1, onChange });
-        // Value set without an input event: only the native change carries it,
-        // proving the change handler reads input.value directly (no state race).
+        // No input event first: the change handler must read input.value itself.
         act(() => {
             setNativeValue(h.input(), '63');
         });
@@ -311,7 +305,7 @@ describe('jf-slider: pointer hover -> onPreview', () => {
         const onPreview = vi.fn();
         const onInput = vi.fn();
         const h = mount();
-        // step 10 + clientX 34 reveals both the mapping and the snap in one shot.
+        // step 10 + clientX 34 exercises both the mapping and the snap.
         h.render({ value: 0, min: 0, max: 100, step: 10, onPreview, onInput });
         stubTrackRect(h.track());
         pointerMove(h.input(), 34);
@@ -398,8 +392,6 @@ describe('jf-slider: keyboard live mode', () => {
         keydown(h.input(), 'ArrowRight');
         expect(onChange).not.toHaveBeenCalled();
     });
-
-    // (Live-mode "Enter activates" and "no staging" are covered above / in stage mode.)
 });
 
 describe('jf-slider: keyboard stage mode & pendingMarker', () => {
@@ -447,10 +439,7 @@ describe('jf-slider: keyboard stage mode & pendingMarker', () => {
         expect(evt.defaultPrevented).toBe(true);
     });
 
-    // ArrowUp/ArrowDown/Escape/Back all abandon a staged seek via one shared
-    // branch (Slider.tsx onKeyDown). This exercises that single path (and its
-    // key-still-bubbles behavior) with Escape as the representative key; the
-    // other three keys take the identical path.
+    // ArrowUp/Down/Escape/Back share one abandon branch; Escape stands in for all four.
     it('abandons the staged seek and still bubbles (ArrowUp/Down/Escape/Back)', () => {
         const onChange = vi.fn();
         const h = mount();
@@ -640,7 +629,7 @@ describe('jf-slider: bubble text / updateBubbleHtml', () => {
         keydown(h1.input(), 'ArrowRight');
         expect(bubbleText(h1.container)).toBe('41');
 
-        // getBubbleText transforms and is called with the value alone.
+        // getBubbleText transforms, called with the value alone.
         const getBubbleText = vi.fn((v: number) => `t${v}`);
         const h2 = mount();
         h2.render({ value: 40, ...kb, getBubbleText, onChange: vi.fn() });
@@ -686,10 +675,8 @@ describe('jf-slider: bubble text / updateBubbleHtml', () => {
     });
 });
 
-// focusable has real inversion logic and is an emby-slider parity concern (a range
-// input can't take TV focus, so the row owns the stop). The other presentation
-// props (disabled/ariaLabel/className/isClear) are bare JSX pass-throughs with
-// no component logic, so they're not tested here.
+// focusable has real logic; the other presentation props
+// (disabled/ariaLabel/className/isClear) are bare pass-throughs, untested here.
 describe('jf-slider: focusable', () => {
     it('removes the input from the tab order when focusable=false, keeps it tabbable by default', () => {
         const h = mount();
@@ -751,9 +738,8 @@ describe('jf-slider: blur & click', () => {
     });
 
     it('stops a seeking click from bubbling to an ancestor', () => {
-        // The listener must sit outside the React root container: React 18
-        // delegates events at the container, so stopPropagation only shields
-        // ancestors above it.
+        // Listener must sit outside the root: React 18 delegates at the
+        // container, so stopPropagation only shields ancestors above it.
         const ancestorClick = vi.fn();
         document.body.addEventListener('click', ancestorClick);
         const h = mount();
@@ -803,9 +789,6 @@ describe('jf-slider: keyboard step back/forward asymmetry', () => {
         keydown(h.input(), 'ArrowRight');
         expect(onChange).toHaveBeenLastCalledWith(55);
     });
-
-    // Independence of the two overrides is already implied by the two
-    // "overrides only" tests above (each asserts the other side is unchanged).
 
     it('falls back to step when no keyboard step props are given', () => {
         const onChange = vi.fn();

@@ -1,12 +1,10 @@
-// The React wrapper is transparent to layout so the chapter rows remain the
-// effective flex children of the .vertical-list itemscontainer (matching the
-// legacy DOM where rows were emitted directly into the container).
+// Transparent to layout so the rows are the flex children of the
+// .vertical-list itemscontainer, as the legacy DOM had them.
 .audiobookChapterList {
     display: contents;
 }
 
-// Rows reuse .listItem / .listItem-border / .listItemBody from listview for
-// album-track-like appearance; the overrides below cover chapter specifics.
+// Rows reuse .listItem / .listItemBody from listview; below are the overrides.
 .audiobookChapterItem {
     position: relative;
 

@@ -1831,9 +1831,7 @@ function renderScenes(page, item) {
         childrenItemsContainer.classList.add('vertical-list');
         childrenItemsContainer.classList.remove('vertical-wrap');
 
-        // The React chapter list renders directly into the items container so
-        // its rows remain the effective children of the emby-itemscontainer.
-        // The returned unmount runs on view teardown via _chapterCleanup.
+        // renderComponent returns an unmount fn; view teardown calls it via _chapterCleanup.
         _chapterCleanup = renderComponent(AudiobookChapterList, { item, chapters: allChapters }, childrenItemsContainer);
         return;
     }
