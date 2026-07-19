@@ -28,11 +28,17 @@ const AudiobookChapterList: FC<AudiobookChapterListProps> = ({ item, chapters })
         chapters.findIndex((chapter, i) => getChapterState(chapter, i, chapters, positionTicks, item.RunTimeTicks || 0) === 'playing')
     ), [chapters, positionTicks, item.RunTimeTicks]);
 
-    // Auto-scroll when the active chapter changes
+    // When there is a now-playing chapter, scroll it into view and give it
+    // focus, overriding the detail page's banner-play-button auto-focus (this
+    // effect runs after that synchronous auto-focus pass). With no playing
+    // chapter, do nothing: the page stays at the top and the banner play button
+    // keeps focus.
     useEffect(() => {
         if (playingIndex < 0) return;
-        const playing = containerRef.current?.querySelector('.chapterItem-playing');
+        const playing = containerRef.current?.querySelector<HTMLElement>('.chapterItem-playing');
         playing?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        // Let scrollIntoView own the (smooth) scroll; focus must not add its own jump.
+        playing?.focus({ preventScroll: true });
     }, [playingIndex]);
 
     return (
