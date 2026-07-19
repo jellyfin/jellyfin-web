@@ -1925,5 +1925,6 @@
     "HeaderSplitMedia": "Podziel multimedia",
     "Creators": "Twórcy",
     "IndexNumber": "Numer indeksu",
-    "NoCastTargets": "Brak dostępnych docelowych urządzeń do przesyłania"
+    "NoCastTargets": "Brak dostępnych docelowych urządzeń do przesyłania",
+    "MessageNoEpisodesFound": "Obecnie nie ma dostępnych odcinków."
 }

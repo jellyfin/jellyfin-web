@@ -1,13 +1,11 @@
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/models/recommendation-dto';
 import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
 import React, { type FC } from 'react';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
-import {
-    useGetMovieRecommendations,
-    useGetSuggestionSectionsWithItems
-} from 'hooks/useFetchItems';
+import { useGetSuggestionSectionsWithItems } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
@@ -16,6 +14,8 @@ import SectionContainer from 'components/common/SectionContainer';
 import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
 import type { ItemDto } from 'types/base/models/item-dto';
+
+import { useMovieRecommendations } from '../hooks/api/useMovieRecommendations';
 
 interface SuggestionsSectionViewProps {
     parentId: ParentId;
@@ -35,7 +35,15 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     const {
         isLoading: isRecommendationsLoading,
         data: movieRecommendationsItems
-    } = useGetMovieRecommendations(isMovieRecommendationEnabled, parentId);
+    } = useMovieRecommendations({
+        parentId: parentId || undefined,
+        fields: [
+            ItemFields.PrimaryImageAspectRatio,
+            ItemFields.MediaSourceCount
+        ],
+        categoryLimit: 6,
+        itemLimit: 20
+    }, isMovieRecommendationEnabled);
 
     if (isLoading || isRecommendationsLoading) {
         return <Loading />;

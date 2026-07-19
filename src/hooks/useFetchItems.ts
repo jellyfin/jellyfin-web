@@ -11,7 +11,6 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getGenreApi } from '@jellyfin/sdk/lib/utils/api/genre-api';
-import { getMovieApi } from '@jellyfin/sdk/lib/utils/api/movie-api';
 import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
@@ -71,41 +70,6 @@ export const useGetItems = (parametersOptions: LibraryApiGetItemsRequest) => {
         refetchOnMount: isRandom ? false : undefined,
         refetchOnWindowFocus: isRandom ? false : undefined,
         enabled: !!currentApi.api && !!currentApi.user?.Id
-    });
-};
-
-const fetchGetMovieRecommendations = async (
-    currentApi: JellyfinApiContext,
-    parentId: ParentId,
-    options?: AxiosRequestConfig
-) => {
-    const { api, user } = currentApi;
-    if (api && user?.Id) {
-        const response = await getMovieApi(api).getMovieRecommendations(
-            {
-                userId: user.Id,
-                fields: [
-                    ItemFields.PrimaryImageAspectRatio,
-                    ItemFields.MediaSourceCount
-                ],
-                parentId: parentId ?? undefined,
-                categoryLimit: 6,
-                itemLimit: 20
-            },
-            {
-                signal: options?.signal
-            }
-        );
-        return response.data;
-    }
-};
-
-export const useGetMovieRecommendations = (isMovieRecommendationEnabled: boolean, parentId: ParentId) => {
-    const currentApi = useApi();
-    return useQuery({
-        queryKey: ['MovieRecommendations', isMovieRecommendationEnabled, parentId],
-        queryFn: ({ signal }) => fetchGetMovieRecommendations(currentApi, parentId, { signal }),
-        enabled: !!currentApi.api && !!currentApi.user?.Id && isMovieRecommendationEnabled
     });
 };
 
@@ -223,14 +187,14 @@ export const useGetQueryFiltersLegacy = (
 
 const fetchGetItemsViewByType = async (
     currentApi: JellyfinApiContext,
-    viewType: LibraryTab,
+    viewType: LibraryTab | undefined,
     parentId: ParentId,
     itemType: BaseItemKind[],
     libraryViewSettings: LibraryViewSettings,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
-    if (api && user?.Id) {
+    if (api && user?.Id && viewType) {
         const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
         let response;
         switch (viewType) {
@@ -391,6 +355,8 @@ const fetchGetItemsViewByType = async (
         }
         return response.data as ItemDtoQueryResult;
     }
+
+    return {};
 };
 
 export const useGetItemsViewByType = (
@@ -416,7 +382,7 @@ export const useGetItemsViewByType = (
         queryFn: ({ signal }) =>
             fetchGetItemsViewByType(
                 currentApi,
-                viewType!,
+                viewType,
                 parentId,
                 itemType,
                 libraryViewSettings!,

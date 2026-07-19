@@ -1457,5 +1457,17 @@
     "OnlyImageFormats": "მხოლოდ გამოსახულების ფორმატები (VobSub, PGS, SUB)",
     "OptionAllowAudioPlaybackTranscoding": "იმ ხმის დაკვრის დაშვება, რომელსაც ტრანსკოდირება სჭირდება",
     "OptionAllowRemoteControlOthers": "სხვა მომხმარებლების დაშორებული კონტროლის დაშვება",
-    "OptionAllowRemoteSharedDevices": "გაზიარებული მოწყობილობების დაშორებული მართვის დაშვება"
+    "OptionAllowRemoteSharedDevices": "გაზიარებული მოწყობილობების დაშორებული მართვის დაშვება",
+    "Disabled": "გათიშულია",
+    "Remuxing": "რემუქსი",
+    "Creators": "შემქმნელები",
+    "CardSettings": "ბარათის პარმაეტრები",
+    "LabelOriginalLanguage": "ორიგინალი ენა",
+    "OriginalLanguage": "ორიგინალი ენა",
+    "StopWatching": "ყურების შეწყვეტა",
+    "IndexNumber": "ინდექსის ნომერი",
+    "StillWatchingPrompt": "კითხვა, ჯერ კიდევ უყურებთ, თუ არა",
+    "TableOfContents": "სარჩევი",
+    "HeaderSplitMedia": "მედიის დაშლა ნაწილებად",
+    "ConfirmStillWatching": "ჯერ კიდევ უყურებთ?"
 }

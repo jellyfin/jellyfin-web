@@ -2,12 +2,12 @@ import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { getSessionApi } from '@jellyfin/sdk/lib/utils/api/session-api';
+import { compareVersions } from '@jellyfin/sdk/lib/utils/versioning';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
 import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
-import { compareVersions } from 'utils/versions';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';

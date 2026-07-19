@@ -1925,5 +1925,6 @@
     "Creators": "Créateurs",
     "HeaderSplitMedia": "Séparer les supports",
     "IndexNumber": "Numéro d'index",
-    "NoCastTargets": "Aucune cible de casting disponible"
+    "NoCastTargets": "Aucune cible de casting disponible",
+    "MessageNoEpisodesFound": "Aucun n'est épisode disponible pour le moment."
 }
