@@ -4,9 +4,8 @@ import datetime from 'scripts/datetime';
 
 export type ChapterState = 'unplayed' | 'playing' | 'played';
 
-/**
- * Computes chapter progress as a fraction 0-1, or null if not in this chapter.
- */
+// Progress through this chapter as a fraction 0-1, or null if the position
+// isn't inside it.
 export function getChapterProgress(
     chapter: ChapterInfo,
     chapterIndex: number,
@@ -23,8 +22,6 @@ export function getChapterProgress(
 
     if (positionTicks < chapterStart) return null;
     if (chapterEnd != null && positionTicks >= chapterEnd) return 1;
-
-    // Currently in this chapter
     if (chapterEnd == null) return 0; // end boundary unknown
     const duration = chapterEnd - chapterStart;
     if (duration <= 0) return 0;

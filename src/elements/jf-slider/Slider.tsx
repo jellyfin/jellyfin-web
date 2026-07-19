@@ -17,32 +17,25 @@ import { decimalCount } from 'utils/number';
 
 import './jf-slider.scss';
 
-/** A time/percent range, in the same units as the slider's min/max. */
+// A range in the slider's min/max units (e.g. a buffered span).
 export interface SliderRange {
     start: number;
     end: number;
 }
 
-/** A marker (e.g. a chapter boundary) at a fractional position 0-1. */
+// A marker (e.g. a chapter boundary) at a fractional position 0-1.
 export interface SliderMarker {
     progress: number;
 }
 
+// Imperative handle for a parent that owns the focus stop and proxies the
+// D-pad in (see `focusable`).
 export interface JfSliderHandle {
-    /** The underlying range input. */
     input: HTMLInputElement | null;
-    /**
-     * Stage a keyboard seek by one step in the given direction (used when a
-     * parent owns focus and proxies the D-pad in — e.g. a list row). In "stage"
-     * mode this moves the pending marker; in "live" mode it seeks immediately.
-     * Returns true when handled.
-     */
+    // Step one seek in a direction: stages in "stage" mode, seeks in "live".
     nudge: (direction: 'left' | 'right') => boolean;
-    /** True while a staged (pending) seek is awaiting commit — stage mode only. */
     hasPendingSeek: () => boolean;
-    /** Commit a staged pending seek; returns true if one was committed. */
     commitPendingSeek: () => boolean;
-    /** Abandon any staged pending seek. */
     clearPendingSeek: () => void;
 }
 
@@ -53,70 +46,50 @@ export interface JfSliderProps {
     step?: number;
     disabled?: boolean;
     className?: string;
-    /** Accessible label for the range input. */
     ariaLabel?: string;
-    /**
-     * When false, the range input is removed from the tab order (tabIndex=-1).
-     * Use when a parent owns the focus stop and proxies the D-pad in via the
-     * `nudge`/`commitPendingSeek` handle (e.g. a TV list row, since focusManager
-     * cannot focus a range input anyway). Defaults to true.
-     */
+    // When false, drops the input from the tab order; a parent owns the focus
+    // stop and drives the slider via the handle. Defaults to true.
     focusable?: boolean;
-    /**
-     * Keep the fill pinned to `value` (live progress) while the user drags,
-     * instead of following the drag position. Mirrors data-slider-keep-progress.
-     */
+    // Keep the fill on `value` (live progress) during a drag instead of
+    // following the thumb. Mirrors emby's data-slider-keep-progress.
     keepProgress?: boolean;
-    /** Render the fill transparent (rail only). emby's setIsClear. */
+    // Transparent fill, rail only (emby's setIsClear).
     isClear?: boolean;
-    /** Draw a lighter "buffered" band. Values share the slider's min/max scale. */
+    // Lighter "buffered" band, in min/max units.
     bufferedRanges?: SliderRange[];
-    /** Position (min/max scale) past which buffered bands are hidden. */
+    // Buffered bands at or behind this position are hidden.
     bufferedPosition?: number;
-    /** Chapter/segment markers; `progress` is a 0-1 fraction of the track. */
     markers?: SliderMarker[];
-    /** Text for the hover/drag bubble. Return null to hide the bubble. */
+    // Bubble text; return null to hide the bubble.
     getBubbleText?: (value: number) => string | null;
-    /**
-     * Custom bubble renderer. Position `bubble` yourself and return true, or
-     * return false to fall back to the default centered bubble.
-     */
+    // Position the bubble yourself and return true, or return false for the
+    // default centered placement.
     updateBubbleHtml?: (bubble: HTMLElement, value: number) => boolean;
-    /** Enable TV D-pad seeking (Left/Right). Defaults to layoutManager.tv. */
+    // Enable D-pad seeking (Left/Right). Defaults to layoutManager.tv.
     enableKeyboardDragging?: boolean;
-    /** Keyboard step per Left/Right press. Used for both unless overridden below. */
     keyboardStep?: number;
-    /** Left/back step; falls back to keyboardStep. OSD skip-back can differ from forward. */
+    // Left/right steps fall back to keyboardStep; OSD skip-back can differ from forward.
     keyboardStepBack?: number;
-    /** Right/forward step; falls back to keyboardStep. */
     keyboardStepForward?: number;
-    /**
-     * "stage" (TV default): Left/Right stage a pending seek shown by a second
-     * marker; playback isn't touched until OK. onChange fires only on commit.
-     * "live": every value change is reported immediately.
-     */
+    // "stage" (TV default): Left/Right stage a seek, committed on OK. "live":
+    // every change reported immediately.
     keyboardMode?: 'live' | 'stage';
-    /** Live value on every change while dragging (e.g. volume). Never null, never on hover. */
+    // Live value on every drag tick (e.g. volume). Never on hover.
     onInput?: (value: number) => void;
-    /** Bubble/preview value while dragging or hovering; null on leave. */
+    // Bubble/preview value while dragging or hovering; null on leave.
     onPreview?: (value: number | null) => void;
-    /** Fired when a value is committed (drag release, keyboard commit, click). */
+    // Committed value (drag release, keyboard commit, click).
     onChange?: (value: number) => void;
-    /**
-     * Fired on OK/Enter when no seek is staged. Lets a consumer repurpose the
-     * confirm press (e.g. toggle play/pause) once there's nothing to commit.
-     */
+    // OK/Enter with nothing staged. Lets a consumer repurpose the press
+    // (e.g. toggle play/pause).
     onActivate?: () => void;
 }
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
-/**
- * Reusable seek/progress slider — the modern React counterpart to the legacy
- * emby-slider custom element. It owns a native <input type="range"> and renders
- * the fill, buffered band, chapter markers and hover bubble around it, plus an
- * optional TV "stage then commit" keyboard-seek mode.
- */
+// Seek/progress slider, the React counterpart to the emby-slider custom
+// element. Wraps a native range input with fill, buffered band, markers and a
+// hover bubble, plus an optional TV "stage then commit" keyboard mode.
 const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
     value,
     min = 0,
@@ -148,9 +121,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
     const bubbleRef = useRef<HTMLDivElement>(null);
 
     const [dragging, setDragging] = useState(false);
-    // Value shown in the bubble; null hides it.
     const [bubbleValue, setBubbleValue] = useState<number | null>(null);
-    // Staged (pending) value in "stage" keyboard mode; null when not staging.
     const [pendingValue, setPendingValue] = useState<number | null>(null);
 
     const range = max - min;
@@ -159,16 +130,14 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         [min, range]
     );
 
-    // Fill tracks live `value`; while dragging (without keepProgress) it follows
-    // the drag position instead.
+    // Fill follows the drag position unless keepProgress pins it to `value`.
     const fillValue = (dragging && !keepProgress && bubbleValue != null) ? bubbleValue : value;
     const fillPercent = valueToPercent(fillValue);
 
     const stepBack = keyboardStepBack ?? keyboardStep ?? (step > 0 ? step : 1);
     const stepForward = keyboardStepForward ?? keyboardStep ?? (step > 0 ? step : 1);
 
-    // Snap a value to `step` on the min..max scale, matching emby-slider so
-    // callers see the same quantised values the native input would settle on.
+    // Snap to `step` the way a native range input would, for emby parity.
     const snap = useCallback((v: number) => {
         if (step <= 0) return clamp(v, min, max);
         const decimals = Math.max(decimalCount(min), decimalCount(step));
@@ -191,8 +160,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         [getBubbleText]
     );
 
-    // Position the default bubble centered over the track point, unless the
-    // consumer supplies its own updateBubbleHtml.
+    // Default bubble positioning: centered over the track point.
     useEffect(() => {
         const bubble = bubbleRef.current;
         const track = trackRef.current;
@@ -232,8 +200,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         hideBubble();
     }, [hideBubble]);
 
-    // React surfaces the native `input` event as onChange; it fires on every
-    // drag tick. Preview it in the bubble and emit the live value.
+    // React surfaces the native `input` event as onChange — one per drag tick.
     const onDragInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setDragging(true);
         const v = snap(parseFloat(e.target.value));
@@ -241,12 +208,10 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         onInput?.(v);
     }, [snap, showBubble, onInput]);
 
-    // The native `change` event (drag release) isn't surfaced distinctly by
-    // React for range inputs, so listen for it directly to commit the seek.
-    // Read the value from the input itself: it is always current when the
-    // event fires, with no React state round-trip to race against. Hold the
-    // committed position in pendingValue so the thumb stays there until the
-    // live `value` reflects the seek (the next timeupdate tick).
+    // React doesn't surface the native `change` (drag release) for range
+    // inputs, so listen directly and read input.value — always current, no
+    // state race. Hold the committed position in pendingValue until live
+    // `value` catches up (see below).
     useEffect(() => {
         const input = inputRef.current;
         if (!input) return;
@@ -261,26 +226,21 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         return () => input.removeEventListener('change', onNativeChange);
     }, [hideBubble, onChange, snap]);
 
-    // pendingValue plays two roles by mode. In "stage" (keyboard/TV) it's the
-    // staged target, drawn by jfSlider-pendingMarker while the thumb keeps
-    // tracking live `value`. In "live" (mouse) it's a committed position the
-    // thumb itself holds until `value` catches up.
+    // pendingValue means different things per mode: in "stage" it's the staged
+    // target (drawn as a marker, thumb keeps tracking `value`); in "live" it's a
+    // committed position the thumb itself holds until `value` catches up.
     const thumbHeld = keyboardMode !== 'stage' && pendingValue != null;
 
-    // The input is uncontrolled so the native thumb owns its position during a
-    // drag (no controlled-value fight). Push the live `value` into it except
-    // while the thumb is being held — during a drag, or a mouse hold.
+    // Uncontrolled input so the native thumb owns its position mid-drag. Push
+    // `value` in except while the thumb is held (dragging or a mouse hold).
     useEffect(() => {
         const input = inputRef.current;
         if (input && !dragging && !thumbHeld) input.value = String(value);
     }, [value, dragging, thumbHeld]);
 
-    // Release a mouse hold on the first `value` update after the commit — that
-    // update is the player reflecting the seek, so the thumb can resume tracking
-    // live progress. Record the value at hold-start to detect it (a proximity
-    // window is unreliable: `value` can jump many steps per tick). Scoped to
-    // thumbHeld so keyboard staging — which also uses pendingValue but must
-    // survive playback ticks until the user commits — is unaffected.
+    // Release the hold on the first `value` change after commit — that's the
+    // player reflecting the seek. Compare against the value at hold-start
+    // rather than a proximity window, since `value` can jump many steps a tick.
     const heldFromValue = useRef<number | null>(null);
     useEffect(() => {
         if (!thumbHeld) {
@@ -309,7 +269,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
     }, [dragging, hideBubble]);
 
     // iOS Safari doesn't update a range input's value on touch drag, so map the
-    // touch position to a value ourselves. Harmless elsewhere but only wired on iOS.
+    // touch position to a value ourselves (only wired on iOS).
     const valueFromClientX = useCallback((clientX: number) => {
         const track = trackRef.current;
         if (!track) return null;
@@ -331,8 +291,8 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         onInput?.(v);
     }, [valueFromClientX, showBubble, onInput]);
 
-    // Commit from the touch's own coordinates: a quick tap ends before staged
-    // state has round-tripped through React, same as the pointer path.
+    // Commit from the touch coordinates: a quick tap can end before React state
+    // round-trips.
     const onTouchEnd = useCallback((e: React.TouchEvent<HTMLInputElement>) => {
         setDragging(false);
         hideBubble();
@@ -344,8 +304,6 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         { onTouchStart: onTouchDrag, onTouchMove: onTouchDrag, onTouchEnd } :
         undefined;
 
-    // Step by one keyboard increment. In "stage" mode this moves the pending
-    // marker; in "live" mode it seeks immediately.
     const stepKeyboard = useCallback((direction: 'left' | 'right') => {
         const delta = direction === 'left' ? -stepBack : stepForward;
         if (keyboardMode === 'stage') {
@@ -396,8 +354,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         clearPending();
     }, [clearPending]);
 
-    // A click that seeks is consumed by the slider; don't let it bubble to a
-    // clickable ancestor (e.g. a list row) and trigger its action too.
+    // Don't let a seeking click bubble to a clickable ancestor (e.g. a list row).
     const onClick = useCallback((e: React.MouseEvent<HTMLInputElement>) => {
         e.stopPropagation();
     }, []);
@@ -413,8 +370,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         clearPendingSeek: clearPending
     }), [stepKeyboard, pendingValue, commitPending, clearPending]);
 
-    // The staged marker is a keyboard/TV affordance; a mouse hold moves the
-    // thumb instead, so it must not draw a marker.
+    // Staged marker is stage-mode only; a live mouse hold moves the thumb instead.
     const staging = keyboardMode === 'stage' && pendingValue != null;
 
     return (

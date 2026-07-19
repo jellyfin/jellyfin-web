@@ -32,8 +32,8 @@ function readProgress(item: ItemDto): PlaybackProgress {
         };
     }
 
-    // Nothing active for this item: fall back to the saved resume position so
-    // the initial (idle) render still shows the correct playing chapter.
+    // Nothing playing this item: fall back to the saved resume position so the
+    // idle render still highlights the right chapter.
     return {
         positionTicks: item.UserData?.PlaybackPositionTicks ?? null,
         isActiveForItem: false,
@@ -41,11 +41,8 @@ function readProgress(item: ItemDto): PlaybackProgress {
     };
 }
 
-/**
- * Subscribes to playbackManager events and exposes reactive playback state for
- * the given item. Replaces the imperative bindLiveUpdates/unbindLiveUpdates
- * event wiring of the legacy chapter-list module.
- */
+// Subscribes to playbackManager events and exposes reactive playback state
+// for the given item.
 export function usePlaybackProgress(item: ItemDto): PlaybackProgress {
     const [progress, setProgress] = useState<PlaybackProgress>(() => readProgress(item));
 

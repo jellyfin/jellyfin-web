@@ -131,9 +131,6 @@
     }
 }
 
-// While staging, the input thumb stays on the live position (blue); the staged
-// position is shown separately by .jfSlider-pendingMarker.
-
 .jfSlider-bubble {
     position: absolute;
     top: 0;
@@ -153,12 +150,9 @@
     padding: 0.5em 0.75em;
 }
 
-// Hover enlarges the thumb, matching emby-slider's desktop behavior.
-// Deliberately NOT on :focus — the input stays focused after a click, and a
-// resident transform on the thumb stops Chromium repainting it when the value
-// is updated programmatically (the thumb freezes until blur). emby scaled on
-// focus only on TV (.show-focus); add an equivalent opt-in if a TV caller
-// ever focuses the input directly.
+// Enlarge the thumb on hover, not :focus — a resident transform on a focused
+// thumb makes Chromium skip repaints on programmatic value changes, freezing
+// the thumb until blur.
 .jfSlider-input:hover {
     &::-webkit-slider-thumb {
         transform: scale(1.3);

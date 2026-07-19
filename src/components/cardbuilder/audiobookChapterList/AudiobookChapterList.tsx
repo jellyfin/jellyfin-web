@@ -14,12 +14,9 @@ interface AudiobookChapterListProps {
     chapters: ChapterInfo[];
 }
 
-/**
- * Text-based chapter list for audiobooks, styled after the album track list,
- * with a seekable progress slider on the currently-playing chapter. A React
- * replacement for the legacy imperative audiobookChapterList module; it renders
- * into the detail page's children section via reactUtils.renderComponent.
- */
+// Chapter list for audiobooks, styled after the album track list, with a
+// seek slider on the playing chapter. Rendered into the detail page's
+// children container by the legacy itemDetails controller.
 const AudiobookChapterList: FC<AudiobookChapterListProps> = ({ item, chapters }) => {
     const { positionTicks, isActiveForItem, isPaused } = usePlaybackProgress(item);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -28,16 +25,14 @@ const AudiobookChapterList: FC<AudiobookChapterListProps> = ({ item, chapters })
         chapters.findIndex((chapter, i) => getChapterState(chapter, i, chapters, positionTicks, item.RunTimeTicks || 0) === 'playing')
     ), [chapters, positionTicks, item.RunTimeTicks]);
 
-    // When there is a now-playing chapter, scroll it into view and give it
-    // focus, overriding the detail page's banner-play-button auto-focus (this
-    // effect runs after that synchronous auto-focus pass). With no playing
-    // chapter, do nothing: the page stays at the top and the banner play button
-    // keeps focus.
+    // Scroll the playing chapter into view and focus it, stealing focus back
+    // from the detail page's banner play button (that auto-focus runs
+    // synchronously, before this effect).
     useEffect(() => {
         if (playingIndex < 0) return;
         const playing = containerRef.current?.querySelector<HTMLElement>('.chapterItem-playing');
         playing?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-        // Let scrollIntoView own the (smooth) scroll; focus must not add its own jump.
+        // preventScroll so focus doesn't fight the smooth scroll above.
         playing?.focus({ preventScroll: true });
     }, [playingIndex]);
 

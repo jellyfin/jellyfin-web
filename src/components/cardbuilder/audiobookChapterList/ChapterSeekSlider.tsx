@@ -13,23 +13,16 @@ const clampPercent = (value: number) => Math.min(100, Math.max(0, value));
 interface ChapterSeekSliderProps {
     item: ItemDto;
     chapter: ChapterInfo;
-    /** Chapter length in ticks. */
     chapterDurationTicks: number;
     /** Live progress within the chapter, 0-100. */
     progressPct: number;
     isActiveForItem: boolean;
-    /** Toggle play/pause; invoked on OK when no seek is staged. */
     onActivate: () => void;
 }
 
-/**
- * Seekable progress bar for the currently-playing chapter row, built on the
- * reusable jf-slider. This adapter maps the slider's 0-100 percent scale onto
- * the chapter's tick range, renders the time bubble, and commits seeks through
- * playbackManager. The slider input is not focusable (focusable={false}); the
- * chapter row owns the focus stop and proxies the D-pad in through the ref
- * handle, since focusManager can't focus a range input directly.
- */
+// Adapts jf-slider for a chapter row: maps the 0-100 percent scale to the
+// chapter's tick range and commits seeks through playbackManager. Not
+// focusable — the row owns the focus stop and drives it via the ref handle.
 const ChapterSeekSlider = forwardRef<JfSliderHandle, ChapterSeekSliderProps>(({
     item,
     chapter,
