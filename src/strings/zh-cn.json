@@ -1925,5 +1925,6 @@
     "Creators": "主创人员",
     "HeaderSplitMedia": "拆分媒体",
     "IndexNumber": "索引编号",
-    "NoCastTargets": "无可用投屏设备"
+    "NoCastTargets": "无可用投屏设备",
+    "MessageNoEpisodesFound": "暂无剧集可供观看。"
 }
