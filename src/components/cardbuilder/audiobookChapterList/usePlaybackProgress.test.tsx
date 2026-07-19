@@ -81,7 +81,7 @@ afterEach(() => {
 
 describe('usePlaybackProgress: idle read', () => {
     it('falls back to the saved resume position when no player is active', () => {
-        const item: ItemDto = { ...ITEM, UserData: { PlaybackPositionTicks: 1234 } };
+        const item: ItemDto = { ...ITEM, UserData: { Key: 'k', PlaybackPositionTicks: 1234 } };
         const h = mount(item);
         expect(h.latest()).toEqual({
             positionTicks: 1234,
@@ -103,7 +103,7 @@ describe('usePlaybackProgress: idle read', () => {
         const player = makePlayer();
         pm.getCurrentPlayer.mockReturnValue(player);
         pm.currentItem.mockReturnValue({ Id: 'other-item' });
-        const item: ItemDto = { ...ITEM, UserData: { PlaybackPositionTicks: 42 } };
+        const item: ItemDto = { ...ITEM, UserData: { Key: 'k', PlaybackPositionTicks: 42 } };
         const h = mount(item);
         expect(h.latest()).toEqual({
             positionTicks: 42,
