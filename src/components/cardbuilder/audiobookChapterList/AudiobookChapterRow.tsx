@@ -36,8 +36,7 @@ function StatusGlyph({ state, isActiveForItem, isPaused }: Readonly<{
         const iconName = (isActiveForItem && !isPaused) ? 'pause' : 'play_arrow';
         return <span className={`material-icons audiobookChapterItem-iconPlaying ${iconName}`} aria-hidden='true' />;
     }
-    // Resting glyph (check for played, nothing for unplayed) swaps to a play
-    // button on hover/focus, revealed by CSS
+    // Resting glyph; CSS swaps in the play button on hover/focus.
     return (
         <>
             {state === 'played' && (
@@ -69,8 +68,7 @@ const AudiobookChapterRow: FC<AudiobookChapterRowProps> = ({
     const isPlaying = state === 'playing';
     const progressPct = isPlaying ? (progress || 0) * 100 : 0;
 
-    // The playing chapter resumes at the saved position; others start at
-    // their chapter boundary.
+    // Playing chapter resumes at the saved position; others start at their boundary.
     const playTicks = isPlaying && positionTicks ? Math.round(positionTicks) : chapterStart;
 
     const play = useCallback((ticks: number) => {
@@ -84,7 +82,7 @@ const AudiobookChapterRow: FC<AudiobookChapterRowProps> = ({
     }, [item.Id, item.ServerId]);
 
     const activateRow = useCallback(() => {
-        // Toggle play/pause when re-activating the row for the actively-loaded item
+        // Re-activating the loaded playing row toggles play/pause; otherwise start it.
         if (isPlaying && isActiveForItem) {
             playbackManager.playPause();
         } else {
@@ -106,10 +104,9 @@ const AudiobookChapterRow: FC<AudiobookChapterRowProps> = ({
         onRestartClick(e as unknown as React.MouseEvent);
     }, [onRestartClick]);
 
-    // The row is the focus stop (focusManager can't focus a range input, so the
-    // slider stays passive). On TV the row proxies the D-pad into the slider:
-    // Left/Right stage a pending seek, OK commits it (or toggles play/pause when
-    // nothing is staged), Up/Down/Back abandon it and navigate away.
+    // The row is the focus stop (focusManager can't focus a range input), so on
+    // TV it proxies the D-pad into the slider: Left/Right stage a seek, OK
+    // commits it, Up/Down/Back abandon it.
     const onKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
         const slider = sliderRef.current;
 
