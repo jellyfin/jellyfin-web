@@ -72,7 +72,9 @@ function alphaForStar(star: Star, age: number): number {
 // Picks a realistic star color: mostly whitish, some blueish (hot stars like
 // Sirius/Rigel), some reddish (cool stars like Betelgeuse/Antares).
 function pickStarPalette(): { hue: number; sat: number } {
-    const r = Math.random();
+    // Cosmetic randomness only (star color), not security-sensitive.
+    const r = Math.random(); // NOSONAR
+
     if (r < 0.15) {
         return { hue: randomBetween(0, 25), sat: randomBetween(75, 95) }; // reddish
     }
@@ -82,8 +84,21 @@ function pickStarPalette(): { hue: number; sat: number } {
     return { hue: randomBetween(40, 60), sat: randomBetween(5, 20) }; // whitish/neutral (majority)
 }
 
+// Quick fade-in, then fade-out towards the end of the meteor's trajectory.
+function meteorAlpha(lifeRatio: number): number {
+    if (lifeRatio < 0.15) {
+        return lifeRatio / 0.15;
+    }
+    if (lifeRatio > 0.7) {
+        return Math.max(0, 1 - (lifeRatio - 0.7) / 0.3);
+    }
+    return 1;
+}
+
 function pickStarShape(): StarShape {
-    const r = Math.random();
+    // Cosmetic randomness only (star shape), not security-sensitive.
+    const r = Math.random(); // NOSONAR
+
     if (r < CONFIG.starShapeChance.x) return 'x';
     if (r < CONFIG.starShapeChance.x + CONFIG.starShapeChance.plus) return 'plus';
     return 'circle';
@@ -159,7 +174,8 @@ class StarfieldScreensaver {
         // Meteor flies diagonally from top to bottom, sometimes coming from
         // the left, sometimes from the right.
         const angle = randomBetween(20, 50) * (Math.PI / 180);
-        const dir = Math.random() < 0.5 ? 1 : -1;
+        // Cosmetic randomness only (meteor direction), not security-sensitive.
+        const dir = Math.random() < 0.5 ? 1 : -1; // NOSONAR
         const speed = randomBetween(CONFIG.meteor.speedMinPxPerMs, CONFIG.meteor.speedMaxPxPerMs);
         const startX = dir === 1
             ? randomBetween(-100, this.width * 0.4)
@@ -260,10 +276,7 @@ class StarfieldScreensaver {
                 continue;
             }
 
-            // Quick fade-in, then fade-out towards the end of the trajectory.
-            const alpha = lifeRatio < 0.15
-                ? lifeRatio / 0.15
-                : (lifeRatio > 0.7 ? Math.max(0, 1 - (lifeRatio - 0.7) / 0.3) : 1);
+            const alpha = meteorAlpha(lifeRatio);
 
             const angle = Math.atan2(meteor.vy, meteor.vx);
             const tailX = meteor.x - Math.cos(angle) * meteor.length;
