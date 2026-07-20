@@ -1220,7 +1220,7 @@ export default function (view) {
             userSettings: userSettings.currentSettings
         });
 
-        Events.on(settingsInstance, 'saved', () => {
+        const onSettingsSaved = () => {
             dialogHelper.close(dlg);
             const player = currentPlayer;
             if (player) {
@@ -1231,10 +1231,12 @@ export default function (view) {
                     playbackManager.setSubtitleStreamIndex(currentIndex, player);
                 }
             }
-        });
+        };
+
+        Events.on(settingsInstance, 'saved', onSettingsSaved);
 
         dlg.addEventListener('close', () => {
-            Events.off(settingsInstance, 'saved');
+            Events.off(settingsInstance, 'saved', onSettingsSaved);
             settingsInstance.destroy();
         });
     }

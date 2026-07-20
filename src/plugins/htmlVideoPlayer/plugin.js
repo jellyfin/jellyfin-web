@@ -563,11 +563,17 @@ export class HtmlVideoPlayer {
 
     refreshSubtitleAppearance() {
         if (typeof this.#customTrackIndex === 'number' && this.#customTrackIndex !== -1) {
-            this.setCurrentTrackElement(this.#customTrackIndex, PRIMARY_TEXT_TRACK_INDEX, true);
+            this.setCurrentTrackElement(this.#customTrackIndex, PRIMARY_TEXT_TRACK_INDEX, {
+                force: true,
+                preserveSubtitleOffset: true
+            });
         }
 
         if (typeof this.#customSecondaryTrackIndex === 'number' && this.#customSecondaryTrackIndex !== -1) {
-            this.setCurrentTrackElement(this.#customSecondaryTrackIndex, SECONDARY_TEXT_TRACK_INDEX, true);
+            this.setCurrentTrackElement(this.#customSecondaryTrackIndex, SECONDARY_TEXT_TRACK_INDEX, {
+                force: true,
+                preserveSubtitleOffset: true
+            });
         }
     }
 
@@ -742,6 +748,18 @@ export class HtmlVideoPlayer {
 
     getSubtitleOffset() {
         return this.#currentTrackOffset;
+    }
+
+    getTrackSubtitleOffset(currentTrackIndex) {
+        return this.isSecondaryTrack(currentTrackIndex) ? this.#secondaryTrackOffset : this.#currentTrackOffset;
+    }
+
+    setTrackSubtitleOffset(offsetValue, currentTrackIndex) {
+        if (this.isSecondaryTrack(currentTrackIndex)) {
+            this.#secondaryTrackOffset = offsetValue;
+        } else {
+            this.#currentTrackOffset = offsetValue;
+        }
     }
 
     isPrimaryTrack(textTrackIndex) {
@@ -1244,13 +1262,15 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setTrackForDisplay(videoElement, track, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX, force = false) {
+    setTrackForDisplay(videoElement, track, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX, options = {}) {
         if (!track) {
             // Destroy all tracks by passing undefined if there is no valid primary track
             this.destroyCustomTrack(videoElement, this.isSecondaryTrack(targetTextTrackIndex) ? targetTextTrackIndex : undefined);
             return;
         }
 
+        const force = options.force === true;
+        const preserveSubtitleOffset = options.preserveSubtitleOffset === true;
         let targetTrackIndex = this.#customTrackIndex;
         if (this.isSecondaryTrack(targetTextTrackIndex)) {
             targetTrackIndex = this.#customSecondaryTrackIndex;
@@ -1261,7 +1281,10 @@ export class HtmlVideoPlayer {
             return;
         }
 
-        this.resetSubtitleOffset();
+        const subtitleOffset = preserveSubtitleOffset ? this.getTrackSubtitleOffset(targetTextTrackIndex) : 0;
+        if (!preserveSubtitleOffset) {
+            this.resetSubtitleOffset();
+        }
         const item = this._currentPlayOptions.item;
 
         this.destroyCustomTrack(videoElement, targetTextTrackIndex);
@@ -1271,13 +1294,13 @@ export class HtmlVideoPlayer {
         } else {
             this.#customTrackIndex = track.Index;
         }
-        this.renderTracksEvents(videoElement, track, item, targetTextTrackIndex);
+        this.renderTracksEvents(videoElement, track, item, targetTextTrackIndex, subtitleOffset);
     }
 
     /**
      * @private
      */
-    renderSsaAss(videoElement, track, item) {
+    renderSsaAss(videoElement, track, item, subtitleOffset = 0) {
         const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
         const availableFonts = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
@@ -1312,7 +1335,7 @@ export class HtmlVideoPlayer {
                         onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + subtitleOffset,
 
                 // new octopus options; override all, even defaults
                 renderMode: 'wasm-blend',
@@ -1356,14 +1379,14 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    renderPgs(videoElement, track, item) {
+    renderPgs(videoElement, track, item, subtitleOffset = 0) {
         import('libpgs').then((libpgs) => {
             const aspectRatio = this.getAspectRatio() === 'auto' ? 'contain' : this.getAspectRatio();
             const options = {
                 video: videoElement,
                 subUrl: getTextTrackUrl(track, item),
                 workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + subtitleOffset,
                 aspectRatio
             };
             this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
@@ -1373,13 +1396,19 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
+    renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex, subtitleOffset = 0) {
         this.fetchSubtitles(track, item).then((subtitleData) => {
             // Exit if the video element was destroyed while fetching subtitles
             if (!this.#mediaElement) return;
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
+            const trackEvents = subtitleData.TrackEvents;
+
+            if (subtitleOffset) {
+                this.setTrackSubtitleOffset(0, targetTextTrackIndex);
+                this.setTrackEventsSubtitleOffset(trackEvents, subtitleOffset, targetTextTrackIndex);
+            }
 
             if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                 let subtitlesContainer = document.querySelector('.videoSubtitles');
@@ -1393,7 +1422,7 @@ export class HtmlVideoPlayer {
                 this.#videoSubtitlesElem = subtitlesElement;
                 this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
                 videoElement.parentNode.appendChild(subtitlesContainer);
-                this.#currentTrackEvents = subtitleData.TrackEvents;
+                this.#currentTrackEvents = trackEvents;
             } else if (!this.#videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
                 const subtitlesContainer = document.querySelector('.videoSubtitles');
                 if (!subtitlesContainer) return;
@@ -1407,7 +1436,7 @@ export class HtmlVideoPlayer {
                 }
                 this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
                 this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
-                this.#currentSecondaryTrackEvents = subtitleData.TrackEvents;
+                this.#currentSecondaryTrackEvents = trackEvents;
             }
         });
     }
@@ -1458,20 +1487,21 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+    async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX, subtitleOffset = 0) {
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
-                this.renderSsaAss(videoElement, track, item);
+                this.renderSsaAss(videoElement, track, item, subtitleOffset);
                 return;
             }
             if (format === 'pgssub') {
-                this.renderPgs(videoElement, track, item);
+                this.renderPgs(videoElement, track, item, subtitleOffset);
                 return;
             }
 
-            if (useCustomSubtitles(userSettings)) {
-                this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
+            if (useCustomSubtitles(userSettings, subtitleAppearance)) {
+                this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex, subtitleOffset);
                 return;
             }
         }
@@ -1527,6 +1557,11 @@ export class HtmlVideoPlayer {
                 trackElement.addCue(cue);
             }
 
+            if (subtitleOffset) {
+                this.setTrackSubtitleOffset(0, targetTextTrackIndex);
+                this.setTextTrackSubtitleOffset(trackElement, subtitleOffset, targetTextTrackIndex);
+            }
+
             trackElement.mode = 'showing';
         });
     }
@@ -1566,7 +1601,7 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setCurrentTrackElement(streamIndex, targetTextTrackIndex, force = false) {
+    setCurrentTrackElement(streamIndex, targetTextTrackIndex, options = {}) {
         console.debug(`setting new text track index to: ${streamIndex}`);
 
         const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
@@ -1601,7 +1636,7 @@ export class HtmlVideoPlayer {
                 mediaStreamTextTracks.forEach((t) => {
                     t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
                 });
-                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex, force);
+                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex, options);
                 if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
                     if (streamIndex !== -1) {
                         player.setCueAppearance();
