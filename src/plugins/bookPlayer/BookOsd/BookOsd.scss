@@ -4,6 +4,7 @@
     z-index: 1002;
     display: flex;
     justify-content: space-between;
+    pointer-events: none;
     flex-direction: column;
 }
 
@@ -14,6 +15,7 @@
     height: 5vh;
     padding: 0 0.8vw;
     background-color: var(--jf-palette-AppBar-defaultBg);
+    pointer-events: auto;
 }
 
 // TODO disable landscape on mobile devices
@@ -23,16 +25,16 @@
     }
 }
 
+.bookOsdSpacer {
+    flex: 1;
+}
+
 .bookOsdTop {
     padding-top: env(safe-area-inset-top);
 }
 
 .bookOsdBottom {
     padding-bottom: env(safe-area-inset-bottom);
-}
-
-.bookOsdMargin {
-    margin-left: auto;
 }
 
 .bookOsdTitle {

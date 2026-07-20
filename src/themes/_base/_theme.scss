@@ -537,12 +537,6 @@ a[data-role="button"],
     color: var(--jf-palette-text-primary, $text-primary);
 }
 
-#bookPlayer .bookOsdRow,
-#comicsPlayer .actionButtonIcon,
-#pdfPlayer .actionButtonIcon {
-    color: var(--jf-palette-text-primary, $text-primary);
-}
-
 #dialogToc {
     background-color: var(--jf-palette-background-default, $background-default);
 }
