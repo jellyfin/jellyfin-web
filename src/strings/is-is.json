@@ -528,5 +528,8 @@
     "Creator": "Skapari",
     "Creators": "Skaparar",
     "Cursive": "Skáletrað",
-    "Custom": "Sérsniðið"
+    "Custom": "Sérsniðið",
+    "CustomSplashScreenSize": "Sérsniðnar myndir eiga að vera í stærðarhlutfallinu 16:9 og að lágmarki 1920x1080 pixlar.",
+    "CustomSubtitleStylingHelp": "Útlit texta mun virka á flestum tækjum en krefst meira álags.",
+    "DateModified": "Dagsetning breytingar"
 }
