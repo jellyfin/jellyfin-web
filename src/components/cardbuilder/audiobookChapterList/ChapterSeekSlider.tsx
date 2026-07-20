@@ -3,7 +3,7 @@ import type { ChapterInfo } from '@jellyfin/sdk/lib/generated-client/models/chap
 
 import datetime from 'scripts/datetime';
 import { playbackManager } from 'components/playback/playbackmanager';
-import Slider, { type JfSliderHandle } from 'elements/jf-slider/Slider';
+import Slider, { BubbleText, type JfSliderHandle } from 'elements/jf-slider/Slider';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 const TEN_SECONDS_TICKS = 10 * 10000000;
@@ -38,31 +38,10 @@ const ChapterSeekSlider = forwardRef<JfSliderHandle, ChapterSeekSliderProps>(({
         [chapterStart, chapterDurationTicks]
     );
 
-    const getBubbleText = useCallback(
-        (percent: number) => datetime.getDisplayRunningTime(percentToTicks(percent)),
+    const bubbleContent = useCallback(
+        (percent: number) => <BubbleText>{datetime.getDisplayRunningTime(percentToTicks(percent))}</BubbleText>,
         [percentToTicks]
     );
-
-    // Render the bubble in fixed viewport coords so the scrollbox can't clip it.
-    const updateBubbleHtml = useCallback((bubble: HTMLElement, percent: number) => {
-        const track = bubble.parentElement;
-        if (!track) return false;
-
-        bubble.innerHTML = '<h1 class="jfSlider-bubbleText">' + getBubbleText(percent) + '</h1>';
-        bubble.style.position = 'fixed';
-
-        const trackRect = track.getBoundingClientRect();
-        const pointerLeft = trackRect.left + (trackRect.width * percent / 100);
-
-        // Anchor at 0,0 to find the containing block, then offset to target
-        bubble.style.left = '0px';
-        bubble.style.top = '0px';
-        const zeroRect = bubble.getBoundingClientRect();
-        bubble.style.transform = 'none';
-        bubble.style.left = (pointerLeft - (zeroRect.width / 2) - zeroRect.left) + 'px';
-        bubble.style.top = (trackRect.top - zeroRect.height - 6 - zeroRect.top) + 'px';
-        return true;
-    }, [getBubbleText]);
 
     const onChange = useCallback((percent: number) => {
         const targetTicks = percentToTicks(clampPercent(percent));
@@ -98,8 +77,7 @@ const ChapterSeekSlider = forwardRef<JfSliderHandle, ChapterSeekSliderProps>(({
             keepProgress
             keyboardStep={keyboardStep}
             ariaLabel='Seek within chapter'
-            getBubbleText={getBubbleText}
-            updateBubbleHtml={updateBubbleHtml}
+            bubbleContent={bubbleContent}
             onChange={onChange}
             onActivate={onActivate}
         />
