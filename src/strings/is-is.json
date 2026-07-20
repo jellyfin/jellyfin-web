@@ -550,5 +550,7 @@
     "EnableStreamLoopingHelp": "Virkjaðu þetta ef beinar útsendingar innihalda aðeins nokkrar sekúndur af gögnum og kalla þarf eftir þeim stöðugt. Það getur valdið vandræðum ef það er kveikt á þessari stillingu að óþörfu.",
     "EnableTonemapping": "Virkja litvörpun (Tone mapping)",
     "EnableTrueHd": "Virkja TrueHD",
-    "EnableTrueHdHelp": "Aðeins virkja þetta ef tækið þitt styður TrueHD eða er tengt við magnara sem styður það, annars gæti spilun mistekist."
+    "EnableTrueHdHelp": "Aðeins virkja þetta ef tækið þitt styður TrueHD eða er tengt við magnara sem styður það, annars gæti spilun mistekist.",
+    "EncoderPresetHelp": "Veldu hærri hraða fyrir betri afköst, eða lægri hraða fyrir betri myndgæði.",
+    "Ended": "Lokið"
 }
