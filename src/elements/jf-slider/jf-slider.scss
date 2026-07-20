@@ -145,11 +145,6 @@
     z-index: 3;
 }
 
-.jfSlider-bubbleText {
-    margin: 0;
-    padding: 0.5em 0.75em;
-}
-
 // Enlarge the thumb on hover, not :focus — a resident transform on a focused
 // thumb makes Chromium skip repaints on programmatic value changes, freezing
 // the thumb until blur.

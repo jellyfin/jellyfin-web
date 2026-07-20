@@ -103,7 +103,7 @@ function setNativeValue(input: HTMLInputElement, value: string) {
     setter?.set?.call(input, value);
 }
 
-// Drive a drag tick so the bubble renders (needed to exercise updateBubbleHtml).
+// Drive a drag tick so the bubble renders.
 function dragTick(input: HTMLInputElement, value: string) {
     act(() => {
         setNativeValue(input, value);
@@ -116,15 +116,6 @@ function commit(input: HTMLInputElement, value: string) {
     act(() => {
         setNativeValue(input, value);
         input.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-}
-
-function stubTrackRect(track: HTMLElement, { left = 0, width = 100 } = {}) {
-    Object.defineProperty(track, 'getBoundingClientRect', {
-        configurable: true,
-        value: () => ({
-            left, right: left + width, width, top: 20, bottom: 20, height: 0, x: left, y: 20, toJSON: () => ''
-        })
     });
 }
 
@@ -209,18 +200,15 @@ describe('ChapterSeekSlider: tick mapping edge cases', () => {
 describe('ChapterSeekSlider: bubble text', () => {
     it('maps the drag percent to a chapter tick and formats it', () => {
         const h = mount();
-        stubTrackRect(h.track());
         dragTick(h.input(), '50'); // 50% of [100..300] -> tick 200
-        expect(h.container.querySelector('.jfSlider-bubbleText')?.textContent).toBe('t200');
+        expect(h.container.querySelector('.jfSlider-bubble')?.textContent).toBe('t200');
     });
 
-    it('positions the bubble with fixed coordinates during a drag', () => {
+    it('places the bubble at the drag percent (jf-slider owns placement)', () => {
         const h = mount();
-        stubTrackRect(h.track(), { left: 0, width: 100 });
         dragTick(h.input(), '50');
         const bubble = h.container.querySelector<HTMLElement>('.jfSlider-bubble');
         expect(bubble).not.toBeNull();
-        // updateBubbleHtml pins the bubble to viewport coords.
-        expect(bubble!.style.position).toBe('fixed');
+        expect(bubble!.style.left).toBe('50%');
     });
 });

@@ -17,6 +17,12 @@ import { decimalCount } from 'utils/number';
 
 import './jf-slider.scss';
 
+// Styled text for a plain bubble. Pass as bubbleContent so callers don't
+// hard-code the bubble's styles.
+export const BubbleText = ({ children }: Readonly<{ children: React.ReactNode }>) => (
+    <h1 style={{ margin: 0, padding: '0.5em 0.75em' }}>{children}</h1>
+);
+
 // A range in the slider's min/max units (e.g. a buffered span).
 export interface SliderRange {
     start: number;
@@ -26,6 +32,8 @@ export interface SliderRange {
 // A marker (e.g. a chapter boundary) at a fractional position 0-1.
 export interface SliderMarker {
     progress: number;
+    // Shown as the marker's title (e.g. a chapter name).
+    name?: string;
 }
 
 // Imperative handle for a parent that owns the focus stop and proxies the
@@ -60,11 +68,9 @@ export interface JfSliderProps {
     // Buffered bands at or behind this position are hidden.
     bufferedPosition?: number;
     markers?: SliderMarker[];
-    // Bubble text; return null to hide the bubble.
-    getBubbleText?: (value: number) => string | null;
-    // Position the bubble yourself and return true, or return false for the
-    // default centered placement.
-    updateBubbleHtml?: (bubble: HTMLElement, value: number) => boolean;
+    // Renders the bubble contents (timestamp, trickplay thumbnail, ...). Return
+    // null, or omit, for no bubble. Wrap plain text in <BubbleText>.
+    bubbleContent?: (value: number) => React.ReactNode;
     // Enable D-pad seeking (Left/Right). Defaults to layoutManager.tv.
     enableKeyboardDragging?: boolean;
     keyboardStep?: number;
@@ -104,8 +110,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
     bufferedRanges,
     bufferedPosition,
     markers,
-    getBubbleText,
-    updateBubbleHtml,
+    bubbleContent,
     enableKeyboardDragging = layoutManager.tv,
     keyboardStep,
     keyboardStepBack,
@@ -118,7 +123,6 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
 }, ref) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
-    const bubbleRef = useRef<HTMLDivElement>(null);
 
     const [dragging, setDragging] = useState(false);
     const [bubbleValue, setBubbleValue] = useState<number | null>(null);
@@ -155,26 +159,20 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
         return null;
     }, [bufferedRanges, bufferedPosition, valueToPercent]);
 
-    const bubbleTextFor = useCallback(
-        (v: number) => (getBubbleText ? getBubbleText(v) : String(v)),
-        [getBubbleText]
-    );
+    // Position by percent so CSS centers it (translateX(-50%)); mirror for RTL.
+    const renderBubbleNode = () => {
+        if (bubbleValue == null) return null;
+        const content = bubbleContent?.(bubbleValue);
+        if (content == null) return null;
 
-    // Default bubble positioning: centered over the track point.
-    useEffect(() => {
-        const bubble = bubbleRef.current;
-        const track = trackRef.current;
-        if (bubble == null || track == null || bubbleValue == null) return;
-
-        if (updateBubbleHtml?.(bubble, bubbleValue)) return;
-
-        const trackRect = track.getBoundingClientRect();
-        const pct = valueToPercent(bubbleValue) / 100;
-        let left = trackRect.width * pct;
-        if (globalize.getIsElementRTL(track)) left = trackRect.width - left;
-        bubble.style.left = left + 'px';
-        bubble.style.top = '';
-    }, [bubbleValue, updateBubbleHtml, valueToPercent]);
+        const percent = valueToPercent(bubbleValue);
+        const left = (globalize.getIsRTL() ? 100 - percent : percent) + '%';
+        return (
+            <div className='jfSlider-bubble' style={{ left }}>
+                {content}
+            </div>
+        );
+    };
 
     const showBubble = useCallback((v: number) => {
         setBubbleValue(v);
@@ -394,6 +392,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
                     key={i}
                     className={classNames('jfSlider-marker', marker.progress * 100 <= valueToPercent(value) ? 'watched' : 'unwatched')}
                     style={{ left: marker.progress * 100 + '%' }}
+                    title={marker.name}
                     aria-hidden='true'
                 />
             ))}
@@ -409,7 +408,9 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
             <input
                 ref={inputRef}
                 type='range'
-                className='jfSlider-input'
+                // focusManager skips a bare range input; the `focusable` class is
+                // what makes TV spatial nav land on it (tabIndex below is browser-only).
+                className={classNames('jfSlider-input', { focusable })}
                 min={min}
                 max={max}
                 step={step}
@@ -425,11 +426,7 @@ const Slider = forwardRef<JfSliderHandle, JfSliderProps>(({
                 onBlur={onBlur}
                 {...touchHandlers}
             />
-            {bubbleValue != null && bubbleTextFor(bubbleValue) != null && (
-                <div ref={bubbleRef} className='jfSlider-bubble'>
-                    <h1 className='jfSlider-bubbleText'>{bubbleTextFor(bubbleValue)}</h1>
-                </div>
-            )}
+            {renderBubbleNode()}
         </div>
     );
 });

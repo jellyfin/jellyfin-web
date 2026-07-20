@@ -8,7 +8,10 @@ vi.mock('scripts/keyboardNavigation', () => ({ getKeyName: (e: KeyboardEvent) =>
 vi.mock('scripts/browser', () => ({ default: { iOS: false } }));
 
 import globalize from 'lib/globalize';
-import Slider, { type JfSliderProps, type JfSliderHandle } from './Slider';
+import Slider, { BubbleText, type JfSliderProps, type JfSliderHandle } from './Slider';
+
+// bubbleContent that just shows the value.
+const textBubble = (v: number) => <BubbleText>{String(v)}</BubbleText>;
 
 (globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -243,7 +246,7 @@ describe('jf-slider: drag input/change -> onInput/onChange', () => {
 
     it('hides the bubble after release', () => {
         const h = mount();
-        h.render({ value: 0, onChange: vi.fn() });
+        h.render({ value: 0, bubbleContent: textBubble, onChange: vi.fn() });
         dragTick(h.input(), '60');
         expect(h.container.querySelector('.jfSlider-bubble')).not.toBeNull();
         dragRelease(h.input());
@@ -306,7 +309,7 @@ describe('jf-slider: pointer hover -> onPreview', () => {
         const onInput = vi.fn();
         const h = mount();
         // step 10 + clientX 34 exercises both the mapping and the snap.
-        h.render({ value: 0, min: 0, max: 100, step: 10, onPreview, onInput });
+        h.render({ value: 0, min: 0, max: 100, step: 10, bubbleContent: textBubble, onPreview, onInput });
         stubTrackRect(h.track());
         pointerMove(h.input(), 34);
         expect(onPreview).toHaveBeenLastCalledWith(30);
@@ -328,9 +331,10 @@ describe('jf-slider: pointer hover -> onPreview', () => {
     it('pointerleave hides the bubble and previews null', () => {
         const onPreview = vi.fn();
         const h = mount();
-        h.render({ value: 0, onPreview });
+        h.render({ value: 0, bubbleContent: textBubble, onPreview });
         stubTrackRect(h.track());
         pointerMove(h.input(), 25);
+        expect(h.container.querySelector('.jfSlider-bubble')).not.toBeNull();
         pointerLeave(h.input());
         expect(onPreview).toHaveBeenLastCalledWith(null);
         expect(h.container.querySelector('.jfSlider-bubble')).toBeNull();
@@ -338,7 +342,7 @@ describe('jf-slider: pointer hover -> onPreview', () => {
 
     it('pointerleave during a drag does not hide the bubble', () => {
         const h = mount();
-        h.render({ value: 0, onChange: vi.fn() });
+        h.render({ value: 0, bubbleContent: textBubble, onChange: vi.fn() });
         stubTrackRect(h.track());
         dragTick(h.input(), '50');
         pointerLeave(h.input());
@@ -395,7 +399,7 @@ describe('jf-slider: keyboard live mode', () => {
 });
 
 describe('jf-slider: keyboard stage mode & pendingMarker', () => {
-    const base = { value: 40, min: 0, max: 100, step: 1, enableKeyboardDragging: true, keyboardMode: 'stage' as const };
+    const base = { value: 40, min: 0, max: 100, step: 1, enableKeyboardDragging: true, keyboardMode: 'stage' as const, bubbleContent: textBubble };
 
     it('ArrowRight stages without committing', () => {
         const onChange = vi.fn();
@@ -405,7 +409,7 @@ describe('jf-slider: keyboard stage mode & pendingMarker', () => {
         expect(onChange).not.toHaveBeenCalled();
         expect(h.track().classList.contains('jfSlider-staging')).toBe(true);
         expect(h.container.querySelector('.jfSlider-pendingMarker')).not.toBeNull();
-        expect(h.container.querySelector('.jfSlider-bubbleText')?.textContent).toBe('41');
+        expect(h.container.querySelector('.jfSlider-bubble')?.textContent).toBe('41');
     });
 
     it('successive arrows accumulate from the staged value', () => {
@@ -415,7 +419,7 @@ describe('jf-slider: keyboard stage mode & pendingMarker', () => {
         keydown(h.input(), 'ArrowRight');
         keydown(h.input(), 'ArrowRight');
         keydown(h.input(), 'ArrowRight');
-        expect(h.container.querySelector('.jfSlider-bubbleText')?.textContent).toBe('43');
+        expect(h.container.querySelector('.jfSlider-bubble')?.textContent).toBe('43');
         expect(onChange).not.toHaveBeenCalled();
     });
 
@@ -615,63 +619,57 @@ describe('jf-slider: markers', () => {
         dragTick(h.input(), '90');
         expect(markerAt(h.container, 0).classList.contains('unwatched')).toBe(true);
     });
+
+    it('surfaces the optional marker name as a title (e.g. chapter names in the OSD)', () => {
+        const h = mount();
+        h.render({ value: 50, markers: [{ progress: 0.25, name: 'Chapter 1' }, { progress: 0.75 }] });
+        expect(markerAt(h.container, 0).getAttribute('title')).toBe('Chapter 1');
+        // No name -> no title attribute.
+        expect(markerAt(h.container, 1).hasAttribute('title')).toBe(false);
+    });
 });
 
-describe('jf-slider: bubble text / updateBubbleHtml', () => {
-    const bubbleText = (c: HTMLElement) => c.querySelector('.jfSlider-bubbleText')?.textContent;
+describe('jf-slider: bubble content & placement', () => {
+    const bubbleLeft = (c: HTMLElement) => c.querySelector<HTMLElement>('.jfSlider-bubble')?.style.left;
 
     const kb = { step: 1, enableKeyboardDragging: true, keyboardMode: 'live' as const };
 
-    it('defaults the bubble text to String(value), or applies getBubbleText (single value arg)', () => {
-        // Default when no getBubbleText.
-        const h1 = mount();
-        h1.render({ value: 40, ...kb, onChange: vi.fn() });
-        keydown(h1.input(), 'ArrowRight');
-        expect(bubbleText(h1.container)).toBe('41');
-
-        // getBubbleText transforms, called with the value alone.
-        const getBubbleText = vi.fn((v: number) => `t${v}`);
-        const h2 = mount();
-        h2.render({ value: 40, ...kb, getBubbleText, onChange: vi.fn() });
-        keydown(h2.input(), 'ArrowRight');
-        expect(bubbleText(h2.container)).toBe('t41');
-        expect(getBubbleText).toHaveBeenCalledWith(41);
-    });
-
-    it('hides the bubble when getBubbleText returns null', () => {
+    it('shows no bubble when bubbleContent is omitted', () => {
         const h = mount();
-        h.render({ value: 40, ...kb, getBubbleText: () => null, onChange: vi.fn() });
+        h.render({ value: 40, ...kb, onChange: vi.fn() });
         keydown(h.input(), 'ArrowRight');
         expect(h.container.querySelector('.jfSlider-bubble')).toBeNull();
     });
 
-    it('lets updateBubbleHtml take over positioning when it returns true', () => {
-        const updateBubbleHtml = vi.fn(() => true);
+    it('renders bubbleContent JSX into the bubble, called with the value', () => {
+        const bubbleContent = vi.fn((v: number) => <div className='customBubble'>{`c${v}`}</div>);
         const h = mount();
-        h.render({ value: 0, step: 1, updateBubbleHtml, onChange: vi.fn() });
-        stubTrackRect(h.track(), { width: 100 });
-        dragTick(h.input(), '60');
-        expect(updateBubbleHtml).toHaveBeenCalled();
-        const [, valueArg] = updateBubbleHtml.mock.calls[0] as unknown as [HTMLElement, number];
-        expect(valueArg).toBe(60);
-        const bubble = h.container.querySelector<HTMLElement>('.jfSlider-bubble');
-        expect(bubble!.style.left).toBe('');
+        h.render({ value: 40, ...kb, bubbleContent, onChange: vi.fn() });
+        keydown(h.input(), 'ArrowRight');
+        expect(bubbleContent).toHaveBeenCalledWith(41);
+        expect(h.container.querySelector('.jfSlider-bubble .customBubble')?.textContent).toBe('c41');
     });
 
-    it('centers the default bubble by track width (no override, or override returning false)', () => {
-        // No override: centered at width * pct.
-        const h1 = mount();
-        h1.render({ value: 0, step: 1, onChange: vi.fn() });
-        stubTrackRect(h1.track(), { width: 200 });
-        dragTick(h1.input(), '25');
-        expect(h1.container.querySelector<HTMLElement>('.jfSlider-bubble')!.style.left).toBe('50px');
+    it('hides the bubble when bubbleContent returns null for this value', () => {
+        const h = mount();
+        h.render({ value: 40, ...kb, bubbleContent: () => null, onChange: vi.fn() });
+        keydown(h.input(), 'ArrowRight');
+        expect(h.container.querySelector('.jfSlider-bubble')).toBeNull();
+    });
 
-        // updateBubbleHtml returning false takes the same default-position path.
-        const h2 = mount();
-        h2.render({ value: 0, step: 1, updateBubbleHtml: () => false, onChange: vi.fn() });
-        stubTrackRect(h2.track(), { width: 100 });
-        dragTick(h2.input(), '60');
-        expect(h2.container.querySelector<HTMLElement>('.jfSlider-bubble')!.style.left).toBe('60px');
+    it('BubbleText renders a text body inside the bubble', () => {
+        const h = mount();
+        h.render({ value: 40, ...kb, bubbleContent: textBubble, onChange: vi.fn() });
+        keydown(h.input(), 'ArrowRight');
+        expect(h.container.querySelector('.jfSlider-bubble')?.textContent).toBe('41');
+    });
+
+    // left is a percent of the track, so no getBoundingClientRect stub needed.
+    it('positions the bubble at the value percent (min/max aware), no track measurement', () => {
+        const h = mount();
+        h.render({ value: 0, min: 0, max: 200, step: 1, bubbleContent: textBubble, onChange: vi.fn() });
+        dragTick(h.input(), '50'); // 50 of [0..200] -> 25%
+        expect(bubbleLeft(h.container)).toBe('25%');
     });
 });
 
@@ -684,6 +682,14 @@ describe('jf-slider: focusable', () => {
         expect(h.input().getAttribute('tabindex')).toBe('-1');
         h.render({ value: 0 });
         expect(h.input().getAttribute('tabindex')).not.toBe('-1');
+    });
+
+    it('adds the `focusable` class to the input when focusable (TV spatial nav needs it on the range input), not when focusable=false', () => {
+        const h = mount();
+        h.render({ value: 0 });
+        expect(h.input().classList.contains('focusable')).toBe(true);
+        h.render({ value: 0, focusable: false });
+        expect(h.input().classList.contains('focusable')).toBe(false);
     });
 });
 
@@ -705,14 +711,13 @@ describe('jf-slider: RTL', () => {
         expect(onPreview).toHaveBeenLastCalledWith(75);
     });
 
-    it('mirrors the default bubble position in RTL', () => {
-        vi.mocked(globalize.getIsElementRTL).mockReturnValue(true);
+    it('mirrors the bubble position in RTL (percent, matching the track dir)', () => {
+        vi.mocked(globalize.getIsRTL).mockReturnValue(true);
         const h = mount();
-        h.render({ value: 0, step: 1, onChange: vi.fn() });
-        stubTrackRect(h.track(), { width: 100 });
-        dragTick(h.input(), '60');
+        h.render({ value: 0, min: 0, max: 100, step: 1, bubbleContent: textBubble, onChange: vi.fn() });
+        dragTick(h.input(), '60'); // 60% -> mirrored to 40%
         const bubble = h.container.querySelector<HTMLElement>('.jfSlider-bubble');
-        expect(bubble!.style.left).toBe('40px');
+        expect(bubble!.style.left).toBe('40%');
     });
 });
 
