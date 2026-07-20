@@ -61,7 +61,7 @@ class Manager {
 
         Events.on(this.timeSyncCore, 'time-sync-server-update', (event, timeOffset, ping) => {
             // Report ping back to server.
-            if (this.syncEnabled) {
+            if (this.isSyncPlayEnabled()) {
                 this.getApiClient().sendSyncPlayPing({
                     Ping: ping
                 });
