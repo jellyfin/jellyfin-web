@@ -1924,5 +1924,6 @@
     "StillWatchingPrompt": "Avís de continuació de reproducció",
     "StopWatching": "Deixa de veure",
     "NoCastTargets": "No hi ha objectius d'emissió disponibles",
-    "IndexNumber": "Número d'índex"
+    "IndexNumber": "Número d'índex",
+    "MessageNoEpisodesFound": "Actualment, no hi ha cap episodi disponible."
 }
