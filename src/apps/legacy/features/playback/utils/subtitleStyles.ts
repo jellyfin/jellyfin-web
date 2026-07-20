@@ -7,7 +7,7 @@ interface SubtitleAppearanceSettings {
     subtitleStyling: SubtitleStylingOption
 }
 
-export function useCustomSubtitles(userSettings: UserSettings, appearanceSettings?: SubtitleAppearanceSettings) {
+export function shouldUseCustomSubtitles(userSettings: UserSettings, appearanceSettings?: SubtitleAppearanceSettings) {
     const subtitleAppearance = appearanceSettings ?? (userSettings.getSubtitleAppearanceSettings() as SubtitleAppearanceSettings);
     switch (subtitleAppearance.subtitleStyling) {
         case SubtitleStylingOption.Native:
