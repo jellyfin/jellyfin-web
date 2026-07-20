@@ -10,9 +10,11 @@ vi.mock('scripts/keyboardNavigation', () => ({ getKeyName: (e: KeyboardEvent) =>
 vi.mock('scripts/browser', () => ({ default: { iOS: true } }));
 
 import globalize from 'lib/globalize';
-import Slider from './Slider';
+import Slider, { BubbleText } from './Slider';
 
 (globalThis as Record<string, unknown>).IS_REACT_ACT_ENVIRONMENT = true;
+
+const textBubble = (v: number) => <BubbleText>{String(v)}</BubbleText>;
 
 // Touch flows are synchronous — everything runs inside act(), so no awaiting.
 
@@ -71,7 +73,7 @@ describe('jf-slider: touch (iOS)', () => {
     it('touchstart maps a snapped clientX value, shows the bubble, previews input, preventDefault', () => {
         const onInput = vi.fn();
         // step 10 + clientX 34 exercises both the mapping and the snap.
-        const { input, track } = render({ value: 0, min: 0, max: 100, step: 10, onInput });
+        const { input, track } = render({ value: 0, min: 0, max: 100, step: 10, bubbleContent: textBubble, onInput });
         stubTrackRect(track);
         const evt = touch('touchstart', [34]);
         // touchstart/touchmove are passive, so defaultPrevented won't reflect
@@ -111,11 +113,12 @@ describe('jf-slider: touch (iOS)', () => {
 
     it('touchend commits from changedTouches and hides the bubble', () => {
         const onChange = vi.fn();
-        const { input, track } = render({ value: 0, min: 0, max: 100, step: 1, onChange });
+        const { input, track } = render({ value: 0, min: 0, max: 100, step: 1, bubbleContent: textBubble, onChange });
         stubTrackRect(track);
         act(() => {
             input.dispatchEvent(touch('touchstart', [30]));
         });
+        expect(container.querySelector('.jfSlider-bubble')).not.toBeNull();
         act(() => {
             input.dispatchEvent(touch('touchend', [90]));
         });

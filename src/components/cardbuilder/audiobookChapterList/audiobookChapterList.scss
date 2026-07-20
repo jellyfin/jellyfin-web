@@ -108,8 +108,7 @@
     bottom: 0;
 }
 
-// The chapter bubble is positioned in fixed viewport coords by the component
-// (updateBubbleHtml) so the scrollbox can't clip it.
+// Keep the bubble above sibling rows.
 .audiobookChapterSlider .jfSlider-bubble {
     z-index: 1000;
 }
