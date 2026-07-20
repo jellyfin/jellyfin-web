@@ -531,5 +531,20 @@
     "Custom": "Sérsniðið",
     "CustomSplashScreenSize": "Sérsniðnar myndir eiga að vera í stærðarhlutfallinu 16:9 og að lágmarki 1920x1080 pixlar.",
     "CustomSubtitleStylingHelp": "Útlit texta mun virka á flestum tækjum en krefst meira álags.",
-    "DateModified": "Dagsetning breytingar"
+    "DateModified": "Dagsetning breytingar",
+    "DefaultSubtitlesHelp": "Textar eru hlaðnir inn samkvæmt sjálfgefnum og skylduðum merkjum í lýsigögnum skrárinnar. Tungumálastillingar ráða för ef fleiri en einn valkostur er í boði.",
+    "DeinterlaceMethodHelp": "Veldu hvaða fléttueyðingu (deinterlacing) á að nota þegar hugbúnaður endurkóðar fléttað efni. Ef vélbúnaðarhröðun er virk og styður fléttueyðingu, verður vélbúnaðurinn notaður í staðinn.",
+    "DeleteEntireSeries": "Eyða {0} þáttum",
+    "DeleteCustomImage": "Eyða sérsniðinni mynd",
+    "DeleteDevicesConfirmation": "Ertu viss um að þú viljir eyða út öllum tækjum? Allir verða skráðar út á þeim tækjum. Tækin birtast aftur næst þegar notandi skráir sig inn.",
+    "DeleteRepositoryConfirmation": "Ertu viss um að þú viljir eyða þessu viðbótasafni?",
+    "DeleteLyrics": "Eyða texta",
+    "DeleteSeries": "Eyða seríu",
+    "DeleteEpisode": "Eyða þátt",
+    "DeleteName": "Eyða {0}",
+    "DeleteServerConfirmation": "Ertu viss um að þú viljir eyða þessum þjóni?",
+    "Depressed": "Ekki inndregið",
+    "EnableQuickConnect": "Virkja \"Quick Connect\" á þessum þjóni",
+    "EnableSmoothScroll": "Virkja mjúkt skroll",
+    "EnableStreamLooping": "Endurtaka beinar útsendingar sjálfkrafa"
 }
