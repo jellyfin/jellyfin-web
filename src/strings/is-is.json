@@ -546,5 +546,8 @@
     "Depressed": "Ekki inndregið",
     "EnableQuickConnect": "Virkja \"Quick Connect\" á þessum þjóni",
     "EnableSmoothScroll": "Virkja mjúkt skroll",
-    "EnableStreamLooping": "Endurtaka beinar útsendingar sjálfkrafa"
+    "EnableStreamLooping": "Endurtaka beinar útsendingar sjálfkrafa",
+    "EnableStreamLoopingHelp": "Virkjaðu þetta ef beinar útsendingar innihalda aðeins nokkrar sekúndur af gögnum og kalla þarf eftir þeim stöðugt. Það getur valdið vandræðum ef það er kveikt á þessari stillingu að óþörfu.",
+    "EnableTonemapping": "Virkja litvörpun (Tone mapping)",
+    "EnableTrueHd": "Virkja TrueHD"
 }
