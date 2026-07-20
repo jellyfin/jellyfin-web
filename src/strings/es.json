@@ -1925,5 +1925,6 @@
     "TableOfContents": "Índice",
     "Creators": "Creadores",
     "NoCastTargets": "No hay dispositivos de transmisión disponibles",
-    "IndexNumber": "Número de índice"
+    "IndexNumber": "Número de índice",
+    "MessageNoEpisodesFound": "Ningún episodio está disponible actualmente."
 }
