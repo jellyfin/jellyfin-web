@@ -1925,5 +1925,6 @@
     "HeaderBackupWarning": "CUIDADO: agendamento de tarefas em andamento",
     "VideoRotationNotSupported": "A rotação de vídeo não é suportada",
     "IndexNumber": "Número do índice",
-    "NoCastTargets": "Não há destinos de cast disponíveis"
+    "NoCastTargets": "Não há destinos de cast disponíveis",
+    "MessageNoEpisodesFound": "Sem episódios disponíveis no momento."
 }
