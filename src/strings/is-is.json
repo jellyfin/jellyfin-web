@@ -713,5 +713,10 @@
     "HeaderAutoDiscovery": "Tækjaleit á neti",
     "HeaderBlockItemsWithNoRating": "Útiloka efni án aldurstakmarkanna eða viðurkends mats",
     "HeaderBranding": "Vörumerki",
-    "HeaderCancelRecording": "Hætta við upptöku"
+    "HeaderCancelRecording": "Hætta við upptöku",
+    "HeaderCancelSeries": "Hætta við þáttaröð",
+    "HeaderChannelAccess": "Rása-aðgangur",
+    "HeaderChapterImages": "Kaflamyndir",
+    "HeaderConfigureRemoteAccess": "Setja upp fjaraðgang",
+    "HeaderConfirmPluginInstallation": "Staðfesta uppsetningu á  viðbót (plugin)"
 }
