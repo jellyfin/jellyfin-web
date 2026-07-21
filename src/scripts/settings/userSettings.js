@@ -669,7 +669,7 @@ export class UserSettings {
      */
     getComicsPlayerSettings(mediaSourceId) {
         const settings = JSON.parse(this.get('comicsPlayerSettings', false) || '{}');
-        return Object.assign(defaultComicsPlayerSettings, settings[mediaSourceId]);
+        return Object.assign({}, defaultComicsPlayerSettings, settings[mediaSourceId]);
     }
 
     /**

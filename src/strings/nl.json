@@ -1820,7 +1820,7 @@
     "LimitSegmentLengthHelp": "Het inschakelen van deze optie kan helpen voorkomen dat de HLS-speler vastloopt tijdens terug- en vooruitspoelen op bepaalde apparaten, zoals webOS-tv's.",
     "HeaderUpdateRequired": "Bijwerken vereist",
     "HeaderServerUnavailable": "Server niet beschikbaar",
-    "MessageForgotPasswordPinReset": "Pincode hier invoeren om wachtwoordherstel te voltooien",
+    "MessageForgotPasswordPinReset": "Voer de pincode hier in om het wachtwoordherstel te voltooien",
     "DownloadManager": "Downloads",
     "ViewSettings": "Weergave-instellingen",
     "Create": "Aanmaken",
@@ -1840,7 +1840,7 @@
     "MessageBackupDisclaimer": "Afhankelijk van de grootte van je bibliotheek kan het maken van de back-up enige tijd duren.",
     "LabelProgramData": "Programmagegevens",
     "StorageType.CDRom": "Cd-rom",
-    "MessageRestoreDisclaimer": "WAARSCHUWING: Je staat op het punt een eerdere back-up terug te zetten. Je server is tijdens dit proces onbruikbaar en alle gegevens die sinds de back-up zijn aangemaakt gaan verloren.",
+    "MessageRestoreDisclaimer": "WAARSCHUWING: Je staat op het punt een eerdere back-up terug te zetten. Je server is tijdens dit proces onbruikbaar en alle gegevens die sinds de back-up zijn aangemaakt gaan verloren.\n\nBack-ups mogen alleen worden teruggezet naar dezelfde versie als die waarop ze zijn gemaakt. Het terugzetten van een back-up naar een andere versie wordt niet ondersteund en kan de server onbruikbaar maken.",
     "StorageType.Fixed": "Vast",
     "StorageType.Network": "Netwerk",
     "StorageType.NoRootDirectory": "Geen hoofdmap",
@@ -1926,5 +1926,12 @@
     "Creators": "Bedenkers",
     "IndexNumber": "Indexnummer",
     "NoCastTargets": "Geen cast-apparaten beschikbaar",
-    "MessageNoEpisodesFound": "Er zijn momenteel geen afleveringen beschikbaar."
+    "MessageNoEpisodesFound": "Er zijn momenteel geen afleveringen beschikbaar.",
+    "ViewLeftToRight": "Links naar rechts",
+    "ViewRightToLeft": "Rechts naar links",
+    "SeriesName": "Serienaam",
+    "AudioLanguages": "Gesproken taal",
+    "SubtitleLanguages": "Taal ondertiteling",
+    "ViewDoublePage": "Dubbele paginaweergave",
+    "ViewSinglePage": "Enkele paginaweergave"
 }

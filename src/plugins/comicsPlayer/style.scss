@@ -2,7 +2,9 @@
     background: #fff;
 
     .slideshowSwiperContainer {
-        height: 100%;
+        position: relative;
+        top: 5vh;
+        height: 90vh;
     }
 
     .slider-zoom-container {
@@ -26,17 +28,5 @@
         left: 50%;
         transform: translate(-50%, 0%);
         text-shadow: 0 0 20px #fff;
-    }
-
-    .actionButtons {
-        right: 0.5vh;
-        top: 0.5vh;
-        z-index: 1002;
-        position: absolute;
-    }
-
-    .actionButtonIcon {
-        color: #000;
-        opacity: 0.7;
     }
 }

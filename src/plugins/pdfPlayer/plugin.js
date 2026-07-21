@@ -9,9 +9,11 @@ import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
+import BookOsd from '../bookPlayer/BookOsd/BookOsd';
+import { renderComponent } from '../../utils/reactUtils';
 
+import 'material-design-icons-iconfont';
 import './style.scss';
-import '../../elements/emby-button/paper-icon-button-light';
 
 export class PdfPlayer {
     constructor() {
@@ -19,6 +21,9 @@ export class PdfPlayer {
         this.type = PluginType.MediaPlayer;
         this.id = 'pdfplayer';
         this.priority = 1;
+
+        this.previous = this.previous.bind(this);
+        this.next = this.next.bind(this);
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
@@ -33,12 +38,13 @@ export class PdfPlayer {
 
         loading.show();
 
-        const elem = this.createMediaElement();
+        const elem = this.createMediaElement(options);
         return this.setCurrentSrc(elem, options);
     }
 
     stop() {
         this.unbindEvents();
+        this.unmountBookOsd?.();
 
         const stopInfo = {
             src: this.item
@@ -132,37 +138,19 @@ export class PdfPlayer {
         this.stop();
     }
 
-    bindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem.addEventListener('close', this.onDialogClosed, { once: true });
-        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
-    }
-
     bindEvents() {
-        this.bindMediaElementEvents();
-
+        this.mediaElement?.addEventListener('close', this.onDialogClosed, { once: true });
         document.addEventListener('keydown', this.onWindowKeyDown);
-        document.addEventListener('touchstart', this.onTouchStart);
-    }
-
-    unbindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem.removeEventListener('close', this.onDialogClosed);
-        elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
+        document.querySelector('#container')?.addEventListener('touchstart', this.onTouchStart);
     }
 
     unbindEvents() {
-        if (this.mediaElement) {
-            this.unbindMediaElementEvents();
-        }
-
+        this.mediaElement?.removeEventListener('close', this.onDialogClosed);
         document.removeEventListener('keydown', this.onWindowKeyDown);
-        document.removeEventListener('touchstart', this.onTouchStart);
+        document.querySelector('#container')?.removeEventListener('touchstart', this.onTouchStart);
     }
 
-    createMediaElement() {
+    createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
             return elem;
@@ -179,19 +167,20 @@ export class PdfPlayer {
                 removeOnClose: true
             });
 
-            let html = '';
-            html += '<canvas id="canvas"></canvas>';
-            html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
-            html += '</div>';
-
             elem.id = 'pdfPlayer';
-            elem.innerHTML = html;
+            elem.innerHTML = '<div id="bookOsdMount"></div><div id="container"><canvas id="canvas"></canvas></div>';
 
             dialogHelper.open(elem);
         }
 
         this.mediaElement = elem;
+        this.unmountBookOsd = renderComponent(BookOsd, {
+            item: options.items[0],
+            onExit: this.onDialogClosed,
+            onPrevious: this.previous,
+            onNext: this.next
+        }, elem.querySelector('#bookOsdMount'));
+
         return elem;
     }
 
@@ -258,16 +247,10 @@ export class PdfPlayer {
         Events.trigger(this, 'pause');
     }
 
-    replaceCanvas(canvas) {
-        const old = document.getElementById('canvas');
-
-        canvas.id = 'canvas';
-        old.parentNode.replaceChild(canvas, old);
-    }
-
     loadPage(number) {
         const prefix = 'page';
         const pad = 2;
+        const canvas = document.querySelector('#canvas');
 
         // generate list of cached pages by padding the requested page on both sides
         const pages = [prefix + number];
@@ -281,11 +264,13 @@ export class PdfPlayer {
             if (!this.pages[page]) {
                 this.pages[page] = document.createElement('canvas');
                 this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
+
+                this.pages[page].id = 'canvas';
             }
         }
 
         // show the requested page
-        this.replaceCanvas(this.pages[prefix + number], number);
+        canvas?.parentNode.replaceChild(this.pages[prefix + number], canvas);
 
         // delete all pages outside the cache area
         for (const page in this.pages) {
@@ -299,19 +284,14 @@ export class PdfPlayer {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
-            const viewport = page.getViewport({ scale });
+            const scale = Math.min((window.innerHeight / original.height * 0.9), (window.innerWidth / original.width));
+            const viewport = page.getViewport({ scale: scale * devicePixelRatio });
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
 
-            if (window.innerWidth < window.innerHeight) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-            } else {
-                canvas.style.height = '100%';
-                canvas.style.width = 'auto';
-            }
+            canvas.style.width = `${original.width * scale}px`;
+            canvas.style.height = `${original.height * scale}px`;
 
             const context = canvas.getContext('2d');
 
