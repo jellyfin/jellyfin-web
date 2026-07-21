@@ -35,6 +35,8 @@ export function getCardImageUrl({
     let imgType: ImageType | undefined;
     let itemId = null;
 
+    const skipEpisodeParentPoster = item.Type === 'Episode' && uiAspect != null && uiAspect > 1;
+
     /* eslint-disable sonarjs/no-duplicated-branches */
     if (options.preferThumb && item.ImageTags?.Thumb) {
         imgType = ImageType.Thumb;
@@ -90,7 +92,7 @@ export function getCardImageUrl({
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.SeriesPrimaryImageTag) {
+    } else if (item.SeriesPrimaryImageTag && !skipEpisodeParentPoster) {
         imgType = ImageType.Primary;
         imgTag = item.SeriesPrimaryImageTag;
         itemId = item.SeriesId;
@@ -107,7 +109,7 @@ export function getCardImageUrl({
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.ParentPrimaryImageTag) {
+    } else if (item.ParentPrimaryImageTag && !skipEpisodeParentPoster) {
         imgType = ImageType.Primary;
         imgTag = item.ParentPrimaryImageTag;
         itemId = item.ParentPrimaryImageItemId;
