@@ -1787,12 +1787,14 @@ function renderAdditionalParts(page, item, user) {
 function renderChapters(page, instance, item) {
     if (item.Type !== BaseItemKind.AudioBook || !item.Chapters?.length) return;
 
+    const target = document.createElement('div')
     const container = page.querySelector('#childrenCollapsible');
     const element = container.querySelector('.itemsContainer');
 
-    instance._unmount.push(renderComponent(ItemDetailsChapterList, { item }, element));
+    instance._unmount.push(renderComponent(ItemDetailsChapterList, { item }, target));
     container.classList.remove('hide');
     element.classList.add('vertical-list');
+    element.appendChild(target)
 }
 
 function renderScenes(page, item) {
