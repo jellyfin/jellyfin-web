@@ -800,5 +800,6 @@
     "LabelCustomCertificatePath": "Slóð á þitt SSL-skilríki",
     "LabelCustomCertificatePathHelp": "Slóð á PKCS #12 skrá sem inniheldur skilríki og einkalykil til að virkja TLS-stuðning á þínu léni.",
     "LabelCustomCssHelp": "Settu inn eigin CSS-kóða til að hanna eða merkja vefviðmótið.",
-    "LabelCustomDeviceDisplayNameHelp": "Sláðu inn birtingarnafn eða skildu reitinn eftir auðan til að nota nafnið sem tækið gefur sjálft upp."
+    "LabelCustomDeviceDisplayNameHelp": "Sláðu inn þitt eigið birtingarnafn eða skildu reitinn eftir auðan til að nota nafnið sem tækið gefur sjálft upp.",
+    "LabelCustomRating": "Eigin einkun"
 }
