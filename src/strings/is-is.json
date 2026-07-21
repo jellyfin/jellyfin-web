@@ -865,5 +865,15 @@
     "LabelAuthProvider": "Auðkennisveita",
     "LabelAutomaticallyAddToCollection": "Bæta sjálfkrafa í myndasyrpu",
     "LabelAutomaticallyAddToCollectionHelp": "Þegar að minnsta kosti tvær kvikmyndir deila sama myndasyrpu heiti verður þeim bætt sjálfkrafa í syrpuna.",
-    "LabelAutomaticallyRefreshInternetMetadataEvery": "Uppfæra lýsigögn sjálfkrafa af netinu"
+    "LabelAutomaticallyRefreshInternetMetadataEvery": "Uppfæra lýsigögn sjálfkrafa af netinu",
+    "LabelAutomaticDiscovery": "Virkja sjálfvirka greiningu",
+    "LabelAutomaticDiscoveryHelp": "Leyfa forritum að finna Jellyfin sjálfkrafa með því að nota UDP-port 7359.",
+    "LabelAvailable": "Aðgengilegt",
+    "LabelBackupsUnavailable": "Engin öryggisafrit fundust",
+    "LabelBackupWarning": "Tíma stillt verkefni eru nú þegar í gangi. Mælt er með því að stöðva þau eða bíða eftir að þeim ljúki áður en tekin er öryggisafrit.",
+    "LabelBaseUrl": "Grunn slóð (URL)",
+    "LabelBaseUrlHelp": "Bættu við undirmöppu við vefslóð þjónsins. Til dæmis: https://example.com/<baseurl>",
+    "LabelBackdropScreensaverInterval": "Tími milli bakgrunnsmynda",
+    "LabelBackdropScreensaverIntervalHelp": "Hversu margar sekúndur líða á milli þess að bakgrunnsmyndir skiptast í skjávaranum.",
+    "LabelSlideshowInterval": "Tími milli mynda"
 }
