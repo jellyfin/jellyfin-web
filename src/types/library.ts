@@ -45,6 +45,8 @@ export interface Filters {
     VideoBasicFilter?: VideoBasicFilter[];
     VideoTypes?: VideoType[];
     Years?: number[];
+    AudioLanguages?: string[];
+    SubtitleLanguages?: string[];
 }
 
 export enum ViewMode {

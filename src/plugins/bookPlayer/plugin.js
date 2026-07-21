@@ -192,8 +192,7 @@ export class BookPlayer {
         this.rendition?.on('keydown', this.onWindowKeyDown);
 
         if (browser.safari) {
-            const player = document.querySelector('.bookOsd');
-            this.addSwipeGestures(player);
+            this.addSwipeGestures(document.querySelector('#bookPlayerContainer'));
         } else {
             this.rendition?.on('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
         }
@@ -298,7 +297,7 @@ export class BookPlayer {
 
         this.mediaElement = elem;
         this.unmountBookOsd = renderComponent(BookOsd, {
-            title: options.items[0].Name,
+            item: options.items[0],
             onExit: this.onDialogClosed,
             onPrevious: this.previous,
             onNext: this.next,

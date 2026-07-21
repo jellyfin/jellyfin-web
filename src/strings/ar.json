@@ -1926,5 +1926,12 @@
     "Creators": "مكوّنين",
     "IndexNumber": "رقم المؤشر",
     "NoCastTargets": "لا اهداف بث متوفرة",
-    "MessageNoEpisodesFound": "لا تتوفر حلقات حاليا."
+    "MessageNoEpisodesFound": "لا تتوفر حلقات حاليا.",
+    "ViewDoublePage": "عرض صفحة مزدوج",
+    "ViewSinglePage": "عرض صفحة مفرد",
+    "ViewLeftToRight": "من اليسار لليمين",
+    "ViewRightToLeft": "من اليمين لليسار",
+    "SeriesName": "اسم المسلسل",
+    "AudioLanguages": "لغات الصوت",
+    "SubtitleLanguages": "لغات الترجمة"
 }

@@ -611,7 +611,7 @@
     "MessageItemSaved": "Elemento guardado.",
     "MessageItemsAdded": "Ítems añadidos.",
     "MessageLeaveEmptyToInherit": "Dejar en blanco para heredar la configuración del elemento padre, o el valor global por defecto.",
-    "MessageNoMovieSuggestionsAvailable": "No hay sugerencias de películas disponibles. Comience ver y calificar sus películas y vuelva para ver las recomendaciones.",
+    "MessageNoMovieSuggestionsAvailable": "No hay sugerencias de películas disponibles. Comience a ver y calificar sus películas y vuelva para ver las recomendaciones.",
     "MessageNothingHere": "Nada aquí.",
     "MessagePasswordResetForUsers": "Se ha restablecido las contraseñas a los siguientes usuarios. Ahora pueden iniciar sesión con los códigos PIN que se usaron para el restablecimiento.",
     "MessagePleaseEnsureInternetMetadata": "Asegúrate de que la descarga de metadatos desde internet está activada.",
@@ -1925,5 +1925,6 @@
     "TableOfContents": "Índice",
     "Creators": "Creadores",
     "NoCastTargets": "No hay dispositivos de transmisión disponibles",
-    "IndexNumber": "Número de índice"
+    "IndexNumber": "Número de índice",
+    "MessageNoEpisodesFound": "Ningún episodio está disponible actualmente."
 }
