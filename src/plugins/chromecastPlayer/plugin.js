@@ -110,7 +110,7 @@ class CastPlayer {
         const userId = apiClient.getCurrentUserId();
 
         apiClient.getUser(userId).then(user => {
-            const applicationID = user.Configuration.CastReceiverId;
+            const applicationID = user?.Configuration?.CastReceiverId || 'F007D354';
             if (!applicationID) {
                 console.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`);
                 return;
