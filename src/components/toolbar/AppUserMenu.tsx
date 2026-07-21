@@ -76,6 +76,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             }}
             id={ID}
             keepMounted
+            disableScrollLock
             open={open}
             onClose={onMenuClose}
         >

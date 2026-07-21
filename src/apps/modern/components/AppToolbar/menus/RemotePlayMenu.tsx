@@ -62,6 +62,7 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
             }}
             id={ID}
             keepMounted
+            disableScrollLock
             open={open}
             onClose={onMenuClose}
         >

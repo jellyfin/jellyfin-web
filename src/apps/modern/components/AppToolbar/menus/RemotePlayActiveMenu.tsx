@@ -92,6 +92,7 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
             }}
             id={ID}
             keepMounted
+            disableScrollLock
             open={open}
             onClose={onMenuClose}
             slotProps={{
