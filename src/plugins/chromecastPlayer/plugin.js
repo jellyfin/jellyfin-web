@@ -110,19 +110,21 @@ class CastPlayer {
         const userId = apiClient.getCurrentUserId();
 
         apiClient.getUser(userId).then(user => {
-            const applicationID = user?.Configuration?.CastReceiverId || 'F007D354';
-            if (!applicationID) {
-                console.warn(`Not initializing chromecast: CastReceiverId is ${applicationID}`);
+            const applicationID = user?.Configuration?.CastReceiverId;
+            if (!applicationID || !applicationID.trim()) {
+                console.warn('Not initializing chromecast: CastReceiverId is missing or empty');
                 return;
             }
 
+            const cleanAppId = applicationID.trim();
+
             // request session
-            const sessionRequest = new chrome.cast.SessionRequest(applicationID);
+            const sessionRequest = new chrome.cast.SessionRequest(cleanAppId);
             const apiConfig = new chrome.cast.ApiConfig(sessionRequest,
                 this.sessionListener.bind(this),
                 this.receiverListener.bind(this));
 
-            console.debug(`chromecast.initialize (applicationId=${applicationID})`);
+            console.debug(`chromecast.initialize (applicationId=${cleanAppId})`);
             chrome.cast.initialize(apiConfig, this.onInitSuccess.bind(this), this.errorHandler);
         });
     }
