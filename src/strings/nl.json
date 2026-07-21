@@ -1926,5 +1926,12 @@
     "Creators": "Bedenkers",
     "IndexNumber": "Indexnummer",
     "NoCastTargets": "Geen cast-apparaten beschikbaar",
-    "MessageNoEpisodesFound": "Er zijn momenteel geen afleveringen beschikbaar."
+    "MessageNoEpisodesFound": "Er zijn momenteel geen afleveringen beschikbaar.",
+    "ViewLeftToRight": "Links naar rechts",
+    "ViewRightToLeft": "Rechts naar links",
+    "SeriesName": "Serienaam",
+    "AudioLanguages": "Gesproken taal",
+    "SubtitleLanguages": "Taal ondertiteling",
+    "ViewDoublePage": "Dubbele paginaweergave",
+    "ViewSinglePage": "Enkele paginaweergave"
 }
