@@ -16,6 +16,12 @@ export declare global {
         'viewshow': CustomEvent;
     }
 
+    interface Document {
+        webkitIsFullScreen?: boolean;
+        webkitCancelFullscreen?(): void;
+        webkitEnterFullscreen?(): void;
+    }
+
     const __COMMIT_SHA__: string;
     const __JF_BUILD_VERSION__: string;
     const __PACKAGE_JSON_NAME__: string;

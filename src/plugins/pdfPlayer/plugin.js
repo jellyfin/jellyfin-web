@@ -28,6 +28,7 @@ export class PdfPlayer {
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
+        this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
     play(options) {
@@ -150,6 +151,10 @@ export class PdfPlayer {
         document.querySelector('#container')?.removeEventListener('touchstart', this.onTouchStart);
     }
 
+    toggleFullscreen() {
+        setTimeout(() => this.loadPage(this.progress + 1), 200);
+    }
+
     createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
@@ -178,7 +183,8 @@ export class PdfPlayer {
             item: options.items[0],
             onExit: this.onDialogClosed,
             onPrevious: this.previous,
-            onNext: this.next
+            onNext: this.next,
+            onToggleFullscreen: this.toggleFullscreen
         }, elem.querySelector('#bookOsdMount'));
 
         return elem;
@@ -261,7 +267,7 @@ export class PdfPlayer {
 
         // load any missing pages in the cache
         for (const page of pages) {
-            if (!this.pages[page]) {
+            if (!this.pages[page] || this.dimensions !== window.innerWidth + window.innerHeight) {
                 this.pages[page] = document.createElement('canvas');
                 this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
 
@@ -271,6 +277,10 @@ export class PdfPlayer {
 
         // show the requested page
         canvas?.parentNode.replaceChild(this.pages[prefix + number], canvas);
+        this.currentSrc = () => this.pages[prefix + number];
+
+        // track size so we can render all pages again when the screen has changed
+        this.dimensions = window.innerWidth + window.innerHeight;
 
         // delete all pages outside the cache area
         for (const page in this.pages) {

@@ -20,11 +20,6 @@
     inset: 0;
     z-index: 1000;
     width: 100%;
-    top: 5vh;
-    height: 90vh;
-}
-
-#bookPlayerContainer.fullscreen {
     top: calc(5vh + env(safe-area-inset-top));
     height: calc(90vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
