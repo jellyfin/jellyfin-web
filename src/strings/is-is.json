@@ -704,5 +704,14 @@
     "HeaderApiKey": "API lykill",
     "HeaderApiKeys": "API lyklar",
     "HeaderApiKeysHelp": "Ytri öpp þurfa API-lykil til að geta átt samskipti við þjóninn. Lyklar eru gefnir út með því að skrá sig inn á venjulegan notandareikning eða með því að úthluta appinu lykil handvirkt.",
-    "DirectPlayHelp": "Upprunalega skráin passar fullkomlega við þennan biðlara og tekur því á móti henni eins og hún er."
+    "DirectPlayHelp": "Upprunalega skráin passar fullkomlega við þennan biðlara og tekur því á móti henni eins og hún er.",
+    "DirectStreamHelp1": "Myndbandsstreymið passar við tækið en hljóðsniðið (DTS, Dolby TrueHD o.fl.) eða fjöldi hljóðrása er ekki studdur. Myndbandsstreyminu verður endurpakkað án gæðataps jafnóðum og svo sent til tækisins. Aðeins hljóðstreymið verður endurkóðað.",
+    "HeaderApp": "App",
+    "HeaderAudioBooks": "Hljóðbækur",
+    "HeaderAudioAdvanced": "Ítarlegt hljóð",
+    "HeaderAudioSettings": "Hljóðstillingar",
+    "HeaderAutoDiscovery": "Tækjaleit á neti",
+    "HeaderBlockItemsWithNoRating": "Útiloka efni án aldurstakmarkanna eða viðurkends mats",
+    "HeaderBranding": "Vörumerki",
+    "HeaderCancelRecording": "Hætta við upptöku"
 }
