@@ -1,4 +1,4 @@
-import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
+import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';
 import escapeHtml from 'escape-html';
 
 import { AutoScroll } from 'apps/legacy/features/lyrics/constants/autoScroll';
@@ -137,7 +137,7 @@ export default function (view) {
             return;
         }
 
-        return getLyricsApi(api).getLyrics({ itemId })
+        return getLyricApi(api).getLyrics({ itemId })
             .then(({ data }) => {
                 if (!data.Lyrics?.length) {
                     throw new Error('No lyrics returned');

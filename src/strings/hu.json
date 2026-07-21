@@ -1923,5 +1923,8 @@
     "TableOfContents": "Tartalomjegyzék",
     "Creators": "Alkotók",
     "ConfirmSplitMedia": "Biztosan külön elemekre szeretnéd osztani a médiaforrásokat?",
-    "HeaderSplitMedia": "Szétválasztjuk a médiát"
+    "HeaderSplitMedia": "Szétválasztjuk a médiát",
+    "IndexNumber": "Index szám",
+    "NoCastTargets": "Nincs elérhető célpont",
+    "MessageNoEpisodesFound": "Jelenleg egyetlen epizód sem érhető el."
 }

@@ -1924,5 +1924,7 @@
     "ConfirmSplitMedia": "Opravdu chcete rozdělit zdroje médií na samostatné položky?",
     "HeaderSplitMedia": "Rozdělit média",
     "Creators": "Tvůrci",
-    "IndexNumber": "Indexové číslo"
+    "IndexNumber": "Indexové číslo",
+    "NoCastTargets": "Nejsou k dispozici žádné obrazovky",
+    "MessageNoEpisodesFound": "V současné době nejsou k dispozici žádné epizody."
 }

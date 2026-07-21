@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useApi } from 'hooks/useApi';
 import { QUERY_KEY, useTasks } from '../api/useTasks';
-import type { ScheduledTasksApiGetTasksRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-tasks-api';
+import type { ScheduledTaskApiGetTasksRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-task-api';
 import { queryClient } from 'utils/query/queryClient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
-const useLiveTasks = (params: ScheduledTasksApiGetTasksRequest) => {
+const useLiveTasks = (params: ScheduledTaskApiGetTasksRequest) => {
     const { api } = useApi();
     const tasksQuery = useTasks(params);
 

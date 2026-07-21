@@ -1924,5 +1924,7 @@
     "ConfirmSplitMedia": "Möchtest Du die Medienquellen wirklich in separate Elemente auftrennen?",
     "HeaderSplitMedia": "Medien auseinander trennen",
     "Creators": "Ersteller",
-    "IndexNumber": "Indexnummer"
+    "IndexNumber": "Indexnummer",
+    "NoCastTargets": "Keine Ziele zum Casten verfügbar",
+    "MessageNoEpisodesFound": "Es sind gerade keine Folgen verfügbar."
 }

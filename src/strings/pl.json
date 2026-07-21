@@ -1848,7 +1848,7 @@
     "Success": "Powodzenie",
     "HeaderBackupsHelp": "Twórz i przywracaj migawki swojego serwera, które mogą zawierać bazę danych, metadane, napisy i podglądy Trickplay.",
     "LabelImageCache": "Pamięć podręczna obrazów",
-    "MessageRestoreDisclaimer": "OSTRZEŻENIE: zamierzasz przywrócić dane z poprzedniej kopii zapasowej. Twój serwer będzie bezużyteczny przez cały czas trwania procesu, a wszelkie nowe dane utworzone od czasu utworzenia kopii zapasowej zostaną utracone.",
+    "MessageRestoreDisclaimer": "OSTRZEŻENIE: zamierzasz przywrócić dane z poprzedniej kopii zapasowej. Twój serwer będzie bezużyteczny przez cały czas trwania procesu, a wszelkie nowe dane utworzone od czasu utworzenia kopii zapasowej zostaną utracone.\n\nKopie zapasowe należy przywracać wyłącznie do tej samej wersji, w której zostały utworzone. Przywracanie kopii zapasowej do innej wersji nie jest obsługiwane i może spowodować, że serwer będzie bezużyteczny.",
     "ConfirmDeleteRepository": "Usunąć repozytorium?",
     "RepositoriesPageLoadError": "Nie udało się załadować repozytoriów",
     "PluginsLoadError": "Wystąpił błąd podczas ładowania wtyczek",
@@ -1924,5 +1924,14 @@
     "ConfirmSplitMedia": "Czy na pewno chcesz podzielić źródła multimediów na osobne elementy?",
     "HeaderSplitMedia": "Podziel multimedia",
     "Creators": "Twórcy",
-    "IndexNumber": "Numer indeksu"
+    "IndexNumber": "Numer indeksu",
+    "NoCastTargets": "Brak dostępnych docelowych urządzeń do przesyłania",
+    "MessageNoEpisodesFound": "Obecnie nie ma dostępnych odcinków.",
+    "ViewDoublePage": "Widok podwójnej strony",
+    "ViewSinglePage": "Widok pojedynczej strony",
+    "ViewLeftToRight": "Od lewej do prawej",
+    "ViewRightToLeft": "Od prawej do lewej",
+    "SeriesName": "Nazwa serialu",
+    "AudioLanguages": "Języki audio",
+    "SubtitleLanguages": "Języki napisów"
 }
