@@ -389,9 +389,8 @@ EmbySliderPrototype.attachedCallback = function () {
 
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
-        if (this.activePointerId === e.pointerId) {
-            const fraction = mapClientToFraction(this, e.clientX);
-            const value = mapFractionToValue(this, fraction);
+        if (this.activePointerId !== undefined && this.activePointerId === e.pointerId) {
+            const value = mapFractionToValue(this, mapClientToFraction(this, e.clientX));
 
             if (parseFloat(this.value) !== value) {
                 this.value = value;
@@ -682,4 +681,3 @@ document.registerElement('emby-slider', {
     prototype: EmbySliderPrototype,
     extends: 'input'
 });
-
