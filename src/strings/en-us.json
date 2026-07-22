@@ -1636,6 +1636,7 @@
     "SubtitleLightGray": "Light Gray",
     "SubtitleMagenta": "Magenta",
     "SubtitleOffset": "Subtitle Offset",
+    "SubtitleOffsetHelp": "Increase the delay if subtitles are too early, decrease if too late",
     "SubtitleRed": "Red",
     "Subtitles": "Subtitles",
     "SubtitleVerticalPositionHelp": "Line number where text appears. Positive numbers indicate top down. Negative numbers indicate bottom up.",

@@ -1,6 +1,7 @@
 
 import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';
+import globalize from 'lib/globalize';
 import template from './subtitlesync.template.html';
 import './subtitlesync.scss';
 
@@ -9,6 +10,7 @@ let subtitleSyncSlider;
 let subtitleSyncTextField;
 let subtitleSyncCloseButton;
 let subtitleSyncContainer;
+let subtitleSyncHelpText;
 
 function init(instance) {
     const parent = document.createElement('div');
@@ -19,6 +21,9 @@ function init(instance) {
     subtitleSyncTextField = parent.querySelector('.subtitleSyncTextField');
     subtitleSyncCloseButton = parent.querySelector('.subtitleSync-closeButton');
     subtitleSyncContainer = parent.querySelector('.subtitleSyncContainer');
+    subtitleSyncHelpText = parent.querySelector('.subtitleSyncHelpText');
+
+    subtitleSyncHelpText.textContent = globalize.translate('SubtitleOffsetHelp');
 
     if (layoutManager.tv) {
         subtitleSyncSlider.classList.add('focusable');
