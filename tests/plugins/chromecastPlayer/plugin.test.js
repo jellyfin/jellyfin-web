@@ -1,23 +1,25 @@
+/* eslint-disable @eslint-community/eslint-comments/disable-enable-pair */
+/* eslint-disable compat/compat */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-vi.mock('../../scripts/settings/appSettings', () => ({ default: {} }));
-vi.mock('../../scripts/settings/userSettings', () => ({ currentSettings: {}, default: {} }));
-vi.mock('../../components/playback/playbackmanager', () => ({ playbackManager: {} }));
-vi.mock('../../lib/globalize', () => ({ default: {} }));
-vi.mock('./castSenderApi', () => ({
+vi.mock('../../../src/scripts/settings/appSettings', () => ({ default: {} }));
+vi.mock('../../../src/scripts/settings/userSettings', () => ({ currentSettings: {}, default: {} }));
+vi.mock('../../../src/components/playback/playbackmanager', () => ({ playbackManager: {} }));
+vi.mock('../../../src/lib/globalize', () => ({ default: {} }));
+vi.mock('../../../src/plugins/chromecastPlayer/castSenderApi', () => ({
     default: class {
         load() {
             return Promise.resolve();
         }
     }
 }));
-vi.mock('../../components/alert', () => ({ default: vi.fn() }));
-vi.mock('lib/jellyfin-apiclient', () => ({ ServerConnections: { currentApiClient: vi.fn(), currentUserId: 'user1' } }));
-vi.mock('../../utils/events.ts', () => ({ default: { on: vi.fn(), off: vi.fn(), trigger: vi.fn() } }));
-vi.mock('../../utils/jellyfin-apiclient/getItems.ts', () => ({ getItems: vi.fn() }));
+vi.mock('../../../src/components/alert', () => ({ default: vi.fn() }));
+vi.mock('../../../src/lib/jellyfin-apiclient', () => ({ ServerConnections: { currentApiClient: vi.fn(), currentUserId: 'user1' } }));
+vi.mock('../../../src/utils/events.ts', () => ({ default: { on: vi.fn(), off: vi.fn(), trigger: vi.fn() } }));
+vi.mock('../../../src/utils/jellyfin-apiclient/getItems.ts', () => ({ getItems: vi.fn() }));
 
-import ChromecastPlayer from './plugin';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import ChromecastPlayer from '../../../src/plugins/chromecastPlayer/plugin';
+import { ServerConnections } from '../../../src/lib/jellyfin-apiclient';
 
 describe('chromecastPlayer plugin', () => {
     let originalChrome;
@@ -58,7 +60,8 @@ describe('chromecastPlayer plugin', () => {
 
         vi.mocked(ServerConnections.currentApiClient).mockReturnValue(mockApiClient);
 
-        new ChromecastPlayer();
+        const player = new ChromecastPlayer();
+        expect(player).toBeDefined();
         await new Promise(resolve => setTimeout(resolve, 0));
 
         expect(mockGetUser).toHaveBeenCalledWith('user1');
@@ -94,7 +97,8 @@ describe('chromecastPlayer plugin', () => {
 
         vi.mocked(ServerConnections.currentApiClient).mockReturnValue(mockApiClient);
 
-        new ChromecastPlayer();
+        const player = new ChromecastPlayer();
+        expect(player).toBeDefined();
         await new Promise(resolve => setTimeout(resolve, 0));
 
         expect(mockGetUser).toHaveBeenCalledWith('user1');
