@@ -370,8 +370,38 @@ EmbySliderPrototype.attachedCallback = function () {
         passive: true
     });
 
+    if (window.PointerEvent && !browser.iOS) {
+        dom.addEventListener(this, 'pointerdown', function (e) {
+            this.activePointerId = e.pointerId;
+            this.setPointerCapture(e.pointerId);
+        }, {
+            passive: true
+        });
+
+        ['pointerup', 'pointercancel'].forEach((event) => {
+            dom.addEventListener(this, event, function () {
+                this.activePointerId = undefined;
+            }, {
+                passive: true
+            });
+        });
+    }
+
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
+        if (this.activePointerId === e.pointerId) {
+            const fraction = mapClientToFraction(this, e.clientX);
+            const value = mapFractionToValue(this, fraction);
+
+            if (parseFloat(this.value) !== value) {
+                this.value = value;
+                this.dispatchEvent(new Event('input', {
+                    bubbles: true,
+                    cancelable: false
+                }));
+            }
+        }
+
         if (!this.dragging) {
             const fraction = mapClientToFraction(this, e.clientX);
             const percent = fraction * 100;
