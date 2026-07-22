@@ -1923,5 +1923,15 @@
     "StopWatching": "Oprește vizionarea",
     "TableOfContents": "Cuprins",
     "HeaderSplitMedia": "Desparte fișierele media",
-    "StillWatchingPrompt": "Atenționare de „încă te uiți?”"
+    "StillWatchingPrompt": "Atenționare de „încă te uiți?”",
+    "ViewDoublePage": "Vizualizare pe pagină dublă",
+    "ViewSinglePage": "Vizualizare pe o pagină",
+    "ViewLeftToRight": "De la stânga la dreapta",
+    "ViewRightToLeft": "De la dreapta la stânga",
+    "IndexNumber": "Număr index",
+    "MessageNoEpisodesFound": "Nici un episod disponibil.",
+    "NoCastTargets": "Nu există destinații de redare",
+    "SeriesName": "Nume Serie",
+    "AudioLanguages": "Limbă audio",
+    "SubtitleLanguages": "Limbă subtitrare"
 }
