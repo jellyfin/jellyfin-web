@@ -1827,7 +1827,7 @@
     "MessageForgotPasswordPinReset": "Inserisci il PIN per ripristinare la password",
     "LiveTVPageLoadError": "Impossibile caricare la pagina delle registrazioni",
     "MessageBackupDisclaimer": "In base alla grandezza della tua libreria, il processo di backup può impiegare un po' di tempo.",
-    "MessageRestoreDisclaimer": "ATTENZIONE: Stai per ripristinare un backup precedente. Il tuo server verrà reso inutilizzabile durante il processo e tutti i dati creati dopo il backup verranno persi.",
+    "MessageRestoreDisclaimer": "ATTENZIONE: Stai per ripristinare un backup precedente. Il tuo server verrà reso inutilizzabile durante il processo e tutti i dati creati dopo il backup verranno persi.\n\nI backup dovrebbero essere ripristinati solo sulla stessa versione con cui sono stati creati. Il ripristino di un backup su una versione diversa non è supportato e potrebbe rendere il server inutilizzabile.",
     "RepositoriesPageLoadError": "Impossibile caricare i repository",
     "PluginsLoadError": "Si è verificato un errore durante il caricamento dei plugin",
     "StorageType.NoRootDirectory": "Nessuna Cartella Radice",
@@ -1926,5 +1926,12 @@
     "HeaderSplitMedia": "Suddividi media",
     "IndexNumber": "Numero indice",
     "NoCastTargets": "Nessuna destinazione di trasmissione disponibile",
-    "MessageNoEpisodesFound": "Al momento non sono disponibili episodi."
+    "MessageNoEpisodesFound": "Al momento non sono disponibili episodi.",
+    "ViewDoublePage": "Visualizzazione a doppia pagina",
+    "ViewSinglePage": "Visualizzazione a singola pagina",
+    "ViewLeftToRight": "Sinistra verso Destra",
+    "ViewRightToLeft": "Destra verso Sinistra",
+    "SeriesName": "Nome della Serie",
+    "AudioLanguages": "Lingue audio",
+    "SubtitleLanguages": "Lingue sottotitoli"
 }
