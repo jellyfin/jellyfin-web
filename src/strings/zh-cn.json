@@ -1831,7 +1831,7 @@
     "LabelProgramData": "程序数据",
     "StorageType.Removable": "移动存储",
     "MessageBackupDisclaimer": "取决于您的媒体库的大小，备份过程可能需要一段时间。",
-    "MessageRestoreDisclaimer": "警告：您即将从之前的备份进行恢复。在此过程中，您的服务器将无法使用，并且自备份以来创建的所有新数据都将丢失。",
+    "MessageRestoreDisclaimer": "警告：您即将从之前的备份进行恢复。恢复过程中，您的服务器将无法使用，并且自备份以来创建的任何新数据都将丢失。\n\n备份只能恢复到创建时使用的相同版本。不支持将备份恢复到其他版本，并且可能会导致服务器无法使用。",
     "LabelBackupsUnavailable": "没有可用的备份",
     "LabelDatabase": "数据库",
     "ButtonCreateBackup": "创建备份",
@@ -1926,5 +1926,12 @@
     "HeaderSplitMedia": "拆分媒体",
     "IndexNumber": "索引编号",
     "NoCastTargets": "无可用投屏设备",
-    "MessageNoEpisodesFound": "暂无剧集可供观看。"
+    "MessageNoEpisodesFound": "暂无剧集可供观看。",
+    "ViewDoublePage": "双页视图",
+    "ViewSinglePage": "单页视图",
+    "ViewLeftToRight": "从左到右",
+    "ViewRightToLeft": "从右到左",
+    "SeriesName": "节目名称",
+    "AudioLanguages": "音频语言",
+    "SubtitleLanguages": "字幕语言"
 }
