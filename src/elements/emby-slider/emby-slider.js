@@ -392,7 +392,7 @@ EmbySliderPrototype.attachedCallback = function () {
         if (this.activePointerId !== undefined && this.activePointerId === e.pointerId) {
             const value = mapFractionToValue(this, mapClientToFraction(this, e.clientX));
 
-            if (parseFloat(this.value) !== value) {
+            if (Number.parseFloat(this.value) !== value) {
                 this.value = value;
                 this.dispatchEvent(new Event('input', {
                     bubbles: true,
