@@ -986,5 +986,10 @@
     "LabelLoginDisclaimer": "Fyrirvari við innskráningu",
     "LabelLoginDisclaimerHelp": "Skilaboð sem munu birtast neðst á innskráningarsíðunni.",
     "LabelLogs": "Kladdar",
-    "LabelLyricDownloaders": "Texta niðurhalarar"
+    "LabelLyricDownloaders": "Texta niðurhalarar",
+    "LabelMaxAudiobookResume": "Hljóðbók: Mínútur eftir til að halda áfram",
+    "LabelMaxAudiobookResumeHelp": "Efni telst fullspilað ef áhorf/hlustun er hætt þegar minna en þessi tími er eftir.",
+    "LabelMaxBackdropsPerItem": "Hámark bakgrunnsmynda fyrir hvern hlut",
+    "LabelMaxChromecastBitrate": "Google Cast: Gæði streymis",
+    "LabelMaxMuxingQueueSize": "Hámarksstærð fyrir „muxing“-biðröð"
 }
