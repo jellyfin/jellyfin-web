@@ -1925,5 +1925,7 @@
     "StillWatchingPrompt": "Tittar du fortfarande",
     "Creators": "Skaparna",
     "IndexNumber": "Indexnummer",
-    "MessageNoEpisodesFound": "Inga avsnitt är tillgängliga för närvarande."
+    "MessageNoEpisodesFound": "Inga avsnitt är tillgängliga för närvarande.",
+    "SubtitleLanguages": "Undertextspråk",
+    "AudioLanguages": "Ljudspråk"
 }
