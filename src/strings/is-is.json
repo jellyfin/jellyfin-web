@@ -1053,5 +1053,6 @@
     "LabelRemoteClientBitrateLimit": "Hámarksbitahraði fyrir netstreymi (Mbps)",
     "LabelRemoteClientBitrateLimitHelp": "Valfrjáls takmörkun á bitahraða hvers streymis fyrir öll tæki utan heimanetsins. Þetta er gagnlegt til að koma í veg fyrir að tæki biðji um meiri bitahraða en nettengingin þín ræður við. Þetta getur aukið álag á örgjörva þjónsins þar sem umbreyta þarf myndböndum jafnóðum í lægri bitahraða.",
     "LabelRepository": "Gagnasafn (Repository)",
-    "LabelRepositoryName": "Nafn gagnasafns (Repository)"
+    "LabelRepositoryName": "Nafn gagnasafns (Repository)",
+    "LabelRepositoryNameHelp": "Sérsniðið nafn til að aðgreina þetta gagnasafn frá öðrum sem hefur verið bætt við þjóninn þinn."
 }
