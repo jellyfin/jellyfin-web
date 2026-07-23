@@ -1848,7 +1848,7 @@
     "StorageType.Unknown": "Inconnu",
     "Success": "Succès",
     "MessageBackupDisclaimer": "Selon la taille de votre médiathèque, le processus de sauvegarde peut prendre un certain temps.",
-    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues.",
+    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues.\n\nLes sauvegardes doivent être restaurées uniquement à la version du serveur à laquelle elles ont été créées. Restaurer une sauvegarde sur une version différente n'est pas supporté et peut rendre le serveur inutilisable.",
     "PluginsLoadError": "Une erreur s'est produite lors du chargement des plugins",
     "ButtonLearnMore": "En apprendre plus",
     "TranscodingLoadError": "Échec du chargement des paramètres de transcodage",
@@ -1926,5 +1926,12 @@
     "HeaderSplitMedia": "Séparer les supports",
     "IndexNumber": "Numéro d'index",
     "NoCastTargets": "Aucune cible de casting disponible",
-    "MessageNoEpisodesFound": "Aucun épisode n'est disponible pour le moment."
+    "MessageNoEpisodesFound": "Aucun épisode n'est disponible pour le moment.",
+    "ViewDoublePage": "Vue double page",
+    "ViewSinglePage": "Vue page seule",
+    "ViewLeftToRight": "Gauche à droite",
+    "ViewRightToLeft": "Droite à gauche",
+    "SeriesName": "Nom de la série",
+    "AudioLanguages": "Langues audio",
+    "SubtitleLanguages": "Langues des sous-titres"
 }

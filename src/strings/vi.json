@@ -1827,7 +1827,7 @@
     "DownloadManager": "Tải xuống",
     "HeaderBackupsHelp": "Tạo và phục hồi ảnh chụp nhanh của máy chủ của bạn có thể bao gồm cơ sở dữ liệu, dữ liệu mô tả, phụ đề và ảnh tua nhanh.",
     "LabelImageCache": "Bộ Nhớ Đệm Hình Ảnh",
-    "MessageRestoreDisclaimer": "CẢNH BÁO: Bạn sắp khôi phục từ bản sao lưu trước đó. Máy chủ của bạn sẽ không sử dụng được trong suốt thời gian diễn ra quá trình và bất kỳ dữ liệu mới nào được tạo từ khi sao lưu sẽ bị mất.",
+    "MessageRestoreDisclaimer": "CẢNH BÁO: Bạn sắp khôi phục từ bản sao lưu trước đó. Máy chủ của bạn sẽ không thể sử dụng được trong suốt quá trình này và mọi dữ liệu mới được tạo ra kể từ lần sao lưu trước sẽ bị mất.\n\nChỉ nên khôi phục bản sao lưu về cùng phiên bản mà chúng được tạo ra. Việc khôi phục bản sao lưu về phiên bản khác không được hỗ trợ và có thể khiến máy chủ không thể sử dụng được.",
     "LabelProgramData": "Dữ Liệu Chương Trình",
     "MessageBackupDisclaimer": "Tùy thuộc vào kích thước của thư viện của bạn, quá trình sao lưu có thể mất một lúc.",
     "MessageBackupInProgress": "Đang sao lưu",
@@ -1926,5 +1926,9 @@
     "Creators": "Người tạo",
     "IndexNumber": "Số Chỉ Mục",
     "NoCastTargets": "Không có mục tiêu sử dụng",
-    "MessageNoEpisodesFound": "Hiện chưa có tập nào."
+    "MessageNoEpisodesFound": "Hiện chưa có tập nào.",
+    "ViewLeftToRight": "Trái sang Phải",
+    "ViewRightToLeft": "Phải sang Trái",
+    "AudioLanguages": "Các ngôn ngữ âm thanh",
+    "SubtitleLanguages": "Các ngôn ngữ phụ đề"
 }
