@@ -1150,5 +1150,9 @@
     "LabelTheme": "Þema",
     "LabelTime": "Tími",
     "LabelTitle": "Titill",
-    "LabelTonemappingAlgorithm": "Veldu aðferð fyrir litaleiðréttingu (Tone mapping)"
+    "LabelTonemappingAlgorithm": "Veldu aðferð fyrir litaleiðréttingu (Tone mapping)",
+    "LabelTonemappingDesat": "Litadeyfð litaleiðréttingu (Tone mapping)",
+    "LabelTonemappingDesatHelp": "Beita litadeyfingu á hápunkta sem fara yfir þetta birtustig. Ráðlagt gildi er 0 (óvirkt).",
+    "LabelTonemappingParam": "Litaleiðréttingar (Tone mapping) breyta",
+    "LabelTonemappingParamHelp": "Fínstilling tónvörpunar. Best að hafa autt."
 }
