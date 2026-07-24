@@ -3031,6 +3031,20 @@ export class PlaybackManager {
             if (newItem.Item) {
                 const newItemPlayOptions = newItem.Item.playOptions || getDefaultPlayOptions();
 
+                // Audiobooks are unique; always listened to across sessions;
+                // Not appropriate to reset playback position.
+                if (newItem.Item.Type === 'AudioBook') {
+                    // and it also makes no semantic sense to pause here, so
+                    // re-selecting the already-playing audiobook is no-op
+                    if (self.currentItem(player)?.Id === newItem.Item.Id) {
+                        return;
+                    }
+
+                    // Resume from the queue item's position, which is kept live
+                    // as it plays (see sendProgressUpdate)
+                    newItemPlayOptions.startPositionTicks = newItem.Item.UserData?.PlaybackPositionTicks || 0;
+                }
+
                 playInternal(newItem.Item, newItemPlayOptions, function () {
                     setPlaylistState(newItem.Item.PlaylistItemId, newItem.Index);
                 });
@@ -3691,6 +3705,16 @@ export class PlaybackManager {
 
                 if (streamInfo?.started && !streamInfo.ended) {
                     reportPlayback(self, state, player, reportPlaylist, serverId, 'reportPlaybackProgress', progressEventName);
+
+                    // Keep the audiobook's queue item position live so switching
+                    // away and back resumes correctly without fetching playback pos
+                    if (state.NowPlayingItem.Type === 'AudioBook') {
+                        const queueItem = self.getItemFromPlaylistItemId(self.getCurrentPlaylistItemId(player)).Item;
+                        if (queueItem) {
+                            queueItem.UserData = queueItem.UserData || {};
+                            queueItem.UserData.PlaybackPositionTicks = state.PlayState.PositionTicks;
+                        }
+                    }
                 }
 
                 if (streamInfo?.liveStreamId

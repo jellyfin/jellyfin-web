@@ -1,0 +1,129 @@
+// Transparent to layout so the rows are the flex children of the
+// .vertical-list itemscontainer, as the legacy DOM had them.
+.audiobookChapterList {
+    display: contents;
+}
+
+// Rows reuse .listItem / .listItemBody from listview; below are the overrides.
+.audiobookChapterItem {
+    position: relative;
+
+    // Let the hover bubble escape the row (.listItem clips + contains)
+    overflow: visible;
+    contain: none;
+}
+
+.audiobookChapterItem:hover,
+.audiobookChapterItem:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.audiobookChapterItem.chapterItem-played {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.audiobookChapterItem.chapterItem-playing {
+    background: rgba(255, 255, 255, 0.04);
+
+    // Leave room for the bottom-anchored seek slider
+    padding-bottom: 0.7em;
+}
+
+.audiobookChapterItem-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.6em;
+    flex-shrink: 0;
+    margin-inline-start: 0.5em;
+}
+
+.audiobookChapterItem-index {
+    flex-shrink: 0;
+    min-width: 1.8em;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9em;
+}
+
+.audiobookChapterItem-iconComplete {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.audiobookChapterItem-iconPlaying {
+    font-size: 1.1em;
+    color: #00a4dc;
+}
+
+// The play button hides at rest and replaces the resting glyph on hover/focus
+.audiobookChapterItem-iconPlay {
+    font-size: 1.1em;
+    color: #00a4dc;
+    display: none;
+}
+
+.audiobookChapterItem:hover,
+.audiobookChapterItem:focus-within {
+    .audiobookChapterItem-iconComplete {
+        display: none;
+    }
+
+    .audiobookChapterItem-iconPlay {
+        display: inline-flex;
+    }
+}
+
+.chapterItem-playing .audiobookChapterItem-name {
+    font-weight: 600;
+}
+
+.audiobookChapterItem-time {
+    font-size: 0.85em;
+    flex-shrink: 0;
+    margin-inline-end: 1em;
+}
+
+.audiobookChapterItem-restart {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.4);
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    margin-inline-end: 0.6em;
+
+    &:hover {
+        color: #00a4dc;
+    }
+}
+
+// The jf-slider instance is anchored along the bottom edge of the playing row.
+// Its track aligns with the row content: from the left edge of the status icon
+// to the right edge of the timestamp. jf-slider already insets its rail by
+// 0.54em (half thumb), so subtract that here.
+.audiobookChapterSlider.jfSlider {
+    position: absolute;
+    left: calc(0.5em + 0.5em - 0.54em); // row padding + status icon margin - track padding
+    right: calc(0.25em + 1em - 0.54em); // row padding + timestamp margin - track padding
+    bottom: 0;
+}
+
+// Keep the bubble above sibling rows.
+.audiobookChapterSlider .jfSlider-bubble {
+    z-index: 1000;
+}
+
+// TV overrides last: their .layout-tv prefix raises specificity above the
+// base row rules, so ordering them here keeps no-descending-specificity happy.
+
+// Highlight the focused chapter row (rows are normal focus stops)
+.layout-tv .audiobookChapterItem:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 0.14em #00a4dc;
+    border-radius: 0.2em;
+}
+
+// Seeking is done with the D-pad; the restart button is redundant
+.layout-tv .audiobookChapterItem-restart {
+    display: none;
+}
