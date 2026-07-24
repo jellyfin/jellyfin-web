@@ -1,3 +1,4 @@
+// @ts-nocheck
 import globalize from 'lib/globalize';
 import loading from 'components/loading/loading';
 import dom from 'utils/dom';

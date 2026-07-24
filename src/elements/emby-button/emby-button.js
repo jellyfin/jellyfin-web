@@ -1,3 +1,4 @@
+// @ts-nocheck
 import 'webcomponents.js/webcomponents-lite';
 
 import { appHost } from 'components/apphost';

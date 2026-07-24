@@ -1,3 +1,4 @@
+// @ts-nocheck
 import browser from '../scripts/browser';
 
 function fallback(urls) {

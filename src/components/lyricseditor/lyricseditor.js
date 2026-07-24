@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 
 import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';

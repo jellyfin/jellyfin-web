@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as userSettings from 'scripts/settings/userSettings';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';

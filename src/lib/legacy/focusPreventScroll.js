@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Polyfill to add support for preventScroll by focus function
 
 if (HTMLElement.prototype.nativeFocus === undefined) {

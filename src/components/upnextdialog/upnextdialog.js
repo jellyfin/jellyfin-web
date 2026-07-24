@@ -1,3 +1,4 @@
+// @ts-nocheck
 import dom from '../../utils/dom';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';

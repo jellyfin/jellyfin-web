@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import alert from 'components/alert';

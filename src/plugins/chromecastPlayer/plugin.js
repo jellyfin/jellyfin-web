@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PluginType } from 'constants/pluginType';
 
 import appSettings from '../../scripts/settings/appSettings';

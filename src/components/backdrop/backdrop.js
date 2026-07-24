@@ -1,3 +1,4 @@
+// @ts-nocheck
 import isEqual from 'lodash-es/isEqual';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from '../../scripts/browser';

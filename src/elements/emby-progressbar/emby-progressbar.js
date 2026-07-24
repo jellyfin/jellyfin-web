@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 

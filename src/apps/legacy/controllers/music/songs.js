@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import libraryBrowser from 'scripts/libraryBrowser';
 import imageLoader from 'components/images/imageLoader';

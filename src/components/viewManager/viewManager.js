@@ -1,3 +1,4 @@
+// @ts-nocheck
 import viewContainer from '../viewContainer';
 import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';

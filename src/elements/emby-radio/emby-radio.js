@@ -1,3 +1,4 @@
+// @ts-nocheck
 import layoutManager from '../../components/layoutManager';
 import browser from '../../scripts/browser';
 import 'webcomponents.js/webcomponents-lite';

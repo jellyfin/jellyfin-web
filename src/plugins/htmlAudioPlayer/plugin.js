@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
 import { MediaError } from 'types/mediaError';

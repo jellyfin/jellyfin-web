@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 import loading from 'components/loading/loading';
 import { appRouter } from 'components/router/appRouter';

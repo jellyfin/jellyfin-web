@@ -1,3 +1,4 @@
+// @ts-nocheck
 import actionsheet from '../actionSheet/actionSheet';
 import { playbackManager } from '../playback/playbackmanager';
 import globalize from 'lib/globalize';

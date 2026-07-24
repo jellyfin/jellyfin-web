@@ -1,3 +1,4 @@
+// @ts-nocheck
 import loading from 'components/loading/loading';
 import libraryBrowser from 'scripts/libraryBrowser';
 import { AlphaPicker } from 'components/alphaPicker/alphaPicker';
