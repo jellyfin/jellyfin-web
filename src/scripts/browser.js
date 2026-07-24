@@ -76,8 +76,11 @@ function hasKeyboard(browser) {
 }
 
 function iOSversion() {
-    // MacIntel: Apple iPad Pro 11 iOS 13.1
-    if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
+    // Macintosh: Apple iPad Pro 11 iOS 13.1 (desktop-mode UA still says Macintosh).
+    // We test the user-agent string here because navigator.platform and
+    // navigator.appVersion are deprecated and not in the modern Web platform spec.
+    const userAgent = navigator.userAgent;
+    if (/iP(hone|od|ad)|Macintosh/.test(userAgent)) {
         const tests = [
             // Original test for getting full iOS version number in iOS 2.0+
             /OS (\d+)_(\d+)_?(\d+)?/,
@@ -85,7 +88,7 @@ function iOSversion() {
             /Version\/(\d+)/
         ];
         for (const test of tests) {
-            const matches = RegExp(test).exec(navigator.appVersion);
+            const matches = new RegExp(test).exec(userAgent);
             if (matches) {
                 return [
                     parseInt(matches[1], 10),
