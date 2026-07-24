@@ -901,7 +901,13 @@ function buildCard(index, item, apiClient, options) {
 
         indicatorsHtml += indicators.getTypeIndicator(item);
 
-        if (options.showGroupCount) {
+        let childCountHtml = '';
+        if (item.Type === 'Folder' && item.ChildCount) {
+            childCountHtml = indicators.getChildCountIndicatorHtml(item, {
+                minCount: 0,
+                cssClass: 'childCountIndicator'
+            });
+        } else if (options.showGroupCount) {
             indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
                 minCount: 1
             });
@@ -918,6 +924,8 @@ function buildCard(index, item, apiClient, options) {
         if (indicatorsHtml) {
             cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
         }
+
+        cardImageContainerOpen += childCountHtml;
     }
 
     if (!imgUrl) {
