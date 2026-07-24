@@ -107,6 +107,7 @@
 - [Lampan-git](https://github.com/Lampan-git)
 - [lmaotrigine](https://github.com/lmaotrigine)
 - [bjorntp](https://github.com/bjorntp)
+- [LeviSnoot](https://github.com/LeviSnoot)
 - [austinhardaway](https://github.com/austinhardaway)
 - [shindouj](https://github.com/shindouj)
 
