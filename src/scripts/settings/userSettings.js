@@ -663,6 +663,23 @@ export class UserSettings {
     }
 
     /**
+     * Get subtitle appearance settings for an item, falling back to global settings if none are saved for that item.
+     * @param {string|undefined} itemKey - Per-item settings key (e.g. 'subtitleappearance_<itemId>').
+     * @return {Object} Subtitle appearance settings.
+     */
+    getSubtitleAppearanceSettingsWithFallback(itemKey) {
+        const raw = itemKey && this.get(itemKey, false);
+        if (raw) {
+            try {
+                return Object.assign({}, defaultSubtitleAppearanceSettings, JSON.parse(raw));
+            } catch (e) {
+                console.warn('Failed to parse subtitle appearance settings, falling back to global settings', e);
+            }
+        }
+        return this.getSubtitleAppearanceSettings();
+    }
+
+    /**
      * Get comics player settings.
      * @param {string} mediaSourceId - Media Source Id.
      * @return {Object} Comics player settings.
@@ -758,6 +775,7 @@ export const loadQuerySettings = currentSettings.loadQuerySettings.bind(currentS
 export const saveQuerySettings = currentSettings.saveQuerySettings.bind(currentSettings);
 export const getSubtitleAppearanceSettings = currentSettings.getSubtitleAppearanceSettings.bind(currentSettings);
 export const setSubtitleAppearanceSettings = currentSettings.setSubtitleAppearanceSettings.bind(currentSettings);
+export const getSubtitleAppearanceSettingsWithFallback = currentSettings.getSubtitleAppearanceSettingsWithFallback.bind(currentSettings);
 export const getComicsPlayerSettings = currentSettings.getComicsPlayerSettings.bind(currentSettings);
 export const setComicsPlayerSettings = currentSettings.setComicsPlayerSettings.bind(currentSettings);
 export const setFilter = currentSettings.setFilter.bind(currentSettings);
