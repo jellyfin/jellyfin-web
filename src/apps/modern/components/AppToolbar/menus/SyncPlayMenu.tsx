@@ -231,6 +231,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             }}
             id={ID}
             keepMounted
+            disableScrollLock
             open={open}
             onClose={onMenuClose}
             slotProps={{
