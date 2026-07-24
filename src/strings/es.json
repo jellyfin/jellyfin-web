@@ -1852,7 +1852,7 @@
     "Success": "Se ha completado correctamente",
     "HeaderBackups": "Copias de seguridad",
     "TranscodingLoadError": "Error al cargar la configuración de transcodificación",
-    "MessageRestoreDisclaimer": "ADVERTENCIA: Estás a punto de restaurar una copia de seguridad anterior. Tu servidor quedará inoperativo durante el proceso y se perderán todos los datos nuevos creados desde la fecha de esa copia.",
+    "MessageRestoreDisclaimer": "ADVERTENCIA: Estás a punto de restaurar una copia de seguridad anterior. Tu servidor quedará inoperativo durante el proceso y se perderán todos los datos nuevos creados desde la fecha de esa copia.\n\nLas copias de seguridad sólo deberían restaurarse en la misma versión en la que fueron creadas. Restaurar una copia de seguridad a una versión diferente no está soportado y podría resultar en un servidor inoperativo.",
     "MessageRestoreInProgress": "Restauración en progreso",
     "MessageWaitingForServer": "Esperando al servidor...",
     "LiveTVPageLoadError": "Falló la carga de la pagina de grabaciones",
@@ -1878,7 +1878,7 @@
     "ApiKeysLoadError": "Error, imposible cargar las claves API",
     "BrandingLoadError": "Error, imposible cargar los ajustes de marca",
     "ContinueReading": "Seguir leyendo",
-    "DevicesLoadError": "Error, imposible cargar los dispositivos",
+    "DevicesLoadError": "Error al cargar los dispositivos",
     "HeaderLatestBooks": "Últimos libros añadidos",
     "HeaderLatestMusicVideos": "Últimos vídeos musicales añadidos",
     "LabelInternalServerUri": "URI interna",
@@ -1926,5 +1926,12 @@
     "Creators": "Creadores",
     "NoCastTargets": "No hay dispositivos de transmisión disponibles",
     "IndexNumber": "Número de índice",
-    "MessageNoEpisodesFound": "Ningún episodio está disponible actualmente."
+    "MessageNoEpisodesFound": "Ningún episodio está disponible actualmente.",
+    "ViewDoublePage": "Vista de Doble Página",
+    "ViewSinglePage": "Vista de Una Página",
+    "ViewLeftToRight": "Izquierda a Derecha",
+    "ViewRightToLeft": "Derecha a Izquierda",
+    "SeriesName": "Nombre de la Serie",
+    "AudioLanguages": "Idiomas de audio",
+    "SubtitleLanguages": "Idiomas de subtítulo"
 }
