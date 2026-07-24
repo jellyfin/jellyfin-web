@@ -27,6 +27,7 @@ import ViewSettingsButton from './ViewSettingsButton';
 
 import { useLibrary } from '../hooks/useLibrary';
 import { getDefaultLibraryViewSettings } from '../utils/settings';
+import { getToolbarParentItemId } from '../utils/toolbar';
 
 /** Views that only show the menu, not the toolbar buttons */
 const MENU_ONLY_VIEWS = [
@@ -57,7 +58,14 @@ const LibraryToolbar: FC = () => {
 
     const isSmallScreen = useMediaQuery(t => t.breakpoints.up('sm'));
 
-    const { data: item } = useItem(parentId || undefined);
+    const parentItemId = getToolbarParentItemId({
+        parentId,
+        collectionType,
+        isBtnPlayAllEnabled,
+        isBtnQueueEnabled,
+        isBtnShuffleEnabled
+    });
+    const { data: item } = useItem(parentItemId);
 
     const isPending = itemsResult?.isPending ?? true;
     const totalRecordCount = itemsResult?.data?.TotalRecordCount ?? 0;
