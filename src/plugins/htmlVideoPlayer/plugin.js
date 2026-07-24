@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DOMPurify from 'dompurify';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import RemoteControl from 'components/remotecontrol/remotecontrol';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { clearBackdrop } from 'components/backdrop/backdrop';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that offers some utility functions.
  * @module components/syncPlay/core/Helper

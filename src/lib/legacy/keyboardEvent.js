@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Polyfill for KeyboardEvent
  * - Constructor.

@@ -13,7 +13,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "./dist/",
-    "checkJs": false,
+    "checkJs": true,
     "strictNullChecks": true,
     "jsx": "react-jsx",
     "downlevelIteration": true

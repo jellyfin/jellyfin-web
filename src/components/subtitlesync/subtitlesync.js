@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import { playbackManager } from '../playback/playbackmanager';
 import layoutManager from '../layoutManager';

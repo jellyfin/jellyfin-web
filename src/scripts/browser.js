@@ -1,3 +1,4 @@
+// @ts-nocheck
 function isTv(userAgent) {
     // This is going to be really difficult to get right
 

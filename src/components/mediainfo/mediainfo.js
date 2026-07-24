@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';

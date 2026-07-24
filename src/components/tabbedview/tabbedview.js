@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { clearBackdrop } from '../backdrop/backdrop';
 import * as mainTabsManager from '../maintabsmanager';
 import layoutManager from '../layoutManager';

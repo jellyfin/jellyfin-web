@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module for media library editor.
  * @module components/mediaLibraryEditor/mediaLibraryEditor

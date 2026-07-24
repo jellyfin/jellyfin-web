@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { clearBackdrop, setBackdropImages, setBackdrops } from '../components/backdrop/backdrop';
 import * as userSettings from './settings/userSettings';
 import libraryMenu from './libraryMenu';

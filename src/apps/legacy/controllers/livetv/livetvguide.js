@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Guide from 'components/guide/guide';
 
 export default function (view, params, tabContent) {

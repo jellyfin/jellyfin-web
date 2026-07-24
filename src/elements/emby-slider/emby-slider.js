@@ -1,3 +1,4 @@
+// @ts-nocheck
 import isEqual from 'lodash-es/isEqual';
 
 import browser from '../../scripts/browser';

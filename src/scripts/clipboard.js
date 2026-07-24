@@ -1,3 +1,4 @@
+// @ts-nocheck
 import browser from './browser';
 
 /**

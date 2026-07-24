@@ -1,3 +1,4 @@
+// @ts-nocheck
 import icon from '@jellyfin/ux-web/icon-transparent.png';
 
 import { PluginType } from 'constants/pluginType';

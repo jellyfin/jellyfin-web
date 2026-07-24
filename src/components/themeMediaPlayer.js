@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';

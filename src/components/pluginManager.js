@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Events from '../utils/events.ts';
 import globalize from '../lib/globalize';
 import loading from './loading/loading';

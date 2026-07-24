@@ -1,3 +1,4 @@
+// @ts-nocheck
 class CastSenderApi {
     load() {
         if (window.appMode === 'cordova' || window.appMode === 'android') {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that exposes SyncPlay calls to external modules.
  * @module components/syncPlay/core/Controller

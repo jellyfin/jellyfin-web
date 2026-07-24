@@ -1,3 +1,4 @@
+// @ts-nocheck
 import browser from './browser';
 import appSettings from './settings/appSettings';
 import * as userSettings from './settings/userSettings';
