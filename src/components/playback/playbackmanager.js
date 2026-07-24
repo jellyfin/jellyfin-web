@@ -2175,6 +2175,8 @@ export class PlaybackManager {
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
                 state.PlayState.ShuffleMode = self.getQueueShuffleMode(player);
+                // Needed for remote control because ShuffleMode doesn't exist in PlayerStateInfo from the server
+                state.PlayState.PlaybackOrder = state.PlayState.ShuffleMode === 'Shuffle' ? 'Shuffle' : 'Default';
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
