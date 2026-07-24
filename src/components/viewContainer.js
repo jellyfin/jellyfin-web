@@ -242,7 +242,7 @@ export function reset() {
 let onBeforeChange;
 let allPages = [];
 let currentUrls = [];
-const pageContainerCount = 3;
+const pageContainerCount = 7;
 let selectedPageIndex = -1;
 reset();
 getMainAnimatedPages()?.classList.remove('hide');
