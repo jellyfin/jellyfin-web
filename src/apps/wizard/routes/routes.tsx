@@ -9,19 +9,11 @@ import { type LegacyRoute, toViewManagerPageRoute } from 'components/router/Lega
 
 const ROUTES: LegacyRoute[] = [
     {
-        path: 'remoteaccess',
+        path: 'advanced',
         pageProps: {
             appType: AppType.Wizard,
-            controller: 'remote/index',
-            view: 'remote/index.html'
-        }
-    },
-    {
-        path: 'finish',
-        pageProps: {
-            appType: AppType.Wizard,
-            controller: 'finish/index',
-            view: 'finish/index.html'
+            controller: 'advanced/index',
+            view: 'advanced/index.html'
         }
     },
     {
@@ -33,11 +25,19 @@ const ROUTES: LegacyRoute[] = [
         }
     },
     {
-        path: 'settings',
+        path: 'metadata',
         pageProps: {
             appType: AppType.Wizard,
-            controller: 'settings/index',
-            view: 'settings/index.html'
+            controller: 'metadata/index',
+            view: 'metadata/index.html'
+        }
+    },
+    {
+        path: 'remoteaccess',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'remote/index',
+            view: 'remote/index.html'
         }
     },
     {
@@ -49,11 +49,27 @@ const ROUTES: LegacyRoute[] = [
         }
     },
     {
+        path: 'summary',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'summary/index',
+            view: 'summary/index.html'
+        }
+    },
+    {
         path: 'user',
         pageProps: {
             appType: AppType.Wizard,
             controller: 'user/index',
             view: 'user/index.html'
+        }
+    },
+    {
+        path: 'users',
+        pageProps: {
+            appType: AppType.Wizard,
+            controller: 'users/index',
+            view: 'users/index.html'
         }
     }
 ];

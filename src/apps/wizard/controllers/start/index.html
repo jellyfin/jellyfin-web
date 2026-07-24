@@ -1,10 +1,13 @@
 <div id="wizardStartPage" data-role="page" class="page standalonePage wizardPage" data-backbutton="false">
     <div class="padded-left padded-right padded-top">
-        <div class="ui-corner-all ui-shadow wizardContent" style="position:relative;">
+        <div class="ui-corner-all ui-shadow wizardContent">
             <form class="wizardStartForm">
                 <div>
-                    <h1 style="float:left;">${WelcomeToProject}</h1>
-                    <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/post-install/setup-wizard/" target="_blank" class="raised raised-alt" style="float:right;margin-top:20px;">
+                    <div class="wizardStartHeader">
+                        <img class="wizardStartLogo" alt="" aria-hidden="true" />
+                        <h1 class="wizardStartTitle">${WelcomeToProject}</h1>
+                    </div>
+                    <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/post-install/setup-wizard/" target="_blank" class="raised raised-alt wizardStartGuideLink">
                         <span>${ButtonQuickStartGuide}</span>
                     </a>
                 </div>
@@ -18,16 +21,23 @@
                 </div>
                 <div class="selectContainer">
                     <select is="emby-select" id="selectLocalizationLanguage" label="${LabelPreferredDisplayLanguage}"></select>
+                    <div class="fieldDescription">
+                        <span>${LabelLanguageNotListed}</span>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web/" target="_blank" class="button-link">
+                            <span>${ButtonHelpTranslateJellyfin}</span>
+                        </a>
+                    </div>
                 </div>
                 <br />
 
-                <div class="wizardNavigation" style="text-align:right;">
+                <div class="wizardNavigation wizardNavigation--right">
                     <button is="emby-button" type="submit" class="raised button-submit">
                         <span>${Next}</span>
                         <span class="material-icons arrow_forward" aria-hidden="true"></span>
                     </button>
                 </div>
             </form>
+            <div class="wizardProgress"></div>
         </div>
     </div>
 </div>
