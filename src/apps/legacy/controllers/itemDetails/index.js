@@ -21,6 +21,7 @@ import mediaInfo from 'components/mediainfo/mediainfo';
 import layoutManager from 'components/layoutManager';
 import listView from 'components/listview/listview';
 import loading from 'components/loading/loading';
+import ItemDetailsChapterList from 'components/itemDetails/ItemDetailsChapterList';
 import ItemDetailsMetadataList from 'components/itemDetails/ItemDetailsMetadataList';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
@@ -576,7 +577,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     renderSeriesTimerEditor(page, item, apiClient, user);
     renderTimerEditor(page, item, apiClient, user);
-    setInitialCollapsibleState(page, item, apiClient, params.context, user);
+    setInitialCollapsibleState(page, instance, item, apiClient, params.context, user);
     const canPlay = reloadPlayButtons(page, item);
 
     setTrailerButtonVisibility(page, item);
@@ -817,7 +818,7 @@ function renderNextUp(page, item, user) {
     });
 }
 
-function setInitialCollapsibleState(page, item, apiClient, context, user) {
+function setInitialCollapsibleState(page, instance, item, apiClient, context, user) {
     page.querySelector('.collectionItems').innerHTML = '';
 
     if (item.Type == 'Playlist') {
@@ -847,6 +848,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('.nextUpSection').classList.add('hide');
     }
 
+    renderChapters(page, instance, item);
     renderScenes(page, item);
 
     if (item.SpecialFeatureCount > 0) {
@@ -1779,6 +1781,19 @@ function renderAdditionalParts(page, item, user) {
             page.querySelector('#additionalPartsCollapsible').classList.add('hide');
         }
     });
+}
+
+function renderChapters(page, instance, item) {
+    if (item.Type !== BaseItemKind.AudioBook || !item.Chapters?.length) return;
+
+    const target = document.createElement('div')
+    const container = page.querySelector('#childrenCollapsible');
+    const element = container.querySelector('.itemsContainer');
+
+    instance._unmount.push(renderComponent(ItemDetailsChapterList, { item }, target));
+    container.classList.remove('hide');
+    element.classList.add('vertical-list');
+    element.appendChild(target)
 }
 
 function renderScenes(page, item) {
