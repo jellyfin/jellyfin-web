@@ -338,6 +338,24 @@ function getAirTimeText(item, showAirDateTime, showAirEndTime) {
 }
 
 /**
+ * Returns the display label for a person's role, combining their Type and Role.
+ * @param {object} personRole - The person's role used to generate the label.
+ * @param {string} personRole.Type - The PersonKind of the role (i.e. Director, Writer, Actor).
+ * @param {string} [personRole.Role] - The specific role or job title, if any.
+ * @returns {string} The display label for the role.
+ */
+function getPeopleRoleOrTypeLabel({ Type, Role }) {
+    if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(Type) && Role) {
+        const roleText = globalize.translate('PersonRole', escapeHtml(Role));
+        return `<span title="${roleText}">${roleText}</span>`;
+    }
+    if (!Role || Role.toLowerCase() === Type.toLowerCase()) {
+        return escapeHtml(globalize.translate(Type));
+    }
+    return escapeHtml(globalize.translate(Role));
+}
+
+/**
  * Generates the HTML markup for the card's footer text.
  * @param {Object} item - Item used to generate the footer text.
  * @param {Object} apiClient - API client instance.
@@ -555,25 +573,10 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
         }
 
         if (options.showPersonRoleOrType && item.Type) {
-            if (item.Role) {
-                if ([ PersonKind.Actor, PersonKind.GuestStar ].includes(item.Type)) {
-                    // List actor roles formatted like "as Character Name"
-                    const roleText = globalize.translate('PersonRole', escapeHtml(item.Role));
-                    lines.push(`<span title="${roleText}">${roleText}</span>`);
-                } else if (item.Role.toLowerCase() === item.Type.toLowerCase()) {
-                    // Role and Type are the same so use the localized Type
-                    lines.push(escapeHtml(globalize.translate(item.Type)));
-                } else if (item.Role.toLowerCase().includes(item.Type.toLowerCase())) {
-                    // Avoid duplication if the Role includes the Type (i.e. Executive Producer)
-                    lines.push(escapeHtml(item.Role));
-                } else {
-                    // Type and Role are unique so list both (i.e. Writer | Novel)
-                    lines.push(escapeHtml(globalize.translate(item.Type)));
-                    lines.push(escapeHtml(item.Role));
-                }
+            if (item.RoleList ?.length > 1) {
+                lines.push(item.RoleList.map(getPeopleRoleOrTypeLabel).join(' / '));
             } else {
-                // No Role so use the localized Type
-                lines.push(escapeHtml(globalize.translate(item.Type)));
+                lines.push(getPeopleRoleOrTypeLabel(item));
             }
         }
     }
