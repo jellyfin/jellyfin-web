@@ -1189,6 +1189,7 @@
     "MessageInvalidUser": "Invalid username or password. Please try again.",
     "MessageItemsAdded": "Items added.",
     "MessageItemSaved": "Item saved.",
+    "MessageItemMetadataLocked": "This item's metadata is locked. Unlock it before using the identify feature.",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item or the global default value.",
     "MessageNoItemsAvailable": "No Items are currently available.",
     "MessageNoFavoritesAvailable": "No favorites are currently available.",
