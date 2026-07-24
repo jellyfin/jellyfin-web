@@ -196,6 +196,13 @@ class PlaybackCore {
                     playerWrapper.currentTime()) * Helper.TicksPerMillisecond);
                 const isPlaying = playerWrapper.isPlaying();
 
+                // Ensures that playback rate is the latest one
+                // This could be changed to it's own command type but it was causing issues
+                // With Manager.isPlaying() so it might be better to use this instead?
+                if ('PlaybackRate' in command) {
+                    this.localSetPlaybackRate(command.PlaybackRate);
+                }
+
                 switch (command.Command) {
                     case 'Unpause':
                         // Check playback state only, as position ticks will be corrected by sync.
@@ -246,6 +253,13 @@ class PlaybackCore {
         // Ignore if remote player has local SyncPlay manager.
         if (this.manager.isRemote()) {
             return;
+        }
+
+        // Ensures that playback rate is the latest one
+        // This could be changed to it's own command type but it was causing issues
+        // With Manager.isPlaying() so it might be better to use this instead?
+        if ('PlaybackRate' in command) {
+            this.localSetPlaybackRate(command.PlaybackRate);
         }
 
         switch (command.Command) {
@@ -419,7 +433,7 @@ class PlaybackCore {
         this.syncEnabled = false;
         const playerWrapper = this.manager.getPlayerWrapper();
         if (playerWrapper.hasPlaybackRate()) {
-            playerWrapper.setPlaybackRate(1.0);
+            playerWrapper.localSetPlaybackRate(this.lastCommand?.playbackRate ?? 1);
         }
 
         this.manager.clearSyncIcon();
@@ -468,6 +482,20 @@ class PlaybackCore {
     }
 
     /**
+     * Change the speed of the local player.
+     */
+    localSetPlaybackRate(playbackRate) {
+        // Ignore command when no player is active.
+        if (!this.manager.isPlaybackActive()) {
+            console.debug('SyncPlay localSetPlaybackRate: no active player!');
+            return;
+        }
+
+        const playerWrapper = this.manager.getPlayerWrapper();
+        playerWrapper.localSetPlaybackRate(playbackRate);
+    }
+
+    /**
      * Stops the local player.
      */
     localStop() {
@@ -489,7 +517,9 @@ class PlaybackCore {
      */
     estimateCurrentTicks(ticks, when, currentTime = new Date()) {
         const remoteTime = this.timeSyncCore.localDateToRemote(currentTime);
-        return ticks + (remoteTime.getTime() - when.getTime()) * Helper.TicksPerMillisecond;
+        const elapsedTime = (remoteTime.getTime() - when.getTime()) * (this.lastCommand?.PlaybackRate ?? 1);
+
+        return ticks + elapsedTime * Helper.TicksPerMillisecond;
     }
 
     /**
@@ -528,6 +558,7 @@ class PlaybackCore {
         if (lastCommand.PlaylistItemId !== currentPlaylistItem) return;
 
         const { currentTime, currentPosition } = timeUpdateData;
+        const playbackRate = lastCommand.PlaybackRate ?? 1;
 
         // Get current PositionTicks.
         const currentPositionTicks = currentPosition * Helper.TicksPerMillisecond;
@@ -551,11 +582,14 @@ class PlaybackCore {
         const playerWrapper = this.manager.getPlayerWrapper();
 
         if (this.syncEnabled && this.enableSyncCorrection) {
+            // Prevents sync delay from being reduced
+            const clampedPlaybackRate = Math.max(1, playbackRate);
             const absDiffMillis = Math.abs(diffMillis);
             // TODO: SpeedToSync sounds bad on songs.
             // TODO: SpeedToSync is failing on Safari (Mojave); even if playbackRate is supported, some delay seems to exist.
             // TODO: both SpeedToSync and SpeedToSync seem to have a hard time keeping up on Android Chrome as well.
-            if (playerWrapper.hasPlaybackRate() && this.useSpeedToSync && absDiffMillis >= this.minDelaySpeedToSync && absDiffMillis < this.maxDelaySpeedToSync) {
+            // TODO: SpeedToSync does not work if syncPlay has a playbackRate other than 1 so it'll fallback to skipToSync
+            if (playerWrapper.hasPlaybackRate() && playbackRate === 1 && this.useSpeedToSync && absDiffMillis >= this.minDelaySpeedToSync * playbackRate && absDiffMillis < this.maxDelaySpeedToSync * playbackRate) {
                 // Fix negative speed when client is ahead of time more than speedToSyncTime.
                 const MinSpeed = 0.2;
                 if (diffMillis <= -speedToSyncTime * MinSpeed) {
@@ -569,19 +603,19 @@ class PlaybackCore {
                     console.error('SyncPlay error: speed should not be negative!', speed, diffMillis, speedToSyncTime);
                 }
 
-                playerWrapper.setPlaybackRate(speed);
+                playerWrapper.localSetPlaybackRate(speed);
                 this.syncEnabled = false;
                 this.syncAttempts++;
                 this.manager.showSyncIcon(`SpeedToSync (x${speed.toFixed(2)})`);
 
                 this.syncTimeout = setTimeout(() => {
-                    playerWrapper.setPlaybackRate(1.0);
+                    playerWrapper.localSetPlaybackRate(lastCommand.playbackRate ?? 1);
                     this.syncEnabled = true;
                     this.manager.clearSyncIcon();
                 }, speedToSyncTime);
 
                 console.log('SyncPlay SpeedToSync', speed);
-            } else if (this.useSkipToSync && absDiffMillis >= this.minDelaySkipToSync) {
+            } else if ((this.useSkipToSync || this.useSpeedToSync && playbackRate != 1) && absDiffMillis >= this.minDelaySkipToSync * clampedPlaybackRate) {
                 // SkipToSync strategy.
                 this.localSeek(serverPositionTicks);
                 this.syncEnabled = false;
