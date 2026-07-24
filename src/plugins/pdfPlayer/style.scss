@@ -2,8 +2,8 @@
     position: relative;
     display: grid;
     place-items: center;
-    top: 5vh;
-    height: 90vh;
+    top: calc(5vh + env(safe-area-inset-top));
+    height: calc(90vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
 
 #pdfPlayer {

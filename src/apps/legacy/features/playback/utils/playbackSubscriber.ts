@@ -21,7 +21,7 @@ export interface PlaybackSubscriber {
     onPlayerChange?(e: Event, player: PlayerPlugin, target: PlayTarget, previousPlayer: PlayerPlugin): void
     onPromptSkip?(e: Event, mediaSegment: MediaSegmentDto): void
     onPlayerError?(e: Event, error: PlayerError): void
-    onPlayerFullscreenChange?(e: Event): void
+    onPlayerFullscreenChange?(e: Event, fullscreen: boolean): void
     onPlayerItemStarted?(e: Event, item?: BaseItemDto, mediaSource?: MediaSourceInfo): void
     onPlayerItemStopped?(e: Event, info: ManagedPlayerStopInfo): void
     onPlayerMediaStreamsChange?(e: Event): void

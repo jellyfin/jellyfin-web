@@ -52,12 +52,12 @@ function supportsPhysicalVolumeControl(player) {
 function bindToFullscreenChange(player) {
     if (Screenfull.isEnabled) {
         Screenfull.on('change', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [Screenfull.isFullscreen]);
         });
     } else {
         // iOS Safari
         document.addEventListener('webkitfullscreenchange', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [document.webkitIsFullScreen]);
         }, false);
     }
 }
@@ -2266,7 +2266,9 @@ export class PlaybackManager {
 
             options.items = items;
 
-            return player.play(options);
+            return player.play(options).then(() => {
+                onPlaybackStarted(player, options, player.streamInfo, player.streamInfo?.mediaSource);
+            });
         }
 
         const getAdditionalParts = async (items, mediaSourceId, startIndex) => {
