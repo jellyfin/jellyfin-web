@@ -38,9 +38,9 @@ EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
         if (unsub) this._wsUnsubscribers.push(unsub);
     };
 
-    this._wsUnsubscribers = ServerConnections.getApiClients()
-        .map(apiClient => apiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler))
-        .filter(Boolean);
+    const serverId = dom.parentWithAttribute(this, 'data-serverid').getAttribute('data-serverid');
+    this._wsUnsubscribers = [ServerConnections.getApiClient(serverId)
+        .subscribe([OutboundWebSocketMessageType.RefreshProgress], handler)];
 };
 
 EmbyItemRefreshIndicatorPrototype.attachedCallback = function () {
@@ -72,4 +72,3 @@ document.registerElement('emby-itemrefreshindicator', {
     prototype: EmbyItemRefreshIndicatorPrototype,
     extends: 'div'
 });
-
