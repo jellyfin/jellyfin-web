@@ -9,7 +9,7 @@
     min-width: 18em;
     margin-left: auto;
     margin-right: auto;
-    height: 4.2em;
+    height: 6.3em;
     background: rgba(28, 28, 28, 0.8);
     border-radius: 0.3em;
     color: #fff;
@@ -50,4 +50,15 @@
     flex-grow: 1;
     border-radius: 0.3em;
     z-index: 1;
+}
+
+.subtitleSyncHelpText {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 4.6em;
+    text-align: center;
+    font-size: 0.9em;
+    color: #ccc;
+    z-index: 2;
 }
