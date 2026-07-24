@@ -57,7 +57,7 @@ const ItemsView: FC = () => {
             listOptions.showArtist = true;
             listOptions.addToListButton = true;
         } else if (viewType === LibraryTab.Albums) {
-            listOptions.sortBy = libraryViewSettings.SortBy;
+            listOptions.sortBy = libraryViewSettings.SortBy[0];
             listOptions.addToListButton = true;
         } else if (viewType === LibraryTab.Episodes) {
             listOptions.showParentTitle = true;
@@ -171,7 +171,7 @@ const ItemsView: FC = () => {
         noItemsMessage
     ]);
 
-    const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
+    const hasSortName = libraryViewSettings.SortBy[0] !== ItemSortBy.Random;
 
     const itemsContainerClass = classNames(
         'padded-left padded-right',

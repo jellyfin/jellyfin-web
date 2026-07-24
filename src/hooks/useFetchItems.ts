@@ -246,7 +246,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -267,7 +267,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -342,9 +342,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: libraryViewSettings.SortBy === ItemSortBy.IsFolder ?
-                            [ItemSortBy.IsFolder, ItemSortBy.SortName] :
-                            [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -379,7 +377,7 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex

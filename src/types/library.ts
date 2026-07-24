@@ -55,7 +55,7 @@ export enum ViewMode {
 }
 
 export interface LibraryViewSettings {
-    SortBy: ItemSortBy;
+    SortBy: ItemSortBy[];
     SortOrder: SortOrder;
     StartIndex: number;
     CardLayout: boolean;
