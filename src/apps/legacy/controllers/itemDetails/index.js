@@ -258,7 +258,12 @@ function renderVideoSelections(page, mediaSources) {
 
         return '<option value="' + v.Index + '" ' + selected + '>' + (v.DisplayTitle || titleParts.join(' ')) + '</option>';
     }).join('');
-    select.setAttribute('disabled', 'disabled');
+
+    if (tracks.length > 1) {
+        select.removeAttribute('disabled');
+    } else {
+        select.setAttribute('disabled', 'disabled');
+    }
 
     if (tracks.length) {
         page.querySelector('.selectVideoContainer').classList.remove('hide');
@@ -1933,10 +1938,12 @@ export default function (view, params) {
     }
 
     function getPlayOptions(startPosition) {
+        const videoStreamIndex = view.querySelector('.selectVideo').value || null;
         const audioStreamIndex = view.querySelector('.selectAudio').value || null;
         return {
             startPositionTicks: startPosition,
             mediaSourceId: view.querySelector('.selectSource').value,
+            videoStreamIndex: videoStreamIndex,
             audioStreamIndex: audioStreamIndex,
             subtitleStreamIndex: view.querySelector('.selectSubtitles').value
         };
