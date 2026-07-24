@@ -1910,6 +1910,7 @@
     "LabelTileWidthHelp": "Maximum number of images per tile in the X direction.",
     "LabelTileHeight": "Tile Height",
     "LabelTileHeightHelp": "Maximum number of images per tile in the Y direction.",
+    "LabelUsernameAllowedCharactersHelp": "Usernames can contain letters, numbers, spaces, and the following characters: - _ ' . @ +. They cannot begin or end with a space.",
     "LabelJpegQuality": "JPEG Quality",
     "LabelJpegQualityHelp": "The JPEG compression quality for trickplay images.",
     "LabelQscale": "Qscale",
