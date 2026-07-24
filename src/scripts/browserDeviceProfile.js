@@ -1617,6 +1617,11 @@ export default function (options) {
                 Format: 'pgssub',
                 Method: 'External'
             });
+            profile.SubtitleProfiles.push({
+                Format: 'vobsub',
+                Container: 'mks',
+                Method: 'External'
+            });
         }
     }
 
