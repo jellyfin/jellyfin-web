@@ -337,6 +337,8 @@ function showEditor(itemId, serverId, itemType) {
 
     const dlg = dialogHelper.createDialog(dialogOptions);
 
+    dlg.classList.add('formDialog');
+
     dlg.innerHTML = globalize.translateHtml(template, 'core');
 
     if (layoutManager.tv) {
