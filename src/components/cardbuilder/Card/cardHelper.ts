@@ -488,7 +488,8 @@ function getSeriesTimerTime(item: ItemDto) {
     if (item.RecordAnyTime) {
         return globalize.translate('Anytime');
     } else {
-        return datetime.getDisplayTime(item.StartDate);
+        // If StartDate is undefined or null, this will throw an Error
+        return datetime.getDisplayTime(item.StartDate as string);
     }
 }
 
