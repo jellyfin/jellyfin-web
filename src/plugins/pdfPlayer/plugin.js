@@ -8,6 +8,7 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import screenSaverManager from 'scripts/screensavermanager';
 import Events from '../../utils/events.ts';
 import BookOsd from '../bookPlayer/BookOsd/BookOsd';
 import { renderComponent } from '../../utils/reactUtils';
@@ -36,6 +37,7 @@ export class PdfPlayer {
         this.cancellationToken = false;
         this.pages = {};
 
+        screenSaverManager.block();
         loading.show();
 
         const elem = this.createMediaElement(options);
@@ -45,6 +47,7 @@ export class PdfPlayer {
     stop() {
         this.unbindEvents();
         this.unmountBookOsd?.();
+        screenSaverManager.unblock();
 
         const stopInfo = {
             src: this.item

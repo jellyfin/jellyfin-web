@@ -49,6 +49,7 @@ function getScreensaverPlugin(isLoggedIn) {
 
 function ScreenSaverManager() {
     let activeScreenSaver;
+    let blockCount = 0;
 
     function showScreenSaver(screensaver) {
         if (activeScreenSaver) {
@@ -91,6 +92,22 @@ function ScreenSaverManager() {
         return activeScreenSaver != null;
     };
 
+    /**
+     * Prevents the screensaver from activating until a matching unblock() call.
+     */
+    this.block = () => {
+        blockCount++;
+    };
+
+    /**
+     * Releases a previous block(); the screensaver can activate once all blocks are cleared.
+     */
+    this.unblock = () => {
+        if (blockCount > 0) {
+            blockCount--;
+        }
+    };
+
     this.show = function () {
         let isLoggedIn;
         const apiClient = ServerConnections.currentApiClient();
@@ -112,6 +129,10 @@ function ScreenSaverManager() {
 
     const onInterval = () => {
         if (this.isShowing()) {
+            return;
+        }
+
+        if (blockCount > 0) {
             return;
         }
 
