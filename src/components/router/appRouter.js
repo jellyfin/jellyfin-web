@@ -129,7 +129,7 @@ class AppRouter {
             return false;
         }
 
-        return window.history.length > 1;
+        return (window.history.state?.idx ?? 0) > 0;
     }
 
     showItem(item, serverId, options) {

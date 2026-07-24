@@ -2040,8 +2040,9 @@ export default function (view, params) {
                     .then(function (result) {
                         if (result.deleted) {
                             const parentId = selectedItem.SeasonId || selectedItem.SeriesId || selectedItem.ParentId;
-
-                            if (parentId) {
+                            if (appRouter.canGoBack()) {
+                                appRouter.back();
+                            } else if (parentId) {
                                 appRouter.showItem(parentId, item.ServerId);
                             } else {
                                 appRouter.goHome();
