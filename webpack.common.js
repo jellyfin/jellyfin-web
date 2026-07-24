@@ -7,6 +7,51 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { DefinePlugin, IgnorePlugin } = require('webpack');
 const packageJson = require('./package.json');
+const postcssPresetEnv = require('postcss-preset-env');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+
+const babelOptions = {
+    babelrcRoots: [
+        // Keep the root as a root
+        '.'
+    ],
+    sourceType: 'unambiguous',
+    presets: [
+        [
+            '@babel/preset-env',
+            {
+                useBuiltIns: 'usage',
+                corejs: 3
+            }
+        ],
+        '@babel/preset-react'
+    ],
+    plugins: [
+    ]
+};
+
+
+const DEV_MODE = process.env.NODE_ENV !== 'production';
+
+const postcssOptions = {
+    plugins: [
+        // Explicitly specify browserslist to override ones from node_modules
+        // For example, Swiper has it in its package.json
+        postcssPresetEnv({ browsers: packageJson.browserslist }),
+        autoprefixer({ overrideBrowserslist: packageJson.browserslist }),
+        DEV_MODE ? null : cssnano({
+            presets: [
+                'default',
+                // Turn off `mergeLonghand` because it combines `padding-*` and `margin-*`,
+                // breaking fallback styles.
+                // https://github.com/cssnano/cssnano/issues/1163
+                // https://github.com/cssnano/cssnano/issues/1192
+                { mergeLonghand: false }
+            ]
+        })
+    ]
+};
 
 const Assets = [
     'native-promise-only/npo.js',
@@ -20,7 +65,6 @@ const Assets = [
     'libpgs/dist/libpgs.worker.js'
 ];
 
-const DEV_MODE = process.env.NODE_ENV !== 'production';
 let COMMIT_SHA = '';
 try {
     COMMIT_SHA = require('child_process')
@@ -246,6 +290,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -263,6 +308,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true
                     }
@@ -301,6 +347,7 @@ const config = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
+                        ...babelOptions,
                         cacheCompression: false,
                         cacheDirectory: true,
                         plugins: [
@@ -327,11 +374,7 @@ const config = {
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
-                                options: {
-                                    postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
-                                    }
-                                }
+                                options: { postcssOptions }
                             },
                             'sass-loader'
                         ]
@@ -342,11 +385,7 @@ const config = {
                             'css-loader',
                             {
                                 loader: 'postcss-loader',
-                                options: {
-                                    postcssOptions: {
-                                        config: path.resolve(__dirname, 'postcss.config.js')
-                                    }
-                                }
+                                options: { postcssOptions }
                             },
                             'sass-loader'
                         ]
