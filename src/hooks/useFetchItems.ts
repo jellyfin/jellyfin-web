@@ -18,7 +18,7 @@ import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
 
@@ -481,7 +481,7 @@ type GroupsUpcomingEpisodes = {
     items: ItemDto[];
 };
 
-function groupsUpcomingEpisodes(items: ItemDto[]) {
+export function groupsUpcomingEpisodes(items: ItemDto[]) {
     const groups: GroupsUpcomingEpisodes[] = [];
     let currentGroupName = '';
     let currentGroup: ItemDto[] = [];
@@ -524,9 +524,12 @@ function groupsUpcomingEpisodes(items: ItemDto[]) {
     return groups;
 }
 
-const fetchGetGroupsUpcomingEpisodes = async (
+export const UPCOMING_EPISODES_PAGE_SIZE = 25;
+
+const fetchUpcomingEpisodes = async (
     currentApi: JellyfinApiContext,
     parentId: ParentId,
+    startIndex: number,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -534,7 +537,8 @@ const fetchGetGroupsUpcomingEpisodes = async (
         const response = await getShowApi(api).getUpcomingEpisodes(
             {
                 userId: user.Id,
-                limit: 25,
+                startIndex,
+                limit: UPCOMING_EPISODES_PAGE_SIZE,
                 fields: [ItemFields.AirTime],
                 parentId: parentId ?? undefined,
                 imageTypeLimit: 1,
@@ -548,18 +552,28 @@ const fetchGetGroupsUpcomingEpisodes = async (
                 signal: options?.signal
             }
         );
-        const items = (response.data.Items as ItemDto[]) || [];
 
-        return groupsUpcomingEpisodes(items);
+        return response.data;
     }
 };
 
-export const useGetGroupsUpcomingEpisodes = (parentId: ParentId) => {
+export const useGetUpcomingEpisodes = (parentId: ParentId) => {
     const currentApi = useApi();
-    return useQuery({
-        queryKey: ['GroupsUpcomingEpisodes', parentId],
-        queryFn: ({ signal }) =>
-            fetchGetGroupsUpcomingEpisodes(currentApi, parentId, { signal }),
+    return useInfiniteQuery({
+        queryKey: ['UpcomingEpisodes', parentId],
+        queryFn: ({ pageParam, signal }) =>
+            fetchUpcomingEpisodes(currentApi, parentId, pageParam, { signal }),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage, allPages) => {
+            // The Upcoming endpoint does not report a reliable total record
+            // count, so detect the end of the list by a short final page.
+            const lastPageCount = lastPage?.Items?.length ?? 0;
+            if (lastPageCount < UPCOMING_EPISODES_PAGE_SIZE) {
+                return undefined;
+            }
+
+            return allPages.length * UPCOMING_EPISODES_PAGE_SIZE;
+        },
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
