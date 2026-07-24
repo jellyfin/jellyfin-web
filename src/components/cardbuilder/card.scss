@@ -317,6 +317,11 @@ button::-moz-focus-inner {
     text-overflow: initial;
 }
 
+.cardText-wrap {
+    white-space: normal;
+    text-overflow: clip;
+}
+
 .cardText-secondary {
     font-size: 86%;
 }

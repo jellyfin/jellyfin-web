@@ -363,7 +363,8 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
         html += `<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="${ItemAction.Menu}" title="${globalize.translate('ButtonMore')}"><span class="material-icons more_vert" aria-hidden="true"></span></button>`;
     }
 
-    const cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
+    let cssClass = options.centerText ? 'cardText cardTextCentered' : 'cardText';
+    if (options.wrapTitle) cssClass += ' cardText-wrap';
     const serverId = item.ServerId || options.serverId;
 
     let lines = [];
