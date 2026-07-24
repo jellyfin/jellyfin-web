@@ -94,18 +94,17 @@ export default tseslint.config(
             '@typescript-eslint/no-useless-constructor': 'error',
             'no-var': 'error',
             'no-void': ['error', { 'allowAsStatement': true }],
-            'no-warning-comments': ['warn', { 'terms': ['hack', 'xxx'] }],
             'one-var': ['error', 'never'],
             'prefer-const': ['error', { 'destructuring': 'all' }],
-            'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
+            'prefer-promise-reject-errors': ['error', { 'allowEmptyReject': true }],
             '@typescript-eslint/prefer-for-of': 'error',
             'radix': 'error',
             'yoda': 'error',
 
-            'sonarjs/fixme-tag': 'warn',
+            'sonarjs/fixme-tag': 'off',
             'sonarjs/todo-tag': 'off',
             'sonarjs/deprecation': 'off',
-            'sonarjs/no-alphabetical-sort': 'warn',
+            'sonarjs/no-alphabetical-sort': 'error',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
@@ -375,7 +374,7 @@ export default tseslint.config(
                     }
                 }
             ],
-            '@typescript-eslint/no-deprecated': 'warn',
+            '@typescript-eslint/no-deprecated': 'error',
             '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/prefer-string-starts-ends-with': 'error'
         }
@@ -393,7 +392,7 @@ export default tseslint.config(
             'react/jsx-no-useless-fragment': 'error',
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',
-            'react-hooks/exhaustive-deps': 'warn'
+            'react-hooks/exhaustive-deps': 'error'
         }
     },
 

@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Grid2';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
@@ -325,8 +325,8 @@ const PluginPage: FC = () => {
                     </Alert>
                 ))}
 
-                <Grid container spacing={2} sx={{ marginTop: 0 }}>
-                    <Grid item xs={12} lg={8}>
+                <Grid2 container spacing={2} sx={{ marginTop: 0 }}>
+                    <Grid2 size={{ xs: 12, lg: 8 }}>
                         <Stack spacing={2}>
                             <Typography variant='h1'>
                                 {pluginDetails?.name || pluginName}
@@ -340,18 +340,18 @@ const PluginPage: FC = () => {
                                 )}
                             </Typography>
                         </Stack>
-                    </Grid>
+                    </Grid2>
 
-                    <Grid item lg={4} sx={{ display: { xs: 'none', lg: 'initial' } }}>
+                    <Grid2 size={{ lg: 4 }} sx={{ display: { xs: 'none', lg: 'initial' } }}>
                         <Image
                             isLoading={isLoading}
                             alt={pluginDetails?.name}
                             url={pluginDetails?.imageUrl}
                             FallbackIcon={Extension}
                         />
-                    </Grid>
+                    </Grid2>
 
-                    <Grid item xs={12} lg={8} sx={{ order: { xs: 1, lg: 'initial' } }}>
+                    <Grid2 size={{ xs: 12, lg: 8 }} sx={{ order: { xs: 1, lg: 'initial' } }}>
                         {!!pluginDetails?.versions.length && (
                             <>
                                 <Typography variant='h3' sx={{ marginBottom: 2 }}>
@@ -363,9 +363,9 @@ const PluginPage: FC = () => {
                                 />
                             </>
                         )}
-                    </Grid>
+                    </Grid2>
 
-                    <Grid item xs={12} lg={4}>
+                    <Grid2 size={{ xs: 12, lg: 4 }}>
                         <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
                             <Stack spacing={1} sx={{ flexBasis: '50%' }}>
                                 {!isLoading && !pluginDetails?.status && (
@@ -427,8 +427,8 @@ const PluginPage: FC = () => {
                                 sx={{ flexBasis: '50%' }}
                             />
                         </Stack>
-                    </Grid>
-                </Grid>
+                    </Grid2>
+                </Grid2>
             </Container>
 
             <ConfirmDialog

@@ -9,7 +9,7 @@ import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
 import { useStartTask } from 'apps/dashboard/features/tasks/api/useStartTask';
 import TaskProgress from 'apps/dashboard/features/tasks/components/TaskProgress';
 import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
-import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Grid2';
 import LibraryCard from 'apps/dashboard/features/libraries/components/LibraryCard';
 import Loading from 'components/loading/LoadingComponent';
 import MediaLibraryCreator from 'components/mediaLibraryCreator/mediaLibraryCreator';
@@ -84,22 +84,18 @@ export const Component = () => {
                         </Stack>
 
                         <Box>
-                            <Grid container spacing={2}>
+                            <Grid2 container spacing={2}>
                                 {virtualFolders?.map(virtualFolder => (
-                                    <Grid
+                                    <Grid2
                                         key={virtualFolder?.ItemId}
-                                        item
-                                        xs={12}
-                                        sm={6}
-                                        md={3}
-                                        lg={2.4}
+                                        size={{ xs: 12, sm: 6, md: 3, lg: 2.4 }}
                                     >
                                         <LibraryCard
                                             virtualFolder={virtualFolder}
                                         />
-                                    </Grid>
+                                    </Grid2>
                                 ))}
-                            </Grid>
+                            </Grid2>
                         </Box>
                     </Stack>
                 )}

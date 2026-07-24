@@ -22,7 +22,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';
 import Provider from 'apps/dashboard/features/livetv/components/Provider';
-import Grid from '@mui/material/Grid';
+import Grid2 from '@mui/material/Grid2';
 
 const CONFIG_KEY = 'livetv';
 
@@ -98,23 +98,19 @@ export const Component = () => {
                         </Button>
 
                         <Box>
-                            <Grid container spacing={2}>
+                            <Grid2 container spacing={2}>
                                 {config.TunerHosts?.map(tunerHost => (
-                                    <Grid
+                                    <Grid2
                                         key={tunerHost.Id}
-                                        item
-                                        xs={12}
-                                        sm={6}
-                                        md={3}
-                                        lg={2.4}
+                                        size={{ xs: 12, sm: 6, md: 3, lg: 2.4 }}
                                     >
                                         <TunerDeviceCard
                                             key={tunerHost.Id}
                                             tunerHost={tunerHost}
                                         />
-                                    </Grid>
+                                    </Grid2>
                                 ))}
-                            </Grid>
+                            </Grid2>
                         </Box>
 
                         <Typography variant='h2'>{globalize.translate('HeaderGuideProviders')}</Typography>

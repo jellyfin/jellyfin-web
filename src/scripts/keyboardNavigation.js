@@ -107,6 +107,8 @@ const NonInteractiveInputElements = ['button', 'checkbox', 'color', 'file', 'hid
  * @return {string} Key name.
  */
 export function getKeyName(event) {
+    // TODO determine whether this is required for older TVs
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     const key = KeyNames[event.keyCode] || event.code || '';
     return KeyAliases[key] || key;
 }
