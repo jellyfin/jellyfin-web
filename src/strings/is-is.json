@@ -1321,5 +1321,10 @@
     "MessageLeaveEmptyToInherit": "Ef þú skilur þetta eftir autt notar kerfið sömu stillingar og mappan fyrir ofan eða sjálfgefnar stillingarnar.",
     "MessageNoItemsAvailable": "Engir hlutir eru tiltækir eins og er.",
     "MessageNoFavoritesAvailable": "Engir eftirlætishlutir eru tiltækir eins og er.",
-    "MessageNoCollectionsAvailable": "Syrpur gera þér kleift að búa til þína eiginn hóp af kvikmyndum, þáttum og tónlistarplötum. Smelltu á „+“ hnappinn til að búa til syrpu."
+    "MessageNoCollectionsAvailable": "Syrpur gera þér kleift að búa til þína eiginn hóp af kvikmyndum, þáttum og tónlistarplötum. Smelltu á „+“ hnappinn til að búa til syrpu.",
+    "MessagePleaseWait": "Augnablik. Þetta gæti tekið smá tíma.",
+    "MessagePluginConfigurationRequiresLocalAccess": "Til að setja upp þessa viðbót skaltu tengjast þjóninum á heimanetinu.",
+    "MessagePluginInstallDisclaimer": "VARÚÐ: Uppsetning á viðbótum frá þriðja aðila fylgir áhætta. Þær geta innihaldið óstöðugan eða skaðlegan kóða sem getur breyst hvenær sem er. Settu aðeins upp viðbætur frá höfundum sem þú treystir. Vinsamlegast athugaðu að þær geta haft áhrif á kerfið, svo sem kallað á utanaðkomandi þjónustur, lengt skönnun á miðlasafni eða krafist auka vinnslu í bakgrunni.",
+    "MessagePluginInstalled": "Uppsetning á viðbót tókst. Endurræsa þarf þjóninn til að breytingarnar taki gildi.",
+    "MessagePluginInstallError": "Villa kom upp, ekki tókst að setja upp viðbótina."
 }
