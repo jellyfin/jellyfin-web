@@ -1421,5 +1421,14 @@
     "OnWakeFromSleep": "Þegar tækið vaknar",
     "Option3D": "3D",
     "OptionAllowAudioPlaybackTranscoding": "Leyfa spilun á hljóði sem krefst endurkóðunar",
-    "OptionAllowBrowsingLiveTv": "Leyfa aðgang að beinum útsendingum"
+    "OptionAllowBrowsingLiveTv": "Leyfa aðgang að beinum útsendingum",
+    "OptionAllowContentDownload": "Niðurhal alls efnis",
+    "OptionAllowContentDownloadHelp": "Notendur geta hlaðið niður efni og vistað það á tækjunum sínum. Þetta er ekki það sama og samstilling. Bókasöfn þurfa þetta til að virka.",
+    "OptionAllowLinkSharing": "Leyfa deilingu á samfélagsmiðla",
+    "OptionAllowLinkSharingHelp": "Aðeins vefsíður sem innihalda upplýsingar um efni er deilt. Skránum sjálfum er aldrei deilt opinberlega. Deilingar eru tímabundnar og munu renna út eftir {0} daga.",
+    "OptionAllowManageLiveTv": "Leyfa breytingum á upptöku stillingum",
+    "OptionAllowMediaPlayback": "Leyfa spilun efnis",
+    "OptionAllowMediaPlaybackTranscodingHelp": "Takmörkun á endurkóðun getur valdið því að afspilun mistakist hjá notendatækjum vegna þess að ekki er stutt við beina spilun þess snið.",
+    "OptionAllowRemoteControlOthers": "Leyfa fjarstýringu á öðrum notendum",
+    "OptionAllowRemoteSharedDevices": "Leyfa fjarstýringu á tækum sem eru deild"
 }
