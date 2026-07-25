@@ -19,6 +19,7 @@ export const Component = () => {
     const { data: startupUser, isPending, isError } = useStartupUser();
     const [ data, setData ] = useState<StartupUserDto>({});
     const [ passwordConfirm, setPasswordConfirm ] = useState('');
+    const [ passwordMismatch, setPasswordMismatch ] = useState(false);
     const [ toastOpen, setToastOpen ] = useState(false);
     const [ toastMessage, setToastMessage ] = useState('');
     const updateUser = useUpdateStartupUser();
@@ -27,6 +28,7 @@ export const Component = () => {
 
     const onPasswordConfirmChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordConfirm(e.target.value);
+        setPasswordMismatch(false);
     }, []);
 
     const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,8 +79,7 @@ export const Component = () => {
         const newConfig: StartupUserDto = { ...startupUser, ...data };
 
         if (newConfig?.Password && newConfig.Password !== passwordConfirm) {
-            setToastMessage(globalize.translate('PasswordMatchError'));
-            setToastOpen(true);
+            setPasswordMismatch(true);
             return;
         }
 
@@ -94,7 +95,7 @@ export const Component = () => {
         }
 
         submit(newConfig);
-    }, [ startupUser, data, passwordConfirm, updateUser.isPending, submit ]);
+    }, [ startupUser, data, passwordConfirm, updateUser.isPending, submit, setPasswordMismatch ]);
 
     const onPrevious = useCallback(() => {
         navigate(getPreviousStepPath('user')!);
@@ -146,6 +147,8 @@ export const Component = () => {
                             type='password'
                             value={passwordConfirm}
                             onChange={onPasswordConfirmChange}
+                            error={passwordMismatch}
+                            helperText={passwordMismatch ? globalize.translate('PasswordMatchError') : undefined}
                         />
 
                         <Typography>{globalize.translate('MoreUsersCanBeAddedNextStep')}</Typography>

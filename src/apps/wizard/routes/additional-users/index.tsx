@@ -25,6 +25,7 @@ export const Component = () => {
     const [ name, setName ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ passwordConfirm, setPasswordConfirm ] = useState('');
+    const [ passwordMismatch, setPasswordMismatch ] = useState(false);
     const [ toastOpen, setToastOpen ] = useState(false);
     const [ toastMessage, setToastMessage ] = useState('');
 
@@ -45,6 +46,7 @@ export const Component = () => {
         setName('');
         setPassword('');
         setPasswordConfirm('');
+        setPasswordMismatch(false);
     }, [ users ]);
 
     const handleAddUser = useCallback(() => {
@@ -52,7 +54,7 @@ export const Component = () => {
         if (!trimmedName) return;
 
         if (password !== passwordConfirm) {
-            showToast(globalize.translate('PasswordMatchError'));
+            setPasswordMismatch(true);
             return;
         }
 
@@ -165,7 +167,12 @@ export const Component = () => {
                         type='password'
                         value={passwordConfirm}
                         // eslint-disable-next-line react/jsx-no-bind
-                        onChange={e => setPasswordConfirm(e.target.value)}
+                        onChange={e => {
+                            setPasswordConfirm(e.target.value);
+                            setPasswordMismatch(false);
+                        }}
+                        error={passwordMismatch}
+                        helperText={passwordMismatch ? globalize.translate('PasswordMatchError') : undefined}
                     />
                     <Button
                         type='button'

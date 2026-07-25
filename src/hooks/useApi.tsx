@@ -47,17 +47,23 @@ export const ApiProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
             setUser(undefined);
         };
 
+        const updateLocalApiClient = (_e: Event | undefined, apiClient: ApiClient) => {
+            setLegacyApiClient(apiClient);
+        };
+
         events.on(ServerConnections, 'localusersignedin', updateApiUser);
         events.on(ServerConnections, 'localusersignedout', resetApiUser);
+        events.on(ServerConnections, 'localapiclientset', updateLocalApiClient);
 
         return () => {
             events.off(ServerConnections, 'localusersignedin', updateApiUser);
             events.off(ServerConnections, 'localusersignedout', resetApiUser);
+            events.off(ServerConnections, 'localapiclientset', updateLocalApiClient);
         };
     }, [ setLegacyApiClient, setUser ]);
 
     useEffect(() => {
-        setApi(legacyApiClient ? ServerConnections.getApi(legacyApiClient.serverId()) : ServerConnections.getApi());
+        setApi(legacyApiClient ? ServerConnections.getApi(legacyApiClient.serverId()) : undefined);
     }, [ legacyApiClient, setApi ]);
 
     return (
