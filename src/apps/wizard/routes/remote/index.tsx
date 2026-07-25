@@ -16,7 +16,7 @@ import confirm from 'components/confirm/confirm';
 import type { NetworkConfiguration } from '@jellyfin/sdk/lib/generated-client/models/network-configuration';
 import { useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import { getWizardDraft } from 'apps/wizard/utils/wizardDraft';
-import { getPreviousStepPath, getNextStepPath } from 'apps/wizard/utils/wizardSteps';
+import { getPreviousStepPath, getWizardNextPath, useIsFromSummary } from 'apps/wizard/utils/wizardSteps';
 import { validatePort } from 'apps/wizard/utils/wizardPortValidation';
 
 interface RemoteAccessFormData {
@@ -32,6 +32,7 @@ export const Component = () => {
     const navigate = useNavigate();
     const { data: networkConfig, isPending } = useNamedConfiguration<NetworkConfiguration>('network');
     const draft = getWizardDraft();
+    const isFromSummary = useIsFromSummary();
     const [ data, setData ] = useState<RemoteAccessFormData>({});
 
     const enableRemoteAccess = data.EnableRemoteAccess
@@ -94,9 +95,9 @@ export const Component = () => {
                 draft.network.InternalHttpsPort = parsedHttpsPort;
             }
 
-            navigate(getNextStepPath('remote')!);
+            navigate(getWizardNextPath('remote', isFromSummary)!);
         });
-    }, [ enableHttps, certificatePath, certificatePassword, httpsPort, enableRemoteAccess, enableUPnP, draft, networkConfig, navigate ]);
+    }, [ enableHttps, certificatePath, certificatePassword, httpsPort, enableRemoteAccess, enableUPnP, draft, networkConfig, navigate, isFromSummary ]);
 
     if (isPending) return <Loading />;
 
@@ -105,6 +106,7 @@ export const Component = () => {
             id='wizardSettingsPage'
             onPrevious={onPrevious}
             onNext={onNext}
+            nextLabel={isFromSummary ? globalize.translate('ReturnToSummary') : undefined}
         >
             <Stack spacing={3}>
                 <Typography variant='h1'>{globalize.translate('HeaderConfigureRemoteAccess')}</Typography>

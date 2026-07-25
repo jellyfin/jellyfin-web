@@ -13,7 +13,7 @@ import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import { useUpdateStartupUser } from 'apps/wizard/api/useUpdateStartupUser';
 import confirm from 'components/confirm/confirm';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getPreviousStepPath, getNextStepPath } from 'apps/wizard/utils/wizardSteps';
+import { getPreviousStepPath, getWizardNextPath, useIsFromSummary } from 'apps/wizard/utils/wizardSteps';
 
 export const Component = () => {
     const { data: startupUser, isPending, isError } = useStartupUser();
@@ -23,6 +23,7 @@ export const Component = () => {
     const [ toastMessage, setToastMessage ] = useState('');
     const updateUser = useUpdateStartupUser();
     const navigate = useNavigate();
+    const isFromSummary = useIsFromSummary();
 
     const onPasswordConfirmChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setPasswordConfirm(e.target.value);
@@ -59,7 +60,7 @@ export const Component = () => {
                         }
                     })
                     .catch(() => apiClient?.authenticateUserByName(name, password))
-                    .then(() => navigate(getNextStepPath('user')!))
+                    .then(() => navigate(getWizardNextPath('user', isFromSummary)!))
                     .catch((err: unknown) => {
                         console.error('[Wizard > User] failed to authenticate as new admin', err);
                         setToastMessage(globalize.translate('ErrorDefault'));
@@ -67,7 +68,7 @@ export const Component = () => {
                     });
             }
         });
-    }, [ updateUser, navigate ]);
+    }, [ updateUser, navigate, isFromSummary ]);
 
     const onNext = useCallback(() => {
         // Guard against double-submit while the mutation is already in flight.
@@ -106,6 +107,7 @@ export const Component = () => {
             id='wizardUserPage'
             onPrevious={onPrevious}
             onNext={onNext}
+            nextLabel={isFromSummary ? globalize.translate('ReturnToSummary') : undefined}
         >
             <Snackbar
                 open={toastOpen}

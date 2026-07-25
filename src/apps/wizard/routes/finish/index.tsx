@@ -38,6 +38,7 @@ const SummaryRow = ({ label, value, stepId }: SummaryRowProps) => (
     <Stack
         component={RouterLink}
         to={getStepPath(stepId)}
+        state={{ fromSummary: true }}
         direction='row'
         justifyContent='space-between'
         gap={2}

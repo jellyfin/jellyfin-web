@@ -16,10 +16,11 @@ import { useNavigate } from 'react-router-dom';
 import type { StartupUserDto } from '@jellyfin/sdk/lib/generated-client/models/startup-user-dto';
 import confirm from 'components/confirm/confirm';
 import { getWizardDraft } from 'apps/wizard/utils/wizardDraft';
-import { getPreviousStepPath, getNextStepPath } from 'apps/wizard/utils/wizardSteps';
+import { getPreviousStepPath, getWizardNextPath, useIsFromSummary } from 'apps/wizard/utils/wizardSteps';
 
 export const Component = () => {
     const navigate = useNavigate();
+    const isFromSummary = useIsFromSummary();
     const [ users, setUsers ] = useState<StartupUserDto[]>(() => [ ...getWizardDraft().users ]);
     const [ name, setName ] = useState('');
     const [ password, setPassword ] = useState('');
@@ -96,15 +97,22 @@ export const Component = () => {
     }, [ navigate ]);
 
     const onNext = useCallback(() => {
-        navigate(getNextStepPath('additional-users')!);
-    }, [ navigate ]);
+        navigate(getWizardNextPath('additional-users', isFromSummary)!);
+    }, [ navigate, isFromSummary ]);
+
+    let nextLabel;
+    if (isFromSummary) {
+        nextLabel = globalize.translate('ReturnToSummary');
+    } else if (users.length === 0) {
+        nextLabel = globalize.translate('Skip');
+    }
 
     return (
         <WizardPage
             id='wizardAdditionalUsersPage'
             onPrevious={onPrevious}
             onNext={onNext}
-            nextLabel={users.length === 0 ? globalize.translate('Skip') : undefined}
+            nextLabel={nextLabel}
         >
             <Snackbar
                 open={toastOpen}

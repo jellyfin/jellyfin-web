@@ -14,10 +14,11 @@ import getCollectionTypeOptions from 'apps/dashboard/features/libraries/utils/co
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import toast from 'components/toast/toast';
 import { getWizardDraft, type WizardDraftLibrary } from 'apps/wizard/utils/wizardDraft';
-import { getPreviousStepPath, getNextStepPath } from 'apps/wizard/utils/wizardSteps';
+import { getPreviousStepPath, getWizardNextPath, useIsFromSummary } from 'apps/wizard/utils/wizardSteps';
 
 export const Component = () => {
     const navigate = useNavigate();
+    const isFromSummary = useIsFromSummary();
     const [ libraries, setLibraries ] = useState<WizardDraftLibrary[]>(() => [ ...getWizardDraft().libraries ]);
 
     const showMediaLibraryCreator = useCallback(() => {
@@ -55,15 +56,22 @@ export const Component = () => {
     }, [ navigate ]);
 
     const onNext = useCallback(() => {
-        navigate(getNextStepPath('library')!);
-    }, [ navigate ]);
+        navigate(getWizardNextPath('library', isFromSummary)!);
+    }, [ navigate, isFromSummary ]);
+
+    let nextLabel;
+    if (isFromSummary) {
+        nextLabel = globalize.translate('ReturnToSummary');
+    } else if (libraries.length === 0) {
+        nextLabel = globalize.translate('Skip');
+    }
 
     return (
         <WizardPage
             id='wizardLibraryPage'
             onPrevious={onPrevious}
             onNext={onNext}
-            nextLabel={libraries.length === 0 ? globalize.translate('Skip') : undefined}
+            nextLabel={nextLabel}
         >
             <Stack spacing={3}>
                 <Stack direction='row' justifyContent={'space-between'} alignItems={'center'}>

@@ -15,7 +15,7 @@ import { useStartupConfiguration } from 'apps/wizard/api/useStartupConfiguration
 import type { StartupConfigurationDto } from '@jellyfin/sdk/lib/generated-client/models/startup-configuration-dto';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { getWizardDraft } from 'apps/wizard/utils/wizardDraft';
-import { getNextStepPath } from 'apps/wizard/utils/wizardSteps';
+import { getWizardNextPath, useIsFromSummary } from 'apps/wizard/utils/wizardSteps';
 
 export const Component = () => {
     const {
@@ -31,14 +31,15 @@ export const Component = () => {
     const navigate = useNavigate();
     const [ data, setData ] = useState<StartupConfigurationDto>({});
     const draft = getWizardDraft().config;
+    const isFromSummary = useIsFromSummary();
 
     const onNext = useCallback(() => {
         Object.assign(getWizardDraft().config, {
             ServerName: data?.ServerName || draft.ServerName || config?.ServerName,
             UICulture: data?.UICulture || draft.UICulture || config?.UICulture
         });
-        navigate(getNextStepPath('start')!);
-    }, [ config, data, draft, navigate ]);
+        navigate(getWizardNextPath('start', isFromSummary)!);
+    }, [ config, data, draft, isFromSummary, navigate ]);
 
     const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setData({
@@ -53,6 +54,7 @@ export const Component = () => {
         <WizardPage
             id='wizardStartPage'
             onNext={onNext}
+            nextLabel={isFromSummary ? globalize.translate('ReturnToSummary') : undefined}
         >
             <Stack spacing={3}>
                 <Stack direction='row' justifyContent={'space-between'} alignItems={'center'}>

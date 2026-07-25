@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import type { StartupConfigurationDto } from '@jellyfin/sdk/lib/generated-client/models/startup-configuration-dto';
 import { getWizardDraft } from 'apps/wizard/utils/wizardDraft';
-import { getPreviousStepPath, getNextStepPath } from 'apps/wizard/utils/wizardSteps';
+import { getPreviousStepPath, getWizardNextPath, useIsFromSummary } from 'apps/wizard/utils/wizardSteps';
 
 export const Component = () => {
     const {
@@ -33,6 +33,7 @@ export const Component = () => {
     } = useCountries();
     const navigate = useNavigate();
     const draft = getWizardDraft().config;
+    const isFromSummary = useIsFromSummary();
     const [ data, setData ] = useState<StartupConfigurationDto>({});
 
     const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,8 +52,8 @@ export const Component = () => {
             PreferredMetadataLanguage: data.PreferredMetadataLanguage || draft.PreferredMetadataLanguage || startupConfig?.PreferredMetadataLanguage,
             MetadataCountryCode: data.MetadataCountryCode || draft.MetadataCountryCode || startupConfig?.MetadataCountryCode
         });
-        navigate(getNextStepPath('settings')!);
-    }, [ navigate, startupConfig, draft, data ]);
+        navigate(getWizardNextPath('settings', isFromSummary)!);
+    }, [ navigate, startupConfig, draft, data, isFromSummary ]);
 
     if (isStartupConfigurationPending || isCulturesPending || isCountriesPending) return <Loading />;
 
@@ -61,6 +62,7 @@ export const Component = () => {
             id='wizardMetadataPage'
             onPrevious={onPrevious}
             onNext={onNext}
+            nextLabel={isFromSummary ? globalize.translate('ReturnToSummary') : undefined}
         >
             <Stack spacing={3}>
                 <Typography variant='h1'>{globalize.translate('HeaderPreferredMetadataLanguage')}</Typography>

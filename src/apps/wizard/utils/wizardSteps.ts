@@ -1,3 +1,5 @@
+import { useLocation } from 'react-router-dom';
+
 // Reordering this list drives the progress indicator and Previous/Next navigation for every step.
 const WIZARD_STEPS = [
     { id: 'start', path: '/wizard/start' },
@@ -40,4 +42,14 @@ export function getNextStepPath(stepId: WizardStepId) {
 
 export function parsePort(str: string | undefined) {
     return Number.parseInt(str ?? '', 10);
+}
+
+// True when the current step was reached via a Summary row link, so Next should return there instead of advancing.
+export function useIsFromSummary() {
+    const location = useLocation();
+    return Boolean((location.state as { fromSummary?: boolean } | null)?.fromSummary);
+}
+
+export function getWizardNextPath(stepId: WizardStepId, isFromSummary: boolean) {
+    return isFromSummary ? getStepPath('finish') : getNextStepPath(stepId);
 }

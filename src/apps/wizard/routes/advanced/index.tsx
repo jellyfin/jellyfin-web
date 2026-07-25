@@ -14,7 +14,7 @@ import type { EncodingOptions } from '@jellyfin/sdk/lib/generated-client/models/
 import { HardwareAccelerationType } from '@jellyfin/sdk/lib/generated-client/models/hardware-acceleration-type';
 import { useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import { getWizardDraft } from 'apps/wizard/utils/wizardDraft';
-import { getPreviousStepPath, getNextStepPath } from 'apps/wizard/utils/wizardSteps';
+import { getPreviousStepPath, getWizardNextPath, useIsFromSummary } from 'apps/wizard/utils/wizardSteps';
 import { validatePort } from 'apps/wizard/utils/wizardPortValidation';
 
 export const Component = () => {
@@ -28,6 +28,7 @@ export const Component = () => {
         isPending: isEncodingConfigPending
     } = useNamedConfiguration<EncodingOptions>('encoding');
     const draft = getWizardDraft();
+    const isFromSummary = useIsFromSummary();
     const [ httpPort, setHttpPort ] = useState<string>();
     const [ hardwareAccelerationType, setHardwareAccelerationType ] = useState<string>();
 
@@ -55,9 +56,9 @@ export const Component = () => {
                 draft.network.InternalHttpPort = parsedHttpPort;
             }
 
-            navigate(getNextStepPath('advanced')!);
+            navigate(getWizardNextPath('advanced', isFromSummary)!);
         });
-    }, [ resolvedHttpPort, resolvedHardwareAccelerationType, draft, networkConfig, navigate ]);
+    }, [ resolvedHttpPort, resolvedHardwareAccelerationType, draft, networkConfig, navigate, isFromSummary ]);
 
     if (isNetworkConfigPending || isEncodingConfigPending) return <Loading />;
 
@@ -66,6 +67,7 @@ export const Component = () => {
             id='wizardAdvancedPage'
             onPrevious={onPrevious}
             onNext={onNext}
+            nextLabel={isFromSummary ? globalize.translate('ReturnToSummary') : undefined}
         >
             <Stack spacing={3}>
                 <Typography variant='h1'>{globalize.translate('HeaderAdvancedSettings')}</Typography>
