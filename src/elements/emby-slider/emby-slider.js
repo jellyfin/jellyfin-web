@@ -372,6 +372,10 @@ EmbySliderPrototype.attachedCallback = function () {
 
     if (window.PointerEvent && !browser.iOS) {
         dom.addEventListener(this, 'pointerdown', function (e) {
+            if (this.activePointerId !== undefined) {
+                return;
+            }
+
             this.activePointerId = e.pointerId;
             this.setPointerCapture(e.pointerId);
         }, {
@@ -379,7 +383,17 @@ EmbySliderPrototype.attachedCallback = function () {
         });
 
         ['pointerup', 'pointercancel'].forEach((event) => {
-            dom.addEventListener(this, event, function () {
+            dom.addEventListener(this, event, function (e) {
+                if (this.activePointerId !== e.pointerId) {
+                    return;
+                }
+
+                try {
+                    this.releasePointerCapture(e.pointerId);
+                } catch {
+                    // already released
+                }
+
                 this.activePointerId = undefined;
             }, {
                 passive: true
@@ -392,7 +406,7 @@ EmbySliderPrototype.attachedCallback = function () {
         if (this.activePointerId !== undefined && this.activePointerId === e.pointerId) {
             const value = mapFractionToValue(this, mapClientToFraction(this, e.clientX));
 
-            if (Number.parseFloat(this.value) !== value) {
+            if (parseFloat(this.value) !== value) {
                 this.value = value;
                 this.dispatchEvent(new Event('input', {
                     bubbles: true,
