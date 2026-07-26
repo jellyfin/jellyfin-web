@@ -46,12 +46,10 @@ const BookOsd: FC<BookOsdProps> = ({
     const [fullscreen, setFullscreen] = useState(false);
 
     const updateFullscreen = useCallback((state: boolean) => {
-        if (Screenfull.isEnabled) {
+        if (Screenfull.isEnabled && Screenfull.isFullscreen !== state) {
             void Screenfull.toggle();
         } else if (window.NativeShell) {
             state ? window.NativeShell.enableFullscreen() : window.NativeShell.disableFullscreen();
-        } else if (document.webkitEnterFullscreen || document.webkitCancelFullscreen) {
-            state ? document.webkitEnterFullscreen?.() : document.webkitCancelFullscreen?.();
         }
     }, []);
 
@@ -135,11 +133,13 @@ const BookOsd: FC<BookOsdProps> = ({
                     />
                 )}
 
-                <IconButton
-                    onClick={onClickFullscreen}
-                    icon={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-                    title={globalize.translate(fullscreen ? 'ExitFullscreen' : 'Fullscreen')}
-                />
+                {(Screenfull.isEnabled || window.NativeShell) && (
+                    <IconButton
+                        onClick={onClickFullscreen}
+                        icon={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                        title={globalize.translate(fullscreen ? 'ExitFullscreen' : 'Fullscreen')}
+                    />
+                )}
             </div>
         </div>
     );

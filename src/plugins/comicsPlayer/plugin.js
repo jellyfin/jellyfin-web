@@ -277,7 +277,7 @@ export class ComicsPlayer {
 
                 this.pageCount = this.archiveSource.urls.length;
                 this.currentPage = options.startPositionTicks / 10000 || 0;
-                this.currentSrc = () => this.currentPage;
+                this.currentSrc = () => downloadUrl;
 
                 this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                     direction: 'horizontal',

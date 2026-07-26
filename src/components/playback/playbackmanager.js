@@ -2266,9 +2266,7 @@ export class PlaybackManager {
 
             options.items = items;
 
-            return player.play(options).then(() => {
-                onPlaybackStarted(player, options, player.streamInfo, player.streamInfo?.mediaSource);
-            });
+            return player.play(options);
         }
 
         const getAdditionalParts = async (items, mediaSourceId, startIndex) => {

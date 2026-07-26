@@ -223,6 +223,7 @@ export class PdfPlayer {
             });
             return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
+                this.currentSrc = () => downloadHref;
                 this.book = book;
                 this.loaded = true;
 
@@ -267,7 +268,7 @@ export class PdfPlayer {
 
         // load any missing pages in the cache
         for (const page of pages) {
-            if (!this.pages[page] || this.dimensions !== window.innerWidth + window.innerHeight) {
+            if (!this.pages[page] || this.cacheWidth !== window.innerWidth || this.cacheHeight !== window.innerHeight) {
                 this.pages[page] = document.createElement('canvas');
                 this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
 
@@ -277,10 +278,10 @@ export class PdfPlayer {
 
         // show the requested page
         canvas?.parentNode.replaceChild(this.pages[prefix + number], canvas);
-        this.currentSrc = () => this.pages[prefix + number];
 
         // track size so we can render all pages again when the screen has changed
-        this.dimensions = window.innerWidth + window.innerHeight;
+        this.cacheWidth = window.innerWidth;
+        this.cacheHeight = window.innerHeight;
 
         // delete all pages outside the cache area
         for (const page in this.pages) {
