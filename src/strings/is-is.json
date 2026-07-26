@@ -1521,5 +1521,8 @@
     "PluginLoadRepoError": "Villa kom upp við að sækja upplýsingar um viðbótina úr viðbótasafninu.",
     "PluginUninstallError": "Villa kom upp þegar verið var að eyða viðbótinni.",
     "PluginsLoadError": "Mistókst að sækja viðbætur",
-    "Poster": "Plakat"
+    "Poster": "Plakat",
+    "PosterCard": "Plakatspjald",
+    "PreferEmbeddedEpisodeInfosOverFileNames": "Velja frekar innbygð lýsigögn um þætti fram yfir skráarnöfn",
+    "PreferEmbeddedEpisodeInfosOverFileNamesHelp": "Nota þáttaupplýsingar úr innbygðum lýsigögnunum ef þær eru tiltækar."
 }
