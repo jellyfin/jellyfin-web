@@ -1792,5 +1792,6 @@
     "DisablePlugin": "Deaktivéieren",
     "DisableVbrAudioEncodingHelp": "Verhënnert, datt de Server Audio mat VBR fir dëse Client kodéiert.",
     "DeviceAccessHelp": "Dëst gëllt nëmme fir Geräter, déi eenzegaarteg identifizéiert kënne ginn, a verhënnert net den Zougang iwwer Browser. D’Filtere vum Benotzer-Gerät-Zougang wäert verhënneren, datt si nei Geräter benotze kënnen, bis dës hei guttgeheescht goufen.",
-    "DirectStreamHelp1": "De Video-Stream ass kompatibel mam Gerät, mee huet en inkompatibelt Audio-Format (DTS, Dolby TrueHD, asw.) oder eng inkompatibel Unzuel u Audio-Kanäl. De Video-Stream gëtt verlousungsfräi spontan nei verpackt, ier en un d’Gerät geschéckt gëtt. Nëmmen den Audio-Stream gëtt transkodéiert."
+    "DirectStreamHelp1": "De Video-Stream ass kompatibel mam Gerät, mee huet en inkompatibelt Audio-Format (DTS, Dolby TrueHD, asw.) oder eng inkompatibel Unzuel u Audio-Kanäl. De Video-Stream gëtt verlousungsfräi spontan nei verpackt, ier en un d’Gerät geschéckt gëtt. Nëmmen den Audio-Stream gëtt transkodéiert.",
+    "ActivitiesLoadError": "Aktivitéite konnten net geluede ginn"
 }
