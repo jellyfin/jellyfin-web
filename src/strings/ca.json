@@ -1827,7 +1827,7 @@
     "MessageForgotPasswordPinReset": "Introduïu el PIN aquí per a concloure el restabliment de la contrasenya",
     "LabelImageCache": "Imatges de la memòria cau",
     "MessageBackupDisclaimer": "Depenent de la mida de la mediateca, la còpia de seguretat pot trigar una estona.",
-    "MessageRestoreDisclaimer": "ATENCIÓ: Esteu a punt de restaurar una còpia anterior de seguretat. El servidor no es podrà fer servir durant el procés i les dades creades des del moment de l'inici de la còpia es perdran.",
+    "MessageRestoreDisclaimer": "ATENCIÓ: Esteu a punt de restaurar una còpia anterior de seguretat. El servidor no es podrà fer servir durant el procés i les dades creades des del moment de l'inici de la còpia es perdran.\n\nLes còpies de seguretat només s'haurien de restaurar a la mateixa versió per les que van ser creades. La restauració d'una còpia de seguretat a una versió diferent no és compatible i pot fer que el servidor no es pugui utilitzar.",
     "MessageWaitingForServer": "S'està esperant el servidor...",
     "StorageType.CDRom": "CD-ROM",
     "StorageType.NoRootDirectory": "Cap directori arrel",
