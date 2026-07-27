@@ -4,8 +4,8 @@ import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 
 /** Maximum bitrate (Int32) */
 const MAX_BITRATE = 2147483647;
-/** Approximate LAN bitrate */
-const LAN_BITRATE = 140000000;
+/** Fallback bitrate when a LAN speed test cannot produce a result */
+const LAN_FALLBACK_BITRATE = 140000000;
 /** Bitrate test timeout in milliseconds */
 const BITRATETEST_TIMEOUT = 5000;
 /** Bitrate cache time in milliseconds */
@@ -64,7 +64,9 @@ const getDownloadSpeed = (api: Api, bytes: number) => {
             xhr.setRequestHeader(key, headers[key as keyof typeof headers]);
         }
 
-        let startTime: number;
+        // Some older webviews do not reliably report HEADERS_RECEIVED. Starting
+        // the timer here gives them a conservative measurement instead of NaN.
+        let startTime = performance.now();
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
@@ -183,14 +185,19 @@ const detectBitrateWithEndpointInfo = (api: Api, endpointInfo: EndPointInfo) => 
         0,
         undefined
     ).then(result => {
-        const bitrateInMbps = (result / 1048576).toFixed(2);
-        console.debug(`[bitratetest] bitrate detected as ${bitrateInMbps} Mbps`);
-        if (endpointInfo.IsInNetwork) {
-            result = Math.max(result || 0, LAN_BITRATE);
+        // A local connection can still be bandwidth constrained by Wi-Fi, a
+        // powerline adapter, or a VPN. Trust a successful measurement and only
+        // use the historical LAN estimate if the test failed before measuring
+        // any data.
+        if (!result && endpointInfo.IsInNetwork) {
+            result = LAN_FALLBACK_BITRATE;
 
             lastDetectedBitrate = result;
             lastDetectedBitrateTime = Date.now();
         }
+
+        const bitrateInMbps = (result / 1048576).toFixed(2);
+        console.debug(`[bitratetest] bitrate detected as ${bitrateInMbps} Mbps`);
         return result;
     });
 };
