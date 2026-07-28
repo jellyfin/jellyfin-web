@@ -1924,5 +1924,8 @@
     "HeaderSplitMedia": "Dela upp media",
     "StillWatchingPrompt": "Tittar du fortfarande",
     "Creators": "Skaparna",
-    "IndexNumber": "Indexnummer"
+    "IndexNumber": "Indexnummer",
+    "MessageNoEpisodesFound": "Inga avsnitt är tillgängliga för närvarande.",
+    "SubtitleLanguages": "Undertextspråk",
+    "AudioLanguages": "Ljudspråk"
 }

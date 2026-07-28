@@ -169,6 +169,28 @@ const fetchGetQueryFiltersLegacy = async (
     }
 };
 
+const fetchGetQueryFilters = async (
+    currentApi: JellyfinApiContext,
+    parentId: ParentId,
+    itemType: BaseItemKind[],
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getFilterApi(api).getQueryFilters(
+            {
+                userId: user.Id,
+                parentId: parentId ?? undefined,
+                includeItemTypes: itemType
+            },
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data;
+    }
+};
+
 export const useGetQueryFiltersLegacy = (
     parentId: ParentId,
     itemType: BaseItemKind[]
@@ -179,6 +201,22 @@ export const useGetQueryFiltersLegacy = (
         queryKey: ['QueryFiltersLegacy', parentId, itemType],
         queryFn: ({ signal }) =>
             fetchGetQueryFiltersLegacy(currentApi, parentId, itemType, {
+                signal
+            }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
+    });
+};
+
+export const useGetQueryFilters = (
+    parentId: ParentId,
+    itemType: BaseItemKind[]
+) => {
+    const currentApi = useApi();
+    const isLivetv = parentId === 'livetv';
+    return useQuery({
+        queryKey: ['QueryFilters', parentId, itemType],
+        queryFn: ({ signal }) =>
+            fetchGetQueryFilters(currentApi, parentId, itemType, {
                 signal
             }),
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv

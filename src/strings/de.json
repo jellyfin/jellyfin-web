@@ -1520,7 +1520,7 @@
     "SubtitleRed": "Rot",
     "SubtitleWhite": "Weiß",
     "SubtitleYellow": "Gelb",
-    "Featurette": "Featurette",
+    "Featurette": "Bonusmaterial",
     "Short": "Kurzfilm",
     "LabelParallelImageEncodingLimit": "Begrenzung für parallele Bildkodierung",
     "LabelParallelImageEncodingLimitHelp": "Maximale Anzahl von Bildkodierungen, die parallel ausgeführt werden dürfen. Wird dieser Wert leer gelassen, wird eine Begrenzung basierend auf der Kernanzahl deines Systems festgelegt.",
@@ -1831,7 +1831,7 @@
     "LabelDatabase": "Datenbank",
     "MessageBackupDisclaimer": "Je nach Größe der Bibliothek kann der Backup-Vorgang eine Weile dauern.",
     "MessageBackupInProgress": "Backup läuft",
-    "MessageRestoreDisclaimer": "WARNUNG: Du bist dabei, eine frühere Sicherung wiederherzustellen. Der Server wird für die Dauer des Vorgangs nicht nutzbar sein und alle neuen Daten, die seit der Sicherung erstellt wurden, gehen verloren.",
+    "MessageRestoreDisclaimer": "WARNUNG: Du bist dabei, eine frühere Sicherung wiederherzustellen. Dein Server wird für die Dauer des Vorgangs nicht nutzbar sein und alle neuen Daten, die seit der Sicherung erstellt wurden, gehen verloren.\n\nBackups sollten nur wiederhergestellt werden, wenn du die selbe Version hast, auf der du es erstellt hast. Ein Backup auf einer anderen Version wiederherzustellen wird nicht unterstützt und könnte möglicherweise den Server unbenutzbar machen.",
     "MessageRestoreInProgress": "Wiederherstellung läuft",
     "MessageRestoreSuccess": "Wiederherstellung erfolgreich abgeschlossen",
     "MessageWaitingForServer": "Warte auf Server...",
@@ -1926,5 +1926,12 @@
     "Creators": "Ersteller",
     "IndexNumber": "Indexnummer",
     "NoCastTargets": "Keine Ziele zum Casten verfügbar",
-    "MessageNoEpisodesFound": "Es sind gerade keine Folgen verfügbar."
+    "MessageNoEpisodesFound": "Es sind gerade keine Folgen verfügbar.",
+    "ViewLeftToRight": "Links nach Rechts",
+    "ViewRightToLeft": "Rechts nach Links",
+    "SeriesName": "Serientitel",
+    "AudioLanguages": "Audio-Sprachen",
+    "SubtitleLanguages": "Untertitel-Sprachen",
+    "ViewDoublePage": "Doppelseitenansicht",
+    "ViewSinglePage": "Einzelseitenansicht"
 }

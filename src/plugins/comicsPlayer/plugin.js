@@ -9,7 +9,11 @@ import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import { appRouter } from '../../components/router/appRouter';
 import * as userSettings from '../../scripts/settings/userSettings';
+import BookOsd from '../bookPlayer/BookOsd/BookOsd';
+import Events from '../../utils/events.ts';
+import { renderComponent } from '../../utils/reactUtils';
 
+import 'material-design-icons-iconfont';
 import './style.scss';
 
 // supported book file extensions
@@ -25,6 +29,11 @@ export class ComicsPlayer {
         this.priority = 1;
         this.imageMap = new Map();
 
+        this.previous = this.previous.bind(this);
+        this.next = this.next.bind(this);
+        this.onDirChanged = this.onDirChanged.bind(this);
+        this.onViewChanged = this.onViewChanged.bind(this);
+
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
     }
@@ -36,12 +45,13 @@ export class ComicsPlayer {
         const mediaSourceId = options.items[0].Id;
         this.comicsPlayerSettings = userSettings.getComicsPlayerSettings(mediaSourceId);
 
-        const elem = this.createMediaElement();
+        const elem = this.createMediaElement(options);
         return this.setCurrentSrc(elem, options);
     }
 
     stop() {
         this.unbindEvents();
+        this.unmountBookOsd?.();
 
         const stopInfo = {
             src: this.item
@@ -99,7 +109,7 @@ export class ComicsPlayer {
         this.stop();
     }
 
-    onDirChanged = () => {
+    onDirChanged() {
         let langDir = this.comicsPlayerSettings.langDir;
 
         if (!langDir || langDir === 'ltr') {
@@ -111,26 +121,16 @@ export class ComicsPlayer {
         this.changeLanguageDirection(langDir);
 
         this.comicsPlayerSettings.langDir = langDir;
-    };
+    }
 
     changeLanguageDirection(langDir) {
         const currentPage = this.currentPage;
 
         this.swiperInstance.changeLanguageDirection(langDir);
-
-        const prevIcon = langDir === 'ltr' ? 'arrow_circle_left' : 'arrow_circle_right';
-        this.mediaElement.querySelector('.btnToggleLangDir > span').classList.remove(prevIcon);
-
-        const newIcon = langDir === 'ltr' ? 'arrow_circle_right' : 'arrow_circle_left';
-        this.mediaElement.querySelector('.btnToggleLangDir > span').classList.add(newIcon);
-
-        const dirTitle = langDir === 'ltr' ? 'Right To Left' : 'Left To Right';
-        this.mediaElement.querySelector('.btnToggleLangDir').title = dirTitle;
-
         this.reload(currentPage);
     }
 
-    onViewChanged = () => {
+    onViewChanged() {
         let view = this.comicsPlayerSettings.pagesPerView;
 
         if (!view || view === 1) {
@@ -142,22 +142,13 @@ export class ComicsPlayer {
         this.changeView(view);
 
         this.comicsPlayerSettings.pagesPerView = view;
-    };
+    }
 
     changeView(view) {
         const currentPage = this.currentPage;
 
         this.swiperInstance.params.slidesPerView = view;
         this.swiperInstance.params.slidesPerGroup = view;
-
-        const prevIcon = view === 1 ? 'devices_fold' : 'import_contacts';
-        this.mediaElement.querySelector('.btnToggleView > span').classList.remove(prevIcon);
-
-        const newIcon = view === 1 ? 'import_contacts' : 'devices_fold';
-        this.mediaElement.querySelector('.btnToggleView > span').classList.add(newIcon);
-
-        const viewTitle = view === 1 ? 'Double Page View' : 'Single Page View';
-        this.mediaElement.querySelector('.btnToggleView').title = viewTitle;
 
         this.reload(currentPage);
     }
@@ -191,37 +182,17 @@ export class ComicsPlayer {
         }
     }
 
-    bindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem?.addEventListener('close', this.onDialogClosed, { once: true });
-        elem?.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
-        elem?.querySelector('.btnToggleLangDir').addEventListener('click', this.onDirChanged);
-        elem?.querySelector('.btnToggleView').addEventListener('click', this.onViewChanged);
-    }
-
     bindEvents() {
-        this.bindMediaElementEvents();
-
+        this.mediaElement?.addEventListener('close', this.onDialogClosed, { once: true });
         document.addEventListener('keydown', this.onWindowKeyDown);
     }
 
-    unbindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem?.removeEventListener('close', this.onDialogClosed);
-        elem?.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
-        elem?.querySelector('.btnToggleLangDir').removeEventListener('click', this.onDirChanged);
-        elem?.querySelector('.btnToggleView').removeEventListener('click', this.onViewChanged);
-    }
-
     unbindEvents() {
-        this.unbindMediaElementEvents();
-
+        this.mediaElement?.removeEventListener('close', this.onDialogClosed);
         document.removeEventListener('keydown', this.onWindowKeyDown);
     }
 
-    createMediaElement() {
+    createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
             return elem;
@@ -238,39 +209,25 @@ export class ComicsPlayer {
                 removeOnClose: true
             });
 
-            const viewIcon = this.comicsPlayerSettings.pagesPerView === 1 ? 'import_contacts' : 'devices_fold';
-            const dirIcon = this.comicsPlayerSettings.langDir === 'ltr' ? 'arrow_circle_right' : 'arrow_circle_left';
-
             elem.id = 'comicsPlayer';
             elem.classList.add('slideshowDialog');
-            elem.innerHTML = `<div dir=${this.comicsPlayerSettings.langDir} class="slideshowSwiperContainer">
+            elem.innerHTML = `<div id="bookOsdMount"></div><div dir=${this.comicsPlayerSettings.langDir} class="slideshowSwiperContainer">
                                 <div class="swiper-wrapper"></div>
-                                <div class="swiper-button-next actionButtonIcon"></div>
-                                <div class="swiper-button-prev actionButtonIcon"></div>
                                 <div class="swiper-pagination"></div>
-                            </div>
-                            <div class="actionButtons">
-                                <button is="paper-icon-button-light" class="autoSize btnToggleLangDir" tabindex="-1">
-                                    <span class="material-icons actionButtonIcon ${dirIcon}" aria-hidden="true"></span>
-                                </button>
-                                <button is="paper-icon-button-light" class="autoSize btnToggleView" tabindex="-1">
-                                    <span class="material-icons actionButtonIcon ${viewIcon}" aria-hidden="true"></span>
-                                </button>
-                                <button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1">
-                                    <span class="material-icons actionButtonIcon close" aria-hidden="true"></span>
-                                </button>
                             </div>`;
 
             dialogHelper.open(elem);
         }
 
         this.mediaElement = elem;
-
-        const dirTitle = this.comicsPlayerSettings.langDir === 'ltr' ? 'Right To Left' : 'Left To Right';
-        this.mediaElement.querySelector('.btnToggleLangDir').title = dirTitle;
-
-        const viewTitle = this.comicsPlayerSettings.pagesPerView === 1 ? 'Double Page View' : 'Single Page View';
-        this.mediaElement.querySelector('.btnToggleView').title = viewTitle;
+        this.unmountBookOsd = renderComponent(BookOsd, {
+            item: options.items[0],
+            onExit: this.onDialogClosed,
+            onPrevious: this.previous,
+            onNext: this.next,
+            onToggleDirection: this.onDirChanged,
+            onToggleLayout: this.onViewChanged
+        }, elem.querySelector('#bookOsdMount'));
 
         this.bindEvents();
         return elem;
@@ -333,10 +290,6 @@ export class ComicsPlayer {
                     slidesPerGroup: this.comicsPlayerSettings.pagesPerView,
                     slidesPerColumn: 1,
                     initialSlide: this.currentPage,
-                    navigation: {
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev'
-                    },
                     pagination: {
                         el: '.swiper-pagination',
                         clickable: true,
@@ -358,6 +311,14 @@ export class ComicsPlayer {
                     Events.trigger(this, 'pause');
                 });
             });
+    }
+
+    next() {
+        this.swiperInstance?.slideNext();
+    }
+
+    previous() {
+        this.swiperInstance?.slidePrev();
     }
 
     getImgFromUrl(url) {
