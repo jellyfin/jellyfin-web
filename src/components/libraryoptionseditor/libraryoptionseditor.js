@@ -183,6 +183,37 @@ function renderMetadataFetchers(page, availableOptions, libraryOptions) {
     return true;
 }
 
+function renderLocalImageProviders(page, availableOptions, libraryOptions) {
+    let html = '';
+    const elem = page.querySelector('.localImageProviders');
+
+    const plugins = availableOptions.LocalImageProviders || [];
+    if (!plugins.length) {
+        elem.innerHTML = '';
+        elem.classList.add('hide');
+        return;
+    }
+
+    html += `<h3 class="checkboxListLabel">${globalize.translate('LabelLocalImageProviders')}</h3>`;
+    html += '<div class="checkboxList paperList checkboxList-paperList">';
+    for (const plugin of plugins) {
+        html += `<div class="listItem localImageProviderItem" data-pluginname="${escapeHtml(plugin.Name)}">`;
+        const isChecked = libraryOptions.DisabledLocalImageProviders ? !libraryOptions.DisabledLocalImageProviders.includes(plugin.Name) : plugin.DefaultEnabled;
+        const checkedHtml = isChecked ? ' checked="checked"' : '';
+        html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkLocalImageProvider" data-pluginname="${escapeHtml(plugin.Name)}" ${checkedHtml}><span></span></label>`;
+        html += '<div class="listItemBody">';
+        html += '<h3 class="listItemBodyText">';
+        html += escapeHtml(plugin.Name);
+        html += '</h3>';
+        html += '</div>';
+        html += '</div>';
+    }
+    html += '</div>';
+    html += `<div class="fieldDescription">${globalize.translate('LabelLocalImageProvidersHelp')}</div>`;
+    elem.classList.remove('hide');
+    elem.innerHTML = html;
+}
+
 function renderSubtitleFetchers(page, availableOptions, libraryOptions) {
     let html = '';
     const elem = page.querySelector('.subtitleFetchers');
@@ -400,6 +431,7 @@ function populateMetadataSettings(parent, contentType) {
         parent.availableOptions = availableOptions;
         renderMetadataSavers(parent, availableOptions.MetadataSavers);
         renderMetadataReaders(parent, availableOptions.MetadataReaders);
+        renderLocalImageProviders(parent, availableOptions, {});
         renderMetadataFetchers(parent, availableOptions, {});
         renderSubtitleFetchers(parent, availableOptions, {});
         renderLyricFetchers(parent, availableOptions, {});
@@ -572,6 +604,14 @@ export function setContentType(parent, contentType) {
     parent.querySelector('.chkAutomaticallyAddToCollectionContainer').classList.toggle('hide', contentType !== 'movies' && contentType !== 'mixed');
 
     return populateMetadataSettings(parent, contentType);
+}
+
+function setLocalImageProvidersIntoOptions(parent, options) {
+    options.DisabledLocalImageProviders = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkLocalImageProvider'), elem => {
+        return !elem.checked;
+    }), elem => {
+        return elem.getAttribute('data-pluginname');
+    });
 }
 
 function setSubtitleFetchersIntoOptions(parent, options) {
@@ -747,6 +787,7 @@ export function getLibraryOptions(parent) {
     });
     options.CustomTagDelimiters = parent.querySelector('#customTagDelimitersInput').value.split('');
     options.DelimiterWhitelist = parent.querySelector('#tagDelimiterWhitelist').value.split('\n').filter(item => item.trim());
+    setLocalImageProvidersIntoOptions(parent, options);
     setSubtitleFetchersIntoOptions(parent, options);
     setLyricFetchersIntoOptions(parent, options);
     setMediaSegmentProvidersIntoOptions(parent, options);
@@ -808,6 +849,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('#customTagDelimitersInput').value = options.CustomTagDelimiters.join('');
     parent.querySelector('#tagDelimiterWhitelist').value = options.DelimiterWhitelist.filter(item => item.trim()).join('\n');
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
+    renderLocalImageProviders(parent, parent.availableOptions, options);
     renderMetadataFetchers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
     renderSimilarItemProviders(parent, parent.availableOptions, options);
