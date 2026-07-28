@@ -1618,5 +1618,6 @@
     "SeriesRecordingScheduled": "Upptaka þáttaraðar sett á dagskrá.",
     "SeriesSettings": "Stillingar fyrir þáttaraðir",
     "SeriesYearToPresent": "{0} – til dagsins í dag",
-    "ServerNameIsRestarting": "Þjónninn {0} endurræsir sig."
+    "ServerNameIsRestarting": "Þjónninn {0} endurræsir sig.",
+    "ServerNameIsShuttingDown": "Þjónninn {0} slekkur á sér."
 }
