@@ -1605,5 +1605,18 @@
     "Schedule": "Dagskrá",
     "ScreenResolution": "Skjá upplausn",
     "SearchForCollectionInternetMetadata": "Leita á netinu að myndefni og lýsigögnum",
-    "SearchForLyrics": "Leita að textum"
+    "SearchForLyrics": "Leita að textum",
+    "SearchForMissingMetadata": "Leita að lýsigögnum sem vantar",
+    "SearchResultsEmpty": "Því miður! Engar niðurstöður fundust fyrir „{0}“",
+    "SecondarySubtitles": "Texti númer 2",
+    "SelectPreferredTranscodeVideoCodecHelp": "Veldu það codec sem á að nota við endurkóðun. Ef tækið styður ekki valið codec mun þjónninn nota þann valkost sem kemst næst því.",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Veldu það codec sem á að nota við endurkóðun á hljóði fyrir myndbönd. Ef tækið styður ekki valdið codec mun þjónninn nota valkost sem kemst næst því.",
+    "SelectServer": "Veldu þjón",
+    "SeriesCancelled": "Sería aflýst.",
+    "SeriesDisplayOrderHelp": "Raða eftir sýningardegi, DVD-röð eða töluröð.",
+    "SeriesName": "Nafn seríu",
+    "SeriesRecordingScheduled": "Upptaka þáttaraðar sett á dagskrá.",
+    "SeriesSettings": "Stillingar fyrir þáttaraðir",
+    "SeriesYearToPresent": "{0} – til dagsins í dag",
+    "ServerNameIsRestarting": "Þjónninn {0} endurræsir sig."
 }
