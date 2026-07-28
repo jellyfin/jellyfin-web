@@ -110,7 +110,7 @@
     "TypeOptionPluralAudio": "Ljóð",
     "TypeOptionPluralBoxSet": "Bokssett",
     "TypeOptionPluralMusicAlbum": "Tónleikaútgávur",
-    "TypeOptionPluralMusicVideo": "Tónleikasjónbond",
+    "TypeOptionPluralMusicVideo": "Sjónbandaløg",
     "TypeOptionPluralVideo": "Sjónbond",
     "Typewriter": "Skrivimaskina",
     "Uniform": "Einsháttað",
@@ -122,7 +122,7 @@
     "ValueMovieCount": "{0} filmar",
     "ValueOneEpisode": "1 partur",
     "ValueOneMovie": "1 filmur",
-    "ValueOneMusicVideo": "1 tónleika sjónband",
+    "ValueOneMusicVideo": "1 sjónbandalag",
     "ValueOneSeries": "1 røð",
     "ValueSeconds": "{0} sekund",
     "ValueSeriesCount": "{0} røðir",
@@ -177,7 +177,7 @@
     "UserMenu": "Brúkara valmynd",
     "ValueAlbumCount": "{0} útgávur",
     "ValueDiscNumber": "Fløga {0}",
-    "ValueMusicVideoCount": "{0} tónleika sjónbond",
+    "ValueMusicVideoCount": "{0} sjónbandaløg",
     "ValueOneAlbum": "1 útgáva",
     "ValueOneSong": "1 sang",
     "ValueSongCount": "{0} sangir",
@@ -477,5 +477,10 @@
     "LabelAllowHWTranscoding": "Loyv tólbúnaðarumkotan",
     "LabelReasonForTranscoding": "Umkotar vegna",
     "LabelTranscodingInfo": "Umkotuupplýsingar",
-    "TranscodingLoadError": "Miseydnaðist at innlesa umkotustillingar"
+    "TranscodingLoadError": "Miseydnaðist at innlesa umkotustillingar",
+    "AirPlay": "AirPlay",
+    "MusicVideos": "Sjónbandaløg",
+    "HeaderLatestMusicVideos": "Nýliga innløgd sjónbandaløg",
+    "MusicVideo": "Sjónbandalag",
+    "Profile": "Vangi"
 }
