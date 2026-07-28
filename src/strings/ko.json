@@ -1888,5 +1888,6 @@
     "LabelOriginalLanguage": "원어",
     "LabelSyncPlayJoinGroup": "그룹 참가",
     "LabelUseSamePublishedServerUri": "내부 및 외부 접속에 동일한 게시된 서버 URI 사용",
-    "Letterer": "레터러"
+    "Letterer": "레터러",
+    "SubtitleLanguages": "자막 언어"
 }
