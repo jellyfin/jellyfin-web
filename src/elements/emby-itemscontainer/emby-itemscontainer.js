@@ -290,19 +290,21 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     itemShortcuts.on(this, getShortcutOptions());
 
-    const subscribeToApiClient = (apiClient) => [
+    const subscribeToApiClient = apiClient => apiClient ? [
         apiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], (msg) => onUserDataChanged(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.TimerCreated], (msg) => onTimerCreated(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], (msg) => onSeriesTimerCreated(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.TimerCancelled], (msg) => onTimerCancelled(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], (msg) => onSeriesTimerCancelled(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, this))
-    ].filter(Boolean);
+    ].filter(Boolean) : [];
 
+    this._wsUnsubscribers = [];
     this._wsApiClientCreatedHandler = (e, newApiClient) => {
-        this._wsUnsubscribers = (this._wsUnsubscribers ?? []).concat(subscribeToApiClient(newApiClient));
+        this._wsUnsubscribers.push(...subscribeToApiClient(newApiClient));
     };
-    this._wsUnsubscribers = subscribeToApiClient(ServerConnections.currentApiClient());
+
+    this._wsUnsubscribers.push(...subscribeToApiClient(ServerConnections.currentApiClient()));
 
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 

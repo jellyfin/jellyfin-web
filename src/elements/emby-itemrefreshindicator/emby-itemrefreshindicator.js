@@ -38,9 +38,12 @@ EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
         if (unsub) this._wsUnsubscribers.push(unsub);
     };
 
-    const serverId = dom.parentWithAttribute(this, 'data-serverid').getAttribute('data-serverid');
-    this._wsUnsubscribers = [ServerConnections.getApiClient(serverId)
-        .subscribe([OutboundWebSocketMessageType.RefreshProgress], handler)];
+    const serverId = dom.parentWithAttribute(this, 'data-serverid')?.getAttribute('data-serverid');
+    const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
+    this._wsUnsubscribers = [];
+    if (apiClient) {
+        this._wsUnsubscribers.push(apiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler));
+    }
 };
 
 EmbyItemRefreshIndicatorPrototype.attachedCallback = function () {
