@@ -865,7 +865,13 @@ function buildCard(index, item, apiClient, options) {
     } else {
         const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}" role="img"`;
 
-        const url = appRouter.getRouteUrl(item);
+        /*
+         * Items that are embedded in a parent item (people, for example) do not carry
+         * a ServerId, so the card's serverId option has to be passed along - otherwise
+         * the link ends up with "serverId=undefined". This matches the fallback already
+         * used for the card's data-serverid attribute.
+         */
+        const url = appRouter.getRouteUrl(item, { serverId: options.serverId });
         // Don't use the IMG tag with safari because it puts a white border around it
         cardImageContainerOpen = imgUrl ? ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '" ' + blurhashAttrib + cardImageContainerAriaLabelAttribute + '>') : ('<a href="' + url + '" data-action="' + action + '" class="' + cardImageContainerClasses + ' ' + cardContentClass + ' itemAction"' + cardImageContainerAriaLabelAttribute + '>');
 
