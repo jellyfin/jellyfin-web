@@ -38,8 +38,8 @@
     "AllowSegmentDeletion": "Strika partar",
     "AllowMediaConversion": "Loyv miðlaformbroytan",
     "AllowCollectionManagement": "brúkara",
-    "AllowFfmpegThrottling": "Kyrkja",
-    "AllowRemoteAccess": "Loyv fjaratgongd til hendan ambætaran",
+    "AllowFfmpegThrottling": "Avmarka umkotingar",
+    "AllowRemoteAccess": "Loyv fjaríbindingum til hendan ambætaran",
     "HeaderPassword": "Loyniorð",
     "HeaderLibraries": "Søvn",
     "HeaderParentalRatings": "Aldursmørk",
@@ -482,5 +482,15 @@
     "MusicVideos": "Sjónbandaløg",
     "HeaderLatestMusicVideos": "Nýliga innløgd sjónbandaløg",
     "MusicVideo": "Sjónbandalag",
-    "Profile": "Vangi"
+    "Profile": "Vangi",
+    "AllowContentWithTagsHelp": "Vís einans miðlar við í minsta lagið einum av ásettu spjøldrunum.",
+    "AllowSubtitleManagement": "Loyv hesum brúkaranum at umsita undirtekstir",
+    "AllowFfmpegThrottlingHelp": "Steðga umkotingar- ella endurpakkingartilgongdini fyribils í fall hon kemur nóg langt undan spælistaðnum, til tess at brúka minni rokniorku. Hetta kemur best við um tað sjálvdan verður spola. Óvirkja hesa stilling um tú renur teg í spælitrupulleikar.",
+    "LabelThrottleDelaySeconds": "Avmarka eftir",
+    "LabelThrottleDelaySecondsHelp": "Tíð í sekundum eftir at umkotarin verður avmarkaður. Skal verða nóg leingi so at viðskiftarir hava stundir at viðlíkahalda eitt nøktandi tippi. Hevur einans ávirkan um avmarking er virkt.",
+    "AllowMediaConversionHelp": "Játta ella nokta atgongd til miðlaformbroytingarhentleikan.",
+    "AllowOnTheFlySubtitleExtraction": "Loyv leypandi undirtekstaavstúgving",
+    "AllowRemoteAccessHelp": "Loka verður fyri øllum fjaríbindingum um hetta er frávalt.",
+    "AlwaysRemuxFlacAudioFilesHelp": "Virkja hetta í fall tín kagi ikki er førur fyri at spæla ávísar fílur ella ger skeivar tíðarútrokningar av teimum.",
+    "AlwaysRemuxMp3AudioFilesHelp": "Virkja hetta í fall tín kagi ger skeivar tíðarútrokningar av teimum."
 }
