@@ -33,11 +33,6 @@ EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
 
     const handler = ({ Data }) => onRefreshProgress(this, Data);
 
-    this._wsApiClientCreatedHandler = (e, newApiClient) => {
-        const unsub = newApiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler);
-        if (unsub) this._wsUnsubscribers.push(unsub);
-    };
-
     const serverId = dom.parentWithAttribute(this, 'data-serverid')?.getAttribute('data-serverid');
     const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
     this._wsUnsubscribers = [];
@@ -63,10 +58,6 @@ EmbyItemRefreshIndicatorPrototype.detachedCallback = function () {
         unsub();
     });
     this._wsUnsubscribers = [];
-
-    if (this._wsApiClientCreatedHandler) {
-        this._wsApiClientCreatedHandler = null;
-    }
 
     this.itemId = null;
 };

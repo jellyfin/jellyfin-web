@@ -299,12 +299,7 @@ ItemsContainerPrototype.attachedCallback = function () {
         apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, this))
     ].filter(Boolean) : [];
 
-    this._wsUnsubscribers = [];
-    this._wsApiClientCreatedHandler = (e, newApiClient) => {
-        this._wsUnsubscribers.push(...subscribeToApiClient(newApiClient));
-    };
-
-    this._wsUnsubscribers.push(...subscribeToApiClient(ServerConnections.currentApiClient()));
+    this._wsUnsubscribers = subscribeToApiClient(ServerConnections.currentApiClient());
 
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 
@@ -328,9 +323,6 @@ ItemsContainerPrototype.detachedCallback = function () {
         unsub();
     });
     this._wsUnsubscribers = [];
-    if (this._wsApiClientCreatedHandler) {
-        this._wsApiClientCreatedHandler = null;
-    }
 
     removeNotificationEvent(this, 'playbackstop', playbackManager);
 
