@@ -526,5 +526,7 @@
     "ButtonUseQuickConnect": "Nýt Quick Connect",
     "ConfirmDeletion": "Vátta strikan",
     "DeleteAll": "Strika allar",
-    "DevicesLoadError": "Miseydnaðist at innlesa eindir"
+    "DevicesLoadError": "Miseydnaðist at innlesa eindir",
+    "EnableQuickConnect": "Virkja Quick Connect á hesum ambætaranum",
+    "EnableDts": "Virkja DTS (DCA)"
 }
