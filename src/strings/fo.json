@@ -528,5 +528,20 @@
     "DeleteAll": "Strika allar",
     "DevicesLoadError": "Miseydnaðist at innlesa eindir",
     "EnableQuickConnect": "Virkja Quick Connect á hesum ambætaranum",
-    "EnableDts": "Virkja DTS (DCA)"
+    "EnableDts": "Virkja DTS (DCA)",
+    "ButtonAddUser": "Legg inn brúkara",
+    "DirectStreaming": "Beinleiðis stroyming",
+    "DirectPlaying": "Beinleiðis spæling",
+    "DisplayModeHelp": "Vel uppsetingarsniðið ið tú ynskir á nýtslumarkamótinum.",
+    "EnableExternalVideoPlayers": "Ytri videospælarar",
+    "EnableTrueHd": "Virkja TrueHD",
+    "EnableTrueHdHelp": "Einans virkja hetta um tín eind hevur ella er knýtt til ein ljóðmóttakara ið hevur TrueHD virkisføri, annars kann tað elva til spælitrupulleika.",
+    "ErrorDefault": "Ein villa kom fyri undir viðgerð av umbønini. Vinaliga royn aftur seinni.",
+    "FileReadError": "Ein villa kom fyri undir lesing av fíluni.",
+    "FFmpegSavePathNotFound": "FFmpeg var ikki funni í inntøppaðu leiðini. FFprobe er eisini eitt krav og noyðist at verða í somu skjáttu. Hesi forrit verða vanliga innløgd sum partar av somu innlegging. Vinaliga kanna leiðina og royn aftur.",
+    "HeaderAddToPlaylist": "Legg á spælilista",
+    "HeaderAddUser": "Legg inn brúkara",
+    "HeaderAllRecordings": "Allar upptøkur",
+    "HeaderConfirmRevokeApiKey": "Ógilda API-lykil",
+    "HeaderDeleteProvider": "Strika veitara"
 }
