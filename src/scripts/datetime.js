@@ -279,11 +279,10 @@ export function isRelativeDay(date, offsetInDays) {
     }
 
     const yesterday = new Date();
-    const day = yesterday.getDate() + offsetInDays;
 
-    yesterday.setDate(day); // automatically adjusts month/year appropriately
+    yesterday.setDate(yesterday.getDate() + offsetInDays); // automatically adjusts month/year appropriately
 
-    return date.getFullYear() === yesterday.getFullYear() && date.getMonth() === yesterday.getMonth() && date.getDate() === day;
+    return date.getFullYear() === yesterday.getFullYear() && date.getMonth() === yesterday.getMonth() && date.getDate() === yesterday.getDate();
 }
 
 export default {
