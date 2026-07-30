@@ -1934,5 +1934,10 @@
     "SubtitleLanguages": "Taal ondertiteling",
     "ViewDoublePage": "Dubbele paginaweergave",
     "ViewSinglePage": "Enkele paginaweergave",
-    "LabelUsernameAllowedCharactersHelp": "Gebruikersnamen mogen letters, cijfers, spaties en de volgende tekens bevatten: - _ ' . @ +. Ze mogen niet beginnen of eindigen met een spatie."
+    "LabelUsernameAllowedCharactersHelp": "Gebruikersnamen mogen letters, cijfers, spaties en de volgende tekens bevatten: - _ ' . @ +. Ze mogen niet beginnen of eindigen met een spatie.",
+    "BitmapSubtitleAspectModeContain": "Passend",
+    "BitmapSubtitleAspectModeCover": "Vullen",
+    "BitmapSubtitleAspectModeHelp": "Bepaalt hoe door de speler gerenderde PGS- en Vobsub-onderitteling wordt geschaald naar het zichtbare videobeeld.",
+    "BitmapSubtitleAspectModeStretch": "Uitrekken",
+    "LabelBitmapSubtitleAspectMode": "Beeldverhouding bitmapondertiteling"
 }
