@@ -614,5 +614,19 @@
     "DisplayMissingEpisodesWithinSeasonsHelp": "Hetta noyðist eisini at verða virkt fyri sjónvarpssøvn í ambætarauppsetanini.",
     "LabelAirsAfterSeason": "Sýnt eftir sesong",
     "LabelAirsBeforeSeason": "Sýnt áðrenn sesong",
-    "LabelDisplaySpecialsWithinSeasons": "Vís eykapartar í sesongunum teir vóru sýndir í"
+    "LabelDisplaySpecialsWithinSeasons": "Vís eykapartar í sesongunum teir vóru sýndir í",
+    "ChannelNameOnly": "Einans rás {0}",
+    "CopyFailed": "Miseydnaðist at avrita",
+    "EditImages": "Umsit myndir",
+    "EnableDecodingColorDepth10Hevc": "Virkja 10-bit tólbúnaðaravkoting fyri HEVC",
+    "EnableDecodingColorDepth10Vp9": "Virkja 10-bit tólbúnaðaravkoting fyri VP9",
+    "EnableHardwareEncoding": "Virkja tólbúnaðarkoting",
+    "EndsAtValue": "Endar kl. {0}",
+    "HDPrograms": "HD-sendingar",
+    "HeaderConnectToServer": "Sambind við ambætara",
+    "HeaderConnectionFailure": "Sambindingarvilla",
+    "HeaderDefaultRecordingSettings": "Forsettar upptøkustillingar",
+    "HeaderEditImages": "Umsit myndir",
+    "HeaderKeepRecording": "Varðveit upptøku",
+    "HeaderMedia": "Margmiðlar"
 }
