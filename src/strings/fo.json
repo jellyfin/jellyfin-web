@@ -633,5 +633,6 @@
     "HeaderSubtitleAppearance": "Undirtekstaútsjónd",
     "LabelDisplayLanguage": "Nýtaramótsmál",
     "LabelHardwareEncoding": "Tólbúnaðarkoting",
-    "LastSeen": "Seinasta virksemi var fyri {0}"
+    "LastSeen": "Seinasta virksemi var fyri {0}",
+    "LabelAudioAttributes": "Ljóðeginleikar"
 }
