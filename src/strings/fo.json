@@ -628,5 +628,9 @@
     "HeaderDefaultRecordingSettings": "Forsettar upptøkustillingar",
     "HeaderEditImages": "Umsit myndir",
     "HeaderKeepRecording": "Varðveit upptøku",
-    "HeaderMedia": "Margmiðlar"
+    "HeaderMedia": "Margmiðlar",
+    "HeaderRecordingOptions": "Upptøkukostir",
+    "HeaderSubtitleAppearance": "Undirtekstaútsjónd",
+    "LabelDisplayLanguage": "Nýtaramótsmál",
+    "LabelHardwareEncoding": "Tólbúnaðarkoting"
 }
