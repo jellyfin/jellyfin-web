@@ -1836,7 +1836,7 @@
     "LabelBackupsUnavailable": "Aucune sauvegarde disponible",
     "LabelDatabase": "Base de données",
     "MessageBackupInProgress": "Sauvegarde en cours",
-    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues.",
+    "MessageRestoreDisclaimer": "AVERTISSEMENT : Vous êtes sur le point de restaurer une sauvegarde précédente. Votre serveur sera inutilisable pendant toute la durée du processus et toutes les nouvelles données créées depuis la sauvegarde seront perdues.\n\nLes sauvegardes doivent être restaurées uniquement à la version du serveur à laquelle elles ont été créées. Restaurer une sauvegarde sur une version différente n'est pas supporté et peut rendre le serveur inutilisable.",
     "MessageRestoreInProgress": "Restauration en cours",
     "MessageRestoreSuccess": "Restauration terminée avec succès",
     "LabelRestore": "Restaurer",
@@ -1925,5 +1925,13 @@
     "HeaderBackupWarning": "AVERTISSEMENT : Tâches planifiées en cours",
     "TableOfContents": "Table des matières",
     "IndexNumber": "Numéro d'index",
-    "NoCastTargets": "Aucune cible de casting disponible"
+    "NoCastTargets": "Aucune cible de casting disponible",
+    "MessageNoEpisodesFound": "Aucun n'est épisode disponible pour le moment.",
+    "ViewDoublePage": "Vue double page",
+    "ViewSinglePage": "Affichage simple page",
+    "ViewLeftToRight": "Gauche à droite",
+    "ViewRightToLeft": "Droite à gauche",
+    "SeriesName": "Nom de la série",
+    "AudioLanguages": "Langues audio",
+    "SubtitleLanguages": "Langues des sous-titres"
 }

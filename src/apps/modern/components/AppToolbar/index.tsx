@@ -47,6 +47,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
             onDrawerButtonClick={onDrawerButtonClick}
             isBackButtonAvailable={isBackButtonAvailable}
             isUserMenuAvailable={!isPublicPath}
+            className='padded-left padded-right'
         >
             {!isDrawerAvailable && (
                 <Stack
