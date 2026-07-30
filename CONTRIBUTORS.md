@@ -101,6 +101,7 @@
 - [hazemKrimi](https://github.com/hazemKrimi)
 - [diegoeche](https://github.com/diegoeche)
 - [Free O'Toole](https://github.com/freeotoole)
+- [Nicolas Newman](https://github.com/NicolasNewman)
 - [TheBosZ](https://github.com/thebosz)
 - [qm3jp](https://github.com/qm3jp)
 - [johnnyg](https://github.com/johnnyg)
