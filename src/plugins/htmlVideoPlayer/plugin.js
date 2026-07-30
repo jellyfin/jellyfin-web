@@ -2,7 +2,7 @@ import DOMPurify from 'dompurify';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
-import { useCustomSubtitles } from 'apps/legacy/features/playback/utils/subtitleStyles';
+import { shouldUseCustomSubtitles } from 'apps/legacy/features/playback/utils/subtitleStyles';
 import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleappearancehelper';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
@@ -664,6 +664,22 @@ export class HtmlVideoPlayer {
         this.setCurrentTrackElement(index, SECONDARY_TEXT_TRACK_INDEX);
     }
 
+    refreshSubtitleAppearance() {
+        if (typeof this.#customTrackIndex === 'number' && this.#customTrackIndex !== -1) {
+            this.setCurrentTrackElement(this.#customTrackIndex, PRIMARY_TEXT_TRACK_INDEX, {
+                force: true,
+                preserveSubtitleOffset: true
+            });
+        }
+
+        if (typeof this.#customSecondaryTrackIndex === 'number' && this.#customSecondaryTrackIndex !== -1) {
+            this.setCurrentTrackElement(this.#customSecondaryTrackIndex, SECONDARY_TEXT_TRACK_INDEX, {
+                force: true,
+                preserveSubtitleOffset: true
+            });
+        }
+    }
+
     resetSubtitleOffset() {
         this.#currentTrackOffset = 0;
         this.#secondaryTrackOffset = 0;
@@ -836,6 +852,18 @@ export class HtmlVideoPlayer {
 
     getSubtitleOffset() {
         return this.#currentTrackOffset;
+    }
+
+    getTrackSubtitleOffset(currentTrackIndex) {
+        return this.isSecondaryTrack(currentTrackIndex) ? this.#secondaryTrackOffset : this.#currentTrackOffset;
+    }
+
+    setTrackSubtitleOffset(offsetValue, currentTrackIndex) {
+        if (this.isSecondaryTrack(currentTrackIndex)) {
+            this.#secondaryTrackOffset = offsetValue;
+        } else {
+            this.#currentTrackOffset = offsetValue;
+        }
     }
 
     isPrimaryTrack(textTrackIndex) {
@@ -1350,24 +1378,29 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setTrackForDisplay(videoElement, track, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+    setTrackForDisplay(videoElement, track, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX, options = {}) {
         if (!track) {
             // Destroy all tracks by passing undefined if there is no valid primary track
             this.destroyCustomTrack(videoElement, this.isSecondaryTrack(targetTextTrackIndex) ? targetTextTrackIndex : undefined);
             return;
         }
 
+        const force = options.force === true;
+        const preserveSubtitleOffset = options.preserveSubtitleOffset === true;
         let targetTrackIndex = this.#customTrackIndex;
         if (this.isSecondaryTrack(targetTextTrackIndex)) {
             targetTrackIndex = this.#customSecondaryTrackIndex;
         }
 
         // skip if already playing this track
-        if (targetTrackIndex === track.Index) {
+        if (!force && targetTrackIndex === track.Index) {
             return;
         }
 
-        this.resetSubtitleOffset();
+        const subtitleOffset = preserveSubtitleOffset ? this.getTrackSubtitleOffset(targetTextTrackIndex) : 0;
+        if (!preserveSubtitleOffset) {
+            this.resetSubtitleOffset();
+        }
         const item = this._currentPlayOptions.item;
 
         this.destroyCustomTrack(videoElement, targetTextTrackIndex);
@@ -1377,13 +1410,13 @@ export class HtmlVideoPlayer {
         } else {
             this.#customTrackIndex = track.Index;
         }
-        this.renderTracksEvents(videoElement, track, item, targetTextTrackIndex);
+        this.renderTracksEvents(videoElement, track, item, targetTextTrackIndex, subtitleOffset);
     }
 
     /**
      * @private
      */
-    renderSsaAss(videoElement, track, item) {
+    renderSsaAss(videoElement, track, item, subtitleOffset = 0) {
         const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
         const availableFonts = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
@@ -1418,7 +1451,7 @@ export class HtmlVideoPlayer {
                         onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + subtitleOffset,
 
                 // new octopus options; override all, even defaults
                 renderMode: 'wasm-blend',
@@ -1540,13 +1573,19 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
+    renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex, subtitleOffset = 0) {
         this.fetchSubtitles(track, item).then((subtitleData) => {
             // Exit if the video element was destroyed while fetching subtitles
             if (!this.#mediaElement) return;
 
-            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
+            const trackEvents = subtitleData.TrackEvents;
+
+            if (subtitleOffset) {
+                this.setTrackSubtitleOffset(0, targetTextTrackIndex);
+                this.setTrackEventsSubtitleOffset(trackEvents, subtitleOffset, targetTextTrackIndex);
+            }
 
             if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                 let subtitlesContainer = document.querySelector('.videoSubtitles');
@@ -1560,7 +1599,7 @@ export class HtmlVideoPlayer {
                 this.#videoSubtitlesElem = subtitlesElement;
                 this.setSubtitleAppearance(subtitlesContainer, this.#videoSubtitlesElem);
                 videoElement.parentNode.appendChild(subtitlesContainer);
-                this.#currentTrackEvents = subtitleData.TrackEvents;
+                this.#currentTrackEvents = trackEvents;
             } else if (!this.#videoSecondarySubtitlesElem && this.isSecondaryTrack(targetTextTrackIndex)) {
                 const subtitlesContainer = document.querySelector('.videoSubtitles');
                 if (!subtitlesContainer) return;
@@ -1574,7 +1613,7 @@ export class HtmlVideoPlayer {
                 }
                 this.#videoSecondarySubtitlesElem = secondarySubtitlesElement;
                 this.setSubtitleAppearance(subtitlesContainer, this.#videoSecondarySubtitlesElem);
-                this.#currentSecondaryTrackEvents = subtitleData.TrackEvents;
+                this.#currentSecondaryTrackEvents = trackEvents;
             }
         });
     }
@@ -1582,11 +1621,16 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
+    #getSubtitleAppearanceItemKey(item) {
+        const itemId = item?.Id ?? this._currentPlayOptions?.item?.Id;
+        return itemId ? `subtitleappearance_${itemId}` : undefined;
+    }
+
     setSubtitleAppearance(elem, innerElem) {
         subtitleAppearanceHelper.applyStyles({
             text: innerElem,
             window: elem
-        }, userSettings.getSubtitleAppearanceSettings());
+        }, userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey()));
     }
 
     /**
@@ -1611,32 +1655,51 @@ export class HtmlVideoPlayer {
             document.getElementsByTagName('head')[0].appendChild(styleElem);
         }
 
-        styleElem.innerHTML = this.getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings()), '.htmlvideoplayer');
+        const subtitleAppearanceKey = this.#getSubtitleAppearanceItemKey();
+        const appearanceSettings = userSettings.getSubtitleAppearanceSettingsWithFallback(subtitleAppearanceKey);
+        const styles = subtitleAppearanceHelper.getStyles(appearanceSettings);
+        styleElem.innerHTML = this.getCueCss(styles, '.htmlvideoplayer');
     }
 
     /**
      * @private
      */
-    async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
-        if (!itemHelper.isLocalItem(item) || track.IsExternal) {
-            const format = (track.Codec || '').toLowerCase();
-            if (ASS_SUBTITLE_CODECS.includes(format)) {
-                this.renderSsaAss(videoElement, track, item);
-                return;
-            }
-            if (format === 'pgssub') {
-                this.renderPgs(videoElement, track, item, targetTextTrackIndex);
-                return;
-            }
-            if (VOBSUB_SUBTITLE_CODECS.includes(format)) {
-                this.renderVobSub(videoElement, track, item, targetTextTrackIndex);
-                return;
-            }
+    renderNonNativeSubtitleTrack(videoElement, track, item, targetTextTrackIndex, subtitleOffset) {
+        if (itemHelper.isLocalItem(item) && !track.IsExternal) {
+            return false;
+        }
 
-            if (useCustomSubtitles(userSettings)) {
-                this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex);
-                return;
-            }
+        const format = (track.Codec || '').toLowerCase();
+        if (ASS_SUBTITLE_CODECS.includes(format)) {
+            this.renderSsaAss(videoElement, track, item, subtitleOffset);
+            return true;
+        }
+
+        if (format === 'pgssub') {
+            this.renderPgs(videoElement, track, item, targetTextTrackIndex);
+            return true;
+        }
+
+        if (VOBSUB_SUBTITLE_CODECS.includes(format)) {
+            this.renderVobSub(videoElement, track, item, targetTextTrackIndex);
+            return true;
+        }
+
+        const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
+        if (!shouldUseCustomSubtitles(userSettings, subtitleAppearance)) {
+            return false;
+        }
+
+        this.renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex, subtitleOffset);
+        return true;
+    }
+
+    /**
+     * @private
+     */
+    async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX, subtitleOffset = 0) {
+        if (this.renderNonNativeSubtitleTrack(videoElement, track, item, targetTextTrackIndex, subtitleOffset)) {
+            return;
         }
 
         let trackElement = null;
@@ -1668,7 +1731,7 @@ export class HtmlVideoPlayer {
 
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
-            const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(this.#getSubtitleAppearanceItemKey(item));
             const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
 
             // add some cues to show the text
@@ -1688,6 +1751,11 @@ export class HtmlVideoPlayer {
                 }
 
                 trackElement.addCue(cue);
+            }
+
+            if (subtitleOffset) {
+                this.setTrackSubtitleOffset(0, targetTextTrackIndex);
+                this.setTextTrackSubtitleOffset(trackElement, subtitleOffset, targetTextTrackIndex);
             }
 
             trackElement.mode = 'showing';
@@ -1729,7 +1797,7 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setCurrentTrackElement(streamIndex, targetTextTrackIndex) {
+    setCurrentTrackElement(streamIndex, targetTextTrackIndex, options = {}) {
         console.debug(`setting new text track index to: ${streamIndex}`);
 
         const mediaStreamTextTracks = getMediaStreamTextTracks(this._currentPlayOptions.mediaSource);
@@ -1764,7 +1832,7 @@ export class HtmlVideoPlayer {
                 mediaStreamTextTracks.forEach((t) => {
                     t.DeliveryMethod = t.realDeliveryMethod ?? t.DeliveryMethod;
                 });
-                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex);
+                player.setTrackForDisplay(player.#mediaElement, track, targetTextTrackIndex, options);
                 if (enableNativeTrackSupport(player._currentPlayOptions?.mediaSource, track)) {
                     if (streamIndex !== -1) {
                         player.setCueAppearance();
