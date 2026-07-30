@@ -1933,5 +1933,7 @@
     "ViewRightToLeft": "De dreta a esquerra",
     "SeriesName": "Nom de la sèrie",
     "AudioLanguages": "Idiomes de l'àudio",
-    "SubtitleLanguages": "Idiomes del subtítol"
+    "SubtitleLanguages": "Idiomes del subtítol",
+    "BitmapSubtitleAspectModeContain": "Conté",
+    "BitmapSubtitleAspectModeCover": "Tapa"
 }
