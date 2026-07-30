@@ -1744,8 +1744,8 @@
     "LabelFallbackMaxStreamingBitrate": "Maximale terugvalbitsnelheid voor streamen (Mbps)",
     "LabelLyricDownloaders": "Ophalers voor liedteksten",
     "LyricDownloadersHelp": "Activeer je voorkeursophalers voor liedteksten en bepaal hun prioriteit.",
-    "RenderPgsSubtitle": "PGS-ondertiteling weergeven (experimenteel)",
-    "RenderPgsSubtitleHelp": "Bepaal of de speler PGS-ondertiteling zelf moet weergeven in plaats van ingebrande ondertiteling te gebruiken. Dit voorkomt transcoderen aan de serverkant maar kan de weergaveprestaties aan de spelerkant beïnvloeden.",
+    "RenderPgsSubtitle": "PGS- en VobSub-ondertiteling weergeven (experimenteel)",
+    "RenderPgsSubtitleHelp": "Bepaal of de speler PGS- en VobSub-ondertiteling zelf moet weergeven in plaats van ingebrande ondertiteling te gebruiken. Dit voorkomt transcoderen aan de serverkant maar kan de weergaveprestaties aan de spelerkant beïnvloeden.",
     "LabelAudioTagSettings": "Instellingen voor geluidstags",
     "LabelCustomTagDelimiters": "Aangepast scheidingsteken voor tags",
     "LabelCustomTagDelimitersHelp": "Tekens die als scheidingsteken worden gezien om tags van elkaar te scheiden.",
@@ -1933,5 +1933,6 @@
     "AudioLanguages": "Gesproken taal",
     "SubtitleLanguages": "Taal ondertiteling",
     "ViewDoublePage": "Dubbele paginaweergave",
-    "ViewSinglePage": "Enkele paginaweergave"
+    "ViewSinglePage": "Enkele paginaweergave",
+    "LabelUsernameAllowedCharactersHelp": "Gebruikersnamen mogen letters, cijfers, spaties en de volgende tekens bevatten: - _ ' . @ +. Ze mogen niet beginnen of eindigen met een spatie."
 }
