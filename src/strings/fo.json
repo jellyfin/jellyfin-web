@@ -632,5 +632,6 @@
     "HeaderRecordingOptions": "Upptøkukostir",
     "HeaderSubtitleAppearance": "Undirtekstaútsjónd",
     "LabelDisplayLanguage": "Nýtaramótsmál",
-    "LabelHardwareEncoding": "Tólbúnaðarkoting"
+    "LabelHardwareEncoding": "Tólbúnaðarkoting",
+    "LastSeen": "Seinasta virksemi var fyri {0}"
 }
