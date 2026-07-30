@@ -397,6 +397,7 @@ export default function (view, params) {
     });
     view.addEventListener('viewbeforehide', function () {
         inputManager.off(window, onInputCommand);
+        Events.off(playbackManager, 'playbackstop', onPlaybackStop);
     });
     for (const tabController of tabControllers) {
         if (tabController.destroy) {
