@@ -40,5 +40,10 @@
     "LabelSegmentKeepSecondsHelp": "کات بە چرکە کە تیایدا پارچەکان لە بیرگە هەڵدەگیرێن دوای ئەوەی لای بەکاربەر دابەزێنراون. تەنیا لە کاتی چالاککردنی سڕینەوەی پارچەکان کاردەکات.",
     "AllowMediaConversion": "ڕێگەدان بە وەرگەڕانی میدیا",
     "AllowMediaConversionHelp": "ڕێگەپێدان یان پێنەدان بە تایبەتمەندی وەرگەڕانی میدیا.",
-    "ActivitiesLoadError": "بارکردنی چالاکییەکان سەرکەوتوو نەبوو"
+    "ActivitiesLoadError": "بارکردنی چالاکییەکان سەرکەوتوو نەبوو",
+    "LabelSystem": "سیستەم",
+    "LabelTag": "تاگ",
+    "LabelTagline": "دروشم",
+    "LabelTextBackgroundColor": "ڕەنگی پاشبنەمای دەق",
+    "LabelTextColor": "ڕەنگی دەق"
 }
