@@ -2,6 +2,7 @@ import React, { forwardRef, useCallback } from 'react';
 import type { ChapterInfo } from '@jellyfin/sdk/lib/generated-client/models/chapter-info';
 
 import datetime from 'scripts/datetime';
+import globalize from 'lib/globalize';
 import { playbackManager } from 'components/playback/playbackmanager';
 import Slider, { BubbleText, type JfSliderHandle } from 'elements/jf-slider/Slider';
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -76,7 +77,7 @@ const ChapterSeekSlider = forwardRef<JfSliderHandle, ChapterSeekSliderProps>(({
             focusable={false}
             keepProgress
             keyboardStep={keyboardStep}
-            ariaLabel='Seek within chapter'
+            ariaLabel={globalize.translate('SeekWithinChapter')}
             bubbleContent={bubbleContent}
             onChange={onChange}
             onActivate={onActivate}

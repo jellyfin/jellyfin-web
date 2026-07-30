@@ -16,7 +16,13 @@ vi.mock('scripts/datetime', () => ({
     default: { getDisplayRunningTime: (ticks: number) => `t${ticks}` }
 }));
 vi.mock('scripts/keyboardNavigation', () => ({ getKeyName: (e: KeyboardEvent) => e.key }));
-vi.mock('lib/globalize', () => ({ default: { getIsRTL: () => false, getIsElementRTL: () => false } }));
+vi.mock('lib/globalize', () => ({
+    default: {
+        getIsRTL: () => false,
+        getIsElementRTL: () => false,
+        translate: (key: string, ...args: unknown[]) => (args.length ? `${key}:${args.join(',')}` : key)
+    }
+}));
 vi.mock('scripts/browser', () => ({ default: { iOS: false } }));
 
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -137,6 +143,11 @@ describe('ChapterSeekSlider: rendering', () => {
     it('clamps a negative progress to 0', () => {
         const h = mount({ progressPct: -20 });
         expect(h.input().value).toBe('0');
+    });
+
+    it('labels the slider with a translated aria-label', () => {
+        const h = mount({});
+        expect(h.input().getAttribute('aria-label')).toBe('SeekWithinChapter');
     });
 });
 

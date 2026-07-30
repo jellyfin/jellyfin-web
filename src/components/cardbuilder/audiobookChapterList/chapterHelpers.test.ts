@@ -9,6 +9,7 @@ vi.mock('scripts/datetime', () => ({
 
 import datetime from 'scripts/datetime';
 import {
+    getChapterBounds,
     getChapterDurationTicks,
     getChapterProgress,
     getChapterState,
@@ -23,6 +24,40 @@ const CHAPTERS: ChapterInfo[] = [
     { StartPositionTicks: 250 }
 ];
 const RUNTIME = 400;
+
+// getChapterBounds is the shared end-boundary derivation behind both
+// getChapterProgress and getChapterDurationTicks, so its null-vs-0 sentinel is
+// load-bearing: null means "boundary unknown", which the progress helper needs
+// to tell apart from a real end of 0.
+describe('chapterHelpers: getChapterBounds', () => {
+    it('ends a chapter at the next chapter start', () => {
+        expect(getChapterBounds(CHAPTERS[0], 0, CHAPTERS, RUNTIME)).toEqual({ start: 0, end: 100 });
+        expect(getChapterBounds(CHAPTERS[1], 1, CHAPTERS, RUNTIME)).toEqual({ start: 100, end: 250 });
+    });
+
+    it('ends the last chapter at the item runtime', () => {
+        expect(getChapterBounds(CHAPTERS[2], 2, CHAPTERS, RUNTIME)).toEqual({ start: 250, end: RUNTIME });
+    });
+
+    it('reports an unknown end for the last chapter when the item has no runtime', () => {
+        expect(getChapterBounds(CHAPTERS[2], 2, CHAPTERS, 0)).toEqual({ start: 250, end: null });
+    });
+
+    it('reports an unknown end when the next chapter has no start', () => {
+        const chapters: ChapterInfo[] = [{ StartPositionTicks: 0 }, {}];
+        expect(getChapterBounds(chapters[0], 0, chapters, RUNTIME)).toEqual({ start: 0, end: null });
+    });
+
+    it('treats a missing StartPositionTicks as 0', () => {
+        const chapters: ChapterInfo[] = [{}, { StartPositionTicks: 100 }];
+        expect(getChapterBounds(chapters[0], 0, chapters, RUNTIME)).toEqual({ start: 0, end: 100 });
+    });
+
+    it('reports a zero-length range for adjacent chapters with equal starts', () => {
+        const chapters: ChapterInfo[] = [{ StartPositionTicks: 100 }, { StartPositionTicks: 100 }];
+        expect(getChapterBounds(chapters[0], 0, chapters, RUNTIME)).toEqual({ start: 100, end: 100 });
+    });
+});
 
 describe('chapterHelpers: getChapterProgress', () => {
     it('returns null for a null or non-positive position', () => {
