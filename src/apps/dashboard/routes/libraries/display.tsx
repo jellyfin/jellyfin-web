@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { QUERY_KEY as CONFIG_QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import { QUERY_KEY as NAMED_CONFIG_QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import globalize from 'lib/globalize';
@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const { data: config } = await getSystemApi(api).getConfiguration();
 
     const metadataConfig: MetadataConfiguration = {
         UseFileCreationTimeForDateAdded: data.DateAddedBehavior.toString() === '1'
@@ -43,10 +43,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     config.EnableGroupingShowsIntoCollections = data.GroupShowsIntoCollections?.toString() === 'on';
     config.EnableExternalContentInSuggestions = data.EnableExternalContentInSuggestions?.toString() === 'on';
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: metadataConfig });
 
     void queryClient.invalidateQueries({

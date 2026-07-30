@@ -12,6 +12,7 @@ If you have any questions, please join one of our [development chat rooms](https
 
 * New files **MUST** be written in TypeScript.
 * API interactions **MUST** be made using the Jellyfin TypeScript SDK.
+* New app pages **MUST** be written using React components using `src/components/Page.tsx` as the base component.
 * **SHOULD** be covered by unit tests when possible (legacy component/view code is deemed untestable).
 * **SHOULD** avoid whitespace only changes in unchanged sections of code.
 * **SHOULD NOT** overuse dynamic imports. We use dynamic imports at the page level; otherwise we should let our build tooling deal with code-splitting for the best bundle sizes.
@@ -30,6 +31,7 @@ If you have any questions, please join one of our [development chat rooms](https
   * **SHOULD NOT** rebase once reviews are in progress.
 * **MUST** follow the [LLM development policy](https://jellyfin.org/docs/general/contributing/llm-policies).
 * **MUST** test that the change works as expected before marking a PR as ready for review.
+* **MUST** fully complete the PR template. Failing to do so will result in the PR being closed as invalid without review.
 * **SHOULD** represent a singular focus (i.e. a PR to fix a bug should not include unrelated refactoring).
 * **SHOULD NOT** update from `master` needlessly once opened (only update if conflicts exist).
 
@@ -51,7 +53,7 @@ You may be asked to update your Pull Request to target a release branch as part 
 * [React](https://react.dev/reference/react) &mdash; User Interface library
 * [React Router](https://reactrouter.com/) &mdash; Routing library
 * [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) &mdash; State management library for server data
-* [MUI](https://mui.com/material-ui/getting-started/) components (in Dashboard and Experimental layouts) &mdash; UI component library
+* [MUI](https://mui.com/material-ui/getting-started/) components (in Dashboard and Modern layouts) &mdash; UI component library
 * [Webpack](https://webpack.js.org/concepts/) &mdash; Bundler / build tooling
 * [Vitest](https://vitest.dev/api/) &mdash; Test library
 
@@ -59,7 +61,7 @@ You may be asked to update your Pull Request to target a release branch as part 
 
 | Library | Replacement |
 | --- | --- |
-| [Emby WebComponents](./src/elements) | MUI components (Dashboard + Experimental apps ONLY; Untested on TVs) |
+| [Emby WebComponents](./src/elements) | MUI components (Dashboard + Modern apps ONLY; Untested on TVs) |
 | [App Router](./src/components/router/appRouter.js) | React Router |
 | [View Manager](./src/components/viewManager) | React Router |
 | [Jellyfin ApiClient](https://github.com/jellyfin-archive/jellyfin-apiclient-javascript) | Jellyfin TypeScript SDK |
@@ -73,13 +75,13 @@ The official list of supported browser versions can be found in the `browserlist
 
 ## Application Components
 
-* Stable App `src/apps/stable`
+* Modern App `src/apps/modern`
+  * Ongoing rewrite of the main user interface using MUI components
+  * Currently reuses content from the Legacy App to maintain parity
+  * Does not currently support TV layout!
+* Legacy App `src/apps/legacy`
   * Main user application
   * Supports TV layout
-* Experimental App `src/apps/experimental`
-  * Ongoing rewrite of the Stable App using MUI components
-  * Currently reuses (most) pages from the Stable App to maintain parity
-  * Does not currently support TV layout!
 * Dashboard App `src/apps/dashboard`
   * Admin dashboard and metadata editor pages
   * Almost completely rewritten using MUI components
@@ -103,13 +105,12 @@ The official list of supported browser versions can be found in the `browserlist
 └── src
     ├── apps
     │   ├── dashboard           # Admin dashboard app
-    │   ├── experimental        # New experimental app
-    │   ├── stable              # Classic (stable) app
+    │   ├── legacy              # Legacy app
+    │   ├── modern              # New modern (React based) app
     │   └── wizard              # Startup wizard app
     ├── assets                  # Static assets
     ├── components              # Higher order visual components and React components
     ├── constants               # Common constant values
-    ├── controllers             # Legacy page views and controllers 🧹 ❌
     ├── elements                # Basic webcomponents and React equivalents 🧹
     ├── hooks                   # Custom React hooks
     ├── lib                     # Reusable libraries

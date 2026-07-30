@@ -21,7 +21,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
@@ -33,7 +33,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const data = await request.json() as LiveTvOptions;
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: data });
 
     void queryClient.invalidateQueries({

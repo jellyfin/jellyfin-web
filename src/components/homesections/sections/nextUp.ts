@@ -3,7 +3,7 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import { getNextUpQuery } from 'apps/stable/features/libraries/api/useNextUp';
+import { getNextUpQuery } from 'apps/legacy/features/libraries/api/useNextUp';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';

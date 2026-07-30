@@ -1,7 +1,7 @@
 /**
  * "Shortcut" action handlers for BaseItems.
  */
-import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
@@ -141,7 +141,7 @@ function showContextMenu(card, options = {}) {
             apiClient?.getCurrentUser(),
             // Fetch playlist perms if item is a child of a playlist
             api && playlistId ?
-                getPlaylistsApi(api)
+                getPlaylistApi(api)
                     .getPlaylistUser({
                         playlistId,
                         userId: apiClient?.getCurrentUserId()

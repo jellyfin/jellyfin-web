@@ -1,4 +1,4 @@
-import { getQuickConnectApi } from '@jellyfin/sdk/lib/utils/api/quick-connect-api';
+import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import { useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -11,7 +11,7 @@ const fetchQuickConnectEnabled = async (
     const { api } = apiContext;
     if (!api) throw new Error('No API instance available');
 
-    const response = await getQuickConnectApi(api)
+    const response = await getAuthenticationApi(api)
         .getQuickConnectEnabled(options);
     return response.data;
 };

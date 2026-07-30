@@ -7,7 +7,7 @@ import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto
 import escapeHtml from 'escape-html';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import { getLatestMediaQuery } from 'apps/stable/features/libraries/api/useLatestMedia';
+import { getLatestMediaQuery } from 'apps/legacy/features/libraries/api/useLatestMedia';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
@@ -83,6 +83,7 @@ function getLatestItemsHtmlFn(
             items: items,
             shape: shape,
             preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+            preferParentPoster: true,
             showUnplayedIndicator: false,
             showChildCountIndicator: true,
             context: 'home',

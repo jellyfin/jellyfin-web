@@ -1,8 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
-import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
-import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import escapeHtml from 'escape-html';
 
 import toast from 'components/toast/toast';
@@ -95,7 +94,7 @@ function createPlaylist(dlg: DialogElement) {
 
     if (!api) return Promise.reject(new Error('No Api instance available'));
 
-    return getPlaylistsApi(api)
+    return getPlaylistApi(api)
         .createPlaylist({
             createPlaylistDto: {
                 Name: name ?? '',
@@ -133,7 +132,7 @@ function updatePlaylist(dlg: DialogElement) {
     const api = ServerConnections.getApi(currentServerId);
     if (!api) return Promise.reject(new Error('No Api instance available'));
 
-    return getPlaylistsApi(api)
+    return getPlaylistApi(api)
         .updatePlaylist({
             playlistId: dlg.playlistId,
             updatePlaylistDto: {
@@ -166,7 +165,7 @@ function addToPlaylist(dlg: DialogElement, id: string) {
 
     if (!api) return Promise.reject(new Error('No Api instance available'));
 
-    return getPlaylistsApi(api)
+    return getPlaylistApi(api)
         .addItemToPlaylist({
             playlistId: id,
             ids: itemIds.split(','),
@@ -199,7 +198,7 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
     if (!api) return Promise.reject(new Error('No Api instance available'));
 
-    return getItemsApi(api)
+    return getLibraryApi(api)
         .getItems({
             userId: apiClient?.getCurrentUserId(),
             includeItemTypes: [ BaseItemKind.Playlist ],
@@ -217,7 +216,7 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
                 if (!item.Id || !userId) return playlist;
 
-                return getPlaylistsApi(api)
+                return getPlaylistApi(api)
                     .getPlaylistUser({
                         playlistId: item.Id,
                         userId
@@ -352,9 +351,9 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
         }
 
         Promise.all([
-            getUserLibraryApi(api)
+            getLibraryApi(api)
                 .getItem({ itemId: options.id }),
-            getPlaylistsApi(api)
+            getPlaylistApi(api)
                 .getPlaylist({ playlistId: options.id })
         ])
             .then(([ { data: playlistItem }, { data: playlist } ]) => {

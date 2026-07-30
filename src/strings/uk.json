@@ -1923,5 +1923,7 @@
     "TableOfContents": "Зміст",
     "ConfirmSplitMedia": "Ви впевнені, що хочете розділити медіаджерела на окремі елементи?",
     "HeaderSplitMedia": "Розділити медіафайл",
-    "Creators": "Творці"
+    "Creators": "Творці",
+    "IndexNumber": "Номер індексу",
+    "NoCastTargets": "Немає пристроїв для трансляції"
 }

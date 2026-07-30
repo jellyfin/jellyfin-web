@@ -4,7 +4,7 @@ import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-field
 import type { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import { getResumeItemsQuery } from 'apps/stable/features/libraries/api/useResumeItems';
+import { getResumeItemsQuery } from 'apps/legacy/features/libraries/api/useResumeItems';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import globalize from 'lib/globalize';
