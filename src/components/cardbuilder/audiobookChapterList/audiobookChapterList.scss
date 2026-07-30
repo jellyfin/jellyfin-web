@@ -1,6 +1,9 @@
 // Transparent to layout so the rows are the flex children of the
 // .vertical-list itemscontainer, as the legacy DOM had them.
-.audiobookChapterList {
+// The host is the per-mount React container the details controller creates; it has to be
+// transparent for the same reason, otherwise it becomes the rows' flex parent.
+.audiobookChapterList,
+.audiobookChapterListHost {
     display: contents;
 }
 

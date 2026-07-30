@@ -1811,7 +1811,44 @@ function renderAdditionalParts(page, item, user) {
     });
 }
 
-let _chapterCleanup = null;
+// Per view, not per module: cached views remount on every restore, and 3 can be alive at once.
+const CHAPTER_CLEANUP = Symbol('audiobookChapterCleanup');
+
+function unmountAudiobookChapters(page) {
+    const cleanup = page[CHAPTER_CLEANUP];
+
+    if (cleanup) {
+        page[CHAPTER_CLEANUP] = null;
+        cleanup();
+    }
+}
+
+function mountAudiobookChapters(page, item, chapters) {
+    const childrenCollapsible = page.querySelector('#listChildrenCollapsible');
+    const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
+
+    // Same treatment as MusicAlbum
+    childrenCollapsible.classList.remove('hide');
+    childrenCollapsible.classList.add('verticalSection-extrabottompadding');
+    childrenCollapsible.querySelector('.sectionTitle').classList.add('hide');
+    childrenItemsContainer.classList.add('vertical-list');
+    childrenItemsContainer.classList.remove('vertical-wrap');
+
+    unmountAudiobookChapters(page);
+
+    // Own host per mount: renderComponent's unmount is deferred and would hit the next root.
+    const host = document.createElement('div');
+    host.classList.add('audiobookChapterListHost');
+    childrenItemsContainer.innerHTML = '';
+    childrenItemsContainer.appendChild(host);
+
+    const unmountComponent = renderComponent(AudiobookChapterList, { item, chapters }, host);
+
+    page[CHAPTER_CLEANUP] = () => {
+        unmountComponent();
+        host.remove();
+    };
+}
 
 function renderScenes(page, item) {
     const allChapters = item.Chapters || [];
@@ -1820,21 +1857,11 @@ function renderScenes(page, item) {
     // Audiobook chapters: reuse the album track list's children section
     if (isAudioBook && allChapters.length) {
         page.querySelector('#scenesCollapsible').classList.add('hide');
-
-        const childrenCollapsible = page.querySelector('#listChildrenCollapsible');
-        const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
-
-        // Same treatment as MusicAlbum
-        childrenCollapsible.classList.remove('hide');
-        childrenCollapsible.classList.add('verticalSection-extrabottompadding');
-        childrenCollapsible.querySelector('.sectionTitle').classList.add('hide');
-        childrenItemsContainer.classList.add('vertical-list');
-        childrenItemsContainer.classList.remove('vertical-wrap');
-
-        // renderComponent returns an unmount fn; view teardown calls it via _chapterCleanup.
-        _chapterCleanup = renderComponent(AudiobookChapterList, { item, chapters: allChapters }, childrenItemsContainer);
+        mountAudiobookChapters(page, item, allChapters);
         return;
     }
+
+    unmountAudiobookChapters(page);
 
     // Video chapters: image card grid (requires images)
     let chapters = allChapters;
@@ -2223,6 +2250,8 @@ export default function (view, params) {
                     libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                     renderBackdrop(page, currentItem);
+                    // Hide unmounted the chapter list and reload() does not run here.
+                    renderScenes(page, currentItem);
                 }
             } else {
                 reload(self, page, params);
@@ -2243,10 +2272,7 @@ export default function (view, params) {
             itemShortcuts.off(view.querySelector('.nameContainer'));
             self._unsubscribeUserData?.();
             self._unsubscribeUserData = null;
-            if (_chapterCleanup) {
-                _chapterCleanup();
-                _chapterCleanup = null;
-            }
+            unmountAudiobookChapters(view);
             Events.off(playbackManager, 'playerchange', onPlayerChange);
             Events.off(playbackManager, 'playbackstart', onDetailPlaybackStart);
             Events.off(playbackManager, 'playbackstop', onDetailPlaybackStop);
@@ -2255,6 +2281,7 @@ export default function (view, params) {
         });
         view.addEventListener('viewdestroy', function () {
             unmount(self);
+            unmountAudiobookChapters(view);
 
             currentItem = null;
             self._currentPlaybackMediaSources = null;
