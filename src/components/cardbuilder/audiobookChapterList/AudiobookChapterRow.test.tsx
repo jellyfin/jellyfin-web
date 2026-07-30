@@ -30,7 +30,15 @@ vi.mock('scripts/datetime', () => ({
 // Needed by both the Row and the real Slider for TV key handling.
 vi.mock('scripts/keyboardNavigation', () => ({ getKeyName: (e: KeyboardEvent) => e.key }));
 // The real Slider (used here) also imports these two.
-vi.mock('lib/globalize', () => ({ default: { getIsRTL: () => false, getIsElementRTL: () => false } }));
+// translate echoes the key (with any args appended) so assertions pin the key
+// and its substitutions rather than the English wording.
+vi.mock('lib/globalize', () => ({
+    default: {
+        getIsRTL: () => false,
+        getIsElementRTL: () => false,
+        translate: (key: string, ...args: unknown[]) => (args.length ? `${key}:${args.join(',')}` : key)
+    }
+}));
 vi.mock('scripts/browser', () => ({ default: { iOS: false } }));
 
 import { playbackManager } from 'components/playback/playbackmanager';
@@ -139,7 +147,7 @@ describe('AudiobookChapterRow: rendering by state', () => {
 
     it('falls back to a numbered name when the chapter has none', () => {
         const h = mount({ chapter: { StartPositionTicks: 0 }, chapterIndex: 2 });
-        expect(h.container.querySelector('.audiobookChapterItem-name')?.textContent).toBe('Chapter 3');
+        expect(h.container.querySelector('.audiobookChapterItem-name')?.textContent).toBe('ChapterNumber:3');
     });
 
     it('unplayed: no restart button, no slider, resting play glyph only', () => {
@@ -164,6 +172,8 @@ describe('AudiobookChapterRow: rendering by state', () => {
         expect(h.container.querySelector('.audiobookChapterItem-iconPlaying.pause')).not.toBeNull();
         expect(h.container.querySelector('.audiobookChapterItem-restart')).not.toBeNull();
         expect(h.container.querySelector('.audiobookChapterSlider')).not.toBeNull();
+        expect(h.container.querySelector('.audiobookChapterItem-restart')?.getAttribute('title'))
+            .toBe('RestartChapter');
     });
 
     it('renders a playing last chapter when the item has no runtime (progress 0)', () => {

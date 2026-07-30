@@ -5,6 +5,7 @@ import type { ChapterInfo } from '@jellyfin/sdk/lib/generated-client/models/chap
 import layoutManager from 'components/layoutManager';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { getKeyName } from 'scripts/keyboardNavigation';
+import globalize from 'lib/globalize';
 import type { JfSliderHandle } from 'elements/jf-slider/Slider';
 import type { ItemDto } from 'types/base/models/item-dto';
 
@@ -64,7 +65,7 @@ const AudiobookChapterRow: FC<AudiobookChapterRowProps> = ({
     const chapterStart = chapter.StartPositionTicks ?? 0;
     const chapterDurationTicks = getChapterDurationTicks(chapter, chapterIndex, chapters, runTimeTicks);
     const timeDisplay = getChapterTimeDisplay(chapter, chapterIndex, chapters, state, positionTicks, runTimeTicks);
-    const chapterName = chapter.Name || `Chapter ${chapterIndex + 1}`;
+    const chapterName = chapter.Name || globalize.translate('ChapterNumber', chapterIndex + 1);
     const isPlaying = state === 'playing';
     const progressPct = isPlaying ? (progress || 0) * 100 : 0;
 
@@ -169,7 +170,7 @@ const AudiobookChapterRow: FC<AudiobookChapterRowProps> = ({
                     className='audiobookChapterItem-restart material-icons replay'
                     role='button'
                     tabIndex={-1}
-                    title='Restart chapter'
+                    title={globalize.translate('RestartChapter')}
                     onClick={onRestartClick}
                     onKeyDown={onRestartKeyDown}
                 />

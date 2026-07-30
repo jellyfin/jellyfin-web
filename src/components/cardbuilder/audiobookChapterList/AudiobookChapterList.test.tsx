@@ -28,7 +28,13 @@ vi.mock('scripts/datetime', () => ({
     default: { getDisplayRunningTime: (ticks: number) => String(ticks) }
 }));
 vi.mock('scripts/keyboardNavigation', () => ({ getKeyName: (e: KeyboardEvent) => e.key }));
-vi.mock('lib/globalize', () => ({ default: { getIsRTL: () => false, getIsElementRTL: () => false } }));
+vi.mock('lib/globalize', () => ({
+    default: {
+        getIsRTL: () => false,
+        getIsElementRTL: () => false,
+        translate: (key: string, ...args: unknown[]) => (args.length ? `${key}:${args.join(',')}` : key)
+    }
+}));
 vi.mock('scripts/browser', () => ({ default: { iOS: false } }));
 
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -47,6 +53,8 @@ const CHAPTERS: ChapterInfo[] = [
 interface Harness {
     container: HTMLElement;
     root: Root;
+    /** Re-render with the current progress.value, e.g. after crossing a chapter boundary. */
+    rerender: () => void;
     unmount: () => void;
 }
 
@@ -62,6 +70,11 @@ function mount(chapters: ChapterInfo[] = CHAPTERS, item: ItemDto = ITEM): Harnes
     const harness: Harness = {
         container,
         root,
+        rerender: () => {
+            act(() => {
+                root.render(<AudiobookChapterList item={item} chapters={chapters} />);
+            });
+        },
         unmount: () => {
             act(() => {
                 root.unmount();
@@ -109,7 +122,54 @@ describe('AudiobookChapterList', () => {
         progress.value = { positionTicks: 50, isActiveForItem: true, isPaused: false };
         const h = mount();
         expect(h.container.querySelector('.chapterItem-playing')).not.toBeNull();
-        expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest', behavior: 'smooth' });
+        expect(scrollIntoView).toHaveBeenCalledWith({ block: 'center', behavior: 'smooth' });
+        expect(focus).toHaveBeenCalledWith({ preventScroll: true });
+    });
+
+    it('re-scrolls but does not re-focus when playback crosses a chapter boundary', () => {
+        progress.value = { positionTicks: 50, isActiveForItem: true, isPaused: false };
+        const h = mount();
+        expect(focus).toHaveBeenCalledTimes(1);
+        scrollIntoView.mockClear();
+        focus.mockClear();
+
+        // Cross into chapter 1: the list follows the playing row, but focus must
+        // stay wherever the user left it.
+        progress.value = { positionTicks: 150, isActiveForItem: true, isPaused: false };
+        h.rerender();
+
+        expect(h.container.querySelectorAll('.chapterItem-playing')).toHaveLength(1);
+        expect(scrollIntoView).toHaveBeenCalledWith({ block: 'center', behavior: 'smooth' });
+        expect(focus).not.toHaveBeenCalled();
+    });
+
+    it('does not steal focus when something outside the list already has it', () => {
+        const outside = document.createElement('button');
+        document.body.appendChild(outside);
+        vi.spyOn(document, 'activeElement', 'get').mockReturnValue(outside);
+
+        try {
+            progress.value = { positionTicks: 50, isActiveForItem: true, isPaused: false };
+            const h = mount();
+            expect(h.container.querySelector('.chapterItem-playing')).not.toBeNull();
+            expect(scrollIntoView).toHaveBeenCalled();
+            expect(focus).not.toHaveBeenCalled();
+        } finally {
+            outside.remove();
+        }
+    });
+
+    it('claims focus when focus is already inside the list', () => {
+        // activeElement resolves lazily against the mounted DOM, so by the time
+        // the one-shot effect reads it, it points at a node inside the list --
+        // focus already in the list is ours to move.
+        vi.spyOn(document, 'activeElement', 'get')
+            .mockImplementation(() => document.querySelector('.audiobookChapterItem'));
+
+        progress.value = { positionTicks: 50, isActiveForItem: true, isPaused: false };
+        const h = mount();
+
+        expect(h.container.querySelector('.chapterItem-playing')).not.toBeNull();
         expect(focus).toHaveBeenCalledWith({ preventScroll: true });
     });
 
