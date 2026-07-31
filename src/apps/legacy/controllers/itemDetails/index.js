@@ -28,8 +28,10 @@ import itemShortcuts from 'components/shortcuts';
 import { AppFeature } from 'constants/appFeature';
 import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
+import { getItemQuery } from 'hooks/useItem';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from 'utils/query/queryClient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'utils/dom';
@@ -70,6 +72,14 @@ function getPromise(apiClient, params) {
     const id = params.id;
 
     if (id) {
+        const api = ServerConnections.getApi(apiClient.serverId());
+
+        if (api) {
+            // Reuse the cached query the router already primed when navigating here,
+            // so opening details does not refetch the same item over the legacy route.
+            return queryClient.fetchQuery(getItemQuery(api, id, apiClient.getCurrentUserId()));
+        }
+
         return apiClient.getItem(apiClient.getCurrentUserId(), id);
     }
 
@@ -1901,6 +1911,14 @@ export default function (view, params) {
         return params.serverId ? ServerConnections.getApiClient(params.serverId) : ServerConnections.currentApiClient();
     }
 
+    // Drop the cached item so the next reload refetches it instead of serving
+    // the copy that predates the change we just made on the server.
+    function invalidateItem(itemId) {
+        void queryClient.invalidateQueries({
+            queryKey: ['User', getApiClient().getCurrentUserId(), 'Items', itemId]
+        });
+    }
+
     function reload(instance, page, pageParams) {
         loading.show();
 
@@ -1924,6 +1942,7 @@ export default function (view, params) {
                 });
             })
             .then(() => {
+                invalidateItem(pageParams.id);
                 reload(instance, page, pageParams);
                 Events.trigger(document, EventType.REFRESH_NEEDED);
             })
@@ -1999,6 +2018,7 @@ export default function (view, params) {
     function onCancelTimerClick() {
         import('components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
             recordingHelper.cancelTimer(ServerConnections.getApiClient(currentItem.ServerId), currentItem.TimerId).then(function () {
+                invalidateItem(params.id);
                 reload(self, view, params);
             });
         });
@@ -2047,6 +2067,7 @@ export default function (view, params) {
                                 appRouter.goHome();
                             }
                         } else if (result.updated) {
+                            invalidateItem(params.id);
                             reload(self, view, params);
                         }
                     })
