@@ -5,9 +5,10 @@ import { PluginType } from 'constants/pluginType';
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
+import TouchHelper from '../../scripts/touchHelper';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import screenSaverManager from 'scripts/screensavermanager';
 import Events from '../../utils/events.ts';
 import BookOsd from '../bookPlayer/BookOsd/BookOsd';
 import { renderComponent } from '../../utils/reactUtils';
@@ -27,7 +28,6 @@ export class PdfPlayer {
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
@@ -37,6 +37,7 @@ export class PdfPlayer {
         this.cancellationToken = false;
         this.pages = {};
 
+        screenSaverManager.block();
         loading.show();
 
         const elem = this.createMediaElement(options);
@@ -46,6 +47,7 @@ export class PdfPlayer {
     stop() {
         this.unbindEvents();
         this.unmountBookOsd?.();
+        screenSaverManager.unblock();
 
         const stopInfo = {
             src: this.item
@@ -126,13 +128,10 @@ export class PdfPlayer {
         }
     }
 
-    onTouchStart(e) {
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-        if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
-            this.previous();
-        } else {
-            this.next();
-        }
+    addSwipeGestures(element) {
+        this.touchHelper = new TouchHelper(element);
+        Events.on(this.touchHelper, 'swiperight', () => this.previous());
+        Events.on(this.touchHelper, 'swipeleft', () => this.next());
     }
 
     onDialogClosed() {
@@ -140,15 +139,15 @@ export class PdfPlayer {
     }
 
     bindEvents() {
+        this.addSwipeGestures(document.querySelector('#container'));
         this.mediaElement?.addEventListener('close', this.onDialogClosed, { once: true });
         document.addEventListener('keydown', this.onWindowKeyDown);
-        document.querySelector('#container')?.addEventListener('touchstart', this.onTouchStart);
     }
 
     unbindEvents() {
+        this.touchHelper?.destroy();
         this.mediaElement?.removeEventListener('close', this.onDialogClosed);
         document.removeEventListener('keydown', this.onWindowKeyDown);
-        document.querySelector('#container')?.removeEventListener('touchstart', this.onTouchStart);
     }
 
     toggleFullscreen() {

@@ -3,6 +3,7 @@ import { Archive } from 'libarchive.js';
 
 import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import screenSaverManager from 'scripts/screensavermanager';
 
 import loading from '../../components/loading/loading';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
@@ -46,6 +47,7 @@ export class ComicsPlayer {
         const mediaSourceId = options.items[0].Id;
         this.comicsPlayerSettings = userSettings.getComicsPlayerSettings(mediaSourceId);
 
+        screenSaverManager.block();
         const elem = this.createMediaElement(options);
         return this.setCurrentSrc(elem, options);
     }
@@ -53,6 +55,7 @@ export class ComicsPlayer {
     stop() {
         this.unbindEvents();
         this.unmountBookOsd?.();
+        screenSaverManager.unblock();
 
         const stopInfo = {
             src: this.item

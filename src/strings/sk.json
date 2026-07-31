@@ -1831,7 +1831,7 @@
     "StorageType.CDRom": "CD-ROM",
     "LabelRestore": "Obnoviť",
     "MessageBackupDisclaimer": "V závislosti od veľkosti knižnice môže proces zálohovania chvíľu trvať.",
-    "MessageRestoreDisclaimer": "UPOZORNENIE: Chystáte sa obnoviť z predchádzajúcej zálohy. Váš server bude počas trvania tohto procesu nepoužiteľný a všetky nové údaje vytvorené od zálohovania budú stratené.",
+    "MessageRestoreDisclaimer": "UPOZORNENIE: Chystáte sa obnoviť server z predchádzajúcej zálohy. Počas procesu bude server nedostupný a všetky nové údaje vytvorené od vytvorenia zálohy sa stratia.\n\nZálohy by sa mali obnovovať iba v rovnakej verzii, v akej boli vytvorené. Obnovenie zálohy do inej verzie nie je podporované a môže spôsobiť, že server bude nepoužiteľný.",
     "HeaderBackups": "Zálohy",
     "BackupsPageLoadError": "Nepodarilo sa načítať stránku so zálohami",
     "ButtonCreateBackup": "Vytvoriť zálohu",
@@ -1926,5 +1926,12 @@
     "VideoRotationNotSupported": "Otočenie videa nie je podporované",
     "IndexNumber": "Indexové číslo",
     "MessageNoEpisodesFound": "Momentálne nie sú dostupné žiadne epizódy.",
-    "NoCastTargets": "Nie sú dostupné žiadne zariadenia na prenášanie"
+    "NoCastTargets": "Nie sú dostupné žiadne zariadenia na prenášanie",
+    "ViewDoublePage": "Dvojstranové zobrazenie",
+    "ViewSinglePage": "Jednostranové zobrazenie",
+    "ViewLeftToRight": "Zľava doprava",
+    "ViewRightToLeft": "Sprava doľava",
+    "SeriesName": "Názov série",
+    "AudioLanguages": "Jazyky zvuku",
+    "SubtitleLanguages": "Jazyky titulkov"
 }
