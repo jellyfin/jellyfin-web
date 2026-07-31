@@ -27,7 +27,7 @@
     "@vitest/coverage-v8": "3.2.7",
     "autoprefixer": "10.5.4",
     "babel-loader": "10.1.1",
-    "caniuse-lite": "1.0.30001803",
+    "caniuse-lite": "1.0.30001806",
     "clean-webpack-plugin": "4.0.0",
     "confusing-browser-globals": "1.0.11",
     "copy-webpack-plugin": "14.0.0",
