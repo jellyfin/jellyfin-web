@@ -1,5 +1,7 @@
 import isEqual from 'lodash-es/isEqual';
 import { OutboundWebSocketMessageType, PeriodicListenerInterval } from '@jellyfin/sdk/lib/websocket';
+import { PlaybackOrder } from '@jellyfin/sdk/lib/generated-client/models/playback-order';
+import { RepeatMode } from '@jellyfin/sdk/lib/generated-client/models/repeat-mode';
 
 import { playbackManager } from 'components/playback/playbackmanager';
 import { PluginType } from 'constants/pluginType';
@@ -535,7 +537,9 @@ class SessionPlayer {
     }
 
     getRepeatMode() {
-        // not supported?
+        let state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.RepeatMode || RepeatMode.RepeatNone;
     }
 
     setQueueShuffleMode(mode) {
@@ -545,7 +549,9 @@ class SessionPlayer {
     }
 
     getQueueShuffleMode() {
-        // not supported?
+        let state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.PlaybackOrder === PlaybackOrder.Shuffle ? 'Shuffle' : 'Sorted';
     }
 
     displayContent(options) {
