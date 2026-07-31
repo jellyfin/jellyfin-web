@@ -1935,5 +1935,7 @@
     "ViewDoublePage": "Doppelseitenansicht",
     "ViewSinglePage": "Einzelseitenansicht",
     "BitmapSubtitleAspectModeContain": "Enthalten",
-    "BitmapSubtitleAspectModeCover": "Abdecken"
+    "BitmapSubtitleAspectModeCover": "Abdecken",
+    "BitmapSubtitleAspectModeHelp": "Bestimmt, wie von Clients gerenderte PGS und VobSub Untertitel auf den sichtbaren Videoereich skaliert werden.",
+    "BitmapSubtitleAspectModeStretch": "Strecken"
 }
