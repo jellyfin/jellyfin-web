@@ -85,6 +85,13 @@ body {
     user-select: none;
 }
 
+.layout-mobile .overview,
+.layout-mobile .listItem-overview,
+.layout-mobile .listItem-bottomoverview {
+    -webkit-touch-callout: default;
+    user-select: text;
+}
+
 .mainAnimatedPage {
     contain: style size !important;
 }
