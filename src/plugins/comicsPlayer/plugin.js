@@ -37,6 +37,7 @@ export class ComicsPlayer {
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
+        this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
     play(options) {
@@ -195,6 +196,10 @@ export class ComicsPlayer {
         document.removeEventListener('keydown', this.onWindowKeyDown);
     }
 
+    toggleFullscreen() {
+        setTimeout(() => this.swiperInstance?.update(), 200);
+    }
+
     createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
@@ -229,7 +234,8 @@ export class ComicsPlayer {
             onPrevious: this.previous,
             onNext: this.next,
             onToggleDirection: this.onDirChanged,
-            onToggleLayout: this.onViewChanged
+            onToggleLayout: this.onViewChanged,
+            onToggleFullscreen: this.toggleFullscreen
         }, elem.querySelector('#bookOsdMount'));
 
         this.bindEvents();
@@ -274,6 +280,7 @@ export class ComicsPlayer {
 
                 this.pageCount = this.archiveSource.urls.length;
                 this.currentPage = options.startPositionTicks / 10000 || 0;
+                this.currentSrc = () => downloadUrl;
 
                 this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                     direction: 'horizontal',

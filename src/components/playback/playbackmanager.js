@@ -52,12 +52,12 @@ function supportsPhysicalVolumeControl(player) {
 function bindToFullscreenChange(player) {
     if (Screenfull.isEnabled) {
         Screenfull.on('change', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [Screenfull.isFullscreen]);
         });
     } else {
         // iOS Safari
         document.addEventListener('webkitfullscreenchange', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [document.webkitIsFullScreen]);
         }, false);
     }
 }
