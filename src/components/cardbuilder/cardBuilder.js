@@ -573,7 +573,7 @@ function getCardFooterText(item, apiClient, options, footerClass, progressHtml, 
         }
 
         if (options.showPersonRoleOrType && item.Type) {
-            if (item.RoleList ?.length > 1) {
+            if (item.RoleList?.length > 1) {
                 lines.push(item.RoleList.map(getPeopleRoleOrTypeLabel).join(' / '));
             } else {
                 lines.push(getPeopleRoleOrTypeLabel(item));
