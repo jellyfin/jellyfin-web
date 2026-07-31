@@ -126,5 +126,10 @@
     "LiveTV": "تەلەفزیۆنی ڕاستەوخۆ",
     "LiveTVPageLoadError": "شکستی هێنا لە بارکردنی پەڕەی تۆمارکراوەکان",
     "Localization": "خۆجێیکردن",
-    "LogLevel.Trace": "شوێنپێ"
+    "LogLevel.Trace": "شوێنپێ",
+    "LogLevel.Debug": "چاککردنەوە",
+    "LogLevel.Information": "زانیاری",
+    "LogLevel.Warning": "ئاگاداری",
+    "LogLevel.Error": "هەڵە",
+    "LogLevel.Critical": "گرنگترین"
 }
