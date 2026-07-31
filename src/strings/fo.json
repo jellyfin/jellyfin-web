@@ -634,5 +634,7 @@
     "LabelDisplayLanguage": "Nýtaramótsmál",
     "LabelHardwareEncoding": "Tólbúnaðarkoting",
     "LastSeen": "Seinasta virksemi var fyri {0}",
-    "LabelAudioAttributes": "Ljóðeginleikar"
+    "LabelAudioAttributes": "Ljóðeginleikar",
+    "NextUp": "Næst á skránni",
+    "MaxParentalRatingHelp": "Innihald við hægri aldursmarki verður fjalt fyri hesum brúkaranum."
 }
