@@ -145,5 +145,10 @@
     "MapChannels": "نەخشەکردنی کەناڵەکان",
     "MarkPlayed": "دیاریکراو وەک لێدراو",
     "MarkUnplayed": "دیاریکراو وەک نەلێدراو",
-    "MaxParentalRatingHelp": "ناوەڕۆکێک کە هەڵسەنگاندنێکی بەرزی هەبێت لەم بەکارهێنەرە شاردراوە دەبێت."
+    "MaxParentalRatingHelp": "ناوەڕۆکێک کە هەڵسەنگاندنێکی بەرزی هەبێت لەم بەکارهێنەرە شاردراوە دەبێت.",
+    "MediaInfoAnamorphic": "شێوەگۆڕاو",
+    "MediaInfoAspectRatio": "ڕێژەی ڕووبەر",
+    "MediaInfoBitDepth": "قووڵی بیت",
+    "MediaInfoBitrate": "ڕێژەی بیت",
+    "MediaInfoChannels": "کەناڵەکان"
 }
