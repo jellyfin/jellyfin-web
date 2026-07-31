@@ -106,16 +106,16 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'IndexNumber', value: [ItemSortBy.IndexNumber, ItemSortBy.SortName] }
     ],
     [LibraryTab.Songs]: [
-        { label: 'Name', value: [ItemSortBy.SortName] },
+        { label: 'OptionTrackName', value: [ItemSortBy.Name] },
         { label: 'OptionRandom', value: [ItemSortBy.Random] },
-        { label: 'Album', value: [ItemSortBy.Album, ItemSortBy.SortName] },
-        { label: 'AlbumArtist', value: [ItemSortBy.AlbumArtist, ItemSortBy.SortName] },
-        { label: 'Artist', value: [ItemSortBy.Artist, ItemSortBy.SortName] },
+        { label: 'Album', value: [ItemSortBy.Album, ItemSortBy.AlbumArtist, ItemSortBy.SortName] },
+        { label: 'AlbumArtist', value: [ItemSortBy.AlbumArtist, ItemSortBy.Album, ItemSortBy.SortName] },
+        { label: 'Artist', value: [ItemSortBy.Artist, ItemSortBy.Album, ItemSortBy.SortName] },
         { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
         { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
         { label: 'OptionPlayCount', value: [ItemSortBy.PlayCount, ItemSortBy.SortName] },
-        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
-        { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.SortName] }
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.AlbumArtist, ItemSortBy.Album, ItemSortBy.SortName] },
+        { label: 'Runtime', value: [ItemSortBy.Runtime, ItemSortBy.AlbumArtist, ItemSortBy.Album, ItemSortBy.SortName] }
     ],
     [LibraryTab.Playlists]: [
         { label: 'Name', value: [ItemSortBy.SortName] },
