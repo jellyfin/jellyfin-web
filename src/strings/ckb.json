@@ -153,5 +153,7 @@
     "MediaInfoChannels": "کەناڵەکان",
     "Disabled": "ناچالاککراو",
     "Settings": "ڕێکخستنەکان",
-    "Watch": "سەیرکردن"
+    "Watch": "سەیرکردن",
+    "SubtitleLanguages": "زمانەکانی ژێرنووس",
+    "AllowOnTheFlySubtitleExtraction": "ڕێگەدان بە دەرهێنانی ژێرنووس لە کاتی پەخشدا"
 }
