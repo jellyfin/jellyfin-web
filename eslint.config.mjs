@@ -75,6 +75,16 @@ export default tseslint.config(
                 {
                     property: 'replaceChildren',
                     message: 'replaceChildren is not supported in all target browsers'
+                },
+                {
+                    object: 'Number',
+                    property: 'parseFloat',
+                    message: 'Use the global parseFloat to match the rest of the codebase'
+                },
+                {
+                    object: 'Number',
+                    property: 'parseInt',
+                    message: 'Use the global parseInt to match the rest of the codebase'
                 }
             ],
             'no-return-assign': 'error',

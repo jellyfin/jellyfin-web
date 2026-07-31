@@ -56,7 +56,7 @@ const RefreshIndicator: FC<RefreshIndicatorProps> = ({ item, className }) => {
 
     const onRefreshProgress = useCallback(({ Data }: RefreshProgressMessage) => {
         if (Data?.ItemId === item?.Id) {
-            const pct = Number.parseFloat(Data?.Progress ?? '0');
+            const pct = parseFloat(Data?.Progress ?? '0');
 
             if (pct && pct < 100) {
                 setShowProgressBar(true);
