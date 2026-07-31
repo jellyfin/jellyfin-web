@@ -171,7 +171,7 @@ const ItemsView: FC = () => {
         noItemsMessage
     ]);
 
-    const hasSortName = libraryViewSettings.SortBy[0] !== ItemSortBy.Random;
+    const hasSortName = !libraryViewSettings.SortBy.includes(ItemSortBy.Random);
 
     const itemsContainerClass = classNames(
         'padded-left padded-right',

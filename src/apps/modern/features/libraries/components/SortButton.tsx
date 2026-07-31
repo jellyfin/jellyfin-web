@@ -14,6 +14,7 @@ import Popover from '@mui/material/Popover';
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import isEqual from 'lodash-es/isEqual';
 
 type SortOption = {
     label: string;
@@ -190,7 +191,7 @@ const SortButton: FC<SortButtonProps> = ({
             setLibraryViewSettings((prevState) => {
                 let sortOrder: SortOrder = SortOrder.Ascending;
                 // If the user clicks the currently selected sort option, toggle the sort order
-                if (prevState.SortBy[0] === sortBy[0]) {
+                if (isEqual(prevState.SortBy, sortBy)) {
                     sortOrder = prevState.SortOrder === SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
                 }
 
@@ -243,7 +244,7 @@ const SortButton: FC<SortButtonProps> = ({
                                     {globalize.translate(option.label)}
                                 </ListItemText>
                                 <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
-                                    {libraryViewSettings.SortBy[0] === option.value[0] && (
+                                    {isEqual(libraryViewSettings.SortBy, option.value) && (
                                         libraryViewSettings.SortOrder === SortOrder.Ascending ? (
                                             <ArrowUpward fontSize='small' />
                                         ) : (
