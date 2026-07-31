@@ -150,5 +150,8 @@
     "MediaInfoAspectRatio": "ڕێژەی ڕووبەر",
     "MediaInfoBitDepth": "قووڵی بیت",
     "MediaInfoBitrate": "ڕێژەی بیت",
-    "MediaInfoChannels": "کەناڵەکان"
+    "MediaInfoChannels": "کەناڵەکان",
+    "Disabled": "ناچالاککراو",
+    "Settings": "ڕێکخستنەکان",
+    "Watch": "سەیرکردن"
 }
