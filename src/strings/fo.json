@@ -641,5 +641,7 @@
     "LabelDateAdded": "Innleggingardagur",
     "LatestFromLibrary": "Nýliga innlagt í {0}",
     "OptionDateAdded": "Innleggingardagur",
-    "LabelScreensaverTimeHelp": "Tíð uttan virksemi áðrenn skáaskíggin byrjar."
+    "LabelScreensaverTimeHelp": "Tíð uttan virksemi áðrenn skáaskíggin byrjar.",
+    "TabScheduledTasks": "Fyriskipaðar koyrslur",
+    "LabelBackupWarning": "Fyriskipaðar koyrslur eru í gongd. Viðmælt er at steðga teimum ella bíða til tær eru lidnar áðrenn fari verður undir at gera trygdaravrit."
 }
