@@ -2,7 +2,7 @@
     "AccessRestrictedTryAgainLater": "Atgongd er avmarkað. Vinaliga royn aftur seinni.",
     "Actor": "Sjónleikari",
     "Add": "Legg afturat",
-    "AddedOnValue": "{0} lagt afturat",
+    "AddedOnValue": "Innlagdur tann {0}",
     "AddToCollection": "Legg í samling",
     "AddToFavorites": "Legg á yndislistan",
     "AddToPlaylist": "Legg á spælilista",
@@ -636,5 +636,9 @@
     "LastSeen": "Seinasta virksemi var fyri {0}",
     "LabelAudioAttributes": "Ljóðeginleikar",
     "NextUp": "Næst á skránni",
-    "MaxParentalRatingHelp": "Innihald við hægri aldursmarki verður fjalt fyri hesum brúkaranum."
+    "MaxParentalRatingHelp": "Innihald við hægri aldursmarki verður fjalt fyri hesum brúkaranum.",
+    "DateAdded": "Innleggingardagur",
+    "LabelDateAdded": "Innleggingardagur",
+    "LatestFromLibrary": "Nýliga innlagt í {0}",
+    "OptionDateAdded": "Innleggingardagur"
 }
