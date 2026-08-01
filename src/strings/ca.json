@@ -1935,5 +1935,7 @@
     "AudioLanguages": "Idiomes de l'àudio",
     "SubtitleLanguages": "Idiomes del subtítol",
     "BitmapSubtitleAspectModeContain": "Conté",
-    "BitmapSubtitleAspectModeCover": "Tapa"
+    "BitmapSubtitleAspectModeCover": "Tapa",
+    "BitmapSubtitleAspectModeHelp": "Controla com els subtítols PGS i VobSub renderitzats pel client s'escalen a l'àrea visible de vídeo.",
+    "BitmapSubtitleAspectModeStretch": "Estirament"
 }
