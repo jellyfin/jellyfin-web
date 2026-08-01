@@ -1937,5 +1937,7 @@
     "BitmapSubtitleAspectModeContain": "Contient",
     "BitmapSubtitleAspectModeHelp": "Contrôle comment les sous-titres PGS et VobSub rendus côté client sont mis à l'échelle par rapport à la zone vidéo visible.",
     "BitmapSubtitleAspectModeStretch": "Étirer",
-    "LabelUsernameAllowedCharactersHelp": "Les noms d'utilisateur peuvent contenir des lettres, chiffres, espaces et les caractères suivants : - _ ' . @ +. Ils ne peuvent pas commencer ou finir par un espace."
+    "LabelUsernameAllowedCharactersHelp": "Les noms d'utilisateur peuvent contenir des lettres, chiffres, espaces et les caractères suivants : - _ ' . @ +. Ils ne peuvent pas commencer ou finir par un espace.",
+    "LabelBitmapSubtitleAspectMode": "Rapport hauteur / largeur des sous-titres bitmap",
+    "BitmapSubtitleAspectModeCover": "Recouvrir"
 }
