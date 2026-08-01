@@ -1921,5 +1921,17 @@
     "NoCastTargets": "Нет доступных устройств для трансляции",
     "OriginalLanguage": "Оригинальный язык",
     "StillWatchingPrompt": "Подсказка „Всё ещё смотрите?“",
-    "TableOfContents": "Оглавление"
+    "TableOfContents": "Оглавление",
+    "MessageNoEpisodesFound": "В настоящее время нет доступных серий.",
+    "IndexNumber": "Порядковый номер",
+    "SeriesName": "Название сериала",
+    "StillWatchingOption": "{0} серии или {1} минут",
+    "StopWatching": "Прекратить просмотр",
+    "AudioLanguages": "Языки озвучки",
+    "SubtitleLanguages": "Языки субтитров",
+    "CardSettings": "Настройки карточки",
+    "ViewDoublePage": "Двустраничный просмотр",
+    "ViewSinglePage": "Одностраничный просмотр",
+    "ViewLeftToRight": "Слева направо",
+    "ViewRightToLeft": "Справа налево"
 }

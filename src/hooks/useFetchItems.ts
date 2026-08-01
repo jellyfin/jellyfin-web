@@ -185,6 +185,28 @@ const fetchGetQueryFiltersLegacy = async (
     }
 };
 
+const fetchGetQueryFilters = async (
+    currentApi: JellyfinApiContext,
+    parentId: ParentId,
+    itemType: BaseItemKind[],
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getFilterApi(api).getQueryFilters(
+            {
+                userId: user.Id,
+                parentId: parentId ?? undefined,
+                includeItemTypes: itemType
+            },
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data;
+    }
+};
+
 export const useGetQueryFiltersLegacy = (
     parentId: ParentId,
     itemType: BaseItemKind[]
@@ -201,16 +223,32 @@ export const useGetQueryFiltersLegacy = (
     });
 };
 
+export const useGetQueryFilters = (
+    parentId: ParentId,
+    itemType: BaseItemKind[]
+) => {
+    const currentApi = useApi();
+    const isLivetv = parentId === 'livetv';
+    return useQuery({
+        queryKey: ['QueryFilters', parentId, itemType],
+        queryFn: ({ signal }) =>
+            fetchGetQueryFilters(currentApi, parentId, itemType, {
+                signal
+            }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
+    });
+};
+
 const fetchGetItemsViewByType = async (
     currentApi: JellyfinApiContext,
-    viewType: LibraryTab,
+    viewType: LibraryTab | undefined,
     parentId: ParentId,
     itemType: BaseItemKind[],
     libraryViewSettings: LibraryViewSettings,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
-    if (api && user?.Id) {
+    if (api && user?.Id && viewType) {
         const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
         let response;
         switch (viewType) {
@@ -224,7 +262,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -245,7 +283,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -320,9 +358,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: libraryViewSettings.SortBy === ItemSortBy.IsFolder ?
-                            [ItemSortBy.IsFolder, ItemSortBy.SortName] :
-                            [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -357,7 +393,7 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
-                        sortBy: [libraryViewSettings.SortBy],
+                        sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
@@ -371,6 +407,8 @@ const fetchGetItemsViewByType = async (
         }
         return response.data as ItemDtoQueryResult;
     }
+
+    return {};
 };
 
 export const useGetItemsViewByType = (
@@ -396,7 +434,7 @@ export const useGetItemsViewByType = (
         queryFn: ({ signal }) =>
             fetchGetItemsViewByType(
                 currentApi,
-                viewType!,
+                viewType,
                 parentId,
                 itemType,
                 libraryViewSettings!,
