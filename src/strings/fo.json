@@ -533,7 +533,7 @@
     "DirectStreaming": "Beinleiðis stroyming",
     "DirectPlaying": "Beinleiðis spæling",
     "DisplayModeHelp": "Vel uppsetingarsniðið ið tú ynskir á nýtslumarkamótinum.",
-    "EnableExternalVideoPlayers": "Ytri videospælarar",
+    "EnableExternalVideoPlayers": "Ytri kykmyndaspælarar",
     "EnableTrueHd": "Virkja TrueHD",
     "EnableTrueHdHelp": "Einans virkja hetta um tín eind hevur ella er knýtt til ein ljóðmóttakara ið hevur TrueHD virkisføri, annars kann tað elva til spælitrupulleika.",
     "ErrorDefault": "Ein villa kom fyri undir viðgerð av umbønini. Vinaliga royn aftur seinni.",
@@ -577,12 +577,12 @@
     "LabelScreensaver": "Skáaskíggi",
     "LabelSubtitlePlaybackMode": "Undirtekstastøða",
     "LabelTrackNumber": "Lag nr.",
-    "LabelVideoResolution": "Video-loysni",
+    "LabelVideoResolution": "Kykmyndarloysni",
     "LibrariesLoadError": "Miseydnaðist at innlesa søvn",
     "NewPlaylist": "Nýggjan spælilista",
     "OnFilesystem": "Á fílukervi: {0}",
-    "OptionAllowVideoPlaybackRemuxing": "Loyv video-spæling ið tørvar formbroyting uttan umkoting",
-    "OptionAllowVideoPlaybackTranscoding": "Loyv video-spæling ið tørvar umkoting",
+    "OptionAllowVideoPlaybackRemuxing": "Loyv kykmyndaspæling ið tørvar formbroyting uttan umkoting",
+    "OptionAllowVideoPlaybackTranscoding": "Loyv kykmyndaspæling ið tørvar umkoting",
     "PackageInstallCompleted": "Innleggingin av {0} (útgáva {1}) er liðug.",
     "PackageInstallFailed": "Innleggingin av {0} (útgáva {1}) miseydnaðist.",
     "PersonRole": "sum {0}",
@@ -643,5 +643,6 @@
     "OptionDateAdded": "Innleggingardagur",
     "LabelScreensaverTimeHelp": "Tíð uttan virksemi áðrenn skáaskíggin byrjar.",
     "TabScheduledTasks": "Fyriskipaðar koyrslur",
-    "LabelBackupWarning": "Fyriskipaðar koyrslur eru í gongd. Viðmælt er at steðga teimum ella bíða til tær eru lidnar áðrenn fari verður undir at gera trygdaravrit."
+    "LabelBackupWarning": "Fyriskipaðar koyrslur eru í gongd. Viðmælt er at steðga teimum ella bíða til tær eru lidnar áðrenn fari verður undir at gera trygdaravrit.",
+    "HeaderVideos": "Kykmyndir"
 }
