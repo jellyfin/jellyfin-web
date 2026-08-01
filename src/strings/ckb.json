@@ -179,5 +179,21 @@
     "Ascending": "سەرکەوتوو",
     "AskAdminToCreateLibrary": "داوا لە بەڕێوەبەر بکە بۆ دروستکردنی پەرتووکخانەیەک .",
     "AsManyAsPossible": "تا بتوانرێت زۆرترین",
-    "AspectRatio": "ڕێژەی لایەنەکان"
+    "AspectRatio": "ڕێژەی لایەنەکان",
+    "Audio": "دەنگ",
+    "Authors": "نووسەران",
+    "Author": "نووسەر",
+    "Authorize": "ڕێگەپێدان",
+    "AuthProviderHelp": "دابینکەرێکی پشتڕاستکردنەوە هەڵبژێرە بۆ ڕاستکردنەوەی تێپەڕەوشەی ئەم بەکارهێنەرە .",
+    "Auto": "خۆکار",
+    "AutoSubtitleStylingHelp": "ئەم دۆخە بە شێوەیەکی خۆکارانە لە نێوان شێوازی ژێرنووسی ڕەسەن و دەستکاریبکراودا دەگۆڕێت بەپێی جۆری ئامێرەکەت .",
+    "Backdrop": "پاشبنەما",
+    "Backdrops": "پاشبنەماکان",
+    "BackdropScreensaver": "پارێزەری ڕوونمای پاشبنەما",
+    "BackupsPageLoadError": "کردنەوەی پەڕەی پشتیوانییەکان سەرکەوتوو نەبوو",
+    "Banner": "بانەر",
+    "BirthDateValue": "لەدایک بوون: {0}",
+    "BirthLocation": "شوێنی لەدایکبوون",
+    "BirthPlaceValue": "شوێنی لەدایک بوون: {0}",
+    "BitmapSubtitleAspectModeContain": "لەخۆگرتن"
 }
