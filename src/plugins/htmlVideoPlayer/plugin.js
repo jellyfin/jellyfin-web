@@ -452,6 +452,9 @@ export class HtmlVideoPlayer {
             video: videoElement,
             subUrl: getTextTrackUrl(track, item),
             timeOffset: getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset),
+            streamingLoad: true,
+            rangeRequests: true,
+            prefetchWindow: { before: 1, after: 2 },
             ...(displaySettings ? { displaySettings } : {}),
             onLoading: () => this.beginPendingSubtitleLoad(targetTextTrackIndex, loadToken),
             onLoaded: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken),
@@ -503,6 +506,10 @@ export class HtmlVideoPlayer {
         this.#currentTime = null;
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
+
+        void import('libbitsub')
+            .then(({ warmup }) => warmup())
+            .catch((error) => console.warn('[libbitsub] worker prewarm failed; renderer fallback will be used', error));
 
         const elem = await this.createMediaElement(options);
         this.#applyAspectRatio(options.aspectRatio || this.getAspectRatio());
