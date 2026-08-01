@@ -1924,5 +1924,7 @@
     "LabelReasons": "Αιτίες",
     "LabelPlayerSizes": "Μεγέθη προγράμματος αναπαραγωγής",
     "LabelPlaybackQuality": "Χαμένο / κατεστραμμένο καρέ",
-    "IndexNumber": "Αριθμός ευρετηρίου"
+    "IndexNumber": "Αριθμός ευρετηρίου",
+    "NoCastTargets": "Δεν υπάρχουν διαθέσιμοι στόχοι μετάδοσης",
+    "MessageNoEpisodesFound": "Δεν υπάρχουν διαθέσιμα επεισόδια αυτή τη στιγμή."
 }

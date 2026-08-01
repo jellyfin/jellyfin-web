@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { PlaybackOrder } from '@jellyfin/sdk/lib/generated-client/models/playback-order';
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code';
 import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import merge from 'lodash-es/merge';
@@ -52,12 +53,12 @@ function supportsPhysicalVolumeControl(player) {
 function bindToFullscreenChange(player) {
     if (Screenfull.isEnabled) {
         Screenfull.on('change', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [Screenfull.isFullscreen]);
         });
     } else {
         // iOS Safari
         document.addEventListener('webkitfullscreenchange', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [document.webkitIsFullScreen]);
         }, false);
     }
 }
@@ -2180,6 +2181,8 @@ export class PlaybackManager {
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
                 state.PlayState.ShuffleMode = self.getQueueShuffleMode(player);
+                // Needed for remote control because ShuffleMode doesn't exist in PlayerStateInfo from the server
+                state.PlayState.PlaybackOrder = state.PlayState.ShuffleMode === 'Shuffle' ? PlaybackOrder.Shuffle : PlaybackOrder.Default;
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);

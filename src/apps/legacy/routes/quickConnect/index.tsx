@@ -1,4 +1,4 @@
-import { getQuickConnectApi } from '@jellyfin/sdk/lib/utils/api/quick-connect-api';
+import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import React, { FC, FormEvent, useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ const QuickConnectPage: FC = () => {
         const normalizedCode = code.replace(/\s/g, '');
         console.log('[QuickConnect] authorizing code %s as user %s', normalizedCode, userId);
 
-        getQuickConnectApi(api)
+        getAuthenticationApi(api)
             .authorizeQuickConnect({
                 code: normalizedCode,
                 userId

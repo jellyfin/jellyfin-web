@@ -1,7 +1,7 @@
 import { Api } from '@jellyfin/sdk';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { StudiosApiGetStudiosRequest } from '@jellyfin/sdk/lib/generated-client/api/studios-api';
-import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
+import { StudioApiGetStudiosRequest } from '@jellyfin/sdk/lib/generated-client/api/studio-api';
+import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
@@ -11,10 +11,10 @@ import { isMovies, isTVShows } from '../utils/search';
 const fetchStudios = async (
     api: Api,
     userId: string,
-    params?: StudiosApiGetStudiosRequest,
+    params?: StudioApiGetStudiosRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getStudiosApi(api).getStudios(
+    const response = await getStudioApi(api).getStudios(
         {
             ...QUERY_OPTIONS,
             userId,

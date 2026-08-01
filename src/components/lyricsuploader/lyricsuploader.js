@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import { getLyricsApi } from '@jellyfin/sdk/lib/utils/api/lyrics-api';
+import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';
 
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
@@ -92,7 +92,7 @@ async function onSubmit(e) {
     const api = ServerConnections.getApi(currentServerId);
     const data = await readFileAsText(file);
 
-    getLyricsApi(api).uploadLyrics({
+    getLyricApi(api).uploadLyrics({
         itemId: currentItemId,
         fileName: file.name,
         body: data

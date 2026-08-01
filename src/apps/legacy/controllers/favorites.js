@@ -2,7 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { getStudiosApi } from '@jellyfin/sdk/lib/utils/api/studios-api';
+import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
@@ -208,7 +208,7 @@ function getFetchDataFn(section) {
                 return Promise.resolve(undefined);
             }
 
-            return getStudiosApi(api)
+            return getStudioApi(api)
                 .getStudios({
                     userId,
                     isFavorite: true,

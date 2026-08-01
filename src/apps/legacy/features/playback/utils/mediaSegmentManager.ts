@@ -1,7 +1,7 @@
 import type { Api } from '@jellyfin/sdk/lib/api';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
-import { getMediaSegmentsApi } from '@jellyfin/sdk/lib/utils/api/media-segments-api';
+import { getMediaSegmentApi } from '@jellyfin/sdk/lib/utils/api/media-segment-api';
 
 import type { PlaybackManager } from 'components/playback/playbackmanager';
 import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
@@ -25,7 +25,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
     private async fetchMediaSegments(api: Api, itemId: string, includeSegmentTypes: MediaSegmentType[]) {
         try {
-            const { data: mediaSegments } = await getMediaSegmentsApi(api)
+            const { data: mediaSegments } = await getMediaSegmentApi(api)
                 .getItemSegments({ itemId, includeSegmentTypes });
             this.mediaSegments = mediaSegments.Items || [];
         } catch (err) {

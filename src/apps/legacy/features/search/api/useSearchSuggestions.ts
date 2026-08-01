@@ -2,7 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { useQuery } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
@@ -13,7 +13,7 @@ const fetchGetItems = async (
     parentId?: string,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getItemsApi(api).getItems(
+    const response = await getLibraryApi(api).getItems(
         {
             userId,
             sortBy: [ItemSortBy.IsFavoriteOrLiked, ItemSortBy.Random],

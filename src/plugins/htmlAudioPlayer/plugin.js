@@ -115,6 +115,11 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
+                if (browser.iOS) {
+                    // createMediaElementSource breaks playbackRate and pitch on iOS WebKit
+                    return;
+                }
+
                 let normalizationGain;
                 if (userSettings.selectAudioNormalization() == 'TrackGain') {
                     normalizationGain = options.item.NormalizationGain
@@ -162,6 +167,11 @@ class HtmlAudioPlayer {
             const crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
+            }
+
+            // This avoids the AudioContext being suspended when Safari is put into background
+            if ('audioSession' in navigator) {
+                navigator.audioSession.type = 'playback';
             }
 
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {

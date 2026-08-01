@@ -1,25 +1,26 @@
+#container {
+    position: relative;
+    display: grid;
+    place-items: center;
+    /* stylelint-disable declaration-block-no-duplicate-properties */
+    top: 5vh;
+    height: 90vh;
+    top: calc(5vh + env(safe-area-inset-top));
+    height: calc(90vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    /* stylelint-enable declaration-block-no-duplicate-properties */
+}
+
 #pdfPlayer {
     position: relative;
     height: 100%;
     width: 100%;
-    overflow: none;
+    overflow: hidden;
     z-index: 100;
     background: #fff;
 
     #canvas {
+        position: relative;
         display: block;
         margin: auto;
-    }
-
-    .actionButtons {
-        right: 0.5vh;
-        top: 0.5vh;
-        z-index: 1002;
-        position: absolute;
-    }
-
-    .actionButtonIcon {
-        color: #000;
-        opacity: 0.7;
     }
 }

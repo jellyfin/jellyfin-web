@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from 'axios';
-import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { useQuery } from '@tanstack/react-query';
 import { type JellyfinApiContext, useApi } from 'hooks/useApi';
@@ -33,7 +33,7 @@ const getItemByType = async (
             );
             break;
         default: {
-            response = await getUserLibraryApi(api).getItem(
+            response = await getLibraryApi(api).getItem(
                 { userId: user.Id, itemId },
                 options
             );
