@@ -507,9 +507,11 @@ export class HtmlVideoPlayer {
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
 
-        void import('libbitsub')
-            .then(({ warmup }) => warmup())
-            .catch((error) => console.warn('[libbitsub] worker prewarm failed; renderer fallback will be used', error));
+        if (appSettings.get('subtitlerenderpgs') === 'true') {
+            void import('libbitsub')
+                .then(({ warmup }) => warmup())
+                .catch((error) => console.warn('[libbitsub] worker prewarm failed; renderer fallback will be used', error));
+        }
 
         const elem = await this.createMediaElement(options);
         this.#applyAspectRatio(options.aspectRatio || this.getAspectRatio());
