@@ -645,30 +645,6 @@ function showPlaybackInfoErrorMessage(instance, errorCode) {
     });
 }
 
-function isExternalGraphicalSubtitleStream(stream) {
-    if (!stream || stream.Type !== 'Subtitle' || stream.DeliveryMethod !== 'External') {
-        return false;
-    }
-
-    if (typeof stream.IsTextSubtitleStream === 'boolean') {
-        return !stream.IsTextSubtitleStream;
-    }
-
-    const codec = (stream.Codec || '').toLowerCase();
-    return codec === 'pgssub' || codec === 'dvdsub' || codec === 'vobsub';
-}
-
-function hasSelectedExternalGraphicalSubtitle(mediaSource) {
-    const selectedSubtitleIndices = [mediaSource.DefaultSubtitleStreamIndex, mediaSource.DefaultSecondarySubtitleStreamIndex]
-        .filter(index => typeof index === 'number' && index >= 0);
-
-    if (selectedSubtitleIndices.length === 0) {
-        return false;
-    }
-
-    return (mediaSource.MediaStreams || []).some(stream => selectedSubtitleIndices.includes(stream.Index) && isExternalGraphicalSubtitleStream(stream));
-}
-
 function normalizePlayOptions(playOptions) {
     playOptions.fullscreen = playOptions.fullscreen !== false;
 }
@@ -900,15 +876,10 @@ export class PlaybackManager {
         self.trackHasSecondarySubtitleSupport = function (track, player = self._currentPlayer) {
             if (!player || !track) return false;
             const format = (track.Codec || '').toLowerCase();
-            // Secondary subtitle pairing does not work with SSA/ASS combinations because
-            // of the complexity of how they are rendered and the risk of the subtitles overlapping.
-            // Graphical subtitle formats are supported generally, but not for secondary pairing here.
-            return format !== 'ssa'
-                && format !== 'ass'
-                && format !== 'pgssub'
-                && format !== 'dvdsub'
-                && format !== 'vobsub'
-                && getDeliveryMethod(track) === 'External';
+            // Currently, only non-SSA/non-ASS external subtitles are supported.
+            // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
+            // of the complexity of how they are rendered and the risk of the subtitles overlapping
+            return format !== 'ssa' && format !== 'ass' && getDeliveryMethod(track) === 'External';
         };
 
         self.secondarySubtitleTracks = function (player = self._currentPlayer) {
@@ -2902,10 +2873,10 @@ export class PlaybackManager {
                         contentType = 'application/x-mpegURL';
                     } else {
                         contentType = getMimeType(type.toLowerCase(), mediaSource.TranscodingContainer);
-                    }
 
-                    if (!(mediaSource.TranscodingSubProtocol === 'hls' && hasSelectedExternalGraphicalSubtitle(mediaSource))) {
-                        transcodingOffsetTicks = startPosition || 0;
+                        if (mediaUrl.toLowerCase().indexOf('copytimestamps=true') === -1) {
+                            transcodingOffsetTicks = startPosition || 0;
+                        }
                     }
                 }
             } else {
