@@ -55,38 +55,44 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
         [data]
     );
 
-    if (isLoading) {
-        return <Loading />;
-    }
-
     // No genres at all (no letter filter active) - nothing to pick from
-    if (!genres.length && alphabet == null) {
+    if (!isLoading && !genres.length && alphabet == null) {
         return <NoItemsMessage message='MessageNoGenresAvailable' />;
     }
+
+    const renderGenres = () => {
+        if (isLoading) {
+            return <Loading />;
+        }
+
+        if (!genres.length) {
+            return <NoItemsMessage message='MessageNoGenresAvailable' />;
+        }
+
+        return (
+            <>
+                {genres.map((genre) => (
+                    <GenresSectionContainer
+                        key={genre.Id}
+                        collectionType={collectionType}
+                        parentId={parentId}
+                        itemType={itemType}
+                        genre={genre}
+                    />
+                ))}
+
+                <Box ref={observerTarget} sx={{ height: '1px' }} />
+
+                {isFetchingNextPage && <Loading />}
+            </>
+        );
+    };
 
     return (
         <>
             <AlphabetPicker value={alphabet} onChange={setAlphabet} />
 
-            {genres.length ? (
-                <>
-                    {genres.map((genre) => (
-                        <GenresSectionContainer
-                            key={genre.Id}
-                            collectionType={collectionType}
-                            parentId={parentId}
-                            itemType={itemType}
-                            genre={genre}
-                        />
-                    ))}
-
-                    <Box ref={observerTarget} sx={{ height: '1px' }} />
-
-                    {isFetchingNextPage && <Loading />}
-                </>
-            ) : (
-                <NoItemsMessage message='MessageNoGenresAvailable' />
-            )}
+            {renderGenres()}
         </>
     );
 };
