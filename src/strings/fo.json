@@ -640,5 +640,6 @@
     "DateAdded": "Innleggingardagur",
     "LabelDateAdded": "Innleggingardagur",
     "LatestFromLibrary": "Nýliga innlagt í {0}",
-    "OptionDateAdded": "Innleggingardagur"
+    "OptionDateAdded": "Innleggingardagur",
+    "LabelScreensaverTimeHelp": "Tíð uttan virksemi áðrenn skáaskíggin byrjar."
 }
