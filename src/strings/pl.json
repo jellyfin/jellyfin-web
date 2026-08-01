@@ -187,7 +187,7 @@
     "ErrorSavingTvProvider": "Wystąpił błąd podczas dodawania dostawcy telewizji. Upewnij się, że jest on dostępny i spróbuj ponownie.",
     "EveryNDays": "Co {0} dni",
     "ExitFullscreen": "Opuść pełny ekran",
-    "ExtraLarge": "Największe",
+    "ExtraLarge": "Bardzo duże",
     "ExtractChapterImagesHelp": "Wydobywanie obrazów rozdziałów pozwoli klientom, na wyświetlanie graficznego menu wyboru scen. Proces ten może być wolny, mocno wykorzystujący zasoby i może wymagać kilku gigabajtów przestrzeni dyskowej. Jest uruchamiany gdy filmy są wykrywane oraz podczas nocnych zaplanowanych zadań. Zadania są konfigurowalne w części zaplanowanych zadań. Nie jest zalecane uruchamianie tego zadania podczas szczytowych godzin użycia serwera.",
     "Extras": "Materiały dodatkowe",
     "FFmpegSavePathNotFound": "Nie udało się zlokalizować aplikacji FFmpeg przy użyciu wprowadzonej ścieżki. Aplikacja FFprobe jest również wymagana i musi znajdować się w tym samym folderze. Komponenty te są zwykle zawarte w jednym pakiecie. Sprawdź ścieżkę i spróbuj ponownie.",

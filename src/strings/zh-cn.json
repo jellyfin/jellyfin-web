@@ -1259,7 +1259,7 @@
     "HeaderDeleteDevices": "删除所有设备",
     "DeleteDevicesConfirmation": "您确定要删除所有设备吗？所有其他会话将被注销。用户下次登录时，设备会重新出现。",
     "DeleteAll": "删除全部",
-    "AspectRatioCover": "覆盖",
+    "AspectRatioCover": "填充",
     "AspectRatioFill": "拉伸",
     "Remuxing": "转封装",
     "RemuxHelp1": "该媒体的载体（mkv、avi、wmv 等）不被设备支持，但视频流和音频流均与您的设备兼容，因此媒体在串流至您的设备之前将被即时无损地再封装。",
@@ -1746,8 +1746,8 @@
     "VideoCodecTagNotSupported": "视频编码标签不支持",
     "LabelLyricDownloaders": "歌词下载",
     "LyricDownloadersHelp": "启用并按优先级顺序排列您喜欢的歌词下载器。",
-    "RenderPgsSubtitle": "实验性 PGS 字幕渲染",
-    "RenderPgsSubtitleHelp": "在客户端渲染 PGS 字幕，而不是烧录字幕。这以降低客户端渲染性能为代价来避免服务器端转码。",
+    "RenderPgsSubtitle": "实验性 PGS 和 VobSub 字幕渲染",
+    "RenderPgsSubtitleHelp": "确定客户端是否应该渲染 PGS 和 VobSub 字幕，而不是使用内嵌字幕。这可以避免服务器端转码，但会牺牲客户端的渲染性能。",
     "LabelAudioTagSettings": "音频标签设置",
     "LabelCustomTagDelimiters": "自定义标签分隔符",
     "LabelCustomTagDelimitersHelp": "作为分隔符来分隔标签的字符。",
@@ -1933,5 +1933,11 @@
     "ViewRightToLeft": "从右到左",
     "SeriesName": "节目名称",
     "AudioLanguages": "音频语言",
-    "SubtitleLanguages": "字幕语言"
+    "SubtitleLanguages": "字幕语言",
+    "BitmapSubtitleAspectModeCover": "填充",
+    "BitmapSubtitleAspectModeHelp": "控制客户端渲染的 PGS 和 VobSub 字幕如何缩放到可见视频区域。",
+    "BitmapSubtitleAspectModeStretch": "拉伸",
+    "LabelBitmapSubtitleAspectMode": "位图字幕纵横比模式",
+    "LabelUsernameAllowedCharactersHelp": "用户名可以包含字母、数字、空格以及以下字符：- _ ' . @ +。用户名不能以空格开头或结尾。",
+    "BitmapSubtitleAspectModeContain": "适应"
 }
