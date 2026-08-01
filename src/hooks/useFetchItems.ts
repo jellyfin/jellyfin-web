@@ -954,14 +954,13 @@ export const useGetSuggestionSectionsWithItems = (
 };
 
 export const useGetProgramsSectionsWithItems = (
-    parentId: ParentId,
     programSectionType: SectionType[]
 ) => {
     const currentApi = useApi();
     const sections = getProgramSections();
     return useQuery({
         queryKey: ['ProgramSectionWithItems', { programSectionType }],
-        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal }),
+        queryFn: ({ signal }) => getSectionsWithItems(currentApi, undefined, sections, programSectionType, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };
