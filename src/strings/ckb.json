@@ -195,5 +195,7 @@
     "BirthDateValue": "لەدایک بوون: {0}",
     "BirthLocation": "شوێنی لەدایکبوون",
     "BirthPlaceValue": "شوێنی لەدایک بوون: {0}",
-    "BitmapSubtitleAspectModeContain": "لەخۆگرتن"
+    "BitmapSubtitleAspectModeContain": "لەخۆگرتن",
+    "BitmapSubtitleAspectModeCover": "ڕووپۆش",
+    "BitmapSubtitleAspectModeHelp": "دەستنیشانی قەبارەی ژێرنووسەکانی PGS و VobSub دەکات بەپێی ڕووبەری بینراوی ڤیدیۆکە ."
 }
