@@ -1933,5 +1933,7 @@
     "ViewRightToLeft": "من اليمين لليسار",
     "SeriesName": "اسم المسلسل",
     "AudioLanguages": "لغات الصوت",
-    "SubtitleLanguages": "لغات الترجمة"
+    "SubtitleLanguages": "لغات الترجمة",
+    "BitmapSubtitleAspectModeContain": "محتوى",
+    "BitmapSubtitleAspectModeCover": "غطاء"
 }
