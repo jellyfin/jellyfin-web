@@ -200,7 +200,7 @@ function renderLocalImageProviders(page, availableOptions, libraryOptions) {
         html += `<div class="listItem localImageProviderItem" data-pluginname="${escapeHtml(plugin.Name)}">`;
         const isChecked = libraryOptions.DisabledLocalImageProviders ? !libraryOptions.DisabledLocalImageProviders.includes(plugin.Name) : plugin.DefaultEnabled;
         const checkedHtml = isChecked ? ' checked="checked"' : '';
-        html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkLocalImageProvider" data-pluginname="${escapeHtml(plugin.Name)}" ${checkedHtml}><span></span></label>`;
+        html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkLocalImageProvider" data-pluginname="${escapeHtml(plugin.Name)}"${checkedHtml}><span></span></label>`;
         html += '<div class="listItemBody">';
         html += '<h3 class="listItemBodyText">';
         html += escapeHtml(plugin.Name);
@@ -610,7 +610,7 @@ function setLocalImageProvidersIntoOptions(parent, options) {
     options.DisabledLocalImageProviders = Array.prototype.map.call(Array.prototype.filter.call(parent.querySelectorAll('.chkLocalImageProvider'), elem => {
         return !elem.checked;
     }), elem => {
-        return elem.getAttribute('data-pluginname');
+        return elem.dataset.pluginname;
     });
 }
 
