@@ -655,5 +655,9 @@
     "MediaSegmentType.Preview": "Undansýning",
     "MediaSegmentType.Recap": "Samandráttur",
     "HeaderMediaSegmentActions": "Margmiðlabrotsatgerðir",
-    "OptionAllowMediaPlayback": "Loyv miðlaspæli"
+    "OptionAllowMediaPlayback": "Loyv miðlaspæli",
+    "OptionHideUser": "Fjal brúkaran frá innritanarsíðum",
+    "OptionMissingEpisode": "Vantandi partar",
+    "AllowEmbeddedSubtitlesAllowAllOption": "Loyv øllum",
+    "AllowEmbeddedSubtitlesAllowNoneOption": "Nokta øllum"
 }
