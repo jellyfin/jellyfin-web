@@ -1925,5 +1925,9 @@
     "LabelPlayerSizes": "Afspiller-størrelser",
     "LabelPlaybackQuality": "Billeder gået tabt/beskadiget",
     "Unwatch": "Markér som Ikke-set",
-    "Watch": "Set"
+    "Watch": "Set",
+    "MessageNoEpisodesFound": "Der er ingen tilgængelige episoder i øjeblikket.",
+    "SeriesName": "Serienavn",
+    "AudioLanguages": "Lydsprog",
+    "SubtitleLanguages": "Undertekstsprog"
 }

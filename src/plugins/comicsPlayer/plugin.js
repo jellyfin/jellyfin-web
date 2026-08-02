@@ -3,6 +3,7 @@ import { Archive } from 'libarchive.js';
 
 import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import screenSaverManager from 'scripts/screensavermanager';
 
 import loading from '../../components/loading/loading';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
@@ -36,6 +37,7 @@ export class ComicsPlayer {
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
+        this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
     play(options) {
@@ -45,6 +47,7 @@ export class ComicsPlayer {
         const mediaSourceId = options.items[0].Id;
         this.comicsPlayerSettings = userSettings.getComicsPlayerSettings(mediaSourceId);
 
+        screenSaverManager.block();
         const elem = this.createMediaElement(options);
         return this.setCurrentSrc(elem, options);
     }
@@ -52,6 +55,7 @@ export class ComicsPlayer {
     stop() {
         this.unbindEvents();
         this.unmountBookOsd?.();
+        screenSaverManager.unblock();
 
         const stopInfo = {
             src: this.item
@@ -192,6 +196,10 @@ export class ComicsPlayer {
         document.removeEventListener('keydown', this.onWindowKeyDown);
     }
 
+    toggleFullscreen() {
+        setTimeout(() => this.swiperInstance?.update(), 200);
+    }
+
     createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
@@ -226,7 +234,8 @@ export class ComicsPlayer {
             onPrevious: this.previous,
             onNext: this.next,
             onToggleDirection: this.onDirChanged,
-            onToggleLayout: this.onViewChanged
+            onToggleLayout: this.onViewChanged,
+            onToggleFullscreen: this.toggleFullscreen
         }, elem.querySelector('#bookOsdMount'));
 
         this.bindEvents();
@@ -271,6 +280,7 @@ export class ComicsPlayer {
 
                 this.pageCount = this.archiveSource.urls.length;
                 this.currentPage = options.startPositionTicks / 10000 || 0;
+                this.currentSrc = () => downloadUrl;
 
                 this.swiperInstance = new Swiper(elem.querySelector('.slideshowSwiperContainer'), {
                     direction: 'horizontal',

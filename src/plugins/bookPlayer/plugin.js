@@ -1,9 +1,9 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import Screenfull from 'screenfull';
 
 import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
+import screenSaverManager from 'scripts/screensavermanager';
 import TouchHelper from 'scripts/touchHelper';
 
 import loading from '../../components/loading/loading';
@@ -23,9 +23,9 @@ import html from './template.html';
 import './style.scss';
 
 const THEMES = {
-    'dark': { 'body': { 'color': '#d8dadc', 'background': '#000', 'font-size': 'medium' } },
-    'sepia': { 'body': { 'color': '#d8a262', 'background': '#000', 'font-size': 'medium' } },
-    'light': { 'body': { 'color': '#000', 'background': '#fff', 'font-size': 'medium' } }
+    'dark': { 'body': { 'color': '#d8dadc', 'background': '#000' } },
+    'sepia': { 'body': { 'color': '#d8a262', 'background': '#000' } },
+    'light': { 'body': { 'color': '#000', 'background': '#fff' } }
 };
 const THEME_ORDER = ['dark', 'sepia', 'light'];
 const FONT_SIZES = ['x-small', 'small', 'medium', 'large', 'x-large'];
@@ -42,10 +42,10 @@ export class BookPlayer {
         } else {
             this.theme = 'light';
         }
-        this.fontSize = 'medium';
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.openTableOfContents = this.openTableOfContents.bind(this);
         this.rotateTheme = this.rotateTheme.bind(this);
+        this.setTheme = this.setTheme.bind(this);
         this.increaseFontSize = this.increaseFontSize.bind(this);
         this.decreaseFontSize = this.decreaseFontSize.bind(this);
         this.previous = this.previous.bind(this);
@@ -53,7 +53,6 @@ export class BookPlayer {
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.addSwipeGestures = this.addSwipeGestures.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
-        this.fullscreen = false;
     }
 
     play(options) {
@@ -61,6 +60,7 @@ export class BookPlayer {
         this.cancellationToken = false;
         this.loaded = false;
 
+        screenSaverManager.block();
         loading.show();
         const elem = this.createMediaElement(options);
         return this.setCurrentSrc(elem, options);
@@ -69,6 +69,7 @@ export class BookPlayer {
     stop() {
         this.unbindEvents();
         this.unmountBookOsd();
+        screenSaverManager.unblock();
 
         const stopInfo = {
             src: this.item
@@ -92,10 +93,6 @@ export class BookPlayer {
 
         if (rendition) {
             rendition.destroy();
-        }
-
-        if (this.fullscreen) {
-            this.toggleFullscreen();
         }
 
         // hide loader in case player was not fully loaded yet
@@ -216,46 +213,46 @@ export class BookPlayer {
         }
     }
 
+    setTheme(theme, fontSize) {
+        if (!this.loaded) return;
+
+        this.theme = theme;
+        this.fontSize = fontSize;
+
+        // TODO add styles to other elements when we can reliably determine when to apply them
+        const active = THEMES[theme];
+
+        // force this style on all text only when the user has opted to change the default
+        // many epub files will apply font size to individual elements and thus ignore a value on document body
+        if (fontSize !== undefined) {
+            active['a, p, div, li, span'] = { 'font-size': `${fontSize} !important` };
+        }
+
+        this.rendition.themes.register('default', active);
+        this.rendition.themes.update('default');
+    }
+
     toggleFullscreen() {
         const player = document.querySelector('#bookPlayerContainer');
 
-        player.classList.toggle('fullscreen', !this.fullscreen);
-        if (Screenfull.isEnabled) {
-            Screenfull.toggle();
-        } else if (window.NativeShell) {
-            this.fullscreen ? window.NativeShell.disableFullscreen() : window.NativeShell.enableFullscreen();
-        }
-
         // needs to be executed with a slight delay to give NativeShell time to process the request
         setTimeout(() => this.rendition.resize(player.clientWidth, player.clientHeight), 200);
-
-        // required for mobile apps without browser fullscreen support
-        this.fullscreen = !this.fullscreen;
     }
 
     rotateTheme() {
-        if (this.loaded) {
-            const newTheme = THEME_ORDER[(THEME_ORDER.indexOf(this.theme) + 1) % THEME_ORDER.length];
-            this.rendition.themes.register('default', THEMES[newTheme]);
-            this.rendition.themes.update('default');
-            this.theme = newTheme;
-        }
+        this.setTheme(THEME_ORDER[(THEME_ORDER.indexOf(this.theme) + 1) % THEME_ORDER.length], this.fontSize);
     }
 
     increaseFontSize() {
-        if (this.loaded && this.fontSize !== FONT_SIZES[FONT_SIZES.length - 1]) {
-            const newFontSize = FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize) + 1)];
-            this.rendition.themes.fontSize(newFontSize);
-            this.fontSize = newFontSize;
-        }
+        if (this.fontSize === FONT_SIZES[FONT_SIZES.length - 1]) return;
+
+        this.setTheme(this.theme, FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize ?? 'medium') + 1)]);
     }
 
     decreaseFontSize() {
-        if (this.loaded && this.fontSize !== FONT_SIZES[0]) {
-            const newFontSize = FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize) - 1)];
-            this.rendition.themes.fontSize(newFontSize);
-            this.fontSize = newFontSize;
-        }
+        if (this.fontSize === FONT_SIZES[0]) return;
+
+        this.setTheme(this.theme, FONT_SIZES[(FONT_SIZES.indexOf(this.fontSize ?? 'medium') - 1)]);
     }
 
     previous(e) {
@@ -305,7 +302,7 @@ export class BookPlayer {
             onRotateTheme: this.rotateTheme,
             onDecreaseFontSize: this.decreaseFontSize,
             onIncreaseFontSize: this.increaseFontSize,
-            onToggleFullscreen: Screenfull.isEnabled || window.NativeShell ? this.toggleFullscreen : null
+            onToggleFullscreen: this.toggleFullscreen
         }, elem.querySelector('#bookOsdMount'));
 
         return elem;
@@ -340,11 +337,8 @@ export class BookPlayer {
                     flow: 'paginated'
                 });
 
-                this.currentSrc = downloadHref;
+                this.currentSrc = () => downloadHref;
                 this.rendition = rendition;
-
-                rendition.themes.register('default', THEMES[this.theme]);
-                rendition.themes.select('default');
 
                 return rendition.display().then(() => {
                     const epubElem = document.querySelector('.epub-container');
@@ -368,6 +362,7 @@ export class BookPlayer {
                             Events.trigger(this, 'pause');
                         });
 
+                        this.setTheme(this.theme, this.fontSize);
                         loading.hide();
                         return resolve();
                     });
