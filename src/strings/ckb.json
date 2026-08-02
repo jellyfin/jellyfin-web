@@ -261,5 +261,8 @@
     "ChannelResolutionSD": "SD",
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
-    "ChannelResolutionFullHD": "Full HD"
+    "ChannelResolutionFullHD": "Full HD",
+    "CommunityRating": "هەڵسەنگاندنی کۆمەڵگە",
+    "Composer": "دانەر",
+    "Conductor": "ڕێنیشاندەری مۆسیقا"
 }
