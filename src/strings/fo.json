@@ -648,5 +648,6 @@
     "ButtonSelectDirectory": "Vel skjáttu",
     "ButtonScanAllLibraries": "Skanna øll søvn",
     "AllowSegmentDeletionHelp": "Strika gomul brot eftir at viðskiftarin hevur niðurtikið tey. Við hesum slepst undan at goyma alla umkotaðu fíluna á diski. Óvirkja hesa stilling um tú renur teg í spælitrupulleikar.",
-    "LabelSegmentKeepSecondsHelp": "Tíð ið brot verða varðveit eftir at tey eru niðurtikin av viðskiftaranum. Hetta hevur einans virkna um strikan av brotum er virkt."
+    "LabelSegmentKeepSecondsHelp": "Tíð ið brot verða varðveit eftir at tey eru niðurtikin av viðskiftaranum. Hetta hevur einans virkna um strikan av brotum er virkt.",
+    "LabelMediaSegmentsType": "{0} brot"
 }
