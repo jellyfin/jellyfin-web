@@ -555,7 +555,7 @@
     "ClientSettings": "Configuració del client",
     "CinemaModeConfigurationHelp": "El mode de cinema proporciona l'experiència d'aquest a la sala d'estar, amb la possibilitat de reproduir tràilers i presentacions personalitzades abans del títol principal.",
     "ChannelNameOnly": "Només el canal {0}",
-    "ChangingMetadataImageSettingsNewContent": "Els canvis als paràmetres de descàrrega de metadades o imatges només s'apliquen al contingut nou afegit a la mediateca. Per a aplicar els canvis als títols existents, haureu d'actualitzar les metadades manualment.",
+    "ChangingMetadataImageSettingsNewContent": "Els canvis als paràmetres de descàrrega de metadades o il·lustracions només s'apliquen al contingut nou afegit a la mediateca. Per a aplicar els canvis als títols existents, haureu d'actualitzar les metadades manualment.",
     "ButtonTogglePlaylist": "Llista de reproducció",
     "BurnSubtitlesHelp": "Determina si el servidor hauria de gravar els subtítols. Evitant això millorarà molt el rendiment. Selecciona Automàtic per a gravar formats basats en imatges (VobSub, PGS, SUB, IDX) i certs subtítols ASS o SSA.",
     "Browse": "Navega",
