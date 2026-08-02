@@ -1933,5 +1933,9 @@
     "ViewRightToLeft": "Sprava doľava",
     "SeriesName": "Názov série",
     "AudioLanguages": "Jazyky zvuku",
-    "SubtitleLanguages": "Jazyky titulkov"
+    "SubtitleLanguages": "Jazyky titulkov",
+    "BitmapSubtitleAspectModeContain": "Obsahuje",
+    "BitmapSubtitleAspectModeCover": "Obal",
+    "BitmapSubtitleAspectModeHelp": "Určuje ako sú klientsky renderované PGS a VobSub titulky rozšírené do viditeľného pola videa.",
+    "LabelUsernameAllowedCharactersHelp": "Používateľské mená môže obsahovať písmená, číslá, medzery a nasledujúce znaky: - _ ' . @ +. Nemôžu začínať ani končiť medzerou."
 }
