@@ -43,7 +43,7 @@ function getNextUpFetchFn(
                 ],
                 enableTotalRecordCount: false,
                 nextUpDateCutoff: toIsoDateOnlyString(oldestDateForNextUp),
-                enableResumable: false,
+                enableResumable: userSettings.enableResumableInNextUp(),
                 enableRewatching: userSettings.enableRewatchingInNextUp()
             }));
     };

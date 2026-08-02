@@ -561,6 +561,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set resumable episodes in next up.
+     * @param {boolean|undefined} [val] - If episodes in progress should be included in next up.
+     * @returns {boolean} Resumable episodes in next up state.
+     */
+    enableResumableInNextUp(val) {
+        if (val !== undefined) {
+            return this.set('enableResumableInNextUp', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableResumableInNextUp', false), false);
+    }
+
+    /**
      * Get or set sound effects.
      * @param {string|undefined} val - Sound effects.
      * @return {string} Sound effects.

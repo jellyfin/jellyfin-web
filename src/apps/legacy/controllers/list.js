@@ -261,6 +261,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             EnableImageTypes: 'Primary,Backdrop,Thumb',
             EnableTotalRecordCount: false,
             SortBy: sortBy,
+            EnableResumable: userSettings.enableResumableInNextUp(),
             EnableRewatching: userSettings.enableRewatchingInNextUp()
         }));
     }

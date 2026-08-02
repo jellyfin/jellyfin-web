@@ -47,6 +47,23 @@ export function NextUpPreferences({ onChange, values }: Readonly<NextUpPreferenc
 
             <FormControl fullWidth>
                 <FormControlLabel
+                    aria-describedby='display-settings-next-up-resumable-description'
+                    control={
+                        <Checkbox
+                            checked={values.enableResumableInNextUp}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('EnableResumableNextUp')}
+                    name='enableResumableInNextUp'
+                />
+                <FormHelperText id='display-settings-next-up-resumable-description'>
+                    {globalize.translate('EnableResumableNextUpHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
                     aria-describedby='display-settings-next-up-rewatching-description'
                     control={
                         <Checkbox
