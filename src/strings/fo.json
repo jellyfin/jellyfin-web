@@ -35,7 +35,7 @@
     "HeaderDevices": "Eindir",
     "HeaderError": "Feilur",
     "HeaderForKids": "Fyri børn",
-    "AllowSegmentDeletion": "Strika partar",
+    "AllowSegmentDeletion": "Strika brot",
     "AllowMediaConversion": "Loyv miðlaformbroytan",
     "AllowCollectionManagement": "brúkara",
     "AllowFfmpegThrottling": "Avmarka umkotingar",
@@ -54,7 +54,7 @@
     "Aired": "Frumsýnt",
     "Album": "Plátuútgáva",
     "Albums": "Plátur",
-    "LabelSegmentKeepSeconds": "Tíð at halda petti",
+    "LabelSegmentKeepSeconds": "Tíð at varðveita brot í",
     "AroundTime": "Umleið {0}",
     "Ascending": "Hækkandi",
     "SearchForMissingMetadata": "Leita eftir vantandi metadátum",
@@ -646,5 +646,7 @@
     "LabelBackupWarning": "Fyriskipaðar koyrslur eru í gongd. Viðmælt er at steðga teimum ella bíða til tær eru lidnar áðrenn fari verður undir at gera trygdaravrit.",
     "HeaderVideos": "Kykmyndir",
     "ButtonSelectDirectory": "Vel skjáttu",
-    "ButtonScanAllLibraries": "Skanna øll søvn"
+    "ButtonScanAllLibraries": "Skanna øll søvn",
+    "AllowSegmentDeletionHelp": "Strika gomul brot eftir at viðskiftarin hevur niðurtikið tey. Við hesum slepst undan at goyma alla umkotaðu fíluna á diski. Óvirkja hesa stilling um tú renur teg í spælitrupulleikar.",
+    "LabelSegmentKeepSecondsHelp": "Tíð ið brot verða varðveit eftir at tey eru niðurtikin av viðskiftaranum. Hetta hevur einans virkna um strikan av brotum er virkt."
 }
