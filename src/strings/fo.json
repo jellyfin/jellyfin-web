@@ -644,5 +644,7 @@
     "LabelScreensaverTimeHelp": "Tíð uttan virksemi áðrenn skáaskíggin byrjar.",
     "TabScheduledTasks": "Fyriskipaðar koyrslur",
     "LabelBackupWarning": "Fyriskipaðar koyrslur eru í gongd. Viðmælt er at steðga teimum ella bíða til tær eru lidnar áðrenn fari verður undir at gera trygdaravrit.",
-    "HeaderVideos": "Kykmyndir"
+    "HeaderVideos": "Kykmyndir",
+    "ButtonSelectDirectory": "Vel skjáttu",
+    "ButtonScanAllLibraries": "Skanna øll søvn"
 }
