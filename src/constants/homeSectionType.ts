@@ -5,6 +5,7 @@ export enum HomeSectionType {
     SmallLibraryTiles = 'smalllibrarytiles',
     LibraryButtons = 'librarybuttons',
     ActiveRecordings = 'activerecordings',
+    ContinueWatching = 'continuewatching',
     Resume = 'resume',
     ResumeAudio = 'resumeaudio',
     LatestMedia = 'latestmedia',
