@@ -1939,5 +1939,5 @@
     "BitmapSubtitleAspectModeStretch": "Étirer",
     "LabelUsernameAllowedCharactersHelp": "Les noms d'utilisateur peuvent contenir des lettres, chiffres, espaces et les caractères suivants : - _ ' . @ +. Ils ne peuvent pas commencer ou finir par un espace.",
     "LabelBitmapSubtitleAspectMode": "Rapport hauteur / largeur des sous-titres bitmap",
-    "BitmapSubtitleAspectModeCover": "Recouvrir"
+    "BitmapSubtitleAspectModeCover": "Jaquette"
 }
