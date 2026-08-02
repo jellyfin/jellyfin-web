@@ -248,5 +248,18 @@
     "ButtonQuickStartGuide": "ڕێنمایی ڕێکخستن",
     "ButtonRefreshGuideData": "نوێکردنەوەی زانیارییەکانی ڕێبەر",
     "ButtonRemove": "لابردن",
-    "ButtonRename": "ناوی بگۆڕە"
+    "ButtonRename": "ناوی بگۆڕە",
+    "ButtonWebsite": "ماڵپەڕ",
+    "Bwdif": "فلتەری لادانی هێڵیی بوب ویڤەر (BWDIF)",
+    "CancelRecording": "هەڵوەشاندنەوەی تۆمارکردن",
+    "CancelSeries": "هەڵوەشاندنەوەی زنجیرە",
+    "CardSettings": "ڕێکخستنەکانی کارت",
+    "Casual": "باو",
+    "Categories": "پۆلەکان",
+    "ChangingMetadataImageSettingsNewContent": "گۆڕانکارییەکان لە زانیارییەکان (Metadata) یان ڕێکخستنەکانی داگرتنی وێنەکان، تەنها بەسەر ئەو ناوەڕۆکە نوێیانەدا جێبەجێ دەبن کە بۆ پەڕتووکخانەکەت زیاد دەکرێن. بۆ جێبەجێکردنی گۆڕانکارییەکان لەسەر بەرهەمە کۆنەکان، پێویستە بە دەستی زانیارییەکانیان نوێ بڵاو بکەیتەوە .",
+    "ChannelAccessHelp": "ئەو کەناڵانە هەڵبژێرە کە دەتەوێت لەگەڵ ئەم بەکارهێنەرەدا هاوبەشییان پێ بپۆشیت. بەڕێوەبەران دەتوانن لە ڕێگەی بەڕێوەبەری زانیارییەکانەوە دەستکاریی هەموو کەناڵەکان بکەن.",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD"
 }
