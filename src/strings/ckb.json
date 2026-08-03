@@ -347,5 +347,13 @@
     "ButtonRevoke": "سەندنەوە",
     "ButtonScanAllLibraries": "پشکنینی هەموو کتێبخانەکان",
     "ButtonSelectDirectory": "دیاریکردنی بوخچە",
-    "ButtonSelectView": "دیاریکردنی دیمەن"
+    "ButtonSelectView": "دیاریکردنی دیمەن",
+    "ButtonSpace": "بۆشایی",
+    "ButtonSplit": "کەرتبوو",
+    "ButtonStart": "دەستپێکردن",
+    "ButtonStop": "ڕاگرتن",
+    "ButtonSubmit": "ناردن",
+    "ButtonSyncPlay": "پەخشکردنی هاوکات",
+    "ButtonTogglePlaylist": "پەخشکردنی لیست",
+    "ButtonTrailer": "کورتەفیلم"
 }
