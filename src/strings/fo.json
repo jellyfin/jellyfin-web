@@ -732,5 +732,16 @@
     "QuickConnectNotActive": "Quick Connect er ikki virkt á hesum ambætaranum",
     "Recordings": "Upptøkur",
     "RepositoriesPageLoadError": "Miseydnaðist at innlesa ískoytisforritasøvn",
-    "Retry": "Royn aftur"
+    "Retry": "Royn aftur",
+    "SaveSubtitlesIntoMediaFolders": "Goym undirtekstir í miðlaskjáttum",
+    "SaveSubtitlesIntoMediaFoldersHelp": "Eru undirtekstir varðveittir við síðunar av kykmyndafílunum er lættari at umsita teir.",
+    "Video": "Kykmynd",
+    "Watched": "Sæddur",
+    "YoutubeNotFound": "Kykmynd varð ikki funnin.",
+    "EnableEnhancedNvdecDecoder": "Virkja víkaðan NVDEC-avkotara",
+    "LabelVideoAttributes": "Kykmyndareginleikar",
+    "LabelBitrate": "Bitferð",
+    "LabelAudioBitrate": "Ljóðbitferð",
+    "LabelVideoBitrate": "Kykmyndabitferð",
+    "MediaInfoBitrate": "Bitferð"
 }
