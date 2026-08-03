@@ -355,5 +355,11 @@
     "ButtonSubmit": "ناردن",
     "ButtonSyncPlay": "پەخشکردنی هاوکات",
     "ButtonTogglePlaylist": "پەخشکردنی لیست",
-    "ButtonTrailer": "کورتەفیلم"
+    "ButtonTrailer": "کورتەفیلم",
+    "ButtonUninstall": "سڕینەوەی دامەزراندن",
+    "ButtonUseQuickConnect": "بەکارهێنانی پەیوەندیکردنی خێرا",
+    "ChannelResolutionUHD4K": "UHD (4K)",
+    "ChannelNameOnly": "کەناڵ {0} تەنها",
+    "ChannelNumber": "ژمارەی کەناڵ",
+    "Channels": "کەناڵەکان"
 }
