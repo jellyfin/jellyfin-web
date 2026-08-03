@@ -2,6 +2,7 @@ import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
 import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import browser from 'scripts/browser';
 import screenSaverManager from 'scripts/screensavermanager';
 import TouchHelper from 'scripts/touchHelper';
 
@@ -187,13 +188,23 @@ export class BookPlayer {
         document.addEventListener('keydown', this.onWindowKeyDown);
         this.rendition?.on('keydown', this.onWindowKeyDown);
         this.rendition?.on('rendered', (e, i) => this.forwardEvents(i.document));
-        this.addSwipeGestures(document.querySelector('#bookPlayerContainer'));
+
+        if (browser.safari) {
+            this.addSwipeGestures(document.querySelector('#bookPlayerContainer'));
+        } else {
+            this.rendition?.on('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+        }
     }
 
     unbindEvents() {
         document.removeEventListener('keydown', this.onWindowKeyDown);
         this.rendition?.off('keydown', this.onWindowKeyDown);
         this.mediaElement?.removeEventListener('close', this.onDialogClosed);
+
+        if (!browser.safari) {
+            this.rendition?.off('rendered', (e, i) => this.addSwipeGestures(i.document.documentElement));
+        }
+
         this.touchHelper?.destroy();
     }
 

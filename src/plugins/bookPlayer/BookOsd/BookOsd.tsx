@@ -85,9 +85,10 @@ const BookOsd: FC<BookOsdProps> = ({
         };
 
         const onClick = (event: MouseEvent) => {
-            if ((event.target as Element | null)?.closest?.('.bookOsdRow')) return;
-
+            // apply this before the BookOsd check so IconButton clicks will reset the timer
             scheduleHide();
+
+            if ((event.target as Element | null)?.closest?.('.bookOsdRow')) return;
             setVisible(state => !state);
         };
 

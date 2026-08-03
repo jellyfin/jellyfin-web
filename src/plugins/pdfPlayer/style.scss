@@ -2,6 +2,8 @@
     position: relative;
     display: grid;
     place-items: center;
+    /* stylelint-disable-next-line declaration-block-no-duplicate-properties */
+    height: 100%;
     top: env(safe-area-inset-top);
     height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
