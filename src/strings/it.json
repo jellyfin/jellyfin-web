@@ -1428,7 +1428,7 @@
     "Interview": "Intervista",
     "DeletedScene": "Scena rimossa",
     "BehindTheScenes": "Dietro le quinte",
-    "Clip": "Corto metraggio",
+    "Clip": "Filmato",
     "ButtonExitApp": "Esci dall'Applicazione",
     "AllowEmbeddedSubtitlesAllowTextOption": "Permetti testo",
     "AllowEmbeddedSubtitlesAllowImageOption": "Permetti immagine",
@@ -1933,5 +1933,6 @@
     "ViewRightToLeft": "Destra verso Sinistra",
     "SeriesName": "Nome della Serie",
     "AudioLanguages": "Lingue audio",
-    "SubtitleLanguages": "Lingue sottotitoli"
+    "SubtitleLanguages": "Lingue sottotitoli",
+    "BitmapSubtitleAspectModeContain": "Contiene"
 }

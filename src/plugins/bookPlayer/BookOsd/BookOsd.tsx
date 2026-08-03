@@ -1,10 +1,11 @@
-import React, { type FC, useCallback, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
 
 import './BookOsd.scss';
 import IconButton from '../../../elements/emby-button/IconButton';
 import globalize from 'lib/globalize';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
+import Screenfull from 'screenfull';
 
 interface BookOsdProps {
     item: BaseItemDto;
@@ -17,7 +18,7 @@ interface BookOsdProps {
     onIncreaseFontSize?: () => void;
     onToggleDirection?: () => void;
     onToggleLayout?: () => void;
-    onToggleFullscreen?: () => void;
+    onToggleFullscreen: () => void;
 }
 
 interface ComicsPlayerSettings {
@@ -44,6 +45,18 @@ const BookOsd: FC<BookOsdProps> = ({
     const [layout, setLayout] = useState(settings.pagesPerView === 2);
     const [fullscreen, setFullscreen] = useState(false);
 
+    const updateFullscreen = useCallback((state: boolean) => {
+        if (Screenfull.isEnabled && Screenfull.isFullscreen !== state) {
+            void Screenfull.toggle();
+        } else if (window.NativeShell) {
+            state ? window.NativeShell.enableFullscreen() : window.NativeShell.disableFullscreen();
+        }
+    }, []);
+
+    useEffect(() => {
+        return () => updateFullscreen(false);
+    }, [updateFullscreen]);
+
     const onClickDirection = useCallback(() => {
         onToggleDirection?.();
         setDirection(state => !state);
@@ -55,9 +68,10 @@ const BookOsd: FC<BookOsdProps> = ({
     }, [onToggleLayout]);
 
     const onClickFullscreen = useCallback(() => {
+        updateFullscreen(!fullscreen);
         onToggleFullscreen?.();
         setFullscreen(state => !state);
-    }, [onToggleFullscreen]);
+    }, [onToggleFullscreen, updateFullscreen, fullscreen]);
 
     return (
         <div className='bookOsd'>
@@ -119,7 +133,7 @@ const BookOsd: FC<BookOsdProps> = ({
                     />
                 )}
 
-                {onToggleFullscreen && (
+                {(Screenfull.isEnabled || window.NativeShell) && (
                     <IconButton
                         onClick={onClickFullscreen}
                         icon={fullscreen ? 'fullscreen_exit' : 'fullscreen'}

@@ -1933,5 +1933,9 @@
     "AudioLanguages": "Audio-Sprachen",
     "SubtitleLanguages": "Untertitel-Sprachen",
     "ViewDoublePage": "Doppelseitenansicht",
-    "ViewSinglePage": "Einzelseitenansicht"
+    "ViewSinglePage": "Einzelseitenansicht",
+    "BitmapSubtitleAspectModeContain": "Enthalten",
+    "BitmapSubtitleAspectModeCover": "Abdecken",
+    "BitmapSubtitleAspectModeHelp": "Bestimmt, wie von Clients gerenderte PGS und VobSub Untertitel auf den sichtbaren Videoereich skaliert werden.",
+    "BitmapSubtitleAspectModeStretch": "Strecken"
 }

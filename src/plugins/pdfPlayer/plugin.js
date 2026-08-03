@@ -5,7 +5,7 @@ import { PluginType } from 'constants/pluginType';
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
+import TouchHelper from '../../scripts/touchHelper';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import screenSaverManager from 'scripts/screensavermanager';
@@ -28,7 +28,7 @@ export class PdfPlayer {
 
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
+        this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
     play(options) {
@@ -128,13 +128,10 @@ export class PdfPlayer {
         }
     }
 
-    onTouchStart(e) {
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-        if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
-            this.previous();
-        } else {
-            this.next();
-        }
+    addSwipeGestures(element) {
+        this.touchHelper = new TouchHelper(element);
+        Events.on(this.touchHelper, 'swiperight', () => this.previous());
+        Events.on(this.touchHelper, 'swipeleft', () => this.next());
     }
 
     onDialogClosed() {
@@ -142,15 +139,19 @@ export class PdfPlayer {
     }
 
     bindEvents() {
+        this.addSwipeGestures(document.querySelector('#container'));
         this.mediaElement?.addEventListener('close', this.onDialogClosed, { once: true });
         document.addEventListener('keydown', this.onWindowKeyDown);
-        document.querySelector('#container')?.addEventListener('touchstart', this.onTouchStart);
     }
 
     unbindEvents() {
+        this.touchHelper?.destroy();
         this.mediaElement?.removeEventListener('close', this.onDialogClosed);
         document.removeEventListener('keydown', this.onWindowKeyDown);
-        document.querySelector('#container')?.removeEventListener('touchstart', this.onTouchStart);
+    }
+
+    toggleFullscreen() {
+        setTimeout(() => this.loadPage(this.progress + 1), 200);
     }
 
     createMediaElement(options) {
@@ -181,7 +182,8 @@ export class PdfPlayer {
             item: options.items[0],
             onExit: this.onDialogClosed,
             onPrevious: this.previous,
-            onNext: this.next
+            onNext: this.next,
+            onToggleFullscreen: this.toggleFullscreen
         }, elem.querySelector('#bookOsdMount'));
 
         return elem;
@@ -220,6 +222,7 @@ export class PdfPlayer {
             });
             return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
+                this.currentSrc = () => downloadHref;
                 this.book = book;
                 this.loaded = true;
 
@@ -264,7 +267,7 @@ export class PdfPlayer {
 
         // load any missing pages in the cache
         for (const page of pages) {
-            if (!this.pages[page]) {
+            if (!this.pages[page] || this.cacheWidth !== window.innerWidth || this.cacheHeight !== window.innerHeight) {
                 this.pages[page] = document.createElement('canvas');
                 this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
 
@@ -274,6 +277,10 @@ export class PdfPlayer {
 
         // show the requested page
         canvas?.parentNode.replaceChild(this.pages[prefix + number], canvas);
+
+        // track size so we can render all pages again when the screen has changed
+        this.cacheWidth = window.innerWidth;
+        this.cacheHeight = window.innerHeight;
 
         // delete all pages outside the cache area
         for (const page in this.pages) {
