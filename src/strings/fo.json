@@ -743,5 +743,21 @@
     "LabelBitrate": "Bitferð",
     "LabelAudioBitrate": "Ljóðbitferð",
     "LabelVideoBitrate": "Kykmyndabitferð",
-    "MediaInfoBitrate": "Bitferð"
+    "MediaInfoBitrate": "Bitferð",
+    "ErrorPlayerNotFound": "Eingin spælari var funnin ið kann spæla hendan miðilin.",
+    "Extras": "Eykatilfar",
+    "FileReadCancelled": "Fíluinnlesingin varð avbrotin.",
+    "Filter": "Filtur",
+    "Filters": "Filtur",
+    "H264CrfHelp": "\"Constant Rate Factor\" (CRF) er forsetta góðskustillingin fyri x264 og x265 ritbúnaðarligu (kykmynda)kotararnar. Gildig virðir eru ímillum 0 og 51, har lægri virðir elva til betri myndagóðsku afturfyri stórri fílur (hægri bitferð). Skynsom virðir eru ímillum 18 og 28. Forsetta virðið er 23 fyri x264, og 28 fyri x265, og eru tað tí góð byrjunarvirðir. Tólbúnaðarkotarir brúka ikki hesar stillingar.",
+    "HeaderAddLyrics": "Legg inn sangtekst",
+    "HeaderAudioAdvanced": "Víðkaðar ljóðstillingar",
+    "HeaderMusicQuality": "Tónleikagóðska",
+    "HeaderMyMedia": "Mínir miðlar",
+    "HeaderNewRepository": "Nýggja ískoytisforritakeldu",
+    "HeaderNextVideo": "Næsta kykmynd",
+    "HeaderNoLyrics": "Fann ongar sangtekstir",
+    "HeaderOtherItems": "Aðrir miðlar",
+    "HideWatchedContentFromLatestMedia": "Fjal sæddar miðlar í \"Nýliga innlagdir miðlar\"",
+    "Identify": "Eyðmerk"
 }
