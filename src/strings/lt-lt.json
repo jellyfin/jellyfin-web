@@ -1031,7 +1031,6 @@
     "LabelKodiMetadataDateFormatHelp": "Visos datos iš NFO failų bus ištraukiamos šiuo formatu.",
     "AllowSegmentDeletion": "Ištrinti segmentus",
     "AllowSegmentDeletionHelp": "Ištrinkite senus segmentus, kai klientas juos atsisiųs. Taip išvengiama būtinybės saugoti visą perkoduotą failą diske. Išjunkite šią funkciją, jei kyla atkūrimo problemų.",
-    "AirPlay": "",
     "AllowSubtitleManagement": "Leisti šiam naudotojui keisti subtitrus",
     "Alternate": "Pakaitinis",
     "AlternateDVD": "Pakaitinis DVD",
