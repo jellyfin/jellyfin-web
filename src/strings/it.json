@@ -1934,5 +1934,7 @@
     "SeriesName": "Nome della Serie",
     "AudioLanguages": "Lingue audio",
     "SubtitleLanguages": "Lingue sottotitoli",
-    "BitmapSubtitleAspectModeContain": "Contiene"
+    "BitmapSubtitleAspectModeContain": "Contiene",
+    "BitmapSubtitleAspectModeHelp": "Controlla come i sottotitoli PGS e VobSub generati dal client vengono ridimensionati in base all'area video visibile.",
+    "BitmapSubtitleAspectModeStretch": "Allunga"
 }
