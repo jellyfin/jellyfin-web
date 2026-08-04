@@ -1767,5 +1767,9 @@
     "Wednesday": "Miðvikudagur",
     "WeeklyAt": "{0} kl {1}",
     "Whitelist": "Heimildalisti",
-    "WizardCompleted": "Það er allt og sumt í bili. Jellyfin er byrjað að safna upplýsingum um margmiðlunarsafnið þitt. Kynntu þér nokkur af öppunum okkar og smelltu svo <b>Klára</b> til að skoða <b>Stjórnborð</b>."
+    "WizardCompleted": "Það er allt og sumt í bili. Jellyfin er byrjað að safna upplýsingum um margmiðlunarsafnið þitt. Kynntu þér nokkur af öppunum okkar og smelltu svo <b>Klára</b> til að skoða <b>Stjórnborð</b>.",
+    "WriteAccessRequired": "Jellyfin þarf skrifaðgang að þessari möppu. Vinsamlegast tryggðu skrifaðgang og reyndu aftur.",
+    "Writer": "Höfundur",
+    "Writers": "Höfundar",
+    "XmlTvKidsCategoriesHelp": "Þættir í þessum flokkum verða sýndir sem barnaefni. Aðskildu flokka með „|“."
 }
