@@ -1830,7 +1830,8 @@ function getVideosHtml(items) {
         action: 'play',
         overlayText: false,
         centerText: true,
-        showRuntime: true
+        showRuntime: true,
+        overlayMoreButton: true
     });
 }
 
