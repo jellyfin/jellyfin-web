@@ -1,7 +1,8 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import Box from '@mui/material/Box';
-import React, { type FC, useCallback, useMemo, useRef } from 'react';
+import React, { type FC, useEffect, useMemo } from 'react';
+import { useIntersectionObserver } from 'usehooks-ts';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
@@ -43,31 +44,15 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
 
     const groups = useMemo(() => groupsUpcomingEpisodes(items), [items]);
 
-    const observerRef = useRef<IntersectionObserver | null>(null);
-    const sentinelRef = useCallback(
-        (node: HTMLDivElement | null) => {
-            observerRef.current?.disconnect();
+    const { ref: sentinelRef, isIntersecting } = useIntersectionObserver({
+        rootMargin: '600px'
+    });
 
-            if (!node) {
-                return;
-            }
-
-            observerRef.current = new IntersectionObserver(
-                (entries) => {
-                    if (
-                        entries[0]?.isIntersecting
-                        && hasNextPage
-                        && !isFetchingNextPage
-                    ) {
-                        void fetchNextPage();
-                    }
-                },
-                { rootMargin: '600px' }
-            );
-            observerRef.current.observe(node);
-        },
-        [hasNextPage, isFetchingNextPage, fetchNextPage]
-    );
+    useEffect(() => {
+        if (isIntersecting && hasNextPage && !isFetchingNextPage) {
+            void fetchNextPage();
+        }
+    }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     if (isLoading) return <Loading />;
 
