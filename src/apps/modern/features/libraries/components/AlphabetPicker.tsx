@@ -48,8 +48,11 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 bottom: 0,
                 fontSize: '80%',
                 display: 'flex',
-                alignItems: 'center',
-                // This should render under the main AppBar but above the ItemsView AppBar
+                alignItems: {
+                    xs: 'start',
+                    sm: 'center'
+                },
+                // This should render under the main AppBar if overlapping
                 zIndex: theme.zIndex.appBar - 1
             })}
         >
@@ -67,8 +70,14 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                         value={l}
                         sx={{
                             borderWidth: 0,
-                            paddingTop: 0.25,
-                            paddingBottom: 0.25,
+                            paddingTop: {
+                                xs: 0,
+                                md: 0.25
+                            },
+                            paddingBottom: {
+                                xs: 0,
+                                md: 0.25
+                            },
                             paddingLeft: 0.5,
                             paddingRight: 0.5
                         }}
