@@ -1,4 +1,4 @@
-import React, { type FC, useCallback, useEffect, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import './BookOsd.scss';
 import IconButton from '../../../elements/emby-button/IconButton';
@@ -40,10 +40,17 @@ const BookOsd: FC<BookOsdProps> = ({
     onToggleFullscreen
 }) => {
     const settings = userSettings.getComicsPlayerSettings(item.Id!) as ComicsPlayerSettings;
+    const timeout = useRef<ReturnType<typeof setTimeout>>();
 
     const [direction, setDirection] = useState(settings.langDir === 'rtl');
     const [layout, setLayout] = useState(settings.pagesPerView === 2);
     const [fullscreen, setFullscreen] = useState(false);
+    const [visible, setVisible] = useState(true);
+
+    const scheduleHide = useCallback(() => {
+        clearTimeout(timeout.current);
+        timeout.current = setTimeout(() => setVisible(false), 2000);
+    }, []);
 
     const updateFullscreen = useCallback((state: boolean) => {
         if (Screenfull.isEnabled && Screenfull.isFullscreen !== state) {
@@ -52,10 +59,6 @@ const BookOsd: FC<BookOsdProps> = ({
             state ? window.NativeShell.enableFullscreen() : window.NativeShell.disableFullscreen();
         }
     }, []);
-
-    useEffect(() => {
-        return () => updateFullscreen(false);
-    }, [updateFullscreen]);
 
     const onClickDirection = useCallback(() => {
         onToggleDirection?.();
@@ -73,14 +76,42 @@ const BookOsd: FC<BookOsdProps> = ({
         setFullscreen(state => !state);
     }, [onToggleFullscreen, updateFullscreen, fullscreen]);
 
+    useEffect(() => {
+        const onPointerMove = (event: PointerEvent) => {
+            if (event.pointerType !== 'mouse') return;
+
+            scheduleHide();
+            setVisible(true);
+        };
+
+        const onClick = (event: MouseEvent) => {
+            // apply this before the BookOsd check so IconButton clicks will reset the timer
+            scheduleHide();
+
+            if ((event.target as Element | null)?.closest?.('.bookOsdRow')) return;
+            setVisible(state => !state);
+        };
+
+        scheduleHide();
+        document.addEventListener('pointermove', onPointerMove);
+        document.addEventListener('click', onClick);
+
+        return () => {
+            clearTimeout(timeout.current);
+            updateFullscreen(false);
+            document.removeEventListener('pointermove', onPointerMove);
+            document.removeEventListener('click', onClick);
+        };
+    }, [scheduleHide, updateFullscreen]);
+
     return (
         <div className='bookOsd'>
-            <div className='bookOsdRow bookOsdTop'>
+            <div className='bookOsdRow' style={{ paddingTop: 'env(safe-area-inset-top)', ...(!visible && { opacity: 0, pointerEvents: 'none' }) }}>
                 <IconButton onClick={onExit} icon='arrow_back' title={globalize.translate('ButtonBack')} />
                 <span className='bookOsdTitle'>{item.Name}</span>
             </div>
 
-            <div className='bookOsdRow bookOsdBottom'>
+            <div className='bookOsdRow' style={{ paddingBottom: 'env(safe-area-inset-bottom)', ...(!visible && { opacity: 0, pointerEvents: 'none' }) }}>
                 <IconButton onClick={onPrevious} icon='navigate_before' title={globalize.translate('Previous')} />
                 <IconButton onClick={onNext} icon='navigate_next' title={globalize.translate('Next')} />
                 <div className='bookOsdSpacer' />
