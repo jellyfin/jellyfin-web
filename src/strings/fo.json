@@ -799,5 +799,10 @@
     "LiveTVPageLoadError": "Miseydnaðist at innlesa síðu við upptøkum",
     "MessagePluginInstalled": "Ískoytisforritið varð innlagt. Neyðugt er at endurbyrja ambætaran til tess at virkja tað.",
     "MessageSyncPlayCreateGroupDenied": "Loyvi er neyðugt til tess at gera ein bólk.",
-    "LabelMediaSegmentProviders": "Margmiðlabrotseyðmerkjarar"
+    "LabelMediaSegmentProviders": "Margmiðlabrotseyðmerkjarar",
+    "MediaSegmentAction.AskToSkip": "Spyr um at leypa um",
+    "MediaSegmentProvidersHelp": "Virkja og raða miðlabrotseyðmerkjarar eftir ynsktum raðfesti.",
+    "MediaSegmentType.Outro": "Endi",
+    "MediaSegmentType.Intro": "Inngangur",
+    "DisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-kotu"
 }
