@@ -139,7 +139,7 @@ const Access = ({ userId }: AccessProps) => {
         loadMediaFolders(user, mediaFolders);
         loadDevices(user, devices);
         loading.hide();
-    }, [loadChannels, loadDevices, loadMediaFolders]);
+    }, [libraryMenu, loadChannels, loadDevices, loadMediaFolders]);
 
     const loadData = useCallback(() => {
         loading.show();
@@ -237,7 +237,7 @@ const Access = ({ userId }: AccessProps) => {
         });
 
         (page.querySelector('.userLibraryAccessForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadData]);
+    }, [userId, loadData]);
 
     return (
         <div ref={element}>
