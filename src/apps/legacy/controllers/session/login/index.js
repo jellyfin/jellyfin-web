@@ -22,11 +22,10 @@ import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder'
 
 import './login.scss';
 
-// Own instance so the schemes stay scoped: DOMPurify's defaults + matrix, tg, whatsapp, signal, irc(s).
 const domPurify = createDOMPurify();
 domPurify.setConfig({
-    // eslint-disable-next-line @typescript-eslint/naming-convention, sonarjs/regex-complexity -- DOMPurify config option; extends its default regex
-    ALLOWED_URI_REGEXP: /^(?:(?:https?|ftps?|mailto|tel|callto|cid|xmpp|matrix|tg|whatsapp|signal|ircs?):|[^a-z]|[a-z+.-]+(?:[^-a-z+.:]|$))/i
+    // eslint-disable-next-line @typescript-eslint/naming-convention, sonarjs/regex-complexity -- DOMPurify config option; customizes its default regex
+    ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel|callto|cid|xmpp|matrix|tg|whatsapp|signal|ircs?):|[^a-z]|[a-z+.-]+(?:[^-a-z+.:]|$))/i
 });
 
 const enableFocusTransform = !browser.slow && !browser.edge;
