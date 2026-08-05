@@ -35,4 +35,15 @@ describe('Browser', () => {
         expect(browser.xboxOne).toBe(true);
         expect(browser.tv).toBe(true);
     });
+
+    it('should identify Epiphany browsers', () => {
+        const browser = detectBrowser('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Epiphany/45.0 Safari/605.1.15');
+        expect(browser.epiphany).toBe(true);
+        expect(browser.safari).toBeFalsy();
+    });
+
+    it('should not identify generic Linux WebKit as Safari', () => {
+        const browser = detectBrowser('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15');
+        expect(browser.safari).toBeFalsy();
+    });
 });

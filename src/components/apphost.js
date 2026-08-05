@@ -23,6 +23,7 @@ const BrowserName = {
     edge: 'Edge',
     firefox: 'Firefox',
     opera: 'Opera',
+    epiphany: 'Epiphany',
     safari: 'Safari'
 };
 

@@ -25,6 +25,7 @@ declare namespace browser {
     export let vidaa: boolean;
     export let web0s: boolean;
     export let titanos: boolean;
+    export let epiphany: boolean;
     export let edgeUwp: boolean;
     export let web0sVersion: number | undefined;
     export let tizenVersion: number | undefined;
