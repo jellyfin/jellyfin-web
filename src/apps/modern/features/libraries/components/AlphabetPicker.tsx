@@ -41,7 +41,10 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
             // eslint-disable-next-line react/jsx-no-bind
             sx={theme => ({
                 position: 'fixed',
-                top: '112px', // This is the height of the AppBar + Tabs, this should be dynamic
+                top: {
+                    xs: '144px', // Extra small screens the AppBar wraps to 3 rows (128px) and we align top with 16px of spacing
+                    sm: '96px' // Small screens the AppBar is 2 rows (96px) and we align center (no extra spacing)
+                },
                 bottom: 0,
                 fontSize: '80%',
                 display: 'flex',

@@ -95,6 +95,7 @@ const LibraryToolbar: FC = () => {
 
     return (
         <Toolbar
+            variant='dense'
             className='padded-left padded-right'
             sx={{
                 display: 'flex',
