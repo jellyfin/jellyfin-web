@@ -1,14 +1,18 @@
-import React, { type FC, useCallback, useMemo, useRef } from 'react';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import Box from '@mui/material/Box';
+import React, { type FC, useCallback, useMemo, useRef } from 'react';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
-import { groupsUpcomingEpisodes, useGetUpcomingEpisodes } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { LibraryViewProps } from 'types/library';
+
+import { useUpcomingEpisodes } from '../hooks/api/useUpcomingEpisodes';
+import { groupsUpcomingEpisodes } from '../utils/upcomingEpisodes';
 
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
     const { __legacyApiClient__ } = useApi();
@@ -18,7 +22,16 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage
-    } = useGetUpcomingEpisodes(parentId);
+    } = useUpcomingEpisodes({
+        parentId: parentId || undefined,
+        fields: [ItemFields.AirTime],
+        imageTypeLimit: 1,
+        enableImageTypes: [
+            ImageType.Primary,
+            ImageType.Backdrop,
+            ImageType.Thumb
+        ]
+    }, !!parentId);
 
     const items = useMemo<ItemDto[]>(
         () =>

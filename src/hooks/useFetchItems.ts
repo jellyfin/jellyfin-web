@@ -19,9 +19,8 @@ import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
-import globalize from 'lib/globalize';
 
 import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
@@ -469,108 +468,6 @@ export const usePlaylistsMoveItemMutation = () => {
     return useMutation({
         mutationFn: (requestParameters: PlaylistApiMoveItemRequest) =>
             fetchPlaylistsMoveItem(currentApi, requestParameters )
-    });
-};
-
-type GroupsUpcomingEpisodes = {
-    name: string;
-    items: ItemDto[];
-};
-
-export function groupsUpcomingEpisodes(items: ItemDto[]) {
-    const groups: GroupsUpcomingEpisodes[] = [];
-    let currentGroupName = '';
-    let currentGroup: ItemDto[] = [];
-
-    for (const item of items) {
-        let dateText = '';
-
-        if (item.PremiereDate) {
-            try {
-                const premiereDate = datetime.parseISO8601Date(
-                    item.PremiereDate,
-                    true
-                );
-                dateText = datetime.isRelativeDay(premiereDate, -1) ?
-                    globalize.translate('Yesterday') :
-                    datetime.toLocaleDateString(premiereDate, {
-                        weekday: 'long',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-            } catch {
-                console.error('error parsing timestamp for upcoming tv shows');
-            }
-        }
-
-        if (dateText != currentGroupName) {
-            if (currentGroup.length) {
-                groups.push({
-                    name: currentGroupName,
-                    items: currentGroup
-                });
-            }
-
-            currentGroupName = dateText;
-            currentGroup = [item];
-        } else {
-            currentGroup.push(item);
-        }
-    }
-    return groups;
-}
-
-export const UPCOMING_EPISODES_PAGE_SIZE = 25;
-
-const fetchUpcomingEpisodes = async (
-    currentApi: JellyfinApiContext,
-    parentId: ParentId,
-    startIndex: number,
-    options?: AxiosRequestConfig
-) => {
-    const { api, user } = currentApi;
-    if (api && user?.Id) {
-        const response = await getShowApi(api).getUpcomingEpisodes(
-            {
-                userId: user.Id,
-                startIndex,
-                limit: UPCOMING_EPISODES_PAGE_SIZE,
-                fields: [ItemFields.AirTime],
-                parentId: parentId ?? undefined,
-                imageTypeLimit: 1,
-                enableImageTypes: [
-                    ImageType.Primary,
-                    ImageType.Backdrop,
-                    ImageType.Thumb
-                ]
-            },
-            {
-                signal: options?.signal
-            }
-        );
-
-        return response.data;
-    }
-};
-
-export const useGetUpcomingEpisodes = (parentId: ParentId) => {
-    const currentApi = useApi();
-    return useInfiniteQuery({
-        queryKey: ['UpcomingEpisodes', parentId],
-        queryFn: ({ pageParam, signal }) =>
-            fetchUpcomingEpisodes(currentApi, parentId, pageParam, { signal }),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage, allPages) => {
-            // The Upcoming endpoint does not report a reliable total record
-            // count, so detect the end of the list by a short final page.
-            const lastPageCount = lastPage?.Items?.length ?? 0;
-            if (lastPageCount < UPCOMING_EPISODES_PAGE_SIZE) {
-                return undefined;
-            }
-
-            return allPages.length * UPCOMING_EPISODES_PAGE_SIZE;
-        },
-        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
 
