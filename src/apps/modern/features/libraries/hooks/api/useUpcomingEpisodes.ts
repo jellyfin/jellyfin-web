@@ -1,5 +1,5 @@
 import type { Api } from '@jellyfin/sdk/lib/api';
-import type { TvShowsApiGetUpcomingEpisodesRequest } from '@jellyfin/sdk/lib/generated-client/api/tv-shows-api';
+import type { ShowsApiGetUpcomingEpisodesRequest } from '@jellyfin/sdk/lib/generated-client/api/shows-api';
 import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
