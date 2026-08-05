@@ -141,13 +141,6 @@ function getSelectedMediaSource(page, mediaSources) {
     return mediaSources.filter(m => m.Id === mediaSourceId)[0];
 }
 
-// The resume position follows the selected version. Each version is its own item, and
-// refreshSelectedVersion swaps currentItem to the selected version's DTO, so its own user data
-// already carries the correct per-version position - no per-source field is needed.
-function getResumePositionTicks(item) {
-    return item.UserData ? (item.UserData.PlaybackPositionTicks || 0) : 0;
-}
-
 function renderSeriesTimerSchedule(page, apiClient, seriesTimerId) {
     apiClient.getLiveTvTimers({
         UserId: apiClient.getCurrentUserId(),
@@ -356,9 +349,7 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
 
-        // Resume state follows the selected version: currentItem is the selected version's DTO,
-        // so its own user data determines whether it is resumable.
-        const isResumable = getResumePositionTicks(item) > 0;
+        const isResumable = (item.UserData?.PlaybackPositionTicks || 0) > 0;
         hideAll(page, 'btnReplay', isResumable);
 
         for (const btnPlay of page.querySelectorAll('.btnPlay')) {
@@ -1974,10 +1965,7 @@ export default function (view, params) {
             return;
         }
 
-        // Resume from the position of the version that is about to play (currentItem is the selected version).
-        const startPositionTicks = mode === ItemAction.Resume ? getResumePositionTicks(item) : 0;
-
-        playItem(item, startPositionTicks);
+        playItem(item, mode === ItemAction.Resume ? (item.UserData?.PlaybackPositionTicks || 0) : 0);
     }
 
     function onPlayClick() {
