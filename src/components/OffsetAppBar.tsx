@@ -19,6 +19,7 @@ interface OffsetAppBarProps extends AppBarProps {
  */
 const OffsetAppBar: FC<PropsWithChildren<OffsetAppBarProps>> = ({
     children,
+    className,
     dense = false,
     elevation = 1,
     ...props
@@ -65,6 +66,7 @@ const OffsetAppBar: FC<PropsWithChildren<OffsetAppBarProps>> = ({
         <>
             <AppBar
                 {...props}
+                className={[ 'mui-fixed', className ].filter(Boolean).join(' ')}
                 ref={appBarRef}
                 position='fixed'
                 color={scrollTrigger ? 'default' : 'transparent'}
