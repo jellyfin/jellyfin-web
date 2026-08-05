@@ -1188,7 +1188,7 @@
     "Restart": "Riavvio",
     "ResetPassword": "Ripristina password",
     "Profile": "Profilo",
-    "Poster": "Locandina",
+    "Poster": "Poster",
     "Photo": "Foto",
     "MusicVideos": "Video musicali",
     "Image": "Immagine",
@@ -1202,7 +1202,7 @@
     "LabelVideoRange": "Intervallo video",
     "MediaInfoColorSpace": "Spazio colore",
     "ThumbCard": "Miniatura",
-    "PosterCard": "Locandina",
+    "PosterCard": "Scheda poster",
     "LabelOpenclDevice": "Dispositivo OpenCL",
     "MediaInfoVideoRange": "Intervallo video",
     "UseDoubleRateDeinterlacingHelp": "Questa opzione usa il campo frequenza durante il deinterlacciamento, detto anche \"bob deinterlacing\", il quale raddoppia il frame rate del video per fornire \"full motion\" come se guardassi un video interlacciato in TV.",
@@ -1936,5 +1936,7 @@
     "SubtitleLanguages": "Lingue sottotitoli",
     "BitmapSubtitleAspectModeContain": "Contiene",
     "BitmapSubtitleAspectModeHelp": "Controlla come i sottotitoli PGS e VobSub generati dal client vengono ridimensionati in base all'area video visibile.",
-    "BitmapSubtitleAspectModeStretch": "Allunga"
+    "BitmapSubtitleAspectModeStretch": "Allunga",
+    "Novel": "Romanzo",
+    "LabelUsernameAllowedCharactersHelp": "I nomi utente possono contenere lettere, numeri, spazi e i seguenti caratteri: - _ ' . @ +. Non possono iniziare o terminare con uno spazio."
 }
