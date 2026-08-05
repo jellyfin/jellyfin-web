@@ -2669,15 +2669,13 @@ export class PlaybackManager {
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
             const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
-            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
-                .then(fullItem => {
-                    return fullItem.MediaStreams;
-                });
+            const getSourceItem = isLiveTv ? Promise.resolve(null) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id);
 
-            return Promise.all([promise, player.getDeviceProfile(item), apiClient.getCurrentUser(), getMediaStreams]).then(function (responses) {
+            return Promise.all([promise, player.getDeviceProfile(item), apiClient.getCurrentUser(), getSourceItem]).then(function (responses) {
                 const deviceProfile = responses[1];
                 const user = responses[2];
-                const mediaStreams = responses[3];
+                const sourceItem = responses[3];
+                const mediaStreams = sourceItem?.MediaStreams || [];
 
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
@@ -2739,7 +2737,9 @@ export class PlaybackManager {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     }
 
-                    const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
+                    const playedItem = await getItemOfMediaSource(apiClient, item, mediaSource, sourceItem);
+
+                    const streamInfo = createStreamInfo(apiClient, item.MediaType, playedItem, mediaSource, startPosition, player);
                     streamInfo.aspectRatio = playOptions.aspectRatio;
                     streamInfo.fullscreen = playOptions.fullscreen;
 
@@ -2966,6 +2966,30 @@ export class PlaybackManager {
             return tracks;
         }
 
+        // Chapters and trickplay data belong to the item owning the played media source.
+        function getItemOfMediaSource(apiClient, item, mediaSource, sourceItem) {
+            if (!mediaSource.hasAlternateVersions || mediaSource.Id === item.Id) {
+                return Promise.resolve(item);
+            }
+
+            const getVersionItem = sourceItem?.Id === mediaSource.Id ?
+                Promise.resolve(sourceItem) :
+                apiClient.getItem(apiClient.getCurrentUserId(), mediaSource.Id).catch(() => null);
+
+            return getVersionItem.then(function (versionItem) {
+                if (!versionItem) {
+                    return item;
+                }
+
+                return {
+                    ...item,
+                    Chapters: versionItem.Chapters,
+                    // Trickplay manifests are keyed by media source, so they can just be added
+                    Trickplay: { ...item.Trickplay, ...versionItem.Trickplay }
+                };
+            });
+        }
+
         function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options) {
             options.isPlayback = true;
 
@@ -2985,6 +3009,7 @@ export class PlaybackManager {
                                 return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
                                     return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
                                         openLiveStreamResult.MediaSource.enableDirectPlay = result;
+                                        openLiveStreamResult.MediaSource.hasAlternateVersions = mediaSource.hasAlternateVersions;
                                         return openLiveStreamResult.MediaSource;
                                     });
                                 });
