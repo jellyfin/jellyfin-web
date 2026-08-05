@@ -804,5 +804,17 @@
     "MediaSegmentProvidersHelp": "Virkja og raða miðlabrotseyðmerkjarar eftir ynsktum raðfesti.",
     "MediaSegmentType.Outro": "Endi",
     "MediaSegmentType.Intro": "Inngangur",
-    "DisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-kotu"
+    "DisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-kotu",
+    "DisableVbrAudioEncodingHelp": "Hindra ambætaranum at kota VBR ljóð fyri hendan viðskiftaran.",
+    "Disconnect": "Slít samband",
+    "ViewDoublePage": "Sýni við tveimum síðum",
+    "ViewSinglePage": "Sýni við einkultari síðu",
+    "HeaderDVR": "DVR",
+    "HeaderInstantMix": "Løtubland",
+    "HeaderLibraryFolders": "Savnsskjáttur",
+    "HeaderLyricDownloads": "Sangtekstaniðurtøkur",
+    "HeaderServerAddressSettings": "Adressustillingar ambætarans",
+    "HeaderServerUnavailable": "Ótøkur ambætari",
+    "HomeVideosPhotos": "Heimakykmyndir og myndir",
+    "LabelSelectAudioNormalization": "Ljóðjavnan"
 }
