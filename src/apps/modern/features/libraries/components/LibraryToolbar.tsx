@@ -153,6 +153,7 @@ const LibraryToolbar: FC = () => {
                     >
                         <ButtonGroup
                             variant='contained'
+                            size={isSmallScreen ? undefined : 'small'}
                         >
                             {isBtnPlayAllEnabled && (
                                 <PlayAllButton
@@ -199,6 +200,7 @@ const LibraryToolbar: FC = () => {
                     <ButtonGroup
                         color='inherit'
                         variant='text'
+                        size={isSmallScreen ? undefined : 'small'}
                     >
                         {isBtnFilterEnabled && (
                             <FilterButton
