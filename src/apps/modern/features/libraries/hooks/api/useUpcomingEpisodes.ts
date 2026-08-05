@@ -1,5 +1,5 @@
 import type { Api } from '@jellyfin/sdk/lib/api';
-import type { ShowsApiGetUpcomingEpisodesRequest } from '@jellyfin/sdk/lib/generated-client/api/shows-api';
+import type { ShowApiGetUpcomingEpisodesRequest } from '@jellyfin/sdk/lib/generated-client/api/show-api';
 import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
@@ -10,7 +10,7 @@ export const UPCOMING_EPISODES_PAGE_SIZE = 25;
 
 const fetchUpcomingEpisodes = async (
     api: Api,
-    params: TvShowsApiGetUpcomingEpisodesRequest,
+    params: ShowApiGetUpcomingEpisodesRequest,
     options?: AxiosRequestConfig
 ) => {
     const response = await getShowApi(api).getUpcomingEpisodes(params, options);
@@ -20,7 +20,7 @@ const fetchUpcomingEpisodes = async (
 /** Query options for fetching upcoming episodes. */
 export const getUpcomingEpisodesQuery = (
     api?: Api,
-    params: TvShowsApiGetUpcomingEpisodesRequest = {},
+    params: ShowApiGetUpcomingEpisodesRequest = {},
     enabled = true
 ) => infiniteQueryOptions({
     queryKey: ['UpcomingEpisodes', params?.parentId],
@@ -44,7 +44,7 @@ export const getUpcomingEpisodesQuery = (
 
 /** Hook for fetching upcoming episodes. */
 export const useUpcomingEpisodes = (
-    params?: TvShowsApiGetUpcomingEpisodesRequest,
+    params?: ShowApiGetUpcomingEpisodesRequest,
     enabled?: boolean
 ) => {
     const { api, user } = useApi();
