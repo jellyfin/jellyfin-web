@@ -816,5 +816,8 @@
     "HeaderServerAddressSettings": "Adressustillingar ambætarans",
     "HeaderServerUnavailable": "Ótøkur ambætari",
     "HomeVideosPhotos": "Heimakykmyndir og myndir",
-    "LabelSelectAudioNormalization": "Ljóðjavnan"
+    "LabelSelectAudioNormalization": "Ljóðjavnan",
+    "Featurette": "Stuttur heimildarfilmur",
+    "Clip": "Klipp",
+    "LabelRemuxingInfo": "Umpakkingarupplýsingar"
 }
