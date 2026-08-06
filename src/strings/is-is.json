@@ -1610,7 +1610,7 @@
     "SearchResultsEmpty": "Því miður! Engar niðurstöður fundust fyrir „{0}“",
     "SecondarySubtitles": "Texti númer 2",
     "SelectPreferredTranscodeVideoCodecHelp": "Veldu það codec sem á að nota við endurkóðun. Ef tækið styður ekki valið codec mun þjónninn nota þann valkost sem kemst næst því.",
-    "SelectPreferredTranscodeVideoAudioCodecHelp": "Veldu það codec sem á að nota við endurkóðun á hljóði fyrir myndbönd. Ef tækið styður ekki valdið codec mun þjónninn nota valkost sem kemst næst því.",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Veldu það codec sem á að nota við endurkóðun á hljóði fyrir myndbönd. Ef tækið styður ekki valið codec mun þjónninn nota þann valkost sem kemst næst því.",
     "SelectServer": "Veldu þjón",
     "SeriesCancelled": "Sería aflýst.",
     "SeriesDisplayOrderHelp": "Raða eftir sýningardegi, DVD-röð eða töluröð.",
@@ -1817,5 +1817,18 @@
     "AllowVideoToolboxTonemappingHelp": "Vélbúnaðarhröðuð litaleiðrétting frá VideoToolbox. Hún virkar með flestum HDR-sniðum, þar á meðal HDR10, HDR10+ og HLG, en virkar ekki með Dolby Vision Profile 5. Þetta hefur hærri forgang en aðrar Metal-útfærslur.",
     "Controls": "Stýringar",
     "LabelEnableGamepad": "Virka Gamepad",
-    "EnableGamepadHelp": "Hlusta eftir merki frá tengdum fjarstýringum eða leikfjarstýringum. (Krefst: „Sjónvarpsstillingu“)"
+    "EnableGamepadHelp": "Hlusta eftir merki frá tengdum fjarstýringum eða leikfjarstýringum. (Krefst: „Sjónvarpsstillingu“)",
+    "AudioCodecNotSupported": "Ekki er stutt við þetta hljóð codec",
+    "ContainerNotSupported": "Þetta skráarsnið er ekki sutt",
+    "SubtitleCodecNotSupported": "Ekki er stutt við þetta texta codec",
+    "VideoCodecNotSupported": "Ekki er stutt við þetta mynbands codec",
+    "VideoCodecTagNotSupported": "Ekki er stutt við þetta mynbands codec merki",
+    "VideoRotationNotSupported": "Ekki er stutt við snúning myndbandsins",
+    "MediaInfoDvLevel": "DV stig",
+    "AudioBitrateNotSupported": "Bitatíðni hljóðsins er ekki studd",
+    "AudioChannelsNotSupported": "Fjöldi hljóðrása er ekki studdur",
+    "VideoResolutionNotSupported": "Upplausn myndbandsins er ekki studd",
+    "AudioProfileNotSupported": "Prófíll hljóð codec-ins er ekki studdur",
+    "AudioSampleRateNotSupported": "Hljóðsýnatökutíðnin er ekki studd",
+    "AnamorphicVideoNotSupported": "Anamorphic-myndband er ekki stutt"
 }
