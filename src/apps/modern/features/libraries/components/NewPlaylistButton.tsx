@@ -38,6 +38,7 @@ const NewPlaylistButton: FC<NewPlaylistButtonProps> = ({
     return (
         <Button
             variant='contained'
+            size={isTextVisible ? undefined : 'small'}
             startIcon={isTextVisible ? <PlaylistAdd /> : undefined}
             onClick={showPlaylistEditor}
         >
