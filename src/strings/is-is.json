@@ -1874,5 +1874,11 @@
     "LabelVideoRangeType": "Sviðstegund myndbands",
     "MediaInfoVideoRangeType": "Sviðstegund myndbands",
     "MediaInfoDoViTitle": "DV titill",
-    "MediaInfoDvVersionMajor": "DV útgáfa"
+    "MediaInfoDvVersionMajor": "DV aðalútgáfa",
+    "MediaInfoDvVersionMinor": "DV undir útgáfa",
+    "MediaInfoDvProfile": "DV prófill",
+    "MediaInfoRpuPresentFlag": "Forstillingarmerki (preset flag) fyrir DV RPU",
+    "MediaInfoElPresentFlag": "Forstillingarmerki (preset flag) fyrir DV el",
+    "MediaInfoBlPresentFlag": "Forstillingarmerki (preset flag) fyrir DV bl",
+    "MediaInfoDvBlSignalCompatibilityId": "Samhæfingarauðkenni fyrir DV bl-merki"
 }
