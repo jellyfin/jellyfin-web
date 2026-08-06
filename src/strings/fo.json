@@ -819,5 +819,6 @@
     "LabelSelectAudioNormalization": "Ljóðjavnan",
     "Featurette": "Stuttur heimildarfilmur",
     "Clip": "Klipp",
-    "LabelRemuxingInfo": "Umpakkingarupplýsingar"
+    "LabelRemuxingInfo": "Umpakkingarupplýsingar",
+    "ShowIndicatorsFor": "Vís ávísar fyri"
 }
