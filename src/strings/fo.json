@@ -820,5 +820,8 @@
     "Featurette": "Stuttur heimildarfilmur",
     "Clip": "Klipp",
     "LabelRemuxingInfo": "Umpakkingarupplýsingar",
-    "ShowIndicatorsFor": "Vís ávísar fyri"
+    "ShowIndicatorsFor": "Vís ávísar fyri",
+    "LabelVideoInfo": "Kykmyndaupplýsingar",
+    "LabelCorruptedFrames": "Avskeplaðar myndir",
+    "LabelPlayerDimensions": "Spælarastødd"
 }
