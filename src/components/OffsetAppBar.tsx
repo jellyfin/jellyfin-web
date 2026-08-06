@@ -1,5 +1,6 @@
 import AppBar, { type AppBarProps } from '@mui/material/AppBar';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
+import classNames from 'classnames';
 import React, { useLayoutEffect, useRef, useState, type FC, type PropsWithChildren } from 'react';
 
 /** The default height of an AppBar. */
@@ -66,7 +67,7 @@ const OffsetAppBar: FC<PropsWithChildren<OffsetAppBarProps>> = ({
         <>
             <AppBar
                 {...props}
-                className={[ 'mui-fixed', className ].filter(Boolean).join(' ')}
+                className={classNames('mui-fixed', className)}
                 ref={appBarRef}
                 position='fixed'
                 color={scrollTrigger ? 'default' : 'transparent'}
