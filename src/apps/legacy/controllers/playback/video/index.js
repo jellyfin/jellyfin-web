@@ -792,6 +792,8 @@ export default function (view) {
     }
 
     function updateTimeDisplay(positionTicks, runtimeTicks, playbackStartTimeTicks, playbackRate, bufferedRanges) {
+        const playbackRateText = playbackRate != null && Number(playbackRate) !== 1 ? ' (' + playbackRate + 'x)' : '';
+
         if (enableProgressByTimeOfDay) {
             if (nowPlayingPositionSlider && !nowPlayingPositionSlider.dragging) {
                 if (programStartDateMs && programEndDateMs) {
@@ -847,10 +849,10 @@ export default function (view) {
             }
 
             if (userSettings.enableVideoRemainingTime()) {
-                const leftTicks = runtimeTicks - positionTicks;
+                const leftTicks = (runtimeTicks - positionTicks) / (playbackRate || 1);
                 if (leftTicks >= 0) {
                     updateTimeText(nowPlayingDurationText, leftTicks);
-                    nowPlayingDurationText.innerHTML = '-' + nowPlayingDurationText.innerHTML;
+                    nowPlayingDurationText.innerHTML = '-' + nowPlayingDurationText.innerHTML + playbackRateText;
                     nowPlayingDurationText.classList.remove('hide');
                 } else {
                     nowPlayingPositionText.classList.add('hide');
