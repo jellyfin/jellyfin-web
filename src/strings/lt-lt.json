@@ -1915,5 +1915,7 @@
     "LabelAudioAttributes": "Garso atributai",
     "LabelProgressAndSpeed": "Progresas / greitis",
     "LabelReasons": "Priežastys",
-    "AudioLanguages": "Garso kalbos"
+    "AudioLanguages": "Garso kalbos",
+    "ViewLeftToRight": "Iš kairės į dešinę",
+    "ViewRightToLeft": "Iš dešinės į kairę"
 }
