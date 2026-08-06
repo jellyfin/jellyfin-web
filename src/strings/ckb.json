@@ -377,5 +377,14 @@
     "EnablePlugin": "چالاککردن",
     "DisableCustomCss": "ناچالاککردنی CSSی تایبەتی ڕاژەکار",
     "DisablePlugin": "لەکارخستن",
-    "DisableVbrAudioEncodingHelp": "ڕێگریکردن لە ڕاژەکار لە کۆدکردنی دەنگ بە VBR بۆ ئەم ڕاژەخوازە ."
+    "DisableVbrAudioEncodingHelp": "ڕێگریکردن لە ڕاژەکار لە کۆدکردنی دەنگ بە VBR بۆ ئەم ڕاژەخوازە .",
+    "Disc": "دیسک",
+    "Disconnect": "پچڕاندنی پەیوەندی",
+    "Display": "پێشاندان",
+    "DisplayInMyMedia": "نمایشکردن لە پەڕەی سەرەکیدا",
+    "DisplayInOtherHomeScreenSections": "پێشاندان لە بەشەکانی شاشەی سەرەکیدا وەک 'میدیای بەم دواییە زیادکراو' و 'بەردەوامبە لە بینین'",
+    "DisplayLoadError": "کێشەیەک ڕوویدا لە کاتی هێنانی زانیارییەکانی ڕێکخستنی پێشانداندا.",
+    "DisplayMissingEpisodesWithinSeasons": "نمایشکردنی ئەڵقە ونبووەکان لەناو وەرزەکاندا",
+    "Collections": "کۆمەڵەکان",
+    "Colorist": "ڕێکخەری ڕەنگ"
 }
