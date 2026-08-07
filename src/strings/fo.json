@@ -837,5 +837,8 @@
     "MessagePlaybackError": "Ein villa kom fyri undir spæling av hesi fílu á Google Cast-eindini.",
     "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "Hesar stillingar eru eisini galdandi fyri Google Cast-spælingar ið verða varpaðar frá hesi eind.",
     "GoogleCastUnsupported": "Google Cast virkisføri vantar",
-    "LiveBroadcasts": "Beinleiðis sendingar"
+    "LiveBroadcasts": "Beinleiðis sendingar",
+    "CriticRating": "Ummælarameting",
+    "LabelCriticRating": "Ummælarameting",
+    "OptionCriticRating": "Ummælarameting"
 }
