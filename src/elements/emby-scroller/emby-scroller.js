@@ -1,3 +1,4 @@
+// @ts-nocheck
 import ScrollerFactory from 'lib/scroller';
 import dom from '../../utils/dom';
 import layoutManager from '../../components/layoutManager';

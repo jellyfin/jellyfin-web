@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that manages the playback of SyncPlay.
  * @module components/syncPlay/core/PlaybackCore

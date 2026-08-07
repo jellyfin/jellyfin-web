@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { playbackManager } from 'components/playback/playbackmanager';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events.ts';

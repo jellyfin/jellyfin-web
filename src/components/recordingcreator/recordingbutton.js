@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../../utils/dom';
 import recordingHelper from './recordinghelper';

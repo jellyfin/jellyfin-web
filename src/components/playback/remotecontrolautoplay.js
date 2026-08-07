@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 

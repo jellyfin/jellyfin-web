@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './emby-collapse.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/emby-button';

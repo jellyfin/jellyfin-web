@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Polyfill for vendor prefixed style properties
 
 (function () {

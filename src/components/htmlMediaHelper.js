@@ -1,3 +1,4 @@
+// @ts-nocheck
 import appSettings from '../scripts/settings/appSettings' ;
 import browser from '../scripts/browser';
 import Events from '../utils/events.ts';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function getFetchPromise(request) {
     const headers = request.headers || {};
 

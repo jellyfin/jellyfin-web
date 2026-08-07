@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Credentials } from 'jellyfin-apiclient';
 
 import { appHost } from 'components/apphost';

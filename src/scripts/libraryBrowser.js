@@ -1,3 +1,4 @@
+// @ts-nocheck
 import globalize from 'lib/globalize';
 
 export function showLayoutMenu (button, currentLayout, views) {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import actionsheet from './actionSheet/actionSheet';
 import datetime from '../scripts/datetime';
 import { playbackManager } from './playback/playbackmanager';

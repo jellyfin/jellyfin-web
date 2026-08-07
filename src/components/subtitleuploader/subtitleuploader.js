@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
 

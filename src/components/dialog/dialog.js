@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import dialogHelper from '../dialogHelper/dialogHelper';

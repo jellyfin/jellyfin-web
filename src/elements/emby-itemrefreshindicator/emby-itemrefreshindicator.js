@@ -1,3 +1,4 @@
+// @ts-nocheck
 import EmbyProgressRing from '../emby-progressring/emby-progressring';
 import dom from '../../utils/dom';
 import { ServerConnections } from 'lib/jellyfin-apiclient';

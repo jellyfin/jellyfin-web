@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppFeature } from 'constants/appFeature';
 import Events from '../../utils/events.ts';
 import browser from '../../scripts/browser';

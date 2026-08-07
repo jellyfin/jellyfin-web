@@ -1,3 +1,4 @@
+// @ts-nocheck
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
 import Dashboard, { pageIdOn } from 'utils/dashboard';

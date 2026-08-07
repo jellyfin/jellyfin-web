@@ -1,3 +1,4 @@
+// @ts-nocheck
 import layoutManager from 'components/layoutManager';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';

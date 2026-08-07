@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 /**
  * Module for display media info.

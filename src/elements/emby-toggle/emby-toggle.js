@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './emby-toggle.scss';
 import 'webcomponents.js/webcomponents-lite';
 

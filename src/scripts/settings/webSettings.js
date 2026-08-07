@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DefaultConfig from '../../config.json';
 import fetchLocal from '../../utils/fetchLocal.ts';
 

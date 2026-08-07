@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that replaces the PlaybackManager's queue.
  * @module components/syncPlay/ui/players/QueueManager

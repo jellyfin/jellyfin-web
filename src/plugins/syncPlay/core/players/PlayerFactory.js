@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that creates wrappers for known players.
  * @module components/syncPlay/core/players/PlayerFactory

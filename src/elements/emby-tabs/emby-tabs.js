@@ -1,3 +1,4 @@
+// @ts-nocheck
 import 'webcomponents.js/webcomponents-lite';
 import dom from '../../utils/dom';
 import ScrollerFactory from 'lib/scroller';

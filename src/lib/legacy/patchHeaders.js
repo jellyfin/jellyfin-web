@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Patch 'Headers' to accept 'undefined'.
  * Fixes `TypeError: Failed to construct 'Headers': No matching constructor signature.`

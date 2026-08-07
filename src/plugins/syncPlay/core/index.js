@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as Helper from './Helper';
 import ManagerClass from './Manager';
 import PlayerFactoryClass from './players/PlayerFactory';

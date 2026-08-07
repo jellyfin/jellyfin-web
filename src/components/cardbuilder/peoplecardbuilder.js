@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 /**
  * Module for building cards from item data.
