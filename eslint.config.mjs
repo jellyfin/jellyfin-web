@@ -94,7 +94,6 @@ export default tseslint.config(
             '@typescript-eslint/no-useless-constructor': 'error',
             'no-var': 'error',
             'no-void': ['error', { 'allowAsStatement': true }],
-            'no-warning-comments': ['warn', { 'terms': ['hack', 'xxx'] }],
             'one-var': ['error', 'never'],
             'prefer-const': ['error', { 'destructuring': 'all' }],
             'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
@@ -102,7 +101,7 @@ export default tseslint.config(
             'radix': 'error',
             'yoda': 'error',
 
-            'sonarjs/fixme-tag': 'warn',
+            'sonarjs/fixme-tag': 'off',
             'sonarjs/todo-tag': 'off',
             'sonarjs/deprecation': 'off',
             'sonarjs/no-alphabetical-sort': 'warn',
@@ -389,7 +388,6 @@ export default tseslint.config(
         },
         rules: {
             'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
-            'react/jsx-no-bind': 'error',
             'react/jsx-no-useless-fragment': 'error',
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',

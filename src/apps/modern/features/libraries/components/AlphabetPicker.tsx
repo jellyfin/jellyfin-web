@@ -38,7 +38,6 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
     return (
         <Box
             className='alphaPicker-fixed-right'
-            // eslint-disable-next-line react/jsx-no-bind
             sx={theme => ({
                 position: 'fixed',
                 top: {
