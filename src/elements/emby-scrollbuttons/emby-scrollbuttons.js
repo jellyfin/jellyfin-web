@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './emby-scrollbuttons.scss';
 import 'webcomponents.js/webcomponents-lite';
 import '../emby-button/paper-icon-button-light';

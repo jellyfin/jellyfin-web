@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { appHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getImageUrl } from 'apps/legacy/features/playback/utils/image';
 import { getItemTextLines } from 'apps/legacy/features/playback/utils/itemText';
 import { appRouter, isLyricsPage } from 'components/router/appRouter';

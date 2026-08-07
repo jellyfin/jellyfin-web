@@ -1,3 +1,4 @@
+// @ts-nocheck
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getSquareShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';

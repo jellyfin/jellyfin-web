@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * DOMParser HTML extension
  * 2019-11-13

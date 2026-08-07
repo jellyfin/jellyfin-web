@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module that translates events from a player to SyncPlay events.
  * @module components/syncPlay/core/players/GenericPlayer

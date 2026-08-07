@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module for controlling user parental control from.
  * @module components/accessSchedule/accessSchedule

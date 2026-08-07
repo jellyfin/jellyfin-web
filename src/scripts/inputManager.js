@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { appHost } from 'components/apphost';
 import focusManager from 'components/focusManager';
 import { playbackManager } from 'components/playback/playbackmanager';

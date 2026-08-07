@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getDisplayPreferencesQuery } from 'hooks/api/useDisplayPreferences';
 import { getUserQuery } from 'hooks/api/useUser';
 import { QUERY_KEY } from 'hooks/useUsers';

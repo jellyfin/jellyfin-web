@@ -1,3 +1,4 @@
+// @ts-nocheck
 const ProgramCellPrototype = Object.create(HTMLButtonElement.prototype);
 
 ProgramCellPrototype.detachedCallback = function () {

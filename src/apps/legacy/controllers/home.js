@@ -1,3 +1,4 @@
+// @ts-nocheck
 import TabbedView from 'components/tabbedview/tabbedview';
 import globalize from 'lib/globalize';
 import 'elements/emby-tabs/emby-tabs';

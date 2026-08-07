@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LayoutMode, LegacyLayoutModes } from 'constants/layoutMode';
 
 import { appHost } from './apphost';

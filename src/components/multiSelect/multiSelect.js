@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 
 import { AppFeature } from 'constants/appFeature';

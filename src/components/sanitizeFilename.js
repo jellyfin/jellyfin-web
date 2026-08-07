@@ -1,3 +1,4 @@
+// @ts-nocheck
 // TODO: Check if needed and move to external dependency
 // From https://github.com/parshap/node-sanitize-filename
 

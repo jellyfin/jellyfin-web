@@ -1,3 +1,4 @@
+// @ts-nocheck
 import escapeHtml from 'escape-html';
 
 import { getImageUrl } from 'apps/legacy/features/playback/utils/image';

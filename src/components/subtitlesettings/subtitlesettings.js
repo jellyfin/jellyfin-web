@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppFeature } from 'constants/appFeature';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';

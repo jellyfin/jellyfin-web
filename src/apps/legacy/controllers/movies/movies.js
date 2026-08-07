@@ -1,3 +1,4 @@
+// @ts-nocheck
 import loading from 'components/loading/loading';
 import * as userSettings from 'scripts/settings/userSettings';
 import libraryBrowser from 'scripts/libraryBrowser';

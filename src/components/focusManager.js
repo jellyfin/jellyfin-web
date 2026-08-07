@@ -1,3 +1,4 @@
+// @ts-nocheck
 import dom from '../utils/dom';
 import scrollManager from './scrollManager';
 

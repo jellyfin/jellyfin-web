@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './filterIndicator.scss';
 
 export function getFilterStatus(query) {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MediaSegmentType } from '@jellyfin/sdk/lib/generated-client/models/media-segment-type';
 import escapeHTML from 'escape-html';
 

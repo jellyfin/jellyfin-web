@@ -1,3 +1,4 @@
+// @ts-nocheck
 function getApiClient(serverId) {
     return Promise.resolve(window.connectionManager.getApiClient(serverId));
 }

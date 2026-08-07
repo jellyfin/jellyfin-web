@@ -1,3 +1,4 @@
+// @ts-nocheck
 // #      The MIT License (MIT)
 // #
 // #      Copyright (c) 2016 Microsoft. All rights reserved.

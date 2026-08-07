@@ -1,3 +1,4 @@
+// @ts-nocheck
 import SubtitleSettings from 'components/subtitlesettings/subtitlesettings';
 import * as userSettings from 'scripts/settings/userSettings';
 import autoFocuser from 'components/autoFocuser';

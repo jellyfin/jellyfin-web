@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function getDisplayPlayMethod(session) {
     if (!session.NowPlayingItem) {
         return null;

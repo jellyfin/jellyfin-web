@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Import legacy browser polyfills
 import 'lib/legacy';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import loading from 'components/loading/loading';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';

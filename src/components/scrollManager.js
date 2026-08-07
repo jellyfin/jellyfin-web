@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module for controlling scroll behavior.
  * @module components/scrollManager

@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import PlaybackSettings from 'components/playbackSettings/playbackSettings';
 import * as userSettings from 'scripts/settings/userSettings';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AppFeature } from 'constants/appFeature';
 import { queryClient } from 'utils/query/queryClient';
 

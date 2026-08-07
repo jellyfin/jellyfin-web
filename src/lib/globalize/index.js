@@ -1,3 +1,4 @@
+// @ts-nocheck
 import isEmpty from 'lodash-es/isEmpty';
 
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';

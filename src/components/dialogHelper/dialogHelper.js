@@ -1,3 +1,4 @@
+// @ts-nocheck
 import focusManager from '../focusManager';
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';

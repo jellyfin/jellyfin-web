@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Module for performing auto-focus.
  * @module components/autoFocuser

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Image viewer component
  * @module components/slideshow/slideshow

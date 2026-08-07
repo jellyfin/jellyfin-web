@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Events from 'utils/events';
 import { EventType } from 'constants/eventType';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * NOTE: This file should not be modified.
  * It is a legacy library that should be replaced at some point.

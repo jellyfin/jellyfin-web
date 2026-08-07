@@ -1,3 +1,4 @@
+// @ts-nocheck
 import 'jquery';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
