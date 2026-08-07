@@ -1941,5 +1941,7 @@
     "LabelBitmapSubtitleAspectMode": "Tryb proporcji napisów bitmapowych",
     "Novel": "Powieść",
     "Screenplay": "Scenariusz",
-    "LabelUsernameAllowedCharactersHelp": "Nazwy użytkowników mogą zawierać litery, cyfry, spacje i następujące znaki: - _ ' . @ +. Nie mogą zaczynać się ani kończyć spacją."
+    "LabelUsernameAllowedCharactersHelp": "Nazwy użytkowników mogą zawierać litery, cyfry, spacje i następujące znaki: - _ ' . @ +. Nie mogą zaczynać się ani kończyć spacją.",
+    "HlsAudioSeekStrategy": "Strategia do wykorzystania podczas przeszukiwania strumieni HLS.",
+    "LabelHlsAudioSeekStrategy": "Strategia przeszukiwania dźwięku."
 }
