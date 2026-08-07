@@ -826,5 +826,8 @@
     "LabelPlayerDimensions": "Spælarastødd",
     "MessageImageFileTypeAllowed": "Einans JPEG og PNG-fílur eru loyvdar.",
     "LabelTrickplayAccelEncoding": "Virkja tólbúnaðarstyðjaða MJPEG-koting",
-    "EncoderPresetHelp": "Vel eitt skjótari virði fyri betur avrikaføri, ella eitt seinri virði fyri betri myndagóðsku."
+    "EncoderPresetHelp": "Vel eitt skjótari virði fyri betur avrikaføri, ella eitt seinri virði fyri betri myndagóðsku.",
+    "LabelQscaleHelp": "Myndagóðskustigið ið verður ásett ffmpeg, har 2 er besta góðskan og 31 er versta góðskan.",
+    "LabelInternetQuality": "Alnetsgóðska",
+    "LabelHomeNetworkQuality": "Nærnetsgóðska"
 }
