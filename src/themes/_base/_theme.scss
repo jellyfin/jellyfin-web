@@ -435,7 +435,7 @@ a[data-role="button"],
 }
 
 .emby-checkbox:focus + span + .checkboxOutline {
-    border-color: var(--jf-palette-secondary-main, $secondary-main);
+    border-color: var(--jf-palette-common-white, $common-white);
 }
 
 .emby-checkbox:checked + span + .checkboxOutline,

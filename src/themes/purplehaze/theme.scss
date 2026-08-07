@@ -3,8 +3,14 @@
 /* Background color for headers and detail ribbon */
 $header-background: #230c33;
 
+/* Primary teal color for the theme */
+$primary-main: #48c3c8;
+
 /* Accent teal for indicators, progress bar and checked state (brighter than primary) */
 $teal-bright: rgb(12, 232, 214);
+
+/* Secondary pink color for the theme */
+$secondary-main: #ff77f1;
 
 /* Background color for footers */
 $footer-blue: #06256f;
@@ -31,8 +37,8 @@ $header-gradient: linear-gradient(to right, #000420 0%, $footer-blue 18%, #2b052
     $background-default: $header-background,
     $background-defaultImage: url(bg.jpg),
     $background-paper: $header-background,
-    $primary-main: #48c3c8,
-    $secondary-main: #ff77f1,
+    $primary-main: $primary-main,
+    $secondary-main: $secondary-main,
     $text-primary: $text-primary,
     $text-secondary: rgba(248, 248, 254, 0.973),
     $action-focus: rgba(0, 0, 0, 0.3),
@@ -220,11 +226,18 @@ progress::-webkit-progress-value {
 /* Checkbox checked state uses primary teal accent */
 .emby-checkbox:checked + span + .checkboxOutline {
     background-color: #030322;
-    border: 0.14em solid #48c3c8;
+    border-color: var(--jf-palette-primary-main, $primary-main);
+    border-style: solid;
+    border-width: 0.14em;
 }
 
 .emby-checkbox:checked + span + .checkboxOutline > .checkboxIcon-checked {
     color: $teal-bright;
+}
+
+/* Focused checkbox uses secondary color */
+.emby-checkbox:focus + span + .checkboxOutline {
+    border-color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 /* Progress bar and playback indicators use bright teal */
