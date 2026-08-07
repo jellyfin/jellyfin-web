@@ -474,7 +474,7 @@
     "MusicArtist": "Tónlistafólk",
     "HeaderAlbumArtists": "Plátutónlistafólk",
     "LabelArtistsHelp": "Skil ímillum tónlistafólk við semikoloni.",
-    "LabelAllowHWTranscoding": "Loyv tólbúnaðarumkotan",
+    "LabelAllowHWTranscoding": "Loyv tólbúnaðarumkoting",
     "LabelReasonForTranscoding": "Umkotar vegna",
     "LabelTranscodingInfo": "Umkotuupplýsingar",
     "TranscodingLoadError": "Miseydnaðist at innlesa umkotustillingar",
@@ -823,5 +823,8 @@
     "ShowIndicatorsFor": "Vís ávísar fyri",
     "LabelVideoInfo": "Kykmyndaupplýsingar",
     "LabelCorruptedFrames": "Avskeplaðar myndir",
-    "LabelPlayerDimensions": "Spælarastødd"
+    "LabelPlayerDimensions": "Spælarastødd",
+    "MessageImageFileTypeAllowed": "Einans JPEG og PNG-fílur eru loyvdar.",
+    "LabelTrickplayAccelEncoding": "Virkja tólbúnaðarstyðjaða MJPEG-koting",
+    "EncoderPresetHelp": "Vel eitt skjótari virði fyri betur avrikaføri, ella eitt seinri virði fyri betri myndagóðsku."
 }
