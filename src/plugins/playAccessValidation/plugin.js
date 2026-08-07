@@ -1,7 +1,7 @@
 import alert from 'components/alert';
+import { PluginType } from 'constants/pluginType';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from 'types/plugin.ts';
 
 function showErrorMessage() {
     return alert(globalize.translate('MessagePlayAccessRestricted'));
@@ -12,7 +12,7 @@ class PlayAccessValidation {
         this.name = 'Playback validation';
         this.type = PluginType.PreplayIntercept;
         this.id = 'playaccessvalidation';
-        this.order = -2;
+        this.priority = -2;
     }
 
     intercept(options) {

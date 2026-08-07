@@ -1,5 +1,5 @@
 import type { Api } from '@jellyfin/sdk';
-import { getPluginsApi } from '@jellyfin/sdk/lib/utils/api/plugins-api';
+import { getPluginApi } from '@jellyfin/sdk/lib/utils/api/plugin-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -11,8 +11,7 @@ const fetchPlugins = async (
     api: Api,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getPluginsApi(api)
-        .getPlugins(options);
+    const response = await getPluginApi(api).getPlugins(options);
     return response.data;
 };
 
@@ -28,4 +27,3 @@ export const usePlugins = () => {
     const { api } = useApi();
     return useQuery(getPluginsQuery(api));
 };
-

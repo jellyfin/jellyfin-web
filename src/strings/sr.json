@@ -1905,5 +1905,20 @@
     "LabelReasons": "Разлози",
     "LabelPlayerSizes": "Величине играча",
     "LabelPlaybackQuality": "Оквир изгубљен / оштећен",
-    "LabelSyncPlayJoinGroup": "Придружи се групи"
+    "LabelSyncPlayJoinGroup": "Придружи се групи",
+    "CardSettings": "Поставке картица",
+    "ConfirmDeleteItemByName": "Брисање \"{0}\" ће га уклонити и из локалног система и из ваше библиотеке. Да ли сте сигурни да желите да наставите?",
+    "ConfirmStillWatching": "Да ли и даље гледате?",
+    "Disabled": "Онемогућено",
+    "HeaderTypeSimilarItemProviders": "Слични извори ({0})",
+    "LabelBackupWarning": "Неке заказане радње су у току. Препоручеје се да их зауставите или да сачекате њихов крај пре него што започнете ову операцију.",
+    "LabelSimilarItemProvidersHelp": "Омогући и поређај сличне изворе садржаја према приоритету.",
+    "LabelOriginalLanguage": "Изворни језик",
+    "OriginalLanguage": "Изворни језик",
+    "StillWatchingPrompt": "Провера да ли и даље гледате",
+    "StillWatchingOption": "{0} епизода од {1} минута",
+    "StopWatching": "Прекини гледање",
+    "HeaderBackupWarning": "УПОЗОРЕЊЕ: Заказане радње су у току",
+    "TableOfContents": "Садржај",
+    "VideoRotationNotSupported": "Ротирање овог видеа није подржано"
 }

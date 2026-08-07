@@ -115,7 +115,11 @@ function web0sVersion(browser) {
 
         // The next is only valid for the app
 
-        if (browser.versionMajor >= 94) {
+        if (browser.versionMajor >= 120) {
+            return 25;
+        } else if (browser.versionMajor >= 108) {
+            return 24;
+        } else if (browser.versionMajor >= 94) {
             return 23;
         } else if (browser.versionMajor >= 87) {
             return 22;

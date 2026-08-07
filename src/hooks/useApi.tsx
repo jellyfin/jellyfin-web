@@ -5,7 +5,6 @@ import React, { type FC, type PropsWithChildren, createContext, useContext, useE
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import events from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export interface JellyfinApiContext {
     __legacyApiClient__?: ApiClient
@@ -58,7 +57,7 @@ export const ApiProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     }, [ setLegacyApiClient, setUser ]);
 
     useEffect(() => {
-        setApi(legacyApiClient ? toApi(legacyApiClient) : undefined);
+        setApi(legacyApiClient ? ServerConnections.getApi(legacyApiClient.serverId()) : undefined);
     }, [ legacyApiClient, setApi ]);
 
     return (

@@ -3,15 +3,15 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import type { ApiClient } from 'jellyfin-apiclient';
 
-import { getNextUpQuery } from 'apps/stable/features/libraries/api/useNextUp';
+import { getNextUpQuery } from 'apps/legacy/features/libraries/api/useNextUp';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import type { UserSettings } from 'scripts/settings/userSettings';
 import { toIsoDateOnlyString } from 'utils/date';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
@@ -22,10 +22,11 @@ function getNextUpFetchFn(
     { enableOverflow }: SectionOptions
 ) {
     return function () {
+        const api = ServerConnections.getApi(apiClient.serverId());
         const oldestDateForNextUp = new Date();
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
         return queryClient
-            .fetchQuery(getNextUpQuery(toApi(apiClient), {
+            .fetchQuery(getNextUpQuery(api, {
                 userId: apiClient.getCurrentUserId(),
                 limit: enableOverflow ? 24 : 15,
                 fields: [

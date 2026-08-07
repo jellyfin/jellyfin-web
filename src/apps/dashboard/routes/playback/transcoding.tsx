@@ -24,7 +24,7 @@ import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import type { EncodingOptions } from '@jellyfin/sdk/lib/generated-client/models/encoding-options';
 import { HardwareAccelerationType } from '@jellyfin/sdk/lib/generated-client/models/hardware-acceleration-type';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 import { CODECS, HEVC_REXT_DECODING_TYPES, HEVC_VP9_HW_DECODING_TYPES } from 'apps/dashboard/features/playback/constants/codecs';
@@ -33,12 +33,12 @@ import SimpleAlert from 'components/SimpleAlert';
 const CONFIG_KEY = 'encoding';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const data = await request.json() as EncodingOptions;
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: data });
 
     void queryClient.invalidateQueries({

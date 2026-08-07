@@ -107,8 +107,12 @@ export function logout() {
         queryClient.clear();
         // Reset cached views
         viewContainer.reset();
-        appHost.supports(AppFeature.MultiServer) ?
-            navigate('selectserver') : navigate('login');
+
+        if (appHost.supports(AppFeature.MultiServer)) {
+            selectServer();
+        } else {
+            navigate('login');
+        }
     });
 }
 

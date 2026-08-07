@@ -3,13 +3,12 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import { RecordingStatus } from '@jellyfin/sdk/lib/generated-client/models/recording-status';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
-import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 import { appHost } from './apphost';
 import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 export function getDisplayName(item, options = {}) {
     if (!item) {
@@ -165,11 +164,10 @@ export function canEditImages (user, item) {
 }
 
 export async function canEditPlaylist(user, item) {
-    const apiClient = ServerConnections.getApiClient(item.ServerId);
-    const api = toApi(apiClient);
+    const api = ServerConnections.getApi(item.ServerId);
 
     try {
-        const { data: permissions } = await getPlaylistsApi(api)
+        const { data: permissions } = await getPlaylistApi(api)
             .getPlaylistUser({
                 userId: user.Id,
                 playlistId: item.Id
@@ -264,6 +262,7 @@ export function canMarkPlayed (item) {
     return item.Type === 'Series'
         || item.Type === 'Season'
         || item.Type === 'BoxSet'
+        || item.Type === 'Folder'
         || item.MediaType === 'Book';
 }
 

@@ -52,13 +52,13 @@ export const Component: FC = () => {
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    minHeight: '100%'
                 }}
             >
                 <StrictMode>
                     <OffsetAppBar
                         dense
-                        elevation={4}
                         sx={{
                             width: {
                                 xs: '100%',
@@ -78,6 +78,7 @@ export const Component: FC = () => {
                             buttons={
                                 <HelpButton />
                             }
+                            className='dashboard-appBar'
                         >
                             {isMetadataManager && (
                                 <ServerButton />
