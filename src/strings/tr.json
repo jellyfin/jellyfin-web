@@ -933,7 +933,7 @@
     "PerfectMatch": "Mükemmel uyum",
     "Photo": "Fotoğraf",
     "PlaybackData": "Oynatma Bilgisi",
-    "PlaybackRate": "Oynatma hızı",
+    "PlaybackRate": "Oynatma Hızı",
     "PlayNext": "Sonrakini oynat",
     "PlaybackErrorNoCompatibleStream": "Bu istemci medya ile uyumlu değil ve sunucu uyumlu bir medya biçimi göndermiyor.",
     "PlayAllFromHere": "Tümünü buradan oynat",
@@ -1261,7 +1261,7 @@
     "Yesterday": "Dün",
     "Yes": "Evet",
     "Up": "Yukarı",
-    "Typewriter": "Daktilo",
+    "Typewriter": "Typewriter",
     "TypeOptionPluralSeries": "Diziler",
     "TypeOptionPluralSeason": "Sezonlar",
     "TypeOptionPluralMusicVideo": "Müzik Videoları",
@@ -1475,7 +1475,7 @@
     "SubtitleVerticalPositionHelp": "Metnin göründüğü satır numarası. Pozitif sayılar yukarıdan aşağıyı belirtir. Negatif sayılar aşağıdan yukarıyı belirtir.",
     "SubtitleOffset": "Altyazı Gecikmesi",
     "SubtitleDownloadersHelp": "Tercih ettiğiniz altyazı indiricilerini etkinleştirip öncelik sırasına göre sıralayın.",
-    "SmallCaps": "Küçük Harfler",
+    "SmallCaps": "Small Caps",
     "SimultaneousConnectionLimitHelp": "İzin verilen en yüksek eş zamanlı akış sayısı. Limitsiz olması için 0 girin.",
     "ShowParentImages": "Dizi resimlerini göster",
     "ShowIndicatorsFor": "Göstergeleri göster",
@@ -1939,5 +1939,7 @@
     "LabelHlsAudioSeekStrategy": "Ses arama stratejisi.",
     "LabelUsernameAllowedCharactersHelp": "Kullanıcı adları harfler, rakamlar, boşluklar ve şu karakterleri içerebilir: - _ ' . @ +. Boşlukla başlayamaz veya boşlukla bitemezler.",
     "AudioLanguages": "Ses dilleri",
-    "SubtitleLanguages": "Altyazı dilleri"
+    "SubtitleLanguages": "Altyazı dilleri",
+    "BitmapSubtitleAspectModeHelp": "İstemci tarafından oluşturulan PGS ve VobSub altyazılarının görünür video alanına nasıl ölçeklendirileceğini belirler.",
+    "BitmapSubtitleAspectModeStretch": "Genişlet"
 }
