@@ -109,6 +109,11 @@ async function onStartNowClick() {
 
         await this.hide();
 
+        const currentItem = playbackManager.currentItem(player);
+        if (itemHelper.canMarkPlayed(currentItem)) {
+            const apiClient = ServerConnections.getApiClient(currentItem);
+            apiClient.markPlayed(apiClient.getCurrentUserId(), currentItem.Id, new Date());
+        }
         playbackManager.nextTrack(player);
     }
 }
