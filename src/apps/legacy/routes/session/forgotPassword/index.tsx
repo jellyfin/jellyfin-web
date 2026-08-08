@@ -11,6 +11,7 @@ import globalize from 'lib/globalize';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { getAuthenticationApi } from 'utils/sdk/authentication-api';
 import { isValidUrl } from 'utils/url';
+import shell from 'scripts/shell';
 
 export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
@@ -43,8 +44,8 @@ export const ForgotPasswordPage = () => {
                     break;
                 case ForgotPasswordAction.PinCode:
                     if (result.PinFile && isValidUrl(result.PinFile)) {
-                        msg += globalize.translate('MessageForgotPasswordRedirect');
-                        window.open(result.PinFile, '_blank', 'noopener,noreferrer');
+                        msg = globalize.translate('MessageForgotPasswordRedirect');
+                        shell.openUrl(result.PinFile);
                         callback = () => navigate('/login');
                     } else {
                         msg = globalize.translate('MessageForgotPasswordFileCreated');
