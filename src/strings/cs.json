@@ -1941,5 +1941,7 @@
     "LabelBitmapSubtitleAspectMode": "Režim zobrazení bitmapových titulků",
     "LabelUsernameAllowedCharactersHelp": "Uživatelská jména mohou obsahovat písmena, číslice, mezery a následující znaky: - _ ' . @ +. Nesmí začínat ani končit mezerou.",
     "Novel": "Román",
-    "Screenplay": "Scénář"
+    "Screenplay": "Scénář",
+    "HlsAudioSeekStrategy": "Strategie pro vyhledávání v datových tocích HLS.",
+    "LabelHlsAudioSeekStrategy": "Strategie vyhledávání v audiu."
 }
