@@ -32,6 +32,7 @@ let currentResolve;
 let currentReject;
 let hasChanges = false;
 let currentSearchResult;
+let currentView = 'search';
 
 function getApiClient() {
     return ServerConnections.getApiClient(currentServerId);
@@ -105,10 +106,7 @@ function searchForIdentificationResults(page) {
 function showIdentificationSearchResults(page, results) {
     const identificationSearchResults = page.querySelector('.identificationSearchResults');
 
-    page.querySelector('.popupIdentifyForm').classList.add('hide');
-    identificationSearchResults.classList.remove('hide');
-    page.querySelector('.identifyOptionsForm').classList.add('hide');
-    page.querySelector('.dialogContentInner').classList.remove('dialog-content-centered');
+    showResultsView(page);
 
     let html = '';
     let i;
@@ -159,6 +157,7 @@ function showIdentifyOptions(page, identifyResult) {
     identifyOptionsForm.classList.remove('hide');
     page.querySelector('#chkIdentifyReplaceImages').checked = true;
     page.querySelector('.dialogContentInner').classList.add('dialog-content-centered');
+    currentView = 'options';
 
     currentSearchResult = identifyResult;
 
@@ -178,6 +177,22 @@ function showIdentifyOptions(page, identifyResult) {
     page.querySelector('.selectedSearchResult').innerHTML = resultHtml;
 
     focusManager.focus(identifyOptionsForm.querySelector('.btnSubmit'));
+}
+
+function showSearchView(page) {
+    page.querySelector('.popupIdentifyForm').classList.remove('hide');
+    page.querySelector('.identificationSearchResults').classList.add('hide');
+    page.querySelector('.identifyOptionsForm').classList.add('hide');
+    page.querySelector('.dialogContentInner').classList.add('dialog-content-centered');
+    currentView = 'search';
+}
+
+function showResultsView(page) {
+    page.querySelector('.popupIdentifyForm').classList.add('hide');
+    page.querySelector('.identificationSearchResults').classList.remove('hide');
+    page.querySelector('.identifyOptionsForm').classList.add('hide');
+    page.querySelector('.dialogContentInner').classList.remove('dialog-content-centered');
+    currentView = 'results';
 }
 
 function getSearchResultHtml(result, index) {
@@ -209,21 +224,6 @@ function getSearchResultHtml(result, index) {
 
     cardBoxCssClass += ' cardBox-bottompadded';
 
-    html += `<button type="button" class="${cssClass}" data-index="${index}">`;
-    html += `<div class="${cardBoxCssClass}">`;
-    html += '<div class="cardScalable">';
-    html += `<div class="${padderClass}"></div>`;
-
-    html += '<div class="cardContent searchImage">';
-
-    if (result.ImageUrl) {
-        html += `<div class="cardImageContainer coveredImage" style="background-image:url('${result.ImageUrl}');"></div>`;
-    } else {
-        html += `<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">${escapeHtml(result.Name)}</div></div>`;
-    }
-    html += '</div>';
-    html += '</div>';
-
     let numLines = 3;
     if (currentItemType === 'MusicAlbum') {
         numLines++;
@@ -239,6 +239,28 @@ function getSearchResultHtml(result, index) {
     if (result.ProductionYear) {
         lines.push(result.ProductionYear);
     }
+
+    const tooltipText = lines
+        .filter(Boolean)
+        .map(line => String(line))
+        .join(' - ');
+
+    const buttonTitle = tooltipText ? ` title="${escapeHtml(tooltipText)}"` : '';
+
+    html += `<button type="button" class="${cssClass}" data-index="${index}"${buttonTitle}>`;
+    html += `<div class="${cardBoxCssClass}">`;
+    html += '<div class="cardScalable">';
+    html += `<div class="${padderClass}"></div>`;
+
+    html += '<div class="cardContent searchImage">';
+
+    if (result.ImageUrl) {
+        html += `<div class="cardImageContainer coveredImage" style="background-image:url('${result.ImageUrl}');"></div>`;
+    } else {
+        html += `<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">${escapeHtml(result.Name)}</div></div>`;
+    }
+    html += '</div>';
+    html += '</div>';
 
     for (let i = 0; i < numLines; i++) {
         if (i === 0) {
@@ -320,6 +342,9 @@ function showIdentificationForm(page, item) {
         page.querySelector('.identifyProviderIds').innerHTML = html;
 
         page.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Identify');
+
+        currentSearchResult = null;
+        showSearchView(page);
     });
 }
 
@@ -331,6 +356,8 @@ function showEditor(itemId) {
     apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
         currentItem = item;
         currentItemType = currentItem.Type;
+        currentSearchResult = null;
+        currentView = 'search';
 
         const dialogOptions = {
             size: 'small',
@@ -382,6 +409,23 @@ function showEditor(itemId) {
         });
 
         dlg.querySelector('.btnCancel').addEventListener('click', () => {
+            if (currentView === 'options') {
+                showResultsView(dlg);
+                if (layoutManager.tv) {
+                    focusManager.autoFocus(dlg.querySelector('.identificationSearchResults'));
+                }
+                return;
+            }
+
+            if (currentView === 'results') {
+                showSearchView(dlg);
+                const lookupInput = dlg.querySelector('#txtLookupName');
+                if (lookupInput) {
+                    focusManager.focus(lookupInput);
+                }
+                return;
+            }
+
             dialogHelper.close(dlg);
         });
 
