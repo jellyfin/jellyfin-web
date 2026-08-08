@@ -197,7 +197,7 @@ function renderLocalImageProviders(page, availableOptions, libraryOptions) {
     html += `<h3 class="checkboxListLabel">${globalize.translate('LabelLocalImageProviders')}</h3>`;
     html += '<div class="checkboxList paperList checkboxList-paperList">';
     for (const plugin of plugins) {
-        html += `<div class="listItem localImageProviderItem" data-pluginname="${escapeHtml(plugin.Name)}">`;
+        html += '<div class="listItem">';
         const isChecked = libraryOptions.DisabledLocalImageProviders ? !libraryOptions.DisabledLocalImageProviders.includes(plugin.Name) : plugin.DefaultEnabled;
         const checkedHtml = isChecked ? ' checked="checked"' : '';
         html += `<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkLocalImageProvider" data-pluginname="${escapeHtml(plugin.Name)}"${checkedHtml}><span></span></label>`;

@@ -829,7 +829,7 @@
     "LabelLocalHttpServerPortNumber": "Local HTTP port number",
     "LabelLocalHttpServerPortNumberHelp": "The TCP port number for the HTTP server.",
     "LabelLocalImageProviders": "Local image providers",
-    "LabelLocalImageProvidersHelp": "Image files stored next to your media (poster.jpg, folder.jpg, cover.jpg, fanart.jpg and similar) are applied ahead of artwork from metadata providers and artwork uploaded through Jellyfin. Turn off \"Local Images\" to ignore those files so downloaded or uploaded artwork is used instead. \"Internal Images\" is where uploaded artwork is stored, so leave it enabled unless you want file based artwork only.",
+    "LabelLocalImageProvidersHelp": "Image files stored next to your media are used ahead of artwork from metadata providers and artwork uploaded through Jellyfin. Turn off \"Local Images\" to ignore them.",
     "LabelLockItemToPreventChanges": "Lock this item to prevent future metadata changes",
     "LabelLoginDisclaimer": "Login disclaimer",
     "LabelLoginDisclaimerHelp": "A message that will be displayed at the bottom of the login page.",
