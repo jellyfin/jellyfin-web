@@ -632,7 +632,7 @@
     "HeaderDeleteDevices": "Tüm Cihazları Sil",
     "ApiKeysCaption": "Şu anda etkin olan API anahtarlarının listesi",
     "Other": "Diğer",
-    "EnableDetailsBanner": "Detay Yatay Afişi",
+    "EnableDetailsBanner": "Detaylarda Yatay Afiş",
     "EnableQuickConnect": "Bu sunucuda Hızlı Bağlan özelliğini etkinleştir",
     "EnableDecodingColorDepth10Vp9": "VP9 için 10 bit donanım kod çözmeyi etkinleştirin",
     "EnableDecodingColorDepth10Hevc": "HEVC için 10-bit donanım kod çözmeyi etkinleştirin",
