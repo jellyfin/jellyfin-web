@@ -1113,6 +1113,9 @@ function renderMoreFromSeason(view, item, apiClient) {
                 includeParentInfoInTitle: false,
                 allowBottomPadding: false
             });
+            itemsContainer.notifyRefreshNeeded = function () {
+                renderMoreFromSeason(view, item, apiClient);
+            };
             const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
 
             if (card) {
@@ -1478,6 +1481,9 @@ function renderChildren(page, item) {
         }
         childrenItemsContainer.innerHTML = html;
         imageLoader.lazyChildren(childrenItemsContainer);
+        childrenItemsContainer.notifyRefreshNeeded = function () {
+            renderChildren(page, item);
+        };
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
                 name: globalize.translate('Movies'),
