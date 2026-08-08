@@ -19,25 +19,25 @@ import { useLocation } from 'react-router-dom';
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
 
-const LIBRARY_PATHS = [
+const LIBRARY_PATHS = new Set([
     '/dashboard/libraries',
     '/dashboard/libraries/display',
     '/dashboard/libraries/metadata',
     '/dashboard/libraries/nfo'
-];
+]);
 
-const PLAYBACK_PATHS = [
+const PLAYBACK_PATHS = new Set([
     '/dashboard/playback/transcoding',
     '/dashboard/playback/resume',
     '/dashboard/playback/streaming',
     '/dashboard/playback/trickplay'
-];
+]);
 
 const ServerDrawerSection = () => {
     const location = useLocation();
 
-    const [ isLibrarySectionOpen, setIsLibrarySectionOpen ] = useState(LIBRARY_PATHS.includes(location.pathname));
-    const [ isPlaybackSectionOpen, setIsPlaybackSectionOpen ] = useState(PLAYBACK_PATHS.includes(location.pathname));
+    const [ isLibrarySectionOpen, setIsLibrarySectionOpen ] = useState(LIBRARY_PATHS.has(location.pathname));
+    const [ isPlaybackSectionOpen, setIsPlaybackSectionOpen ] = useState(PLAYBACK_PATHS.has(location.pathname));
 
     const onLibrarySectionClick = useCallback((e: MouseEvent) => {
         e.preventDefault();
