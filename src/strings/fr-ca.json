@@ -1941,5 +1941,7 @@
     "LabelBitmapSubtitleAspectMode": "Mode d'affichage des sous-titres en bitmap",
     "LabelUsernameAllowedCharactersHelp": "Les noms d'utilisateur peuvent contenir des lettres, chiffres, espaces et les caractères suivants : - _ ' . @ +. Ils ne peuvent pas commencer ou finir par un espace.",
     "Novel": "Roman",
-    "Screenplay": "Scénario"
+    "Screenplay": "Scénario",
+    "HlsAudioSeekStrategy": "Stratégie à adopter pour effectuer des recherches dans les flux HLS.",
+    "LabelHlsAudioSeekStrategy": "Stratégie de recherche audio."
 }
