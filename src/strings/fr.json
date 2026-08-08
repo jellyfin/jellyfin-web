@@ -1941,5 +1941,7 @@
     "LabelBitmapSubtitleAspectMode": "Rapport hauteur / largeur des sous-titres bitmap",
     "BitmapSubtitleAspectModeCover": "Jaquette",
     "Novel": "Roman",
-    "Screenplay": "Scénario"
+    "Screenplay": "Scénario",
+    "HlsAudioSeekStrategy": "Stratégie à adopter pour effectuer des recherches dans les flux HLS.",
+    "LabelHlsAudioSeekStrategy": "Stratégie de recherche audio."
 }
