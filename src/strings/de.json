@@ -1589,7 +1589,7 @@
     "ButtonEditUser": "Benutzer bearbeiten",
     "DlnaMovedMessage": "Die DLNA-Funktion wurde in ein Plugin verschoben.",
     "DeleteName": "Löschen {0}",
-    "AllowSubtitleManagement": "Erlaube diesem Nutzer Untertitel zu bearbeiten",
+    "AllowSubtitleManagement": "Erlaube diesem Nutzer, Untertitel zu bearbeiten",
     "ChannelResolutionSD": "SD",
     "ChannelResolutionSDPAL": "SD (PAL)",
     "ChannelResolutionHD": "HD",
@@ -1933,5 +1933,9 @@
     "AudioLanguages": "Audio-Sprachen",
     "SubtitleLanguages": "Untertitel-Sprachen",
     "ViewDoublePage": "Doppelseitenansicht",
-    "ViewSinglePage": "Einzelseitenansicht"
+    "ViewSinglePage": "Einzelseitenansicht",
+    "BitmapSubtitleAspectModeContain": "Enthalten",
+    "BitmapSubtitleAspectModeCover": "Abdecken",
+    "BitmapSubtitleAspectModeHelp": "Bestimmt, wie von Clients gerenderte PGS und VobSub Untertitel auf den sichtbaren Videoereich skaliert werden.",
+    "BitmapSubtitleAspectModeStretch": "Strecken"
 }

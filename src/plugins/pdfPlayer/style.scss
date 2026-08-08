@@ -2,8 +2,10 @@
     position: relative;
     display: grid;
     place-items: center;
-    top: 5vh;
-    height: 90vh;
+    /* stylelint-disable-next-line declaration-block-no-duplicate-properties */
+    height: 100%;
+    top: env(safe-area-inset-top);
+    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
 
 #pdfPlayer {

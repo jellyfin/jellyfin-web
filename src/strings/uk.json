@@ -1925,5 +1925,8 @@
     "HeaderSplitMedia": "Розділити медіафайл",
     "Creators": "Творці",
     "IndexNumber": "Номер індексу",
-    "NoCastTargets": "Немає пристроїв для трансляції"
+    "NoCastTargets": "Немає пристроїв для трансляції",
+    "BitmapSubtitleAspectModeContain": "Містити",
+    "BitmapSubtitleAspectModeCover": "Обкладинка",
+    "BitmapSubtitleAspectModeHelp": "Визначає, як субтитри у форматах PGS та VobSub, що відтворюються на стороні клієнта, масштабуються відповідно до видимої області відео."
 }
