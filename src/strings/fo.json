@@ -841,5 +841,13 @@
     "CriticRating": "Ummælarameting",
     "LabelCriticRating": "Ummælarameting",
     "OptionCriticRating": "Ummælarameting",
-    "CommunityRating": "Hyggjarameting"
+    "CommunityRating": "Hyggjarameting",
+    "UploadCustomImage": "Uppsend tillagaða mynd",
+    "DeleteCustomImage": "Strika tillagaða mynd",
+    "CustomSplashScreenSize": "Tillagað mynd eigur at verða í 16x9 støddarlutfalli og í minsta lagi 1920x1080 til støddar.",
+    "Custom": "Tillagað",
+    "EnableNextVideoInfoOverlay": "Vís upplýsingar um næstu kykmynd undir spæling",
+    "EnablePhotos": "Vís myndirnar",
+    "EnablePhotosHelp": "Kervið finnur myndir og vísir tær saman við øðrum miðlafílum.",
+    "Framerate": "Myndatídd"
 }
