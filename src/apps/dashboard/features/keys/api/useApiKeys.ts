@@ -1,5 +1,5 @@
 import { Api } from '@jellyfin/sdk';
-import { getApiKeyApi } from '@jellyfin/sdk/lib/utils/api/api-key-api';
+import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
@@ -7,7 +7,7 @@ import { useApi } from 'hooks/useApi';
 export const QUERY_KEY = 'ApiKeys';
 
 const fetchApiKeys = async (api: Api, options?: AxiosRequestConfig) => {
-    const response = await getApiKeyApi(api).getKeys(options);
+    const response = await getAuthenticationApi(api).getKeys(options);
 
     return response.data;
 };

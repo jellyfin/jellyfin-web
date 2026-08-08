@@ -6,6 +6,7 @@ import 'material-design-icons-iconfont';
 
 export function enableProgressIndicator(item) {
     return (item.MediaType === 'Video' && item.Type !== 'TvChannel')
+        || item.Type === 'Book'
         || item.Type === 'AudioBook';
 }
 

@@ -1,54 +1,33 @@
-import serverNotifications from '../../scripts/serverNotifications';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from '../../utils/events.ts';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import EmbyButtonPrototype from '../emby-button/emby-button';
-
-function addNotificationEvent(instance, name, handler) {
-    const localHandler = handler.bind(instance);
-    Events.on(serverNotifications, name, localHandler);
-    instance[name] = localHandler;
-}
-
-function removeNotificationEvent(instance, name) {
-    const handler = instance[name];
-    if (handler) {
-        Events.off(serverNotifications, name, handler);
-        instance[name] = null;
-    }
-}
-
-function showPicker(button, apiClient, itemId, likes, isFavorite) {
-    return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
-}
+import serverNotifications from 'scripts/serverNotifications';
+import Events from 'utils/events';
+import { queryClient } from 'utils/query/queryClient';
 
 function onClick() {
     const button = this;
     const id = button.getAttribute('data-id');
     const serverId = button.getAttribute('data-serverid');
     const apiClient = ServerConnections.getApiClient(serverId);
-
-    let likes = this.getAttribute('data-likes');
     const isFavorite = this.getAttribute('data-isfavorite') === 'true';
-    if (likes === 'true') {
-        likes = true;
-    } else if (likes === 'false') {
-        likes = false;
-    } else {
-        likes = null;
-    }
+    const userId = apiClient.getCurrentUserId();
 
-    showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
-        setState(button, userData.Likes, userData.IsFavorite);
-    });
+    apiClient.updateFavoriteStatus(userId, id, !isFavorite)
+        .then(userData => {
+            setState(button, userData.Likes, userData.IsFavorite);
+            void queryClient.invalidateQueries({ queryKey: ['User', userId, 'Items'] });
+        });
 }
 
-function onUserDataChanged(e, apiClient, userData) {
-    const button = this;
-
-    if (userData.ItemId === button.getAttribute('data-id')) {
+function onUserDataChanged({ MessageType, Data }, apiClient, button) {
+    const itemId = button.dataset.id;
+    const userData = (Data?.UserDataList ?? []).find(u => u.ItemId === itemId);
+    if (userData) {
         setState(button, userData.Likes, userData.IsFavorite);
     }
+    Events.trigger(serverNotifications, MessageType, [apiClient, Data]);
 }
 
 function setState(button, likes, isFavorite, updateAttribute) {
@@ -89,14 +68,21 @@ function setTitle(button, isFavorite) {
 
 function clearEvents(button) {
     button.removeEventListener('click', onClick);
-    removeNotificationEvent(button, 'UserDataChanged');
+    button._unsubscribeUserData?.();
+    button._unsubscribeUserData = null;
 }
 
 function bindEvents(button) {
     clearEvents(button);
 
     button.addEventListener('click', onClick);
-    addNotificationEvent(button, 'UserDataChanged', onUserDataChanged);
+
+    const serverId = button.dataset.serverid;
+    const apiClient = ServerConnections.getApiClient(serverId);
+    button._unsubscribeUserData = apiClient?.subscribe(
+        [OutboundWebSocketMessageType.UserDataChanged],
+        (message) => onUserDataChanged(message, apiClient, button)
+    );
 }
 
 const EmbyRatingButtonPrototype = Object.create(EmbyButtonPrototype);
@@ -164,4 +150,3 @@ document.registerElement('emby-ratingbutton', {
     prototype: EmbyRatingButtonPrototype,
     extends: 'button'
 });
-

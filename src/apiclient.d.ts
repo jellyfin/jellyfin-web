@@ -166,7 +166,6 @@ declare module 'jellyfin-apiclient' {
         getMusicGenres(userId: string, options?: any): Promise<BaseItemDtoQueryResult>;
         getNamedConfiguration(name: string): Promise<any>;
         getNetworkDevices(): Promise<any>;
-        getNetworkShares(path: string): Promise<FileSystemEntryInfo[]>;
         getNewLiveTvTimerDefaults(options?: any): Promise<SeriesTimerInfoDto>;
         getNextUpEpisodes(options?: any): Promise<BaseItemDtoQueryResult>;
         getNotificationSummary(userId: string): Promise<NotificationsSummaryDto>;
@@ -256,7 +255,6 @@ declare module 'jellyfin-apiclient' {
         requestSyncPlaySetRepeatMode(options?: SetRepeatModeRequestDto): Promise<void>;
         requestSyncPlaySetShuffleMode(options?: SetShuffleModeRequestDto): Promise<void>;
         requestSyncPlayUnpause(): Promise<void>;
-        resetEasyPassword(userId: string): Promise<void>;
         resetLiveTvTuner(id: string): Promise<void>;
         resetUserPassword(userId: string): Promise<void>;
         restartServer(): Promise<void>;
@@ -281,7 +279,6 @@ declare module 'jellyfin-apiclient' {
         uninstallPluginByVersion(id: string, version: string): Promise<void>;
         uninstallPlugin(id: string): Promise<void>;
         updateDisplayPreferences(id: string, obj: DisplayPreferencesDto, userId: string, app: string): Promise<void>;
-        updateEasyPassword(userId: string, newPassword: string): Promise<void>;
         updateFavoriteStatus(userId: string, itemId: string, isFavorite: boolean): Promise<UserItemDataDto>;
         updateItemImageIndex(itemId: string, imageType: ImageType, imageIndex: number, newIndex: number): Promise<any>;
         updateItem(item: BaseItemDto): Promise<void>;

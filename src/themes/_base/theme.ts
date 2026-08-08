@@ -11,7 +11,7 @@ export const DEFAULT_COLOR_SCHEME: ColorSystemOptions = {
             main: '#00a4dc'
         },
         secondary: {
-            main: '#aa5cc3'
+            main: '#00a4dc'
         },
         background: {
             default: '#101010',

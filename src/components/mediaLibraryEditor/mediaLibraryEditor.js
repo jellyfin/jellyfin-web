@@ -1,11 +1,9 @@
-
 /**
  * Module for media library editor.
  * @module components/mediaLibraryEditor/mediaLibraryEditor
  */
 
 import escapeHtml from 'escape-html';
-import 'jquery';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
@@ -59,6 +57,11 @@ function onEditLibrary() {
 function addMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
+
+    // If the path already exists in the library, don't add it again.
+    const isPathInLibrary = virtualFolder.Locations.some(p => path === p);
+    if (isPathInLibrary) return;
+
     ApiClient.addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
@@ -203,14 +206,15 @@ function initEditor(dlg, options) {
 }
 
 function onDialogClosed() {
-    currentDeferred.resolveWith(null, [hasChanges]);
+    closedResolver(hasChanges);
 }
 
 export class MediaLibraryEditor {
     constructor(options) {
-        const deferred = jQuery.Deferred();
+        const closedPromise = new Promise(resolve => {
+            closedResolver = resolve;
+        });
         currentOptions = options;
-        currentDeferred = deferred;
         hasChanges = false;
         const dlg = dialogHelper.createDialog({
             size: 'small',
@@ -231,11 +235,11 @@ export class MediaLibraryEditor {
             dialogHelper.close(dlg);
         });
         refreshLibraryFromServer(dlg);
-        return deferred.promise();
+        return closedPromise;
     }
 }
 
-let currentDeferred;
+let closedResolver;
 let currentOptions;
 let hasChanges = false;
 let isCreating = false;

@@ -51,7 +51,7 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     with:
-      branch: ${{ format('{0}/{1}', github.repository, github.ref_name) }}
+      branch: ${{ github.ref_name }}
       commit: ${{ github.sha }}
       workflow_run_id: ${{ github.run_id }}
       comment: false

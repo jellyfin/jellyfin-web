@@ -9,7 +9,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-button/emby-button';
 
-function renderItems(page, item) {
+function renderItems(page, item, user) {
     const sections = [];
 
     if (item.ArtistCount) {
@@ -68,6 +68,11 @@ function renderItems(page, item) {
         });
     }
 
+    sections.push({
+        name: globalize.translate('HeaderAudioBooks'),
+        type: 'Audiobook'
+    });
+
     // TODO add a check when the API reports BookCount or PersonRoles
     sections.push({
         name: globalize.translate('Books'),
@@ -98,11 +103,11 @@ function renderItems(page, item) {
     const sectionElems = elem.querySelectorAll('.verticalSection');
 
     for (let i = 0, length = sectionElems.length; i < length; i++) {
-        renderSection(item, sectionElems[i], sectionElems[i].getAttribute('data-type'));
+        renderSection(item, sectionElems[i], sectionElems[i].getAttribute('data-type'), user);
     }
 }
 
-function renderSection(item, element, type) {
+function renderSection(item, element, type, user) {
     switch (type) {
         case 'Program':
             loadItems(element, item, type, {
@@ -217,6 +222,22 @@ function renderSection(item, element, type) {
             });
             break;
 
+        case 'Audiobook':
+            loadItems(element, item, type, {
+                IncludeItemTypes: 'Audiobook',
+                SortBy: 'ProductionYear,SortName',
+                SortOrder: 'Descending,Ascending',
+                Limit: 10
+            }, {
+                shape: 'overflowPortrait',
+                showTitle: true,
+                centerText: true,
+                overlayMoreButton: true,
+                overlayText: false,
+                showYear: true
+            });
+            break;
+
         case 'Book':
             loadItems(element, item, type, {
                 IncludeItemTypes: 'Book',
@@ -261,7 +282,8 @@ function renderSection(item, element, type) {
                 ArtistIds: '',
                 AlbumArtistIds: '',
                 Limit: 6,
-                SortBy: 'SortName'
+                SortBy: 'SortName',
+                isMissing: !user?.Configuration?.DisplayMissingEpisodes ? false : undefined
             }, {
                 shape: 'overflowBackdrop',
                 showTitle: true,

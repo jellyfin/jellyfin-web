@@ -2,6 +2,7 @@ export enum LibraryTab {
     Albums = 'albums',
     AlbumArtists = 'albumartists',
     Artists = 'artists',
+    Authors = 'authors',
     Channels = 'channels',
     Collections = 'collections',
     Episodes = 'episodes',
@@ -9,7 +10,6 @@ export enum LibraryTab {
     Genres = 'genres',
     Guide = 'guide',
     Movies = 'movies',
-    Networks = 'networks',
     Playlists = 'playlists',
     Programs = 'programs',
     Recordings = 'recordings',
@@ -17,6 +17,7 @@ export enum LibraryTab {
     Series = 'series',
     SeriesTimers = 'seriestimers',
     Songs = 'songs',
+    Studios = 'studios',
     Suggestions = 'suggestions',
     Upcoming = 'upcoming',
     PhotoAlbums = 'photoalbums',
@@ -24,5 +25,6 @@ export enum LibraryTab {
     Videos = 'videos',
     Books = 'books',
     MusicVideos = 'musicvideos',
-    Folders = 'folders'
+    Folders = 'folders',
+    Mixed = 'mixed'
 }

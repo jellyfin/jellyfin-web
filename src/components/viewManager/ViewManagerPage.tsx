@@ -53,8 +53,8 @@ const importController = (
             ]);
         default:
             return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../controllers/${view}`)
+                import(/* webpackChunkName: "[request]" */ `../../apps/legacy/controllers/${controller}`),
+                import(/* webpackChunkName: "[request]" */ `../../apps/legacy/controllers/${view}`)
                     .then(html => globalize.translateHtml(html))
             ]);
     }
@@ -80,7 +80,7 @@ const loadView = async (
  * NOTE: Any new pages should use the generic Page component instead.
  */
 const ViewManagerPage: FunctionComponent<ViewManagerPageProps> = ({
-    appType = AppType.Stable,
+    appType = AppType.Legacy,
     controller,
     view,
     type,

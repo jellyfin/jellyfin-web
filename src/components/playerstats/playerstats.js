@@ -1,6 +1,6 @@
+import { PluginType } from 'constants/pluginType';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from 'types/plugin';
 import Events from 'utils/events';
 import { getReadableSize } from 'utils/file';
 

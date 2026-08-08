@@ -1,3 +1,5 @@
+import { PluginType } from 'constants/pluginType';
+
 import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
@@ -5,7 +7,6 @@ import globalize from '../../lib/globalize';
 import CastSenderApi from './castSenderApi';
 import alert from '../../components/alert';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 

@@ -49,6 +49,8 @@ function getLabel(type: BaseItemKind | PersonKind, itemCount: number): string | 
     switch (type) {
         case PersonKind.Author:
             return globalize.translate(itemCount > 1 ? 'Authors' : 'Author');
+        case PersonKind.Creator:
+            return globalize.translate(itemCount > 1 ? 'Creators' : 'Creator');
         case PersonKind.Director:
             return globalize.translate(itemCount > 1 ? 'Directors' : 'Director');
         case PersonKind.Writer:
@@ -76,6 +78,7 @@ function getLink(type: BaseItemKind | PersonKind, item: BaseItemDto, context: st
 function getRouteType(type: BaseItemKind | PersonKind, context: string): string | null {
     switch (type) {
         case PersonKind.Author:
+        case PersonKind.Creator:
         case PersonKind.Director:
         case PersonKind.Writer:
             return 'Person';
@@ -89,16 +92,16 @@ function getRouteType(type: BaseItemKind | PersonKind, context: string): string 
 }
 
 function getMetadataItems(type: BaseItemKind | PersonKind, item: BaseItemDto): NameGuidPair[] | null {
-    if (item.Type === BaseItemKind.BoxSet || item.Type === BaseItemKind.Playlist) {
-        return null;
-    }
-
     switch (type) {
         case PersonKind.Author:
+        case PersonKind.Creator:
         case PersonKind.Director:
         case PersonKind.Writer:
             return item.People?.filter(person => person.Type === type).map(person => ({ Id: person.Id, Name: person.Name })) ?? null;
         case BaseItemKind.Studio:
+            if (item.Type === BaseItemKind.BoxSet || item.Type === BaseItemKind.Playlist) {
+                return null;
+            }
             return item.Studios ?? null;
         case BaseItemKind.Genre:
             return item.GenreItems ?? null;

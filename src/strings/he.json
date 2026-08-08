@@ -1894,5 +1894,16 @@
     "ContinueReading": "המשך קריאה",
     "HeaderLatestBooks": "ספרים שהוספו לאחרונה",
     "HeaderLatestMusicVideos": "קליפים שהוספו לאחרונה",
-    "UsersEditPageError": "לא ניתן לטעון את דף עריכת המשתמשים"
+    "UsersEditPageError": "לא ניתן לטעון את דף עריכת המשתמשים",
+    "LabelSyncPlayJoinGroup": "להצטרף לקבוצה",
+    "OnFilesystem": "במערכת הקבצים: {0}",
+    "LabelVideoAttributes": "מאפייני וידאו",
+    "LabelVideoColors": "צבעי וידאו",
+    "LabelVideoBitDepth": "עומק־סיביות של הוידאו",
+    "LabelAudioAttributes": "מאפייני שמע",
+    "LabelTargetCodecs": "מקודדי יעד",
+    "LabelProgressAndSpeed": "התקדמות / מהירות",
+    "LabelReasons": "סיבות",
+    "LabelPlayerSizes": "גדלי נגן",
+    "LabelPlaybackQuality": "פריימים נפלו \\ נפגמו"
 }

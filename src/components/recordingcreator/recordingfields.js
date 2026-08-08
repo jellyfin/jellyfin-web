@@ -1,7 +1,6 @@
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import Events from '../../utils/events.ts';
-import serverNotifications from '../../scripts/serverNotifications';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import loading from '../loading/loading';
 import dom from '../../utils/dom';
 import recordingHelper from './recordinghelper';
@@ -58,23 +57,23 @@ function fetchData(instance) {
     });
 }
 
-function onTimerChangedExternally(e, apiClient, data) {
-    const options = this.options;
+function onTimerChangedExternally(data, instance) {
+    const options = instance.options;
 
-    if ((data.Id && this.TimerId === data.Id)
-        || (data.ProgramId && options && options.programId === data.ProgramId)
+    if ((data?.Id && instance.TimerId === data.Id)
+        || (data?.ProgramId && options && options.programId === data.ProgramId)
     ) {
-        this.refresh();
+        instance.refresh();
     }
 }
 
-function onSeriesTimerChangedExternally(e, apiClient, data) {
-    const options = this.options;
+function onSeriesTimerChangedExternally(data, instance) {
+    const options = instance.options;
 
-    if ((data.Id && this.SeriesTimerId === data.Id)
-        || (data.ProgramId && options && options.programId === data.ProgramId)
+    if ((data?.Id && instance.SeriesTimerId === data.Id)
+        || (data?.ProgramId && options && options.programId === data.ProgramId)
     ) {
-        this.refresh();
+        instance.refresh();
     }
 }
 
@@ -83,17 +82,13 @@ class RecordingEditor {
         this.options = options;
         this.embed();
 
-        const timerChangedHandler = onTimerChangedExternally.bind(this);
-        this.timerChangedHandler = timerChangedHandler;
-
-        Events.on(serverNotifications, 'TimerCreated', timerChangedHandler);
-        Events.on(serverNotifications, 'TimerCancelled', timerChangedHandler);
-
-        const seriesTimerChangedHandler = onSeriesTimerChangedExternally.bind(this);
-        this.seriesTimerChangedHandler = seriesTimerChangedHandler;
-
-        Events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        Events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        const apiClient = ServerConnections.getApiClient(options.serverId);
+        this._unsubscribeTimers = [
+            apiClient?.subscribe([OutboundWebSocketMessageType.TimerCreated], ({ Data }) => onTimerChangedExternally(Data, this)),
+            apiClient?.subscribe([OutboundWebSocketMessageType.TimerCancelled], ({ Data }) => onTimerChangedExternally(Data, this)),
+            apiClient?.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], ({ Data }) => onSeriesTimerChangedExternally(Data, this)),
+            apiClient?.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], ({ Data }) => onSeriesTimerChangedExternally(Data, this))
+        ].filter(Boolean);
     }
 
     embed() {
@@ -121,17 +116,10 @@ class RecordingEditor {
     }
 
     destroy() {
-        const timerChangedHandler = this.timerChangedHandler;
-        this.timerChangedHandler = null;
-
-        Events.off(serverNotifications, 'TimerCreated', timerChangedHandler);
-        Events.off(serverNotifications, 'TimerCancelled', timerChangedHandler);
-
-        const seriesTimerChangedHandler = this.seriesTimerChangedHandler;
-        this.seriesTimerChangedHandler = null;
-
-        Events.off(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
-        Events.off(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
+        this._unsubscribeTimers?.forEach(unsub => {
+            unsub();
+        });
+        this._unsubscribeTimers = [];
     }
 }
 

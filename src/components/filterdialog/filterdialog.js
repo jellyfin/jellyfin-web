@@ -102,8 +102,9 @@ function updateFilterControls(context, options) {
     context.querySelector('#chkThemeVideo').checked = query.HasThemeVideo === true;
     context.querySelector('#chkSpecialFeature').checked = query.HasSpecialFeature === true;
     context.querySelector('#chkSpecialEpisode').checked = query.ParentIndexNumber === 0;
-    context.querySelector('#chkMissingEpisode').checked = query.IsMissing === true;
-    context.querySelector('#chkFutureEpisode').checked = query.IsUnaired === true;
+    const isMissingChecked = query.IsMissing === true;
+    context.querySelector('#chkMissingEpisode').checked = isMissingChecked;
+    context.querySelector('#chkFutureEpisode').checked = query.IsUnaired === true || (isMissingChecked && query.IsUnaired === null);
     for (const elem of context.querySelectorAll('.chkStatus')) {
         const filters = `,${query.SeriesStatus || ''}`;
         const filterName = elem.getAttribute('data-filter');
@@ -127,6 +128,24 @@ function triggerChange(instance) {
     Events.trigger(instance, 'filterchange');
 }
 
+function applyEpisodeStatusFilters(query, isMissingChecked, isUnairedChecked) {
+    query.StartIndex = 0;
+
+    if (isMissingChecked && isUnairedChecked) {
+        query.IsMissing = true;
+        query.IsUnaired = null;
+    } else if (isMissingChecked) {
+        query.IsMissing = true;
+        query.IsUnaired = false;
+    } else if (isUnairedChecked) {
+        query.IsMissing = null;
+        query.IsUnaired = true;
+    } else {
+        query.IsMissing = false;
+        query.IsUnaired = null;
+    }
+}
+
 function setVisibility(context, options) {
     if (options.mode === 'livetvchannels' || options.mode === 'albums' || options.mode === 'artists' || options.mode === 'albumartists' || options.mode === 'songs') {
         hideByClass(context, 'videoStandard');
@@ -139,7 +158,7 @@ function setVisibility(context, options) {
         context.querySelector('.yearFilters').classList.remove('hide');
     }
 
-    if (options.mode === 'movies' || options.mode === 'episodes') {
+    if (options.mode === 'movies' || options.mode === 'series' || options.mode === 'episodes') {
         context.querySelector('.videoTypeFilters').classList.remove('hide');
     }
 
@@ -351,9 +370,9 @@ class FilterDialog {
             triggerChange(this);
         });
         const chkMissingEpisode = context.querySelector('#chkMissingEpisode');
+        const chkFutureEpisode = context.querySelector('#chkFutureEpisode');
         chkMissingEpisode.addEventListener('change', () => {
-            query.StartIndex = 0;
-            query.IsMissing = !!chkMissingEpisode.checked;
+            applyEpisodeStatusFilters(query, chkMissingEpisode.checked, chkFutureEpisode.checked);
             triggerChange(this);
         });
         const chkSpecialEpisode = context.querySelector('#chkSpecialEpisode');
@@ -362,16 +381,8 @@ class FilterDialog {
             query.ParentIndexNumber = chkSpecialEpisode.checked ? 0 : null;
             triggerChange(this);
         });
-        const chkFutureEpisode = context.querySelector('#chkFutureEpisode');
         chkFutureEpisode.addEventListener('change', () => {
-            query.StartIndex = 0;
-            if (chkFutureEpisode.checked) {
-                query.IsUnaired = true;
-                query.IsVirtualUnaired = null;
-            } else {
-                query.IsUnaired = null;
-                query.IsVirtualUnaired = false;
-            }
+            applyEpisodeStatusFilters(query, chkMissingEpisode.checked, chkFutureEpisode.checked);
             triggerChange(this);
         });
         const chkSubtitle = context.querySelector('#chkSubtitle');

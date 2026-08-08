@@ -77,7 +77,7 @@ export const Component = () => {
     const onConfirmDelete = useCallback(() => {
         if (pendingDeleteDeviceId) {
             deleteDevice.mutate({
-                id: pendingDeleteDeviceId
+                id: [pendingDeleteDeviceId]
             }, {
                 onSettled: onCloseDeleteConfirmDialog
             });
@@ -97,7 +97,7 @@ export const Component = () => {
             Promise
                 .all(devices.map(item => {
                     if (api && item.Id && api.deviceInfo.id === item.Id) {
-                        return deleteDevice.mutateAsync({ id: item.Id });
+                        return deleteDevice.mutateAsync({ id: [item.Id] });
                     }
                     return Promise.resolve();
                 }))

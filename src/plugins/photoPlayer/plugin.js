@@ -1,6 +1,7 @@
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from '../../scripts/settings/userSettings';
-import { PluginType } from 'types/plugin.ts';
+import screenSaverManager from 'scripts/screensavermanager';
+import * as userSettings from 'scripts/settings/userSettings';
 
 export default class PhotoPlayer {
     constructor() {
@@ -28,9 +29,11 @@ export default class PhotoPlayer {
                         autoplay: {
                             delay: userSettings.slideshowInterval() * 1000
                         },
-                        user: result
+                        user: result,
+                        onClose: () => screenSaverManager.unblock()
                     });
 
+                    screenSaverManager.block();
                     newSlideShow.show();
                     resolve();
                 });
