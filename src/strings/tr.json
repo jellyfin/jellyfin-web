@@ -1938,7 +1938,7 @@
     "HlsAudioSeekStrategy": "HLS akışlarında arama yaparken izlenecek strateji.",
     "LabelHlsAudioSeekStrategy": "Ses arama stratejisi.",
     "LabelUsernameAllowedCharactersHelp": "Kullanıcı adları harfler, rakamlar, boşluklar ve şu karakterleri içerebilir: - _ ' . @ +. Boşlukla başlayamaz veya boşlukla bitemezler.",
-    "AudioLanguages": "Ses dilleri",
+    "AudioLanguages": "Ses Dilleri",
     "SubtitleLanguages": "Altyazı dilleri",
     "BitmapSubtitleAspectModeHelp": "İstemci tarafından oluşturulan PGS ve VobSub altyazılarının görünür video alanına nasıl ölçeklendirileceğini belirler.",
     "BitmapSubtitleAspectModeStretch": "Genişlet"
