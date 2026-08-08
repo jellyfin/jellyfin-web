@@ -2266,15 +2266,27 @@ export class PlaybackManager {
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
-        function playOther(items, options) {
+        async function playOther(items, options) {
             const playStartIndex = options.startIndex || 0;
             const player = getPlayer(items[playStartIndex], options);
+
+            if (self._currentPlayer) {
+                await onPlaybackChanging(self._currentPlayer, player, items[playStartIndex]);
+            }
 
             loading.hide();
 
             options.items = items;
 
-            return player.play(options);
+            self._playQueueManager.setPlaylist(items);
+            setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
+
+            await player.play(options);
+
+            if (items[playStartIndex].MediaType === 'Book') {
+                // books use progress reporting to track position through listeners in other components
+                onPlaybackStarted(player, options, player.streamInfo, player.streamInfo?.mediaSource);
+            }
         }
 
         const getAdditionalParts = async (items, mediaSourceId, startIndex) => {
@@ -3694,9 +3706,9 @@ export class PlaybackManager {
 
             if (state.NowPlayingItem) {
                 const serverId = state.NowPlayingItem.ServerId;
-
                 const streamInfo = getPlayerData(player).streamInfo;
 
+                Events.trigger(player, 'statechange', [state]);
                 if (streamInfo?.started && !streamInfo.ended) {
                     reportPlayback(self, state, player, reportPlaylist, serverId, 'reportPlaybackProgress', progressEventName);
                 }
