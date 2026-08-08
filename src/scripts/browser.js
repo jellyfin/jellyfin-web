@@ -201,6 +201,7 @@ const uaMatch = function (ua) {
         || /(opera)[ /]([\w.]+)/.exec(ua)
         || /(opr)[ /]([\w.]+)/.exec(ua)
         || /(chrome)[ /]([\w.]+)/.exec(ua)
+        || /(epiphany)[ /]([\w.]+)/.exec(ua)
         || /(safari)[ /]([\w.]+)/.exec(ua)
         || /(firefox)[ /]([\w.]+)/.exec(ua)
         || !ua.includes('compatible') && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua)
@@ -264,10 +265,6 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
 
     browser.edgeChromium = browser.edg || browser.edga || browser.edgios;
 
-    if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && normalizedUA.includes('webkit')) {
-        browser.safari = true;
-    }
-
     browser.osx = normalizedUA.includes('mac os x');
 
     // This is a workaround to detect iPads on iOS 13+ that report as desktop Safari
@@ -275,6 +272,15 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
     // https://forums.developer.apple.com/thread/119186
     if (browser.osx && !browser.iphone && !browser.ipod && !browser.ipad && navigator.maxTouchPoints > 1) {
         browser.ipad = true;
+    }
+
+    const isApplePlatform = browser.osx || browser.iphone || browser.ipad || browser.ipod || normalizedUA.includes('mac os x');
+    if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && isApplePlatform && normalizedUA.includes('webkit')) {
+        browser.safari = true;
+    }
+
+    if (browser.safari && !isApplePlatform) {
+        delete browser.safari;
     }
 
     if (isMobile(normalizedUA)) {
@@ -290,6 +296,7 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
     browser.vega = normalizedUA.includes('kepler');
     browser.vidaa = normalizedUA.includes('vidaa');
     browser.web0s = isWeb0s(normalizedUA);
+    browser.epiphany = normalizedUA.includes('epiphany');
 
     browser.tv = browser.ps4 || browser.vega || browser.xboxOne || isTv(normalizedUA);
     browser.operaTv = browser.tv && normalizedUA.includes('opr/');
@@ -319,6 +326,9 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
         delete browser.safari;
         // UserAgent string contains 'Mobile Chrome', but it is a TV
         delete browser.mobile;
+    } else if (browser.epiphany) {
+        // UserAgent string contains 'Safari', but we only want 'epiphany' to be true
+        delete browser.safari;
     } else {
         browser.orsay = normalizedUA.includes('smarthub');
     }

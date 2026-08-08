@@ -20,7 +20,10 @@ function canPlayHevc(videoTestElement, options) {
         && (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L120"').replace(/no/, '')
         || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L120"').replace(/no/, '')
         || videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.0.L120"').replace(/no/, '')
-        || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, ''));
+        || videoTestElement.canPlayType('video/mp4; codecs="hev1.1.0.L120"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="hevc"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="hvc1"').replace(/no/, '')
+        || videoTestElement.canPlayType('video/mp4; codecs="hev1"').replace(/no/, ''));
 }
 
 function canPlayAv1(videoTestElement) {
@@ -213,9 +216,12 @@ function testCanPlayMkv(videoTestElement) {
         return true;
     }
 
-    if (browser.firefox) {
-        // As of Firefox 145, its mkv support is buggy and causes playback issues because it would force preloading the
-        // whole mkv file before playback starts, which is extremely undesirable for streaming.
+    const isApplePlatform = browser.osx || browser.iphone || browser.ipad || browser.ipod;
+    const isLinuxWebKit = !browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && !isApplePlatform;
+
+    if (browser.firefox || browser.epiphany || isLinuxWebKit) {
+        // As of Firefox 145 and Linux WebKit (WebKitGTK/Epiphany), mkv direct streaming causes playback issues/hanging
+        // because it forces preloading the whole mkv file before playback starts.
         // See https://github.com/jellyfin/jellyfin/issues/15521
         return false;
     }
@@ -360,7 +366,7 @@ function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, vide
             supported = browser.tizen;
             break;
         case 'mov':
-            supported = browser.safari || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
+            supported = browser.safari || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp || browser.epiphany || !browser.mobile;
             videoCodecs.push('h264');
             break;
         case 'm2ts':
@@ -457,7 +463,7 @@ function getPhysicalAudioChannels(options, videoTestElement) {
         return options.audioChannels;
     }
 
-    const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.tv || browser.ps4 || browser.xboxOne;
+    const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.epiphany || browser.tv || browser.ps4 || browser.xboxOne || !browser.mobile;
     const isAc3Eac3Supported = supportsAc3(videoTestElement) || supportsEac3(videoTestElement);
     const speakerCount = getSpeakerCount();
 
@@ -683,7 +689,7 @@ export default function (options) {
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134))) {
+        && (browser.edgeChromium || browser.safari || browser.epiphany || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134) || !browser.mobile)) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
@@ -1149,6 +1155,11 @@ export default function (options) {
 
     let maxHevcLevel = 120;
     let hevcProfiles = 'main';
+
+    if (canPlayHevc(videoTestElement, options)) {
+        maxHevcLevel = 186;
+        hevcProfiles = 'main|main 10';
+    }
 
     // hevc main level 4.1
     if (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.4.L123"').replace(/no/, '')
