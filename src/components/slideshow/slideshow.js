@@ -20,6 +20,8 @@ import dom from '../../utils/dom';
 import './style.scss';
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
+import { getIcon } from './slideshowhelper';
+import ZoomControl from './zoomControl';
 
 /**
  * Name of transition event.
@@ -107,20 +109,6 @@ function getImgUrl(item, user) {
 }
 
 /**
- * Generates a button using the specified icon, classes and properties.
- * @param {string} icon - Name of the material icon on the button
- * @param {string} cssClass - CSS classes to assign to the button
- * @param {boolean} canFocus - Flag to set the tabindex attribute on the button to -1.
- * @param {boolean} autoFocus - Flag to set the autofocus attribute on the button.
- * @returns {string} The HTML markup of the button.
- */
-function getIcon(icon, cssClass, canFocus, autoFocus) {
-    const tabIndex = canFocus ? '' : ' tabindex="-1"';
-    autoFocus = autoFocus ? ' autofocus' : '';
-    return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><span class="material-icons slideshowButtonIcon ' + icon + '" aria-hidden="true"></span></button>';
-}
-
-/**
  * Sets the viewport meta tag to enable or disable scaling by the user.
  * @param {boolean} scalable - Flag to set the scalability of the viewport.
  */
@@ -144,6 +132,8 @@ export default function (options) {
     let hideTimeout;
     /** Last coordinates of the mouse pointer. */
     let lastMouseMoveData;
+    /** @type {ZoomControl|undefined} Instance of zoom control */
+    let zoomControl;
 
     /**
      * Creates the HTML markup for the dialog and the OSD.
@@ -193,7 +183,7 @@ export default function (options) {
 
             if (!actionButtonsOnTop) {
                 html += '<div class="slideshowBottomBar hide">';
-
+                html += '<div class="slideshowBottomBarLeft">';
                 html += getIcon('play_arrow', 'btnSlideshowPause slideshowButton', true, true);
                 if (appHost.supports(AppFeature.FileDownload) && slideshowOptions?.user.Policy.EnableContentDownloading) {
                     html += getIcon('file_download', 'btnDownload slideshowButton', true);
@@ -201,10 +191,15 @@ export default function (options) {
                 if (appHost.supports(AppFeature.Sharing)) {
                     html += getIcon('share', 'btnShare slideshowButton', true);
                 }
+                html += '</div>';
+
+                html += '<div class="slideshowBottomBarRight">';
+                html += ZoomControl.getHtml();
                 if (screenfull.isEnabled) {
                     html += getIcon('fullscreen', 'btnFullscreen', true);
                     html += getIcon('fullscreen_exit', 'btnFullscreenExit hide', true);
                 }
+                html += '</div>';
 
                 html += '</div>';
             }
@@ -306,31 +301,26 @@ export default function (options) {
         const zoomImage = slideEl.querySelector('.swiper-zoom-fakeimg');
 
         if (zoomImage) {
+            zoomImage.classList.add('swiper-zoom-fakeimg-hidden');
             zoomImage.style.width = zoomImage.style.height = scale * 100 + '%';
 
-            if (scale > 1) {
-                if (zoomImage.classList.contains('swiper-zoom-fakeimg-hidden')) {
-                    // Await for Swiper style changes
-                    setTimeout(() => {
-                        const callback = () => {
-                            imageEl.removeEventListener(transitionEndEventName, callback);
-                            zoomImage.classList.remove('swiper-zoom-fakeimg-hidden');
-                        };
+            // Await for Swiper style changes
+            setTimeout(() => {
+                const callback = () => {
+                    imageEl.removeEventListener(transitionEndEventName, callback);
+                    zoomImage.classList.remove('swiper-zoom-fakeimg-hidden');
+                };
 
-                        // Swiper set 'transition-duration: 300ms' for auto zoom
-                        // and 'transition-duration: 0s' for touch zoom
-                        const transitionDuration = parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
+                // Swiper set 'transition-duration: 300ms' for auto zoom
+                // and 'transition-duration: 0s' for touch zoom
+                const transitionDuration = parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
 
-                        if (transitionDuration > 0) {
-                            imageEl.addEventListener(transitionEndEventName, callback);
-                        } else {
-                            callback();
-                        }
-                    }, 0);
+                if (transitionDuration > 0) {
+                    imageEl.addEventListener(transitionEndEventName, callback);
+                } else {
+                    callback();
                 }
-            } else {
-                zoomImage.classList.add('swiper-zoom-fakeimg-hidden');
-            }
+            }, 0);
         }
     }
 
@@ -353,6 +343,7 @@ export default function (options) {
         // eslint-disable-next-line import/no-unresolved
         import('swiper/bundle').then(({ Swiper }) => {
             swiperInstance = new Swiper(dialogElement.querySelector('.slideshowSwiperContainer'), {
+                init: false,
                 direction: 'horizontal',
                 // Loop is disabled due to the virtual slides option not supporting it.
                 loop: false,
@@ -389,6 +380,10 @@ export default function (options) {
             if (useFakeZoomImage) {
                 swiperInstance.on('zoomChange', onZoomChange);
             }
+
+            zoomControl = new ZoomControl(dialogElement, swiperInstance, slides);
+            zoomControl.bindEvents();
+            swiperInstance.init();
 
             if (swiperInstance.autoplay?.running) onAutoplayStart();
         });
