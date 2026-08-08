@@ -1935,5 +1935,8 @@
     "BitmapSubtitleAspectModeHelp": "Tùy chỉnh cách phụ đề PGS và VobSub do máy khách hiển thị được điều chỉnh tỷ lệ sao cho phù hợp với vùng video hiển thị.",
     "BitmapSubtitleAspectModeStretch": "Kéo dài",
     "LabelBitmapSubtitleAspectMode": "Chế độ tỷ lệ khung hình phụ đề bitmap",
-    "LabelUsernameAllowedCharactersHelp": "Tên người dùng có thể chứa chữ cái, số, dấu cách và các ký tự sau: - _ ' . @ +. Tên người dùng không được bắt đầu hoặc kết thúc bằng khoảng trắng."
+    "LabelUsernameAllowedCharactersHelp": "Tên người dùng có thể chứa chữ cái, số, dấu cách và các ký tự sau: - _ ' . @ +. Tên người dùng không được bắt đầu hoặc kết thúc bằng khoảng trắng.",
+    "BitmapSubtitleAspectModeContain": "Bao gồm",
+    "HlsAudioSeekStrategy": "Chiến lược cần sử dụng khi tua nhanh trong các luồng HLS.",
+    "LabelHlsAudioSeekStrategy": "Chiến lược tua âm thanh."
 }
