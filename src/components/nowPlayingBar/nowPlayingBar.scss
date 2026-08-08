@@ -70,6 +70,62 @@
     }
 }
 
+.nowPlayingBarSecondaryText {
+    display: flex;
+    min-width: 0;
+}
+
+.nowPlayingBarSecondaryText a,
+.nowPlayingBarChapterText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nowPlayingBarSecondaryText a {
+    flex-shrink: 0;
+    max-width: 50%;
+}
+
+.nowPlayingBarChapterText {
+    min-width: 0;
+    color: rgba(255, 255, 255, 0.7);
+
+    [dir="ltr"] & {
+        margin-left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em;
+    }
+}
+
+.nowPlayingBarChapterText::before {
+    content: "\2022";
+
+    [dir="ltr"] & {
+        margin-right: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-left: 0.5em;
+    }
+}
+
+.nowPlayingBarChapterBubble {
+    max-width: 18em;
+}
+
+.nowPlayingBarChapterBubble .sliderBubbleText {
+    opacity: 0.75;
+}
+
+.nowPlayingBarChapterBubbleName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .nowPlayingBarCenter {
     vertical-align: middle;
     text-align: center;
