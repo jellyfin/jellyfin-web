@@ -1,10 +1,12 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import React, { FC } from 'react';
+import Box from '@mui/material/Box';
+import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { useGetGenres } from 'hooks/useFetchItems';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Loading from 'components/loading/LoadingComponent';
 import GenresSectionContainer from './GenresSectionContainer';
+import AlphabetPicker from './AlphabetPicker';
 import type { ParentId } from 'types/library';
 
 interface GenresItemsContainerProps {
@@ -17,27 +19,82 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     parentId,
     collectionType,
     itemType
-// eslint-disable-next-line sonarjs/function-return-type
 }) => {
-    const { isLoading, data: genresResult } = useGetGenres(itemType, parentId);
+    const [alphabet, setAlphabet] = useState<string | null>();
+    const {
+        isLoading,
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage
+    } = useGetGenres(itemType, parentId, alphabet);
 
-    if (isLoading) {
-        return <Loading />;
-    }
+    const observerTarget = useRef<HTMLDivElement>(null);
 
-    if (!genresResult?.Items?.length) {
+    useEffect(() => {
+        const target = observerTarget.current;
+        if (!target) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0]?.isIntersecting && hasNextPage && !isFetchingNextPage) {
+                    fetchNextPage().catch(err => {
+                        console.error('[GenresItemsContainer] failed to fetch next page', err);
+                    });
+                }
+            },
+            { rootMargin: '200px' }
+        );
+
+        observer.observe(target);
+        return () => observer.disconnect();
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+    const genres = useMemo(
+        () => data?.pages.flatMap((page) => page?.Items ?? []) ?? [],
+        [data]
+    );
+
+    // No genres at all (no letter filter active) - nothing to pick from
+    if (!isLoading && !genres.length && alphabet == null) {
         return <NoItemsMessage message='MessageNoGenresAvailable' />;
     }
 
-    return genresResult.Items.map((genre) => (
-        <GenresSectionContainer
-            key={genre.Id}
-            collectionType={collectionType}
-            parentId={parentId}
-            itemType={itemType}
-            genre={genre}
-        />
-    ));
+    const renderGenres = () => {
+        if (isLoading) {
+            return <Loading />;
+        }
+
+        if (!genres.length) {
+            return <NoItemsMessage message='MessageNoGenresAvailable' />;
+        }
+
+        return (
+            <>
+                {genres.map((genre) => (
+                    <GenresSectionContainer
+                        key={genre.Id}
+                        collectionType={collectionType}
+                        parentId={parentId}
+                        itemType={itemType}
+                        genre={genre}
+                    />
+                ))}
+
+                <Box ref={observerTarget} sx={{ height: '1px' }} />
+
+                {isFetchingNextPage && <Loading />}
+            </>
+        );
+    };
+
+    return (
+        <>
+            <AlphabetPicker value={alphabet} onChange={setAlphabet} />
+
+            {renderGenres()}
+        </>
+    );
 };
 
 export default GenresItemsContainer;

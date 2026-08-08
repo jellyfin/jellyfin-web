@@ -18,7 +18,7 @@ import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 
 import { type JellyfinApiContext, useApi } from './useApi';
@@ -72,10 +72,14 @@ export const useGetItems = (parametersOptions: LibraryApiGetItemsRequest) => {
     });
 };
 
+export const GENRES_PAGE_SIZE = 10;
+
 const fetchGetGenres = async (
     currentApi: JellyfinApiContext,
     itemType: BaseItemKind[],
     parentId: ParentId,
+    alphabet: string | null | undefined,
+    startIndex: number,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
@@ -87,6 +91,10 @@ const fetchGetGenres = async (
                 sortOrder: [SortOrder.Ascending],
                 includeItemTypes: itemType,
                 enableTotalRecordCount: false,
+                startIndex,
+                limit: GENRES_PAGE_SIZE,
+                nameLessThan: alphabet === '#' ? 'A' : undefined,
+                nameStartsWith: alphabet === '#' ? undefined : (alphabet ?? undefined),
                 parentId: parentId ?? undefined
             },
             {
@@ -97,12 +105,20 @@ const fetchGetGenres = async (
     }
 };
 
-export const useGetGenres = (itemType: BaseItemKind[], parentId: ParentId) => {
+export const useGetGenres = (
+    itemType: BaseItemKind[],
+    parentId: ParentId,
+    alphabet?: string | null
+) => {
     const currentApi = useApi();
-    return useQuery({
-        queryKey: ['Genres', parentId],
-        queryFn: ({ signal }) =>
-            fetchGetGenres(currentApi, itemType, parentId, { signal }),
+    return useInfiniteQuery({
+        queryKey: ['Genres', parentId, itemType, alphabet],
+        queryFn: ({ pageParam, signal }) =>
+            fetchGetGenres(currentApi, itemType, parentId, alphabet, pageParam * GENRES_PAGE_SIZE, { signal }),
+        initialPageParam: 0,
+        // Stop once a page returns fewer items than requested (cheaper than enabling total record count)
+        getNextPageParam: (lastPage, allPages) =>
+            (lastPage?.Items?.length ?? 0) < GENRES_PAGE_SIZE ? undefined : allPages.length,
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
