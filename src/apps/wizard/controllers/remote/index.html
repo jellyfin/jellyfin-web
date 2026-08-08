@@ -9,11 +9,55 @@
                         <input type="checkbox" is="emby-checkbox" id="chkRemoteAccess" checked />
                         <span>${AllowRemoteAccess}</span>
                     </label>
-                    <div class="fieldDescription checkboxFieldDescription">${AllowRemoteAccessHelp}</div>
+                    <div class="fieldDescription checkboxFieldDescription">
+                        <span>${AllowRemoteAccessHelp}</span>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/networking/" target="_blank" class="button-link">
+                            <span>${ButtonLearnMore}</span>
+                        </a>
+                    </div>
                 </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input type="checkbox" is="emby-checkbox" id="chkEnableUPnP" />
+                        <span>${LabelEnableUPnP}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${EnableUPnPHelp}</div>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input type="checkbox" is="emby-checkbox" id="chkEnableHttps" />
+                        <span>${LabelEnableHttps}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">
+                        <span>${LabelEnableHttpsHelp}</span>
+                        <a is="emby-linkbutton" rel="noopener noreferrer" href="https://jellyfin.org/docs/general/networking/#https" target="_blank" class="button-link">
+                            <span>${ButtonLearnMore}</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="httpsFields hide">
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="txtHttpsPort" pattern="[0-9]*" min="1" max="65535" step="1" label="${LabelHttpsPort}" aria-label="${LabelHttpsPort}" />
+                        <div class="fieldDescription">${LabelHttpsPortHelp}</div>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="text" id="txtCertificatePath" label="${LabelCustomCertificatePath}" aria-label="${LabelCustomCertificatePath}" />
+                        <div class="fieldDescription">${LabelCustomCertificatePathHelp}</div>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="password" id="txtCertificatePassword" label="${LabelCertificatePassword}" aria-label="${LabelCertificatePassword}" />
+                        <div class="fieldDescription">${LabelCertificatePasswordHelp}</div>
+                    </div>
+                </div>
+
+                <p class="fieldDescription">${WizardSettingsChangeableLater}</p>
+
                 <br />
                 <div class="wizardNavigation">
-                    <button is="emby-button" type="button" class="raised button-cancel" onclick="history.back();">
+                    <button is="emby-button" type="button" class="raised button-cancel btnWizardPrev">
                         <span class="material-icons arrow_back" aria-hidden="true"></span>
                         <span>${Previous}</span>
                     </button>
@@ -23,6 +67,7 @@
                     </button>
                 </div>
             </form>
+            <div class="wizardProgress"></div>
         </div>
     </div>
 </div>

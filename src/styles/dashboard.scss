@@ -157,6 +157,19 @@ div[data-role=controlgroup] a.ui-btn-active {
     padding-left: 1em;
 }
 
+.addedUsers ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1em;
+}
+
+.addedUsers li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.25em 0;
+}
+
 .content-primary ul:first-child,
 .type-interior .content-primary > .sectionTitleContainer {
     margin-top: 0;
@@ -250,6 +263,7 @@ div[data-role=controlgroup] a.ui-btn-active {
 }
 
 .wizardContent {
+    position: relative;
     max-width: 62em;
     padding: 0.5em 2em 1em;
     margin: 0 auto;
@@ -262,6 +276,138 @@ div[data-role=controlgroup] a.ui-btn-active {
 
 .wizardContent form {
     max-width: 100%;
+}
+
+.wizardStepIntro {
+    margin-top: 2em;
+}
+
+.wizardParagraph {
+    margin: 1em 0;
+}
+
+.wizardProgress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75em;
+    max-width: 12em;
+    margin: 2em auto 0;
+}
+
+.wizardProgressLabel {
+    font-size: 0.85em;
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.wizardProgressTrack {
+    flex: 1;
+    height: 0.4em;
+    border-radius: 0.4em;
+    background: rgba(255, 255, 255, 0.25);
+    overflow: hidden;
+}
+
+.wizardProgressFill {
+    height: 100%;
+    border-radius: 0.4em;
+    background: #00a4dc;
+    transition: width 0.3s ease;
+}
+
+.wizardInfoBox {
+    margin-bottom: 1.5em;
+}
+
+.wizardInfoBoxIcon {
+    vertical-align: middle;
+    margin-right: 0.4em;
+}
+
+.wizardStartHeader {
+    float: left;
+    display: flex;
+    align-items: center;
+}
+
+.wizardStartLogo {
+    height: 3.2em;
+    margin-right: 0.5em;
+}
+
+.wizardStartTitle {
+    margin: 0;
+}
+
+.wizardStartGuideLink {
+    float: right;
+    margin-top: 1.25em;
+}
+
+.wizardNavigation--right {
+    text-align: right;
+}
+
+.wizardLibraryTitle {
+    display: inline-block;
+}
+
+.wizardLibraryHelpLink {
+    margin-top: -0.625em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 2em;
+}
+
+.wizardSummaryList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.4em;
+    margin: 1.5em 0;
+    padding: 0;
+}
+
+.wizardSummaryRow {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    width: 100%;
+    padding: 0.6em 0.75em;
+    border: 0;
+    border-radius: 0.2em;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.wizardSummaryRow:hover,
+.wizardSummaryRow:focus-visible {
+    background: rgba(127, 127, 127, 0.2);
+}
+
+.wizardSummaryLabel {
+    font-weight: bold;
+    min-width: 10em;
+    flex-shrink: 0;
+}
+
+.wizardSummaryValue {
+    margin: 0;
+    flex: 1;
+    opacity: 0.8;
+}
+
+.wizardSummaryEditIcon {
+    font-size: 1.2em;
+    opacity: 0;
+}
+
+.wizardSummaryRow:hover .wizardSummaryEditIcon,
+.wizardSummaryRow:focus-visible .wizardSummaryEditIcon {
+    opacity: 0.6;
 }
 
 .scheduledTaskPaperIconItem {
