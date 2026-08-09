@@ -1738,7 +1738,7 @@
     "FallbackMaxStreamingBitrateHelp": "Die maximale Streaming-Bitrate wird als Fallback verwendet, wenn ffprobe die Bitrate des Quellstreams nicht ermitteln kann. Dadurch wird verhindert, dass Clients eine zu hohe Transcodierungs-Bitrate anfordern, was zu einem Ausfall des Players und einer Überlastung des Encoders führen könnte.",
     "AllowFmp4TranscodingContainerHelp": "Erlauben Sie den fMP4-Transcodierungscontainer für diesen Tuner, um HEVC- und HDR-Inhalte zu aktivieren. Nicht alle Tuner sind mit diesem Container kompatibel. Deaktiviere dies, wenn bei der Wiedergabe Probleme auftreten.",
     "AllowStreamSharingHelp": "Erlauben Sie Jellyfin, den MPEG-Stream vom Tuner zu duplizieren und diesen duplizierten Stream an seine Clients weiterzugeben. Dies ist nützlich, wenn der Tuner eine Gesamtstreamanzahlbegrenzung hat, kann aber auch zu Wiedergabeproblemen führen.",
-    "RenderPgsSubtitleHelp": "Legen Sie fest, ob der Client PGS-Untertitel rendern soll, anstatt eingebaute Untertitel zu verwenden. Dadurch kann eine serverseitige Transkodierung vermieden und die clientseitige Rendering-Leistung verbessert werden.",
+    "RenderPgsSubtitleHelp": "Legen Sie fest, ob der Client PGS- und VobSub-Untertitel rendern soll, anstatt eingebaute Untertitel zu verwenden. Dadurch kann eine serverseitige Transkodierung vermieden und die clientseitige Rendering-Leistung verbessert werden.",
     "LabelAllowStreamSharing": "Stream-Sharing zulassen",
     "LabelFallbackMaxStreamingBitrate": "Maximale Fallback-Stream-Bitrate (Mbps)",
     "VideoCodecTagNotSupported": "Das Video-Codec-Tag wird nicht unterstützt",
@@ -1747,7 +1747,7 @@
     "ReplaceTrickplayImages": "Ersetzen vorhandener Trickplay-Bilder",
     "LabelSaveTrickplayLocally": "Trickplay-Bilder bei den Medien speichern",
     "LabelSaveTrickplayLocallyHelp": "Wenn Sie Trickplay-Bilder in Medienordnern speichern, werden sie bei Ihren Medien abgelegt und ermöglichen so eine einfache Migration und den Zugriff.",
-    "RenderPgsSubtitle": "Experimentelles PGS-Untertitel-Rendering",
+    "RenderPgsSubtitle": "Experimentelles PGS- und VobSub-Untertitel-Rendering",
     "LabelAudioTagSettings": "Audio-Tag Einstellungen",
     "LabelCustomTagDelimitersHelp": "Zeichen, die als Begrenzungszeichen zur Trennung von Tags zu behandeln sind.",
     "LabelDelimiterWhitelistHelp": "Positionen, die vom Tag-Splitting ausgeschlossen werden sollen. Eine Position pro Zeile.",
@@ -1937,5 +1937,6 @@
     "BitmapSubtitleAspectModeContain": "Enthalten",
     "BitmapSubtitleAspectModeCover": "Abdecken",
     "BitmapSubtitleAspectModeHelp": "Bestimmt, wie von Clients gerenderte PGS und VobSub Untertitel auf den sichtbaren Videoereich skaliert werden.",
-    "BitmapSubtitleAspectModeStretch": "Strecken"
+    "BitmapSubtitleAspectModeStretch": "Strecken",
+    "LabelUsernameAllowedCharactersHelp": "Benutzernamen dürfen Buchstaben, Ziffern, Leerzeichen sowie die folgenden Zeichen enthalten: - _ ' . @ +. Sie dürfen nicht mit einem Leerzeichen beginnen oder enden."
 }

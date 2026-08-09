@@ -3,6 +3,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import globalize from 'lib/globalize';
 import type { LibraryViewSettings } from 'types/library';
@@ -22,6 +23,8 @@ const Pagination: FC<PaginationProps> = ({
     total,
     disabled
 }) => {
+    const isSmallScreen = useMediaQuery(t => t.breakpoints.up('sm'));
+
     const onNextPageClick = useCallback(() => {
         setLibraryViewSettings((prevState) => ({
             ...prevState,
@@ -42,6 +45,7 @@ const Pagination: FC<PaginationProps> = ({
         <ButtonGroup
             color='inherit'
             variant='text'
+            size={isSmallScreen ? undefined : 'small'}
         >
             <Button
                 title={globalize.translate('Previous')}

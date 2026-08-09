@@ -1939,5 +1939,7 @@
     "BitmapSubtitleAspectModeStretch": "拉伸",
     "LabelBitmapSubtitleAspectMode": "位图字幕纵横比模式",
     "LabelUsernameAllowedCharactersHelp": "用户名可以包含字母、数字、空格以及以下字符：- _ ' . @ +。用户名不能以空格开头或结尾。",
-    "BitmapSubtitleAspectModeContain": "适应"
+    "BitmapSubtitleAspectModeContain": "适应",
+    "Novel": "小说",
+    "Screenplay": "剧本"
 }
