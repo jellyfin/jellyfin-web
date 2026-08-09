@@ -1933,5 +1933,6 @@
     "ViewDoublePage": "Двустраничный просмотр",
     "ViewSinglePage": "Одностраничный просмотр",
     "ViewLeftToRight": "Слева направо",
-    "ViewRightToLeft": "Справа налево"
+    "ViewRightToLeft": "Справа налево",
+    "BitmapSubtitleAspectModeStretch": "Растянуть"
 }
