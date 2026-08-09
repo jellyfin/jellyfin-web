@@ -302,7 +302,6 @@ export default function (view: HTMLElement, params: Record<string, string>) {
         }).catch().then(function () {
             loading.hide();
         });
-        // Should this promise be awaited?
         void apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options: BrandingOptionsDto) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer')!;
 
