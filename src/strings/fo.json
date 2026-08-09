@@ -879,5 +879,6 @@
     "Features": "Eginleikar",
     "HeaderFeatureAccess": "Hentleikaatgongd",
     "HeaderLibraryAccess": "Savnsatgongd",
-    "HeaderRecentlyPlayed": "Nýliga spældir"
+    "HeaderRecentlyPlayed": "Nýliga spældir",
+    "HeaderTypeText": "Inntøppa tekst"
 }
