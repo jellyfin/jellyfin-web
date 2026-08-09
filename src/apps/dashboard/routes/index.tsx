@@ -113,7 +113,7 @@ export const Component = () => {
                                 onScanLibrariesClick={onScanLibraries}
                                 onRestartClick={promptRestart}
                                 onShutdownClick={promptShutdown}
-                                isScanning={librariesTask?.State !== TaskState.Idle}
+                                isScanning={librariesTask && librariesTask.State !== TaskState.Idle}
                             />
                             <ItemCountsWidget />
                             <RunningTasksWidget tasks={tasks} />
