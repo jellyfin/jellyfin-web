@@ -874,5 +874,6 @@
     "Production": "Framleiðsla",
     "StoryArc": "Søgutráður",
     "StopWatching": "Steðga at hyggja",
-    "UnsupportedPlayback": "Hóast Jellyfin ikki kann avbrongla DRM-vart innihald roynur tað. Av hesi orsøk kunnu onkrir miðlar verða fullkomiliga svartir vegna bronglan ella øðrum óhandfarnum hentleikum, so sum samvirknum kykmyndum."
+    "UnsupportedPlayback": "Hóast Jellyfin ikki kann avbrongla DRM-vart innihald roynur tað. Av hesi orsøk kunnu onkrir miðlar verða fullkomiliga svartir vegna bronglan ella øðrum óhandfarnum hentleikum, so sum samvirknum kykmyndum.",
+    "Display": "Sýning"
 }
