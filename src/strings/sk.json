@@ -1941,5 +1941,7 @@
     "BitmapSubtitleAspectModeStretch": "Roztiahnuť",
     "LabelBitmapSubtitleAspectMode": "Režim pomeru strán bitmapových titulkov",
     "Novel": "Román",
-    "Screenplay": "Scenár"
+    "Screenplay": "Scenár",
+    "HlsAudioSeekStrategy": "Stratégia používaná pri pretáčaní v HLS streamoch.",
+    "LabelHlsAudioSeekStrategy": "Stratégia pretáčania vo zvuku."
 }
