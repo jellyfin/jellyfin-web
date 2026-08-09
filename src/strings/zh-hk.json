@@ -1394,7 +1394,7 @@
     "MessageReenableUser": "睇下面嚟重新啟用",
     "MessageRenameMediaFolder": "改媒體櫃個名會令入面所有媒體詳細資料（Metadata）消失，唔該小心處理。",
     "MessageRepositoryInstallDisclaimer": "⚠️警告：安裝第三方外掛程式庫有風險。其中可能包含唔穩定或者惡意嘅程式，而且可能隨時會變。千祈唔好安裝唔受信任開發者嘅程式庫。",
-    "MessageRestoreDisclaimer": "⚠️警告：你將會從之前嘅備份還原數據。還原期間伺服器會熄咗，而且響呢個備份之後新增嘅所有資料都會唔見晒。",
+    "MessageRestoreDisclaimer": "⚠️警告：你將會從之前嘅備份還原數據。還原期間伺服器會熄咗，而且響呢個備份之後新增嘅所有新資料都會唔見晒。\n\n還原備份應該只用於當時建立佢嘅相同版本(A to A)。未支援將備份還原至唔同嘅版本(A to a)，仲有可能導致成個伺服器用唔到。",
     "MessageRestoreInProgress": "正在恢復",
     "MessageRestoreSuccess": "恢復成功",
     "MessageSent": "訊息送出。",
@@ -1627,7 +1627,7 @@
     "SeriesRecordingScheduled": "已經排好咗錄成個系列。",
     "SeriesSettings": "系列設定",
     "ServerNameIsRestarting": "伺服器 {0} 重新啟動緊。",
-    "ServerNameIsShuttingDown": "伺服器 {0} 閂緊機。",
+    "ServerNameIsShuttingDown": "伺服器 {0} 熄緊機。",
     "ServerRestartNeededAfterPluginInstall": "裝完外掛程式之後，需要重新啟動 Jellyfin 先會生效。",
     "SettingsPageLoadError": "載入唔到設定頁面",
     "SettingsSaved": "設定已保存。",
@@ -1926,5 +1926,12 @@
     "HeaderSplitMedia": "拆分媒體",
     "IndexNumber": "索引編號",
     "NoCastTargets": "冇可用嘅投放目標裝置",
-    "MessageNoEpisodesFound": "目前暫時冇任何集數。"
+    "MessageNoEpisodesFound": "目前暫時冇任何集數。",
+    "ViewDoublePage": "雙頁檢視",
+    "ViewSinglePage": "單頁檢視",
+    "ViewLeftToRight": "左至右",
+    "ViewRightToLeft": "右至左",
+    "SeriesName": "劇集名稱",
+    "AudioLanguages": "音訊語言",
+    "SubtitleLanguages": "字幕語言"
 }

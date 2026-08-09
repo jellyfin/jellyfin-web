@@ -1,4 +1,4 @@
-import DOMPurify from 'dompurify';
+import createDOMPurify from 'dompurify';
 import markdownIt from 'markdown-it';
 
 import { AppFeature } from 'constants/appFeature';
@@ -23,6 +23,12 @@ import type { ApiClient } from 'jellyfin-apiclient';
 import type { BrandingOptionsDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
 
 import './login.scss';
+
+const domPurify = createDOMPurify();
+domPurify.setConfig({
+    // eslint-disable-next-line @typescript-eslint/naming-convention, sonarjs/regex-complexity -- DOMPurify config option; customizes its default regex
+    ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel|callto|cid|xmpp|matrix|tg|whatsapp|signal|ircs?):|[^a-z]|[a-z+.-]+(?:[^-a-z+.:]|$))/i
+});
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -301,7 +307,7 @@ export default function (view: HTMLElement, params: Record<string, string>) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer')!;
 
             // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            loginDisclaimer.innerHTML = DOMPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
+            loginDisclaimer.innerHTML = domPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';
