@@ -96,7 +96,8 @@ export const Component = () => {
         if (devices) {
             Promise
                 .all(devices.map(item => {
-                    if (api && item.Id && api.deviceInfo.id === item.Id) {
+                    const isCurrentDevice = api && item.Id && api.deviceInfo.id === item.Id;
+                    if (item.Id && !isCurrentDevice) {
                         return deleteDevice.mutateAsync({ id: [item.Id] });
                     }
                     return Promise.resolve();
