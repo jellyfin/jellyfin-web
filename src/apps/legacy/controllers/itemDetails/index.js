@@ -1088,22 +1088,22 @@ function renderMoreFromSeason(view, item, apiClient) {
         }
 
         const userId = apiClient.getCurrentUserId();
-        apiClient.getEpisodes(item.SeriesId, {
-            SeasonId: item.SeasonId,
-            UserId: userId,
-            Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
-        }).then(function (result) {
-            if (result.Items.length < 2) {
-                section.classList.add('hide');
-                return;
+        const itemsContainer = section.querySelector('.itemsContainer');
+        let hasScrolled = false;
+
+        itemsContainer.fetchData = function () {
+            return apiClient.getEpisodes(item.SeriesId, {
+                SeasonId: item.SeasonId,
+                UserId: userId,
+                Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
+            });
+        };
+        itemsContainer.getItemsHtml = function (items) {
+            if (items.length < 2) {
+                return '';
             }
 
-            section.classList.remove('hide');
-            section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.SeasonName);
-            const itemsContainer = section.querySelector('.itemsContainer');
-            cardBuilder.buildCards(result.Items, {
-                parentContainer: section,
-                itemsContainer: itemsContainer,
+            return cardBuilder.getCardsHtml(items, {
                 shape: 'overflowBackdrop',
                 sectionTitleTagName: 'h2',
                 scalable: true,
@@ -1113,14 +1113,25 @@ function renderMoreFromSeason(view, item, apiClient) {
                 includeParentInfoInTitle: false,
                 allowBottomPadding: false
             });
+        };
+        itemsContainer.afterRefresh = function (result) {
+            if (result.Items.length < 2) {
+                section.classList.add('hide');
+                return;
+            }
+
+            section.classList.remove('hide');
+            section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.SeasonName);
             const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
 
-            if (card) {
+            if (card && !hasScrolled) {
+                hasScrolled = true;
                 setTimeout(function () {
                     section.querySelector('.emby-scroller').toStart(card.previousSibling || card, true);
                 }, 100);
             }
-        });
+        };
+        itemsContainer.refreshItems();
     }
 }
 
@@ -1354,18 +1365,18 @@ function renderChildren(page, item) {
         query.SortBy = 'SortName';
     }
 
-    let promise;
+    let fetchData;
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     const userId = apiClient.getCurrentUserId();
 
     if (item.Type == 'Series') {
-        promise = apiClient.getSeasons(item.Id, {
+        fetchData = () => apiClient.getSeasons(item.Id, {
             userId: userId,
             Fields: fields
         });
     } else if (item.Type == 'Season') {
         fields += ',Overview';
-        promise = apiClient.getEpisodes(item.SeriesId, {
+        fetchData = () => apiClient.getEpisodes(item.SeriesId, {
             seasonId: item.Id,
             userId: userId,
             Fields: fields
@@ -1374,23 +1385,23 @@ function renderChildren(page, item) {
         query.SortBy = 'PremiereDate,ProductionYear,SortName';
     }
 
-    promise = promise || apiClient.getItems(apiClient.getCurrentUserId(), query);
-    promise.then(function (result) {
+    childrenItemsContainer.fetchData = fetchData || (() => apiClient.getItems(userId, query));
+    childrenItemsContainer.getItemsHtml = function (items) {
         let html = '';
         let scrollX = false;
         let isList = false;
 
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
-            for (const track of result.Items) {
+            for (const track of items) {
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
                     showArtist = true;
                     break;
                 }
             }
-            const discNumbers = result.Items.map(x => x.ParentIndexNumber);
+            const discNumbers = items.map(x => x.ParentIndexNumber);
             html = listView.getListViewHtml({
-                items: result.Items,
+                items: items,
                 smallIcon: true,
                 showIndex: new Set(discNumbers).size > 1 || (discNumbers.length >= 1 && discNumbers[0] > 1),
                 index: 'disc',
@@ -1405,7 +1416,7 @@ function renderChildren(page, item) {
         } else if (item.Type == 'Series') {
             scrollX = enableScrollX();
             html = cardBuilder.getCardsHtml({
-                items: result.Items,
+                items: items,
                 shape: 'overflowPortrait',
                 showTitle: true,
                 centerText: true,
@@ -1418,13 +1429,13 @@ function renderChildren(page, item) {
                 isList = true;
             }
             scrollX = item.Type == 'Episode';
-            if (result.Items.length < 2 && item.Type === 'Episode') {
-                return;
+            if (items.length < 2 && item.Type === 'Episode') {
+                return '';
             }
 
             if (item.Type === 'Episode') {
                 html = cardBuilder.getCardsHtml({
-                    items: result.Items,
+                    items: items,
                     shape: 'overflowBackdrop',
                     showTitle: true,
                     displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
@@ -1438,7 +1449,7 @@ function renderChildren(page, item) {
                 });
             } else if (item.Type === 'Season') {
                 html = listView.getListViewHtml({
-                    items: result.Items,
+                    items: items,
                     showIndexNumber: false,
                     enableOverview: true,
                     enablePlayedButton: !layoutManager.mobile,
@@ -1476,8 +1487,9 @@ function renderChildren(page, item) {
         if (layoutManager.mobile) {
             childrenItemsContainer.classList.remove('padded-right');
         }
-        childrenItemsContainer.innerHTML = html;
-        imageLoader.lazyChildren(childrenItemsContainer);
+        return html;
+    };
+    childrenItemsContainer.afterRefresh = function (result) {
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
                 name: globalize.translate('Movies'),
@@ -1503,7 +1515,8 @@ function renderChildren(page, item) {
             }];
             renderCollectionItems(page, item, collectionItemTypes, result.Items);
         }
-    });
+    };
+    childrenItemsContainer.refreshItems();
 
     let childrenTitle = globalize.translate('Items');
     if (item.Type == 'Season') {
