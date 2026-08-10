@@ -540,5 +540,8 @@
     "HeaderConfigureRemoteAccess": "دامەزراندنی دەستگەیشتنی دوور",
     "HeaderConfirmPluginInstallation": "پشتڕاستکردنەوەی دامەزراندنی پڵەگین",
     "HeaderConfirmRepositoryInstallation": "پشتڕاستکردنەوەی دامەزراندنی کۆگای پڵەگین",
-    "HeaderConfirmRevokeApiKey": "باتڵکردنەوەی کلیلی API"
+    "HeaderConfirmRevokeApiKey": "باتڵکردنەوەی کلیلی API",
+    "HeaderConnectionFailure": "پەیوەستبوون سەرکەوتوو نەبوو",
+    "HeaderConnectToServer": "بەستنەوە بە سێرڤەر",
+    "HeaderContinueListening": "درێژەدان بە گوێگرتن"
 }
