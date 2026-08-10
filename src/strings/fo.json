@@ -881,5 +881,8 @@
     "HeaderLibraryAccess": "Savnsatgongd",
     "HeaderRecentlyPlayed": "Nýliga spældir",
     "HeaderTypeText": "Inntøppa tekst",
-    "ButtonOk": "Í lagi"
+    "ButtonOk": "Í lagi",
+    "LabelStereoDownmixAlgorithm": "Tvíræsisniðurblandialgoritma",
+    "StereoDownmixAlgorithmHelp": "Algoritma at brúka at niðurblanda fjølræsiljóð til tvíræsiljóð.",
+    "Continuing": "Áframhaldandi"
 }
