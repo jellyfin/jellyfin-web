@@ -1097,7 +1097,7 @@
     "EveryXHours": "每 {0} 小时",
     "EveryHour": "每小时",
     "EveryXMinutes": "每 {0} 分钟",
-    "WriteAccessRequired": "Jellyfin需要此文件夹的写入权限。请确认是否拥有写入权限并重试。",
+    "WriteAccessRequired": "Jellyfin 需要此文件夹的写入权限。请确认是否拥有写入权限并重试。",
     "PathNotFound": "无法找到此路径。请确认路径有效并重试。",
     "Yadif": "Yet Another 去隔行滤镜（YADIF）",
     "LabelDeinterlaceMethod": "反交错方法",
@@ -1941,5 +1941,7 @@
     "LabelUsernameAllowedCharactersHelp": "用户名可以包含字母、数字、空格以及以下字符：- _ ' . @ +。用户名不能以空格开头或结尾。",
     "BitmapSubtitleAspectModeContain": "适应",
     "Novel": "小说",
-    "Screenplay": "剧本"
+    "Screenplay": "剧本",
+    "HlsAudioSeekStrategy": "HLS 流跳转所使用的策略。",
+    "LabelHlsAudioSeekStrategy": "音频跳转策略。"
 }
