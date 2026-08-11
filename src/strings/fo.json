@@ -888,5 +888,12 @@
     "ButtonAddTunerDevice": "Legg inn móttakaraeind",
     "ButtonExitApp": "Loka app",
     "ButtonShutdown": "Steðga",
-    "Cursive": "Skráskrift"
+    "Cursive": "Skráskrift",
+    "HeaderTuners": "Sjónvarpsmóttakarar",
+    "HeaderTunerDevices": "Móttakaraeindir",
+    "LabelDefaultScreen": "Forsett sýni",
+    "LabelEnableAudioVbr": "Virkja VBR-ljóðkoting",
+    "LabelEnableAudioVbrHelp": "Skiftandi bitferð (VBR) gevur betur góðsku í mun til bitferð, men kann í summum førum elva til tómt tippi og sínamillumvirknistrupulleikar.",
+    "LabelIsSynced": "Samstillað",
+    "LabelKeepUpTo": "Varðveit í mesta lagi"
 }
