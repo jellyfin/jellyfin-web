@@ -884,5 +884,9 @@
     "ButtonOk": "Í lagi",
     "LabelStereoDownmixAlgorithm": "Tvíræsisniðurblandialgoritma",
     "StereoDownmixAlgorithmHelp": "Algoritma at brúka at niðurblanda fjølræsiljóð til tvíræsiljóð.",
-    "Continuing": "Áframhaldandi"
+    "Continuing": "Áframhaldandi",
+    "ButtonAddTunerDevice": "Legg inn móttakaraeind",
+    "ButtonExitApp": "Loka app",
+    "ButtonShutdown": "Steðga",
+    "Cursive": "Skráskrift"
 }
