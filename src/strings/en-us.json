@@ -746,6 +746,8 @@
     "LabelDynamicExternalId": "{0} Id",
     "LabelEnableAudioVbr": "Enable VBR audio encoding",
     "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues.",
+    "LabelEnableDirectoryMtimePruning": "Skip re-scanning unchanged folders",
+    "LabelEnableDirectoryMtimePruningHelp": "During a library scan, skip re-checking a folder's contents if it hasn't changed since the last scan. This can speed up scans significantly, but relies on the folder's modification time updating reliably. Leave disabled if this library is on a network share (e.g. NFS or SMB) where that isn't guaranteed.",
     "LabelEnableHardwareDecodingFor": "Enable hardware decoding for",
     "LabelEnableHttps": "Enable HTTPS",
     "LabelEnableHttpsHelp": "Listen on the configured HTTPS port. A valid certificate must also be supplied for this to take effect.",
