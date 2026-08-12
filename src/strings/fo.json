@@ -930,5 +930,8 @@
     "LabelEnableLUFSScan": "Virkja LUFS-skanning",
     "LabelEnableLUFSScanHelp": "Savnar dátur ið loyva viðskiftarum at javna ljóðstyrkina til tess at fáa somu ljóðstyrki tvørtur um løg. Hetta økir um tíð og rokniorku ið tørvur er á at skanna savnið.",
     "LabelExtractChaptersDuringLibraryScan": "Úttak kapitlamyndir undir savnskanningini",
-    "LabelLanguage": "Mál"
+    "LabelLanguage": "Mál",
+    "LabelNumber": "Nummar",
+    "LabelOriginalName": "Upprunaligt navn",
+    "LabelOriginalTitle": "Upprunaheiti"
 }
