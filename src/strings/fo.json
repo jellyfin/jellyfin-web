@@ -896,5 +896,14 @@
     "LabelEnableAudioVbrHelp": "Skiftandi bitferð (VBR) gevur betur góðsku í mun til bitferð, men kann í summum førum elva til tómt tippi og sínamillumvirknistrupulleikar.",
     "LabelIsSynced": "Samstillað",
     "LabelKeepUpTo": "Varðveit í mesta lagi",
-    "LabelDuration": "Spælitíð"
+    "LabelDuration": "Spælitíð",
+    "BitmapSubtitleAspectModeHelp": "Avgerð hvussu viðskiftarin endurgevur PGS- og VobSub-undirtekstir á kykmyndasýnið.",
+    "ButtonManualLogin": "Handinnrita",
+    "ButtonParentalControl": "Foreldraumsjón",
+    "ButtonSend": "Send",
+    "Colorist": "Litleggjari",
+    "Creator": "Skapari",
+    "Creators": "Skaparar",
+    "Create": "Stovna",
+    "DirectStreamHelp1": "Eindin fær spælt kykmyndastroymin men er ikki før fyri at spæla ljóðsniðið (DST, Dolby TrueHD, o.s.fr.) ella mongdina av ljóðræsum. Kykmyndastroymurin verður umpakkaður uttan ávirkan á myndagóðskuna áðrenn hann verður sendur til eindina. Einans ljóðstroymurin verður umkotaður."
 }
