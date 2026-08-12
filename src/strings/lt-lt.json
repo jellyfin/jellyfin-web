@@ -1943,5 +1943,6 @@
     "LabelPlayerSizes": "Grotuvo dydžiai",
     "LabelPlaybackQuality": "Kadras pamestas / sugadintas",
     "HlsAudioSeekStrategy": "Strategija, kurią reikia naudoti ieškant HLS srautuose.",
-    "LabelHlsAudioSeekStrategy": "Garso paieškos strategija."
+    "LabelHlsAudioSeekStrategy": "Garso paieškos strategija.",
+    "MessageForgotPasswordRedirect": "Buvote nukreipti pas išorinį teikėją slaptažodžio atkūrimui."
 }
