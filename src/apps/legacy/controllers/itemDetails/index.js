@@ -122,7 +122,7 @@ function getContextMenuOptions(item, user, button) {
 
 function getProgramScheduleHtml(items, action = 'none') {
     return listView.getListViewHtml({
-        items: items,
+        items,
         enableUserDataButtons: false,
         image: true,
         imageSource: 'channel',
@@ -1091,18 +1091,16 @@ function renderMoreFromSeason(view, item, apiClient) {
         const itemsContainer = section.querySelector('.itemsContainer');
         let hasScrolled = false;
 
+        itemsContainer.parentContainer = section;
+
         itemsContainer.fetchData = function () {
             return apiClient.getEpisodes(item.SeriesId, {
                 SeasonId: item.SeasonId,
                 UserId: userId,
                 Fields: 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount'
-            });
+            }).then(result => (result.Items.length < 2 ? { ...result, Items: [] } : result));
         };
         itemsContainer.getItemsHtml = function (items) {
-            if (items.length < 2) {
-                return '';
-            }
-
             return cardBuilder.getCardsHtml(items, {
                 shape: 'overflowBackdrop',
                 sectionTitleTagName: 'h2',
@@ -1115,12 +1113,8 @@ function renderMoreFromSeason(view, item, apiClient) {
             });
         };
         itemsContainer.afterRefresh = function (result) {
-            if (result.Items.length < 2) {
-                section.classList.add('hide');
-                return;
-            }
+            if (!result.Items.length) return;
 
-            section.classList.remove('hide');
             section.querySelector('h2').innerText = globalize.translate('MoreFromValue', item.SeasonName);
             const card = itemsContainer.querySelector('.card[data-id="' + item.Id + '"]');
 
@@ -1352,6 +1346,34 @@ function renderTags(page, item) {
 function renderChildren(page, item) {
     const childrenCollapsible = page.querySelector(LIST_VIEW_TYPES.includes(item.Type) ? '#listChildrenCollapsible' : '#childrenCollapsible');
     const childrenItemsContainer = childrenCollapsible.querySelector('.itemsContainer');
+    const isList = item.Type == 'MusicAlbum' || item.Type == 'Season';
+    const scrollX = item.Type == 'Series' ? enableScrollX() : item.Type == 'Episode';
+
+    if (scrollX) {
+        childrenItemsContainer.classList.add('scrollX');
+        childrenItemsContainer.classList.add('hiddenScrollX');
+        childrenItemsContainer.classList.remove('vertical-wrap');
+        childrenItemsContainer.classList.remove('vertical-list');
+    } else {
+        childrenItemsContainer.classList.remove('scrollX');
+        childrenItemsContainer.classList.remove('hiddenScrollX');
+        childrenItemsContainer.classList.remove('smoothScrollX');
+        if (isList) {
+            childrenItemsContainer.classList.add('vertical-list');
+            childrenItemsContainer.classList.remove('vertical-wrap');
+        } else {
+            childrenItemsContainer.classList.add('vertical-wrap');
+            childrenItemsContainer.classList.remove('vertical-list');
+        }
+    }
+
+    if (layoutManager.mobile) {
+        childrenItemsContainer.classList.remove('padded-right');
+    }
+
+    if (item.Type !== 'BoxSet') {
+        childrenItemsContainer.parentContainer = childrenCollapsible;
+    }
 
     let fields = 'ItemCounts,PrimaryImageAspectRatio,CanDelete,MediaSourceCount';
     const query = {
@@ -1388,8 +1410,6 @@ function renderChildren(page, item) {
     childrenItemsContainer.fetchData = fetchData || (() => apiClient.getItems(userId, query));
     childrenItemsContainer.getItemsHtml = function (items) {
         let html = '';
-        let scrollX = false;
-        let isList = false;
 
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
@@ -1401,7 +1421,7 @@ function renderChildren(page, item) {
             }
             const discNumbers = items.map(x => x.ParentIndexNumber);
             html = listView.getListViewHtml({
-                items: items,
+                items,
                 smallIcon: true,
                 showIndex: new Set(discNumbers).size > 1 || (discNumbers.length >= 1 && discNumbers[0] > 1),
                 index: 'disc',
@@ -1412,11 +1432,9 @@ function renderChildren(page, item) {
                 artist: showArtist,
                 containerAlbumArtists: item.AlbumArtists
             });
-            isList = true;
         } else if (item.Type == 'Series') {
-            scrollX = enableScrollX();
             html = cardBuilder.getCardsHtml({
-                items: items,
+                items,
                 shape: 'overflowPortrait',
                 showTitle: true,
                 centerText: true,
@@ -1424,69 +1442,35 @@ function renderChildren(page, item) {
                 overlayPlayButton: true,
                 allowBottomPadding: !scrollX
             });
-        } else if (item.Type == 'Season' || item.Type == 'Episode') {
-            if (item.Type !== 'Episode') {
-                isList = true;
-            }
-            scrollX = item.Type == 'Episode';
-            if (items.length < 2 && item.Type === 'Episode') {
-                return '';
-            }
-
-            if (item.Type === 'Episode') {
-                html = cardBuilder.getCardsHtml({
-                    items: items,
-                    shape: 'overflowBackdrop',
-                    showTitle: true,
-                    displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
-                    playFromHere: true,
-                    overlayText: true,
-                    lazy: true,
-                    showDetailsMenu: true,
-                    overlayPlayButton: true,
-                    allowBottomPadding: !scrollX,
-                    includeParentInfoInTitle: false
-                });
-            } else if (item.Type === 'Season') {
-                html = listView.getListViewHtml({
-                    items: items,
-                    showIndexNumber: false,
-                    enableOverview: true,
-                    enablePlayedButton: !layoutManager.mobile,
-                    infoButton: !layoutManager.mobile,
-                    imageSize: 'large',
-                    enableSideMediaInfo: false,
-                    highlight: false,
-                    action: !layoutManager.desktop ? 'link' : 'none',
-                    imagePlayButton: true,
-                    includeParentInfoInTitle: false
-                });
-            }
+        } else if (item.Type == 'Episode') {
+            html = cardBuilder.getCardsHtml({
+                items,
+                shape: 'overflowBackdrop',
+                showTitle: true,
+                playFromHere: true,
+                overlayText: true,
+                lazy: true,
+                showDetailsMenu: true,
+                overlayPlayButton: true,
+                allowBottomPadding: !scrollX,
+                includeParentInfoInTitle: false
+            });
+        } else if (item.Type == 'Season') {
+            html = listView.getListViewHtml({
+                items,
+                showIndexNumber: false,
+                enableOverview: true,
+                enablePlayedButton: !layoutManager.mobile,
+                infoButton: !layoutManager.mobile,
+                imageSize: 'large',
+                enableSideMediaInfo: false,
+                highlight: false,
+                action: !layoutManager.desktop ? 'link' : 'none',
+                imagePlayButton: true,
+                includeParentInfoInTitle: false
+            });
         }
 
-        if (item.Type !== 'BoxSet') {
-            childrenCollapsible.classList.remove('hide');
-        }
-        if (scrollX) {
-            childrenItemsContainer.classList.add('scrollX');
-            childrenItemsContainer.classList.add('hiddenScrollX');
-            childrenItemsContainer.classList.remove('vertical-wrap');
-            childrenItemsContainer.classList.remove('vertical-list');
-        } else {
-            childrenItemsContainer.classList.remove('scrollX');
-            childrenItemsContainer.classList.remove('hiddenScrollX');
-            childrenItemsContainer.classList.remove('smoothScrollX');
-            if (isList) {
-                childrenItemsContainer.classList.add('vertical-list');
-                childrenItemsContainer.classList.remove('vertical-wrap');
-            } else {
-                childrenItemsContainer.classList.add('vertical-wrap');
-                childrenItemsContainer.classList.remove('vertical-list');
-            }
-        }
-        if (layoutManager.mobile) {
-            childrenItemsContainer.classList.remove('padded-right');
-        }
         return html;
     };
     childrenItemsContainer.afterRefresh = function (result) {
@@ -1757,7 +1741,7 @@ function renderCollectionItemType(page, parentItem, type, items) {
     html += '<div is="emby-itemscontainer" class="itemsContainer collectionItemsContainer vertical-wrap padded-left padded-right">';
     const shape = type.type == 'MusicAlbum' ? getSquareShape(false) : getPortraitShape(false);
     html += cardBuilder.getCardsHtml({
-        items: items,
+        items,
         shape: shape,
         showTitle: true,
         showYear: type.mediaType === 'Video' || type.type === 'Series' || type.type === 'Movie',
@@ -1837,7 +1821,7 @@ function renderScenes(page, item) {
 
 function getVideosHtml(items) {
     return cardBuilder.getCardsHtml({
-        items: items,
+        items,
         shape: 'autooverflow',
         showTitle: true,
         action: 'play',
