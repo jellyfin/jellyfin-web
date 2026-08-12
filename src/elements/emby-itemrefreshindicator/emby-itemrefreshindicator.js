@@ -33,11 +33,12 @@ EmbyItemRefreshIndicatorPrototype.createdCallback = function () {
 
     const handler = ({ Data }) => onRefreshProgress(this, Data);
 
-    const serverId = dom.parentWithAttribute(this, 'data-serverid')?.getAttribute('data-serverid');
-    const apiClient = serverId ? ServerConnections.getApiClient(serverId) : ServerConnections.currentApiClient();
+    const serverId = dom.parentWithAttribute(this, 'data-serverid')?.getAttribute('data-serverid')
+        || ServerConnections.currentApiClient()?.serverId();
+    const api = serverId ? ServerConnections.getApi(serverId) : undefined;
     this._wsUnsubscribers = [];
-    if (apiClient) {
-        this._wsUnsubscribers.push(apiClient.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler));
+    if (api) {
+        this._wsUnsubscribers.push(api.subscribe([OutboundWebSocketMessageType.RefreshProgress], handler));
     }
 };
 
