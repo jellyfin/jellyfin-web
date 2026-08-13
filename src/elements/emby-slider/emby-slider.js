@@ -242,7 +242,7 @@ function setMarker(range, valueMarker, markerContainer, valueProgress) {
 
         markerContainer.style.left = `calc(${valueMarker}% - ${markerRect.width / 2}px)`;
 
-        const marker = markerContainer.getElementsByClassName('sliderMarker')[0];
+        const marker = markerContainer.querySelector('.sliderMarker');
 
         if (valueProgress >= valueMarker) {
             marker.classList.remove('unwatched');
