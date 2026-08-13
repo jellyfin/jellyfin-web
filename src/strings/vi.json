@@ -57,7 +57,7 @@
     "PasswordSaved": "Mật khẩu đã được lưu.",
     "Saturday": "Thứ Bảy",
     "Save": "Lưu",
-    "SettingsSaved": "Lưu các cài đặt.",
+    "SettingsSaved": "Đã Lưu các cài đặt.",
     "Sunday": "Chủ Nhật",
     "TabLatest": "Thêm Gần Đây",
     "TabNetworks": "Mạng TV",
@@ -1943,5 +1943,6 @@
     "ViewDoublePage": "Chế Độ Xem Trang Đôi",
     "ViewSinglePage": "Chế Độ Xem Trang Đơn",
     "Novel": "Tiểu thuyết",
-    "Screenplay": "Kịch bản"
+    "Screenplay": "Kịch bản",
+    "MessageForgotPasswordRedirect": "Bạn đã được chuyển hướng đến nhà cung cấp bên ngoài để đặt lại mật khẩu."
 }
