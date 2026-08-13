@@ -1927,9 +1927,9 @@ export default function (view) {
     nowPlayingPositionSlider.getMarkerInfo = function () {
         // use markers based on chapters
         return currentItem?.Chapters?.map((currentChapter, index) => ({
+            id: index,
             name: currentChapter.Name,
-            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks,
-            id: index
+            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks
         })) || [];
     };
 
