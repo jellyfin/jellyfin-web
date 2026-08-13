@@ -1403,6 +1403,9 @@ function renderChildren(page, item) {
             userId: userId,
             Fields: fields
         });
+    } else if (item.Type == 'Episode') {
+        fetchData = () => apiClient.getItems(userId, query)
+            .then(result => (result.Items.length < 2 ? { ...result, Items: [] } : result));
     } else if (item.Type == 'MusicArtist') {
         query.SortBy = 'PremiereDate,ProductionYear,SortName';
     }
