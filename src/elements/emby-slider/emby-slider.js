@@ -263,7 +263,7 @@ function updateMarkers(range, currentValue) {
 
             let markersHtml = '';
             range.markerInfo.forEach((marker) => {
-                markersHtml += `<div class="sliderMarkerContainer" aria-hidden="true"><span data-id="${marker.id}" class="sliderMarker" aria-hidden="true"></span></div>`;
+                markersHtml += `<div class="sliderMarkerContainer"><span data-id="${marker.id}" class="sliderMarker" aria-hidden="true"></span></div>`;
             });
             range.markerOuterContainerElement.innerHTML = markersHtml;
 
