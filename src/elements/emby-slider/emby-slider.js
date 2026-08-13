@@ -270,13 +270,16 @@ function updateMarkers(range, currentValue) {
             range.markerContainers = range.markerOuterContainerElement.querySelectorAll('.sliderMarkerContainer');
             range.markerElements = range.markerOuterContainerElement.querySelectorAll('.sliderMarker');
 
-            range.markerElements.forEach(element => {
-                element.addEventListener('click', event => {
-                    const id = event.currentTarget.dataset.id;
-                    range.onMarkerClicked(id);
-                    return true;
+            if (typeof (range.onMarkerClicked) === typeof (Function)) {
+                range.markerElements.forEach(element => {
+                    element.classList.add('clickable');
+                    element.addEventListener('click', event => {
+                        const id = event.currentTarget.dataset.id;
+                        range.onMarkerClicked(id);
+                        return true;
+                    });
                 });
-            });
+            }
         }
     }
 

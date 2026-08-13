@@ -271,7 +271,6 @@
 .sliderMarker {
     width: 100%;
     height: 100%;
-    cursor: pointer;
     display: block;
 }
 
@@ -285,4 +284,8 @@
 
 .sliderMarker.watched {
     background-color: #00a4dc;
+}
+
+.sliderMarker.clickable {
+    cursor: pointer;
 }
