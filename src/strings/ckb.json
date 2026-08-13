@@ -586,5 +586,13 @@
     "HeaderInstantMix": "تێکەڵکردنی خێرا",
     "HeaderKeepRecording": "بەردەوامبوون لە تۆمارکردن",
     "HeaderKeepSeries": "پاراستنی زنجیرە",
-    "HeaderKodiMetadataHelp": "بۆ چالاککردن یان ناچالاککردنی مێتاداتای NFO، کتێبخانەیەک دەستکاری بکە و بەشی 'پاشەکەوتکەرانی مێتاداتا' بدۆزەرەوە."
+    "HeaderKodiMetadataHelp": "بۆ چالاککردن یان ناچالاککردنی مێتاداتای NFO، کتێبخانەیەک دەستکاری بکە و بەشی 'پاشەکەوتکەرانی مێتاداتا' بدۆزەرەوە.",
+    "HeaderLatestBooks": "پەرتووکە تازە زیادکراوەکان",
+    "HeaderLatestEpisodes": "ئەڵقە تازە زیادکراوەکان",
+    "HeaderLatestMedia": "میدیا تازە زیادکراوەکان",
+    "HeaderLatestMovies": "فیلمە تازە زیادکراوەکان",
+    "HeaderLatestMusic": "مۆسیقا تازە زیادکراوەکان",
+    "HeaderLatestMusicVideos": "ڤیدیۆ مۆسیقا تازە زیادکراوەکان",
+    "HeaderLatestRecordings": "تۆمارکراوە تازە زیادکراوەکان",
+    "HeaderLibraries": "کتێبخانەکان"
 }
