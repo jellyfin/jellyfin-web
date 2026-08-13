@@ -1943,5 +1943,6 @@
     "Novel": "Román",
     "Screenplay": "Scenár",
     "HlsAudioSeekStrategy": "Stratégia používaná pri pretáčaní v HLS streamoch.",
-    "LabelHlsAudioSeekStrategy": "Stratégia pretáčania vo zvuku."
+    "LabelHlsAudioSeekStrategy": "Stratégia pretáčania vo zvuku.",
+    "MessageForgotPasswordRedirect": "Boli ste presmerovaní na externého poskytovateľa na obnovenie hesla."
 }
