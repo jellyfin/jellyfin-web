@@ -260,12 +260,20 @@ function updateMarkers(range, currentValue) {
             range.markerInfo = newMarkerInfo;
 
             let markersHtml = '';
-            range.markerInfo.forEach(() => {
-                markersHtml += '<span class="sliderMarker" aria-hidden="true"></span>';
+            range.markerInfo.forEach((marker) => {
+                markersHtml += `<span id="sliderMarker-${marker.index}" class="sliderMarker" aria-hidden="true"></span>`;
             });
             range.markerContainerElement.innerHTML = markersHtml;
 
             range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+
+            range.markerElements.forEach(element => {
+                element.addEventListener('click', event => {
+                    const index = event.currentTarget.id.replace('sliderMarker-', '');
+                    range.seekToChapter(index);
+                    return true;
+                });
+            });
         }
     }
 

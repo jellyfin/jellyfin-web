@@ -148,8 +148,8 @@ export default function (view) {
             const maxWidth = window.screen.width * window.devicePixelRatio * 0.2;
             for (const [, info] of Object.entries(trickplayResolutions)) {
                 if (!bestWidth
-                        || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
-                        || (info.Width > bestWidth && info.Width <= maxWidth)) {
+                    || (info.Width < bestWidth && bestWidth > maxWidth) // Objects not guaranteed to be sorted in any order, first width might be > maxWidth.
+                    || (info.Width > bestWidth && info.Width <= maxWidth)) {
                     bestWidth = info.Width;
                 }
             }
@@ -964,7 +964,7 @@ export default function (view) {
 
                 // show subtitle offset feature only if player and media support it
                 const showSubOffset = playbackManager.supportSubtitleOffset(player)
-                        && playbackManager.canHandleOffsetOnCurrentSubtitle(player);
+                    && playbackManager.canHandleOffsetOnCurrentSubtitle(player);
 
                 playerSettingsMenu.show({
                     mediaType: 'Video',
@@ -1138,10 +1138,10 @@ export default function (view) {
             * - primary subtitle has support
             */
         const currentTrackCanAddSecondarySubtitle = playbackManager.playerHasSecondarySubtitleSupport(player)
-                && streams.length > 1
-                && secondaryStreams.length > 0
-                && currentIndex !== -1
-                && playbackManager.trackHasSecondarySubtitleSupport(playbackManager.getSubtitleStream(player, currentIndex), player);
+            && streams.length > 1
+            && secondaryStreams.length > 0
+            && currentIndex !== -1
+            && playbackManager.trackHasSecondarySubtitleSupport(playbackManager.getSubtitleStream(player, currentIndex), player);
 
         if (currentTrackCanAddSecondarySubtitle) {
             const secondarySubtitleMenuItem = {
@@ -1926,10 +1926,15 @@ export default function (view) {
 
     nowPlayingPositionSlider.getMarkerInfo = function () {
         // use markers based on chapters
-        return currentItem?.Chapters?.map(currentChapter => ({
+        return currentItem?.Chapters?.map((currentChapter, index) => ({
             name: currentChapter.Name,
-            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks
+            progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks,
+            index: index
         })) || [];
+    };
+
+    nowPlayingPositionSlider.seekToChapter = function (index) {
+        playbackManager.seek(currentItem?.Chapters[index].StartPositionTicks, currentPlayer);
     };
 
     view.querySelector('.btnPreviousTrack').addEventListener('click', function () {

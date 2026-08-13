@@ -261,10 +261,15 @@
 }
 
 .sliderMarker {
+    z-index:10;
     position: absolute;
     width: 2px;
     height: 12px;
     transform: translate3d(0, 25%, 0);
+}
+
+.sliderMarker:hover {
+    transform: scale(1.5);
 }
 
 .sliderMarker.unwatched {
