@@ -1929,12 +1929,12 @@ export default function (view) {
         return currentItem?.Chapters?.map((currentChapter, index) => ({
             name: currentChapter.Name,
             progress: currentChapter.StartPositionTicks / currentItem.RunTimeTicks,
-            index: index
+            id: index
         })) || [];
     };
 
-    nowPlayingPositionSlider.seekToChapter = function (index) {
-        playbackManager.seek(currentItem?.Chapters[index].StartPositionTicks, currentPlayer);
+    nowPlayingPositionSlider.onMarkerClicked = function (id) {
+        playbackManager.seek(currentItem?.Chapters[id].StartPositionTicks, currentPlayer);
     };
 
     view.querySelector('.btnPreviousTrack').addEventListener('click', function () {

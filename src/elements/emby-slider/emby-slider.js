@@ -190,7 +190,7 @@ function updateValues(isValueSet) {
             backgroundLower.style.width = fraction + '%';
         }
 
-        if (range.markerContainerElement) {
+        if (range.markerOuterContainerElement) {
             updateMarkers(range, value);
         }
     });
@@ -230,17 +230,19 @@ function updateBubble(range, percent, value, bubble) {
     });
 }
 
-function setMarker(range, valueMarker, marker, valueProgress) {
+function setMarker(range, valueMarker, markerContainer, valueProgress) {
     requestAnimationFrame(function () {
         const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
-        const markerRect = marker.getBoundingClientRect();
+        const markerRect = markerContainer.getBoundingClientRect();
 
         if (!bubbleTrackRect.width || !markerRect.width) {
             // width is not set, most probably because the OSD is currently hidden
             return;
         }
 
-        marker.style.left = `calc(${valueMarker}% - ${markerRect.width / 2}px)`;
+        markerContainer.style.left = `calc(${valueMarker}% - ${markerRect.width / 2}px)`;
+
+        const marker = markerContainer.getElementsByClassName('sliderMarker')[0];
 
         if (valueProgress >= valueMarker) {
             marker.classList.remove('unwatched');
@@ -261,26 +263,27 @@ function updateMarkers(range, currentValue) {
 
             let markersHtml = '';
             range.markerInfo.forEach((marker) => {
-                markersHtml += `<span id="sliderMarker-${marker.index}" class="sliderMarker" aria-hidden="true"></span>`;
+                markersHtml += `<div class="sliderMarkerContainer" aria-hidden="true"><span data-id="${marker.id}" class="sliderMarker" aria-hidden="true"></span></div>`;
             });
-            range.markerContainerElement.innerHTML = markersHtml;
+            range.markerOuterContainerElement.innerHTML = markersHtml;
 
-            range.markerElements = range.markerContainerElement.querySelectorAll('.sliderMarker');
+            range.markerContainers = range.markerOuterContainerElement.querySelectorAll('.sliderMarkerContainer');
+            range.markerElements = range.markerOuterContainerElement.querySelectorAll('.sliderMarker');
 
             range.markerElements.forEach(element => {
                 element.addEventListener('click', event => {
-                    const index = event.currentTarget.id.replace('sliderMarker-', '');
-                    range.seekToChapter(index);
+                    const id = event.currentTarget.dataset.id;
+                    range.onMarkerClicked(id);
                     return true;
                 });
             });
         }
     }
 
-    if (range.markerInfo?.length && range.markerElements?.length) {
-        for (let i = 0, length = range.markerElements.length; i < length; i++) {
+    if (range.markerInfo?.length && range.markerContainers?.length) {
+        for (let i = 0, length = range.markerContainers.length; i < length; i++) {
             if (range.markerInfo.length > i) {
-                setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerElements[i], currentValue);
+                setMarker(range, mapFractionToValue(range, range.markerInfo[i].progress), range.markerContainers[i], currentValue);
             }
         }
     }
@@ -345,7 +348,7 @@ EmbySliderPrototype.attachedCallback = function () {
 
     let hasHideBubbleClass = sliderBubble.classList.contains('hide');
 
-    this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
+    this.markerOuterContainerElement = containerElement.querySelector('.sliderMarkerOuterContainer');
 
     dom.addEventListener(this, 'input', function () {
         this.dragging = true;
