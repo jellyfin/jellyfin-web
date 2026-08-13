@@ -1,8 +1,7 @@
 import { QueryCache, QueryClient } from '@tanstack/react-query';
 import type { PersistedClient, Persister } from '@tanstack/react-query-persist-client';
+import { isAxiosError } from 'axios';
 import { get, set, del } from 'idb-keyval';
-
-import { getRequestErrorStatus } from '../requestErrorStatus';
 
 // TODO: Move this file to lib/query
 
@@ -24,8 +23,7 @@ const queryCache = new QueryCache({
     onError: (error, { queryKey }) => {
         if (!queryClient) return;
 
-        const status = getRequestErrorStatus(error);
-        if (status === HTTP_UNAUTHORIZED) {
+        if (isAxiosError(error) && error.response?.status === HTTP_UNAUTHORIZED) {
             try {
                 // If a query fails due to authorization, cancel it and remove it from the cache to prevent showing
                 // unauthorized data.
@@ -49,9 +47,8 @@ queryClient = new QueryClient({
             networkMode: 'always', // network connection is not required if running on localhost
             staleTime: MAX_STALENESS,
             retry: (failureCount, error) => {
-                const status = getRequestErrorStatus(error);
                 // Don't retry if unauthorized
-                if (status === HTTP_UNAUTHORIZED) return false;
+                if (isAxiosError(error) && error.response?.status === HTTP_UNAUTHORIZED) return false;
                 return failureCount < MAX_RETRIES;
             }
         }
