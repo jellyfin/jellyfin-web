@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig } from 'axios';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 
@@ -153,6 +154,28 @@ export const getFiltersQuery = (
         studioIds: libraryViewSettings?.Filters?.StudioIds,
         audioLanguages: libraryViewSettings?.Filters?.AudioLanguages,
         subtitleLanguages: libraryViewSettings?.Filters?.SubtitleLanguages
+    };
+};
+
+/**
+ * Extra axios request config for query parameters the generated SDK does not know about.
+ *
+ * The generated API methods build their own query string from named parameters and drop
+ * anything else, so `minUserRating` has to ride along as axios `params`, which axios
+ * appends to the URL the SDK already built.
+ *
+ * FIXME: Fold minUserRating into getFiltersQuery once the SDK is regenerated against a
+ * server that exposes it, and drop this helper.
+ */
+export const getExtraFiltersRequestConfig = (
+    libraryViewSettings: LibraryViewSettings,
+    signal?: AxiosRequestConfig['signal']
+) => {
+    const minUserRating = libraryViewSettings?.Filters?.MinUserRating;
+
+    return {
+        signal,
+        ...(minUserRating === undefined ? {} : { params: { minUserRating } })
     };
 };
 

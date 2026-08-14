@@ -8,6 +8,7 @@ import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
+import actionsheet from 'components/actionSheet/actionSheet';
 import { appHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
@@ -397,6 +398,29 @@ function reloadUserDataButtons(page, item) {
         } else {
             btnUserRating.classList.add('hide');
             btnUserRating.setItem(null);
+        }
+    }
+
+    const btnMyRatings = page.querySelectorAll('.btnMyRating');
+    const rating = item?.UserData?.Rating;
+    const hasRating = rating !== null && rating !== undefined;
+
+    for (i = 0, length = btnMyRatings.length; i < length; i++) {
+        const btnMyRating = btnMyRatings[i];
+
+        if (itemHelper.canRate(item)) {
+            btnMyRating.classList.remove('hide');
+        } else {
+            btnMyRating.classList.add('hide');
+        }
+
+        btnMyRating.title = hasRating ?
+            globalize.translate('MyRatingValue', rating) :
+            globalize.translate('MyRating');
+
+        const valueElem = btnMyRating.querySelector('.btnMyRatingValue');
+        if (valueElem) {
+            valueElem.textContent = hasRating ? rating.toLocaleString() : '';
         }
     }
 }
@@ -2043,6 +2067,63 @@ export default function (view, params) {
         }]);
     }
 
+    function onMyRatingClick() {
+        const button = this;
+        const item = currentItem;
+
+        if (!item) {
+            return;
+        }
+
+        const rating = item.UserData?.Rating;
+        const hasRating = rating !== null && rating !== undefined;
+        const items = [];
+
+        // The server stores a 0-10 double; the picker offers whole numbers 1-10.
+        for (let value = 10; value >= 1; value--) {
+            items.push({
+                id: String(value),
+                name: value.toLocaleString(),
+                selected: rating === value
+            });
+        }
+
+        if (hasRating) {
+            items.push({
+                id: 'clear',
+                name: globalize.translate('ClearRating')
+            });
+        }
+
+        actionsheet.show({
+            items: items,
+            positionTo: button
+        }).then(function (id) {
+            if (!id) {
+                return;
+            }
+
+            const apiClient = getApiClient();
+            const userId = apiClient.getCurrentUserId();
+            const isClear = id === 'clear';
+
+            // FIXME: Replace with a dedicated ApiClient method once one exists for the
+            // numeric rating parameter. updateUserItemRating only accepts a likes boolean.
+            return apiClient.ajax({
+                type: isClear ? 'DELETE' : 'POST',
+                url: apiClient.getUrl('UserItems/' + item.Id + '/Rating', isClear ?
+                    { userId: userId } :
+                    { userId: userId, rating: id }),
+                dataType: 'json'
+            }).then(function (userData) {
+                item.UserData = userData;
+                reloadUserDataButtons(view, item);
+            });
+        }).catch(function (err) {
+            console.error('[itemDetails] failed to update user rating', err);
+        });
+    }
+
     function onMoreCommandsClick() {
         const button = this;
         let selectedItem = view.querySelector('.selectSource').value || currentItem.Id;
@@ -2112,6 +2193,7 @@ export default function (view, params) {
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
         });
+        bindAll(view, '.btnMyRating', 'click', onMyRatingClick);
         bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
         view.querySelector('.selectSource').addEventListener('change', function () {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
