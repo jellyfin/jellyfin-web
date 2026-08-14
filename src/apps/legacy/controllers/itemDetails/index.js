@@ -422,9 +422,16 @@ function reloadMyRatingButtons(page, item) {
             globalize.translate('MyRatingValue', rating) :
             globalize.translate('MyRating');
 
+        // The star never moves; the slot beside it holds a placeholder until
+        // rated. Both are always present, so the button cannot change width.
+        btnMyRating.classList.toggle('is-rated', hasRating);
+
         const valueElem = btnMyRating.querySelector('.btnMyRatingValue');
         if (valueElem) {
-            valueElem.textContent = hasRating ? rating.toLocaleString() : '';
+            // The picker offers whole numbers; round anything another client stored.
+            valueElem.textContent = hasRating ?
+                Math.round(rating).toLocaleString() :
+                '–';
         }
     }
 }
