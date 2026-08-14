@@ -1943,5 +1943,6 @@
     "Novel": "Roman",
     "Screenplay": "Scenarist",
     "HlsAudioSeekStrategy": "De te gebruiken strategie bij terug- of vooruitspoelen in HLS-streams.",
-    "LabelHlsAudioSeekStrategy": "Geluidsspoelstrategie."
+    "LabelHlsAudioSeekStrategy": "Geluidsspoelstrategie.",
+    "MessageForgotPasswordRedirect": "Je bent doorgestuurd naar een externe aanbieder voor het wachtwoordherstel."
 }

@@ -1942,6 +1942,7 @@
     "BitmapSubtitleAspectModeContain": "适应",
     "Novel": "小说",
     "Screenplay": "剧本",
-    "HlsAudioSeekStrategy": "HLS 流跳转所使用的策略。",
-    "LabelHlsAudioSeekStrategy": "音频跳转策略。"
+    "HlsAudioSeekStrategy": "在 HLS 流中跳转播放时所使用的策略。",
+    "LabelHlsAudioSeekStrategy": "音频跳转策略",
+    "MessageForgotPasswordRedirect": "你已被重定向到外部服务提供商进行密码重置。"
 }

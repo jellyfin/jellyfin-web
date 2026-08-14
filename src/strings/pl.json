@@ -1943,5 +1943,6 @@
     "Screenplay": "Scenariusz",
     "LabelUsernameAllowedCharactersHelp": "Nazwy użytkowników mogą zawierać litery, cyfry, spacje i następujące znaki: - _ ' . @ +. Nie mogą zaczynać się ani kończyć spacją.",
     "HlsAudioSeekStrategy": "Strategia do wykorzystania podczas przeszukiwania strumieni HLS.",
-    "LabelHlsAudioSeekStrategy": "Strategia przeszukiwania dźwięku."
+    "LabelHlsAudioSeekStrategy": "Strategia przeszukiwania dźwięku.",
+    "MessageForgotPasswordRedirect": "Przekierowano do zewnętrznego dostawcy w celu zresetowania hasła."
 }

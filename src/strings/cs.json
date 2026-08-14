@@ -1943,5 +1943,6 @@
     "Novel": "Román",
     "Screenplay": "Scénář",
     "HlsAudioSeekStrategy": "Strategie pro vyhledávání v datových tocích HLS.",
-    "LabelHlsAudioSeekStrategy": "Strategie vyhledávání v audiu."
+    "LabelHlsAudioSeekStrategy": "Strategie vyhledávání v audiu.",
+    "MessageForgotPasswordRedirect": "Byli jste přesměrováni na stránku externího poskytovatele za účelem resetování hesla."
 }
