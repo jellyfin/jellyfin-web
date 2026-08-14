@@ -879,7 +879,7 @@
     "Watched": "Pozreté",
     "TvLibraryHelp": "Pozrite sa na {0}sprievodcu pomenovania TV programov{1}.",
     "LabelLineup": "Lineup",
-    "ErrorAddingListingsToSchedulesDirect": "Nastala chyba pri pridávaní lineupu do účtu vášho Direct plánovača. Direct plánovač umožňuje len obmedzený počet lineupov na účet. Možno sa budete musieť prihlásiť na web Direct plánovača a odstrániť ostatné záznamy z vášho účtu pred pokračovaním.",
+    "ErrorAddingListingsToSchedulesDirect": "Pri pridávaní zoznamu do vášho účtu Schedules Direct došlo k chybe. Schedules Direct povoľuje len obmedzený počet zoznamov na jeden účet. Pred pokračovaním sa možno budete musieť prihlásiť na webovú stránku Schedules Direct a odstrániť ostatné záznamy zo svojho účtu.",
     "Features": "Funkcie",
     "XmlTvPathHelp": "Cesta k XMLTV súboru. Jellyfin tento súbor načíta a pravidelne ho skontroluje, či neobsahuje aktualizácie. Ste zodpovedný za vytvorenie a aktualizovanie tohoto súboru.",
     "XmlTvNewsCategoriesHelp": "Programy s týmito kategóriami budú zobrazené ako spravodajské programy. Viacej kategórií oddelte \"|\".",
