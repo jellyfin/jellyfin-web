@@ -57,7 +57,7 @@
     "PasswordSaved": "Mật khẩu đã được lưu.",
     "Saturday": "Thứ Bảy",
     "Save": "Lưu",
-    "SettingsSaved": "Lưu các cài đặt.",
+    "SettingsSaved": "Đã Lưu các cài đặt.",
     "Sunday": "Chủ Nhật",
     "TabLatest": "Thêm Gần Đây",
     "TabNetworks": "Mạng TV",
@@ -1651,12 +1651,12 @@
     "LabelProcessPriority": "Quá Trình Ưu Tiên",
     "LabelImageIntervalHelp": "Chu kỳ (ms) giữa mỗi hình ảnh tua nhanh mới.",
     "LabelWidthResolutions": "Độ Phân Giải Chiều Rộng",
-    "LabelTileWidthHelp": "Số lượng hình ảnh tối đa trên mỗi ảnh con theo hướng X.",
+    "LabelTileWidthHelp": "Số lượng hình ảnh tối đa trên mỗi khối ảnh theo hướng X.",
     "LabelJpegQuality": "Chất lượng JPEG",
     "LabelJpegQualityHelp": "Chất lượng nén JPEG cho hình ảnh tua nhanh.",
     "LabelTrickplayThreadsHelp": "Số lượng luồng cần chuyển tới đối số '-threads' của ffmpeg.",
     "ExtractTrickplayImagesHelp": "Hình ảnh Tua Nhanh tương tự như hình ảnh chương, ngoại trừ việc chúng kéo dài toàn bộ nội dung và được dùng để hiển thị bản xem trước khi xem qua video.",
-    "LabelTileHeightHelp": "Số lượng hình ảnh tối đa trên mỗi ảnh con theo hướng Y.",
+    "LabelTileHeightHelp": "Số lượng hình ảnh tối đa trên mỗi khối ảnh theo hướng Y.",
     "LabelTrickplayAccel": "Kích hoạt giải mã phần cứng",
     "LabelTrickplayAccelEncodingHelp": "Hiện chỉ có trên QSV, VA-API, VideoToolbox và RKMPP, tùy chọn này vô dụng với các loại tăng tốc phần cứng khác.",
     "LabelImageInterval": "Chu Kỳ Ảnh",
@@ -1943,5 +1943,6 @@
     "ViewDoublePage": "Chế Độ Xem Trang Đôi",
     "ViewSinglePage": "Chế Độ Xem Trang Đơn",
     "Novel": "Tiểu thuyết",
-    "Screenplay": "Kịch bản"
+    "Screenplay": "Kịch bản",
+    "MessageForgotPasswordRedirect": "Bạn đã được chuyển hướng đến nhà cung cấp bên ngoài để đặt lại mật khẩu."
 }
