@@ -401,11 +401,15 @@ function reloadUserDataButtons(page, item) {
         }
     }
 
+    reloadMyRatingButtons(page, item);
+}
+
+function reloadMyRatingButtons(page, item) {
     const btnMyRatings = page.querySelectorAll('.btnMyRating');
     const rating = item?.UserData?.Rating;
     const hasRating = rating !== null && rating !== undefined;
 
-    for (i = 0, length = btnMyRatings.length; i < length; i++) {
+    for (let i = 0, length = btnMyRatings.length; i < length; i++) {
         const btnMyRating = btnMyRatings[i];
 
         if (itemHelper.canRate(item)) {
