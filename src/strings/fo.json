@@ -953,5 +953,6 @@
     "ErrorAddingXmlTvFile": "Ein villa kom fyri undir innlesing av XMLTV-fíluni. Vinaliga tryggja at fílan finst og royn aftur.",
     "None": "Eingin",
     "HardwareAccelerationWarning": "At virkja tólbunaðarstyðjan kann elva til óreglusemi á summum kervum. Tryggja at stýrikervi títt og skíggjakortsdrívarar eru dagførdir. Renur tú teg í trupulleikar við kykmyndaspæling eftir at hetta er virkt noyðist tú at broyta hesa stillingina aftur til \"Eingin\".",
-    "HeaderDownloadSync": "Niðurtøka & samstillan"
+    "HeaderDownloadSync": "Niðurtøka & samstillan",
+    "HeaderDummyChapter": "Kapitlamyndir"
 }
