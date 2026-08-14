@@ -523,10 +523,10 @@ const fetchUpdateUserRating = async (
             return response.data.Rating;
         }
 
-        // FIXME: Replace with getUserDataApi(api).updateUserItemRating once the generated
-        // SDK exposes the numeric `rating` parameter. It currently only accepts `likes`,
-        // and the generated method builds its own query string, so `rating` cannot be
-        // passed through its options argument without the two colliding.
+        // Replace with getUserDataApi(api).updateUserItemRating once the generated SDK
+        // exposes the numeric `rating` parameter (jellyfin/jellyfin#17634). It currently
+        // only accepts `likes`, and the generated method builds its own query string, so
+        // `rating` cannot be passed through its options argument without the two colliding.
         const response = await api.axiosInstance.post<UserItemDataDto>(
             `${api.basePath}/UserItems/${encodeURIComponent(itemId)}/Rating`,
             null,

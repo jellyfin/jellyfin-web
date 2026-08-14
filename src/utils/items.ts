@@ -164,8 +164,8 @@ export const getFiltersQuery = (
  * anything else, so `minUserRating` has to ride along as axios `params`, which axios
  * appends to the URL the SDK already built.
  *
- * FIXME: Fold minUserRating into getFiltersQuery once the SDK is regenerated against a
- * server that exposes it, and drop this helper.
+ * Fold minUserRating into getFiltersQuery once the SDK is regenerated against a server
+ * that exposes it (jellyfin/jellyfin#17634), and drop this helper.
  */
 export const getExtraFiltersRequestConfig = (
     libraryViewSettings: LibraryViewSettings,

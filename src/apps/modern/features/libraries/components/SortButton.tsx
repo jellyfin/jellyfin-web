@@ -21,8 +21,8 @@ type SortOption = {
     value: ItemSortBy[];
 };
 
-// FIXME: Replace with ItemSortBy.UserRating once the generated SDK is regenerated
-// against a server that exposes it.
+// Replace with ItemSortBy.UserRating once the SDK is regenerated against a server
+// that exposes it (jellyfin/jellyfin#17634).
 const USER_RATING_SORT = 'UserRating' as ItemSortBy;
 
 type SortOptionsMapping = Record<string, SortOption[]>;

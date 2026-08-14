@@ -2071,8 +2071,8 @@ export default function (view, params) {
         }]);
     }
 
-    function onMyRatingClick() {
-        const button = this;
+    function onMyRatingClick(e) {
+        const button = e.currentTarget;
         const item = currentItem;
 
         if (!item) {
@@ -2111,8 +2111,9 @@ export default function (view, params) {
             const userId = apiClient.getCurrentUserId();
             const isClear = id === 'clear';
 
-            // FIXME: Replace with a dedicated ApiClient method once one exists for the
-            // numeric rating parameter. updateUserItemRating only accepts a likes boolean.
+            // Replace with a dedicated ApiClient method once one exists for the numeric
+            // rating parameter (jellyfin/jellyfin#17634); updateUserItemRating only
+            // accepts a likes boolean.
             return apiClient.ajax({
                 type: isClear ? 'DELETE' : 'POST',
                 url: apiClient.getUrl('UserItems/' + item.Id + '/Rating', isClear ?
