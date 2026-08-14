@@ -1,6 +1,8 @@
 import React, { type FC, type PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import useElementSize from 'hooks/useElementSize';
+import { FINE_POINTER_MEDIA_QUERY } from 'utils/pointer';
 import layoutManager from '../../components/layoutManager';
 import dom from '../../utils/dom';
 import browser from '../../scripts/browser';
@@ -34,6 +36,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
     children
 }) => {
     const [scrollRef, size] = useElementSize();
+    const hasFinePointer = useMediaQuery(FINE_POINTER_MEDIA_QUERY);
 
     const [showControls, setShowControls] = useState(false);
     const [scrollState, setScrollState] = useState({
@@ -158,7 +161,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             return;
         }
 
-        const enableScrollButtons = layoutManager.desktop && !browser.touch && isHorizontalEnabled && isScrollButtonsEnabled;
+        const enableScrollButtons = layoutManager.desktop && hasFinePointer && isHorizontalEnabled && isScrollButtonsEnabled;
 
         const options = {
             horizontal: isHorizontalEnabled,
@@ -195,8 +198,9 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
                 capture: false,
                 passive: true
             });
-            setShowControls(true);
         }
+
+        setShowControls(enableScrollButtons);
 
         return () => {
             if (scrollerFactoryRef.current) {
@@ -211,6 +215,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
         };
     }, [
         addScrollEventListener,
+        hasFinePointer,
         initCenterFocus,
         isAllowNativeSmoothScrollEnabled,
         isCenterFocusEnabled,

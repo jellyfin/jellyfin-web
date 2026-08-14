@@ -2,7 +2,11 @@
     background: #fff;
 
     .slideshowSwiperContainer {
+        position: relative;
+        /* stylelint-disable-next-line declaration-block-no-duplicate-properties */
         height: 100%;
+        top: env(safe-area-inset-top);
+        height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     }
 
     .slider-zoom-container {
@@ -26,17 +30,5 @@
         left: 50%;
         transform: translate(-50%, 0%);
         text-shadow: 0 0 20px #fff;
-    }
-
-    .actionButtons {
-        right: 0.5vh;
-        top: 0.5vh;
-        z-index: 1002;
-        position: absolute;
-    }
-
-    .actionButtonIcon {
-        color: #000;
-        opacity: 0.7;
     }
 }

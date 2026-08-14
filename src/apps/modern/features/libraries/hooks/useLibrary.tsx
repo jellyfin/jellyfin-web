@@ -35,7 +35,7 @@ export const useLibrary = () => useContext(LibraryContext);
 
 export const LibraryProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     const { pathname } = useLocation();
-    const { libraryId, activeTab } = useCurrentTab();
+    const { libraryId, activeTab, settingsKey } = useCurrentTab();
 
     const route = useMemo(() => LibraryRoutes.find(({ path }) => path === pathname), [pathname]);
     const collectionType = route?.type;
@@ -48,7 +48,7 @@ export const LibraryProvider: FC<PropsWithChildren<unknown>> = ({ children }) =>
     // Local storage requires the view type to be known upfront so default to movies if unknown
     const settingsViewType = viewType ?? LibraryTab.Movies;
     const [viewSettings, setViewSettings] = useLocalStorage<LibraryViewSettings>(
-        getSettingsKey(settingsViewType, libraryId),
+        getSettingsKey(settingsViewType, settingsKey),
         getDefaultLibraryViewSettings(settingsViewType)
     );
 

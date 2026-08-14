@@ -41,12 +41,18 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
             // eslint-disable-next-line react/jsx-no-bind
             sx={theme => ({
                 position: 'fixed',
-                top: '112px', // This is the height of the AppBar + Tabs, this should be dynamic
+                top: {
+                    xs: '144px', // Extra small screens the AppBar wraps to 3 rows (128px) and we align top with 16px of spacing
+                    sm: '96px' // Small screens the AppBar is 2 rows (96px) and we align center (no extra spacing)
+                },
                 bottom: 0,
                 fontSize: '80%',
                 display: 'flex',
-                alignItems: 'center',
-                // This should render under the main AppBar but above the ItemsView AppBar
+                alignItems: {
+                    xs: 'start',
+                    sm: 'center'
+                },
+                // This should render under the main AppBar if overlapping
                 zIndex: theme.zIndex.appBar - 1
             })}
         >
@@ -64,8 +70,14 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                         value={l}
                         sx={{
                             borderWidth: 0,
-                            paddingTop: 0.25,
-                            paddingBottom: 0.25,
+                            paddingTop: {
+                                xs: 0,
+                                md: 0.25
+                            },
+                            paddingBottom: {
+                                xs: 0,
+                                md: 0.25
+                            },
                             paddingLeft: 0.5,
                             paddingRight: 0.5
                         }}
