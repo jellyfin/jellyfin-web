@@ -37,7 +37,7 @@
     "HeaderForKids": "Fyri børn",
     "AllowSegmentDeletion": "Strika brot",
     "AllowMediaConversion": "Loyv miðlaformbroytan",
-    "AllowCollectionManagement": "brúkara",
+    "AllowCollectionManagement": "Loyv hesum brúkaranum at umsita samlingar",
     "AllowFfmpegThrottling": "Avmarka umkotingar",
     "AllowRemoteAccess": "Loyv fjaríbindingum til hendan ambætaran",
     "HeaderPassword": "Loyniorð",
@@ -187,7 +187,7 @@
     "Channels": "Rásir",
     "Favorites": "Yndis",
     "Folders": "Mappur",
-    "Collections": "Søvn",
+    "Collections": "Samlingar",
     "Default": "Forsett",
     "Genres": "Greinar",
     "Photos": "Ljósmyndir",
@@ -954,5 +954,6 @@
     "None": "Eingin",
     "HardwareAccelerationWarning": "At virkja tólbunaðarstyðjan kann elva til óreglusemi á summum kervum. Tryggja at stýrikervi títt og skíggjakortsdrívarar eru dagførdir. Renur tú teg í trupulleikar við kykmyndaspæling eftir at hetta er virkt noyðist tú at broyta hesa stillingina aftur til \"Eingin\".",
     "HeaderDownloadSync": "Niðurtøka & samstillan",
-    "HeaderDummyChapter": "Kapitlamyndir"
+    "HeaderDummyChapter": "Kapitlamyndir",
+    "HeaderPageNotFound": "Síðan fanst ikki"
 }
