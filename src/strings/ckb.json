@@ -610,5 +610,9 @@
     "HeaderMusicQuality": "کوالێتی مۆسیقا",
     "HeaderMyMedia": "میدیای من",
     "HeaderMyMediaSmall": "میدیای من (بچووک)",
-    "HeaderNavigation": "گەشتکردن"
+    "HeaderNavigation": "گەشتکردن",
+    "HeaderNetworking": "پرۆتۆکۆڵەکانی IP",
+    "HeaderNewApiKey": "کلیلی API ی نوێ",
+    "HeaderNewDevices": "ئامێرە نوێیەکان",
+    "HeaderNewPlaylist": "پلەی لیستی نوێ"
 }
