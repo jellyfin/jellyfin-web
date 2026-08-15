@@ -973,7 +973,7 @@
     "LabelTranscodePath": "转码路径",
     "LabelTranscodes": "转码",
     "AuthProviderHelp": "请选择用于验证此用户密码的认证提供程序。",
-    "ColorPrimaries": "原色",
+    "ColorPrimaries": "色彩原色",
     "ConfigureDateAdded": "设置如何在仪表板 > 库 > 显示 中确定“添加日期”的元数据",
     "DisplayModeHelp": "选择您想要的界面布局风格。",
     "EnableColorCodedBackgrounds": "彩色背景",
@@ -1097,7 +1097,7 @@
     "EveryXHours": "每 {0} 小时",
     "EveryHour": "每小时",
     "EveryXMinutes": "每 {0} 分钟",
-    "WriteAccessRequired": "Jellyfin需要此文件夹的写入权限。请确认是否拥有写入权限并重试。",
+    "WriteAccessRequired": "Jellyfin 需要此文件夹的写入权限。请确认是否拥有写入权限并重试。",
     "PathNotFound": "无法找到此路径。请确认路径有效并重试。",
     "Yadif": "Yet Another 去隔行滤镜（YADIF）",
     "LabelDeinterlaceMethod": "反交错方法",
@@ -1172,7 +1172,7 @@
     "MediaInfoVideoRange": "动态范围",
     "MediaInfoColorSpace": "色彩空间",
     "MediaInfoColorTransfer": "色彩转换",
-    "MediaInfoColorPrimaries": "原色坐標",
+    "MediaInfoColorPrimaries": "色彩原色",
     "LabelVideoRange": "动态范围",
     "LabelColorSpace": "色彩空间",
     "LabelColorTransfer": "色彩转换",
@@ -1941,5 +1941,8 @@
     "LabelUsernameAllowedCharactersHelp": "用户名可以包含字母、数字、空格以及以下字符：- _ ' . @ +。用户名不能以空格开头或结尾。",
     "BitmapSubtitleAspectModeContain": "适应",
     "Novel": "小说",
-    "Screenplay": "剧本"
+    "Screenplay": "剧本",
+    "HlsAudioSeekStrategy": "在 HLS 流中跳转播放时所使用的策略。",
+    "LabelHlsAudioSeekStrategy": "音频跳转策略",
+    "MessageForgotPasswordRedirect": "你已被重定向到外部服务提供商进行密码重置。"
 }

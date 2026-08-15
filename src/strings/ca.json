@@ -1941,5 +1941,8 @@
     "Novel": "Novel·la",
     "Screenplay": "Guió",
     "LabelUsernameAllowedCharactersHelp": "Els noms d'usuari poden contenir lletres, números, espais i els següents caràcters: - _ ' . @ +. No poden començar o acabar amb un espai.",
-    "LabelBitmapSubtitleAspectMode": "Mode de mapa de bits per a l'aspecte dels subtítols"
+    "LabelBitmapSubtitleAspectMode": "Mode de mapa de bits per a l'aspecte dels subtítols",
+    "HlsAudioSeekStrategy": "L'estratègia a seguir quan se cerca en fluxos HLS.",
+    "LabelHlsAudioSeekStrategy": "Estratègia de cerca d'àudio.",
+    "MessageForgotPasswordRedirect": "Se us ha redirigit a un proveïdor extern per a restablir la contrasenya."
 }

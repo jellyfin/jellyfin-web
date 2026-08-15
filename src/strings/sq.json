@@ -629,5 +629,11 @@
     "HeaderAllRecordings": "Të gjitha xhirimet",
     "HeaderBackupsHelp": "Krijo dhe restauro snapshote të serverit tënd që mund të përfshijnë databazën, metadata, titra dhe trickplay.",
     "ActivitiesLoadError": "Dështoi ngarkimi i aktiviteteve",
-    "ApiKeysLoadError": "Ngarkimi i çelësave API dështoi"
+    "ApiKeysLoadError": "Ngarkimi i çelësave API dështoi",
+    "Authors": "Autorët",
+    "BitmapSubtitleAspectModeContain": "Përmbaj",
+    "BitmapSubtitleAspectModeCover": "Kopertinë",
+    "BitmapSubtitleAspectModeHelp": "Kontrollon mënyrën se si titrat PGS dhe VobSub, të paraqitura nga pajisja, përshtaten me madhësinë e zonës së dukshme të videos.",
+    "BitmapSubtitleAspectModeStretch": "Shtrije",
+    "BrandingLoadError": "Dështoi ngarkimi i cilësimeve të firmes"
 }

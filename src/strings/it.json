@@ -1938,5 +1938,8 @@
     "BitmapSubtitleAspectModeHelp": "Controlla come i sottotitoli PGS e VobSub generati dal client vengono ridimensionati in base all'area video visibile.",
     "BitmapSubtitleAspectModeStretch": "Allunga",
     "Novel": "Romanzo",
-    "LabelUsernameAllowedCharactersHelp": "I nomi utente possono contenere lettere, numeri, spazi e i seguenti caratteri: - _ ' . @ +. Non possono iniziare o terminare con uno spazio."
+    "LabelUsernameAllowedCharactersHelp": "I nomi utente possono contenere lettere, numeri, spazi e i seguenti caratteri: - _ ' . @ +. Non possono iniziare o terminare con uno spazio.",
+    "LabelHlsAudioSeekStrategy": "Strategia di posizionamento audio.",
+    "BitmapSubtitleAspectModeCover": "Copertina",
+    "HlsAudioSeekStrategy": "La strategia da utilizzare durante il posizionamento nei flussi HLS."
 }
