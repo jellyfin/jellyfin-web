@@ -185,21 +185,33 @@ function onPlaystate({ Data }) {
     }
 }
 
+/**
+ * Subscribes to server notifications for SyncPlay and Playstate
+ * @param {import('jellyfin-apiclient').ApiClient} apiClient
+ * @returns A cleanup function that will unsubscribe from the events
+ */
 function subscribeToApiClient(apiClient) {
-    apiClient.subscribe([OutboundWebSocketMessageType.Play], (msg) => onPlay(msg, apiClient));
-    apiClient.subscribe([OutboundWebSocketMessageType.Playstate], (msg) => onPlaystate(msg));
-    apiClient.subscribe([OutboundWebSocketMessageType.GeneralCommand], ({ Data }) => processGeneralCommand(Data, apiClient));
-    apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayCommand], ({ Data }) => {
-        pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processCommand(Data, apiClient);
-    });
-    apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
-        pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processGroupUpdate(Data, apiClient);
-        Events.trigger(serverNotifications, OutboundWebSocketMessageType.SyncPlayGroupUpdate, [apiClient, Data]);
+    const subscriptions = [
+        apiClient.subscribe([OutboundWebSocketMessageType.Play], (msg) => onPlay(msg, apiClient)),
+        apiClient.subscribe([OutboundWebSocketMessageType.Playstate], (msg) => onPlaystate(msg)),
+        apiClient.subscribe([OutboundWebSocketMessageType.GeneralCommand], ({ Data }) => processGeneralCommand(Data, apiClient)),
+        apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayCommand], ({ Data }) => {
+            pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processCommand(Data, apiClient);
+        }),
+        apiClient.subscribe([OutboundWebSocketMessageType.SyncPlayGroupUpdate], ({ Data }) => {
+            pluginManager.firstOfType(PluginType.SyncPlay)?.instance.Manager.processGroupUpdate(Data, apiClient);
+            Events.trigger(serverNotifications, OutboundWebSocketMessageType.SyncPlayGroupUpdate, [apiClient, Data]);
+        })
+    ];
+
+    return () => subscriptions.get(apiClient.serverId()).forEach((unsub) => {
+        unsub();
     });
 }
 
 export function initializeServerConnections() {
     ServerConnections.getApiClients().forEach(subscribeToApiClient);
+
     Events.on(ServerConnections, 'apiclientcreated', function (e, newApiClient) {
         subscribeToApiClient(newApiClient);
     });

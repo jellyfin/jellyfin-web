@@ -1,7 +1,9 @@
-@use './palette' as palette;
+@use "./palette" as palette;
 
 // Theme options
 $dark: true !default;
+// Enable rounded person cards (e.g. for actors/directors)
+$rounded-person-cards: false !default;
 
 // Color palette
 $common-white: palette.$common-white !default;
@@ -29,17 +31,34 @@ $appBar-defaultBg: #202020 !default;
 // NOTE: This color is not part of the MUI theme
 $appBar-transparentBg: rgba(0, 0, 0, 0.4) !default;
 $filledInput-bg: rgba(255, 255, 255, 0.09) !default;
+// NOTE: Defaults to $filledInput-bg so dark themes keep their seamless look
+$filledInput-borderColor: $filledInput-bg !default;
+// NOTE: Card border radius — matches the default in card.scss; exposed as --jf-card-borderRadius for custom user themes
+$card-borderRadius: 0.2em !default;
 $alert-infoFilledBg: #0288d1 !default;
 $alert-infoFilledColor: #fff !default;
 $button-inheritContainedBg: #424242 !default;
 $button-inheritContainedHoverBg: #616161 !default;
 $snackbarContent-bg: #303030 !default;
 $snackbarContent-color: rgba(255, 255, 255, 0.87) !default;
+// Secondary/accent color used for focus and interactive states.
+// Defaults to $primary-main so all existing themes are unaffected.
+$secondary-main: $primary-main !default;
+$secondary-contrastText: $primary-contrastText !default;
+// Background for legacy Jellyfin surface elements (paperList, visualCardBox, etc.).
+// Kept separate from $background-paper so themes can use a translucent overlay here
+// while $background-paper stays solid for MUI components (menus, dropdowns).
+$surface-overlay: $background-paper !default;
+// Optional CSS gradient applied over $appBar-defaultBg on the header and detail ribbon.
+// Set to a CSS gradient value to enable; leave as none to use only the solid colour.
+$appBar-gradient: none !default;
 
 // Assign custom css variables not part of the MUI theme palette
 :root {
     --jf-palette-background-defaultImage: #{$background-defaultImage};
     --jf-palette-AppBar-transparentBg: #{$appBar-transparentBg};
+    --jf-palette-AppBar-gradient: #{$appBar-gradient};
+    --jf-card-borderRadius: #{$card-borderRadius};
 }
 
 * {
@@ -66,12 +85,21 @@ html {
     border-color: var(--jf-palette-divider, $divider);
 }
 
-.skinHeader-withBackground {
+.skinHeader-withBackground,
+.detailRibbon {
     background-color: var(--jf-palette-AppBar-defaultBg, $appBar-defaultBg);
+    background-image: var(--jf-palette-AppBar-gradient, $appBar-gradient);
+}
+
+.detailRibbon {
+    .layout-tv & {
+        background: none;
+    }
 }
 
 .skinHeader.semiTransparent {
     background-color: var(--jf-palette-AppBar-transparentBg, $appBar-transparentBg);
+    background-image: none;
     backdrop-filter: none !important;
 
     .layout-tv & {
@@ -95,9 +123,7 @@ html {
 }
 
 .backgroundContainer,
-.dialog,
 .nowPlayingPlaylist,
-.nowPlayingContextMenu,
 html {
     background-color: var(--jf-palette-background-default, $background-default);
     background-image: var(--jf-palette-background-defaultImage, $background-defaultImage);
@@ -108,6 +134,10 @@ html {
 
 .backgroundContainer.withBackdrop {
     opacity: 0.86;
+}
+
+.dialog {
+    background-color: var(--jf-palette-background-default, $background-default);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -125,18 +155,25 @@ html {
 }
 
 .paper-icon-button-light.show-focus:focus {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
-a[data-role=button],
+.emby-scrollbuttons {
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
+a[data-role="button"],
 .fab,
 .raised {
     background: var(--jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
     color: var(--jf-palette-text-secondary, $text-secondary);
 
-    &:focus,
     &:hover {
         background: var(--jf-palette-Button-inheritContainedHoverBg, $button-inheritContainedHoverBg);
+    }
+
+    &:focus {
+        background: var(--jf-palette-secondary-main, $secondary-main);
     }
 }
 
@@ -144,9 +181,13 @@ a[data-role=button],
     background: var(--jf-palette-primary-main, $primary-main);
     color: var(--jf-palette-primary-contrastText, $primary-contrastText);
 
-    &:focus,
     &:hover {
         background: var(--jf-palette-primary-dark, $primary-dark);
+    }
+
+    &:focus {
+        background: var(--jf-palette-secondary-main, $secondary-main);
+        color: var(--jf-palette-secondary-contrastText, $secondary-contrastText);
     }
 }
 
@@ -170,7 +211,7 @@ a[data-role=button],
 .inputLabelFocused,
 .selectLabelFocused,
 .textareaLabelFocused {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .checkboxOutline {
@@ -179,10 +220,31 @@ a[data-role=button],
 
 .collapseContent,
 .formDialogFooter:not(.formDialogFooter-clear),
-.formDialogHeader:not(.formDialogHeader-clear),
+.formDialogHeader:not(.formDialogHeader-clear) {
+    background-color: $surface-overlay;
+}
+
 .paperList,
 .visualCardBox {
-    background-color: var(--jf-palette-background-paper, $background-paper);
+    background-color: $surface-overlay;
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder,
+.cardContent,
+.cardImageContainer,
+.blurhash-canvas,
+.itemDetailImage,
+.cardOverlayContainer {
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+.cardBox:not(.visualCardBox) .cardPadder {
+    background-color: $surface-overlay;
+}
+
+.cardPadder .cardImageIcon {
+    color: $surface-overlay;
 }
 
 .layout-tv .formDialogFooter:not(.formDialogFooter-clear) {
@@ -206,6 +268,39 @@ a[data-role=button],
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
     opacity: 0.5;
+}
+
+@if $rounded-person-cards {
+    .personCard {
+        .cardScalable {
+            border-radius: 50% !important;
+            border: 1px solid transparent;
+        }
+
+        .overflowPortraitCard {
+            width: 40vw;
+        }
+
+        .coveredImage {
+            background-position-y: 20%;
+            border-radius: 50%;
+        }
+
+        .cardOverlayContainer {
+            clip-path: circle(50% at 50% 50%);
+        }
+
+        .cardOverlayButton-br {
+            right: 20%;
+        }
+
+        .cardPadder-overflowPortrait,
+        .cardPadder-portrait {
+            padding-bottom: 100%;
+            contain: strict;
+            border-radius: 50% !important;
+        }
+    }
 }
 
 .toast {
@@ -252,8 +347,8 @@ a[data-role=button],
     }
 
     &-tv:focus {
-        background-color: var(--jf-palette-primary-main, $primary-main);
-        color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+        background-color: var(--jf-palette-secondary-main, $secondary-main);
+        color: var(--jf-palette-secondary-contrastText, $secondary-contrastText);
     }
 }
 
@@ -299,14 +394,14 @@ a[data-role=button],
 .emby-input,
 .emby-textarea {
     background: var(--jf-palette-FilledInput-bg, $filledInput-bg);
-    border-color: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
     border-width: 0.16em;
     border-style: solid;
     border-radius: 0.2em;
 
     &:focus {
-        border-color: var(--jf-palette-primary-main, $primary-main);
+        border-color: var(--jf-palette-secondary-main, $secondary-main);
     }
 }
 
@@ -314,7 +409,7 @@ a[data-role=button],
     // NOTE: This should use `FilledInput-bg` to match other form elements,
     // but that will break the native dropdown styling
     background: var(--jf-palette-background-paper, $background-paper);
-    border-color: var(--jf-palette-FilledInput-bg, $filledInput-bg);
+    border-color: var(--jf-palette-FilledInput-borderColor, $filledInput-borderColor);
     color: inherit;
     border-width: 0.16em;
     border-style: solid;
@@ -327,12 +422,12 @@ a[data-role=button],
 }
 
 .emby-select-withcolor:focus {
-    border-color: var(--jf-palette-primary-main, $primary-main) !important;
+    border-color: var(--jf-palette-secondary-main, $secondary-main) !important;
 }
 
 .emby-select-tv-withcolor:focus {
-    background-color: var(--jf-palette-primary-main, $primary-main) !important;
-    color: var(--jf-palette-primary-contrastText, $primary-contrastText) !important;
+    background-color: var(--jf-palette-secondary-main, $secondary-main) !important;
+    color: var(--jf-palette-secondary-contrastText, $secondary-contrastText) !important;
 }
 
 .emby-checkbox:checked + span + .checkboxOutline {
@@ -349,7 +444,7 @@ a[data-role=button],
 }
 
 .emby-checkbox:focus:not(:checked) + span + .checkboxOutline {
-    border-color: var(--jf-palette-primary-main, $primary-main);
+    border-color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .itemProgressBarForeground-recording {
@@ -393,7 +488,7 @@ a[data-role=button],
 
 .emby-tab-button.show-focus:focus,
 .emby-tab-button:hover {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .channelPrograms,
@@ -439,7 +534,7 @@ a[data-role=button],
 
 .guide-date-tab-button.emby-tab-button-active,
 .guide-date-tab-button:focus {
-    color: var(--jf-palette-primary-main, $primary-main);
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }
 
 .guide-date-tab-button.show-focus:focus {
@@ -465,7 +560,15 @@ a[data-role=button],
 
 .card:focus .cardBox.visualCardBox,
 .card:focus .cardBox:not(.visualCardBox) .cardScalable {
-    border-color: var(--jf-palette-primary-main, $primary-main) !important;
+    border-color: var(--jf-palette-secondary-main, $secondary-main) !important;
+    border-radius: var(--jf-card-borderRadius, $card-borderRadius);
+}
+
+// The show-focus border is 0.5em wide (see card.scss), so the outer ring's
+// border-radius must add that offset to stay flush with the card's corners.
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    border-radius: calc(var(--jf-card-borderRadius, $card-borderRadius) + 0.5em);
 }
 
 ::-webkit-scrollbar-track {
@@ -507,12 +610,6 @@ a[data-role=button],
     color: var(--jf-palette-text-primary, $text-primary);
 }
 
-#bookPlayer .bookOsdRow,
-#comicsPlayer .actionButtonIcon,
-#pdfPlayer .actionButtonIcon {
-    color: var(--jf-palette-text-primary, $text-primary);
-}
-
 #dialogToc {
     background-color: var(--jf-palette-background-default, $background-default);
 }
@@ -525,4 +622,10 @@ a[data-role=button],
     &:hover {
         color: var(--jf-palette-primary-main, $primary-main);
     }
+}
+
+/* emby-radio style override */
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles svg .mdl-radio__outer-circle,
+.mdl-radio.show-focus .mdl-radio__button:focus + .mdl-radio__circles svg .mdl-radio__inner-circle {
+    color: var(--jf-palette-secondary-main, $secondary-main);
 }

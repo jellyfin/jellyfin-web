@@ -7,7 +7,6 @@ import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { EventType } from 'constants/eventType';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import dom from '../utils/dom';
@@ -391,8 +390,10 @@ function onSidebarLinkClick() {
 }
 
 function getUserViews(apiClient, userId) {
+    const api = ServerConnections.getApi(apiClient.serverId());
+
     return queryClient
-        .fetchQuery(getUserViewsQuery(toApi(apiClient), { userId }))
+        .fetchQuery(getUserViewsQuery(api, { userId }))
         .then(function (result) {
             const items = result.Items;
             const list = [];

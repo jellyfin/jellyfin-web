@@ -143,6 +143,7 @@ function onSubmit(e) {
         Album: form.querySelector('#txtAlbum').value,
         AlbumArtists: getAlbumArtists(form),
         ArtistItems: getArtists(form),
+        SeriesName: form.querySelector('#txtseriesName').value,
         Overview: form.querySelector('#txtOverview').value,
         Status: form.querySelector('#selectStatus').value,
         AirDays: getSelectedAirDays(form),
@@ -551,6 +552,8 @@ function setFieldVisibilities(context, item) {
 
     toggleElement('#fldCriticRating', item.Type === BaseItemKind.Movie || item.Type === BaseItemKind.Trailer, context);
 
+    toggleElement('#seriesName', item.Type === BaseItemKind.Book, context);
+
     toggleElement('#fldStatus, #fldAirDays, #fldAirTime', item.Type === BaseItemKind.Series, context);
 
     toggleElement('#fld3dFormat', item.MediaType === MediaType.Video && item.Type !== BaseItemKind.TvChannel, context);
@@ -719,6 +722,10 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     }).join(';');
 
     context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+
+    if (item.Type == 'Book') {
+        context.querySelector('#txtseriesName').value = item.SeriesName || '';
+    }
 
     context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
         return a.Name;

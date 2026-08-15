@@ -1,7 +1,7 @@
 import escapeHtml from 'escape-html';
 
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
-import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
+import { getImageUrl } from 'apps/legacy/features/playback/utils/image';
+import { getItemTextLines } from 'apps/legacy/features/playback/utils/itemText';
 import { AppFeature } from 'constants/appFeature';
 import { ItemAction } from 'constants/itemAction';
 
@@ -895,7 +895,6 @@ export default function () {
         bindEvents(context);
         context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
         context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
-        Events.on(playbackManager, 'playerchange', onPlayerChange);
 
         if (layoutManager.tv) {
             const positionSlider = context.querySelector('.nowPlayingPositionSlider');
@@ -911,6 +910,9 @@ export default function () {
     }
 
     function onShow(context) {
+        // Subscribe here, not in init(): init runs once per node but hide/show repeat.
+        Events.off(playbackManager, 'playerchange', onPlayerChange);
+        Events.on(playbackManager, 'playerchange', onPlayerChange);
         bindToPlayer(context, playbackManager.getCurrentPlayer());
     }
 

@@ -22,10 +22,6 @@ export function getCardImageUrl({
     options,
     shape
 }: CardImageUrlParams) {
-    if (!api) {
-        throw new Error('API instance is required to get card image URL');
-    }
-
     item = item.ProgramInfo || item;
 
     const width = options.width;
@@ -38,6 +34,8 @@ export function getCardImageUrl({
     const uiAspect = getDesiredAspect(shape);
     let imgType: ImageType | undefined;
     let itemId = null;
+
+    const skipEpisodeParentPoster = item.Type === 'Episode' && uiAspect != null && uiAspect > 1;
 
     /* eslint-disable sonarjs/no-duplicated-branches */
     if (options.preferThumb && item.ImageTags?.Thumb) {
@@ -72,6 +70,16 @@ export function getCardImageUrl({
         imgType = ImageType.Backdrop;
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
+    } else if (options.preferParentPoster && !options.preferThumb && item.Type === 'Episode'
+        && ((item.ParentPrimaryImageTag && item.ParentPrimaryImageItemId) || (item.SeriesPrimaryImageTag && item.SeriesId))) {
+        imgType = ImageType.Primary;
+        if (item.ParentPrimaryImageTag && item.ParentPrimaryImageItemId) {
+            imgTag = item.ParentPrimaryImageTag;
+            itemId = item.ParentPrimaryImageItemId;
+        } else {
+            imgTag = item.SeriesPrimaryImageTag;
+            itemId = item.SeriesId;
+        }
     } else if (item.ImageTags?.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
         imgType = ImageType.Primary;
         imgTag = item.ImageTags.Primary;
@@ -84,7 +92,7 @@ export function getCardImageUrl({
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.SeriesPrimaryImageTag) {
+    } else if (item.SeriesPrimaryImageTag && !skipEpisodeParentPoster) {
         imgType = ImageType.Primary;
         imgTag = item.SeriesPrimaryImageTag;
         itemId = item.SeriesId;
@@ -101,7 +109,7 @@ export function getCardImageUrl({
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.ParentPrimaryImageTag) {
+    } else if (item.ParentPrimaryImageTag && !skipEpisodeParentPoster) {
         imgType = ImageType.Primary;
         imgTag = item.ParentPrimaryImageTag;
         itemId = item.ParentPrimaryImageItemId;
@@ -142,7 +150,7 @@ export function getCardImageUrl({
         itemId = item.Id;
     }
 
-    if (itemId && imgTag && imgType) {
+    if (api && itemId && imgTag && imgType) {
         if (!height && width && uiAspect) {
             height = width / uiAspect;
         }
@@ -154,8 +162,8 @@ export function getCardImageUrl({
             imgType,
             {
                 // Dimensions must be rounded or the API will reject the request
-                fillHeight: height ? Math.round(height * dpr) : undefined,
-                fillWidth: width ? Math.round(width * dpr) : undefined,
+                fillHeight: height ? Math.ceil(height * dpr) : undefined,
+                fillWidth: width ? Math.ceil(width * dpr) : undefined,
                 quality: 96,
                 tag: imgTag
             }

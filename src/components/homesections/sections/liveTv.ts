@@ -4,23 +4,24 @@ import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-field
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import { getRecommendedProgramsQuery } from 'apps/legacy/features/liveTv/api/useRecommendedPrograms';
 import { appRouter } from 'components/router/appRouter';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import layoutManager from 'components/layoutManager';
 import globalize from 'lib/globalize';
+import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
-import { queryClient } from 'utils/query/queryClient';
-import { getRecommendedProgramsQuery } from 'apps/stable/features/liveTv/api/useRecommendedPrograms';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 function getOnNowFetchFn(
     apiClient: ApiClient
 ) {
     return function () {
+        const api = ServerConnections.getApi(apiClient.serverId());
         return queryClient
-            .fetchQuery(getRecommendedProgramsQuery(toApi(apiClient), {
+            .fetchQuery(getRecommendedProgramsQuery(api, {
                 userId: apiClient.getCurrentUserId(),
                 isAiring: true,
                 limit: 24,
@@ -177,8 +178,9 @@ export function loadLiveTV(
         return Promise.resolve();
     }
 
+    const api = ServerConnections.getApi(apiClient.serverId());
     return queryClient
-        .fetchQuery(getRecommendedProgramsQuery(toApi(apiClient), {
+        .fetchQuery(getRecommendedProgramsQuery(api, {
             userId: apiClient.getCurrentUserId(),
             isAiring: true,
             limit: 1,

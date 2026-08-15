@@ -59,7 +59,6 @@ export const Component: FC = () => {
                 <StrictMode>
                     <OffsetAppBar
                         dense
-                        elevation={4}
                         sx={{
                             width: {
                                 xs: '100%',
@@ -79,6 +78,7 @@ export const Component: FC = () => {
                             buttons={
                                 <HelpButton />
                             }
+                            className='dashboard-appBar'
                         >
                             {isMetadataManager && (
                                 <ServerButton />

@@ -1,10 +1,14 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Events from 'utils/events';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../../utils/dom';
 import './multiSelect.scss';
 import alert from '../alert';
@@ -358,6 +362,8 @@ function dispatchNeedsRefresh() {
     for (let i = 0, length = elems.length; i < length; i++) {
         elems[i].notifyRefreshNeeded(true);
     }
+
+    Events.trigger(document, EventType.REFRESH_NEEDED);
 }
 
 function combineVersions(apiClient, selection) {

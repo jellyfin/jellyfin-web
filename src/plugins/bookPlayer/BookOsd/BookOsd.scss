@@ -4,6 +4,7 @@
     z-index: 1002;
     display: flex;
     justify-content: space-between;
+    pointer-events: none;
     flex-direction: column;
 }
 
@@ -14,6 +15,10 @@
     height: 5vh;
     padding: 0 0.8vw;
     background-color: var(--jf-palette-AppBar-defaultBg);
+    pointer-events: auto;
+    transition: all 200ms linear;
+    // force WebKit to promote the element onto its own compositor layer for opacity on iOS
+    transform: translateZ(0);
 }
 
 // TODO disable landscape on mobile devices
@@ -23,16 +28,8 @@
     }
 }
 
-.bookOsdTop {
-    padding-top: env(safe-area-inset-top);
-}
-
-.bookOsdBottom {
-    padding-bottom: env(safe-area-inset-bottom);
-}
-
-.bookOsdMargin {
-    margin-left: auto;
+.bookOsdSpacer {
+    flex: 1;
 }
 
 .bookOsdTitle {

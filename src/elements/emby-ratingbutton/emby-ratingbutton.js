@@ -4,30 +4,21 @@ import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import EmbyButtonPrototype from '../emby-button/emby-button';
 import serverNotifications from 'scripts/serverNotifications';
 import Events from 'utils/events';
-
-function showPicker(button, apiClient, itemId, likes, isFavorite) {
-    return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
-}
+import { queryClient } from 'utils/query/queryClient';
 
 function onClick() {
     const button = this;
     const id = button.getAttribute('data-id');
     const serverId = button.getAttribute('data-serverid');
     const apiClient = ServerConnections.getApiClient(serverId);
-
-    let likes = this.getAttribute('data-likes');
     const isFavorite = this.getAttribute('data-isfavorite') === 'true';
-    if (likes === 'true') {
-        likes = true;
-    } else if (likes === 'false') {
-        likes = false;
-    } else {
-        likes = null;
-    }
+    const userId = apiClient.getCurrentUserId();
 
-    showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
-        setState(button, userData.Likes, userData.IsFavorite);
-    });
+    apiClient.updateFavoriteStatus(userId, id, !isFavorite)
+        .then(userData => {
+            setState(button, userData.Likes, userData.IsFavorite);
+            void queryClient.invalidateQueries({ queryKey: ['User', userId, 'Items'] });
+        });
 }
 
 function onUserDataChanged({ MessageType, Data }, apiClient, button) {
@@ -159,4 +150,3 @@ document.registerElement('emby-ratingbutton', {
     prototype: EmbyRatingButtonPrototype,
     extends: 'button'
 });
-

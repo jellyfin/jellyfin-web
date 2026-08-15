@@ -1899,5 +1899,7 @@
     "LabelAudioAttributes": "Атрыбуты аўдыя",
     "LabelProgressAndSpeed": "Прагрэс / хуткасць",
     "LabelReasons": "Прычыны",
-    "LabelPlayerSizes": "Памеры прайгравальніка"
+    "LabelPlayerSizes": "Памеры прайгравальніка",
+    "ActivitiesLoadError": "Не ўдалося загрузіць актыўнасць",
+    "VideoRotationNotSupported": "Паварот відэа не падтрымліваецца"
 }

@@ -1872,5 +1872,22 @@
     "HeaderDeleteCollection": "Eliminar colección",
     "HeaderDeletePlaylist": "Eliminar lista de reproducción",
     "NewPlaylist": "Nueva Lista de Reproducción",
-    "OptionDatePlaylistUpdated": "Fecha en que se actualizó la Lista de Reproducción"
+    "OptionDatePlaylistUpdated": "Fecha en que se actualizó la Lista de Reproducción",
+    "ActivitiesLoadError": "No se pudieron cargar las actividades",
+    "ApiKeysLoadError": "Error al cargar las claves de la API",
+    "Authors": "Autores",
+    "BrandingLoadError": "No se pudieron cargar los ajustes de marca",
+    "ConfirmDeleteItemByName": "Borrar \"{0}\" lo borrará tanto de tu sistema de archivos como de tu biblioteca de medios. ¿Estás seguro de que querés continuar?",
+    "ConfirmSplitMedia": "¿Estás seguro que querés partir las fuentes de medio a elementos separados?",
+    "ConfirmStillWatching": "¿Todavía estás mirando?",
+    "ContinueReading": "Seguir leyendo",
+    "Creators": "Creadores",
+    "DevicesLoadError": "Error al cargar los dispositivos",
+    "Disabled": "Deshabilitado",
+    "ViewDoublePage": "Vista de Doble Página",
+    "ViewSinglePage": "Vista de Una Página",
+    "ViewLeftToRight": "Izquierda a Derecha",
+    "ViewRightToLeft": "Derecha a Izquierda",
+    "HeaderLatestBooks": "Libros Agregados Recientemente",
+    "HeaderLatestMusicVideos": "Videos de Música Agregados Recientemente"
 }
