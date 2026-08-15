@@ -27,7 +27,7 @@
     "Books": "Bøkur",
     "Composer": "Tónaskald",
     "DailyAt": "Dagligani kl. {0}",
-    "DeathDateValue": "Deyð(ur): {0}",
+    "DeathDateValue": "Andaðist: {0}",
     "Digital": "Talgilt",
     "Director": "Leikstjóri",
     "Friday": "Fríggjadag",
@@ -956,5 +956,8 @@
     "HeaderDownloadSync": "Niðurtøka & samstillan",
     "HeaderDummyChapter": "Kapitlamyndir",
     "HeaderPageNotFound": "Síðan fanst ikki",
-    "ConfirmDeleteCollection": "Ynskir tú at strika hesa samlingina?"
+    "ConfirmDeleteCollection": "Ynskir tú at strika hesa samlingina?",
+    "LabelBaseUrl": "Rótleinkja",
+    "LabelDeathDate": "Doyði tann",
+    "LabelDownloadLanguages": "Mál at niðurtaka"
 }
