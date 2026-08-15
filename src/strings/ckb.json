@@ -610,5 +610,14 @@
     "HeaderMusicQuality": "کوالێتی مۆسیقا",
     "HeaderMyMedia": "میدیای من",
     "HeaderMyMediaSmall": "میدیای من (بچووک)",
-    "HeaderNavigation": "گەشتکردن"
+    "HeaderNavigation": "گەشتکردن",
+    "HeaderNetworking": "پرۆتۆکۆڵەکانی IP",
+    "HeaderNewApiKey": "کلیلی API ی نوێ",
+    "HeaderNewDevices": "ئامێرە نوێیەکان",
+    "HeaderNewPlaylist": "پلەی لیستی نوێ",
+    "HeaderNewRepository": "کۆگای نوێ",
+    "HeaderNextEpisode": "ئەڵقەی داهاتوو",
+    "HeaderNextEpisodePlayingInValue": "ئەڵقەی داهاتوو دەست پێدەکات لە {0}",
+    "HeaderNextVideo": "ڤیدیۆی داهاتوو",
+    "HeaderNextVideoPlayingInValue": "ڤیدیۆی داهاتوو دەست پێدەکات لە {0}"
 }
