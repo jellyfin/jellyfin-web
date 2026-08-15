@@ -959,5 +959,12 @@
     "ConfirmDeleteCollection": "Ynskir tú at strika hesa samlingina?",
     "LabelBaseUrl": "Rótleinkja",
     "LabelDeathDate": "Doyði tann",
-    "LabelDownloadLanguages": "Mál at niðurtaka"
+    "LabelDownloadLanguages": "Mál at niðurtaka",
+    "LabelLibraryPageSize": "Savnssíðustødd",
+    "LabelLibraryPageSizeHelp": "Áset hvussu nógvir miðlar verða vístir á hvørjari savnssíðu. Verður 0 ásett verða søvn ikki deild upp í síður. Hav í huga at um hetta verður sett til 0 ella hægri enn 100 kann tað elva til villur og skert avrikaføri.",
+    "LabelImportOnlyFavoriteChannels": "Einans yndisrásir",
+    "ImportFavoriteChannelsHelp": "Einans rásir ið á móttakaranum eru merktar yndisrásir verða innlisnar.",
+    "LabelKodiMetadataEnableExtraThumbs": "Avrita \"extrafanart\" til \"extrathumbs\" reinin",
+    "LabelKodiMetadataSaveImagePaths": "Goym leiðir til myndir í NFO-fílum",
+    "LabelKodiMetadataSaveImagePathsHelp": "Hetta er viðmælt í fall tú hevur myndir við fílunøvnum ið ikki eru lagað eftir Kodi leiðreglunum."
 }
