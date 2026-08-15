@@ -1943,5 +1943,6 @@
     "Screenplay": "Guion",
     "LabelUsernameAllowedCharactersHelp": "Los nombres de usuario pueden contener letras, números, espacios y los siguientes caracteres: - _ ' . @ +. No pueden comenzar ni terminar con un espacio.",
     "LabelHlsAudioSeekStrategy": "Estrategia de búsqueda de audio.",
-    "HlsAudioSeekStrategy": "Estrategia que se utilizará para la búsqueda en las transmisiones HLS."
+    "HlsAudioSeekStrategy": "Estrategia que se utilizará para la búsqueda en las transmisiones HLS.",
+    "MessageForgotPasswordRedirect": "Has sido redirigido a un proveedor externo para restablecer la contraseña."
 }
