@@ -159,7 +159,7 @@ class HtmlAudioPlayer {
                 }
                 console.debug('gain: ' + self.normalizationGain);
 
-                self.setPreloadNextTrack(userSettings.enableReducedGapAudio());
+                self._gaplessEnabled = userSettings.enableReducedGapAudio();
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
@@ -254,6 +254,7 @@ class HtmlAudioPlayer {
                     elem.pause();
 
                     htmlMediaHelper.onEndedInternal(self, elem, onError);
+                    self.clearNextSource();
 
                     if (destroyPlayer) {
                         self.destroy();
@@ -268,6 +269,7 @@ class HtmlAudioPlayer {
                     elem.volume = originalVolume;
 
                     htmlMediaHelper.onEndedInternal(self, elem, onError);
+                    self.clearNextSource();
 
                     if (destroyPlayer) {
                         self.destroy();
@@ -340,15 +342,6 @@ class HtmlAudioPlayer {
             if (!self._isFadingOut) {
                 self._currentTime = time;
                 Events.trigger(self, 'timeupdate');
-
-                // Preload next track when approaching the end (8 seconds before)
-                if (self._gaplessEnabled && !self._isPreloadingNext && this.duration > 0) {
-                    const timeRemaining = this.duration - time;
-                    if (timeRemaining > 0 && timeRemaining <= 8) {
-                        console.debug(`[REDUCED-GAP][TRIGGER] ${timeRemaining.toFixed(1)}s remaining — triggering preload`);
-                        self._preloadNextQueuedTrack();
-                    }
-                }
             }
         }
 
@@ -423,22 +416,27 @@ class HtmlAudioPlayer {
         }
 
         self._preloadNextQueuedTrack = function() {
-            if (self._isPreloadingNext || !self._gaplessEnabled) {
+            if (self._isPreloadingNext) {
+                console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Skipped — preload already in progress');
                 return;
             }
-
             self._isPreloadingNext = true;
 
-            console.debug('[REDUCED-GAP][TRIGGER] Time threshold reached — requesting next track info from PlaybackManager');
+            console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Requesting next track info from PlaybackManager');
             Events.trigger(self, 'preloadnextqueuedtrack');
         };
 
         self.setNextSource = function(options) {
-            if (!options || !self._gaplessEnabled) {
+            if (!self._gaplessEnabled) {
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called but gapless is disabled — skipping');
+                return Promise.resolve();
+            }
+            if (!options) {
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called with no options — skipping');
                 return Promise.resolve();
             }
 
-            console.debug('[REDUCED-GAP][PRELOAD] Starting preload for next track', options.item?.Name);
+            console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Starting preload for next track', options.item?.Name);
             self._nextPlayOptions = options;
 
             const elem = self._createSecondaryMediaElement();
@@ -469,15 +467,15 @@ class HtmlAudioPlayer {
                         gainNode.gain.value = browser.safari ? gain * elem.volume : gain;
                         self._nextGainNode = gainNode;
                         self._nextNormalizationGain = gain;
-                        console.debug('[REDUCED-GAP][PRELOAD] Gain node created for next track', { normalizationGain, gain });
+                        console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Gain node created for next track', { normalizationGain, gain });
                     } catch (e) {
-                        console.error('[REDUCED-GAP][PRELOAD] Failed to create gain node for next track', e);
+                        console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to create gain node for next track', e);
                     }
                 } else {
-                    console.debug('[REDUCED-GAP][PRELOAD] No normalization gain for next track — skipping gain node');
+                    console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] No normalization gain for next track — skipping gain node');
                 }
             }).catch((err) => {
-                console.error('[REDUCED-GAP][PRELOAD] Failed to setup normalization for next track', err);
+                console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to setup normalization for next track', err);
             });
 
             return Promise.all([self._setNextSrc(elem, options), normalizationSetup]).then(() => {
@@ -492,14 +490,14 @@ class HtmlAudioPlayer {
                     elem.volume = desiredVolume;
                 }).catch((err) => {
                     // Pre-bake failure is non-fatal; playback will still work, just with more latency.
-                    console.warn('[REDUCED-GAP][PREBAKE] Could not pre-bake next track pipeline', err);
+                    console.warn('[PRELOAD-QUEUED-AUDIO][PREBAKE] Could not pre-bake next track pipeline', err);
                 });
             });
         };
 
         self._setNextSrc = function(elem, options) {
             const val = options.url;
-            console.debug('Preloading URL: ' + val);
+            console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Setting next src:', val);
 
             const crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
@@ -607,9 +605,9 @@ class HtmlAudioPlayer {
             bindEvents(self._mediaElement);
 
             // Start the new element immediately — it was pre-baked so latency should be minimal.
-            console.debug('[REDUCED-GAP][SWITCH] Playing next track', nextItem?.Name);
+            console.debug('[PRELOAD-QUEUED-AUDIO][SWITCH] Playing next track', nextItem?.Name);
             return self._mediaElement.play().then(() => {
-                console.debug('[REDUCED-GAP][SWITCH] Reduced-gap transition complete', nextItem?.Name);
+                console.debug('[PRELOAD-QUEUED-AUDIO][SWITCH] Reduced-gap transition complete', nextItem?.Name);
                 self._started = true;
                 Events.trigger(self, 'playing');
 
@@ -621,7 +619,7 @@ class HtmlAudioPlayer {
                 if (oldHlsPlayer) {
                     htmlMediaHelper.destroyHlsPlayer({ _hlsPlayer: oldHlsPlayer });
                 }
-                console.debug('[REDUCED-GAP][SWITCH] Old track element cleaned up');
+                console.debug('[PRELOAD-QUEUED-AUDIO][SWITCH] Old track element cleaned up');
 
                 // Resolve with the item/mediaSource so the PlaybackManager can wire up stream info.
                 return { item: nextItem, mediaSource: nextMediaSource };
@@ -629,7 +627,6 @@ class HtmlAudioPlayer {
         };
 
         self.setPreloadNextTrack = function(toggle) {
-            console.debug(`[REDUCED-GAP][SETTING] Reduced-gap audio playback: ${toggle ? 'enabled' : 'disabled'}`);
             self._gaplessEnabled = toggle;
             if (!toggle) {
                 self.clearNextSource();
@@ -783,12 +780,12 @@ class HtmlAudioPlayer {
     setVolume(val) {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
-            const linearVolume = Math.pow(val / 100, 3);
-            mediaElement.volume = linearVolume;
+            const newVolume = Math.pow(val / 100, 3);
+            mediaElement.volume = newVolume;
 
-            // Keep the preloaded next element in sync so volume is correct at switch time.
             if (this._nextMediaElement) {
-                this._nextMediaElement.volume = linearVolume;
+                // Keep the preloaded element in sync so volume is correct at switch time.
+                this._nextMediaElement.volume = newVolume;
             }
         }
     }
