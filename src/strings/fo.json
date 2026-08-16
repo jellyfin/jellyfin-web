@@ -970,7 +970,7 @@
     "LabelLockItemToPreventChanges": "Læs hendan miðilin til tess at forða framtíðar metadátubroytingum",
     "LabelLoginDisclaimerHelp": "Eini boð ið verða víst niðjast á innritanarsíðuni.",
     "LabelMaxBackdropsPerItem": "Hámark av bakmyndum fyri hvønn miðil",
-    "LabelMinBackdropDownloadWidth": "Minsta vídd fyri niðurtiknar bakmyndir",
+    "LabelMinBackdropDownloadWidth": "Minsta breidd fyri niðurtiknar bakmyndir",
     "LabelOpenclDevice": "OpenCL-eind",
     "LabelOverview": "Samandráttur",
     "LabelPlayMethod": "Spæliháttalag",
@@ -1038,5 +1038,17 @@
     "Screenplay": "Handrit",
     "Schedule": "Skrá",
     "SortChannelsBy": "Raða rásir eftir",
-    "SubtitleOffset": "Undirtekstssamstillan"
+    "SubtitleOffset": "Undirtekstssamstillan",
+    "SyncPlayGroupDefaultTitle": "Bólkur {0}s",
+    "ViewAllPlugins": "Leita millum øll ískoytisforrit",
+    "Writer": "Rithøvundur",
+    "Writers": "Rithøvundar",
+    "XmlTvPathHelp": "Leiðin til eina XMLTV-fílu. Jellyfin lesur og kannar fíluna regluligani fyri dagføringum í skráunum. Jellyfin tekur sær ikki av at gera og dagføra fíluna.",
+    "LabelAudioInfo": "Ljóðupplýsingar",
+    "LabelSyncPlayInfo": "SyncPlay-upplysingar",
+    "LabelOriginalMediaInfo": "Upprunamargmiðlaupplýsingar",
+    "LabelSelectAudioChannels": "Ræsir",
+    "YoutubePlaybackError": "Kann ikki spæla umbidnu kykmyndina.",
+    "LabelWidthResolutions": "Breiddaloysnir",
+    "LabelVideoBitDepth": "Bitdýpd kykmyndarinnar"
 }
