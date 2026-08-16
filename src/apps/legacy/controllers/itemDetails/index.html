@@ -158,9 +158,26 @@
 
         <div class="detailPageSecondaryContainer padded-left padded-bottom-page">
             <div id="childrenCollapsible" class="hide verticalSection detailVerticalSection">
-                <h2 class="sectionTitle sectionTitle-cards hide">
-                    <span></span>
-                </h2>
+                <div class="sectionTitleContainer seasonPickerHeader flex align-items-center padded-right">
+                    <h2 class="sectionTitle sectionTitle-cards hide">
+                        <span></span>
+                    </h2>
+                    <div class="selectContainer seasonSelectContainer hide">
+                        <select is="emby-select" class="selectSeason" label=""></select>
+                    </div>
+                    <button is="emby-playstatebutton" type="button" class="button-flat btnSeasonPlaystate seasonPickerButton hide" title="${MarkPlayed}">
+                        <span class="material-icons check" aria-hidden="true"></span>
+                    </button>
+                    <button is="paper-icon-button-light" type="button" class="btnSeasonMenu seasonPickerButton hide" title="${ButtonMore}">
+                        <span class="material-icons more_vert" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="seasonCardsContainer hide">
+                    <div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale no-padding" data-centerfocus="true">
+                        <div class="seasonCards scrollSlider focuscontainer-x"></div>
+                    </div>
+                </div>
+                <h2 class="sectionTitle sectionTitle-cards seasonEpisodesTitle hide padded-right">${Episodes}</h2>
                 <div>
                     <div is="emby-itemscontainer" class="itemsContainer padded-right" style="text-align: left;"></div>
                 </div>

@@ -1488,3 +1488,88 @@ div:not(.sectionTitleContainer-cards) > .sectionTitle-cards {
     margin: 0;
     width: fit-content;
 }
+
+/* The season dropdown sits inline next to the "Seasons" heading, rather than stacked
+   in a form the way .selectContainer assumes. Every rule here undoes part of that
+   assumption, and each one has to out-specify the plain .selectContainer it overrides,
+   since emby-select's styles load with the controller chunk and would otherwise win
+   the tie on order. The heading is deliberately left to the shared .sectionTitle-cards
+   rules so it matches the "Episodes" heading below the picker. */
+.seasonPickerHeader {
+    /* The standalone heading padding is top heavy, which drops the text below the
+       centre line of the controls next to it. Same total height, evenly split. */
+    .sectionTitle.sectionTitle-cards {
+        padding-top: 0.35em;
+        padding-bottom: 0.35em;
+    }
+
+    /* Drops the stacked-form bottom margin, and keeps a width that fits the longest
+       season names rather than shrinking to the selected one. */
+    .seasonSelectContainer {
+        margin: 0;
+        min-width: 12em;
+
+        [dir="ltr"] & {
+            margin-left: 1em;
+        }
+
+        [dir="rtl"] & {
+            margin-right: 1em;
+        }
+    }
+
+    /* The select's own label is empty, since the heading names the control. */
+    .seasonSelectContainer .selectLabel:empty {
+        display: none;
+    }
+
+    .seasonSelectContainer .selectArrowContainer {
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .seasonSelectContainer .selectArrowContainer .selectArrow {
+        margin-top: 0;
+        font-size: 1.4em;
+    }
+}
+
+/* Each row in the episode list carries a synopsis under the title, so the title has
+   to read as the row's heading. listview only promotes it to a heading tag on TV,
+   where the larger layout does the same job. Bold rather than a medium weight: the
+   bundled Noto Sans ships 400 and 700 only, so anything between snaps back to 400. */
+.seasonEpisodes .listItemBody > .listItemBodyText:not(.secondary) {
+    font-weight: bold;
+}
+
+/* Season actions sit tight to the picker rather than spaced out across the header
+   the way a standalone section button is. */
+.seasonPickerButton {
+    flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-left: 0.5em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.5em;
+    }
+}
+
+/* Lays the season cards out in a row for the scroller. Deliberately not the
+   shared .itemsContainer class: #listChildrenCollapsible is looked up with
+   querySelector('.itemsContainer') for the episode list and for playlist,
+   season and album children, and this row precedes all of them. */
+.seasonCards {
+    display: flex;
+}
+
+/* Marks which season the episode list below is showing. Distinct from focus,
+   since on TV the two are often on different cards. Uses currentcolor so it
+   inherits whatever foreground the active theme sets. */
+.seasonCards .card.seasonCard-selected .cardScalable {
+    outline: 0.15em solid currentcolor;
+    outline-offset: 0.15em;
+}
