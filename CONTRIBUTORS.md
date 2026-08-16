@@ -110,6 +110,7 @@
 - [austinhardaway](https://github.com/austinhardaway)
 - [Alex Dickens](https://github.com/alex-dicko)
 - [shindouj](https://github.com/shindouj)
+- [FredMcAwesome](https://github.com/FredMcAwesome)
 
 ## Emby Contributors
 
@@ -173,7 +174,6 @@
 - [tikuf](https://github.com/tikuf/)
 - [Tim Hobbs](https://github.com/timhobbs)
 - [SvenVandenbrande](https://github.com/SvenVandenbrande)
-- [FredMcAwesome](https://github.com/FredMcAwesome)
 <!--
     NOTE: This is the end of the list of past Emby Contributors.
     New Jellyfin contributors should add their name to the end
