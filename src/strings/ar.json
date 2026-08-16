@@ -1943,5 +1943,6 @@
     "LabelUsernameAllowedCharactersHelp": "اسماء المستخديم قد نحتوي على حروف و أرقام و مسافات و الرموز التالية: - _ ' . @ +. لا يمكنها البدء او الانتهاء بفراغ.",
     "LabelBitmapSubtitleAspectMode": "نمط نسبة ترجمة Bitmap",
     "HlsAudioSeekStrategy": "الاستراتيجية المستخدمة عند البحث في بث HLS.",
-    "LabelHlsAudioSeekStrategy": "استراتيجية بحث الصوت."
+    "LabelHlsAudioSeekStrategy": "استراتيجية بحث الصوت.",
+    "MessageForgotPasswordRedirect": "تم إعادة توجيهك إلى جهة خارجية لإعادة تعيين كلمة العبور."
 }

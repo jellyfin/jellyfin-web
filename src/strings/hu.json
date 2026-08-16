@@ -1936,5 +1936,9 @@
     "ViewRightToLeft": "Jobbról balra",
     "ViewLeftToRight": "Balról jobbra",
     "ViewSinglePage": "Egyoldalas nézet",
-    "ViewDoublePage": "Kétoldalas nézet"
+    "ViewDoublePage": "Kétoldalas nézet",
+    "BitmapSubtitleAspectModeContain": "Tartalmaz",
+    "BitmapSubtitleAspectModeCover": "Takarás",
+    "BitmapSubtitleAspectModeHelp": "Beállíja, hogy a kliens által renderelt PGS és VobSub feliratod hogyan méreteződnek a video látható területéhez.",
+    "BitmapSubtitleAspectModeStretch": "Nyújtás"
 }
