@@ -3213,11 +3213,6 @@ export class PlaybackManager {
                 return player.nextTrack();
             }
 
-            // Clear 
-            if (player.clearNextSource) {
-                player.clearNextSource();
-            }
-
             const newItemInfo = self._playQueueManager.getNextItemInfo();
 
             if (newItemInfo) {
@@ -3403,6 +3398,12 @@ export class PlaybackManager {
             streamInfo.started = true;
 
             startPlaybackProgressTimer(player);
+
+            // Trigger preload of the next queued track now that the queue is fully set up.
+            if (player._preloadNextQueuedTrack) {
+                console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Triggering preload on playback start', streamInfo.item?.Name);
+                player._preloadNextQueuedTrack();
+            }
         }
 
         function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
@@ -3604,10 +3605,10 @@ export class PlaybackManager {
                         // If the player has already preloaded the next track, activate it directly
                         // instead of going through a full playInternal cycle.
                         const preloadedId = player.getPreloadedItemId?.();
-                        console.debug('[REDUCED-GAP][STOPPED] Checking for preloaded track',
+                        console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Checking for preloaded track',
                             { preloadedId, expectedId: nextItem.item.PlaylistItemId, nextItem: nextItem.item.Name });
                         if (preloadedId && preloadedId === nextItem.item.PlaylistItemId && player.activatePreloadedTrack) {
-                            console.debug('[REDUCED-GAP][STOPPED] Activating preloaded track', nextItem.item.Name);
+                            console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Activating preloaded track', nextItem.item.Name);
 
                             // Advance the playlist position before activating.
                             setPlaylistState(nextItem.item.PlaylistItemId, nextItem.index);
@@ -3629,23 +3630,30 @@ export class PlaybackManager {
                                 }
 
                                 const newState = self.getPlayerState(player, item, mediaSource);
-                                console.debug('[REDUCED-GAP][STOPPED] Stream info wired, reporting playback start', item.Name);
+                                console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Stream info wired, reporting playback start', item.Name);
                                 reportPlayback(self, newState, player, true, item.ServerId, 'reportPlaybackStart');
                                 Events.trigger(player, 'playbackstart', [newState]);
                                 Events.trigger(self, 'playbackstart', [player, newState]);
+
+                                // Queue preload of the track after this one now that the playlist
+                                // position has advanced and the new item is playing.
+                                if (player._preloadNextQueuedTrack) {
+                                    console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Triggering preload on preloaded-track activation', item.Name);
+                                    player._preloadNextQueuedTrack();
+                                }
                             }).catch((err) => {
-                                console.error('[REDUCED-GAP][STOPPED] activatePreloadedTrack failed — falling back to nextTrack()', err);
+                                console.error('[PRELOAD-QUEUED-AUDIO][STOPPED] activatePreloadedTrack failed — falling back to nextTrack()', err);
                                 player.clearNextSource?.();
                                 self.nextTrack();
                             });
                         } else {
                             if (preloadedId) {
                                 // Preloaded track exists but is stale — discard it before advancing.
-                                console.debug('[REDUCED-GAP][STOPPED] Preloaded track ID mismatch — discarding',
+                                console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Preloaded track ID mismatch — discarding',
                                     { preloaded: preloadedId, expected: nextItem.item.PlaylistItemId });
                                 player.clearNextSource?.();
                             } else {
-                                console.debug('[REDUCED-GAP][STOPPED] No preloaded track — falling through to nextTrack()');
+                                console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] No preloaded track — falling through to nextTrack()');
                             }
                             self.nextTrack();
                         }
@@ -3748,15 +3756,18 @@ export class PlaybackManager {
             }
             const stampedId = player._nextMediaElement.dataset.playlistItemId || null;
             if (!stampedId) {
-                console.debug('[REDUCED-GAP][VALIDATE] no stampedId on element — skipping');
+                console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] no stampedId on element — skipping');
                 return;
             }
             const nextItemInfo = self._playQueueManager.getNextItemInfo();
             const currentNextId = nextItemInfo?.item?.PlaylistItemId || null;
             if (stampedId !== currentNextId) {
-                console.debug('[REDUCED-GAP][VALIDATE] Next item changed after queue mutation — discarding preload',
+                console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] Next item changed after queue mutation — discarding preload',
                     { preloaded: stampedId, newNext: currentNextId });
                 player.clearNextSource();
+                if (player._preloadNextQueuedTrack) {
+                    player._preloadNextQueuedTrack();
+                }
             }
         }
 
@@ -3770,8 +3781,11 @@ export class PlaybackManager {
                     && player._nextMediaElement) {
                 const stampedId = player._nextMediaElement.dataset.playlistItemId;
                 if (stampedId && removeInfo.playlistItemIds.includes(stampedId)) {
-                    console.debug('[REDUCED-GAP][VALIDATE] Preloaded track was removed from queue — discarding');
+                    console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] Preloaded track was removed from queue — discarding');
                     player.clearNextSource();
+                    if (player._preloadNextQueuedTrack) {
+                        player._preloadNextQueuedTrack();
+                    }
                     return;
                 }
             }
@@ -3788,18 +3802,20 @@ export class PlaybackManager {
             // Only preload for audio playback
             const currentItem = self.currentItem(player);
             if (currentItem?.MediaType !== 'Audio') {
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Current item is not Audio — skipping preload',
+                    currentItem?.MediaType);
                 return;
             }
 
             // Check if there's a next item in the queue
             const nextItemInfo = self._playQueueManager.getNextItemInfo();
             if (nextItemInfo?.item?.MediaType !== 'Audio') {
-                console.debug('[REDUCED-GAP][PRELOAD] No next item in queue — reduced-gap preload skipped');
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] No next item in queue — reduced-gap preload skipped');
                 return;
             }
 
             const item = nextItemInfo.item;
-            console.debug('[REDUCED-GAP][PRELOAD] Resolving stream info for next track:', item.Name);
+            console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Resolving stream info for next track:', item.Name);
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
 
@@ -3816,7 +3832,7 @@ export class PlaybackManager {
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, item, null, options);
             }).then(function(mediaSource) {
                 const streamInfo = createStreamInfo(apiClient, 'Audio', item, mediaSource, 0, player);
-                console.debug('[REDUCED-GAP][PRELOAD] Stream URL resolved — handing off to player:', streamInfo.url);
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Stream URL resolved — handing off to player:', streamInfo.url);
 
                 const playOptions = {
                     item: item,
@@ -3827,11 +3843,13 @@ export class PlaybackManager {
                 // Call player's setNextSource method if available
                 if (player.setNextSource) {
                     player.setNextSource(playOptions).catch(function(err) {
-                        console.error('[REDUCED-GAP][PRELOAD] Failed to preload next track', err);
+                        console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to preload next track', err);
                     });
+                } else {
+                    console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Player does not support setNextSource — skipping');
                 }
             }).catch(function(err) {
-                console.error('[REDUCED-GAP][PRELOAD] Failed to get playback info for next track', err);
+                console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to get playback info for next track', err);
             });
         }
 

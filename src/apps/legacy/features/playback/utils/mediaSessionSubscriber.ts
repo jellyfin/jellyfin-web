@@ -159,7 +159,6 @@ class MediaSessionSubscriber extends PlaybackSubscriber {
     }
 
     onPlayerChange() {
-        if (!this.player) return;
         this.onMediaSessionUpdate({ type: 'timeupdate' });
     }
 
