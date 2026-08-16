@@ -80,6 +80,7 @@ class CastPlayer {
         this.castPlayerState = PLAYER_STATE.IDLE;
 
         this.hasReceivers = false;
+        this.sdkReady = false;
 
         // bind once - commit 2ebffc2271da0bc5e8b13821586aee2a2e3c7753
         this.errorHandler = this.onError.bind(this);
@@ -102,7 +103,14 @@ class CastPlayer {
         }
 
         if (!chrome.cast?.isAvailable) {
-            setTimeout(this.initializeCastPlayer.bind(this), 1000);
+            // Use the SDK's own ready-callback instead of polling every 1 second.
+            // This fires at ~180ms after the SDK loads rather than up to 1000ms later.
+            const prev = window.__onGCastApiAvailable;
+            window.__onGCastApiAvailable = (isAvailable) => {
+                if (typeof prev === 'function') prev(isAvailable);
+                this.sdkReady = true;
+                if (isAvailable) this.initializeCastPlayer();
+            };
             return;
         }
 
@@ -640,13 +648,23 @@ class ChromecastPlayer {
     }
 
     getTargets() {
-        const targets = [];
-
         if (this._castPlayer?.hasReceivers) {
-            targets.push(this.getCurrentTargetInfo());
+            return Promise.resolve([this.getCurrentTargetInfo()]);
         }
 
-        return Promise.resolve(targets);
+        // SDK is still loading — return a disabled placeholder so the picker
+        // shows Cast as available-but-connecting rather than hiding it entirely.
+        if (this._castPlayer && !this._castPlayer.sdkReady) {
+            return Promise.resolve([{
+                name: PlayerName,
+                id: `${PlayerName}-connecting`,
+                playerName: PlayerName,
+                deviceType: 'cast',
+                isConnecting: true
+            }]);
+        }
+
+        return Promise.resolve([]);
     }
 
     // This is a privately used method

@@ -79,7 +79,9 @@ export function show(button) {
                 id: t.id,
                 selected: currentPlayerId === t.id,
                 secondaryText: getTargetSecondaryText(t),
-                icon: getIcon(t)
+                icon: getIcon(t),
+                disabled: t.isConnecting || false,
+                title: t.isConnecting ? globalize.translate('ChromecastConnecting') : undefined
             };
         });
 

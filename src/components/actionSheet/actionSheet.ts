@@ -11,6 +11,7 @@ import '../../components/listview/listview.scss';
 
 interface OptionItem {
     asideText?: string;
+    disabled?: boolean;
     divider?: boolean;
     icon?: string;
     id?: string;
@@ -19,6 +20,7 @@ interface OptionItem {
     secondaryText?: string;
     selected?: boolean;
     textContent?: string;
+    title?: string;
     value?: string;
 }
 
@@ -259,7 +261,9 @@ export function show(options: Options) {
 
         // Check for null in case int 0 was passed in
         const optionId = item.id == null || item.id === '' ? item.value : item.id;
-        html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
+        const disabledAttr = item.disabled ? ' disabled aria-disabled="true"' : '';
+        const titleAttr = item.title ? ` title="${escapeHtml(item.title)}"` : '';
+        html += '<button' + autoFocus + disabledAttr + titleAttr + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
         itemIcon = icons[i];
 
@@ -326,7 +330,7 @@ export function show(options: Options) {
         dlg.addEventListener('click', function (e) {
             const actionSheetMenuItem = dom.parentWithClass(e.target as HTMLElement, 'actionSheetMenuItem');
 
-            if (actionSheetMenuItem) {
+            if (actionSheetMenuItem && !actionSheetMenuItem.hasAttribute('disabled')) {
                 selectedId = actionSheetMenuItem.getAttribute('data-id');
 
                 if (options.resolveOnClick) {
