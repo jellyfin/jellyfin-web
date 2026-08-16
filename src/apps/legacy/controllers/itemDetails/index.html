@@ -163,7 +163,8 @@
                         <span></span>
                     </h2>
                     <div class="selectContainer seasonSelectContainer hide">
-                        <select is="emby-select" class="selectSeason" label=""></select>
+                        <label class="clipForScreenReader" for="selectSeason">${HeaderSeasons}</label>
+                        <select is="emby-select" id="selectSeason" class="selectSeason" label=""></select>
                     </div>
                     <button is="emby-playstatebutton" type="button" class="button-flat btnSeasonPlaystate seasonPickerButton hide" title="${MarkPlayed}">
                         <span class="material-icons check" aria-hidden="true"></span>

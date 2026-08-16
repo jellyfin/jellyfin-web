@@ -34,11 +34,6 @@ const EPISODE_FIELDS = [ ...SEASON_FIELDS, ItemFields.Overview ];
 /** Marks the season whose episodes are listed below the picker. */
 const SELECTED_CARD_CLASS = 'seasonCard-selected';
 
-/** A select element upgraded by the emby-select custom element. */
-type EmbySelectElement = HTMLSelectElement & {
-    setLabel: (text: string) => void;
-};
-
 /** A button element upgraded by the emby-playstatebutton custom element. */
 type EmbyPlaystateButtonElement = HTMLElement & {
     setItem: (item: BaseItemDto | null) => void;
@@ -60,7 +55,7 @@ interface SeasonPickerElements {
     /** Shared children heading, carrying the "Seasons" title. */
     title: HTMLElement;
     selectContainer: HTMLElement;
-    select: EmbySelectElement;
+    select: HTMLSelectElement;
     /** Toggles played state for the selected season. */
     playstateButton: EmbyPlaystateButtonElement;
     /** Opens the standard item context menu for the selected season. */
@@ -109,7 +104,7 @@ export class SeasonPicker {
             header,
             title: header?.querySelector<HTMLElement>('.sectionTitle'),
             selectContainer: view.querySelector<HTMLElement>('.seasonSelectContainer'),
-            select: view.querySelector<EmbySelectElement>('.selectSeason'),
+            select: view.querySelector<HTMLSelectElement>('.selectSeason'),
             playstateButton: view.querySelector<EmbyPlaystateButtonElement>('.btnSeasonPlaystate'),
             menuButton: view.querySelector<HTMLElement>('.btnSeasonMenu'),
             cardsContainer: view.querySelector<HTMLElement>('.seasonCardsContainer'),
@@ -325,9 +320,8 @@ export class SeasonPicker {
 
         cardsContainer.classList.add('hide');
 
-        // The heading names the control, so the select's own label would duplicate it.
-        select.setLabel('');
-        select.setAttribute('aria-label', globalize.translate('HeaderSeasons'));
+        // The visible heading names the control, so emby-select's own label is left
+        // empty and hidden. The markup carries a screen reader only label instead.
         select.innerHTML = seasons.map(season => {
             const selected = season.Id === selectedId ? ' selected' : '';
             return `<option value="${season.Id}"${selected}>${escapeHtml(season.Name ?? '')}</option>`;
