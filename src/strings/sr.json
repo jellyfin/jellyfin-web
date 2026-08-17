@@ -1920,5 +1920,10 @@
     "StopWatching": "Прекини гледање",
     "HeaderBackupWarning": "УПОЗОРЕЊЕ: Заказане радње су у току",
     "TableOfContents": "Садржај",
-    "VideoRotationNotSupported": "Ротирање овог видеа није подржано"
+    "VideoRotationNotSupported": "Ротирање овог видеа није подржано",
+    "BitmapSubtitleAspectModeContain": "Ограничи",
+    "BitmapSubtitleAspectModeCover": "Прекриј",
+    "BitmapSubtitleAspectModeStretch": "Развуци",
+    "ConfirmSplitMedia": "Да ли сте сигурни да желите да поделите изхворе медија у засебне ставке?",
+    "Creators": "Креатори"
 }
