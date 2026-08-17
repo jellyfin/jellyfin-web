@@ -1908,5 +1908,12 @@
     "LabelSyncPlayJoinGroup": "Juntar-se a um grupo",
     "HeaderBackupWarning": "AVISO: Tarefas agendadas em andamento",
     "LabelBackupWarning": "Há tarefas agendadas em andamento. É recomendado pará-las ou esperar que sejam completadas antes de executar a operação de cópia de segurança.",
-    "VideoRotationNotSupported": "A rotação de vídeo não é suportada"
+    "VideoRotationNotSupported": "A rotação de vídeo não é suportada",
+    "BitmapSubtitleAspectModeContain": "Contém",
+    "BitmapSubtitleAspectModeCover": "Capa",
+    "StopWatching": "Parar de Visualizar",
+    "SeriesName": "Nome da série",
+    "CardSettings": "Definições do cartão",
+    "ConfirmStillWatching": "Ainda estás a ver?",
+    "Creators": "Criadores"
 }
