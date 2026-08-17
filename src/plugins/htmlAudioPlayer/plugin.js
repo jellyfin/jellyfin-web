@@ -123,6 +123,8 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
+                self._preloadQueuedAudioEnabled = userSettings.enablePreloadQueuedAudio();
+
                 if (browser.iOS) {
                     // createMediaElementSource breaks playbackRate and pitch on iOS WebKit
                     return;
@@ -158,8 +160,6 @@ class HtmlAudioPlayer {
                     self.gainNode.gain.value *= elem.volume;
                 }
                 console.debug('gain: ' + self.normalizationGain);
-
-                self._preloadQueuedAudioEnabled = userSettings.enablePreloadQueuedAudio();
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
