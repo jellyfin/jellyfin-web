@@ -1905,5 +1905,14 @@
     "LabelReasons": "Motivos",
     "LabelPlayerSizes": "Tamanhos do leitor",
     "OnFilesystem": "No sistema de ficheiros: {0}",
-    "LabelSyncPlayJoinGroup": "Aderir a grupo"
+    "LabelSyncPlayJoinGroup": "Aderir a grupo",
+    "BitmapSubtitleAspectModeContain": "Contém",
+    "BitmapSubtitleAspectModeCover": "Capa",
+    "CardSettings": "Definições do cartão",
+    "ConfirmStillWatching": "Ainda estás a ver?",
+    "Creators": "Criadores",
+    "Disabled": "Desativado",
+    "ViewLeftToRight": "Esquerda para a Direita",
+    "ViewRightToLeft": "Direita para a Esquerda",
+    "SeriesName": "Nome da série"
 }
