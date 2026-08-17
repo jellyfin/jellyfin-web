@@ -1070,5 +1070,6 @@
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Tíðum hevur eykatilfar sama innpakkaða heitið eins og høvuðstilfarið. Vel hetta til tess at brúka innpakkaði heitir koritini.",
     "LabelSkipIfGraphicalSubsPresent": "Leyp kykmynd um í fall hon hevur innpakkaðar undirtekstir",
     "AllowEmbeddedSubtitles": "Nokta ymiskum sløgum av innpakkaðum undirtekstum",
-    "YoutubeDenied": "Umbidna kykmyndin er noktað at verða spæld í innbygdum spælarum."
+    "YoutubeDenied": "Umbidna kykmyndin er noktað at verða spæld í innbygdum spælarum.",
+    "Banner": "Bannari"
 }
