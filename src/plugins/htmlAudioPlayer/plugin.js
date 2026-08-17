@@ -542,8 +542,7 @@ class HtmlAudioPlayer {
 
             const elem = document.createElement('audio');
             elem.preload = 'auto';
-            elem.classList.add('mediaPlayerAudioNext');
-            elem.classList.add('hide');
+            elem.classList.add('mediaPlayerAudioNext', 'hide');
             document.body.appendChild(elem);
 
             if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
