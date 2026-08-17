@@ -224,19 +224,6 @@ export class UserSettings {
     }
 
     /**
-     * Get or set 'Enable Preloading Queued Audio' state.
-     * @param {boolean|undefined} [val] - Flag to enable preloading queued audio or undefined.
-     * @return {boolean} 'Enable Preloading Queued Audio' state.
-     */
-    enablePreloadQueuedAudio(val) {
-        if (val !== undefined) {
-            return this.set('enablePreloadQueuedAudio', val.toString(), false);
-        }
-
-        return toBoolean(this.get('enablePreloadQueuedAudio', false), false);
-    }
-
-    /**
      * Get or set 'Next Video Info Overlay' state.
      * @param {boolean|undefined} [val] - Flag to enable 'Next Video Info Overlay' or undefined.
      * @return {boolean} 'Next Video Info Overlay' state.
@@ -247,6 +234,19 @@ export class UserSettings {
         }
 
         return toBoolean(this.get('enableNextVideoInfoOverlay', false), true);
+    }
+
+    /**
+     * Get or set 'Enable Preloading Queued Audio' state.
+     * @param {boolean|undefined} [val] - Flag to enable preloading queued audio or undefined.
+     * @return {boolean} 'Enable Preloading Queued Audio' state.
+     */
+    enablePreloadQueuedAudio(val) {
+        if (val !== undefined) {
+            return this.set('enablePreloadQueuedAudio', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enablePreloadQueuedAudio', false), false);
     }
 
     /**
