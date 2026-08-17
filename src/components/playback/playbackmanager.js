@@ -3253,6 +3253,18 @@ export class PlaybackManager {
             } else {
                 self._playQueueManager.queue(items);
             }
+
+            if (player._nextMediaElement) {
+                // Check if the preloaded next track was invalidated by the new queue order.
+                const nextItemInfo = self._playQueueManager.getNextItemInfo();
+                const currentNextId = nextItemInfo?.item?.PlaylistItemId || null;
+                if (player._nextMediaElement.dataset.playlistItemId !== currentNextId) {
+                    console.debug('[PRELOAD-QUEUED-AUDIO][INVALIDATE] Preloaded track was invalidated by new queue order');
+                    player.clearNextSource?.();
+                    player._preloadNextQueuedTrack?.();
+                }
+            }
+
             Events.trigger(player, 'playlistitemadd');
         }
 
