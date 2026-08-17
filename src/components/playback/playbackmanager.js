@@ -3328,6 +3328,7 @@ export class PlaybackManager {
             };
 
             const queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
+
             if (queueDirectToPlayer) {
                 const apiClient = ServerConnections.getApiClient(items[0].ServerId);
 
