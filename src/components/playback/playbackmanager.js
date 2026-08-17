@@ -3314,8 +3314,20 @@ export class PlaybackManager {
                 return;
             }
 
-            const queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
+            const invalidatePreloadedTrack = () => {
+                if (player._preloadQueuedAudioEnabled) {
+                    // Check if the preloaded next track was invalidated by the new queue order.
+                    const preloadedId = player._nextMediaElement?.dataset.playlistItemId ?? null;
+                    const currentNextId = self._playQueueManager.getNextItemInfo()?.item?.PlaylistItemId || null;
+                    if (preloadedId !== currentNextId) {
+                        console.debug('[PRELOAD-QUEUED-AUDIO][INVALIDATE] Preloaded track was invalidated by new queue order');
+                        player.clearNextSource?.();
+                        player._preloadNextQueuedTrack?.();
+                    }
+                }
+            };
 
+            const queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
             if (queueDirectToPlayer) {
                 const apiClient = ServerConnections.getApiClient(items[0].ServerId);
 
@@ -3326,6 +3338,7 @@ export class PlaybackManager {
                         } else {
                             player.queue(items);
                         }
+                        invalidatePreloadedTrack();
                     });
                 });
 
@@ -3338,17 +3351,7 @@ export class PlaybackManager {
                 self._playQueueManager.queue(items);
             }
 
-            if (player._nextMediaElement) {
-                // Check if the preloaded next track was invalidated by the new queue order.
-                const nextItemInfo = self._playQueueManager.getNextItemInfo();
-                const currentNextId = nextItemInfo?.item?.PlaylistItemId || null;
-                if (player._nextMediaElement.dataset.playlistItemId !== currentNextId) {
-                    console.debug('[PRELOAD-QUEUED-AUDIO][INVALIDATE] Preloaded track was invalidated by new queue order');
-                    player.clearNextSource?.();
-                    player._preloadNextQueuedTrack?.();
-                }
-            }
-
+            invalidatePreloadedTrack();
             Events.trigger(player, 'playlistitemadd');
         }
 
@@ -3766,20 +3769,17 @@ export class PlaybackManager {
             if (!player._nextMediaElement || !player.clearNextSource) {
                 return;
             }
-            const stampedId = player._nextMediaElement.dataset.playlistItemId || null;
-            if (!stampedId) {
+            const preloadedId = player._nextMediaElement.dataset.playlistItemId || null;
+            if (!preloadedId) {
                 console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] no stampedId on element — skipping');
                 return;
             }
-            const nextItemInfo = self._playQueueManager.getNextItemInfo();
-            const currentNextId = nextItemInfo?.item?.PlaylistItemId || null;
-            if (stampedId !== currentNextId) {
+            const currentNextId = self._playQueueManager.getNextItemInfo()?.item?.PlaylistItemId || null;
+            if (preloadedId !== currentNextId) {
                 console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] Next item changed after queue mutation — discarding preload',
-                    { preloaded: stampedId, newNext: currentNextId });
+                    { preloaded: preloadedId, newNext: currentNextId });
                 player.clearNextSource();
-                if (player._preloadNextQueuedTrack) {
-                    player._preloadNextQueuedTrack();
-                }
+                player._preloadNextQueuedTrack?.();
             }
         }
 

@@ -102,7 +102,7 @@ class HtmlAudioPlayer {
         self._nextMediaElement = null;
         self._nextPlayOptions = null;
         self._isPreloadingNext = false;
-        self._gaplessEnabled = false;
+        self._preloadQueuedAudioEnabled = false;
         self._nextGainNode = null;
         self._nextNormalizationGain = null;
 
@@ -159,7 +159,7 @@ class HtmlAudioPlayer {
                 }
                 console.debug('gain: ' + self.normalizationGain);
 
-                self._gaplessEnabled = userSettings.enableReducedGapAudio();
+                self._preloadQueuedAudioEnabled = userSettings.enablePreloadQueuedAudio();
             }).catch((err) => {
                 console.error('Failed to add/change gainNode', err);
             });
@@ -427,7 +427,7 @@ class HtmlAudioPlayer {
         };
 
         self.setNextSource = function(options) {
-            if (!self._gaplessEnabled) {
+            if (!self._preloadQueuedAudioEnabled) {
                 console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called but gapless is disabled — skipping');
                 return Promise.resolve();
             }
@@ -627,7 +627,7 @@ class HtmlAudioPlayer {
         };
 
         self.setPreloadNextTrack = function(toggle) {
-            self._gaplessEnabled = toggle;
+            self._preloadQueuedAudioEnabled = toggle;
             if (!toggle) {
                 self.clearNextSource();
             }

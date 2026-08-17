@@ -224,16 +224,16 @@ export class UserSettings {
     }
 
     /**
-     * Get or set 'Enable Reduced-Gap Audio Playback' state.
-     * @param {boolean|undefined} [val] - Flag to enable reduced-gap audio playback or undefined.
-     * @return {boolean} 'Enable Reduced-Gap Audio Playback' state.
+     * Get or set 'Enable Preloading Queued Audio' state.
+     * @param {boolean|undefined} [val] - Flag to enable preloading queued audio or undefined.
+     * @return {boolean} 'Enable Preloading Queued Audio' state.
      */
-    enableReducedGapAudio(val) {
+    enablePreloadQueuedAudio(val) {
         if (val !== undefined) {
-            return this.set('enableReducedGapAudio', val.toString(), false);
+            return this.set('enablePreloadQueuedAudio', val.toString(), false);
         }
 
-        return toBoolean(this.get('enableReducedGapAudio', false), false);
+        return toBoolean(this.get('enablePreloadQueuedAudio', false), false);
     }
 
     /**
@@ -743,8 +743,8 @@ export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bin
 export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
-export const enableReducedGapAudio = currentSettings.enableReducedGapAudio.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
+export const enablePreloadQueuedAudio = currentSettings.enablePreloadQueuedAudio.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
