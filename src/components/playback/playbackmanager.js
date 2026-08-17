@@ -3267,7 +3267,6 @@ export class PlaybackManager {
             } else {
                 self._playQueueManager.queue(items);
             }
-
             invalidatePreloadedTrack();
             Events.trigger(player, 'playlistitemadd');
         }
