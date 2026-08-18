@@ -1280,7 +1280,7 @@
     "Remuxing": "ரீமக்ஸ்",
     "AspectRatioFill": "நீட்டிக்கவும்",
     "AspectRatioCover": "பெரிதாக்கு",
-    "LabelPublishedServerUriHelp": "இடைமுகம் அல்லது கிளையன்ட் ஐபி முகவரியின் அடிப்படையில் ஜெல்லிஃபின் பயன்படுத்தும் URI ஐ மேலெழுதவும். எடுத்துக்காட்டாக: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, அல்லது all=https://jellyfin.example.com",
+    "LabelPublishedServerUriHelp": "இடைமுகம் அல்லது கிளையன்ட் ஐபி முகவரியின் அடிப்படையில் ஜெல்லிஃபின் பயன்படுத்தும் URI ஐ மேலெழுதவும். எடுத்துக்காட்டாக: internal=http://jellyfin.example.com, external=https://jellyfin.example.com, அல்லது all=https://jellyfin.example.com.",
     "LabelPublishedServerUri": "வெளியிடப்பட்ட சேவையக URI கள்",
     "LabelIsForced": "கட்டாயப்படுத்தப்பட்டது",
     "LabelEnableIP6Help": "IPv6 செயல்பாட்டை இயக்கு.",
