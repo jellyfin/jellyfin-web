@@ -15,6 +15,10 @@
       "id": "catppuccin-macchiato",
       "color": "#24273a"
     }, {
+      "name": "Catppuccin - Mocha",
+      "id": "catppuccin-mocha",
+      "color": "#1e1e2e"
+    }, {
       "name": "Dark",
       "id": "dark",
       "color": "#202020",
