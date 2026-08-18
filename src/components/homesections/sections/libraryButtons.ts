@@ -12,7 +12,7 @@ function getLibraryButtonsHtml(items: BaseItemDto[]) {
     html += '<div class="verticalSection verticalSection-extrabottompadding">';
     html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
 
-    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
+    html += '<div is="emby-itemscontainer" class="homeLibraryButtonContainer itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
 
     // library card background images
     for (let i = 0, length = items.length; i < length; i++) {
