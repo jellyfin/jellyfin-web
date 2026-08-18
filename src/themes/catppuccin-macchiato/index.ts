@@ -1,38 +1,33 @@
-import { buildCustomColorScheme } from 'themes/utils';
+import { buildCatppuccinColorScheme } from 'themes/_catppuccin/theme';
 
 /** The Catppuccin Macchiato color scheme. */
-const theme = buildCustomColorScheme({
-    palette: {
-        background: {
-            default: '#24273a',
-            paper: '#1e2030'
-        },
-        primary: {
-            main: '#7dc4e4'
-        },
-        secondary: {
-            main: '#7dc4e4'
-        },
-        text: {
-            primary: '#cad3f5',
-            secondary: '#b8c0e0'
-        },
-        // action: {
-        //     focus: '#7dc4e4',
-        //     hover: 'rgba(#7dc4e4, 0.2)'
-        // },
-        Alert: {
-            infoFilledBg: '#8aadf4',
-            infoFilledColor: '#181926'
-        },
-        AppBar: {
-            defaultBg: '#181926'
-        }
-        // Button: {
-        //     inheritContainedBg: '#082845',
-        //     inheritContainedHoverBg: '#143451'
-        // }
-    }
+const theme = buildCatppuccinColorScheme({
+    rosewater: '#f4dbd6',
+    flamingo: '#f0c6c6',
+    pink: '#f5bde6',
+    mauve: '#c6a0f6',
+    red: '#ed8796',
+    maroon: '#ee99a0',
+    peach: '#f5a97f',
+    yellow: '#eed49f',
+    green: '#a6da95',
+    teal: '#8bd5ca',
+    sky: '#91d7e3',
+    sapphire: '#7dc4e4',
+    blue: '#8aadf4',
+    lavender: '#b7bdf8',
+    text: '#cad3f5',
+    subtext1: '#b8c0e0',
+    subtext0: '#a5adcb',
+    overlay2: '#939ab7',
+    overlay1: '#8087a2',
+    overlay0: '#6e738d',
+    surface2: '#5b6078',
+    surface1: '#494d64',
+    surface0: '#363a4f',
+    base: '#24273a',
+    mantle: '#1e2030',
+    crust: '#181926'
 });
 
 export default theme;
