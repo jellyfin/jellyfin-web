@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material/styles';
 import { DEFAULT_THEME_OPTIONS } from './_base/theme';
 import appletv from './appletv';
 import blueradiance from './blueradiance';
+import catppuccinMacchiato from './catppuccin-macchiato';
 import dark from './dark';
 import light from './light';
 import purplehaze from './purplehaze';
@@ -20,6 +21,7 @@ const DEFAULT_THEME = createTheme({
     colorSchemes: {
         appletv,
         blueradiance,
+        'catppuccin-macchiato': catppuccinMacchiato,
         dark,
         light,
         purplehaze,

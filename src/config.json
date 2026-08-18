@@ -11,6 +11,10 @@
       "id": "blueradiance",
       "color": "#011432"
     }, {
+      "name": "Catppuccin - Macchiato",
+      "id": "catppuccin-macchiato",
+      "color": "#24273a"
+    }, {
       "name": "Dark",
       "id": "dark",
       "color": "#202020",

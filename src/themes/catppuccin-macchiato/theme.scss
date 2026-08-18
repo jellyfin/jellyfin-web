@@ -1,0 +1,62 @@
+$rosewater: #f4dbd6;
+$flamingo: #f0c6c6;
+$pink: #f5bde6;
+$muave: #c6a0f6;
+$red: #ed8796;
+$maroon: #ee99a0;
+$peach: #f5a97f;
+$yellow: #eed49f;
+$green: #a6da95;
+$teal: #8bd5ca;
+$sky: #91d7e3;
+$sapphire: #7dc4e4;
+$blue: #8aadf4;
+$lavender: #b7bdf8;
+$text-primary: #cad3f5;
+$text-secondary: #b8c0e0;
+$base: #24273a;
+$mantle: #1e2030;
+$crust: #181926;
+$surface-0: #5b6078;
+
+/* Import the base theme with overrides */
+@use "../_base/theme" with (
+    // Theme options
+    $dark: true,
+    $rounded-person-cards: true,
+
+    // Color palette
+    $background-default: $base,
+    $background-paper: $mantle,
+    $text-primary: $text-primary,
+    $text-secondary: $text-secondary,
+    $primary-main: $sapphire,
+    $secondary-main: $sapphire,
+    // $action-focus: $sapphire,
+    // $action-hover: rgba($sapphire, 0.2),
+    // Components
+    $appBar-defaultBg: $crust,
+    $appBar-transparentBg: rgba($crust, 0.86),
+    $alert-infoFilledBg: $blue,
+    $alert-infoFilledColor: $crust /* $button-inheritContainedBg: #082845,
+    $button-inheritContainedHoverBg: #143451 */
+);
+
+/* Card background color variants */
+.defaultCardBackground1,
+.defaultCardBackground2,
+.defaultCardBackground3,
+.defaultCardBackground4,
+.defaultCardBackground5 {
+    color: $base;
+    background-color: $surface-0;
+}
+
+/* Detail ribbon on item details pages */
+.detailRibbon {
+    background-color: $crust;
+
+    .layout-tv & {
+        background: none;
+    }
+}
