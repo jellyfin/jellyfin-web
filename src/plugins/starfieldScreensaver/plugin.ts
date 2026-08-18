@@ -9,6 +9,7 @@ interface Star {
     maxAlpha: number;
     hue: number;
     sat: number;
+    lum: number;
     shape: StarShape;
     fadeIn: number;
     hold: number;
@@ -29,18 +30,18 @@ interface Meteor {
 }
 
 const CONFIG = {
-    maxStarsNormal: 100,
+    maxStarsNormal: 70,
     maxStarsReducedMotion: 90,
     // Share of stars rendered as "x" / "+" diffraction spikes instead of plain dots.
     starShapeChance: { x: 0.11, plus: 0.11 },
     meteor: {
-        minIntervalMs: 50 * 1000,
-        maxIntervalMs: 180 * 1000,
+        minIntervalMs: 60 * 1000,
+        maxIntervalMs: 1200 * 1000,
         speedMinPxPerMs: 0.9,
         speedMaxPxPerMs: 1.6,
         lengthMin: 190,
         lengthMax: 1700,
-        lineWidth: 2
+        lineWidth: 1
     }
 };
 
@@ -71,17 +72,17 @@ function alphaForStar(star: Star, age: number): number {
 
 // Picks a realistic star color: mostly whitish, some blueish (hot stars like
 // Sirius/Rigel), some reddish (cool stars like Betelgeuse/Antares).
-function pickStarPalette(): { hue: number; sat: number } {
+function pickStarPalette(): { hue: number; sat: number; lum: number } {
     // Cosmetic randomness only (star color), not security-sensitive.
     const r = Math.random(); // NOSONAR
 
     if (r < 0.15) {
-        return { hue: randomBetween(0, 25), sat: randomBetween(75, 95) }; // reddish
+        return { hue: randomBetween(0, 25), sat: randomBetween(75, 95), lum: 85 }; // reddish
     }
     if (r < 0.30) {
-        return { hue: randomBetween(200, 230), sat: randomBetween(75, 95) }; // blueish
+        return { hue: randomBetween(200, 230), sat: randomBetween(75, 95), lum: 82 }; // blueish
     }
-    return { hue: randomBetween(40, 60), sat: randomBetween(5, 20) }; // whitish/neutral (majority)
+    return { hue: randomBetween(40, 60), sat: randomBetween(5, 20), lum: 88 }; // whitish/neutral (majority)
 }
 
 // Quick fade-in, then fade-out towards the end of the meteor's trajectory.
@@ -127,9 +128,9 @@ class StarfieldScreensaver {
     private readonly spawnStar = (): void => {
         if (!this.width || !this.height) return;
 
-        const fadeIn = randomBetween(600, 1600);
-        const hold = randomBetween(200, 900);
-        const fadeOut = randomBetween(800, 2200);
+        const fadeIn = randomBetween(1600, 2600);
+        const hold = randomBetween(1200, 1900);
+        const fadeOut = randomBetween(1800, 3200);
         const palette = pickStarPalette();
 
         this.stars.push({
@@ -139,6 +140,7 @@ class StarfieldScreensaver {
             maxAlpha: randomBetween(0.35, 1),
             hue: palette.hue,
             sat: palette.sat,
+            lum: palette.lum,
             shape: pickStarShape(),
             fadeIn,
             hold,
@@ -150,15 +152,15 @@ class StarfieldScreensaver {
 
     private readonly scheduleNextSpawn = (delayOverride?: number): void => {
         // The spawn interval is derived from the desired star count: average
-        // star lifetime (fadeIn+hold+fadeOut, ~3150ms on average) divided by
-        // the target count. This keeps the steady-state population (new
-        // stars balancing fading-out stars) actually close to
-        // maxStarsNormal/maxStarsReducedMotion, instead of the limit having
-        // no real effect.
+        // star lifetime (fadeIn+hold+fadeOut, ~6150ms on average with the
+        // current fade timings) divided by the target count. This keeps the
+        // steady-state population (new stars balancing fading-out stars)
+        // actually close to maxStarsNormal/maxStarsReducedMotion, instead of
+        // the limit having no real effect.
         const maxConcurrent = this.prefersReducedMotion
             ? CONFIG.maxStarsReducedMotion
             : CONFIG.maxStarsNormal;
-        const avgStarLifetimeMs = 3150;
+        const avgStarLifetimeMs = 6150;
         const targetInterval = avgStarLifetimeMs / Math.max(1, maxConcurrent);
         const delay = delayOverride ?? randomBetween(targetInterval * 0.5, targetInterval * 1.5);
 
@@ -209,9 +211,9 @@ class StarfieldScreensaver {
         ctx.save();
         if (star.maxAlpha > 0.7) {
             ctx.shadowBlur = star.radius * 5;
-            ctx.shadowColor = `hsla(${star.hue}, ${star.sat}%, 88%, ${alpha * 0.6})`;
+            ctx.shadowColor = `hsla(${star.hue}, ${star.sat}%, ${star.lum}%, ${alpha * 0.6})`;
         }
-        const color = `hsla(${star.hue}, ${star.sat}%, 88%, ${alpha})`;
+        const color = `hsla(${star.hue}, ${star.sat}%, ${star.lum}%, ${alpha})`;
 
         if (star.shape === 'circle') {
             ctx.beginPath();
@@ -225,8 +227,8 @@ class StarfieldScreensaver {
             const dirs: [number, number][] = star.shape === 'x'
                 ? [[0.7071, 0.7071], [0.7071, -0.7071], [-0.7071, 0.7071], [-0.7071, -0.7071]]
                 : [[1, 0], [-1, 0], [0, 1], [0, -1]];
-            const tipDist = star.radius * 3.2;
-            const baseWidth = Math.max(0.5, star.radius * 0.9);
+            const tipDist = star.radius * 15.2;
+            const baseWidth = Math.max(0.5, star.radius * 0.4);
 
             // Soft, bright core in the center.
             ctx.beginPath();
@@ -241,7 +243,7 @@ class StarfieldScreensaver {
                 const perpY = dx * (baseWidth / 2);
                 const gradient = ctx.createLinearGradient(star.x, star.y, tipX, tipY);
                 gradient.addColorStop(0, color);
-                gradient.addColorStop(1, `hsla(${star.hue}, ${star.sat}%, 88%, 0)`);
+                gradient.addColorStop(1, `hsla(${star.hue}, ${star.sat}%, ${star.lum}%, 0)`);
 
                 ctx.beginPath();
                 ctx.moveTo(star.x + perpX, star.y + perpY);
@@ -355,6 +357,7 @@ class StarfieldScreensaver {
         this.container.style.height = '100%';
         this.container.style.backgroundColor = '#000';
         this.container.style.zIndex = '99999';
+        this.container.style.cursor = 'none';
 
         this.canvas = document.createElement('canvas');
         this.canvas.style.display = 'block';
