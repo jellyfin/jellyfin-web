@@ -1,8 +1,5 @@
 /* Import the base Catppuccin theme with overrides */
 @use "../_catppuccin/theme" with (
-    // Theme options
-    $dark: true,
-
     // Color palette
     $rosewater: #f4dbd6,
     $flamingo: #f0c6c6,
