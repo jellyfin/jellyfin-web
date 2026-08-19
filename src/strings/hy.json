@@ -73,5 +73,10 @@
     "ContainerNotSupported": "Տվյալ վիդեոյի կրիչը չի սպասարկվում",
     "SelectAll": "Ընտրել բոլորը",
     "HeaderSecondsValue": "{0} Վարկյան",
-    "Label3DFormat": "3D ձևաչափ"
+    "Label3DFormat": "3D ձևաչափ",
+    "Artists": "Երաժիշտներ",
+    "Default": "Լռելյայն",
+    "AddToPlaylist": "Ավելացնել պլայլիստ",
+    "Favorites": "Ընտրյալ",
+    "Genres": "Ոճ"
 }
