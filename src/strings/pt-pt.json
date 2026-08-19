@@ -1375,7 +1375,7 @@
     "AllowVppTonemappingHelp": "Mapeamento de tons totalmente baseado no controlador Intel. Atualmente, só funciona com vídeos HDR10 em determinado hardware. Tem prioridade sobre a outra implementação OpenCL.",
     "EnableVppTonemapping": "Ativar o mapeamento de tons VPP",
     "EnableEnhancedNvdecDecoder": "Ativar o descodificador NVDEC melhorado",
-    "UseEpisodeImagesInNextUpHelp": "As secções «A seguir» e «Continuar a ver» vão utilizar imagens dos episódios como miniatura em vez da imagem primária da série.",
+    "UseEpisodeImagesInNextUpHelp": "As secções «A seguir» e «Continuar a ver» vão utilizar imagens dos episódios como miniatura em vez da imagem principal da série.",
     "UseEpisodeImagesInNextUp": "Utilizar imagens do episódio nas secções «A seguir» e «Continuar a ver»",
     "Typewriter": "Máquina de escrever",
     "TypeOptionPluralVideo": "Vídeos",
