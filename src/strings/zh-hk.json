@@ -1351,7 +1351,7 @@
     "MediaSegmentType.Intro": "片頭",
     "MediaSegmentType.Outro": "片尾",
     "MediaSegmentType.Preview": "預告",
-    "MediaSegmentType.Recap": "回顧",
+    "MediaSegmentType.Recap": "劇情回顧",
     "MenuClose": "關閉選單",
     "MessageAreYouSureYouWishToRemoveMediaFolder": "你確定要移除呢個媒體資料夾？",
     "MessageBackupDisclaimer": "備份過程可能需要一啲時間，具體取決於你媒體櫃嘅大細。",
