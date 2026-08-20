@@ -1937,5 +1937,6 @@
     "BitmapSubtitleAspectModeContain": "Conţine",
     "BitmapSubtitleAspectModeCover": "Copertă",
     "BitmapSubtitleAspectModeHelp": "Controlează modul în care subtitrările PGS și VobSub afișate clientului sunt scalate în funcție de zona video vizibilă.",
-    "BitmapSubtitleAspectModeStretch": "Întinde"
+    "BitmapSubtitleAspectModeStretch": "Întinde",
+    "LabelBitmapSubtitleAspectMode": "Mod de aspect al subtitrării bitmap"
 }
