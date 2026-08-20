@@ -1080,5 +1080,11 @@
     "LabelHomeScreenSectionValue": "{0}. forsíðuteigur",
     "LabelTVHomeScreen": "Forsíðan í sjónvarpsstøðu",
     "EnableColorCodedBackgrounds": "Flokslittar bakgrundir",
-    "RecentlyWatched": "Seinast hugdar at"
+    "RecentlyWatched": "Seinast hugdar at",
+    "CancelSeries": "Frásig sendirøð",
+    "GoHome": "Far til forsíðuna",
+    "HeaderActiveRecordings": "Upptøkur í gongd",
+    "HeaderAdditionalParts": "Aðrir partar",
+    "HeaderCancelRecording": "Avlýs upptøku",
+    "HeaderCancelSeries": "Frásig sendirøð"
 }
