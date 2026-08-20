@@ -913,7 +913,7 @@
     "EnableBackdropsHelp": "Vís bakmyndir í bakgrundini á summum síðum í savninum.",
     "Guide": "Sjónvarpsskrá",
     "HeaderGuideProviders": "Veitarar av sjónvarpsskráum",
-    "HeaderRunningTasks": "Verksettar koyrslur",
+    "HeaderRunningTasks": "Koyrslur í gerð",
     "HeaderServerMismatch": "Ósambæri við ambætara",
     "HeaderSpecialEpisodeInfo": "Upplýsingar um eykapart",
     "HeaderSyncPlaySettings": "SyncPlay-stillingar",
@@ -1078,5 +1078,7 @@
     "Home": "Forsíða",
     "DisplayInMyMedia": "Vís á forsíðuni",
     "LabelHomeScreenSectionValue": "{0}. forsíðuteigur",
-    "LabelTVHomeScreen": "Forsíðan í sjónvarpsstøðu"
+    "LabelTVHomeScreen": "Forsíðan í sjónvarpsstøðu",
+    "EnableColorCodedBackgrounds": "Flokslittar bakgrundir",
+    "RecentlyWatched": "Seinast hugd at"
 }
