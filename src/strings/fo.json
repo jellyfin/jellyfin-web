@@ -1091,5 +1091,9 @@
     "HeaderMoreLikeThis": "Fleiri líkir hesum",
     "HeaderOnNow": "Á skrá nú",
     "HeaderStopRecording": "Steðga upptøku",
-    "LabelBurnSubtitles": "Kykmyndafest undirtekstir"
+    "LabelBurnSubtitles": "Kykmyndafest undirtekstir",
+    "LabelRecord": "Tak uppá",
+    "LabelSkipForwardLength": "Tíðarbil at spola fram við",
+    "LabelSkipBackLength": "Tíðarbil at spola aftur við",
+    "LabelTextWeight": "Teksttjúkd"
 }
