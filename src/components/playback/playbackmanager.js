@@ -748,6 +748,53 @@ export class PlaybackManager {
             return data.streamInfo ? data.streamInfo.mediaSource : null;
         };
 
+        self.refreshMediaSource = function (player) {
+            player = player || self._currentPlayer;
+
+            if (!player || !enableLocalPlaylistManagement(player)) {
+                return Promise.resolve(null);
+            }
+
+            const streamInfo = getPlayerData(player).streamInfo;
+            const mediaSource = streamInfo?.mediaSource;
+            const item = self.currentItem(player);
+
+            if (!mediaSource || !item?.ServerId) {
+                return Promise.resolve(null);
+            }
+
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
+
+            return player.getDeviceProfile(item).then(function (deviceProfile) {
+                return getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSource.Id, streamInfo.liveStreamId, {
+                    isPlayback: false,
+                    maxBitrate: self.getMaxStreamingBitrate(player),
+                    audioStreamIndex: getPlayerData(player).audioStreamIndex,
+                    subtitleStreamIndex: getPlayerData(player).subtitleStreamIndex
+                });
+            }).then(function (result) {
+                const refreshed = result?.MediaSources?.find(function (source) {
+                    return source.Id === mediaSource.Id;
+                });
+
+                if (!refreshed) {
+                    return null;
+                }
+
+                mediaSource.MediaStreams = refreshed.MediaStreams;
+
+                const subtitleIndex = getPlayerData(player).subtitleStreamIndex;
+                if (subtitleIndex != null && subtitleIndex !== -1 && !self.getSubtitleStream(player, subtitleIndex)) {
+                    getPlayerData(player).subtitleStreamIndex = -1;
+                    player.setSubtitleStreamIndex(-1);
+                }
+
+                Events.trigger(player, PlayerEvent.MediaStreamsChange);
+
+                return mediaSource;
+            });
+        };
+
         self.playMethod = function (player) {
             if (!player) {
                 throw new Error('player cannot be null');
