@@ -1103,5 +1103,6 @@
     "OptionIsHD": "HD",
     "OptionIsSD": "SD",
     "PlaybackData": "Spæliupplýsingar",
-    "PlaybackRate": "Spæliferð"
+    "PlaybackRate": "Spæliferð",
+    "PlayNextEpisodeAutomatically": "Spæl næsta part sjálvvirkandi"
 }
