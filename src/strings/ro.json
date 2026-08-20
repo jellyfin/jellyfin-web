@@ -1938,5 +1938,6 @@
     "BitmapSubtitleAspectModeCover": "Copertă",
     "BitmapSubtitleAspectModeHelp": "Controlează modul în care subtitrările PGS și VobSub afișate clientului sunt scalate în funcție de zona video vizibilă.",
     "BitmapSubtitleAspectModeStretch": "Întinde",
-    "LabelBitmapSubtitleAspectMode": "Mod de aspect al subtitrării bitmap"
+    "LabelBitmapSubtitleAspectMode": "Mod de aspect al subtitrării bitmap",
+    "MessageForgotPasswordRedirect": "Ați fost redirecționat către un furnizor extern pentru resetarea parolei."
 }
