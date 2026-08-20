@@ -1104,5 +1104,10 @@
     "OptionIsSD": "SD",
     "PlaybackData": "Spæliupplýsingar",
     "PlaybackRate": "Spæliferð",
-    "PlayNextEpisodeAutomatically": "Spæl næsta part sjálvvirkandi"
+    "PlayNextEpisodeAutomatically": "Spæl næsta part sjálvvirkandi",
+    "RecordingCancelled": "Upptøkan er avlýst.",
+    "RecordSeries": "Tak sendirøðina uppá",
+    "StillWatchingPrompt": "Hyggur tú framvegis?-spurningar",
+    "LabelPlaybackInfo": "Spæliupplýsingar",
+    "PreferFmp4HlsContainer": "Umbið fMP4-HLS miðlapakkasnið"
 }
