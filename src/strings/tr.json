@@ -1941,5 +1941,7 @@
     "AudioLanguages": "Ses Dilleri",
     "SubtitleLanguages": "Altyazı dilleri",
     "BitmapSubtitleAspectModeHelp": "İstemci tarafından oluşturulan PGS ve VobSub altyazılarının görünür video alanına nasıl ölçeklendirileceğini belirler.",
-    "BitmapSubtitleAspectModeStretch": "Genişlet"
+    "BitmapSubtitleAspectModeStretch": "Genişlet",
+    "BitmapSubtitleAspectModeContain": "Sığdır",
+    "BitmapSubtitleAspectModeCover": "Kapla"
 }

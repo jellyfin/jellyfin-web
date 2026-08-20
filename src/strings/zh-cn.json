@@ -1776,7 +1776,7 @@
     "MediaSegmentType.Intro": "片头",
     "MediaSegmentType.Outro": "片尾",
     "MediaSegmentType.Preview": "预告",
-    "MediaSegmentType.Recap": "回顾",
+    "MediaSegmentType.Recap": "剧情回顾",
     "HeaderNewPlaylist": "新建播放列表",
     "PlaylistError.UpdateFailed": "更新播放列表时出错",
     "MediaSegmentAction.AskToSkip": "询问是否跳过",

@@ -1943,5 +1943,6 @@
     "Novel": "Roman",
     "Screenplay": "Scénario",
     "HlsAudioSeekStrategy": "Stratégie à adopter pour effectuer des recherches dans les flux HLS.",
-    "LabelHlsAudioSeekStrategy": "Stratégie de recherche audio."
+    "LabelHlsAudioSeekStrategy": "Stratégie de recherche audio.",
+    "MessageForgotPasswordRedirect": "Vous avez été transféré vers un service externe pour la récupération de votre mot de passe."
 }
