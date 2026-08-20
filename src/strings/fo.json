@@ -1086,5 +1086,9 @@
     "HeaderActiveRecordings": "Upptøkur í gongd",
     "HeaderAdditionalParts": "Aðrir partar",
     "HeaderCancelRecording": "Avlýs upptøku",
-    "HeaderCancelSeries": "Frásig sendirøð"
+    "HeaderCancelSeries": "Frásig sendirøð",
+    "HeaderMyMediaSmall": "Mínir miðlar (lítil)",
+    "HeaderMoreLikeThis": "Fleiri líkir hesum",
+    "HeaderOnNow": "Á skrá nú",
+    "HeaderStopRecording": "Steðga upptøku"
 }
