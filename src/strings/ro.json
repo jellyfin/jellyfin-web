@@ -1935,5 +1935,7 @@
     "AudioLanguages": "Limbă audio",
     "SubtitleLanguages": "Limbă subtitrare",
     "BitmapSubtitleAspectModeContain": "Conţine",
-    "BitmapSubtitleAspectModeCover": "Copertă"
+    "BitmapSubtitleAspectModeCover": "Copertă",
+    "BitmapSubtitleAspectModeHelp": "Controlează modul în care subtitrările PGS și VobSub afișate clientului sunt scalate în funcție de zona video vizibilă.",
+    "BitmapSubtitleAspectModeStretch": "Întinde"
 }
