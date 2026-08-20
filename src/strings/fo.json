@@ -1095,5 +1095,13 @@
     "LabelRecord": "Tak uppá",
     "LabelSkipForwardLength": "Tíðarbil at spola fram við",
     "LabelSkipBackLength": "Tíðarbil at spola aftur við",
-    "LabelTextWeight": "Teksttjúkd"
+    "LabelTextWeight": "Teksttjúkd",
+    "LabelVideoCodec": "Kykmynda-kodek",
+    "MarkPlayed": "Merk spældan",
+    "MarkUnplayed": "Merk óspældan",
+    "MediaInfoCodec": "Kodek",
+    "OptionIsHD": "HD",
+    "OptionIsSD": "SD",
+    "PlaybackData": "Spæliupplýsingar",
+    "PlaybackRate": "Spæliferð"
 }
