@@ -1231,22 +1231,14 @@ export default function (view) {
 
         import('components/subtitleeditor/subtitleeditor')
             .then(({ default: subtitleEditor }) => subtitleEditor.show(currentItem.Id, currentItem.ServerId))
-            .then(() => refreshSubtitleTracks(currentPlayer))
+            .then(() => playbackManager.refreshMediaSource(currentPlayer)
+                .catch(
+                    (err) => {
+                        console.error('[videoosd] failed to refresh the subtitle tracks', err)
+                    }))
             // The editor rejects when it is closed without changes
             .catch(() => { /* no changes */ })
             .finally(resetIdle);
-    }
-
-    /**
-     * The player holds the media source it started with, so a subtitle added during playback
-     * is only listed after the source is read again
-     */
-    async function refreshSubtitleTracks(player) {
-        try {
-            await playbackManager.refreshMediaSource(player);
-        } catch (err) {
-            console.error('[videoosd] failed to refresh the subtitle tracks', err);
-        }
     }
 
     function toggleSubtitleSync(action) {
