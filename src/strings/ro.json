@@ -1933,5 +1933,16 @@
     "NoCastTargets": "Nu există destinații de redare",
     "SeriesName": "Nume Serie",
     "AudioLanguages": "Limbă audio",
-    "SubtitleLanguages": "Limbă subtitrare"
+    "SubtitleLanguages": "Limbă subtitrare",
+    "BitmapSubtitleAspectModeContain": "Conţine",
+    "BitmapSubtitleAspectModeCover": "Copertă",
+    "BitmapSubtitleAspectModeHelp": "Controlează modul în care subtitrările PGS și VobSub afișate clientului sunt scalate în funcție de zona video vizibilă.",
+    "BitmapSubtitleAspectModeStretch": "Întinde",
+    "LabelBitmapSubtitleAspectMode": "Mod de aspect al subtitrării bitmap",
+    "MessageForgotPasswordRedirect": "Ați fost redirecționat către un furnizor extern pentru resetarea parolei.",
+    "Novel": "Roman",
+    "Screenplay": "Scenariul",
+    "HlsAudioSeekStrategy": "Strategia utilizată la căutarea în fluxuri HLS.",
+    "LabelHlsAudioSeekStrategy": "Strategia de căutare audio.",
+    "LabelUsernameAllowedCharactersHelp": "Numele de utilizator poate conține litere, cifre, spații și următoarele caractere: - _ ' . @ +. Nu poate începe sau termina cu un spațiu."
 }

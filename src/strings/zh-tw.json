@@ -1746,8 +1746,8 @@
     "MessageSplitVersionsError": "分割版本時發生錯誤",
     "LabelLyricDownloaders": "歌詞下載器",
     "LyricDownloadersHelp": "啟用並依照偏好排序歌詞下載器。",
-    "RenderPgsSubtitle": "實驗性 PGS 字幕渲染",
-    "RenderPgsSubtitleHelp": "在用戶端渲染 PGS 字幕，代替伺服器端燒錄字幕。以降低用戶端效能為代價避免伺服器端轉檔。",
+    "RenderPgsSubtitle": "實驗性 PGS 及 VobSub 字幕渲染",
+    "RenderPgsSubtitleHelp": "在用戶端渲染 PGS 及 VobSub 字幕，代替伺服器端燒錄字幕。以降低用戶端效能為代價避免伺服器端轉檔。",
     "PreferNonstandardArtistsTag": "可用時偏好 ARTISTS 標籤",
     "PreferNonstandardArtistsTagHelp": "可用時使用非標準的 ARTISTS 標籤代替 ARTIST 標籤。",
     "ReplaceTrickplayImages": "替換現有的快轉縮圖",
@@ -1873,5 +1873,16 @@
     "LabelSlideshowIntervalHelp": "幻燈片中每張相片顯示的時間（秒）。",
     "NewPlaylist": "新增播放清單",
     "OptionDatePlaylistUpdated": "播放清單更新日期",
-    "ActivitiesLoadError": "無法載入活動"
+    "ActivitiesLoadError": "無法載入活動",
+    "BitmapSubtitleAspectModeContain": "適應畫面",
+    "BitmapSubtitleAspectModeCover": "填滿",
+    "BitmapSubtitleAspectModeHelp": "控制由用戶端渲染的 PGS 及 VobSub 字幕如何縮放，以配合可見的影片畫面範圍。",
+    "BitmapSubtitleAspectModeStretch": "縮放",
+    "LabelBitmapSubtitleAspectMode": "Bitmap字幕長寬比模式",
+    "MessageForgotPasswordRedirect": "你已被重新導向至外部服務提供商以重置密碼。",
+    "Novel": "原著小說",
+    "Screenplay": "劇本",
+    "HlsAudioSeekStrategy": "設定 HLS 串流跳轉播放位置時使用的策略。",
+    "LabelHlsAudioSeekStrategy": "音頻快進策略",
+    "LabelUsernameAllowedCharactersHelp": "用戶名可以包含字母、數字及如下字符「 - _ ' . @ +」，并且不能以空格開始或結束。"
 }

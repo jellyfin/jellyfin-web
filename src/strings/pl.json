@@ -1746,8 +1746,8 @@
     "VideoCodecTagNotSupported": "Tag kodeka wideo nie jest obsługiwany",
     "LabelLyricDownloaders": "Dostawcy słów",
     "LyricDownloadersHelp": "Umożliwia aktywowanie i używanie dostawców tekstów w preferowanej kolejności.",
-    "RenderPgsSubtitle": "Eksperymentalne renderowanie napisów PGS",
-    "RenderPgsSubtitleHelp": "Określ, czy klient powinien renderować napisy PGS zamiast używać wypalonych napisów. Dzięki temu można uniknąć transkodowania po stronie serwera w zamian za wydajność renderowania po stronie klienta.",
+    "RenderPgsSubtitle": "Eksperymentalne renderowanie napisów PGS i VobSub",
+    "RenderPgsSubtitleHelp": "Określ, czy klient powinien renderować napisy PGS i VobSub zamiast używać wypalonych napisów. Dzięki temu można uniknąć transkodowania po stronie serwera w zamian za wydajność renderowania po stronie klienta.",
     "LabelAudioTagSettings": "Ustawienia tagów audio",
     "LabelDelimiterWhitelist": "Biała lista ograniczników",
     "LabelDelimiterWhitelistHelp": "Elementy, które należy wykluczyć z podziału tagów. Jeden element w wierszu.",
@@ -1933,5 +1933,16 @@
     "ViewRightToLeft": "Od prawej do lewej",
     "SeriesName": "Nazwa serialu",
     "AudioLanguages": "Języki audio",
-    "SubtitleLanguages": "Języki napisów"
+    "SubtitleLanguages": "Języki napisów",
+    "BitmapSubtitleAspectModeContain": "Obejmij",
+    "BitmapSubtitleAspectModeCover": "Zakryj",
+    "BitmapSubtitleAspectModeHelp": "Steruje skalowaniem napisów PGS i VobSub renderowanych przez klienta do widocznego obszaru wideo.",
+    "BitmapSubtitleAspectModeStretch": "Rozciągnij",
+    "LabelBitmapSubtitleAspectMode": "Tryb proporcji napisów bitmapowych",
+    "Novel": "Powieść",
+    "Screenplay": "Scenariusz",
+    "LabelUsernameAllowedCharactersHelp": "Nazwy użytkowników mogą zawierać litery, cyfry, spacje i następujące znaki: - _ ' . @ +. Nie mogą zaczynać się ani kończyć spacją.",
+    "HlsAudioSeekStrategy": "Strategia do wykorzystania podczas przeszukiwania strumieni HLS.",
+    "LabelHlsAudioSeekStrategy": "Strategia przeszukiwania dźwięku.",
+    "MessageForgotPasswordRedirect": "Przekierowano do zewnętrznego dostawcy w celu zresetowania hasła."
 }

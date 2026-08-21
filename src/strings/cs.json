@@ -1774,7 +1774,7 @@
     "MediaSegmentType.Commercial": "Komerční",
     "MediaSegmentType.Intro": "Úvod",
     "MediaSegmentType.Outro": "Závěrečné titulky",
-    "MediaSegmentType.Preview": "Ukázka",
+    "MediaSegmentType.Preview": "Náhled",
     "MediaSegmentType.Recap": "Rekapitulace",
     "PlaylistError.UpdateFailed": "Aktualizace seznamu skladeb se nezdařila",
     "HeaderMediaSegmentActions": "Akce segmentu médií",
@@ -1939,5 +1939,10 @@
     "BitmapSubtitleAspectModeHelp": "Určuje, jakým způsobem se titulky ve formátech PGS a VobSub, které jsou vykreslovány na straně klienta, přizpůsobují viditelné oblasti videa.",
     "BitmapSubtitleAspectModeStretch": "Roztáhnout",
     "LabelBitmapSubtitleAspectMode": "Režim zobrazení bitmapových titulků",
-    "LabelUsernameAllowedCharactersHelp": "Uživatelská jména mohou obsahovat písmena, číslice, mezery a následující znaky: - _ ' . @ +. Nesmí začínat ani končit mezerou."
+    "LabelUsernameAllowedCharactersHelp": "Uživatelská jména mohou obsahovat písmena, číslice, mezery a následující znaky: - _ ' . @ +. Nesmí začínat ani končit mezerou.",
+    "Novel": "Román",
+    "Screenplay": "Scénář",
+    "HlsAudioSeekStrategy": "Strategie pro vyhledávání v datových tocích HLS.",
+    "LabelHlsAudioSeekStrategy": "Strategie vyhledávání v audiu.",
+    "MessageForgotPasswordRedirect": "Byli jste přesměrováni na stránku externího poskytovatele za účelem resetování hesla."
 }

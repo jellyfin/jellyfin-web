@@ -1926,5 +1926,19 @@
     "HeaderSplitMedia": "Szétválasztjuk a médiát",
     "IndexNumber": "Index szám",
     "NoCastTargets": "Nincs elérhető célpont",
-    "MessageNoEpisodesFound": "Jelenleg egyetlen epizód sem érhető el."
+    "MessageNoEpisodesFound": "Jelenleg egyetlen epizód sem érhető el.",
+    "SubtitleLanguages": "Felirat nyelvek",
+    "AudioLanguages": "Hangsáv nyelvek",
+    "LabelUsernameAllowedCharactersHelp": "A felhasználónevek tartalmazhatnak betűket, számokat, szóközt, és a következő karaktereket: - _ ' . @ +. Nem kezdődhetnek és végződhetnek szóközzel.",
+    "SeriesName": "Sorozat név",
+    "Screenplay": "Forgatókönyv",
+    "Novel": "Regény",
+    "ViewRightToLeft": "Jobbról balra",
+    "ViewLeftToRight": "Balról jobbra",
+    "ViewSinglePage": "Egyoldalas nézet",
+    "ViewDoublePage": "Kétoldalas nézet",
+    "BitmapSubtitleAspectModeContain": "Tartalmaz",
+    "BitmapSubtitleAspectModeCover": "Takarás",
+    "BitmapSubtitleAspectModeHelp": "Beállíja, hogy a kliens által renderelt PGS és VobSub feliratod hogyan méreteződnek a video látható területéhez.",
+    "BitmapSubtitleAspectModeStretch": "Nyújtás"
 }

@@ -187,6 +187,7 @@ export class BookPlayer {
 
         document.addEventListener('keydown', this.onWindowKeyDown);
         this.rendition?.on('keydown', this.onWindowKeyDown);
+        this.rendition?.on('rendered', (e, i) => this.forwardEvents(i.document));
 
         if (browser.safari) {
             this.addSwipeGestures(document.querySelector('#bookPlayerContainer'));
@@ -205,6 +206,13 @@ export class BookPlayer {
         }
 
         this.touchHelper?.destroy();
+    }
+
+    // ensure certain iframe events are forwarded to the document for BookOsd visibility listeners
+    forwardEvents(iframe) {
+        // eslint-disable-next-line compat/compat
+        iframe.addEventListener('pointermove', (event) => document.dispatchEvent(new PointerEvent(event.type, event)));
+        iframe.addEventListener('click', (event) => document.dispatchEvent(new MouseEvent(event.type, event)));
     }
 
     openTableOfContents() {

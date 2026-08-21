@@ -20,6 +20,7 @@ import { LibraryTab } from 'types/libraryTab';
 import type { ListOptions } from 'types/listOptions';
 
 import AlphabetPicker from './AlphabetPicker';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const ItemsView: FC = () => {
     const {
@@ -38,6 +39,14 @@ const ItemsView: FC = () => {
         [setViewSettings]
     );
     const { isAlphabetPickerEnabled, noItemsMessage } = content ?? {};
+    // Check if the alphabet picker will fit in the current viewport
+    const isAlphabetPickerSupported = useMediaQuery(t => [
+        // Extra small screens have no padding around letters but larger AppBar
+        `${t.breakpoints.down('sm')} and (min-height: 575px)`,
+        // Small screens have padding around letters but smaller AppBar
+        // NOTE: Helper methods down/up add "@media" to the query string so use the value directly
+        `(min-width: ${t.breakpoints.values.sm}px) and (min-height: 610px)`
+    ].join(', '));
 
     const { __legacyApiClient__, user } = useApi();
 
@@ -193,7 +202,7 @@ const ItemsView: FC = () => {
 
     return (
         <Box className='padded-bottom-page'>
-            {isAlphabetPickerEnabled && hasSortName && (
+            {isAlphabetPickerSupported && isAlphabetPickerEnabled && hasSortName && (
                 <AlphabetPicker
                     value={libraryViewSettings.Alphabet}
                     onChange={handleAlphabetChange}
