@@ -1160,5 +1160,16 @@
     "UserAgentHelp": "Tillaga 'User-Agent' í høvdinum á HTTP-umbønunum.",
     "ValueTimeLimitMultiHour": "Tíðaravmarkað: {0} tímar",
     "ValueTimeLimitSingleHour": "Tíðaravmarkað: 1 tíma",
-    "PreferSystemNativeHwDecoder": "Brúka stýrikervisinnbygdar DXVA ella VA-API tólbúnaðaravkotarar um møguligt"
+    "PreferSystemNativeHwDecoder": "Brúka stýrikervisinnbygdar DXVA ella VA-API tólbúnaðaravkotarar um møguligt",
+    "EnableIntelLowPowerH264HwEncoder": "Virkja Intel orkusparandi H.264-tólbúnaðarkotara",
+    "EnableIntelLowPowerHevcHwEncoder": "Virkja Intel orkusparandi HEVC-tólbúnaðarkotara",
+    "MediaInfoVideoRangeType": "Kykmyndaspennisslag",
+    "LabelVideoRangeType": "Slag av kykmyndaspenni",
+    "Trickplay": "Trickplay (smámyndir á spoliteigi)",
+    "TrickplayLoadError": "Miseydnaðist at innlesa trickplay-stillingar",
+    "LabelImageIntervalHelp": "Tíðarbil (í millisekundum) ímillum hvørja trickplay-mynd.",
+    "LabelUsernameAllowedCharactersHelp": "Brúkaranøvn kunnu innihalda bókstavir, talstavir, millumrúm umframt fylgjandi tekn: - _ ' . @ +. Tey kunnu ikki byrja ella enda við millumrúmi.",
+    "OptionExtractTrickplayImage": "Virkja trickplay-myndaframleiðslu",
+    "ExtractTrickplayImagesHelp": "Trickplay-myndir eru líkar kapitlamyndum, men fevna um alla kykmyndalongdina og verða vístar sum smámyndir yvir spoliteiginum og tá spola verður.",
+    "LabelExtractTrickplayDuringLibraryScan": "Framleið trickplay-myndir undir savnsinnlesingum"
 }
