@@ -1,13 +1,16 @@
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import Box from '@mui/material/Box';
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { useGetGenres } from 'hooks/useFetchItems';
+import React, { FC, useEffect, useMemo, useState } from 'react';
+import { useIntersectionObserver } from 'usehooks-ts';
+
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Loading from 'components/loading/LoadingComponent';
+import type { ParentId } from 'types/library';
+
+import { useGenres } from '../hooks/api/useGenres';
 import GenresSectionContainer from './GenresSectionContainer';
 import AlphabetPicker from './AlphabetPicker';
-import type { ParentId } from 'types/library';
 
 interface GenresItemsContainerProps {
     parentId: ParentId;
@@ -27,33 +30,26 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage
-    } = useGetGenres(itemType, parentId, alphabet);
-
-    const observerTarget = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const target = observerTarget.current;
-        if (!target) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0]?.isIntersecting && hasNextPage && !isFetchingNextPage) {
-                    fetchNextPage().catch(err => {
-                        console.error('[GenresItemsContainer] failed to fetch next page', err);
-                    });
-                }
-            },
-            { rootMargin: '200px' }
-        );
-
-        observer.observe(target);
-        return () => observer.disconnect();
-    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+    } = useGenres({
+        parentId,
+        includeItemTypes: itemType,
+        alphabet
+    });
 
     const genres = useMemo(
         () => data?.pages.flatMap((page) => page?.Items ?? []) ?? [],
         [data]
     );
+
+    const { ref: sentinelRef, isIntersecting } = useIntersectionObserver({
+        rootMargin: '200px'
+    });
+
+    useEffect(() => {
+        if (isIntersecting && hasNextPage && !isFetchingNextPage) {
+            void fetchNextPage();
+        }
+    }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     // No genres at all (no letter filter active) - nothing to pick from
     if (!isLoading && !genres.length && alphabet == null) {
@@ -81,8 +77,7 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
                     />
                 ))}
 
-                <Box ref={observerTarget} sx={{ height: '1px' }} />
-
+                {hasNextPage && <Box ref={sentinelRef} sx={{ height: '1px' }} />}
                 {isFetchingNextPage && <Loading />}
             </>
         );

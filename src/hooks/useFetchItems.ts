@@ -10,7 +10,6 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
-import { getGenreApi } from '@jellyfin/sdk/lib/utils/api/genre-api';
 import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
@@ -18,7 +17,7 @@ import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 
 import { type JellyfinApiContext, useApi } from './useApi';
@@ -69,57 +68,6 @@ export const useGetItems = (parametersOptions: LibraryApiGetItemsRequest) => {
         refetchOnMount: isRandom ? false : undefined,
         refetchOnWindowFocus: isRandom ? false : undefined,
         enabled: !!currentApi.api && !!currentApi.user?.Id
-    });
-};
-
-export const GENRES_PAGE_SIZE = 10;
-
-const fetchGetGenres = async (
-    currentApi: JellyfinApiContext,
-    itemType: BaseItemKind[],
-    parentId: ParentId,
-    alphabet: string | null | undefined,
-    startIndex: number,
-    options?: AxiosRequestConfig
-) => {
-    const { api, user } = currentApi;
-    if (api && user?.Id) {
-        const response = await getGenreApi(api).getGenres(
-            {
-                userId: user.Id,
-                sortBy: [ItemSortBy.SortName],
-                sortOrder: [SortOrder.Ascending],
-                includeItemTypes: itemType,
-                enableTotalRecordCount: false,
-                startIndex,
-                limit: GENRES_PAGE_SIZE,
-                nameLessThan: alphabet === '#' ? 'A' : undefined,
-                nameStartsWith: alphabet === '#' ? undefined : (alphabet ?? undefined),
-                parentId: parentId ?? undefined
-            },
-            {
-                signal: options?.signal
-            }
-        );
-        return response.data as ItemDtoQueryResult;
-    }
-};
-
-export const useGetGenres = (
-    itemType: BaseItemKind[],
-    parentId: ParentId,
-    alphabet?: string | null
-) => {
-    const currentApi = useApi();
-    return useInfiniteQuery({
-        queryKey: ['Genres', parentId, itemType, alphabet],
-        queryFn: ({ pageParam, signal }) =>
-            fetchGetGenres(currentApi, itemType, parentId, alphabet, pageParam * GENRES_PAGE_SIZE, { signal }),
-        initialPageParam: 0,
-        // Stop once a page returns fewer items than requested (cheaper than enabling total record count)
-        getNextPageParam: (lastPage, allPages) =>
-            (lastPage?.Items?.length ?? 0) < GENRES_PAGE_SIZE ? undefined : allPages.length,
-        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
 

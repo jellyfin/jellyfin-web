@@ -50,7 +50,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
             })}
         >
             <Paper
-                elevation={4}
+                elevation={0}
                 sx={{
                     borderRadius: 1,
                     overflow: 'hidden'
