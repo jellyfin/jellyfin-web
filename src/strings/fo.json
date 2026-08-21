@@ -1129,5 +1129,10 @@
     "SaveRecordingNFOHelp": "Goym metadátur úr skránni (EPG) saman við upptiknum miðlum.",
     "SaveRecordingImagesHelp": "Goym myndir úr skránni (EPG) saman við upptiknum miðlum.",
     "LabelAudioCodec": "Ljóð-kodek",
-    "LabelSelectPreferredTranscodeVideoAudioCodec": "Umbið ljóð-kodek umkoting undir kykmyndaspæli"
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "Umbið ljóð-kodek umkoting undir kykmyndaspæli",
+    "LabelH264Crf": "CRF-virði fyri H.264-kotingum",
+    "LabelH265Crf": "CRF-virði fyri H.265-kotingum",
+    "LabelHardwareAccelerationTypeHelp": "Tólbúnaðarstyðjan krevur eyka uppsetan.",
+    "LabelLevel": "Álvarsemi",
+    "LabelMediaDetails": "Miðlaupplýsingar"
 }
