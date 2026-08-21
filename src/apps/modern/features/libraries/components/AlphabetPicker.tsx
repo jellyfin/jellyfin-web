@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
@@ -48,36 +49,44 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 zIndex: theme.zIndex.appBar - 1
             })}
         >
-            <ToggleButtonGroup
-                orientation='vertical'
-                value={value}
-                exclusive
-                color='primary'
-                size='small'
-                onChange={handleValue}
+            <Paper
+                elevation={4}
+                sx={{
+                    borderRadius: 1,
+                    overflow: 'hidden'
+                }}
             >
-                {LETTER_VALUES.map((l) => (
-                    <ToggleButton
-                        key={l}
-                        value={l}
-                        sx={{
-                            borderWidth: 0,
-                            paddingTop: {
-                                xs: 0,
-                                md: 0.25
-                            },
-                            paddingBottom: {
-                                xs: 0,
-                                md: 0.25
-                            },
-                            paddingLeft: 0.5,
-                            paddingRight: 0.5
-                        }}
-                    >
-                        {l}
-                    </ToggleButton>
-                ))}
-            </ToggleButtonGroup>
+                <ToggleButtonGroup
+                    orientation='vertical'
+                    value={value}
+                    exclusive
+                    color='primary'
+                    size='small'
+                    onChange={handleValue}
+                >
+                    {LETTER_VALUES.map((l) => (
+                        <ToggleButton
+                            key={l}
+                            value={l}
+                            sx={{
+                                borderWidth: 0,
+                                paddingTop: {
+                                    xs: 0,
+                                    md: 0.25
+                                },
+                                paddingBottom: {
+                                    xs: 0,
+                                    md: 0.25
+                                },
+                                paddingLeft: 0.5,
+                                paddingRight: 0.5
+                            }}
+                        >
+                            {l}
+                        </ToggleButton>
+                    ))}
+                </ToggleButtonGroup>
+            </Paper>
         </Box>
     );
 };
