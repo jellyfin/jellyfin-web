@@ -619,5 +619,8 @@
     "HeaderNextEpisode": "ئەڵقەی داهاتوو",
     "HeaderNextEpisodePlayingInValue": "ئەڵقەی داهاتوو دەست پێدەکات لە {0}",
     "HeaderNextVideo": "ڤیدیۆی داهاتوو",
-    "HeaderNextVideoPlayingInValue": "ڤیدیۆی داهاتوو دەست پێدەکات لە {0}"
+    "HeaderNextVideoPlayingInValue": "ڤیدیۆی داهاتوو دەست پێدەکات لە {0}",
+    "HeaderNoLyrics": "هیچ دەقێکی گۆرانی نەدۆزرایەوە",
+    "HeaderOnNow": "ئێستا پەخش دەکرێت",
+    "HeaderOtherItems": "بابەتەکانی تر"
 }
