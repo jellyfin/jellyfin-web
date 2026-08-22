@@ -1925,7 +1925,7 @@
     "LabelPlayerSizes": "Afspiller-størrelser",
     "LabelPlaybackQuality": "Billeder gået tabt/beskadiget",
     "Unwatch": "Markér som Ikke-set",
-    "Watch": "Set",
+    "Watch": "Se",
     "MessageNoEpisodesFound": "Der er ingen tilgængelige episoder i øjeblikket.",
     "SeriesName": "Serienavn",
     "AudioLanguages": "Lydsprog",
@@ -1944,5 +1944,5 @@
     "LabelUsernameAllowedCharactersHelp": "Brugernavne kan indeholde bogstaver, tal, mellemrum, og følgende karakterer: - _ ' . @ +. De kan ikke starte eller slutte med et mellemrum.",
     "MessageForgotPasswordRedirect": "Du er blevet viderestillet til en ekstern udbyder for at nulstille din adgangskode.",
     "HlsAudioSeekStrategy": "Strategien, der skal bruges ved spolning i HLS-streams.",
-    "LabelHlsAudioSeekStrategy": "Strategi for lydspolning"
+    "LabelHlsAudioSeekStrategy": "Strategi for lydspoling."
 }
