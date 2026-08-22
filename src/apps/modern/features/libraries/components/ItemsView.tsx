@@ -20,6 +20,7 @@ import { LibraryTab } from 'types/libraryTab';
 import type { ListOptions } from 'types/listOptions';
 
 import AlphabetPicker from './AlphabetPicker';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const ItemsView: FC = () => {
     const {
@@ -35,6 +36,14 @@ const ItemsView: FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const setLibraryViewSettings = setViewSettings ?? ((action: SetStateAction<LibraryViewSettings>) => { /* no-op */ });
     const { isAlphabetPickerEnabled, noItemsMessage } = content ?? {};
+    // Check if the alphabet picker will fit in the current viewport
+    const isAlphabetPickerSupported = useMediaQuery(t => [
+        // Extra small screens have no padding around letters but larger AppBar
+        `${t.breakpoints.down('sm')} and (min-height: 575px)`,
+        // Small screens have padding around letters but smaller AppBar
+        // NOTE: Helper methods down/up add "@media" to the query string so use the value directly
+        `(min-width: ${t.breakpoints.values.sm}px) and (min-height: 610px)`
+    ].join(', '));
 
     const { __legacyApiClient__, user } = useApi();
 
@@ -57,7 +66,7 @@ const ItemsView: FC = () => {
             listOptions.showArtist = true;
             listOptions.addToListButton = true;
         } else if (viewType === LibraryTab.Albums) {
-            listOptions.sortBy = libraryViewSettings.SortBy;
+            listOptions.sortBy = libraryViewSettings.SortBy[0];
             listOptions.addToListButton = true;
         } else if (viewType === LibraryTab.Episodes) {
             listOptions.showParentTitle = true;
@@ -171,7 +180,7 @@ const ItemsView: FC = () => {
         noItemsMessage
     ]);
 
-    const hasSortName = libraryViewSettings.SortBy !== ItemSortBy.Random;
+    const hasSortName = !libraryViewSettings.SortBy.includes(ItemSortBy.Random);
 
     const itemsContainerClass = classNames(
         'padded-left padded-right',
@@ -182,7 +191,7 @@ const ItemsView: FC = () => {
 
     return (
         <Box className='padded-bottom-page'>
-            {isAlphabetPickerEnabled && hasSortName && (
+            {isAlphabetPickerSupported && isAlphabetPickerEnabled && hasSortName && (
                 <AlphabetPicker
                     libraryViewSettings={libraryViewSettings}
                     setLibraryViewSettings={setLibraryViewSettings}

@@ -45,6 +45,8 @@ export interface Filters {
     VideoBasicFilter?: VideoBasicFilter[];
     VideoTypes?: VideoType[];
     Years?: number[];
+    AudioLanguages?: string[];
+    SubtitleLanguages?: string[];
 }
 
 export enum ViewMode {
@@ -53,7 +55,7 @@ export enum ViewMode {
 }
 
 export interface LibraryViewSettings {
-    SortBy: ItemSortBy;
+    SortBy: ItemSortBy[];
     SortOrder: SortOrder;
     StartIndex: number;
     CardLayout: boolean;
