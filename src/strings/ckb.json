@@ -622,5 +622,11 @@
     "HeaderNextVideoPlayingInValue": "ڤیدیۆی داهاتوو دەست پێدەکات لە {0}",
     "HeaderNoLyrics": "هیچ دەقێکی گۆرانی نەدۆزرایەوە",
     "HeaderOnNow": "ئێستا پەخش دەکرێت",
-    "HeaderOtherItems": "بابەتەکانی تر"
+    "HeaderOtherItems": "بابەتەکانی تر",
+    "HeaderPasswordReset": "ڕێکخستنەوەی تێپەڕەووشە",
+    "HeaderPaths": "ڕێڕەوەکان",
+    "HeaderPerformance": "کارایی",
+    "HeaderPhotoAlbums": "ئالبۆمەکانی وێنە",
+    "HeaderPlayAll": "پەخشکردنی هەمووی",
+    "HeaderPlayback": "پەخشکردنی مێدیا"
 }
