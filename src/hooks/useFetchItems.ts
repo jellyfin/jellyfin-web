@@ -6,6 +6,7 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
+import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
@@ -22,7 +23,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 
 import { type JellyfinApiContext, useApi } from './useApi';
-import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
+import { getAlphaPickerQuery, getExtraFiltersRequestConfig, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
 import { getProgramSections, getSuggestionSections } from 'utils/sections';
 
 import type { LibraryViewSettings, ParentId } from 'types/library';
@@ -250,9 +251,7 @@ const fetchGetItemsViewByType = async (
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    getExtraFiltersRequestConfig(libraryViewSettings, options?.signal)
                 );
                 break;
             }
@@ -271,9 +270,7 @@ const fetchGetItemsViewByType = async (
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    getExtraFiltersRequestConfig(libraryViewSettings, options?.signal)
                 );
                 break;
             }
@@ -346,9 +343,7 @@ const fetchGetItemsViewByType = async (
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    getExtraFiltersRequestConfig(libraryViewSettings, options?.signal)
                 );
                 break;
             }
@@ -381,9 +376,7 @@ const fetchGetItemsViewByType = async (
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    getExtraFiltersRequestConfig(libraryViewSettings, options?.signal)
                 );
                 break;
             }
@@ -506,6 +499,51 @@ export const useToggleFavoriteMutation = () => {
     return useMutation({
         mutationFn: ({ itemId, isFavorite }: ToggleFavoriteMutationProp) =>
             fetchUpdateFavoriteStatus(currentApi, itemId, isFavorite )
+    });
+};
+
+interface UpdateUserRatingMutationProp {
+    itemId: string;
+    /** A rating from 0 to 10, or null to clear the rating. */
+    rating: number | null;
+}
+
+const fetchUpdateUserRating = async (
+    currentApi: JellyfinApiContext,
+    itemId: string,
+    rating: number | null
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        if (rating === null) {
+            const response = await getUserDataApi(api).deleteUserItemRating({
+                userId: user.Id,
+                itemId: itemId
+            });
+            return response.data.Rating;
+        }
+
+        // Replace with getUserDataApi(api).updateUserItemRating once the generated SDK
+        // exposes the numeric `rating` parameter (jellyfin/jellyfin#17634). It currently
+        // only accepts `likes`, and the generated method builds its own query string, so
+        // `rating` cannot be passed through its options argument without the two colliding.
+        const response = await api.axiosInstance.post<UserItemDataDto>(
+            `${api.basePath}/UserItems/${encodeURIComponent(itemId)}/Rating`,
+            null,
+            {
+                params: { userId: user.Id, rating },
+                headers: { Authorization: api.authorizationHeader }
+            }
+        );
+        return response.data.Rating;
+    }
+};
+
+export const useUpdateUserRatingMutation = () => {
+    const currentApi = useApi();
+    return useMutation({
+        mutationFn: ({ itemId, rating }: UpdateUserRatingMutationProp) =>
+            fetchUpdateUserRating(currentApi, itemId, rating)
     });
 };
 
