@@ -201,8 +201,8 @@ class DocumentScroller {
          * Scrolls window.
          * @param {...mixed} args See window.scrollTo.
          */
-    scrollTo() {
-        window.scrollTo.apply(window, arguments);
+    scrollTo(...args) {
+        window.scrollTo.apply(window, args);
     }
 }
 
