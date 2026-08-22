@@ -1175,5 +1175,6 @@
     "EnableDisplayMirroring": "Skíggjaspegling",
     "LabelSaveTrickplayLocally": "Goym trickplay-myndir við síðuna av miðlum",
     "LabelSaveTrickplayLocallyHelp": "Verða trickplay-myndir goymdar í miðlaskjáttunum eru tær meira atkomiligar og lættari at flyta.",
-    "LabelSkipIfAudioTrackPresent": "Leyp um um forsetta talumálið er eins og ynskta undirtekstamálið"
+    "LabelSkipIfAudioTrackPresent": "Leyp um um forsetta talumálið er eins og ynskta undirtekstamálið",
+    "LabelSkipIfGraphicalSubsPresentHelp": "At rúma og brúka tekstgrundaði undirtekstasnið loyvir munagóðari avhending og lækkar sanlíkindini fyri kykmyndaumkotingum."
 }
