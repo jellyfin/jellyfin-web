@@ -91,6 +91,102 @@ function showSubtitleMenu(context, player, button) {
     });
 }
 
+function getChapterDisplayName(chapter, index) {
+    return chapter.Name || datetime.getDisplayRunningTime(chapter.StartPositionTicks) || `${index + 1}`;
+}
+
+function getChapterAtPosition(item, positionTicks) {
+    let chapter;
+    let index = -1;
+
+    for (let i = 0, length = (item.Chapters || []).length; i < length; i++) {
+        const currentChapter = item.Chapters[i];
+
+        if (positionTicks < currentChapter.StartPositionTicks) {
+            break;
+        }
+
+        chapter = currentChapter;
+        index = i;
+    }
+
+    return {
+        chapter,
+        index
+    };
+}
+
+function hasChapterInfo(item) {
+    return (item?.Chapters || []).length > 1;
+}
+
+function showChapterMenu(player, button) {
+    const item = playbackManager.currentItem(player);
+    const chapters = item?.Chapters || [];
+
+    if (!chapters.length) {
+        return;
+    }
+
+    const currentChapterIndex = getChapterAtPosition(item, playbackManager.getCurrentTicks(player)).index;
+    const menuItems = chapters.map((chapter, index) => ({
+        name: getChapterDisplayName(chapter, index),
+        id: index.toString(),
+        asideText: datetime.getDisplayRunningTime(chapter.StartPositionTicks),
+        selected: index === currentChapterIndex
+    }));
+
+    import('../actionSheet/actionSheet').then((actionsheet) => {
+        actionsheet.show({
+            title: globalize.translate('TableOfContents'),
+            items: menuItems,
+            positionTo: button,
+            callback: function (id) {
+                const chapter = chapters[parseInt(id, 10)];
+
+                if (chapter) {
+                    playbackManager.seek(chapter.StartPositionTicks, player);
+                }
+            }
+        }).catch(() => { /* Dialog closed */ });
+    });
+}
+
+function getChapterMarkerInfo(item) {
+    if (!item?.RunTimeTicks) {
+        return [];
+    }
+
+    return (item.Chapters || [])
+        .map(chapter => ({
+            name: chapter.Name,
+            progress: chapter.StartPositionTicks / item.RunTimeTicks
+        }));
+}
+
+function updateChapterDisplay(context, item, positionTicks) {
+    const chapterElement = context.querySelector('.nowPlayingChapterName');
+    if (!chapterElement) {
+        return;
+    }
+
+    if (!hasChapterInfo(item) || !Number.isFinite(positionTicks)) {
+        chapterElement.textContent = '';
+        chapterElement.classList.add('hide');
+        return;
+    }
+
+    const { chapter, index } = getChapterAtPosition(item, positionTicks);
+
+    if (chapter) {
+        chapterElement.textContent = getChapterDisplayName(chapter, index);
+        chapterElement.classList.remove('hide');
+    } else {
+        chapterElement.textContent = '';
+        chapterElement.classList.add('hide');
+    }
+}
+
 function updateNowPlayingInfo(context, state, serverId) {
     const item = state.NowPlayingItem;
     const displayName = item ?
@@ -281,6 +377,9 @@ export default function () {
         }
 
         buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio' && !layoutManager.mobile);
+        buttonVisible(context.querySelector('.btnChapters'), hasChapterInfo(item));
+        buttonVisible(context.querySelector('.btnPreviousChapter'), hasChapterInfo(item) && playState.CanSeek);
+        buttonVisible(context.querySelector('.btnNextChapter'), hasChapterInfo(item) && playState.CanSeek);
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
@@ -299,6 +398,7 @@ export default function () {
             buttonVisible(context.querySelector('.btnFastForward'), item != null);
         }
         const positionSlider = context.querySelector('.nowPlayingPositionSlider');
+        currentRuntimeTicks = item?.RunTimeTicks || 0;
 
         if (positionSlider && item && item.RunTimeTicks) {
             positionSlider.setKeyboardSteps(userSettings.skipBackLength() * 1000000 / item.RunTimeTicks,
@@ -313,6 +413,7 @@ export default function () {
 
         updatePlayPauseState(playState.IsPaused, item != null);
         updateTimeDisplay(playState.PositionTicks, item ? item.RunTimeTicks : null);
+        updateChapterDisplay(context, item, playState.PositionTicks);
         updatePlayerVolumeState(context, playState.IsMuted, playState.VolumeLevel);
 
         if (item && item.MediaType == 'Video') {
@@ -585,7 +686,9 @@ export default function () {
             lastUpdateTime = now;
             const player = this;
             currentRuntimeTicks = playbackManager.duration(player);
-            updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks);
+            const positionTicks = playbackManager.currentTime(player) * 10000;
+            updateTimeDisplay(positionTicks, currentRuntimeTicks);
+            updateChapterDisplay(dlg, playbackManager.currentItem(player), positionTicks);
         }
     }
 
@@ -731,8 +834,23 @@ export default function () {
                 playbackManager.fastForward(currentPlayer);
             }
         });
+        context.querySelector('.btnPreviousChapter').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.previousChapter(currentPlayer);
+            }
+        });
+        context.querySelector('.btnNextChapter').addEventListener('click', function () {
+            if (currentPlayer) {
+                playbackManager.nextChapter(currentPlayer);
+            }
+        });
         context.querySelector('.btnLyrics').addEventListener('click', function () {
             appRouter.show('lyrics');
+        });
+        context.querySelector('.btnChapters').addEventListener('click', function (e) {
+            if (currentPlayer && lastPlayerState?.NowPlayingItem) {
+                showChapterMenu(currentPlayer, e.target);
+            }
         });
 
         for (const shuffleButton of context.querySelectorAll('.btnShuffleQueue')) {
@@ -781,17 +899,36 @@ export default function () {
             }
         });
 
-        positionSlider.getBubbleText = function (value) {
+        positionSlider.getBubbleHtml = function (value) {
             const state = lastPlayerState;
 
             if (!state?.NowPlayingItem || !currentRuntimeTicks) {
-                return '--:--';
+                return '<h1 class="sliderBubbleText">--:--</h1>';
             }
 
             let ticks = currentRuntimeTicks;
             ticks /= 100;
             ticks *= value;
-            return datetime.getDisplayRunningTime(ticks);
+
+            const { chapter, index } = getChapterAtPosition(state.NowPlayingItem, ticks);
+            if (hasChapterInfo(state.NowPlayingItem) && chapter) {
+                return '<div class="nowPlayingChapterBubble">'
+                    + `<h1 class="sliderBubbleText">${datetime.getDisplayRunningTime(ticks)}</h1>`
+                    + `<div class="nowPlayingChapterBubbleName">${escapeHtml(getChapterDisplayName(chapter, index))}</div>`
+                    + '</div>';
+            }
+
+            return `<h1 class="sliderBubbleText">${datetime.getDisplayRunningTime(ticks)}</h1>`;
+        };
+
+        positionSlider.getMarkerInfo = function () {
+            const item = lastPlayerState?.NowPlayingItem;
+
+            if (!hasChapterInfo(item)) {
+                return [];
+            }
+
+            return getChapterMarkerInfo(item);
         };
 
         context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {

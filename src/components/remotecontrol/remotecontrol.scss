@@ -51,6 +51,30 @@
     color: inherit !important;
 }
 
+.nowPlayingArtistChapterLine {
+    display: flex;
+    gap: 0.5em;
+    align-items: baseline;
+    min-width: 0;
+}
+
+.nowPlayingArtist,
+.nowPlayingChapterName {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nowPlayingChapterName {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.nowPlayingChapterName::before {
+    content: "\2022";
+    margin-right: 0.5em;
+}
+
 .nowPlayingButtonsContainer {
     display: flex;
 
@@ -77,6 +101,22 @@
     margin: 0.2em 1em 0.2em 1em;
     width: 100%;
     z-index: 0;
+}
+
+.nowPlayingChapterBubble {
+    max-width: min(24em, 70vw);
+    padding: 0.5em 0.75em;
+    text-align: center;
+}
+
+.nowPlayingChapterBubble .sliderBubbleText {
+    padding: 0;
+}
+
+.nowPlayingChapterBubbleName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .nowPlayingInfoButtons {
