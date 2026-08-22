@@ -3427,7 +3427,8 @@ export class PlaybackManager {
                 // Auto switch to transcoding
                 if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
                     const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
-                    const isRemoteSource = streamInfo.item.LocationType === 'Remote';
+                    const isRemoteSource = streamInfo.mediaSource.IsRemote
+                        || streamInfo.item.LocationType === 'Remote';
                     // force transcoding and only allow remuxing for remote source like liveTV, but only for initial trial
                     const tryVideoStreamCopy = isRemoteSource && !isAlreadyFallbacking;
 
