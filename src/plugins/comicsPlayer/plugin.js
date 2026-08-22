@@ -221,7 +221,6 @@ export class ComicsPlayer {
             elem.classList.add('slideshowDialog');
             elem.innerHTML = `<div id="bookOsdMount"></div><div dir=${this.comicsPlayerSettings.langDir} class="slideshowSwiperContainer">
                                 <div class="swiper-wrapper"></div>
-                                <div class="swiper-pagination"></div>
                             </div>`;
 
             dialogHelper.open(elem);
@@ -300,11 +299,6 @@ export class ComicsPlayer {
                     slidesPerGroup: this.comicsPlayerSettings.pagesPerView,
                     slidesPerColumn: 1,
                     initialSlide: this.currentPage,
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                        type: 'fraction'
-                    },
                     // reduces memory consumption for large libraries while allowing preloading of images
                     virtual: {
                         slides: this.archiveSource.urls,
@@ -318,7 +312,7 @@ export class ComicsPlayer {
                 // save current page ( a page is an image file inside the archive )
                 this.swiperInstance.on('slideChange', () => {
                     this.currentPage = this.swiperInstance.activeIndex;
-                    Events.trigger(this, 'pause');
+                    Events.trigger(this, 'timeupdate');
                 });
             });
     }
