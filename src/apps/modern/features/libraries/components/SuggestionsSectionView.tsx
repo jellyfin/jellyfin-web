@@ -110,6 +110,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                     itemsContainerProps={{
                         queryKey: ['SuggestionSectionWithItems']
                     }}
+                    scrollerProps={{ isMouseWheelEnabled: true }}
                     items={items}
                     cardOptions={{
                         ...section.cardOptions,
@@ -133,6 +134,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                     itemsContainerProps={{
                         queryKey: ['MovieRecommendations']
                     }}
+                    scrollerProps={{ isMouseWheelEnabled: true }}
                     items={recommendation.Items as ItemDto[]}
                     cardOptions={{
                         queryKey: ['MovieRecommendations'],

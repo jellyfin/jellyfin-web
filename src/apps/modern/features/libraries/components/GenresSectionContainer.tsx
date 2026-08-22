@@ -67,6 +67,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             title: genre.Name || '',
             url: getRouteUrl(genre)
         }}
+        scrollerProps={{ isMouseWheelEnabled: true }}
         items={itemsResult?.Items}
         cardOptions={{
             scalable: true,
