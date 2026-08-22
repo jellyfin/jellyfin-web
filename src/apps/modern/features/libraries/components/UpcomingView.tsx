@@ -73,6 +73,7 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
                         className: 'vertical-wrap padded-left padded-right',
                         queryKey: ['UpcomingEpisodes']
                     }}
+                    scrollerProps={{ isMouseWheelEnabled: true }}
                     items={group.items}
                     cardOptions={{
                         shape: CardShape.Backdrop,

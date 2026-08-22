@@ -61,6 +61,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         queryKey: ['ProgramSectionWithItems'],
                         reloadItems: refetch
                     }}
+                    scrollerProps={{ isMouseWheelEnabled: true }}
                     items={items}
                     cardOptions={{
                         ...section.cardOptions,
@@ -80,6 +81,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         queryKey: ['Timers'],
                         reloadItems: refetch
                     }}
+                    scrollerProps={{ isMouseWheelEnabled: true }}
                     items={group.timerInfo}
                     cardOptions={{
                         queryKey: ['Timers'],
