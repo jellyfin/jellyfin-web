@@ -517,6 +517,14 @@ function getOptimalMediaSource(apiClient, item, versions) {
         for (let i = 0, length = versions.length; i < length; i++) {
             versions[i].enableDirectPlay = results[i] || false;
         }
+
+        // Prefer the played item's own source, transcoding it if needed, over another version
+        const ownSource = versions.find(v => v.Id === item.Id);
+
+        if (ownSource && (ownSource.enableDirectPlay || ownSource.SupportsDirectStream || ownSource.SupportsTranscoding)) {
+            return ownSource;
+        }
+
         let optimalVersion = versions.filter(function (v) {
             return v.enableDirectPlay;
         })[0];
@@ -1747,6 +1755,8 @@ export class PlaybackManager {
 
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, currentMediaSource.Id, liveStreamId, options).then(function (result) {
                     if (validatePlaybackInfoResult(self, result)) {
+                        // Changing streams requests only the active source; keep the version availability flag.
+                        result.MediaSources[0].hasAlternateVersions = currentMediaSource.hasAlternateVersions;
                         currentMediaSource = result.MediaSources[0];
 
                         const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
@@ -2075,11 +2085,21 @@ export class PlaybackManager {
         }
 
         function filterEpisodes(episodesResult, firstItem, options) {
+            let startItemFound = false;
             for (const [index, e] of episodesResult.Items.entries()) {
                 if (e.Id === firstItem.Id) {
                     episodesResult.StartIndex = index;
+                    startItemFound = true;
                     break;
                 }
+            }
+
+            // An alternate version is not part of the episode listing, so the result starts at
+            // its primary episode instead. Keep playing the version the user picked by selecting
+            // it as the media source of that primary (unless a source was explicitly chosen).
+            if (!startItemFound && episodesResult.Items.length) {
+                episodesResult.StartIndex = 0;
+                options.mediaSourceId = options.mediaSourceId || firstItem.Id;
             }
 
             // TODO: fix calling code to read episodesResult.StartIndex instead when set.
@@ -2657,15 +2677,13 @@ export class PlaybackManager {
 
             const apiClient = ServerConnections.getApiClient(item.ServerId);
             const isLiveTv = [BaseItemKind.TvChannel, BaseItemKind.LiveTvChannel].includes(item.Type);
-            const getMediaStreams = isLiveTv ? Promise.resolve([]) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id)
-                .then(fullItem => {
-                    return fullItem.MediaStreams;
-                });
+            const getSourceItem = isLiveTv ? Promise.resolve(null) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id);
 
-            return Promise.all([promise, player.getDeviceProfile(item), apiClient.getCurrentUser(), getMediaStreams]).then(function (responses) {
+            return Promise.all([promise, player.getDeviceProfile(item), apiClient.getCurrentUser(), getSourceItem]).then(function (responses) {
                 const deviceProfile = responses[1];
                 const user = responses[2];
-                const mediaStreams = responses[3];
+                const sourceItem = responses[3];
+                const mediaStreams = sourceItem?.MediaStreams || [];
 
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
@@ -2727,7 +2745,9 @@ export class PlaybackManager {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = -1;
                     }
 
-                    const streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
+                    const playedItem = await getItemOfMediaSource(apiClient, item, mediaSource, sourceItem);
+
+                    const streamInfo = createStreamInfo(apiClient, item.MediaType, playedItem, mediaSource, startPosition, player);
                     streamInfo.aspectRatio = playOptions.aspectRatio;
                     streamInfo.fullscreen = playOptions.fullscreen;
 
@@ -2954,6 +2974,30 @@ export class PlaybackManager {
             return tracks;
         }
 
+        // Chapters and trickplay data belong to the item owning the played media source.
+        function getItemOfMediaSource(apiClient, item, mediaSource, sourceItem) {
+            if (!mediaSource.hasAlternateVersions || mediaSource.Id === item.Id) {
+                return Promise.resolve(item);
+            }
+
+            const getVersionItem = sourceItem?.Id === mediaSource.Id ?
+                Promise.resolve(sourceItem) :
+                apiClient.getItem(apiClient.getCurrentUserId(), mediaSource.Id).catch(() => null);
+
+            return getVersionItem.then(function (versionItem) {
+                if (!versionItem) {
+                    return item;
+                }
+
+                return {
+                    ...item,
+                    Chapters: versionItem.Chapters,
+                    // Trickplay manifests are keyed by media source, so they can just be added
+                    Trickplay: { ...item.Trickplay, ...versionItem.Trickplay }
+                };
+            });
+        }
+
         function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options) {
             options.isPlayback = true;
 
@@ -2961,6 +3005,11 @@ export class PlaybackManager {
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
+                            // Remember whether alternate versions exists
+                            mediaSource.hasAlternateVersions = playbackInfoResult.MediaSources.length > 1
+                                || item.MediaSources?.length > 1
+                                || (!!mediaSourceId && mediaSourceId !== item.Id);
+
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
@@ -2968,6 +3017,7 @@ export class PlaybackManager {
                                 return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
                                     return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
                                         openLiveStreamResult.MediaSource.enableDirectPlay = result;
+                                        openLiveStreamResult.MediaSource.hasAlternateVersions = mediaSource.hasAlternateVersions;
                                         return openLiveStreamResult.MediaSource;
                                     });
                                 });
@@ -3135,6 +3185,32 @@ export class PlaybackManager {
             };
         }
 
+        // Find the id of the version (media source) of an item whose name matches the
+        // currently playing version, so track navigation keeps the same version across episodes.
+        function getMatchingMediaSourceId(apiClient, item, prevSource) {
+            const versionName = prevSource?.Name;
+            if (!versionName || !prevSource.hasAlternateVersions) {
+                return Promise.resolve(null);
+            }
+
+            const findMatch = function (mediaSources) {
+                if (!mediaSources || mediaSources.length < 2) {
+                    return null;
+                }
+                const match = mediaSources.find(source => source.Name === versionName);
+                return match ? match.Id : null;
+            };
+
+            // Queue items usually only carry their primary media source, so the merged alternate versions are missing.
+            if (item.MediaSources?.length > 1) {
+                return Promise.resolve(findMatch(item.MediaSources));
+            }
+
+            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id)
+                .then(fullItem => findMatch(fullItem.MediaSources))
+                .catch(() => null);
+        }
+
         self.nextTrack = function (player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
@@ -3146,11 +3222,19 @@ export class PlaybackManager {
             if (newItemInfo) {
                 console.debug('playing next track');
 
+                const prevSource = getPreviousSource(player);
                 const newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
+                const apiClient = ServerConnections.getApiClient(newItemInfo.item.ServerId);
 
-                playInternal(newItemInfo.item, newItemPlayOptions, function () {
-                    setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
-                }, getPreviousSource(player));
+                getMatchingMediaSourceId(apiClient, newItemInfo.item, prevSource).then(function (mediaSourceId) {
+                    if (mediaSourceId) {
+                        newItemPlayOptions.mediaSourceId = mediaSourceId;
+                    }
+
+                    playInternal(newItemInfo.item, newItemPlayOptions, function () {
+                        setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
+                    }, prevSource);
+                });
             }
         };
 
@@ -3166,12 +3250,20 @@ export class PlaybackManager {
                 const newItem = playlist[newIndex];
 
                 if (newItem) {
+                    const prevSource = getPreviousSource(player);
                     const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
                     newItemPlayOptions.startPositionTicks = 0;
+                    const apiClient = ServerConnections.getApiClient(newItem.ServerId);
 
-                    playInternal(newItem, newItemPlayOptions, function () {
-                        setPlaylistState(newItem.PlaylistItemId, newIndex);
-                    }, getPreviousSource(player));
+                    getMatchingMediaSourceId(apiClient, newItem, prevSource).then(function (mediaSourceId) {
+                        if (mediaSourceId) {
+                            newItemPlayOptions.mediaSourceId = mediaSourceId;
+                        }
+
+                        playInternal(newItem, newItemPlayOptions, function () {
+                            setPlaylistState(newItem.PlaylistItemId, newIndex);
+                        }, prevSource);
+                    });
                 }
             }
         };
