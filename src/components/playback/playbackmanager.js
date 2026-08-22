@@ -1864,6 +1864,20 @@ export class PlaybackManager {
                         ].join(','),
                         MediaTypes: MediaType.Audio
                     }, queryOptions));
+                case BaseItemKind.MusicAlbum:
+
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        // Use every passed-in album, not just the first, so a shuffled/filtered list of albums plays through all of them
+                        AlbumIds: items.map(albumItem => albumItem.Id).join(','),
+                        Recursive: true,
+                        SortBy: options.shuffle ? SortBy : [
+                            ItemSortBy.Album,
+                            ItemSortBy.ParentIndexNumber,
+                            ItemSortBy.IndexNumber,
+                            ItemSortBy.SortName
+                        ].join(','),
+                        MediaTypes: MediaType.Audio
+                    }, queryOptions));
                 case BaseItemKind.PhotoAlbum:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         ParentId: firstItem.Id,
