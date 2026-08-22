@@ -1172,5 +1172,8 @@
     "OptionExtractTrickplayImage": "Virkja trickplay-myndaframleiðslu",
     "ExtractTrickplayImagesHelp": "Trickplay-myndir eru líkar kapitlamyndum, men fevna um alla kykmyndalongdina og verða vístar sum smámyndir yvir spoliteiginum og tá spola verður.",
     "LabelExtractTrickplayDuringLibraryScan": "Framleið trickplay-myndir undir savnsinnlesingum",
-    "EnableDisplayMirroring": "Skíggjaspegling"
+    "EnableDisplayMirroring": "Skíggjaspegling",
+    "LabelSaveTrickplayLocally": "Goym trickplay-myndir við síðuna av miðlum",
+    "LabelSaveTrickplayLocallyHelp": "Verða trickplay-myndir goymdar í miðlaskjáttunum eru tær meira atkomiligar og lættari at flyta.",
+    "LabelSkipIfAudioTrackPresent": "Leyp um um forsetta talumálið er eins og ynskta undirtekstamálið"
 }
