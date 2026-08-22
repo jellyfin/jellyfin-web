@@ -88,6 +88,11 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+
+    /* to prevent truncation of the displayed text when the scrollbar is visible */
+    .actionSheetMenuItem {
+        margin-right: 10px;
+    }
 }
 
 .actionSheetScroller-tv {
