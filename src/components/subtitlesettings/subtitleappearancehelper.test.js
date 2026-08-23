@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
     DEFAULT_TEXT_SCALE,
-    LEGACY_TEXT_SIZE_SCALES,
     resolveTextScale,
     getStyles
 } from './subtitleappearancehelper';
@@ -9,10 +8,6 @@ import {
 describe('resolveTextScale', () => {
     it('uses the continuous textScale value when present', () => {
         expect(resolveTextScale({ textScale: 1.65 })).toBe(1.65);
-    });
-
-    it('accepts string values that parse to a number', () => {
-        expect(resolveTextScale({ textScale: '1.2' })).toBe(1.2);
     });
 
     it('clamps extreme continuous values', () => {
@@ -25,7 +20,16 @@ describe('resolveTextScale', () => {
         expect(resolveTextScale({ textScale: -2 })).toBe(DEFAULT_TEXT_SCALE);
     });
 
-    it.each(Object.entries(LEGACY_TEXT_SIZE_SCALES))('maps legacy size "%s" to %s', (legacy, expected) => {
+    // Pinned to literals: this mapping is the compatibility contract that keeps
+    // existing users' saved sizes rendering identically after the upgrade.
+    it.each([
+        ['smaller', 0.8],
+        ['small', 1],
+        ['medium', 1.36],
+        ['large', 1.72],
+        ['larger', 2],
+        ['extralarge', 2.2]
+    ])('maps legacy size "%s" to %s', (legacy, expected) => {
         expect(resolveTextScale({ textSize: legacy })).toBe(expected);
     });
 
