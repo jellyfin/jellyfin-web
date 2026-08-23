@@ -30,7 +30,7 @@ function getSubtitleAppearanceObject(context) {
     return {
         aspectMode: context.querySelector('#selectBitmapSubtitleAspectMode').value,
         subtitleStyling: context.querySelector('#selectSubtitleStyling').value,
-        textScale: parseFloat(context.querySelector('#sliderTextSize').value),
+        textScale: Number.parseFloat(context.querySelector('#sliderTextSize').value),
         textWeight: context.querySelector('#selectTextWeight').value,
         dropShadow: context.querySelector('#selectDropShadow').value,
         font: context.querySelector('#selectFont').value,
