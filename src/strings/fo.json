@@ -1211,5 +1211,7 @@
     "LabelTranscodingFramerate": "Myndaumkotingarferð",
     "Localization": "Staðbinding",
     "Lyric": "Sangtekstur",
-    "MessageNothingHere": "Einki er her."
+    "MessageNothingHere": "Einki er her.",
+    "NoSubtitlesHelp": "Forsett verða undirtekstir ikki sjálvvirkandi vístir. Til ber framvegis at virkja teir undir spæling.",
+    "Novel": "Skaldsøga"
 }
