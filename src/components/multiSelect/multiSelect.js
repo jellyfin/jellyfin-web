@@ -1,10 +1,14 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Events from 'utils/events';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../../utils/dom';
 import './multiSelect.scss';
 import alert from '../alert';
@@ -191,12 +195,13 @@ function showMenuForSelectedItems(e) {
                 icon: 'select_all'
             });
 
-            menuItems.push({
-                name: globalize.translate('AddToCollection'),
-                id: 'addtocollection',
-                icon: 'add'
-            });
-
+            if (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement) {
+                menuItems.push({
+                    name: globalize.translate('AddToCollection'),
+                    id: 'addtocollection',
+                    icon: 'add'
+                });
+            }
             menuItems.push({
                 name: globalize.translate('AddToPlaylist'),
                 id: 'playlist',
@@ -357,6 +362,8 @@ function dispatchNeedsRefresh() {
     for (let i = 0, length = elems.length; i < length; i++) {
         elems[i].notifyRefreshNeeded(true);
     }
+
+    Events.trigger(document, EventType.REFRESH_NEEDED);
 }
 
 function combineVersions(apiClient, selection) {
@@ -495,13 +502,35 @@ export default function (options) {
     }
 
     function onMouseDown(e) {
+        touchTarget = null;
+        touchStartX = e.clientX || 0;
+        touchStartY = e.clientY || 0;
+
+        const element = e.target;
+        if (!dom.parentWithClass(element, 'card')) {
+            return;
+        }
+
         if (touchStartTimeout) {
             clearTimeout(touchStartTimeout);
             touchStartTimeout = null;
         }
 
-        touchTarget = e.target;
+        touchTarget = element;
         touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+    }
+
+    function onMouseMove(e) {
+        if (!touchTarget) {
+            return;
+        }
+
+        const deltaX = Math.abs((e.clientX || 0) - (touchStartX || 0));
+        const deltaY = Math.abs((e.clientY || 0) - (touchStartY || 0));
+
+        if (deltaX >= 5 || deltaY >= 5) {
+            onMouseOut();
+        }
     }
 
     function onMouseOut() {
@@ -545,6 +574,9 @@ export default function (options) {
             dom.addEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });
+            dom.addEventListener(element, 'mousemove', onMouseMove, {
+                passive: true
+            });
             dom.addEventListener(element, 'mouseleave', onMouseOut, {
                 passive: true
             });
@@ -578,6 +610,9 @@ export default function (options) {
             passive: true
         });
         dom.removeEventListener(element, 'mousedown', onMouseDown, {
+            passive: true
+        });
+        dom.removeEventListener(element, 'mousemove', onMouseMove, {
             passive: true
         });
         dom.removeEventListener(element, 'mouseleave', onMouseOut, {

@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { PlaybackOrder } from '@jellyfin/sdk/lib/generated-client/models/playback-order';
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code';
 import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import merge from 'lodash-es/merge';
@@ -22,9 +23,9 @@ import { includesAny } from '../../utils/container.ts';
 import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
 import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
 
-import { PlayerEvent } from 'apps/stable/features/playback/constants/playerEvent';
-import { bindMediaSegmentManager } from 'apps/stable/features/playback/utils/mediaSegmentManager';
-import { bindMediaSessionSubscriber } from 'apps/stable/features/playback/utils/mediaSessionSubscriber';
+import { PlayerEvent } from 'apps/legacy/features/playback/constants/playerEvent';
+import { bindMediaSegmentManager } from 'apps/legacy/features/playback/utils/mediaSegmentManager';
+import { bindMediaSessionSubscriber } from 'apps/legacy/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
 import { TICKS_PER_SECOND } from 'constants/time';
@@ -32,7 +33,6 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { bindSkipSegment } from './skipsegment.ts';
 import * as bitrateTest from 'utils/bitrateTest';
 
@@ -53,12 +53,12 @@ function supportsPhysicalVolumeControl(player) {
 function bindToFullscreenChange(player) {
     if (Screenfull.isEnabled) {
         Screenfull.on('change', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [Screenfull.isFullscreen]);
         });
     } else {
         // iOS Safari
         document.addEventListener('webkitfullscreenchange', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [document.webkitIsFullScreen]);
         }, false);
     }
 }
@@ -441,8 +441,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
         StartTimeTicks: options.startPosition || 0
     };
 
-    const api = toApi(apiClient);
-    const mediaInfoApi = getMediaInfoApi(api);
+    const api = ServerConnections.getApi(apiClient.serverId());
 
     if (options.isPlayback) {
         query.IsPlayback = true;
@@ -501,7 +500,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     query.DeviceProfile = deviceProfile;
 
-    const res = await mediaInfoApi.getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
+    const res = await getMediaInfoApi(api).getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
     return res.data;
 }
 
@@ -877,10 +876,15 @@ export class PlaybackManager {
         self.trackHasSecondarySubtitleSupport = function (track, player = self._currentPlayer) {
             if (!player || !track) return false;
             const format = (track.Codec || '').toLowerCase();
-            // Currently, only non-SSA/non-ASS external subtitles are supported.
-            // Showing secondary subtitles does not work with any SSA/ASS subtitle combinations because
-            // of the complexity of how they are rendered and the risk of the subtitles overlapping
-            return format !== 'ssa' && format !== 'ass' && getDeliveryMethod(track) === 'External';
+            // Secondary subtitle pairing does not work with SSA/ASS combinations because
+            // of the complexity of how they are rendered and the risk of the subtitles overlapping.
+            // Graphical subtitle formats are supported generally, but not for secondary pairing here.
+            return format !== 'ssa'
+                && format !== 'ass'
+                && format !== 'pgssub'
+                && format !== 'dvdsub'
+                && format !== 'vobsub'
+                && getDeliveryMethod(track) === 'External';
         };
 
         self.secondarySubtitleTracks = function (player = self._currentPlayer) {
@@ -1400,6 +1404,7 @@ export class PlaybackManager {
                 return player.setMaxStreamingBitrate(options);
             }
 
+            const api = ServerConnections.getApi(self.currentItem(player).ServerId);
             const apiClient = ServerConnections.getApiClient(self.currentItem(player).ServerId);
 
             apiClient.getEndpointInfo().then(function (endpointInfo) {
@@ -1409,7 +1414,7 @@ export class PlaybackManager {
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
-                    promise = bitrateTest.detectBitrate(toApi(apiClient), true);
+                    promise = bitrateTest.detectBitrate(api, true);
                 } else {
                     appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
                     promise = Promise.resolve(options.maxBitrate);
@@ -2176,6 +2181,8 @@ export class PlaybackManager {
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
                 state.PlayState.ShuffleMode = self.getQueueShuffleMode(player);
+                // Needed for remote control because ShuffleMode doesn't exist in PlayerStateInfo from the server
+                state.PlayState.PlaybackOrder = state.PlayState.ShuffleMode === 'Shuffle' ? PlaybackOrder.Shuffle : PlaybackOrder.Default;
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
@@ -2366,8 +2373,6 @@ export class PlaybackManager {
 
             playOptions.isFirstItem = playOptions.isFirstItem || !prevSource;
 
-            const apiClient = ServerConnections.getApiClient(item.ServerId);
-
             // TODO: This should be the media type requested, not the original media type
             const mediaType = item.MediaType;
 
@@ -2378,7 +2383,7 @@ export class PlaybackManager {
                         loading.show();
                     }
                 })
-                .then(() => detectBitrate(apiClient, item, mediaType))
+                .then(() => detectBitrate(item, mediaType))
                 .then((bitrate) => {
                     return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
                         .catch(onPlaybackRejection);
@@ -2579,7 +2584,10 @@ export class PlaybackManager {
             }
         }
 
-        function detectBitrate(apiClient, item, mediaType) {
+        function detectBitrate(item, mediaType) {
+            const api = ServerConnections.getApi(item.ServerId);
+            const apiClient = ServerConnections.getApiClient(item.ServerId);
+
             // FIXME: This is gnarly, but don't want to change too much here in a bugfix
             return Promise.resolve()
                 .then(() => {
@@ -2590,7 +2598,7 @@ export class PlaybackManager {
                     return apiClient.getEndpointInfo()
                         .then((endpointInfo) => {
                             if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
-                                return bitrateTest.detectBitrate(toApi(apiClient))
+                                return bitrateTest.detectBitrate(api)
                                     .then((bitrate) => {
                                         appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
                                         return bitrate;
@@ -3740,11 +3748,14 @@ export class PlaybackManager {
                 let _unsubscribeRemoteControl;
                 Events.on(ServerConnections, 'localusersignedin', () => {
                     _unsubscribeRemoteControl?.();
-                    const api = ServerConnections.getCurrentApi();
+                    const api = ServerConnections.getApi();
                     _unsubscribeRemoteControl = api?.subscribe(
                         [OutboundWebSocketMessageType.ServerShuttingDown, OutboundWebSocketMessageType.ServerRestarting],
                         self.setDefaultPlayerActive.bind(self)
                     );
+                });
+                Events.on(ServerConnections, 'localusersignedout', () => {
+                    _unsubscribeRemoteControl?.();
                 });
             });
         }

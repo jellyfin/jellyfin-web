@@ -47,7 +47,7 @@ function allowSwipe(target) {
 }
 
 function configureSwipeTabs(view, currentElement) {
-    if (!browser.touch || layoutManager.experimental) {
+    if (!browser.touch || layoutManager.modern) {
         return;
     }
 

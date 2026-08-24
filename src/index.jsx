@@ -15,6 +15,7 @@ import { appRouter } from './components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
 import globalize from './lib/globalize';
 import { loadCoreDictionary } from 'lib/globalize/loader';
+import getServerAddress from 'lib/jellyfin-apiclient/utils/getServerAddress';
 import { initialize as initializeAutoCast } from 'scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
@@ -69,11 +70,16 @@ build: ${__JF_BUILD_VERSION__}`);
     // Initialize app host
     await appHost.init();
 
-    // Initialize the api client
-    const serverUrl = await serverAddress();
-    if (serverUrl) {
-        ServerConnections.initApiClient(serverUrl);
+    // Find the correct server URL
+    const lastServer = ServerConnections.getLastUsedServer();
+    let serverUrl;
+    if (lastServer) {
+        serverUrl = getServerAddress(lastServer);
+    } else {
+        serverUrl = await serverAddress();
     }
+    // Initialize the api client
+    if (serverUrl) ServerConnections.initApiClient(serverUrl);
 
     // Initialize automatic (default) cast target
     initializeAutoCast();

@@ -77,8 +77,8 @@ function taskbutton(options) {
     const serverId = ServerConnections.currentApiClient()?.serverId() || '';
 
     function subscribe() {
-        const apiClient = ServerConnections.getApiClient(serverId);
-        return apiClient.subscribe([OutboundWebSocketMessageType.ScheduledTasksInfo], onScheduledTasksUpdate);
+        const api = ServerConnections.getApi(serverId);
+        return api.subscribe([OutboundWebSocketMessageType.ScheduledTasksInfo], onScheduledTasksUpdate);
     }
 
     function startSubscription() {

@@ -28,5 +28,3 @@ export interface LibraryTabContent {
     isAlphabetPickerEnabled?: boolean;
     noItemsMessage?: string;
 }
-
-export type LibraryTabMapping = Record<number, LibraryTabContent>;

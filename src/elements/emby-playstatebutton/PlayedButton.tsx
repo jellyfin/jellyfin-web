@@ -1,5 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { useQueryClient } from '@tanstack/react-query';
+import { type QueryKey, useQueryClient } from '@tanstack/react-query';
 import React, { type FC, useCallback } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
@@ -13,7 +13,7 @@ interface PlayedButtonProps {
     isPlayed : boolean | undefined;
     itemId: string | null | undefined;
     itemType: string | null | undefined,
-    queryKey?: string[]
+    queryKey?: QueryKey
 }
 
 const PlayedButton: FC<PlayedButtonProps> = ({

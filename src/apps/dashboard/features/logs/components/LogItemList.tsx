@@ -27,7 +27,12 @@ const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) =>
                                 secondary={getDate(log)}
                                 slotProps={{
                                     primary: {
-                                        variant: 'h3'
+                                        variant: 'h3',
+                                        sx: {
+                                            whiteSpace: 'normal',
+                                            overflowWrap: 'anywhere',
+                                            wordBreak: 'break-word'
+                                        }
                                     },
                                     secondary: {
                                         variant: 'body1'

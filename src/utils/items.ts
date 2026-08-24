@@ -1,10 +1,9 @@
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
-import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
+
 import * as userSettings from 'scripts/settings/userSettings';
 import layoutManager from 'components/layoutManager';
-import { EpisodeFilter, FeatureFilters, LibraryViewSettings, ParentId, VideoBasicFilter, ViewMode } from '../types/library';
+import { EpisodeFilter, FeatureFilters, LibraryViewSettings, VideoBasicFilter } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { AttributesOpts, DataAttributes } from 'types/dataAttributes';
 
@@ -58,19 +57,32 @@ export const getEpisodeFilter = (
     viewType: LibraryTab,
     libraryViewSettings: LibraryViewSettings
 ) => {
+    const episodeFilters = libraryViewSettings.Filters?.EpisodeFilter;
+    const isMissingSelected = episodeFilters?.includes(EpisodeFilter.IsMissing);
+    const isUnairedSelected = episodeFilters?.includes(EpisodeFilter.IsUnaired);
+
+    let isMissing: boolean | undefined;
+    let isUnaired: boolean | undefined;
+
+    if (viewType === LibraryTab.Episodes) {
+        if (isMissingSelected) {
+            isMissing = true;
+            if (!isUnairedSelected) {
+                isUnaired = false;
+            }
+        } else if (isUnairedSelected) {
+            isUnaired = true;
+        } else {
+            isMissing = false;
+        }
+    }
+
     return {
-        parentIndexNumber: libraryViewSettings.Filters?.EpisodeFilter?.includes(
-            EpisodeFilter.ParentIndexNumber
-        ) ?
+        parentIndexNumber: episodeFilters?.includes(EpisodeFilter.ParentIndexNumber) ?
             0 :
             undefined,
-        isMissing:
-            viewType === LibraryTab.Episodes ?
-                !!libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsMissing) :
-                undefined,
-        isUnaired: libraryViewSettings.Filters?.EpisodeFilter?.includes(EpisodeFilter.IsUnaired) ?
-            true :
-            undefined
+        isMissing,
+        isUnaired
     };
 };
 
@@ -138,32 +150,9 @@ export const getFiltersQuery = (
         officialRatings: libraryViewSettings?.Filters?.OfficialRatings,
         tags: libraryViewSettings?.Filters?.Tags,
         years: libraryViewSettings?.Filters?.Years,
-        studioIds: libraryViewSettings?.Filters?.StudioIds
-    };
-};
-
-export const getSettingsKey = (viewType: LibraryTab, parentId: ParentId) => {
-    return `${viewType} - ${parentId}`;
-};
-
-export const getDefaultSortBy = (viewType: LibraryTab) => {
-    if (viewType === LibraryTab.Episodes) {
-        return ItemSortBy.SeriesSortName;
-    }
-
-    return ItemSortBy.SortName;
-};
-
-export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
-    return {
-        ShowTitle: true,
-        ShowYear: true,
-        ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
-        ImageType: viewType === LibraryTab.Studios ? ImageType.Thumb : ImageType.Primary,
-        CardLayout: false,
-        SortBy: getDefaultSortBy(viewType),
-        SortOrder: SortOrder.Ascending,
-        StartIndex: 0
+        studioIds: libraryViewSettings?.Filters?.StudioIds,
+        audioLanguages: libraryViewSettings?.Filters?.AudioLanguages,
+        subtitleLanguages: libraryViewSettings?.Filters?.SubtitleLanguages
     };
 };
 
@@ -193,4 +182,3 @@ export function getDataAttributes(
         'data-enddate': opts.itemEndDate?.toString()
     };
 }
-
