@@ -1217,5 +1217,8 @@
     "OneChannel": "Ein rás",
     "Off": "Sløkt",
     "Disc": "Diskur",
-    "LabelDiscNumber": "Diskur nummar"
+    "LabelDiscNumber": "Diskur nummar",
+    "MessageRepositoryInstallDisclaimer": "GEV GÆTUR: Innleggjan av ískoytisforriti frá triðja parti ber vágar við sær. Tað kann koma við óstøðugum ella illviljaðum ritbúnaði og kann til einhvørja tíð broytast. Legg einans ískoytisforritakeldur inn ið eru frá mennarum tú hevur álit á.",
+    "MessagePluginInstallDisclaimer": "GEV GÆTUR: Innleggjan av ískoytisforriti frá triðja parti ber vágar við sær. Tað kann koma við óstøðugum ella illviljaðum ritbúnaði og kann til einhvørja tíð broytast. Legg einans ískoytisforritakeldur inn ið eru frá mennarum tú hevur álit á. Harumframt skalt tú eisini vera varugur við at tey kunnu gera umbønir til ytri tænastur, leingja um skanningartíðina á søvnum, og elva til aðrar umfatandi bakviðgerðir.",
+    "LabelSelectPreferredTranscodeVideoCodec": "Ynskt kykmynda-kodek undir umkoting"
 }
