@@ -176,7 +176,7 @@
     "UseEpisodeImagesInNextUp": "Brúka partamyndir í 'Komandi' og 'Hygg víðari' teigum",
     "UserMenu": "Brúkara valmynd",
     "ValueAlbumCount": "{0} útgávur",
-    "ValueDiscNumber": "Fløga {0}",
+    "ValueDiscNumber": "Diskur {0}",
     "ValueMusicVideoCount": "{0} sjónbandaløg",
     "ValueOneAlbum": "1 útgáva",
     "ValueOneSong": "1 sang",
@@ -1215,5 +1215,7 @@
     "NoSubtitlesHelp": "Forsett verða undirtekstir ikki sjálvvirkandi vístir. Til ber framvegis at virkja teir undir spæling.",
     "Novel": "Skaldsøga",
     "OneChannel": "Ein rás",
-    "Off": "Sløkt"
+    "Off": "Sløkt",
+    "Disc": "Diskur",
+    "LabelDiscNumber": "Diskur nummar"
 }
