@@ -1271,5 +1271,6 @@
     "ViewAlbum": "Sí plátuútgávu",
     "ViewAlbumArtist": "Sí plátutónlistafólk",
     "ViewPlaybackInfo": "Sí spæliupplýsingar",
-    "IntelLowPowerEncHelp": "Orkusparandi koting kann minka um tørvin á CPU-GPU samstillingum. Á Linux noyðist hetta at verða óvirkt um i915 HuC fastbúnaðurin ikki er uppsettur."
+    "IntelLowPowerEncHelp": "Orkusparandi koting kann minka um tørvin á CPU-GPU samstillingum. Á Linux noyðist hetta at verða óvirkt um i915 HuC fastbúnaðurin ikki er uppsettur.",
+    "EncodingFormatHelp": "Vel kykmyndakotingina ið Jellyfin skal kunna at umkota til. Er tólbúnaðarstyðjan fyri brúkta sniðið ikki tøk brúkar Jellyfin ritbúnaðarkoting. H264-kykmyndakoting er altíð virkt."
 }
