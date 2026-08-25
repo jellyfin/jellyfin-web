@@ -1239,5 +1239,14 @@
     "AllowHevcEncoding": "Loyv koting til HEVC-snið",
     "LabelHlsAudioSeekStrategy": "Ljóðspoliháttur.",
     "AllowAv1Encoding": "Loyv koting til AV1-snið",
-    "LabelTrickplayAccelEncodingHelp": "Er í løtuni bert tøkt um QSV, VA-API, VideoToolbox og RKMPP verður brúkt. Hetta hevur ongan virkna um annar tólbúnaðarstyðjanarháttur verður brúktur."
+    "LabelTrickplayAccelEncodingHelp": "Er í løtuni bert tøkt um QSV, VA-API, VideoToolbox og RKMPP verður brúkt. Hetta hevur ongan virkna um annar tólbúnaðarstyðjanarháttur verður brúktur.",
+    "ContainerNotSupported": "Virkisføri vantar fyri margmiðlapakkasniðnum",
+    "AudioCodecNotSupported": "Virkisføri vantar fyri ljóð-kodekkinum",
+    "SubtitleCodecNotSupported": "Virkisføri vantar fyri undirteksta-kodekkinum",
+    "VideoCodecNotSupported": "Virkisføri vantar fyri kykmynda-kodekkinum",
+    "VideoResolutionNotSupported": "Virkisføri vantar fyri kykmyndaloysninum",
+    "MediaInfoDoViTitle": "DV-tittul",
+    "Anime": "Anime (Japanskar teknirøðir)",
+    "EnableDetailsBannerHelp": "Vísur bannaramyndina ovast á upplýsingarsíðu miðilsins.",
+    "EnableDetailsBanner": "Upplýsingarbannari"
 }
