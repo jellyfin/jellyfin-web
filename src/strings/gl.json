@@ -858,7 +858,7 @@
     "AllowContentWithTagsHelp": "Mostar só medios con polo menos unha das etiquetas especificadas.",
     "AllowSubtitleManagement": "Permitir que este usuario edite subtítulos",
     "AllowSegmentDeletion": "Eliminar segmentos",
-    "AllowSegmentDeletionHelp": "Eliminar segmentos antigos despois de que o cliente os descargue. Isto evita ter que almacenar todo o arquivo transcodificado no almacenamento. Desactiva esta opción se tes problemas coa reproducción",
+    "AllowSegmentDeletionHelp": "Eliminar segmentos antigos despois de que o cliente os descargue. Isto evita ter que almacenar todo o arquivo transcodificado no almacenamento. Desactiva esta opción se tes problemas coa reproducción.",
     "LabelSegmentKeepSeconds": "Tempo no que se mantén os ficheiros",
     "LabelSegmentKeepSecondsHelp": "Tempo en segundos durante o cal os segmentos deben manterse tras ser descargados polo cliente. Só funciona se a eliminación de segmentos está activada.",
     "EnableStreamLoopingHelp": "Activar esta opción se as emisións en directo só conteñen uns segundos de datos e hai que solicitalas continuamente. Activar isto cando non é necesario pode causar problemas.",
@@ -1008,7 +1008,7 @@
     "ContinueReading": "Seguir lendo",
     "Creators": "Creadores",
     "DevicesLoadError": "Non se puideron cargar os dispositivos",
-    "Disabled": "Desactivado",
+    "Disabled": "Deshabilitado",
     "ViewDoublePage": "Vista de Dobre Páxina",
     "ViewSinglePage": "Vista Dunha Páxina",
     "ViewLeftToRight": "Esquerda a Dereita",
@@ -1016,5 +1016,6 @@
     "EnableDetailsBanner": "Banner de Detalles",
     "EnableDetailsBannerHelp": "Mostra unha imaxe de banner na parte superior da páxina de detalles do elemento.",
     "EnableHi10pHelp": "Activa para evitar a transcodificación de vídeos H.264 de 10 bits. Desactiva esta opción se o vídeo mostra fotogramas en branco.",
-    "EnableCardLayout": "Mostrar CardBox visual"
+    "EnableCardLayout": "Mostrar CardBox visual",
+    "Watch": "Ver"
 }
