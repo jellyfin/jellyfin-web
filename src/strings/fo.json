@@ -1266,5 +1266,9 @@
     "OptionForceRemoteSourceTranscoding": "Umkota altíð fjarmiðlakeldur, eitt nú beinleiðis sjónvarp",
     "PasswordRequiredForAdmin": "Umsitarir skulu hava loyniorð.",
     "PluginLoadRepoError": "Ein villa kom fyri undir útvegan av ískoytisforritaupplýsingum frá kelduni.",
-    "PluginUninstallError": "Ein villa kom fyri undir strikan av ískoytisforritinum."
+    "PluginUninstallError": "Ein villa kom fyri undir strikan av ískoytisforritinum.",
+    "SeriesRecordingScheduled": "Upptøka av sendirøð sett á skrá.",
+    "ViewAlbum": "Sí plátuútgávu",
+    "ViewAlbumArtist": "Sí plátutónlistafólk",
+    "ViewPlaybackInfo": "Sí spæliupplýsingar"
 }
