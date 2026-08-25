@@ -1270,5 +1270,6 @@
     "SeriesRecordingScheduled": "Upptøka av sendirøð sett á skrá.",
     "ViewAlbum": "Sí plátuútgávu",
     "ViewAlbumArtist": "Sí plátutónlistafólk",
-    "ViewPlaybackInfo": "Sí spæliupplýsingar"
+    "ViewPlaybackInfo": "Sí spæliupplýsingar",
+    "IntelLowPowerEncHelp": "Orkusparandi koting kann minka um tørvin á CPU-GPU samstillingum. Á Linux noyðist hetta at verða óvirkt um i915 HuC fastbúnaðurin ikki er uppsettur."
 }
