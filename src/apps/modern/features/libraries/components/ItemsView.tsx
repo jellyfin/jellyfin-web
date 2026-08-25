@@ -33,8 +33,11 @@ const ItemsView: FC = () => {
     } = useLibrary();
     const viewType = content?.viewType ?? LibraryTab.Movies;
     const libraryViewSettings = viewSettings ?? getDefaultLibraryViewSettings(viewType);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const setLibraryViewSettings = setViewSettings ?? ((action: SetStateAction<LibraryViewSettings>) => { /* no-op */ });
+    const setLibraryViewSettings = useMemo(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        () => setViewSettings ?? ((action: SetStateAction<LibraryViewSettings>) => { /* no-op */ }),
+        [setViewSettings]
+    );
     const { isAlphabetPickerEnabled, noItemsMessage } = content ?? {};
     // Check if the alphabet picker will fit in the current viewport
     const isAlphabetPickerSupported = useMediaQuery(t => [
@@ -180,6 +183,14 @@ const ItemsView: FC = () => {
         noItemsMessage
     ]);
 
+    const handleAlphabetChange = useCallback((newValue: string | null | undefined) => {
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: 0,
+            Alphabet: newValue
+        }));
+    }, [setLibraryViewSettings]);
+
     const hasSortName = !libraryViewSettings.SortBy.includes(ItemSortBy.Random);
 
     const itemsContainerClass = classNames(
@@ -193,8 +204,8 @@ const ItemsView: FC = () => {
         <Box className='padded-bottom-page'>
             {isAlphabetPickerSupported && isAlphabetPickerEnabled && hasSortName && (
                 <AlphabetPicker
-                    libraryViewSettings={libraryViewSettings}
-                    setLibraryViewSettings={setLibraryViewSettings}
+                    value={libraryViewSettings.Alphabet}
+                    onChange={handleAlphabetChange}
                 />
             )}
 
