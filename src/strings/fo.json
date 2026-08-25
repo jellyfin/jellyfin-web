@@ -1257,5 +1257,7 @@
     "LabelPreferredSubtitleLanguage": "Ynskt undirtekstamál",
     "LabelPreferredDisplayLanguage": "Ynskt nýtaramótsmál",
     "LabelScheduledTaskLastRan": "Koyrdi seinast fyri {0}, og tók {1}.",
-    "LabelSlowResponseEnabled": "Skráset eini varningsboð um ambætarin er seinur at svara"
+    "LabelSlowResponseEnabled": "Skráset eini varningsboð um ambætarin er seinur at svara",
+    "LabelTranscodes": "Umkotingar",
+    "LabelTranscodePath": "Leið til umkotaðar fílur"
 }
