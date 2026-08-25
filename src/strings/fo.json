@@ -1248,5 +1248,17 @@
     "MediaInfoDoViTitle": "DV-tittul",
     "Anime": "Anime (Japanskar teknirøðir)",
     "EnableDetailsBannerHelp": "Vísur bannaramyndina ovast á upplýsingarsíðu miðilsins.",
-    "EnableDetailsBanner": "Upplýsingarbannari"
+    "EnableDetailsBanner": "Upplýsingarbannari",
+    "EnableFasterAnimations": "",
+    "ImageUploadCancelled": "Myndauppsending varð avlýst",
+    "LabelAudioLanguagePreference": "Ynskt talumál",
+    "LabelHttpsPort": "",
+    "LabelMaxVideoResolution": "Loysnihámark undir kykmyndaumkoting",
+    "LabelLocalHttpServerPortNumberHelp": "TCP-porturnummar ið HTTP-ambætarin skal lurta á.",
+    "LabelPasswordConfirm": "Vátta loyniorð",
+    "LabelPreferredSubtitleLanguage": "Ynskt undirtekstamál",
+    "LabelPreferredDisplayLanguage": "Ynskt nýtaramótsmál",
+    "LabelScheduledTaskLastRan": "Koyrdi seinast fyri {0}, og tók {1}.",
+    "LabelSimultaneousConnectionLimit": "",
+    "LabelSlowResponseEnabled": "Skráset eini varningsboð um ambætarin er seinur at svara"
 }
