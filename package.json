@@ -4,6 +4,7 @@
   "description": "Web interface for Jellyfin",
   "repository": "https://github.com/jellyfin/jellyfin-web",
   "license": "GPL-2.0-or-later",
+  "packageManager": "npm@11.17.0",
   "devDependencies": {
     "@babel/core": "7.29.7",
     "@babel/plugin-transform-modules-umd": "7.29.7",
