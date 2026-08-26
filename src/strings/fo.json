@@ -1297,7 +1297,7 @@
     "LabelBackdropScreensaverIntervalHelp": "Tíðarbil í sekundum millum hvørja bakgrundsmynd í skáskíggjanum.",
     "LabelBackdropScreensaverInterval": "Millumbil í skáaskíggja við bakgrundsmyndum",
     "LabelCreateHttpPortMap": "Virkja sjálvvirkandi víðaristilling av portrum fyri HTTP- og HTTPS-ferðslu.",
-    "LabelCreateHttpPortMapHelp": "Virkjar sjálvvirkandi víðaristilling ið loyvir HTTP- og HTTPS-ferðslu.",
+    "LabelCreateHttpPortMapHelp": "Virkjar sjálvvirkandi víðaristilling ið loyvir HTTP- og HTTPS-ferðslu uttanífrá.",
     "LabelffmpegPathHelp": "Leiðin til FFmpeg-forritafíluna ella skjáttuna ið inniheldur FFmpeg.",
     "LabelMaxParentalRating": "Hægst loyvda aldursmark",
     "LabelMovieRecordingPath": "Goymslustaður fyri filmsupptøkur",
