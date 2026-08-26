@@ -1325,5 +1325,12 @@
     "LibraryInvalidItemIdError": "Savnið er enda í eini ógildigari støðu og kann ikki broytast. Tú hevur møgulliga rent teg í eina villu; leiðin í dátugrunninum er ikki eins og leiðin í fílukervinum.",
     "Logo": "Eyðkennismerki",
     "LogoScreensaver": "Búmerkisskáaskíggi",
-    "MediaInfoLayout": "Ræsauppsetan"
+    "MediaInfoLayout": "Ræsauppsetan",
+    "MessageBackupDisclaimer": "Tað valdast støddina á tínum savni hvussu langa tíð trygdaravritstilgongdin tekur.",
+    "MenuOpen": "Lat valmynd upp",
+    "MessageConfirmAppExit": "Ynskir tú at loka?",
+    "MessageReenableUser": "Sí niðanfyri hvussu hann verður virktur aftur",
+    "MinutesAfter": "minuttir aftaná",
+    "MinutesBefore": "minuttir áðrenn",
+    "RefreshQueued": "Endurinnlesing sett í bíðirøð."
 }
