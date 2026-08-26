@@ -628,5 +628,10 @@
     "HeaderPerformance": "کارایی",
     "HeaderPhotoAlbums": "ئالبۆمەکانی وێنە",
     "HeaderPlayAll": "پەخشکردنی هەمووی",
-    "HeaderPlayback": "پەخشکردنی مێدیا"
+    "HeaderPlayback": "پەخشکردنی مێدیا",
+    "HeaderRecentlyPlayed": "دوایین لێدراوەکان",
+    "HeaderRecordingMetadataSaving": "مێتاداتای تۆمارکردن",
+    "HeaderRecordingOptions": "بژاردەکانی تۆمارکردن",
+    "HeaderRecordingPostProcessing": "پرۆسێسکردنی دوای تۆمارکردن",
+    "HeaderRemoteAccessSettings": "ڕێکخستنەکانی چونەژوورەوەی دوور"
 }
