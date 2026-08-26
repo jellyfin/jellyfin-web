@@ -2,32 +2,20 @@ import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
 import { getSessionApi } from '@jellyfin/sdk/lib/utils/api/session-api';
+import { compareVersions } from '@jellyfin/sdk/lib/utils/versioning';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
-import { compareVersions } from 'utils/versions';
+import { safeDecodeURIComponent } from 'utils/url';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { safeDecodeURIComponent } from 'utils/url';
+import getServerAddress from './utils/getServerAddress';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
-
-function getServerAddress(server, mode) {
-    switch (mode) {
-        case ConnectionMode.Local:
-            return server.LocalAddress;
-        case ConnectionMode.Manual:
-            return server.ManualAddress;
-        case ConnectionMode.Remote:
-            return server.RemoteAddress;
-        default:
-            return server.ManualAddress || server.LocalAddress || server.RemoteAddress;
-    }
-}
 
 function updateServerInfo(server, systemInfo) {
     server.Name = systemInfo.ServerName;
@@ -167,7 +155,7 @@ export default class ConnectionManager {
 
             const server = servers[0];
 
-            return self._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+            return self._getOrAddApiClient(server, getServerAddress(server));
         };
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
@@ -783,7 +771,7 @@ export default class ConnectionManager {
         for (let i = 0, length = servers.length; i < length; i++) {
             const server = servers[i];
             if (server.Id) {
-                this._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+                this._getOrAddApiClient(server, getServerAddress(server));
             }
         }
 
@@ -792,8 +780,8 @@ export default class ConnectionManager {
 
     /**
      * Gets the ApiClient for a given BaseItem or ServerId.
-     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
-     * @returns {import('jellyfin-apiclient').ApiClient}
+     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | null | undefined} item
+     * @returns {import('jellyfin-apiclient').ApiClient | undefined}
      */
     getApiClient(item) {
         if (!item) {
@@ -814,15 +802,19 @@ export default class ConnectionManager {
     }
 
     /**
-     * Returns or creates an Api instance for a given
-     * server
-     * @param {string} serverId The ID of the server
+     * Returns or creates an Api instance for a given server. If no serverId is provided,
+     * the last used server will be used instead.
+     * @param {string} [serverId] The ID of the server
      * @returns {import('@jellyfin/sdk').Api|undefined}
      */
     getApi(serverId) {
-        // serverId is not available until an ApiClient has connected/authenticated.
-        // Callers handle a missing Api, so return undefined rather than letting
-        // getApiClient() throw ('item or serverId cannot be null') and break startup.
+        // If no serverId is provided, try to use the last used server
+        if (!serverId) {
+            const server = this.getLastUsedServer();
+            serverId = server?.Id;
+        }
+
+        // If no serverId is available still, return undefined
         if (!serverId) {
             return undefined;
         }

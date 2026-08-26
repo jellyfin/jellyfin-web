@@ -19,6 +19,7 @@ interface AppToolbarProps {
     onDrawerButtonClick?: (event: React.MouseEvent<HTMLElement>) => void
     isBackButtonAvailable?: boolean
     isUserMenuAvailable?: boolean
+    className?: string
 }
 
 const onBackButtonClick = () => {
@@ -35,7 +36,8 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     isDrawerOpen,
     onDrawerButtonClick = () => { /* no-op */ },
     isBackButtonAvailable = false,
-    isUserMenuAvailable = true
+    isUserMenuAvailable = true,
+    className
 }) => {
     const { user } = useApi();
     const isUserLoggedIn = Boolean(user);
@@ -43,18 +45,11 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
     return (
         <Toolbar
             variant='dense'
+            className={className}
             sx={{
                 flexWrap: {
                     xs: 'wrap',
                     lg: 'nowrap'
-                },
-                pl: {
-                    xs: 'max(16px, env(safe-area-inset-left))',
-                    sm: 'max(24px, env(safe-area-inset-left))'
-                },
-                pr: {
-                    xs: 'max(16px, env(safe-area-inset-left))',
-                    sm: 'max(24px, env(safe-area-inset-left))'
                 }
             }}
         >
@@ -62,7 +57,6 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                 <Tooltip title={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}>
                     <IconButton
                         size='large'
-                        edge='start'
                         color='inherit'
                         aria-label={globalize.translate(isDrawerOpen ? 'MenuClose' : 'MenuOpen')}
                         onClick={onDrawerButtonClick}
@@ -76,8 +70,6 @@ const AppToolbar: FC<PropsWithChildren<AppToolbarProps>> = ({
                 <Tooltip title={globalize.translate('ButtonBack')}>
                     <IconButton
                         size='large'
-                        // Set the edge if the drawer button is not shown
-                        edge={!(isUserLoggedIn && isDrawerAvailable) ? 'start' : undefined}
                         color='inherit'
                         aria-label={globalize.translate('ButtonBack')}
                         onClick={onBackButtonClick}

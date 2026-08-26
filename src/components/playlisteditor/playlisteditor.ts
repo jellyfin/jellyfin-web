@@ -1,8 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { getItemsApi } from '@jellyfin/sdk/lib/utils/api/items-api';
-import { getPlaylistsApi } from '@jellyfin/sdk/lib/utils/api/playlists-api';
-import { getUserLibraryApi } from '@jellyfin/sdk/lib/utils/api/user-library-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import escapeHtml from 'escape-html';
 
 import toast from 'components/toast/toast';
@@ -13,7 +12,6 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import dom from 'utils/dom';
 import Events from 'utils/events';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 import { isBlank } from 'utils/string';
 
@@ -90,18 +88,19 @@ function createPlaylist(dlg: DialogElement) {
     const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
     if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
 
+    const api = ServerConnections.getApi(currentServerId);
     const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
-
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || undefined;
 
-    return getPlaylistsApi(api)
+    if (!api) return Promise.reject(new Error('No Api instance available'));
+
+    return getPlaylistApi(api)
         .createPlaylist({
             createPlaylistDto: {
                 Name: name ?? '',
                 IsPublic: dlg.querySelector<HTMLInputElement>('#chkPlaylistPublic')?.checked,
                 Ids: itemIds?.split(','),
-                UserId: apiClient.getCurrentUserId()
+                UserId: apiClient?.getCurrentUserId()
             }
         })
         .then(result => {
@@ -111,7 +110,7 @@ function createPlaylist(dlg: DialogElement) {
             // The playlist user view is only available after a playlist is created.
             // Ideally we would only invalidate if there are no other playlists.
             void queryClient.invalidateQueries({
-                queryKey: ['User', apiClient.getCurrentUserId(), 'Views']
+                queryKey: ['User', apiClient?.getCurrentUserId(), 'Views']
             });
             // If a new playlist is created, then trigger a refresh of the library views
             Events.trigger(document, EventType.REFRESH_NEEDED);
@@ -130,10 +129,10 @@ function updatePlaylist(dlg: DialogElement) {
     const name = dlg.querySelector<HTMLInputElement>('#txtNewPlaylistName')?.value;
     if (isBlank(name)) return Promise.reject(new Error('Playlist name should not be blank'));
 
-    const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
+    const api = ServerConnections.getApi(currentServerId);
+    if (!api) return Promise.reject(new Error('No Api instance available'));
 
-    return getPlaylistsApi(api)
+    return getPlaylistApi(api)
         .updatePlaylist({
             playlistId: dlg.playlistId,
             updatePlaylistDto: {
@@ -148,8 +147,8 @@ function updatePlaylist(dlg: DialogElement) {
 }
 
 function addToPlaylist(dlg: DialogElement, id: string) {
+    const api = ServerConnections.getApi(currentServerId);
     const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
 
     if (id === 'queue') {
@@ -164,11 +163,13 @@ function addToPlaylist(dlg: DialogElement, id: string) {
         return Promise.resolve();
     }
 
-    return getPlaylistsApi(api)
+    if (!api) return Promise.reject(new Error('No Api instance available'));
+
+    return getPlaylistApi(api)
         .addItemToPlaylist({
             playlistId: id,
             ids: itemIds.split(','),
-            userId: apiClient.getCurrentUserId()
+            userId: apiClient?.getCurrentUserId()
         })
         .then(() => {
             dlg.submitted = true;
@@ -191,13 +192,15 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
 
     panel.querySelector('.newPlaylistInfo')?.classList.add('hide');
 
+    const api = ServerConnections.getApi(currentServerId);
     const apiClient = ServerConnections.getApiClient(currentServerId);
-    const api = toApi(apiClient);
     const SyncPlay = pluginManager.firstOfType(PluginType.SyncPlay)?.instance;
 
-    return getItemsApi(api)
+    if (!api) return Promise.reject(new Error('No Api instance available'));
+
+    return getLibraryApi(api)
         .getItems({
-            userId: apiClient.getCurrentUserId(),
+            userId: apiClient?.getCurrentUserId(),
             includeItemTypes: [ BaseItemKind.Playlist ],
             sortBy: [ ItemSortBy.SortName ],
             recursive: true,
@@ -209,13 +212,14 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
                     item,
                     permissions: undefined
                 };
+                const userId = apiClient?.getCurrentUserId();
 
-                if (!item.Id) return playlist;
+                if (!item.Id || !userId) return playlist;
 
-                return getPlaylistsApi(api)
+                return getPlaylistApi(api)
                     .getPlaylistUser({
                         playlistId: item.Id,
-                        userId: apiClient.getCurrentUserId()
+                        userId
                     })
                     .then(({ data: permissions }) => ({
                         ...playlist,
@@ -340,12 +344,16 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
             return;
         }
 
-        const apiClient = ServerConnections.getApiClient(currentServerId);
-        const api = toApi(apiClient);
+        const api = ServerConnections.getApi(currentServerId);
+        if (!api) {
+            console.error('[PlaylistEditor] no Api instance available');
+            return;
+        }
+
         Promise.all([
-            getUserLibraryApi(api)
+            getLibraryApi(api)
                 .getItem({ itemId: options.id }),
-            getPlaylistsApi(api)
+            getPlaylistApi(api)
                 .getPlaylist({ playlistId: options.id })
         ])
             .then(([ { data: playlistItem }, { data: playlist } ]) => {

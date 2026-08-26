@@ -1923,5 +1923,10 @@
     "TableOfContents": "Зміст",
     "ConfirmSplitMedia": "Ви впевнені, що хочете розділити медіаджерела на окремі елементи?",
     "HeaderSplitMedia": "Розділити медіафайл",
-    "Creators": "Творці"
+    "Creators": "Творці",
+    "IndexNumber": "Номер індексу",
+    "NoCastTargets": "Немає пристроїв для трансляції",
+    "BitmapSubtitleAspectModeContain": "Містити",
+    "BitmapSubtitleAspectModeCover": "Обкладинка",
+    "BitmapSubtitleAspectModeHelp": "Визначає, як субтитри у форматах PGS та VobSub, що відтворюються на стороні клієнта, масштабуються відповідно до видимої області відео."
 }

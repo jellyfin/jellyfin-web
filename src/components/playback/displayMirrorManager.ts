@@ -1,6 +1,5 @@
 import { getItemQuery } from 'hooks/useItem';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import { playbackManager } from './playbackmanager';
@@ -10,9 +9,9 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
         const playerInfo = playbackManager.getPlayerInfo();
 
         if (playerInfo && !playerInfo.isLocalPlayer && playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
+            const api = ServerConnections.getApi(serverId);
             const apiClient = ServerConnections.getApiClient(serverId);
-            const api = toApi(apiClient);
-            const userId = apiClient.getCurrentUserId();
+            const userId = apiClient?.getCurrentUserId();
 
             try {
                 const item = await queryClient.fetchQuery(getItemQuery(

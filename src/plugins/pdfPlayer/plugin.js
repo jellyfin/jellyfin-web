@@ -1,18 +1,20 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
 import { PluginType } from 'constants/pluginType';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import dom from '../../utils/dom';
+import TouchHelper from '../../scripts/touchHelper';
 import { appRouter } from '../../components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import screenSaverManager from 'scripts/screensavermanager';
 import Events from '../../utils/events.ts';
+import BookOsd from '../bookPlayer/BookOsd/BookOsd';
+import { renderComponent } from '../../utils/reactUtils';
 
+import 'material-design-icons-iconfont';
 import './style.scss';
-import '../../elements/emby-button/paper-icon-button-light';
 
 export class PdfPlayer {
     constructor() {
@@ -21,9 +23,12 @@ export class PdfPlayer {
         this.id = 'pdfplayer';
         this.priority = 1;
 
+        this.previous = this.previous.bind(this);
+        this.next = this.next.bind(this);
+
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
+        this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
     play(options) {
@@ -32,14 +37,17 @@ export class PdfPlayer {
         this.cancellationToken = false;
         this.pages = {};
 
+        screenSaverManager.block();
         loading.show();
 
-        const elem = this.createMediaElement();
+        const elem = this.createMediaElement(options);
         return this.setCurrentSrc(elem, options);
     }
 
     stop() {
         this.unbindEvents();
+        this.unmountBookOsd?.();
+        screenSaverManager.unblock();
 
         const stopInfo = {
             src: this.item
@@ -120,50 +128,33 @@ export class PdfPlayer {
         }
     }
 
-    onTouchStart(e) {
-        if (!this.loaded || !e.touches || e.touches.length === 0) return;
-        if (e.touches[0].clientX < dom.getWindowSize().innerWidth / 2) {
-            this.previous();
-        } else {
-            this.next();
-        }
+    addSwipeGestures(element) {
+        this.touchHelper = new TouchHelper(element);
+        Events.on(this.touchHelper, 'swiperight', () => this.previous());
+        Events.on(this.touchHelper, 'swipeleft', () => this.next());
     }
 
     onDialogClosed() {
         this.stop();
     }
 
-    bindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem.addEventListener('close', this.onDialogClosed, { once: true });
-        elem.querySelector('.btnExit').addEventListener('click', this.onDialogClosed, { once: true });
-    }
-
     bindEvents() {
-        this.bindMediaElementEvents();
-
+        this.addSwipeGestures(document.querySelector('#container'));
+        this.mediaElement?.addEventListener('close', this.onDialogClosed, { once: true });
         document.addEventListener('keydown', this.onWindowKeyDown);
-        document.addEventListener('touchstart', this.onTouchStart);
-    }
-
-    unbindMediaElementEvents() {
-        const elem = this.mediaElement;
-
-        elem.removeEventListener('close', this.onDialogClosed);
-        elem.querySelector('.btnExit').removeEventListener('click', this.onDialogClosed);
     }
 
     unbindEvents() {
-        if (this.mediaElement) {
-            this.unbindMediaElementEvents();
-        }
-
+        this.touchHelper?.destroy();
+        this.mediaElement?.removeEventListener('close', this.onDialogClosed);
         document.removeEventListener('keydown', this.onWindowKeyDown);
-        document.removeEventListener('touchstart', this.onTouchStart);
     }
 
-    createMediaElement() {
+    toggleFullscreen() {
+        setTimeout(() => this.loadPage(this.progress + 1), 200);
+    }
+
+    createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
             return elem;
@@ -180,19 +171,21 @@ export class PdfPlayer {
                 removeOnClose: true
             });
 
-            let html = '';
-            html += '<canvas id="canvas"></canvas>';
-            html += '<div class="actionButtons">';
-            html += '<button is="paper-icon-button-light" class="autoSize btnExit" tabindex="-1"><span class="material-icons actionButtonIcon close" aria-hidden="true"></span></button>';
-            html += '</div>';
-
             elem.id = 'pdfPlayer';
-            elem.innerHTML = html;
+            elem.innerHTML = '<div id="bookOsdMount"></div><div id="container"><canvas id="canvas"></canvas></div>';
 
             dialogHelper.open(elem);
         }
 
         this.mediaElement = elem;
+        this.unmountBookOsd = renderComponent(BookOsd, {
+            item: options.items[0],
+            onExit: this.onDialogClosed,
+            onPrevious: this.previous,
+            onNext: this.next,
+            onToggleFullscreen: this.toggleFullscreen
+        }, elem.querySelector('#bookOsdMount'));
+
         return elem;
     }
 
@@ -210,7 +203,12 @@ export class PdfPlayer {
         };
 
         return import('pdfjs-dist').then(({ GlobalWorkerOptions, getDocument }) => {
-            const api = toApi(ServerConnections.getApiClient(item));
+            const api = ServerConnections.getApi(item.ServerId);
+            if (!api) {
+                console.error('[PdfPlayer] no Api instance available for server', item.ServerId);
+                return;
+            }
+
             const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
 
             this.bindEvents();
@@ -224,6 +222,7 @@ export class PdfPlayer {
             });
             return downloadTask.promise.then(book => {
                 if (this.cancellationToken) return;
+                this.currentSrc = () => downloadHref;
                 this.book = book;
                 this.loaded = true;
 
@@ -254,16 +253,10 @@ export class PdfPlayer {
         Events.trigger(this, 'pause');
     }
 
-    replaceCanvas(canvas) {
-        const old = document.getElementById('canvas');
-
-        canvas.id = 'canvas';
-        old.parentNode.replaceChild(canvas, old);
-    }
-
     loadPage(number) {
         const prefix = 'page';
         const pad = 2;
+        const canvas = document.querySelector('#canvas');
 
         // generate list of cached pages by padding the requested page on both sides
         const pages = [prefix + number];
@@ -274,14 +267,20 @@ export class PdfPlayer {
 
         // load any missing pages in the cache
         for (const page of pages) {
-            if (!this.pages[page]) {
+            if (!this.pages[page] || this.cacheWidth !== window.innerWidth || this.cacheHeight !== window.innerHeight) {
                 this.pages[page] = document.createElement('canvas');
                 this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
+
+                this.pages[page].id = 'canvas';
             }
         }
 
         // show the requested page
-        this.replaceCanvas(this.pages[prefix + number], number);
+        canvas?.parentNode.replaceChild(this.pages[prefix + number], canvas);
+
+        // track size so we can render all pages again when the screen has changed
+        this.cacheWidth = window.innerWidth;
+        this.cacheHeight = window.innerHeight;
 
         // delete all pages outside the cache area
         for (const page in this.pages) {
@@ -295,19 +294,14 @@ export class PdfPlayer {
         const devicePixelRatio = window.devicePixelRatio || 1;
         this.book.getPage(number).then(page => {
             const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width)) * devicePixelRatio;
-            const viewport = page.getViewport({ scale });
+            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width));
+            const viewport = page.getViewport({ scale: scale * devicePixelRatio });
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
 
-            if (window.innerWidth < window.innerHeight) {
-                canvas.style.width = '100%';
-                canvas.style.height = 'auto';
-            } else {
-                canvas.style.height = '100%';
-                canvas.style.width = 'auto';
-            }
+            canvas.style.width = `${original.width * scale}px`;
+            canvas.style.height = `${original.height * scale}px`;
 
             const context = canvas.getContext('2d');
 

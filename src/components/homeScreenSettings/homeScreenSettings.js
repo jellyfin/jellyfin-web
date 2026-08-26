@@ -3,7 +3,6 @@ import escapeHtml from 'escape-html';
 
 import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
 import { queryClient } from 'utils/query/queryClient';
 
 import layoutManager from '../layoutManager';
@@ -247,6 +246,38 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Playlists
             }
         );
+    } else if (type === 'books') {
+        list.push(
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Books'),
+                value: LibraryTab.Books
+            },
+            {
+                name: globalize.translate('Authors'),
+                value: LibraryTab.Authors
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Favorites'),
+                value: LibraryTab.Favorites
+            }
+        );
     }
 
     return list;
@@ -342,7 +373,7 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html = `<div class="checkboxListContainer">${html}</div>`;
     }
 
-    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos', 'musicvideos', 'mixed'];
+    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos', 'musicvideos', 'mixed', 'books'];
     if (landingScreenTypes.includes(collectionType)) {
         const idForLanding = collectionType === 'livetv' ? collectionType : item.Id;
         html += '<div class="selectContainer">';
@@ -389,7 +420,7 @@ function loadForm(context, user, userSettings, apiClient) {
 
     const promise1 = queryClient
         .fetchQuery(getUserViewsQuery(
-            toApi(apiClient),
+            ServerConnections.getApi(apiClient.serverId()),
             {
                 userId: user.Id,
                 includeHidden: true

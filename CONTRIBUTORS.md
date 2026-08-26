@@ -109,6 +109,8 @@
 - [bjorntp](https://github.com/bjorntp)
 - [austinhardaway](https://github.com/austinhardaway)
 - [Armanc](https://github.com/armanckeser)
+- [Alex Dickens](https://github.com/alex-dicko)
+- [shindouj](https://github.com/shindouj)
 
 ## Emby Contributors
 

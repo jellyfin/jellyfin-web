@@ -4,6 +4,7 @@ import layoutManager from '../../components/layoutManager';
 import inputManager from '../../scripts/inputManager';
 import focusManager from '../../components/focusManager';
 import browser from '../../scripts/browser';
+import { hasFinePointer } from '../../utils/pointer';
 import 'webcomponents.js/webcomponents-lite';
 import './emby-scroller.scss';
 
@@ -116,7 +117,7 @@ ScrollerPrototype.attachedCallback = function () {
     }
 
     const scrollFrame = this;
-    const enableScrollButtons = layoutManager.desktop && !browser.touch && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+    const enableScrollButtons = layoutManager.desktop && hasFinePointer() && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
 
     const options = {
         horizontal: horizontal,

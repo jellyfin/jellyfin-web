@@ -36,7 +36,6 @@ class ServerConnections extends ConnectionManager {
     constructor() {
         super(...arguments);
         this.localApiClient = null;
-        this.api = null;
         this.firstConnection = null;
 
         Events.on(this, 'localusersignedout', (_e, logoutInfo) => {
@@ -53,12 +52,8 @@ class ServerConnections extends ConnectionManager {
             apiClient.getMaxBandwidth = getMaxBandwidth;
             apiClient.normalizeImageOptions = normalizeImageOptions;
 
-            const api = this.getApi(apiClient.serverId());
-
-            if ((!this.api && api) || this.localApiClient === apiClient) {
-                this.api = api;
-            }
-
+            // Calling getApi will ensure apiClient._sdk is initialized.
+            this.getApi(apiClient.serverId());
             apiClient.subscribe = apiClient._sdk.subscribe.bind(apiClient._sdk);
         });
     }
@@ -98,11 +93,8 @@ class ServerConnections extends ConnectionManager {
         if (apiClient) {
             this.localApiClient = apiClient;
             window.ApiClient = apiClient;
-
-            const api = this.getApi(apiClient.serverId());
-            if (api) {
-                this.api = api;
-            }
+            // Calling getApi will ensure apiClient._sdk is initialized.
+            this.getApi(apiClient.serverId());
         }
     }
 
@@ -129,24 +121,6 @@ class ServerConnections extends ConnectionManager {
     }
 
     /**
-     * Gets the Api that is currently connected.
-     * @returns {import('@jellyfin/sdk').Api|undefined} The current Api instance.
-     */
-    getCurrentApi() {
-        let api = this.api;
-
-        if (!api) {
-            const server = this.getLastUsedServer();
-
-            if (server) {
-                api = this.getApi(server.Id);
-            }
-        }
-
-        return api;
-    }
-
-    /**
      * Gets the ApiClient that is currently connected or throws if not defined.
      * @async
      * @returns {Promise<ApiClient>} The current ApiClient instance.
@@ -161,7 +135,7 @@ class ServerConnections extends ConnectionManager {
     onLocalUserSignedIn(user) {
         const apiClient = this.getApiClient(user.ServerId);
         this.setLocalApiClient(apiClient);
-        setTimeout(() => detectBitrate(this.getCurrentApi(), true), 6000);
+        setTimeout(() => detectBitrate(this.getApi(user.ServerId), true), 6000);
         return setUserInfo(user.Id, apiClient).then(() => {
             if (window.NativeShell && typeof window.NativeShell.onLocalUserSignedIn === 'function') {
                 return window.NativeShell.onLocalUserSignedIn(user, apiClient.accessToken());
