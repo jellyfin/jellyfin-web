@@ -1281,7 +1281,7 @@
     "LabelSystem": "Kervið",
     "LabelTranscodingThreadCount": "Umkotingartræðrir",
     "OptionAllowMediaPlaybackTranscodingHelp": "At nokta atgongd til umkoting kann elva til spælitrupulleikar á viðskiftarum ið ikki hava virkisføri til ávís miðlasnið.",
-    "PlaybackError.PLAYER_ERROR": "Spælingin miseydnaðist vegnað óbøtaliga spælaravillu.",
+    "PlaybackError.PLAYER_ERROR": "Spælingin miseydnaðist vegnað óbøtiliga spælaravillu.",
     "SaveLyricsIntoMediaFolders": "Goym sangtekstir í miðlaskjáttum",
     "MediaInfoDvVersionMajor": "DV-stórútgáva",
     "MediaInfoDvVersionMinor": "DV-smáútgáva"
