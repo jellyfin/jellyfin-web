@@ -343,7 +343,7 @@
     "Vertical": "Vertical",
     "ValueTimeLimitSingleHour": "Time limit: 1 hour",
     "ValueTimeLimitMultiHour": "Time limit: {0} hours",
-    "ValueSeriesCount": "{0} programmes",
+    "ValueSeriesCount": "{0} series",
     "ValueSeconds": "{0} seconds",
     "ValueOneSong": "1 song",
     "ValueOneMusicVideo": "1 music video",
@@ -978,7 +978,7 @@
     "LabelBaseUrl": "Base URL",
     "Up": "Up",
     "SearchForCollectionInternetMetadata": "Search the internet for artwork and metadata",
-    "ValueOneSeries": "1 programme",
+    "ValueOneSeries": "1 series",
     "MediaInfoBitrate": "Bitrate",
     "LabelPostProcessorArgumentsHelp": "Use {path} as the path to the recording file.",
     "LabelKodiMetadataEnableExtraThumbs": "Copy extrafanart to extrathumbs field",
@@ -1929,5 +1929,9 @@
     "BitmapSubtitleAspectModeContain": "Contain",
     "BitmapSubtitleAspectModeCover": "Cover",
     "BitmapSubtitleAspectModeHelp": "Controls how client-rendered PGS and VobSub subtitles are scaled to the visible video area.",
-    "BitmapSubtitleAspectModeStretch": "Stretch"
+    "BitmapSubtitleAspectModeStretch": "Stretch",
+    "ViewDoublePage": "Double Page View",
+    "ViewSinglePage": "Single Page View",
+    "ViewLeftToRight": "Left to Right",
+    "ViewRightToLeft": "Right to Left"
 }
