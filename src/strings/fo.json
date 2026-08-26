@@ -1324,5 +1324,6 @@
     "LibraryScanFanoutConcurrencyHelp": "Hámark av samstundis savnsskanningum. Er teigurin tómur verður eitt hámark grundað á gerilskjarnar í tólbúnaðinum ásett. GEV GÆTUR: At seta hetta ov høgt kann elva til trupulleikar við netfílukervum. Lækka markið um tú renur teg í trupulleikar.",
     "LibraryInvalidItemIdError": "Savnið er enda í eini ógildigari støðu og kann ikki broytast. Tú hevur møgulliga rent teg í eina villu; leiðin í dátugrunninum er ikki eins og leiðin í fílukervinum.",
     "Logo": "Eyðkennismerki",
-    "LogoScreensaver": "Búmerkisskáaskíggi"
+    "LogoScreensaver": "Búmerkisskáaskíggi",
+    "MediaInfoLayout": "Ræsauppsetan"
 }
