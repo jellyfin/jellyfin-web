@@ -1302,7 +1302,7 @@
     "LabelMaxParentalRating": "Hægst loyvda aldursmark",
     "LabelMovieRecordingPath": "Goymslustaður fyri filmsupptøkur",
     "LabelProtocol": "Fjarskiftisregla",
-    "LabelParallelImageEncodingLimit": "Mark fyri samstundis myndakotingum",
+    "LabelParallelImageEncodingLimit": "Samstundis myndakotingarmark",
     "LabelParallelImageEncodingLimitHelp": "Hámark av myndakotingum ið verða loyvdar at koyra samstundis. Er teigurin tómur verður eitt hámark grundað á gerilskjarnar í tólbúnaðinum ásett.",
     "LabelPleaseRestart": "Broytingar fáa virkna eftir at vevsíðan er endurinnlisin.",
     "LabelRestore": "Endurstovna",
@@ -1310,5 +1310,15 @@
     "LabelSelectFolderGroupsHelp": "Søvn ið ikki eru vald verða víst fyri seg sjálvan í egnum sýni.",
     "LabelSeriesRecordingPath": "Goymslustaður fyri upptøkur av sendirøðum",
     "LabelStable": "Støðug(ur/t)",
-    "LabelStopping": "Steðgar"
+    "LabelStopping": "Steðgar",
+    "LabelTranscodingTempPathHelp": "Áset egnan goymslustað fyri umkotaðu fílurnar ið verða handaðar viðskiftarum. Lat teigin verða tóman til tess at brúka ambætaraforsetta goymslustaðið.",
+    "LabelTranscodingThreadCountHelp": "Áset hámark fyri træðrir at brúka til umkotingar. Færri træðrir lækka um gerilsnýtsluna, men eru ikki neyðturviliga nóg skjótir, at umkota til eina nøktandi hyggjarauppliving.",
+    "LogLevel.None": "Einki",
+    "LogLevel.Error": "Villa",
+    "LogLevel.Warning": "Ávaring",
+    "LogLevel.Debug": "Villugreining",
+    "LogLevel.Trace": "Rekjandi",
+    "LogLevel.Information": "Upplýsandi",
+    "LogLevel.Critical": "Álvarsamt",
+    "LibraryScanFanoutConcurrency": "Samstundis svansskanningarmark"
 }
