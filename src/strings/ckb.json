@@ -633,5 +633,11 @@
     "HeaderRecordingMetadataSaving": "مێتاداتای تۆمارکردن",
     "HeaderRecordingOptions": "بژاردەکانی تۆمارکردن",
     "HeaderRecordingPostProcessing": "پرۆسێسکردنی دوای تۆمارکردن",
-    "HeaderRemoteAccessSettings": "ڕێکخستنەکانی چونەژوورەوەی دوور"
+    "HeaderRemoteAccessSettings": "ڕێکخستنەکانی چونەژوورەوەی دوور",
+    "HeaderRemoteControl": "کۆنترۆڵی دوور",
+    "HeaderPageNotFound": "پەڕەکە نەدۆزرایەوە",
+    "HeaderParentalRatings": "هەڵسەنگاندنی دایک و باوک",
+    "HeaderPassword": "وشەی نهێنی",
+    "HeaderPlaybackError": "هەڵە لە پەخشکردندا",
+    "HeaderPlayOn": "لێدانی بەردەوام"
 }
