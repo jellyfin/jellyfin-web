@@ -3296,6 +3296,19 @@ export class PlaybackManager {
             }
         }
 
+        function invalidatePreloadedTrackIfNextChanged(player) {
+            if (player._preloadQueuedAudioEnabled) {
+                // Check if the preloaded next track was invalidated by the new queue order.
+                const preloadedId = player._nextMediaElement?.dataset.playlistItemId || null;
+                const currentNextId = self._playQueueManager.getNextItemInfo()?.item?.PlaylistItemId || null;
+                if (preloadedId !== currentNextId) {
+                    console.debug('[PRELOAD-QUEUED-AUDIO][INVALIDATE] Preloaded track was invalidated by new queue order');
+                    player.clearNextSource?.();
+                    player.preloadNextQueuedTrack?.();
+                }
+            }
+        };
+
         function queueAll(items, mode, player) {
             if (!items.length) {
                 return;
@@ -3314,19 +3327,6 @@ export class PlaybackManager {
                 return;
             }
 
-            const invalidatePreloadedTrack = () => {
-                if (player._preloadQueuedAudioEnabled) {
-                    // Check if the preloaded next track was invalidated by the new queue order.
-                    const preloadedId = player._nextMediaElement?.dataset.playlistItemId ?? null;
-                    const currentNextId = self._playQueueManager.getNextItemInfo()?.item?.PlaylistItemId || null;
-                    if (preloadedId !== currentNextId) {
-                        console.debug('[PRELOAD-QUEUED-AUDIO][INVALIDATE] Preloaded track was invalidated by new queue order');
-                        player.clearNextSource?.();
-                        player._preloadNextQueuedTrack?.();
-                    }
-                }
-            };
-
             const queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
 
             if (queueDirectToPlayer) {
@@ -3339,7 +3339,7 @@ export class PlaybackManager {
                         } else {
                             player.queue(items);
                         }
-                        invalidatePreloadedTrack();
+                        invalidatePreloadedTrackIfNextChanged(player);
                     });
                 });
 
@@ -3351,7 +3351,7 @@ export class PlaybackManager {
             } else {
                 self._playQueueManager.queue(items);
             }
-            invalidatePreloadedTrack();
+            invalidatePreloadedTrackIfNextChanged(player);
             Events.trigger(player, 'playlistitemadd');
         }
 
@@ -3415,9 +3415,9 @@ export class PlaybackManager {
             startPlaybackProgressTimer(player);
 
             // Trigger preload of the next queued track now that the queue is fully set up.
-            if (player._preloadNextQueuedTrack) {
+            if (player.preloadNextQueuedTrack) {
                 console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Triggering preload on playback start', streamInfo.item?.Name);
-                player._preloadNextQueuedTrack();
+                player.preloadNextQueuedTrack();
             }
         }
 
@@ -3652,9 +3652,9 @@ export class PlaybackManager {
 
                                 // Queue preload of the track after this one now that the playlist
                                 // position has advanced and the new item is playing.
-                                if (player._preloadNextQueuedTrack) {
+                                if (player.preloadNextQueuedTrack) {
                                     console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Triggering preload on preloaded-track activation', item.Name);
-                                    player._preloadNextQueuedTrack();
+                                    player.preloadNextQueuedTrack();
                                 }
                             }).catch((err) => {
                                 console.error('[PRELOAD-QUEUED-AUDIO][STOPPED] activatePreloadedTrack failed — falling back to nextTrack()', err);
@@ -3759,48 +3759,19 @@ export class PlaybackManager {
         function onShuffleQueueModeChange() {
             const player = this;
             sendProgressUpdate(player, 'shufflequeuemodechange');
+            invalidatePreloadedTrackIfNextChanged(player);
         }
 
         function onPlaylistItemMove() {
             const player = this;
             sendProgressUpdate(player, 'playlistitemmove', true);
-
-            // If there is a preloaded item and it is no longer next in the queue, discard it.
-            if (!player._nextMediaElement || !player.clearNextSource) {
-                return;
-            }
-            const preloadedId = player._nextMediaElement.dataset.playlistItemId || null;
-            if (!preloadedId) {
-                console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] no stampedId on element — skipping');
-                return;
-            }
-            const currentNextId = self._playQueueManager.getNextItemInfo()?.item?.PlaylistItemId || null;
-            if (preloadedId !== currentNextId) {
-                console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] Next item changed after queue mutation — discarding preload',
-                    { preloaded: preloadedId, newNext: currentNextId });
-                player.clearNextSource();
-                player._preloadNextQueuedTrack?.();
-            }
+            invalidatePreloadedTrackIfNextChanged(player);
         }
 
-        function onPlaylistItemRemove(e, removeInfo) {
+        function onPlaylistItemRemove() {
             const player = this;
             sendProgressUpdate(player, 'playlistitemremove', true);
-
-            // If there is a preloaded item and it was removed from the queue, discard it.
-            if (player.clearNextSource
-                    && removeInfo?.playlistItemIds
-                    && player._nextMediaElement) {
-                const stampedId = player._nextMediaElement.dataset.playlistItemId;
-                if (stampedId && removeInfo.playlistItemIds.includes(stampedId)) {
-                    console.debug('[PRELOAD-QUEUED-AUDIO][VALIDATE] Preloaded track was removed from queue — discarding');
-                    player.clearNextSource();
-                    if (player._preloadNextQueuedTrack) {
-                        player._preloadNextQueuedTrack();
-                    }
-                    return;
-                }
-            }
+            invalidatePreloadedTrackIfNextChanged(player);
         }
 
         function onPlaylistItemAdd() {

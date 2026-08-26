@@ -415,7 +415,7 @@ class HtmlAudioPlayer {
             htmlMediaHelper.onErrorInternal(self, type);
         }
 
-        self._preloadNextQueuedTrack = function() {
+        self.preloadNextQueuedTrack = function() {
             if (self._isPreloadingNext) {
                 console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Skipped — preload already in progress');
                 return;
