@@ -1326,11 +1326,12 @@
     "Logo": "Eyðkennismerki",
     "LogoScreensaver": "Búmerkisskáaskíggi",
     "MediaInfoLayout": "Ræsauppsetan",
-    "MessageBackupDisclaimer": "Tað valdast støddina á tínum savni hvussu langa tíð trygdaravritstilgongdin tekur.",
+    "MessageBackupDisclaimer": "Hvussu langa tíð trygdaravritstilgongdin tekur valdast støddina á tínum savni.",
     "MenuOpen": "Lat valmynd upp",
     "MessageConfirmAppExit": "Ynskir tú at loka?",
     "MessageReenableUser": "Sí niðanfyri hvussu hann verður virktur aftur",
     "MinutesAfter": "minuttir aftaná",
     "MinutesBefore": "minuttir áðrenn",
-    "RefreshQueued": "Endurinnlesing sett í bíðirøð."
+    "RefreshQueued": "Endurinnlesing sett í bíðirøð.",
+    "Select": "Vel"
 }
