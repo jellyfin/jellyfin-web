@@ -42,7 +42,7 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 fontSize: '80%',
                 display: 'flex',
                 alignItems: {
-                    xs: 'start',
+                    xs: 'flex-start',
                     sm: 'center'
                 },
                 // This should render under the main AppBar if overlapping
