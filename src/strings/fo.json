@@ -1291,10 +1291,18 @@
     "FetchingData": "Útvegar fleiri dátur",
     "HeaderBackupsHelp": "Stovna og endurinnles trygdaravrit av ambætaranum. Tey kunnu fevna um dátugrunn, metadátur, undirtekstir og trickplay-fílur.",
     "HeaderNetworking": "IP-fjarskiftisreglur",
-    "HeaderLiveTvTunerSetup": "Íbinding av sjónvarpsmóttakara",
+    "HeaderLiveTvTunerSetup": "Sjónvarpsmóttakaraíbinding",
     "HeaderSelectMetadataPath": "Vel goymslustað til metadátur",
     "IgnoreDtsHelp": "At sløkkja hesa stilling kann loysa nakrar trupulleikar, t.d. manglandi ljóði á rásum við atskildum ljóð- og kykmyndastroymum.",
     "LabelBackdropScreensaverIntervalHelp": "Tíðarbil í sekundum millum hvørja bakgrundsmynd í skáskíggjanum.",
     "LabelBackdropScreensaverInterval": "Millumbil í skáaskíggja við bakgrundsmyndum",
-    "LabelCreateHttpPortMap": "Virkja sjálvvirkandi víðaristilling av portrum fyri HTTP- og HTTPS-ferðslu."
+    "LabelCreateHttpPortMap": "Virkja sjálvvirkandi víðaristilling av portrum fyri HTTP- og HTTPS-ferðslu.",
+    "LabelCreateHttpPortMapHelp": "Virkjar sjálvvirkandi víðaristilling ið loyvir HTTP- og HTTPS-ferðslu.",
+    "LabelffmpegPathHelp": "Leiðin til FFmpeg-forritafíluna ella skjáttuna ið inniheldur FFmpeg.",
+    "LabelMaxParentalRating": "Hægst loyvda aldursmark",
+    "LabelMovieRecordingPath": "Goymslustaður fyri filmsupptøkur",
+    "LabelProtocol": "Fjarskiftisregla",
+    "LabelParallelImageEncodingLimit": "Mark fyri samstundis myndakotingum",
+    "LabelParallelImageEncodingLimitHelp": "Hámark av myndakotingum ið verða loyvdar at koyra samstundis. Er teigurin tómur verður eitt hámark grundað á gerilskjarnar í tólbúnaðinum ásett.",
+    "LabelPleaseRestart": "Broytingar fáa virkna eftir at vevsíðan er endurinnlisin."
 }
