@@ -639,5 +639,12 @@
     "HeaderParentalRatings": "هەڵسەنگاندنی دایک و باوک",
     "HeaderPassword": "وشەی نهێنی",
     "HeaderPlaybackError": "هەڵە لە پەخشکردندا",
-    "HeaderPlayOn": "لێدانی بەردەوام"
+    "HeaderPlayOn": "لێدانی بەردەوام",
+    "HeaderPleaseSignIn": "تکایە بچۆرە ژوورەوە",
+    "HeaderPortRanges": "ڕێکخستنەکانی فایروۆڵ و پرۆکسی",
+    "HeaderPreferredMetadataLanguage": "زمانە پەسەندکراوەکەی مێتادا",
+    "HeaderPreviewLyrics": "پیشاندانى تێکستى گۆرانی",
+    "HeaderRemoveMediaFolder": "لابردنی بوخچەی مێدیا",
+    "HeaderRemoveMediaLocation": "لابردنی شوێنی مێدیا",
+    "HeaderRevisionHistory": "مێژووی چاکسازییەکان"
 }
