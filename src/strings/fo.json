@@ -1284,5 +1284,17 @@
     "PlaybackError.PLAYER_ERROR": "Spælingin miseydnaðist vegnað óbøtiliga spælaravillu.",
     "SaveLyricsIntoMediaFolders": "Goym sangtekstir í miðlaskjáttum",
     "MediaInfoDvVersionMajor": "DV-stórútgáva",
-    "MediaInfoDvVersionMinor": "DV-smáútgáva"
+    "MediaInfoDvVersionMinor": "DV-smáútgáva",
+    "BackdropScreensaver": "Skáaskíggi við bakgrundsmyndum",
+    "AlwaysPlaySubtitlesHelp": "Undirtekstir ið eru á ynskta málinum verða innlisnir uttan mun til talumál.",
+    "ExtractChapterImagesHelp": "Úttøka av kapitlamyndum ger tað møguligt hjá viðskiftarum at vísa myndir undir kapittlavali. Tilgongdin kann verða sein, krevjandi og kann brúka fleiri gigabýt av goymsluplássi. Viðgerðin verður framd tá ið kykmyndir verða innlisnar, og um náttina sum ein fyriskipað koyrsla. Fyriskipanin kann tillagast á síðuni yvir fyriskipaðar koyrslur. Frámælt er at koyra hesa viðgerð tá nógv nýtsla er.",
+    "FetchingData": "Útvegar fleiri dátur",
+    "HeaderBackupsHelp": "Stovna og endurinnles trygdaravrit av ambætaranum. Tey kunnu fevna um dátugrunn, metadátur, undirtekstir og trickplay-fílur.",
+    "HeaderNetworking": "IP-fjarskiftisreglur",
+    "HeaderLiveTvTunerSetup": "Íbinding av sjónvarpsmóttakara",
+    "HeaderSelectMetadataPath": "Vel goymslustað til metadátur",
+    "IgnoreDtsHelp": "At sløkkja hesa stilling kann loysa nakrar trupulleikar, t.d. manglandi ljóði á rásum við atskildum ljóð- og kykmyndastroymum.",
+    "LabelBackdropScreensaverIntervalHelp": "Tíðarbil í sekundum millum hvørja bakgrundsmynd í skáskíggjanum.",
+    "LabelBackdropScreensaverInterval": "Millumbil í skáaskíggja við bakgrundsmyndum",
+    "LabelCreateHttpPortMap": "Virkja sjálvvirkandi víðaristilling av portrum fyri HTTP- og HTTPS-ferðslu."
 }
