@@ -274,6 +274,7 @@
 }
 
 .guideProgramName {
+    min-width: 0;
     padding: 0 0.7em 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -298,6 +299,8 @@
     font-weight: normal;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
+    line-height: 1.25;
 }
 
 .guideProgramSecondaryInfo {

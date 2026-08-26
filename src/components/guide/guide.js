@@ -374,6 +374,21 @@ function Guide(options) {
         return datetime.getDisplayTime(date).toLowerCase();
     }
 
+    function getProgramDisplayName(program) {
+        return program.Name || globalize.translate('Unknown');
+    }
+
+    function getProgramAccessibilityText(program, channel) {
+        const parts = [
+            getProgramDisplayName(program),
+            channel.Name,
+            getDisplayTime(program.StartDateLocal),
+            getDisplayTime(program.EndDateLocal)
+        ];
+
+        return parts.filter(Boolean).join(', ');
+    }
+
     function getTimeslotHeadersHtml(startDate, endDateTime) {
         let html = '';
 
@@ -540,7 +555,9 @@ function Guide(options) {
 
             const isAttribute = endPercent >= 2 ? ' is="emby-programcell"' : '';
 
-            html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
+            const programAccessibilityText = escapeHtml(getProgramAccessibilityText(program, channel));
+
+            html += '<button' + isAttribute + ' title="' + programAccessibilityText + '" aria-label="' + programAccessibilityText + '" data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
             if (displayInnerContent) {
                 const guideProgramNameClass = 'guideProgramName';
@@ -549,7 +566,7 @@ function Guide(options) {
 
                 html += '<div class="guide-programNameCaret hide"><span class="guideProgramNameCaretIcon material-icons keyboard_arrow_left" aria-hidden="true"></span></div>';
 
-                html += '<div class="guideProgramNameText">' + escapeHtml(program.Name);
+                html += '<div class="guideProgramNameText">' + escapeHtml(getProgramDisplayName(program));
 
                 let indicatorHtml = null;
                 if (program.IsLive && programOptions.showLiveIndicator) {
