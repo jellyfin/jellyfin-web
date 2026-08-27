@@ -1382,5 +1382,7 @@
     "HeaderAlert": "Ávaring",
     "LabelAudioTagSettings": "Spjaldurstillingar á ljóðum",
     "LabelExtractChaptersDuringLibraryScanHelp": "Framleið kapitlamyndur tá kykmyndir verða innlisnar undir savsskanning. Er hetta frávalt verða tær framleiddar undir fyriskipaðu koyrsluni, og verða vanligu savnsskanningarnar skjótari avgreiddar.",
-    "LabelMessageText": "Tekstboð"
+    "LabelMessageText": "Tekstboð",
+    "OnApplicationStartup": "Tá skipanin byrjar",
+    "OptionSpecialEpisode": "Eykapartar"
 }
