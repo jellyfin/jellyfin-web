@@ -530,7 +530,7 @@
     "EnableQuickConnect": "Virkja Quick Connect á hesum ambætaranum",
     "EnableDts": "Virkja DTS (DCA)",
     "ButtonAddUser": "Legg inn brúkara",
-    "DirectStreaming": "Beinleiðis stroyming",
+    "DirectStreaming": "Beinleiðis-stroyming",
     "DirectPlaying": "Beinleiðis spæling",
     "DisplayModeHelp": "Vel uppsetingarsniðið ið tú ynskir á nýtslumarkamótinum.",
     "EnableExternalVideoPlayers": "Ytri kykmyndaspælarar",
@@ -1363,5 +1363,17 @@
     "DeinterlaceMethodHelp": "Vel sundurflættingarháttin at brúka undir ritbúnaðarligari umkoting av samanflættaðum kykmyndum. Er tólbúnaðarstyðjað sundurflætting tøk og virkin verður hon brúkt framum tað ið her er ásett.",
     "MessageNoGenresAvailable": "Virkja onkra metadátukeldur til tess at útvega greinar umvegis alnetið.",
     "MetadataNfoLoadError": "Miseydnaðist at innlesa NFO-metadátustillingar",
-    "OptionEnableAccessToAllChannels": "Gev atgongd til allar rásir"
+    "OptionEnableAccessToAllChannels": "Gev atgongd til allar rásir",
+    "ReadInputAtNativeFramerate": "Les inntak í upprunaligari myndatídd",
+    "ReadInputAtNativeFramerateHelp": "At virkja hesa stilling kann loysa nakrar trupulleikar, t.d. har beinleiðis stroymar steðgað óvæntað ella ov tíðliga.",
+    "ScanForNewAndUpdatedFiles": "Leita eftir nýggjum og broyttum fílum",
+    "UseDoubleRateDeinterlacing": "Tvífalda myndatíddina undir sundurflætting",
+    "RemuxHelp1": "Eindin ella ritbúnaðurin hevur ikki virkisføri fyri pakkasniði miðilsins (MKV, AVI, WMV, o.s.fr.) men hevur sínamillumvirkni til bæði ljóð- og kykmyndastroymin. Miðilin verður umpakkaður so hvørt hann verður sendur til eindina. Hetta ávirkar ikki miðlagóðskuna.",
+    "PreferFmp4HlsContainerHelp": "Bið um fMP4 sum forsett pakkasnið fyri HLS. Við hesum kunnu virkisførar eindir beinleiðis-stroyma HEVC og AV1 innihald.",
+    "AudioBitrateNotSupported": "Virkisføri vantar fyri bitferð ljóðsins",
+    "VideoBitrateNotSupported": "Virkisføri vantar fyri bitferð kykmyndarinnar",
+    "UnknownVideoStreamInfo": "Upplýsingar um kykmyndastroymin eru ókendir",
+    "UnknownAudioStreamInfo": "Upplýsingar um ljóðstroymin eru ókendir",
+    "LabelDroppedFrames": "Sleptar myndir",
+    "LabelPlaybackQuality": "Myndir sleptar / avskeplaðar"
 }
