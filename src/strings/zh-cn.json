@@ -356,7 +356,7 @@
     "LabelAllowedRemoteAddresses": "远程 IP 过滤名单",
     "LabelAllowedRemoteAddressesMode": "过滤模式",
     "LabelAppName": "应用程序名称",
-    "LabelAppNameExample": "API 密钥的显示名称，仅用于识别，不影响功能。",
+    "LabelAppNameExample": "API 密钥的显示名称，仅用于刮削，不影响功能。",
     "LabelArtists": "艺术家",
     "LabelArtistsHelp": "将多个艺术家用分号分隔。",
     "LabelAudioLanguagePreference": "首选的音频语言",
@@ -1944,5 +1944,6 @@
     "Screenplay": "剧本",
     "HlsAudioSeekStrategy": "在 HLS 流中跳转播放时所使用的策略。",
     "LabelHlsAudioSeekStrategy": "音频跳转策略",
-    "MessageForgotPasswordRedirect": "你已被重定向到外部服务提供商进行密码重置。"
+    "MessageForgotPasswordRedirect": "你已被重定向到外部服务提供商进行密码重置。",
+    "MessageItemMetadataLocked": "此项目的元数据已被锁定。请先解锁，然后再使用刮削功能。"
 }
