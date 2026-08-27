@@ -1311,7 +1311,7 @@
     "LabelSeriesRecordingPath": "Goymslustaður fyri upptøkur av sendirøðum",
     "LabelStable": "Støðug(ur/t)",
     "LabelStopping": "Steðgar",
-    "LabelTranscodingTempPathHelp": "Áset egnan goymslustað fyri umkotaðu fílurnar ið verða handaðar viðskiftarum. Lat teigin verða tóman til tess at brúka ambætaraforsetta goymslustaðið.",
+    "LabelTranscodingTempPathHelp": "Tillaga goymslustað fyri umkotaðu fílurnar ið verða handaðar viðskiftarum. Lat teigin verða tóman til tess at brúka ambætaraforsetta goymslustaðið.",
     "LabelTranscodingThreadCountHelp": "Áset hámark fyri træðrir at brúka til umkotingar. Færri træðrir lækka um gerilsnýtsluna, men eru ikki neyðturviliga nóg skjótir, at umkota til eina nøktandi hyggjarauppliving.",
     "LogLevel.None": "Einki",
     "LogLevel.Error": "Villa",
@@ -1342,5 +1342,12 @@
     "HeaderChannelAccess": "Sjónvarpsrásaratgongd",
     "LabelAlbumGain": "Ljóðstyrki plátuútgávunnar",
     "LabelDateTimeLocale": "Dagfestingar- og tíðarsnið",
-    "LabelDeinterlaceMethod": "Sundurflættingarháttur"
+    "LabelDeinterlaceMethod": "Sundurflættingarháttur",
+    "LabelDate": "Dagfesting",
+    "LabelDateAddedBehavior": "Staðfesting av miðlainnleggingardegi",
+    "LabelDateAddedBehaviorHelp": "Eru metadátur tøkar verða tær brúktar framum hesar báðar kostirnar.",
+    "LabelCachePathHelp": "Tillaga goymslustað fyri til kovafílur ambætarans, t.d. myndir. Lat teigin verða tóman til tess at brúka ambætaraforsetta goymslustaðið.",
+    "LabelDummyChapterDuration": "Millumbil",
+    "LabelEnableRealtimeMonitor": "Virkja tíðarsanna eygleiðing",
+    "LabelEnableRealtimeMonitorHelp": "Á fílukervum ið hava virkisføri fyri tí verða fílubroytingar viðgjørdar beinavegin."
 }
