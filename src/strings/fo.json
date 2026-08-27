@@ -1375,5 +1375,6 @@
     "UnknownVideoStreamInfo": "Upplýsingar um kykmyndastroymin eru ókendir",
     "UnknownAudioStreamInfo": "Upplýsingar um ljóðstroymin eru ókendir",
     "LabelDroppedFrames": "Sleptar myndir",
-    "LabelPlaybackQuality": "Myndir sleptar / avskeplaðar"
+    "LabelPlaybackQuality": "Myndir sleptar / avskeplaðar",
+    "AllowHWTranscodingHelp": "Loyv móttakaranum at umkota stroymar so hvørt. Hetta kann minka um tørvin á umkotingum á ambætaranum."
 }
