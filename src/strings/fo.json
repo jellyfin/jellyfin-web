@@ -1333,5 +1333,6 @@
     "MinutesAfter": "minuttir aftaná",
     "MinutesBefore": "minuttir áðrenn",
     "RefreshQueued": "Endurinnlesing sett í bíðirøð.",
-    "Select": "Vel"
+    "Select": "Vel",
+    "MessageItemMetadataLocked": "Metadátur miðilsins eru læstar. Lat tær upp áðrenn tú brúkar eyðmerki hentleikan."
 }
