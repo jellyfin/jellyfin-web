@@ -1335,5 +1335,13 @@
     "RefreshQueued": "Endurinnlesing sett í bíðirøð.",
     "Select": "Vel",
     "MessageItemMetadataLocked": "Metadátur miðilsins eru læstar. Lat tær upp áðrenn tú brúkar eyðmerki hentleikan.",
-    "AllowOnTheFlySubtitleExtractionHelp": "Innpakkaðir undirtekstir kunnu verða útpakkaðir og handaðir viðskiftarum sum klártekstir, til tess at fyribyrgja kykmyndaumkoting. Hetta kann taka longri tíð á summum kervum og harvið elva til spælisteðg undir útpakkingini. Óvirkja hetta til tess at kykmyndafesta innpakkaðar undirtekstir undir kykmyndaumkoting, tá viðskiftarin ikki hevur innbygd virkisføri fyri teimum."
+    "AllowOnTheFlySubtitleExtractionHelp": "Innpakkaðir undirtekstir kunnu verða útpakkaðir og handaðir viðskiftarum sum klártekstir, til tess at fyribyrgja kykmyndaumkoting. Hetta kann taka longri tíð á summum kervum og harvið elva til spælisteðg undir útpakkingini. Óvirkja hetta til tess at kykmyndafesta innpakkaðar undirtekstir undir kykmyndaumkoting, tá viðskiftarin ikki hevur innbygd virkisføri fyri teimum.",
+    "DatePlayed": "Síðst spældur",
+    "ErrorSavingTvProvider": "Ein villa kom fyri undir innleggjan av veitara av sjónvarpsskráum. Vinaliga syrg fyri at hann er atkomiligur og royn aftur.",
+    "General": "Yvirskipað",
+    "HeaderChannelAccess": "Sjónvarpsrásaratgongd",
+    "LabelAlbumGain": "Ljóðstyrki plátuútgávunnar",
+    "LabelBuildVersion": "",
+    "LabelDateTimeLocale": "Dagfestingar- og tíðarsnið",
+    "LabelDeinterlaceMethod": "Sundurflættingarháttur"
 }
