@@ -1380,5 +1380,7 @@
     "DisplayInOtherHomeScreenSections": "Vís forsíðuteigar sum t.d. \"Nýliga innlagdir miðlar\" og \"Hald á fram at hyggja\"",
     "DisplayLoadError": "Ein villa kom fyri undir innlesing av sýnisstillingum.",
     "HeaderAlert": "Ávaring",
-    "LabelAudioTagSettings": "Spjaldurstillingar á ljóðum"
+    "LabelAudioTagSettings": "Spjaldurstillingar á ljóðum",
+    "LabelExtractChaptersDuringLibraryScanHelp": "Framleið kapitlamyndur tá kykmyndir verða innlisnar undir savsskanning. Er hetta frávalt verða tær framleiddar undir fyriskipaðu koyrsluni, og verða vanligu savnsskanningarnar skjótari avgreiddar.",
+    "LabelMessageText": "Tekstboð"
 }
