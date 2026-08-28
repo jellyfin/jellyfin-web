@@ -1386,5 +1386,19 @@
     "OnApplicationStartup": "Tá skipanin byrjar",
     "OptionSpecialEpisode": "Eykapartar",
     "HeaderAccessScheduleHelp": "Ger eina tímatalvu til tess at avmarka atgongd til ávísar tíðir.",
-    "HeaderAccessSchedule": "Atgongdartímatalva"
+    "HeaderAccessSchedule": "Atgongdartímatalva",
+    "EnableNextVideoInfoOverlayHelp": "Vís upplýsingar um næstu kykmyndina í spælirøðini tá ein kykmynd er enda.",
+    "LabelCustomRating": "Tillaga aldursmark",
+    "ConfigureDateAdded": "Tillaga hvussu 'Innleggingardagur' verður avgjørdur undir Yvirlitsskíggi > Søvn > Sýni",
+    "DateModified": "Tillagingardagur",
+    "ErrorGettingTvLineups": "Ein villa kom fyri undir útvegan av sjónvarpsskráum. Vinaliga tryggja at upplýsingarnir eru rættir og royn aftur.",
+    "ErrorPleaseSelectLineup": "Vinaliga vel eitt sjónvarpsskráayvirlit og royn aftur. Eru eingi yvirlit tøk, tryggja so at títt brúkaranavn, loyniorð, og postnummar eru røtt.",
+    "HeaderTypeImageFetchers": "Myndaútvegarar ({0})",
+    "HeaderFetcherSettings": "Útveganarstillingar",
+    "HeaderFetchImages": "Myndasløg at útvega",
+    "HeaderStartNow": "Byrja nú",
+    "Label3DFormat": "3D-snið",
+    "LabelAbortedByServerShutdown": "Avbrotin vegnað ambætarasteðg",
+    "LabelAccessEnd": "Afturlatingartíð",
+    "LabelAccessStart": "Upplatingartíð"
 }
