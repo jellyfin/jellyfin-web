@@ -1901,5 +1901,6 @@
     "LabelReasons": "Прычыны",
     "LabelPlayerSizes": "Памеры прайгравальніка",
     "ActivitiesLoadError": "Не ўдалося загрузіць актыўнасць",
-    "VideoRotationNotSupported": "Паварот відэа не падтрымліваецца"
+    "VideoRotationNotSupported": "Паварот відэа не падтрымліваецца",
+    "ConfirmStillWatching": "Вы ўсё яшчэ глядзіце?"
 }

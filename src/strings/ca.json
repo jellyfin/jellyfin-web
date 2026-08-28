@@ -203,7 +203,7 @@
     "LabelCustomCss": "Codi CSS propi",
     "LabelCustomCssHelp": "Apliqueu el vostre propi codi CSS personalitzat per al tema/marca a la interfície web.",
     "LabelDashboardTheme": "Tema del tauler de control del servidor",
-    "LabelDateAdded": "Data d'afegit",
+    "LabelDateAdded": "Data que es va afegir",
     "LabelDay": "Dia de la setmana",
     "LabelDeathDate": "Data de defunció",
     "LabelDiscNumber": "Número de disc",
@@ -580,7 +580,7 @@
     "ConfirmEndPlayerSession": "Desitgeu tancar Jellyfin a {0}?",
     "ConfirmDeleteItems": "L'eliminació d'aquests elements els suprimirà del sistema de fitxers i de la mediateca. N'esteu segur, que desitgeu continuar?",
     "ConfirmDeleteItem": "Eliminar aquest element l'eliminarà del sistema de fitxers i de la mediateca. N'esteu segur, que desitgeu continuar?",
-    "ConfigureDateAdded": "Configureu com es determinen les metadades de la \"Data d'afegit\" al Tauler > Mediateques > Visualització",
+    "ConfigureDateAdded": "Configureu com es determinen les metadades de la \"Data que es va afegir\" al Tauler > Mediateques > Visualització",
     "CommunityRating": "Valoració de la comunitat",
     "ColorTransfer": "Transferència de color",
     "ColorSpace": "Espai de color",
@@ -1944,5 +1944,6 @@
     "LabelBitmapSubtitleAspectMode": "Mode de mapa de bits per a l'aspecte dels subtítols",
     "HlsAudioSeekStrategy": "L'estratègia a seguir quan se cerca en fluxos HLS.",
     "LabelHlsAudioSeekStrategy": "Estratègia de cerca d'àudio.",
-    "MessageForgotPasswordRedirect": "Se us ha redirigit a un proveïdor extern per a restablir la contrasenya."
+    "MessageForgotPasswordRedirect": "Se us ha redirigit a un proveïdor extern per a restablir la contrasenya.",
+    "MessageItemMetadataLocked": "Les metadades d'aquest element estan blocades. Desbloqueu-les abans de fer servir la funció d'identificació."
 }
