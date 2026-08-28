@@ -1415,5 +1415,13 @@
     "HeaderPortRanges": "Verjugarðs- og proxy-stillingar",
     "LabelLineup": "Sjónvarpsskráir",
     "LabelSpecialSeasonsDisplayName": "Víst umfarsnavn fyri eykapartar og partar uttan umfar",
-    "LabelUserMaxActiveSessions": "Hámark á samstundis setum"
+    "LabelUserMaxActiveSessions": "Hámark á samstundis setum",
+    "MessageContactAdminToResetPassword": "Vinaliga set teg í samband við tín skipanarumsitara um at fáa endurstilla loyniorðið títt.",
+    "MessageDeleteTaskTrigger": "Ynskir tú at strika hendan koyrslukveikjaran?",
+    "MessageSent": "Boðini eru send.",
+    "OptionDateEpisodeAdded": "Innleggingardegi partanna",
+    "OptionDateShowAdded": "Innleggingardegi raðanna",
+    "OptionDatePlayed": "Síðst spældur",
+    "OptionDateAddedFileTime": "Brúka fílustovningardag",
+    "OptionDateAddedImportTime": "Brúka dagin har miðilin var innlisin í savnið"
 }
