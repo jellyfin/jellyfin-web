@@ -1943,5 +1943,7 @@
     "BitmapSubtitleAspectModeHelp": "İstemci tarafından oluşturulan PGS ve VobSub altyazılarının görünür video alanına nasıl ölçeklendirileceğini belirler.",
     "BitmapSubtitleAspectModeStretch": "Genişlet",
     "BitmapSubtitleAspectModeContain": "Sığdır",
-    "BitmapSubtitleAspectModeCover": "Kapla"
+    "BitmapSubtitleAspectModeCover": "Kapla",
+    "MessageForgotPasswordRedirect": "Parola sıfırlama işlemi için harici bir sağlayıcıya yönlendirildiniz.",
+    "MessageItemMetadataLocked": "Bu ögenin meta verileri kilitlidir. Tanımlama özelliğini kullanmadan önce kilidi açın."
 }

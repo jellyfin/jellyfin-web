@@ -1944,5 +1944,6 @@
     "LabelUsernameAllowedCharactersHelp": "Nazwy użytkowników mogą zawierać litery, cyfry, spacje i następujące znaki: - _ ' . @ +. Nie mogą zaczynać się ani kończyć spacją.",
     "HlsAudioSeekStrategy": "Strategia do wykorzystania podczas przeszukiwania strumieni HLS.",
     "LabelHlsAudioSeekStrategy": "Strategia przeszukiwania dźwięku.",
-    "MessageForgotPasswordRedirect": "Przekierowano do zewnętrznego dostawcy w celu zresetowania hasła."
+    "MessageForgotPasswordRedirect": "Przekierowano do zewnętrznego dostawcy w celu zresetowania hasła.",
+    "MessageItemMetadataLocked": "Metadane tej pozycji są zablokowane. Odblokuj je przed użyciem funkcji identyfikacji."
 }

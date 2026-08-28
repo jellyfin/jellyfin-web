@@ -128,7 +128,7 @@ const LibraryToolbar: FC = () => {
                     sx={{
                         justifyContent: {
                             xs: 'auto',
-                            sm: 'end'
+                            sm: 'flex-end'
                         },
                         flexBasis: {
                             xs: '100%',

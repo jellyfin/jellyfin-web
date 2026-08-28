@@ -1926,5 +1926,19 @@
     "VideoRotationNotSupported": "A rotação de vídeo não é suportada",
     "IndexNumber": "Número do índice",
     "NoCastTargets": "Não há destinos de cast disponíveis",
-    "MessageNoEpisodesFound": "Sem episódios disponíveis no momento."
+    "MessageNoEpisodesFound": "Sem episódios disponíveis no momento.",
+    "BitmapSubtitleAspectModeCover": "Cobrir",
+    "BitmapSubtitleAspectModeHelp": "Controla como legendas PGS e VobSub renderizadas pelo cliente são ajustadas à área de vídeo visível.",
+    "BitmapSubtitleAspectModeStretch": "Esticar",
+    "ViewLeftToRight": "Esquerda para direita",
+    "ViewRightToLeft": "Direita para esquerda",
+    "LabelBitmapSubtitleAspectMode": "Modo de aspecto de legenda bitmap",
+    "MessageForgotPasswordRedirect": "Você foi redirecionado para um provedor externo para a redefinição de senha.",
+    "Screenplay": "Roteiro",
+    "SeriesName": "Nome da Série",
+    "HlsAudioSeekStrategy": "A estratégia a usar quando buscando em streams HLS.",
+    "LabelHlsAudioSeekStrategy": "Estratégia de busca de áudio.",
+    "LabelUsernameAllowedCharactersHelp": "Nomes de usuário podem conter letras, números, espaços e os seguintes caracteres:- _ ' . @ +. Não podem começar ou terminar com um espaço.",
+    "AudioLanguages": "Idiomas de áudio",
+    "SubtitleLanguages": "Idiomas de legenda"
 }
