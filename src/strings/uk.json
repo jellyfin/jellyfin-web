@@ -1940,5 +1940,10 @@
     "MessageNoEpisodesFound": "Наразі немає доступних епізодів.",
     "Novel": "Роман",
     "Screenplay": "Сценарій",
-    "SeriesName": "Назва серії"
+    "SeriesName": "Назва серії",
+    "HlsAudioSeekStrategy": "Стратегія, яку слід використовувати під час пошуку в потоках HLS.",
+    "LabelHlsAudioSeekStrategy": "Стратегія пошуку аудіо.",
+    "LabelUsernameAllowedCharactersHelp": "Імена користувачів можуть містити літери, цифри, пробіли та такі символи: - _ ' . @ +. Вони не можуть починатися або закінчуватися пробілом.",
+    "AudioLanguages": "Мови аудіо",
+    "SubtitleLanguages": "Мови субтитрів"
 }
