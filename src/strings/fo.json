@@ -1423,5 +1423,12 @@
     "OptionDateShowAdded": "Innleggingardegi raðanna",
     "OptionDatePlayed": "Síðst spældur",
     "OptionDateAddedFileTime": "Brúka fílustovningardag",
-    "OptionDateAddedImportTime": "Brúka dagin har miðilin var innlisin í savnið"
+    "OptionDateAddedImportTime": "Brúka dagin ið miðilin var innlisin í savnið",
+    "OptionDisableUserHelp": "Sýtt verður at ambæta sambondum frá hesum brúkaranum. Núverandi sambond verða kvett beinanvegin.",
+    "OptionEnableAccessFromAllDevices": "Loyv atgongd frá øllum eindum",
+    "OptionEnableForAllTuners": "Virkja fyri allar móttakarar",
+    "OptionSaveMetadataAsHiddenHelp": "At broyta hesa stilling hevur ikki afturvirkandi kraft. Verandi metadátufílur verða broyttar næstu ferð ambætarin goymur tær.",
+    "QuickConnectDescription": "Til tess at rita inn við Quick Connect, trýst á \"Quick Connect\" knøttin á eindini tú ritar inn frá og inntøppa kotuna niðanfyri.",
+    "RefreshDialogHelp": "Metadátur verða endurinnlisnar grunda á stillingar og alnetstænastur ið eru virktar á umsitingarsíðunum.",
+    "ReplaceAllMetadata": "Endurinnles allar metadátur"
 }
