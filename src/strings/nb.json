@@ -1904,5 +1904,6 @@
     "LabelProgressAndSpeed": "Fremgang / hastighet",
     "LabelReasons": "Årsaker",
     "LabelPlayerSizes": "Spillerstørrelser",
-    "LabelPlaybackQuality": "Ramme mistet/ødelagt"
+    "LabelPlaybackQuality": "Ramme mistet/ødelagt",
+    "MessageItemMetadataLocked": "Metadataene for dette elementet er låst. Lås dem opp før du bruker Identifiser-funksjonen."
 }
