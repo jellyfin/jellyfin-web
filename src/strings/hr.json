@@ -1922,5 +1922,6 @@
     "StopWatching": "Prekini gledati",
     "TableOfContents": "Kazalo",
     "VideoRotationNotSupported": "Okretanje videa nije podržano",
-    "CardSettings": "Postavke kartica"
+    "CardSettings": "Postavke kartica",
+    "MessageItemMetadataLocked": "Metapodaci ove stavke su zaključani. Otključajte ih prije korištenja funkcije Identificiraj."
 }
