@@ -1944,5 +1944,6 @@
     "LabelUsernameAllowedCharactersHelp": "Brugernavne kan indeholde bogstaver, tal, mellemrum, og følgende karakterer: - _ ' . @ +. De kan ikke starte eller slutte med et mellemrum.",
     "MessageForgotPasswordRedirect": "Du er blevet viderestillet til en ekstern udbyder for at nulstille din adgangskode.",
     "HlsAudioSeekStrategy": "Strategien, der skal bruges ved spolning i HLS-streams.",
-    "LabelHlsAudioSeekStrategy": "Strategi for lydspoling."
+    "LabelHlsAudioSeekStrategy": "Strategi for lydspoling.",
+    "MessageItemMetadataLocked": "Dette elements metadata er låst. Lås dem op, før du bruger funktionen Identificér."
 }
