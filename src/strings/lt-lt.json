@@ -1944,5 +1944,6 @@
     "LabelPlaybackQuality": "Kadras pamestas / sugadintas",
     "HlsAudioSeekStrategy": "Strategija, kurią reikia naudoti ieškant HLS srautuose.",
     "LabelHlsAudioSeekStrategy": "Garso paieškos strategija.",
-    "MessageForgotPasswordRedirect": "Buvote nukreipti pas išorinį teikėją slaptažodžio nustatymui iš naujo."
+    "MessageForgotPasswordRedirect": "Buvote nukreipti pas išorinį teikėją slaptažodžio nustatymui iš naujo.",
+    "MessageItemMetadataLocked": "Šio elemento metaduomenys užrakinti. Atrakinkite juos prieš naudodami funkciją „Identifikuoti“."
 }
