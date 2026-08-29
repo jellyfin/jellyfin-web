@@ -1940,5 +1940,6 @@
     "BitmapSubtitleAspectModeContain": "Tartalmaz",
     "BitmapSubtitleAspectModeCover": "Takarás",
     "BitmapSubtitleAspectModeHelp": "Beállíja, hogy a kliens által renderelt PGS és VobSub feliratod hogyan méreteződnek a video látható területéhez.",
-    "BitmapSubtitleAspectModeStretch": "Nyújtás"
+    "BitmapSubtitleAspectModeStretch": "Nyújtás",
+    "MessageItemMetadataLocked": "Az elem metaadatai zárolva vannak. Az Azonosítás funkció használata előtt oldja fel a zárolást."
 }
