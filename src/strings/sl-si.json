@@ -1939,5 +1939,6 @@
     "BitmapSubtitleAspectModeContain": "Ne prilagodi velikosti podnapisov Bitmap oknu",
     "BitmapSubtitleAspectModeCover": "Prilagodi velikosti podnapisov Bitmap oknu",
     "BitmapSubtitleAspectModeStretch": "Raztegni velikost podnapisov Bitmap",
-    "IndexNumber": "Indeks"
+    "IndexNumber": "Indeks",
+    "MessageItemMetadataLocked": "Metapodatki tega elementa so zaklenjeni. Odklenite jih pred uporabo funkcije Identificiraj."
 }
