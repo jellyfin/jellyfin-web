@@ -635,5 +635,6 @@
     "BitmapSubtitleAspectModeCover": "Kopertinë",
     "BitmapSubtitleAspectModeHelp": "Kontrollon mënyrën se si titrat PGS dhe VobSub, të paraqitura nga pajisja, përshtaten me madhësinë e zonës së dukshme të videos.",
     "BitmapSubtitleAspectModeStretch": "Shtrije",
-    "BrandingLoadError": "Dështoi ngarkimi i cilësimeve të firmes"
+    "BrandingLoadError": "Dështoi ngarkimi i cilësimeve të firmes",
+    "MessageItemMetadataLocked": "Metadatat e këtij elementi janë të kyçura. Shkyçini para se të përdorni funksionin Identifikohu."
 }
