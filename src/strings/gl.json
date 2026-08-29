@@ -1017,5 +1017,6 @@
     "EnableDetailsBannerHelp": "Mostra unha imaxe de banner na parte superior da páxina de detalles do elemento.",
     "EnableHi10pHelp": "Activa para evitar a transcodificación de vídeos H.264 de 10 bits. Desactiva esta opción se o vídeo mostra fotogramas en branco.",
     "EnableCardLayout": "Mostrar CardBox visual",
-    "Watch": "Ver"
+    "Watch": "Ver",
+    "MessageItemMetadataLocked": "Os metadatos deste elemento están bloqueados. Desbloquéaos antes de usar a función Identificar."
 }
