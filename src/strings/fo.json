@@ -1486,5 +1486,7 @@
     "LastActive": "Seinast virkin",
     "LeaveBlankToNotSetAPassword": "Ynskir tú ein brúkara uttan loyniorð kanst tú lata hendan teigin verða tóman.",
     "LanNetworksHelp": "Kommaskildur listi av IP-atsetrum ella IP/netsílu-skrásetingum av netum ið skulu tulkast sum nærnet í bandbreiddar- og fjaratgongdaravmarkingum. Er teigurin tómur vera øll RFC1918-atsetur tulkaði sum nærnet.",
-    "LabelYoureDone": "Liðugt!"
+    "LabelYoureDone": "Liðugt!",
+    "MessageImageTypeNotSelected": "Vinaliga tilskila myndaslag úr fallvalmyndini.",
+    "MessageNoServersAvailable": "Sjálvvirkandi viðraking rakaði ikki við nakran ambætara."
 }
