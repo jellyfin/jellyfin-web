@@ -1932,5 +1932,10 @@
     "ViewLeftToRight": "Venstre til høgre",
     "ViewRightToLeft": "Høgre til venstre",
     "SeriesName": "Serienamn",
-    "AudioLanguages": "Lydspråk"
+    "AudioLanguages": "Lydspråk",
+    "SubtitleLanguages": "Undertekstspråk",
+    "BitmapSubtitleAspectModeContain": "Tilpass",
+    "BitmapSubtitleAspectModeCover": "Fyll",
+    "BitmapSubtitleAspectModeHelp": "Styrer korleis PGS- og VobSub-undertekstar som klienten renderar, blir skalerte til det synlege videoområdet.",
+    "BitmapSubtitleAspectModeStretch": "Strekk"
 }
