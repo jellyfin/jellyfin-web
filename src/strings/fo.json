@@ -1457,5 +1457,9 @@
     "PluginLoadConfigError": "Ein villa kom fyri undir innlesing av uppsetanarsíðum ískoytisforritsins.",
     "StreamCountExceedsLimit": "Talið av stroymum er hægri enn hámarkið",
     "StreamingLoadError": "Miseydnaðist at innlesa stroymingsstillingar síðuna",
-    "SubtitleDownloadersHelp": "Virkja og raðfest ynsktu undirtekstakeldur."
+    "SubtitleDownloadersHelp": "Virkja og raðfest ynsktu undirtekstakeldur.",
+    "ThisWizardWillGuideYou": "Hendan vegleiðingin leiðbeinir teg ígjøgnum uppsetanartilgongdina. Byrja við at velja eitt ambætaranavn og títt ynskta mál.",
+    "LabelQscale": "Góðskustig (Qscale)",
+    "LabelTrickplayThreadsHelp": "Talið av træðrum at brúka til FFmpeg \"-threads\" ávirkið.",
+    "LabelPlayerSizes": "Spælarastøddir"
 }
