@@ -1488,5 +1488,9 @@
     "LanNetworksHelp": "Kommaskildur listi av IP-atsetrum ella IP/netsílu-skrásetingum av netum ið skulu tulkast sum nærnet í bandbreiddar- og fjaratgongdaravmarkingum. Er teigurin tómur vera øll RFC1918-atsetur tulkaði sum nærnet.",
     "LabelYoureDone": "Liðugt!",
     "MessageImageTypeNotSelected": "Vinaliga tilskila myndaslag úr fallvalmyndini.",
-    "MessageNoServersAvailable": "Sjálvvirkandi viðraking rakaði ikki við nakran ambætara."
+    "MessageNoServersAvailable": "Sjálvvirkandi viðraking rakaði ikki við nakran ambætara.",
+    "MessageServerMismatch": "Ambætarin tú sambindur við er ikki tann sami ambætarin tú áður hevur sambundið við á hesi adressuni. Er hetta naka tú væntaði kanst tú trýsta á \"Sambind kortini\". Annars er títt samband við ambætaran møguliga í vanda.",
+    "OptionAllowBrowsingLiveTv": "Gev atgongd til beinleiðis sjónvarp",
+    "OptionAllowManageLiveTv": "Loyv umsititing av sjónvarpsupptøkum",
+    "OptionAllowContentDownloadHelp": "Brúkarir kunnu taka miðlar niður og goyma teir á teirra eindum. Hetta er ikki eins og samstillingarhentleikin. Hetta er neyðugt fyri at bókasøvn rigga sum tey skulu."
 }
