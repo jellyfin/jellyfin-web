@@ -1495,5 +1495,6 @@
     "OptionAllowContentDownloadHelp": "Brúkarir kunnu taka miðlar niður og goyma teir á teirra eindum. Hetta er ikki eins og samstillingarhentleikin. Hetta er neyðugt fyri at bókasøvn rigga sum tey skulu.",
     "PlaceFavoriteChannelsAtBeginning": "Fest yndisrásir ovast í listanum",
     "PathNotFound": "Leiðin var ikki funnin. Vinaliga tryggja at leiðin er røtt og royn aftur.",
-    "PlaybackError.NO_MEDIA_ERROR": "Ongin gildig miðlakelda var funnin at spæla."
+    "PlaybackError.NO_MEDIA_ERROR": "Ongin gildig miðlakelda var funnin at spæla.",
+    "StorageType.NoRootDirectory": "Eingin rótskjátta"
 }
