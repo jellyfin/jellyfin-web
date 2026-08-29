@@ -1922,5 +1922,8 @@
     "TableOfContents": "Clár ábhair",
     "VideoRotationNotSupported": "Ní thacaítear le rothlú físeáin",
     "ConfirmSplitMedia": "An bhfuil tú cinnte gur mhaith leat na foinsí meán a roinnt ina míreanna ar leith?",
-    "HeaderSplitMedia": "Scar na meáin"
+    "HeaderSplitMedia": "Scar na meáin",
+    "Creators": "Cruthaitheoirí",
+    "IndexNumber": "Uimhir innéacs",
+    "NoCastTargets": "Níl aon spriocanna teilgin ar fáil"
 }
