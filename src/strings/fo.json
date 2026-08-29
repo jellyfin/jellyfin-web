@@ -1498,5 +1498,9 @@
     "PlaybackError.NO_MEDIA_ERROR": "Ongin gildig miðlakelda var funnin at spæla.",
     "StorageType.NoRootDirectory": "Eingin rótskjátta",
     "SubtitleVerticalPositionHelp": "Linjunummarið har teksturin verður vístur. Positiv tøl merkja frá í erva og niður og negativ tøl merkja frá í neðra og upp.",
-    "Success": "Væleydnað"
+    "Success": "Væleydnað",
+    "EnableExternalVideoPlayersHelp": "Ein spælaravalmynd har tú kanst velja spælara verður víst tá tú byrjar eina kykmynd.",
+    "HeaderStatus": "Støða",
+    "Desktop": "Skriviborð (Eldri útgáva)",
+    "ErrorStartHourGreaterThanEnd": "Afturlatingartíð skal verða eftir upplatingartíð."
 }
