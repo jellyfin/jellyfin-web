@@ -1944,5 +1944,6 @@
     "LabelUsernameAllowedCharactersHelp": "Användarnamn får innehålla bokstäver, siffror, mellanslag, och följande tecken: - _ ' . @ +. De får inte börja eller sluta med ett mellanslag.",
     "HlsAudioSeekStrategy": "Strategin att använda under sökning i HLS strömmar.",
     "LabelHlsAudioSeekStrategy": "Spolningsstrategi för ljud.",
-    "MessageForgotPasswordRedirect": "Du har omdirigerats till en extern leverantör för lösenordsåterställning."
+    "MessageForgotPasswordRedirect": "Du har omdirigerats till en extern leverantör för lösenordsåterställning.",
+    "MessageItemMetadataLocked": "Objektets metadata är låsta. Lås upp dem innan du använder funktionen Identifiera."
 }
