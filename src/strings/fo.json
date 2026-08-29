@@ -1501,6 +1501,11 @@
     "Success": "Væleydnað",
     "EnableExternalVideoPlayersHelp": "Ein spælaravalmynd har tú kanst velja spælara verður víst tá tú byrjar eina kykmynd.",
     "HeaderStatus": "Støða",
-    "Desktop": "Skriviborð (Eldri útgáva)",
-    "ErrorStartHourGreaterThanEnd": "Afturlatingartíð skal verða eftir upplatingartíð."
+    "Desktop": "Skriviborð (Eldri snið)",
+    "ErrorStartHourGreaterThanEnd": "Afturlatingartíð skal verða eftir upplatingartíð.",
+    "HeaderDeleteCollection": "Strika samling",
+    "LabelCollection": "Samling",
+    "NewCollection": "Nýggja samling",
+    "NewCollectionNameExample": "Dømi: Star Wars-samling",
+    "LabelLoginDisclaimer": "Ábyrgdarfráskriving á innritanarsíðu"
 }
