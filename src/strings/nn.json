@@ -1937,5 +1937,13 @@
     "BitmapSubtitleAspectModeContain": "Tilpass",
     "BitmapSubtitleAspectModeCover": "Fyll",
     "BitmapSubtitleAspectModeHelp": "Styrer korleis PGS- og VobSub-undertekstar som klienten renderar, blir skalerte til det synlege videoområdet.",
-    "BitmapSubtitleAspectModeStretch": "Strekk"
+    "BitmapSubtitleAspectModeStretch": "Strekk",
+    "LabelBitmapSubtitleAspectMode": "Sideforholdsmodus for punktgrafikkundertekstar",
+    "LabelUsernameAllowedCharactersHelp": "Brukarnamn kan innehalde bokstavar, tal, mellomrom og følgjande teikn: - _ ' . @ +. Dei kan ikkje byrje eller slutte med eit mellomrom.",
+    "Novel": "Roman",
+    "Screenplay": "Manus",
+    "HlsAudioSeekStrategy": "Strategien som skal brukast ved søking i HLS-straumar.",
+    "LabelHlsAudioSeekStrategy": "Strategi for lydsøking.",
+    "MessageForgotPasswordRedirect": "Du har blitt omdirigert til ein ekstern leverandør for tilbakestilling av passord.",
+    "MessageItemMetadataLocked": "Metadata for dette elementet er låste. Lås dei opp før du brukar identifiseringsfunksjonen."
 }
