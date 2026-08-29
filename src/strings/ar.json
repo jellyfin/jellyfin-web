@@ -1944,5 +1944,6 @@
     "LabelBitmapSubtitleAspectMode": "نمط نسبة ترجمة Bitmap",
     "HlsAudioSeekStrategy": "الاستراتيجية المستخدمة عند البحث في بث HLS.",
     "LabelHlsAudioSeekStrategy": "استراتيجية بحث الصوت.",
-    "MessageForgotPasswordRedirect": "تم إعادة توجيهك إلى جهة خارجية لإعادة تعيين كلمة العبور."
+    "MessageForgotPasswordRedirect": "تم إعادة توجيهك إلى جهة خارجية لإعادة تعيين كلمة العبور.",
+    "MessageItemMetadataLocked": "البيانات الوصفية لهذا العنصر مقفلة. ألغِ قفلها قبل استخدام ميزة التعريف."
 }
