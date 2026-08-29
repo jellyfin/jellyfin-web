@@ -1157,7 +1157,7 @@
     "RepeatAll": "Endurtak allar",
     "RepeatOne": "Endurtak einaferð",
     "SkipEpisodesAlreadyInMyLibrary": "Tak ikki partar uppá ið longu eru í savni mínum",
-    "UserAgentHelp": "Tillaga 'User-Agent' í høvdinum á HTTP-umbønunum.",
+    "UserAgentHelp": "Tillaga \"User-Agent\" í høvdinum á HTTP-umbønunum.",
     "ValueTimeLimitMultiHour": "Tíðaravmarkað: {0} tímar",
     "ValueTimeLimitSingleHour": "Tíðaravmarkað: 1 tíma",
     "PreferSystemNativeHwDecoder": "Brúka stýrikervisinnbygdar DXVA ella VA-API tólbúnaðaravkotarar um møguligt",
@@ -1475,5 +1475,6 @@
     "LabelVideoColors": "Kykmyndalitir",
     "AllowStreamSharingHelp": "Loyv Jellyfin at tvítaka mpegts-stroymin frá móttakaraeindini og ambæta teir til sínar viðskiftarar. Hetta er gagnligt um móttakaraeindin hevur eitt stroymingahámark, men tað kann eisini elva til spælitrupulleikar.",
     "HeaderSplitMedia": "Být miðil sundur",
-    "ConfirmSplitMedia": "Ynskir tú at býta miðlakeldurnar sundur í hvør sínar miðlar?"
+    "ConfirmSplitMedia": "Ynskir tú at býta miðlakeldurnar sundur í hvør sínar miðlar?",
+    "KnownProxiesHelp": "Kommaskildur listi av IP-atsetrum ella vertsnøvnum á góðkendum proxy-ambætarum ið sambinda til tín Jellyfin-ambætara. Hetta er neyðugt til tess at brúka \"X-Forwarded-For\" í høvdunum á HTTP-umbønum. Neyðugt er at endurbyrja ambætaran til tess at hendan broytingin fær virkna."
 }
