@@ -1866,5 +1866,16 @@
     "ExtractTrickplayImagesHelp": "Trickplay-bilete liknar kapittelbilete, men dekkjer heile lengda av innhaldet og vert brukte til førehandsvising når du spolar i videoar.",
     "LabelExtractTrickplayDuringLibraryScan": "Hent ut trickplay-bilete under bibliotekskanning",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generer trickplay-bilete når videoar vert importerte under bibliotekskanninga. Elles vert dei henta ut under den planlagde oppgåva for trickplay-bilete.",
-    "LogLoadFailure": "Kunne ikkje laste loggfila. Ho kan vere i bruk av ein annan prosess."
+    "LogLoadFailure": "Kunne ikkje laste loggfila. Ho kan vere i bruk av ein annan prosess.",
+    "ActivitiesLoadError": "Klarte ikkje å laste aktivitetane",
+    "ApiKeysLoadError": "Klarte ikkje å laste API-nøklane",
+    "Authors": "Forfattarar",
+    "BrandingLoadError": "Klarte ikkje å laste merkevareinnstillingane",
+    "CardSettings": "Kortinnstillingar",
+    "ConfirmDeleteItemByName": "Når du slettar \"{0}\", blir elementet sletta både frå filsystemet og mediebiblioteket ditt. Er du sikker på at du vil halde fram?",
+    "ConfirmDeleteCollection": "Er du sikker på at du vil slette denne samlinga?",
+    "ConfirmDeletePlaylist": "Er du sikker på at du vil slette denne spelelista?",
+    "ConfirmStillWatching": "Ser du framleis på?",
+    "ContinueReading": "Hald fram med å lese",
+    "DevicesLoadError": "Klarte ikkje å laste einingane"
 }
