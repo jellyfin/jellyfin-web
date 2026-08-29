@@ -1437,5 +1437,6 @@
     "Absolute": "Talraða",
     "OriginalAirDateValue": "Upprunaligur sendidagur: {0}",
     "AllowFmp4TranscodingContainerHelp": "Loyv hesum móttakaranum at brúka fMP4-umkotingarpakkasnið til tess at virkja HEVC- og HDR-innihald. Tað eru ikki allir móttakarar ið hava virkisføri fyri hesum pakkasniðinum. Óvirkja hetta um tú renur teg í spælitrupulleikar.",
-    "DetectingDevices": "Leitar eftir eindum"
+    "DetectingDevices": "Leitar eftir eindum",
+    "HeaderApiKeysHelp": "Ytri nýtsluskipanir tørva ein API-lykil til tess at samskifta við ambætaran. Lyklar verða útvegaðir við at rita inn við eini vannligari brúkara konto ella við at játta nýtsluskipanini ein lykil."
 }
