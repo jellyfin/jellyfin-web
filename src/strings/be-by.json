@@ -1902,5 +1902,6 @@
     "LabelPlayerSizes": "Памеры прайгравальніка",
     "ActivitiesLoadError": "Не ўдалося загрузіць актыўнасць",
     "VideoRotationNotSupported": "Паварот відэа не падтрымліваецца",
-    "ConfirmStillWatching": "Вы ўсё яшчэ глядзіце?"
+    "ConfirmStillWatching": "Вы ўсё яшчэ глядзіце?",
+    "MessageItemMetadataLocked": "Метаданыя гэтага элемента заблакіраваныя. Разблакіруйце іх перад выкарыстаннем функцыі «Ідэнтыфікаваць»."
 }
