@@ -1944,5 +1944,6 @@
     "Screenplay": "Scenariul",
     "HlsAudioSeekStrategy": "Strategia utilizată la căutarea în fluxuri HLS.",
     "LabelHlsAudioSeekStrategy": "Strategia de căutare audio.",
-    "LabelUsernameAllowedCharactersHelp": "Numele de utilizator poate conține litere, cifre, spații și următoarele caractere: - _ ' . @ +. Nu poate începe sau termina cu un spațiu."
+    "LabelUsernameAllowedCharactersHelp": "Numele de utilizator poate conține litere, cifre, spații și următoarele caractere: - _ ' . @ +. Nu poate începe sau termina cu un spațiu.",
+    "MessageItemMetadataLocked": "Metadatele acestui element sunt blocate. Deblocați-le înainte de a utiliza funcția Identifică."
 }
