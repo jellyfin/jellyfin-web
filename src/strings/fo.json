@@ -1461,5 +1461,6 @@
     "ThisWizardWillGuideYou": "Hendan vegleiðingin leiðbeinir teg ígjøgnum uppsetanartilgongdina. Byrja við at velja eitt ambætaranavn og títt ynskta mál.",
     "LabelQscale": "Góðskustig (Qscale)",
     "LabelTrickplayThreadsHelp": "Talið av træðrum at brúka til FFmpeg \"-threads\" ávirkið.",
-    "LabelPlayerSizes": "Spælarastøddir"
+    "LabelPlayerSizes": "Spælarastøddir",
+    "Conductor": "Sangstjóri"
 }
