@@ -1944,5 +1944,6 @@
     "Screenplay": "Scénář",
     "HlsAudioSeekStrategy": "Strategie pro vyhledávání v datových tocích HLS.",
     "LabelHlsAudioSeekStrategy": "Strategie vyhledávání v audiu.",
-    "MessageForgotPasswordRedirect": "Byli jste přesměrováni na stránku externího poskytovatele za účelem resetování hesla."
+    "MessageForgotPasswordRedirect": "Byli jste přesměrováni na stránku externího poskytovatele za účelem resetování hesla.",
+    "MessageItemMetadataLocked": "Metadata této položky jsou uzamčena. Odemkněte je před použitím funkce Identifikovat."
 }
