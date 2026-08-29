@@ -700,7 +700,7 @@
     "LabelUserAgent": "Viðskiftarastrongur",
     "LabelWebVersion": "Vevútgáva",
     "LabelWeb": "Vev",
-    "LibraryNameInvalid": "Savnsnavn kann ikki vera tómt.",
+    "LibraryNameInvalid": "Savnsheiti kann ikki vera tómt.",
     "Lyrics": "Sangtekstir",
     "ManageLibrary": "Umsit savn",
     "ManageRepositories": "Umsit keldur",
@@ -1477,5 +1477,12 @@
     "HeaderSplitMedia": "Být miðil sundur",
     "ConfirmSplitMedia": "Ynskir tú at býta miðlakeldurnar sundur í hvør sínar miðlar?",
     "KnownProxiesHelp": "Kommaskildur listi av IP-atsetrum ella vertsnøvnum á góðkendum proxy-ambætarum ið sambinda til tín Jellyfin-ambætara. Hetta er neyðugt til tess at brúka \"X-Forwarded-For\" í høvdunum á HTTP-umbønum. Neyðugt er at endurbyrja ambætaran til tess at hendan broytingin fær virkna.",
-    "LabelBaseUrlHelp": "Legg eina tillagaða grundslóð afturat ambætaraleinkjuni. Til dømis: https://eittdømi.fo/<grundslod>"
+    "LabelBaseUrlHelp": "Legg eina tillagaða grundslóð afturat ambætaraleinkjuni. Til dømis: https://eittdømi.fo/<grundslod>",
+    "LabelCustomDeviceDisplayNameHelp": "Inntøppa eitt navn fyri eindina ella lat teigin verða tóman til tess at brúka eindarfráboðaða navni.",
+    "LabelDisplayName": "Savnsheiti",
+    "LabelSortTitle": "Raðanarheiti",
+    "LabelSortName": "Raðanarnavn",
+    "LabelTranscodingProgress": "Umkotingar(fram)gongd",
+    "LastActive": "Seinast virkin",
+    "LeaveBlankToNotSetAPassword": "Ynskir tú ein brúkara uttan loyniorð kanst tú lata hendan teigin verða tóman."
 }
