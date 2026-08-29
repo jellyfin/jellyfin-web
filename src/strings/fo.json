@@ -1496,5 +1496,6 @@
     "PlaceFavoriteChannelsAtBeginning": "Fest yndisrásir ovast í listanum",
     "PathNotFound": "Leiðin var ikki funnin. Vinaliga tryggja at leiðin er røtt og royn aftur.",
     "PlaybackError.NO_MEDIA_ERROR": "Ongin gildig miðlakelda var funnin at spæla.",
-    "StorageType.NoRootDirectory": "Eingin rótskjátta"
+    "StorageType.NoRootDirectory": "Eingin rótskjátta",
+    "SubtitleVerticalPositionHelp": "Linjunummarið har teksturin verður vístur. Positiv tøl merkja frá í erva og niður og negativ tøl merkja frá í neðra og upp."
 }
