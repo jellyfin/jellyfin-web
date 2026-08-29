@@ -1476,5 +1476,6 @@
     "AllowStreamSharingHelp": "Loyv Jellyfin at tvítaka mpegts-stroymin frá móttakaraeindini og ambæta teir til sínar viðskiftarar. Hetta er gagnligt um móttakaraeindin hevur eitt stroymingahámark, men tað kann eisini elva til spælitrupulleikar.",
     "HeaderSplitMedia": "Být miðil sundur",
     "ConfirmSplitMedia": "Ynskir tú at býta miðlakeldurnar sundur í hvør sínar miðlar?",
-    "KnownProxiesHelp": "Kommaskildur listi av IP-atsetrum ella vertsnøvnum á góðkendum proxy-ambætarum ið sambinda til tín Jellyfin-ambætara. Hetta er neyðugt til tess at brúka \"X-Forwarded-For\" í høvdunum á HTTP-umbønum. Neyðugt er at endurbyrja ambætaran til tess at hendan broytingin fær virkna."
+    "KnownProxiesHelp": "Kommaskildur listi av IP-atsetrum ella vertsnøvnum á góðkendum proxy-ambætarum ið sambinda til tín Jellyfin-ambætara. Hetta er neyðugt til tess at brúka \"X-Forwarded-For\" í høvdunum á HTTP-umbønum. Neyðugt er at endurbyrja ambætaran til tess at hendan broytingin fær virkna.",
+    "LabelBaseUrlHelp": "Legg eina tillagaða grundslóð afturat ambætaraleinkjuni. Til dømis: https://eittdømi.fo/<grundslod>"
 }
