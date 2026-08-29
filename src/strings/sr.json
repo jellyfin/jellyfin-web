@@ -1925,5 +1925,6 @@
     "BitmapSubtitleAspectModeCover": "Прекриј",
     "BitmapSubtitleAspectModeStretch": "Развуци",
     "ConfirmSplitMedia": "Да ли сте сигурни да желите да поделите изхворе медија у засебне ставке?",
-    "Creators": "Креатори"
+    "Creators": "Креатори",
+    "MessageItemMetadataLocked": "Метаподаци ове ставке су закључани. Откључајте их пре коришћења функције Идентификуј."
 }
