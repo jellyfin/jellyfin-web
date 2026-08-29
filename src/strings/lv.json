@@ -1901,5 +1901,6 @@
     "StopWatching": "Pārtraukt skatīšanos",
     "StreamingLoadError": "Neizdevās ielādēt straumēšanas lapas iestatījumus",
     "HeaderBackupWarning": "BRĪDINĀJUMS: Ieplānotie darbi patreiz tiek izpldīti",
-    "TableOfContents": "Saturs"
+    "TableOfContents": "Saturs",
+    "MessageItemMetadataLocked": "Šī vienuma metadati ir bloķēti. Atbloķējiet tos pirms funkcijas Identificēt izmantošanas."
 }
