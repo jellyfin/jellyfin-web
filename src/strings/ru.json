@@ -1944,5 +1944,6 @@
     "BitmapSubtitleAspectModeCover": "Заполнить",
     "MessageForgotPasswordRedirect": "Вы были перенаправлены к внешнему провайдеру для сброса пароля.",
     "HlsAudioSeekStrategy": "Стратегия перемотки для HLS потоков.",
-    "LabelHlsAudioSeekStrategy": "Стратегия переметоки аудио."
+    "LabelHlsAudioSeekStrategy": "Стратегия переметоки аудио.",
+    "MessageItemMetadataLocked": "Метаданные этого элемента заблокированы. Разблокируйте их перед использованием функции «Распознать»."
 }
