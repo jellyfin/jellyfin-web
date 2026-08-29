@@ -1911,5 +1911,6 @@
     "LabelSimilarItemProvidersHelp": "Ota käyttöön ja järjestä samankaltaisten kohteiden tarjoajat tärkeysjärjestykseen.",
     "HeaderBackupWarning": "VAROITUS: Käynnissä olevia ajoitettuja tehtäviä",
     "VideoRotationNotSupported": "Videon kiertoa ei tueta",
-    "MessageNoEpisodesFound": "Jaksoja ei saatavilla tällä hetkellä."
+    "MessageNoEpisodesFound": "Jaksoja ei saatavilla tällä hetkellä.",
+    "MessageItemMetadataLocked": "Tämän kohteen metatiedot on lukittu. Avaa niiden lukitus ennen Tunnista-toiminnon käyttöä."
 }
