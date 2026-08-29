@@ -1462,5 +1462,15 @@
     "LabelQscale": "Góðskustig (Qscale)",
     "LabelTrickplayThreadsHelp": "Talið av træðrum at brúka til FFmpeg \"-threads\" ávirkið.",
     "LabelPlayerSizes": "Spælarastøddir",
-    "Conductor": "Sangstjóri"
+    "Conductor": "Sangstjóri",
+    "ButtonMore": "Meira",
+    "ButtonSubmit": "Send inn",
+    "ButtonSplit": "Být útgávurnar sundur",
+    "ColorSpace": "Litrúm",
+    "ColorPrimaries": "Grundlitir",
+    "LabelColorSpace": "Litrúm",
+    "LabelColorPrimaries": "Grundlitir",
+    "MediaInfoColorPrimaries": "Grundlitir",
+    "MediaInfoColorSpace": "Litrúm",
+    "LabelVideoColors": "Kykmyndalitir"
 }
