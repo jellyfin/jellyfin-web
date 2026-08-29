@@ -1941,5 +1941,6 @@
     "LabelPlayerSizes": "Stærð spilara",
     "LabelPlaybackQuality": "Slepptir / Skemmdir rammar",
     "AudioLanguages": "Tungumál hljóðs",
-    "SubtitleLanguages": "Tungumál texta"
+    "SubtitleLanguages": "Tungumál texta",
+    "MessageItemMetadataLocked": "Lýsigögn þessa atriðis eru læst. Opnaðu þau áður en þú notar aðgerðina Bera kennsl á."
 }
