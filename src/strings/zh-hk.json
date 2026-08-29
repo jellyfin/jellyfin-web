@@ -1944,5 +1944,6 @@
     "Screenplay": "劇本",
     "HlsAudioSeekStrategy": "設定 HLS 串流跳轉播放位置時使用的策略。",
     "LabelHlsAudioSeekStrategy": "音頻快進策略",
-    "LabelUsernameAllowedCharactersHelp": "用戶名可以包含字母、數字及如下字符「 - _ ' . @ +」，并且不能以空格開始或結束。"
+    "LabelUsernameAllowedCharactersHelp": "用戶名可以包含字母、數字及如下字符「 - _ ' . @ +」，并且不能以空格開始或結束。",
+    "MessageItemMetadataLocked": "呢個項目嘅媒體屬性已鎖定。使用識別功能前請先解除鎖定。"
 }
