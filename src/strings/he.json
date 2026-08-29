@@ -1905,5 +1905,6 @@
     "LabelProgressAndSpeed": "התקדמות / מהירות",
     "LabelReasons": "סיבות",
     "LabelPlayerSizes": "גדלי נגן",
-    "LabelPlaybackQuality": "פריימים נפלו \\ נפגמו"
+    "LabelPlaybackQuality": "פריימים נפלו \\ נפגמו",
+    "MessageItemMetadataLocked": "המטא-דאטה של פריט זה נעול. יש לבטל את הנעילה לפני השימוש בתכונת הזיהוי."
 }
