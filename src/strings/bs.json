@@ -1905,5 +1905,6 @@
     "LabelReasons": "Razlozi",
     "LabelPlayerSizes": "Veličine igrača",
     "LabelPlaybackQuality": "Okvir izgubljen / oštećen",
-    "LabelSyncPlayJoinGroup": "Pridruži se grupi"
+    "LabelSyncPlayJoinGroup": "Pridruži se grupi",
+    "MessageItemMetadataLocked": "Metapodaci ove stavke su zaključani. Otključajte ih prije korištenja funkcije Identificirajte."
 }
