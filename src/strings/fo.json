@@ -1472,5 +1472,8 @@
     "LabelColorPrimaries": "Grundlitir",
     "MediaInfoColorPrimaries": "Grundlitir",
     "MediaInfoColorSpace": "Litrúm",
-    "LabelVideoColors": "Kykmyndalitir"
+    "LabelVideoColors": "Kykmyndalitir",
+    "AllowStreamSharingHelp": "Loyv Jellyfin at tvítaka mpegts-stroymin frá móttakaraeindini og ambæta teir til sínar viðskiftarar. Hetta er gagnligt um móttakaraeindin hevur eitt stroymingahámark, men tað kann eisini elva til spælitrupulleikar.",
+    "HeaderSplitMedia": "Být miðil sundur",
+    "ConfirmSplitMedia": "Ynskir tú at býta miðlakeldurnar sundur í hvør sínar miðlar?"
 }
