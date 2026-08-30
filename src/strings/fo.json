@@ -1513,5 +1513,6 @@
     "StorageType.Fixed": "Fastagoymsla",
     "Scene": "Mynd",
     "HeaderScenes": "Myndir",
-    "DeletedScene": "Úrtikin mynd"
+    "DeletedScene": "Úrtikin mynd",
+    "LabelAutomaticallyAddToCollection": "Legg sjálvvirkandi í samlingar"
 }
