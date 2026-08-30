@@ -1433,7 +1433,7 @@
     "ReplaceAllMetadata": "Endurinnles allar metadátur",
     "ReplaceExistingImages": "Útskift verandi myndir",
     "ReplaceTrickplayImages": "Útskift verandi trickplay-myndir",
-    "SeriesDisplayOrderHelp": "Raða partar eftir sendidegi, DVD-raði ella talraði.",
+    "SeriesDisplayOrderHelp": "Raða partar eftir sendidegi, DVD-raði, talraði ella øðrum.",
     "Absolute": "Talraða",
     "OriginalAirDateValue": "Upprunaligur sendidagur: {0}",
     "AllowFmp4TranscodingContainerHelp": "Loyv hesum móttakaranum at brúka fMP4-umkotingarpakkasnið til tess at virkja HEVC- og HDR-innihald. Tað eru ikki allir móttakarar ið hava virkisføri fyri hesum pakkasniðinum. Óvirkja hetta um tú renur teg í spælitrupulleikar.",
