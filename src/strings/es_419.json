@@ -1715,5 +1715,9 @@
     "Disabled": "Deshabilitado",
     "HeaderLatestBooks": "Libros añadidos recientemente",
     "HeaderLatestMusicVideos": "Videos musicales añadidos recientemente",
-    "HeaderSplitMedia": "Separar Archivo Multimedia"
+    "HeaderSplitMedia": "Separar Archivo Multimedia",
+    "BitmapSubtitleAspectModeContain": "Contiene",
+    "BitmapSubtitleAspectModeCover": "Portada",
+    "BitmapSubtitleAspectModeHelp": "Controla cómo se escala al área visible del video los subtítulos PGS y VobSub renderizados por el cliente.",
+    "BitmapSubtitleAspectModeStretch": "Estirar"
 }

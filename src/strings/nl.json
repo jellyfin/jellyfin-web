@@ -931,7 +931,7 @@
     "Wednesday": "Woensdag",
     "WelcomeToProject": "Welkom bij Jellyfin!",
     "WizardCompleted": "Dat is voorlopig alles. Jellyfin is begonnen met het verzamelen van informatie over je mediabibliotheek. Probeer enkele van onze apps en klik dan op <b>Voltooien</b> om het <b>controlepaneel</b> te bekijken.",
-    "Writer": "Scenario",
+    "Writer": "Schrijver",
     "XmlTvKidsCategoriesHelp": "Programma's met deze categorieën worden weergegeven als programma's voor kinderen. Scheid meerdere met '|'.",
     "XmlTvMovieCategoriesHelp": "Programma's met deze categorieën worden weergegeven als films. Scheid meerdere met '|'.",
     "XmlTvNewsCategoriesHelp": "Programma's met deze categorieën worden weergegeven als nieuwsprogramma's. Scheid meerdere met '|'.",
@@ -1158,7 +1158,7 @@
     "ButtonPlayer": "Speler",
     "EnableBlurHashHelp": "Afbeeldingen die nog worden geladen, worden weergegeven met een unieke tijdelijke aanduiding.",
     "EnableBlurHash": "Wazige placeholders voor afbeeldingen inschakelen",
-    "Writers": "Scenario",
+    "Writers": "Schrijvers",
     "ViewAlbumArtist": "Albumartiest weergeven",
     "MessageAddRepository": "Om een repository toe te voegen klik je op de knop naast de titel en vul je de gevraagde informatie in.",
     "LabelRepositoryNameHelp": "Een zelf te configureren naam om deze repository te kunnen onderscheiden van andere repository's.",
@@ -1939,5 +1939,11 @@
     "BitmapSubtitleAspectModeCover": "Vullen",
     "BitmapSubtitleAspectModeHelp": "Bepaalt hoe door de speler gerenderde PGS- en Vobsub-onderitteling wordt geschaald naar het zichtbare videobeeld.",
     "BitmapSubtitleAspectModeStretch": "Uitrekken",
-    "LabelBitmapSubtitleAspectMode": "Beeldverhouding bitmapondertiteling"
+    "LabelBitmapSubtitleAspectMode": "Beeldverhouding bitmapondertiteling",
+    "Novel": "Roman",
+    "Screenplay": "Scenarist",
+    "HlsAudioSeekStrategy": "De te gebruiken strategie bij terug- of vooruitspoelen in HLS-streams.",
+    "LabelHlsAudioSeekStrategy": "Geluidsspoelstrategie.",
+    "MessageForgotPasswordRedirect": "Je bent doorgestuurd naar een externe aanbieder voor het wachtwoordherstel.",
+    "MessageItemMetadataLocked": "De metadata van dit item zijn vergrendeld. Ontgrendel ze alvorens de identificeerfunctie te gebruiken."
 }

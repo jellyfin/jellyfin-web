@@ -34,7 +34,6 @@ const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
     if (currentTab.viewType === LibraryTab.Programs || currentTab.viewType === LibraryTab.Recordings || currentTab.viewType === LibraryTab.Schedule) {
         return (
             <ProgramsSectionView
-                parentId={parentId}
                 sectionType={
                     currentTab.sectionsView?.programSections ?? []
                 }

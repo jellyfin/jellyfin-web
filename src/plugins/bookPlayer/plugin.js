@@ -1,5 +1,4 @@
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
-import Screenfull from 'screenfull';
 
 import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -54,7 +53,6 @@ export class BookPlayer {
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.addSwipeGestures = this.addSwipeGestures.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
-        this.fullscreen = false;
     }
 
     play(options) {
@@ -95,10 +93,6 @@ export class BookPlayer {
 
         if (rendition) {
             rendition.destroy();
-        }
-
-        if (this.fullscreen) {
-            this.toggleFullscreen();
         }
 
         // hide loader in case player was not fully loaded yet
@@ -193,6 +187,7 @@ export class BookPlayer {
 
         document.addEventListener('keydown', this.onWindowKeyDown);
         this.rendition?.on('keydown', this.onWindowKeyDown);
+        this.rendition?.on('rendered', (e, i) => this.forwardEvents(i.document));
 
         if (browser.safari) {
             this.addSwipeGestures(document.querySelector('#bookPlayerContainer'));
@@ -211,6 +206,13 @@ export class BookPlayer {
         }
 
         this.touchHelper?.destroy();
+    }
+
+    // ensure certain iframe events are forwarded to the document for BookOsd visibility listeners
+    forwardEvents(iframe) {
+        // eslint-disable-next-line compat/compat
+        iframe.addEventListener('pointermove', (event) => document.dispatchEvent(new PointerEvent(event.type, event)));
+        iframe.addEventListener('click', (event) => document.dispatchEvent(new MouseEvent(event.type, event)));
     }
 
     openTableOfContents() {
@@ -241,18 +243,8 @@ export class BookPlayer {
     toggleFullscreen() {
         const player = document.querySelector('#bookPlayerContainer');
 
-        player.classList.toggle('fullscreen', !this.fullscreen);
-        if (Screenfull.isEnabled) {
-            Screenfull.toggle();
-        } else if (window.NativeShell) {
-            this.fullscreen ? window.NativeShell.disableFullscreen() : window.NativeShell.enableFullscreen();
-        }
-
         // needs to be executed with a slight delay to give NativeShell time to process the request
         setTimeout(() => this.rendition.resize(player.clientWidth, player.clientHeight), 200);
-
-        // required for mobile apps without browser fullscreen support
-        this.fullscreen = !this.fullscreen;
     }
 
     rotateTheme() {
@@ -318,7 +310,7 @@ export class BookPlayer {
             onRotateTheme: this.rotateTheme,
             onDecreaseFontSize: this.decreaseFontSize,
             onIncreaseFontSize: this.increaseFontSize,
-            onToggleFullscreen: Screenfull.isEnabled || window.NativeShell ? this.toggleFullscreen : null
+            onToggleFullscreen: this.toggleFullscreen
         }, elem.querySelector('#bookOsdMount'));
 
         return elem;
@@ -353,7 +345,7 @@ export class BookPlayer {
                     flow: 'paginated'
                 });
 
-                this.currentSrc = downloadHref;
+                this.currentSrc = () => downloadHref;
                 this.rendition = rendition;
 
                 return rendition.display().then(() => {

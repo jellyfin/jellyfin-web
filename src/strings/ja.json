@@ -1871,5 +1871,6 @@
     "ApiKeysLoadError": "APIキーの読み込みに失敗しました",
     "ConfirmDeleteCollection": "このコレクションを削除してよろしいですか？",
     "ConfirmDeletePlaylist": "このプレイリストを削除してよろしいですか？",
-    "Authors": "著者"
+    "Authors": "著者",
+    "MessageItemMetadataLocked": "この項目のメタデータはロックされています。識別機能を使用する前にロックを解除してください。"
 }

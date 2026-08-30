@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { PlaybackOrder } from '@jellyfin/sdk/lib/generated-client/models/playback-order';
 import { PlaybackErrorCode } from '@jellyfin/sdk/lib/generated-client/models/playback-error-code';
 import { getMediaInfoApi } from '@jellyfin/sdk/lib/utils/api/media-info-api';
 import merge from 'lodash-es/merge';
@@ -52,12 +53,12 @@ function supportsPhysicalVolumeControl(player) {
 function bindToFullscreenChange(player) {
     if (Screenfull.isEnabled) {
         Screenfull.on('change', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [Screenfull.isFullscreen]);
         });
     } else {
         // iOS Safari
         document.addEventListener('webkitfullscreenchange', function () {
-            Events.trigger(player, 'fullscreenchange');
+            Events.trigger(player, 'fullscreenchange', [document.webkitIsFullScreen]);
         }, false);
     }
 }
@@ -642,30 +643,6 @@ function showPlaybackInfoErrorMessage(instance, errorCode) {
         text: globalize.translate(errorCode),
         title: globalize.translate('HeaderPlaybackError')
     });
-}
-
-function isExternalGraphicalSubtitleStream(stream) {
-    if (!stream || stream.Type !== 'Subtitle' || stream.DeliveryMethod !== 'External') {
-        return false;
-    }
-
-    if (typeof stream.IsTextSubtitleStream === 'boolean') {
-        return !stream.IsTextSubtitleStream;
-    }
-
-    const codec = (stream.Codec || '').toLowerCase();
-    return codec === 'pgssub' || codec === 'dvdsub' || codec === 'vobsub';
-}
-
-function hasSelectedExternalGraphicalSubtitle(mediaSource) {
-    const selectedSubtitleIndices = [mediaSource.DefaultSubtitleStreamIndex, mediaSource.DefaultSecondarySubtitleStreamIndex]
-        .filter(index => typeof index === 'number' && index >= 0);
-
-    if (selectedSubtitleIndices.length === 0) {
-        return false;
-    }
-
-    return (mediaSource.MediaStreams || []).some(stream => selectedSubtitleIndices.includes(stream.Index) && isExternalGraphicalSubtitleStream(stream));
 }
 
 function normalizePlayOptions(playOptions) {
@@ -2204,6 +2181,8 @@ export class PlaybackManager {
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
                 state.PlayState.ShuffleMode = self.getQueueShuffleMode(player);
+                // Needed for remote control because ShuffleMode doesn't exist in PlayerStateInfo from the server
+                state.PlayState.PlaybackOrder = state.PlayState.ShuffleMode === 'Shuffle' ? PlaybackOrder.Shuffle : PlaybackOrder.Default;
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
@@ -2899,10 +2878,10 @@ export class PlaybackManager {
                         contentType = 'application/x-mpegURL';
                     } else {
                         contentType = getMimeType(type.toLowerCase(), mediaSource.TranscodingContainer);
-                    }
 
-                    if (!(mediaSource.TranscodingSubProtocol === 'hls' && hasSelectedExternalGraphicalSubtitle(mediaSource))) {
-                        transcodingOffsetTicks = startPosition || 0;
+                        if (mediaUrl.toLowerCase().indexOf('copytimestamps=true') === -1) {
+                            transcodingOffsetTicks = startPosition || 0;
+                        }
                     }
                 }
             } else {
