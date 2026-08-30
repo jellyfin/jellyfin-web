@@ -6,6 +6,7 @@ import React, { type FC, SetStateAction, useCallback, useMemo } from 'react';
 
 import { useLibrary } from 'apps/modern/features/libraries/hooks/useLibrary';
 import { getDefaultLibraryViewSettings } from 'apps/modern/features/libraries/utils/settings';
+import { getAlphabetNavigationSettings, getLocalizedAlphabetGroups } from 'apps/modern/features/libraries/utils/alphabet';
 import Cards from 'components/cardbuilder/Card/Cards';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import NoItemsMessage from 'components/common/NoItemsMessage';
@@ -14,6 +15,7 @@ import Loading from 'components/loading/LoadingComponent';
 import { ItemAction } from 'constants/itemAction';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
 import { useApi } from 'hooks/useApi';
+import { useSystemInfo } from 'hooks/useSystemInfo';
 import type { CardOptions } from 'types/cardOptions';
 import { type LibraryViewSettings, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
@@ -49,6 +51,7 @@ const ItemsView: FC = () => {
     ].join(', '));
 
     const { __legacyApiClient__, user } = useApi();
+    const { data: systemInfo } = useSystemInfo();
 
     // The query key for all items for the current user.
     // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
@@ -192,6 +195,14 @@ const ItemsView: FC = () => {
     }, [setLibraryViewSettings]);
 
     const hasSortName = !libraryViewSettings.SortBy.includes(ItemSortBy.Random);
+    const alphabetNavigationSettings = useMemo(
+        () => getAlphabetNavigationSettings(systemInfo),
+        [systemInfo]
+    );
+    const alphabetGroups = useMemo(
+        () => getLocalizedAlphabetGroups(alphabetNavigationSettings, viewType),
+        [alphabetNavigationSettings, viewType]
+    );
 
     const itemsContainerClass = classNames(
         'padded-left padded-right',
@@ -206,6 +217,7 @@ const ItemsView: FC = () => {
                 <AlphabetPicker
                     value={libraryViewSettings.Alphabet}
                     onChange={handleAlphabetChange}
+                    groups={alphabetGroups}
                 />
             )}
 

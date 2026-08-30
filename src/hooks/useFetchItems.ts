@@ -21,7 +21,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import datetime from 'scripts/datetime';
 
 import { type JellyfinApiContext, useApi } from './useApi';
-import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
+import { useSystemInfo } from './useSystemInfo';
+import { getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
+import { getAlphabetFilter, getAlphabetNavigationSettings, type AlphabetNavigationSettings } from 'apps/modern/features/libraries/utils/alphabet';
 import { getProgramSections, getSuggestionSections } from 'utils/sections';
 
 import type { LibraryViewSettings, ParentId } from 'types/library';
@@ -192,10 +194,20 @@ const fetchGetItemsViewByType = async (
     parentId: ParentId,
     itemType: BaseItemKind[],
     libraryViewSettings: LibraryViewSettings,
+    alphabetNavigationSettings: AlphabetNavigationSettings,
     options?: AxiosRequestConfig
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id && viewType) {
+        const alphabetFilter = getAlphabetFilter(
+            libraryViewSettings.Alphabet,
+            alphabetNavigationSettings,
+            viewType
+        );
+        const requestOptions: AxiosRequestConfig = {
+            signal: options?.signal,
+            params: alphabetFilter.params
+        };
         const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
         let response;
         switch (viewType) {
@@ -208,15 +220,13 @@ const fetchGetItemsViewByType = async (
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
-                        ...getAlphaPickerQuery(libraryViewSettings),
+                        ...alphabetFilter.query,
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             }
@@ -229,15 +239,13 @@ const fetchGetItemsViewByType = async (
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
-                        ...getAlphaPickerQuery(libraryViewSettings),
+                        ...alphabetFilter.query,
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             }
@@ -250,13 +258,11 @@ const fetchGetItemsViewByType = async (
                         fields: [ItemFields.PrimaryImageAspectRatio],
                         filters: libraryViewSettings?.Filters?.Status,
                         ...getLimitQuery(),
-                        ...getAlphaPickerQuery(libraryViewSettings),
+                        ...alphabetFilter.query,
                         personTypes: [PersonKind.Author],
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             }
@@ -267,15 +273,13 @@ const fetchGetItemsViewByType = async (
                         parentId: parentId ?? undefined,
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
-                        ...getAlphaPickerQuery(libraryViewSettings),
+                        ...alphabetFilter.query,
                         includeItemTypes: itemType,
                         isFavorite,
                         enableImageTypes: [ImageType.Thumb],
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             case LibraryTab.Channels: {
@@ -287,9 +291,7 @@ const fetchGetItemsViewByType = async (
                         isFavorite,
                         enableImageTypes: [ImageType.Primary]
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             }
@@ -304,15 +306,13 @@ const fetchGetItemsViewByType = async (
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
-                        ...getAlphaPickerQuery(libraryViewSettings),
+                        ...alphabetFilter.query,
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             }
@@ -322,9 +322,7 @@ const fetchGetItemsViewByType = async (
                         sortBy: 'SortName',
                         sortOrder: SortOrder.Ascending
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             default: {
@@ -338,16 +336,14 @@ const fetchGetItemsViewByType = async (
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
-                        ...getAlphaPickerQuery(libraryViewSettings),
+                        ...alphabetFilter.query,
                         isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
-                    {
-                        signal: options?.signal
-                    }
+                    requestOptions
                 );
                 break;
             }
@@ -365,6 +361,8 @@ export const useGetItemsViewByType = (
     libraryViewSettings: LibraryViewSettings
 ) => {
     const currentApi = useApi();
+    const { data: systemInfo } = useSystemInfo();
+    const alphabetNavigationSettings = getAlphabetNavigationSettings(systemInfo);
     return useQuery({
         queryKey: [
             'User',
@@ -375,7 +373,8 @@ export const useGetItemsViewByType = (
             viewType,
             {
                 itemType,
-                libraryViewSettings
+                libraryViewSettings,
+                alphabetNavigationSettings
             }
         ],
         queryFn: ({ signal }) =>
@@ -385,10 +384,11 @@ export const useGetItemsViewByType = (
                 parentId,
                 itemType,
                 libraryViewSettings!,
+                alphabetNavigationSettings,
                 { signal }
             ),
         refetchOnWindowFocus: false,
-        enabled: !!currentApi.api && !!currentApi.user?.Id
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!systemInfo
             && viewType
             && [
                 LibraryTab.Movies,

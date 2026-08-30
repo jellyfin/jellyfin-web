@@ -5,18 +5,63 @@ import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
+import type { AlphabetPickerGroup } from '../utils/alphabet';
+
 import 'components/alphaPicker/style.scss';
 
 interface AlphabetPickerProps {
     value?: string | null;
     onChange: (value: string | null | undefined) => void;
+    groups?: AlphabetPickerGroup[];
 }
 
 const LETTER_VALUES = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
+const AlphabetButtons = ({
+    values,
     value,
     onChange
+}: {
+    values: string[];
+    value?: string | null;
+    onChange: (event: React.MouseEvent<HTMLElement>, value: string | null | undefined) => void;
+}) => (
+    <ToggleButtonGroup
+        orientation='vertical'
+        value={value}
+        exclusive
+        color='primary'
+        size='small'
+        onChange={onChange}
+    >
+        {values.map((letter) => (
+            <ToggleButton
+                key={letter}
+                value={letter}
+                sx={{
+                    borderWidth: 0,
+                    paddingTop: {
+                        xs: 0,
+                        md: 0.25
+                    },
+                    paddingBottom: {
+                        xs: 0,
+                        md: 0.25
+                    },
+                    paddingLeft: 0.5,
+                    paddingRight: 0.5
+                }}
+            >
+                {letter}
+            </ToggleButton>
+        ))}
+    </ToggleButtonGroup>
+);
+
+const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
+    value,
+    onChange,
+    groups
 }) => {
     const handleValue = useCallback(
         (
@@ -27,6 +72,8 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
         },
         [onChange]
     );
+
+    const localizedGroups = groups?.length ? groups : undefined;
 
     return (
         <Box
@@ -45,48 +92,37 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                     xs: 'flex-start',
                     sm: 'center'
                 },
+                gap: localizedGroups ? 0.25 : undefined,
                 // This should render under the main AppBar if overlapping
                 zIndex: theme.zIndex.appBar - 1
             })}
         >
-            <Paper
-                elevation={0}
-                sx={{
-                    borderRadius: 1,
-                    overflow: 'hidden'
-                }}
-            >
-                <ToggleButtonGroup
-                    orientation='vertical'
-                    value={value}
-                    exclusive
-                    color='primary'
-                    size='small'
-                    onChange={handleValue}
+            {!localizedGroups ? (
+                <Paper
+                    elevation={0}
+                    sx={{
+                        borderRadius: 1,
+                        overflow: 'hidden'
+                    }}
                 >
-                    {LETTER_VALUES.map((l) => (
-                        <ToggleButton
-                            key={l}
-                            value={l}
-                            sx={{
-                                borderWidth: 0,
-                                paddingTop: {
-                                    xs: 0,
-                                    md: 0.25
-                                },
-                                paddingBottom: {
-                                    xs: 0,
-                                    md: 0.25
-                                },
-                                paddingLeft: 0.5,
-                                paddingRight: 0.5
-                            }}
-                        >
-                            {l}
-                        </ToggleButton>
-                    ))}
-                </ToggleButtonGroup>
-            </Paper>
+                    <AlphabetButtons values={LETTER_VALUES} value={value} onChange={handleValue} />
+                </Paper>
+            ) : localizedGroups.map((group, groupIndex) => (
+                <Paper
+                    key={group.id}
+                    elevation={0}
+                    sx={{
+                        borderRadius: 1,
+                        overflow: 'hidden'
+                    }}
+                >
+                    <AlphabetButtons
+                        values={groupIndex === 0 ? ['#', ...group.values] : group.values}
+                        value={value}
+                        onChange={handleValue}
+                    />
+                </Paper>
+            ))}
         </Box>
     );
 };

@@ -26,6 +26,11 @@ import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
+interface LocalizedAlphabetConfiguration {
+    EnableLocalizedAlphabetNavigation?: boolean;
+    LocalizedAlphabetAdditionalScripts?: string[] | null;
+}
+
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
@@ -35,6 +40,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     config.ServerName = formData.get('ServerName')?.toString();
     config.UICulture = formData.get('UICulture')?.toString();
+    const localizedAlphabetConfig = config as typeof config & LocalizedAlphabetConfiguration;
+    localizedAlphabetConfig.EnableLocalizedAlphabetNavigation =
+        formData.get('EnableLocalizedAlphabetNavigation')?.toString() === 'on';
+    const additionalScripts = (localizedAlphabetConfig.LocalizedAlphabetAdditionalScripts ?? [])
+        .filter(script => script !== 'Latn');
+    localizedAlphabetConfig.LocalizedAlphabetAdditionalScripts =
+        formData.get('IncludeLatinAlphabet')?.toString() === 'on' ?
+            [...additionalScripts, 'Latn'] :
+            additionalScripts;
     config.CachePath = formData.get('CachePath')?.toString();
     config.MetadataPath = formData.get('MetadataPath')?.toString();
     config.QuickConnectAvailable = formData.get('QuickConnectAvailable')?.toString() === 'on';
@@ -73,6 +87,7 @@ export const Component = () => {
     const isSubmitting = navigation.state === 'submitting';
     const [ cachePath, setCachePath ] = useState<string | null | undefined>('');
     const [ metadataPath, setMetadataPath ] = useState<string | null | undefined>('');
+    const localizedAlphabetConfig = config as typeof config & LocalizedAlphabetConfiguration;
 
     const onCachePathChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setCachePath(event.target.value);
@@ -176,6 +191,27 @@ export const Component = () => {
                                     <MenuItem key={language.Name} value={language.Value || ''}>{language.Name}</MenuItem>
                                 )}
                             </TextField>
+
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name='EnableLocalizedAlphabetNavigation'
+                                            defaultChecked={localizedAlphabetConfig.EnableLocalizedAlphabetNavigation}
+                                        />
+                                    }
+                                    label={globalize.translate('UseLocalizedAlphabetNavigation')}
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name='IncludeLatinAlphabet'
+                                            defaultChecked={localizedAlphabetConfig.LocalizedAlphabetAdditionalScripts?.includes('Latn')}
+                                        />
+                                    }
+                                    label={globalize.translate('IncludeLatinAlphabet')}
+                                />
+                            </FormControl>
 
                             <Typography variant='h2'>{globalize.translate('HeaderPaths')}</Typography>
 

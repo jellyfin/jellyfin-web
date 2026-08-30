@@ -6,11 +6,14 @@ import { useIntersectionObserver } from 'usehooks-ts';
 
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import Loading from 'components/loading/LoadingComponent';
+import { useSystemInfo } from 'hooks/useSystemInfo';
 import type { ParentId } from 'types/library';
+import { LibraryTab } from 'types/libraryTab';
 
 import { useGenres } from '../hooks/api/useGenres';
-import GenresSectionContainer from './GenresSectionContainer';
+import { getAlphabetNavigationSettings, getLocalizedAlphabetGroups } from '../utils/alphabet';
 import AlphabetPicker from './AlphabetPicker';
+import GenresSectionContainer from './GenresSectionContainer';
 
 interface GenresItemsContainerProps {
     parentId: ParentId;
@@ -24,6 +27,15 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     itemType
 }) => {
     const [alphabet, setAlphabet] = useState<string | null>();
+    const { data: systemInfo } = useSystemInfo();
+    const alphabetNavigationSettings = useMemo(
+        () => getAlphabetNavigationSettings(systemInfo),
+        [systemInfo]
+    );
+    const alphabetGroups = useMemo(
+        () => getLocalizedAlphabetGroups(alphabetNavigationSettings, LibraryTab.Genres),
+        [alphabetNavigationSettings]
+    );
     const {
         isLoading,
         data,
@@ -33,7 +45,9 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
     } = useGenres({
         parentId,
         includeItemTypes: itemType,
-        alphabet
+        alphabet,
+        alphabetNavigationSettings,
+        enabled: Boolean(systemInfo)
     });
 
     const genres = useMemo(
@@ -50,6 +64,10 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
             void fetchNextPage();
         }
     }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+    if (!systemInfo) {
+        return <Loading />;
+    }
 
     // No genres at all (no letter filter active) - nothing to pick from
     if (!isLoading && !genres.length && alphabet == null) {
@@ -85,7 +103,11 @@ const GenresItemsContainer: FC<GenresItemsContainerProps> = ({
 
     return (
         <>
-            <AlphabetPicker value={alphabet} onChange={setAlphabet} />
+            <AlphabetPicker
+                value={alphabet}
+                onChange={setAlphabet}
+                groups={alphabetGroups}
+            />
 
             {renderGenres()}
         </>

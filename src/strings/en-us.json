@@ -1945,5 +1945,7 @@
     "LabelPlayerSizes": "Player sizes",
     "LabelPlaybackQuality": "Frame dropped / corrupted",
     "AudioLanguages": "Audio languages",
-    "SubtitleLanguages": "Subtitle languages"
+    "SubtitleLanguages": "Subtitle languages",
+    "UseLocalizedAlphabetNavigation": "Use localized alphabet navigation",
+    "IncludeLatinAlphabet": "Include Latin alphabet (A–Z)"
 }
