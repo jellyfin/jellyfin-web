@@ -20,7 +20,6 @@ interface OffsetAppBarProps extends AppBarProps {
  */
 const OffsetAppBar: FC<PropsWithChildren<OffsetAppBarProps>> = ({
     children,
-    className,
     dense = false,
     elevation = 1,
     ...props
@@ -67,7 +66,6 @@ const OffsetAppBar: FC<PropsWithChildren<OffsetAppBarProps>> = ({
         <>
             <AppBar
                 {...props}
-                className={className}
                 ref={appBarRef}
                 position='fixed'
                 color={scrollTrigger ? 'default' : 'transparent'}
