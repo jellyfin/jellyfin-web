@@ -1514,5 +1514,6 @@
     "Scene": "Mynd",
     "HeaderScenes": "Myndir",
     "DeletedScene": "Úrtikin mynd",
-    "LabelAutomaticallyAddToCollection": "Legg sjálvvirkandi í samlingar"
+    "LabelAutomaticallyAddToCollection": "Legg sjálvvirkandi í samlingar",
+    "MessageSplitVersionsError": "Ein villa kom fyri undir sundurbýting av miðlunum"
 }
