@@ -1515,5 +1515,6 @@
     "HeaderScenes": "Myndir",
     "DeletedScene": "Úrtikin mynd",
     "LabelAutomaticallyAddToCollection": "Legg sjálvvirkandi í samlingar",
-    "MessageSplitVersionsError": "Ein villa kom fyri undir sundurbýting av miðlunum"
+    "MessageSplitVersionsError": "Ein villa kom fyri undir sundurbýting av miðlunum",
+    "PageNotFound": "Hetta er ikki síðan ið tú leitar eftir."
 }
