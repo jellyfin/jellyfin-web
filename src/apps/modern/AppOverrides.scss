@@ -24,6 +24,12 @@ $mui-bp-xl: 1536px;
 }
 
 .layout-mobile {
+    .itemDetailPage {
+        // Fix horizontal panning on mobile item details page
+        overflow-x: hidden;
+        overflow-x: clip;
+    }
+
     .itemBackdrop {
         // Fix backdrop position on mobile item details page
         margin-top: -48px !important;

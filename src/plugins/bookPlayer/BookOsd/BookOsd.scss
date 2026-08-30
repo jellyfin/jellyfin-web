@@ -16,6 +16,9 @@
     padding: 0 0.8vw;
     background-color: var(--jf-palette-AppBar-defaultBg);
     pointer-events: auto;
+    transition: all 200ms linear;
+    // force WebKit to promote the element onto its own compositor layer for opacity on iOS
+    transform: translateZ(0);
 }
 
 // TODO disable landscape on mobile devices
@@ -27,14 +30,6 @@
 
 .bookOsdSpacer {
     flex: 1;
-}
-
-.bookOsdTop {
-    padding-top: env(safe-area-inset-top);
-}
-
-.bookOsdBottom {
-    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .bookOsdTitle {

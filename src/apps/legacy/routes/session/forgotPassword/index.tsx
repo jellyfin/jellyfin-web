@@ -10,6 +10,8 @@ import Input from 'elements/emby-input/Input';
 import globalize from 'lib/globalize';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import { getAuthenticationApi } from 'utils/sdk/authentication-api';
+import { isValidUrl } from 'utils/url';
+import shell from 'scripts/shell';
 
 export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
@@ -41,13 +43,19 @@ export const ForgotPasswordPage = () => {
                     msg = globalize.translate('MessageForgotPasswordInNetworkRequired');
                     break;
                 case ForgotPasswordAction.PinCode:
-                    msg = globalize.translate('MessageForgotPasswordFileCreated');
-                    msg += '<br/><br/>';
-                    msg += globalize.translate('MessageForgotPasswordPinReset');
-                    msg += '<br/><br/>';
-                    msg += result.PinFile;
-                    msg += '<br/>';
-                    callback = () => navigate('/forgotpasswordpin');
+                    if (result.PinFile && isValidUrl(result.PinFile)) {
+                        msg = globalize.translate('MessageForgotPasswordRedirect');
+                        shell.openUrl(result.PinFile);
+                        callback = () => navigate('/login');
+                    } else {
+                        msg = globalize.translate('MessageForgotPasswordFileCreated');
+                        msg += '<br/><br/>';
+                        msg += globalize.translate('MessageForgotPasswordPinReset');
+                        msg += '<br/><br/>';
+                        msg += result.PinFile;
+                        msg += '<br/>';
+                        callback = () => navigate('/forgotpasswordpin');
+                    }
                     break;
                 default:
                     return;

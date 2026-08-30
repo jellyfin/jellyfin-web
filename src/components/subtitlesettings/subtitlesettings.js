@@ -28,6 +28,7 @@ import template from './subtitlesettings.template.html';
 
 function getSubtitleAppearanceObject(context) {
     return {
+        aspectMode: context.querySelector('#selectBitmapSubtitleAspectMode').value,
         subtitleStyling: context.querySelector('#selectSubtitleStyling').value,
         textSize: context.querySelector('#selectTextSize').value,
         textWeight: context.querySelector('#selectTextWeight').value,
@@ -37,6 +38,15 @@ function getSubtitleAppearanceObject(context) {
         textColor: layoutManager.tv ? context.querySelector('#selectTextColor').value : context.querySelector('#inputTextColor').value,
         verticalPosition: context.querySelector('#sliderVerticalPosition').value
     };
+}
+
+function toggleBitmapSubtitleAspectModeField(view) {
+    const fieldBitmapSubtitleAspectMode = view.querySelector('.fldBitmapSubtitleAspectMode');
+    const fieldRenderPgs = view.querySelector('.fldRenderPgs');
+    const renderPgsEnabled = view.querySelector('#chkSubtitleRenderPgs').checked;
+    const renderPgsVisible = !fieldRenderPgs.classList.contains('hide');
+
+    fieldBitmapSubtitleAspectMode.classList.toggle('hide', !renderPgsVisible || !renderPgsEnabled);
 }
 
 function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
@@ -64,11 +74,13 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
         context.querySelector('#selectFont').value = appearanceSettings.font || '';
         context.querySelector('#sliderVerticalPosition').value = appearanceSettings.verticalPosition;
+        context.querySelector('#selectBitmapSubtitleAspectMode').value = appearanceSettings.aspectMode || 'stretch';
 
         context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
         context.querySelector('#chkSubtitleRenderPgs').checked = appSettings.get('subtitlerenderpgs') === 'true';
 
         context.querySelector('#selectSubtitleBurnIn').dispatchEvent(new CustomEvent('change', {}));
+        toggleBitmapSubtitleAspectModeField(context);
         context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked = appSettings.alwaysBurnInSubtitleWhenTranscoding();
 
         onAppearanceFieldChange({
@@ -138,6 +150,12 @@ function onSubtitleBurnInChange(e) {
 
     // Pgs option is only available if burn-in mode is set to 'auto' (empty string)
     fieldRenderPgs.classList.toggle('hide', !!this.value);
+    toggleBitmapSubtitleAspectModeField(view);
+}
+
+function onSubtitleRenderPgsChange(e) {
+    const view = dom.parentWithClass(e.target, 'subtitlesettings');
+    toggleBitmapSubtitleAspectModeField(view);
 }
 
 function onAppearanceFieldChange(e) {
@@ -197,10 +215,12 @@ function embed(options, self) {
     options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
     options.element.querySelector('#selectSubtitleStyling').addEventListener('change', onSubtitleStyleChange);
     options.element.querySelector('#selectSubtitleBurnIn').addEventListener('change', onSubtitleBurnInChange);
+    options.element.querySelector('#chkSubtitleRenderPgs').addEventListener('change', onSubtitleRenderPgsChange);
     options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectBitmapSubtitleAspectMode').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectTextColor').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
