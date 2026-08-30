@@ -1,6 +1,5 @@
 import AppBar, { type AppBarProps } from '@mui/material/AppBar';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import classNames from 'classnames';
 import React, { useLayoutEffect, useRef, useState, type FC, type PropsWithChildren } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 
@@ -68,7 +67,7 @@ const OffsetAppBar: FC<PropsWithChildren<OffsetAppBarProps>> = ({
         <>
             <AppBar
                 {...props}
-                className={classNames('mui-fixed', className)}
+                className={className}
                 ref={appBarRef}
                 position='fixed'
                 color={scrollTrigger ? 'default' : 'transparent'}
