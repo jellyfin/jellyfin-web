@@ -871,8 +871,8 @@
     "Photo": "Mynd",
     "AllowEmbeddedSubtitlesAllowImageOption": "Loyv myndagrundaðum sniðum",
     "AllowEmbeddedSubtitlesAllowTextOption": "Loyv teksti",
-    "Production": "Framleiðsla",
-    "StoryArc": "Søgutráður",
+    "Production": "Framleiðsludegi",
+    "StoryArc": "Søgutræðri / Tíðarrøð",
     "StopWatching": "Steðga at hyggja",
     "UnsupportedPlayback": "Hóast Jellyfin ikki kann avbrongla DRM-vart innihald roynur tað. Av hesi orsøk kunnu onkrir miðlar verða fullkomiliga svartir vegna bronglan ella øðrum óhandfarnum hentleikum, so sum samvirknum kykmyndum.",
     "Display": "Sýni",
@@ -1520,5 +1520,6 @@
     "LabelDisplayOrder": "Raða partar eftir",
     "Alternate": "Aðrari raðfylgju",
     "AlternateDVD": "Aðrari DVD raðfylgju",
-    "OriginalAirDate": "Upprunaligum sendidegi"
+    "OriginalAirDate": "Upprunaligum sendidegi",
+    "Regional": "Økisraðan"
 }
