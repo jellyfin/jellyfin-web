@@ -1,4 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
@@ -2017,7 +2018,7 @@ export class PlaybackManager {
                 limit: seasonId ? undefined : 100,
                 SortBy: options.shuffle ? 'Random' : undefined,
                 UserId,
-                Fields: ['Chapters', 'Trickplay'],
+                Fields: [ItemFields.Chapters, ItemFields.MediaSources, ItemFields.Trickplay],
                 startItemId
             });
 
@@ -2074,7 +2075,7 @@ export class PlaybackManager {
                     IsVirtualUnaired: false,
                     IsMissing: false,
                     UserId: apiClient.getCurrentUserId(),
-                    Fields: ['Chapters', 'Trickplay'],
+                    Fields: [ItemFields.Chapters, ItemFields.MediaSources, ItemFields.Trickplay],
                     // limit to loading 100 episodes to avoid loading too large payload
                     limit: 100,
                     startItemId: Id
@@ -3201,8 +3202,9 @@ export class PlaybackManager {
                 return match ? match.Id : null;
             };
 
-            // Queue items usually only carry their primary media source, so the merged alternate versions are missing.
-            if (item.MediaSources?.length > 1) {
+            // Queues built here request the media sources, so the merged alternate versions
+            // are already available. Items queued elsewhere may not carry them at all.
+            if (item.MediaSources) {
                 return Promise.resolve(findMatch(item.MediaSources));
             }
 
