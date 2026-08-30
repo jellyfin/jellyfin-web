@@ -1522,5 +1522,6 @@
     "AlternateDVD": "Aðrari DVD raðfylgju",
     "OriginalAirDate": "Upprunaligum sendidegi",
     "Regional": "Økisraðan",
-    "HeaderSortOrder": "Raðfylgja"
+    "HeaderSortOrder": "Raðfylgja",
+    "LabelSortOrder": "Raðfylgja"
 }
