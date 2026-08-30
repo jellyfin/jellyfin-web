@@ -95,6 +95,7 @@ const LibraryToolbar: FC = () => {
 
     return (
         <Toolbar
+            variant='dense'
             className='padded-left padded-right'
             sx={{
                 display: 'flex',
@@ -127,7 +128,7 @@ const LibraryToolbar: FC = () => {
                     sx={{
                         justifyContent: {
                             xs: 'auto',
-                            sm: 'end'
+                            sm: 'flex-end'
                         },
                         flexBasis: {
                             xs: '100%',
@@ -153,6 +154,7 @@ const LibraryToolbar: FC = () => {
                     >
                         <ButtonGroup
                             variant='contained'
+                            size={isSmallScreen ? undefined : 'small'}
                         >
                             {isBtnPlayAllEnabled && (
                                 <PlayAllButton
@@ -199,6 +201,7 @@ const LibraryToolbar: FC = () => {
                     <ButtonGroup
                         color='inherit'
                         variant='text'
+                        size={isSmallScreen ? undefined : 'small'}
                     >
                         {isBtnFilterEnabled && (
                             <FilterButton

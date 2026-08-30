@@ -133,7 +133,7 @@ export const Component = () => {
                         <Box
                             sx={{
                                 display: 'flex',
-                                justifyContent: 'end',
+                                justifyContent: 'flex-end',
                                 marginTop: {
                                     xs: 2,
                                     sm: 0

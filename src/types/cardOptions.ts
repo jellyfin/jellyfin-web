@@ -28,6 +28,7 @@ export interface CardOptions {
     preferThumb?: boolean | string | null;
     preferDisc?: boolean;
     preferLogo?: boolean;
+    preferParentPoster?: boolean;
     scalable?: boolean;
     shape?: CardShape;
     defaultShape?: CardShape;
