@@ -1529,5 +1529,9 @@
     "BitmapSubtitleAspectModeCover": "Fyll",
     "BitmapSubtitleAspectModeContain": "Rúma",
     "EnableRewatchingNextUpHelp": "Vísur partar ið longu eru sæddir í \"Næst á skránni\" teiginum.",
-    "EnableRewatchingNextUp": "Virkja endursýningar í \"Næst á skránni\""
+    "EnableRewatchingNextUp": "Virkja endursýningar í \"Næst á skránni\"",
+    "Preview": "Royndarsýning",
+    "LabelEncoderPreset": "Forsett stilling fyri umkotingar",
+    "LabelImageType": "Myndaslag",
+    "LabelScreensaverTime": "Tíð fyri skáaskíggja"
 }
