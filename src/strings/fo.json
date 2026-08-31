@@ -1535,5 +1535,6 @@
     "LabelImageType": "Myndaslag",
     "LabelScreensaverTime": "Tíð fyri skáaskíggja",
     "EnableFasterAnimations": "Skjótari animatiónir",
-    "EnableFasterAnimationsHelp": "Brúka skjótari animatiónir og sýnisskiftir."
+    "EnableFasterAnimationsHelp": "Brúka skjótari animatiónir og sýnisskiftir.",
+    "ChannelAccessHelp": "Vel rásir ið hesin brúkarin skal hava atgongd til. Umsitarir fara at kunna tillaga allar rásir umvegis metadátuumsitanarsíðuna."
 }
