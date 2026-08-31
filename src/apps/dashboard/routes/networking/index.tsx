@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import type { NetworkConfiguration } from '@jellyfin/sdk/lib/generated-client/models/network-configuration';
 import TextField from '@mui/material/TextField/TextField';
 import Loading from 'components/loading/LoadingComponent';
@@ -22,7 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
-import { QUERY_KEY as CONFIG_QUERY_KEY } from 'hooks/useConfiguration';
+import { QUERY_KEY as CONFIG_QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import { queryClient } from 'utils/query/queryClient';
 import { encodePublishedServerUris, getPublishedServerUris, PublishedServerUris, splitString } from 'apps/dashboard/features/networking/utils';
 import { ActionData } from 'types/actionData';
@@ -73,7 +72,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         .updateNamedConfiguration({ key: CONFIG_KEY, body: newConfig });
 
     void queryClient.invalidateQueries({
-        queryKey: [ CONFIG_QUERY_KEY ]
+        queryKey: [ CONFIG_QUERY_KEY, CONFIG_KEY ]
     });
 
     return {
@@ -387,7 +386,7 @@ export const Component = () => {
                                             name='ExternalPublishedServerUri'
                                             label={globalize.translate('LabelExternalServerUri')}
                                             helperText={globalize.translate('LabelExternalServerUriHelp')}
-                                            defaultValue={publishedUris?.internal}
+                                            defaultValue={publishedUris?.external}
                                         />
                                     </Stack>
                                 )}
