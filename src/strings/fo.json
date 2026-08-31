@@ -1523,5 +1523,9 @@
     "OriginalAirDate": "Upprunaligum sendidegi",
     "Regional": "Økisraðan",
     "HeaderSortOrder": "Raðfylgja",
-    "LabelSortOrder": "Raðfylgja"
+    "LabelSortOrder": "Raðfylgja",
+    "LabelBitmapSubtitleAspectMode": "Støddarlutfallstøða fyri myndagrundaðar undirtekstir",
+    "BitmapSubtitleAspectModeStretch": "Toygg",
+    "BitmapSubtitleAspectModeCover": "Fyll",
+    "BitmapSubtitleAspectModeContain": "Rúma"
 }
