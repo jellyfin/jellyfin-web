@@ -1534,5 +1534,6 @@
     "LabelEncoderPreset": "Forsett stilling fyri umkotingar",
     "LabelImageType": "Myndaslag",
     "LabelScreensaverTime": "Tíð fyri skáaskíggja",
-    "EnableFasterAnimations": "Skjótari animatiónir"
+    "EnableFasterAnimations": "Skjótari animatiónir",
+    "EnableFasterAnimationsHelp": "Brúka skjótari animatiónir og sýnisskiftir."
 }
