@@ -1533,5 +1533,6 @@
     "Preview": "Royndarsýning",
     "LabelEncoderPreset": "Forsett stilling fyri umkotingar",
     "LabelImageType": "Myndaslag",
-    "LabelScreensaverTime": "Tíð fyri skáaskíggja"
+    "LabelScreensaverTime": "Tíð fyri skáaskíggja",
+    "EnableFasterAnimations": "Skjótari animatiónir"
 }
