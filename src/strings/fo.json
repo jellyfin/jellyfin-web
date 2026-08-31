@@ -1527,5 +1527,7 @@
     "LabelBitmapSubtitleAspectMode": "Støddarlutfallstøða fyri myndagrundaðar undirtekstir",
     "BitmapSubtitleAspectModeStretch": "Toygg",
     "BitmapSubtitleAspectModeCover": "Fyll",
-    "BitmapSubtitleAspectModeContain": "Rúma"
+    "BitmapSubtitleAspectModeContain": "Rúma",
+    "EnableRewatchingNextUpHelp": "Vísur partar ið longu eru sæddir í \"Næst á skránni\" teiginum.",
+    "EnableRewatchingNextUp": "Virkja endursýningar í \"Næst á skránni\""
 }
