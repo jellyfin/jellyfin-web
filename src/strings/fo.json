@@ -1567,5 +1567,10 @@
     "TabNetworks": "Sjónvarpsstøðir",
     "UsersEditPageError": "Miseydnaðist at innlesa broytingarsíðu brúkaranna",
     "AudioIsExternal": "Ljóðstroymurin er uttanífrá miðlinum",
-    "EnableSplashScreen": "Virkja vælkomumyndina"
+    "EnableSplashScreen": "Virkja vælkomumyndina",
+    "HeaderSelectPath": "Vel leið",
+    "HeaderSelectServerCachePath": "Vel goymslustað fyri kova ambætarans",
+    "HeaderSelectServerCachePathHelp": "Vel ella inntøppa leiðina til goymslustað fyri kovafílar ambætarans. Jellyfin skal hava skrivirættindi til skjáttuna.",
+    "HeaderSelectTranscodingPathHelp": "Vel ella inntøppa leiðina til goymslustað fyri umkotaðar fílur. Jellyfin skal hava skrivirættindi til skjáttuna.",
+    "HeaderSelectMetadataPathHelp": "Vel ella inntøppa leiðina til goymslustað fyri metadátur. Jellyfin skal hava skrivirættindi til skjáttuna."
 }
