@@ -1586,5 +1586,6 @@
     "ConfirmEndPlayerSession": "Ynskir tú at steðga Jellyfin á {0}?",
     "DoNotRecord": "Tak ikki upp",
     "Bwdif": "Bob Weaver sundurflættingarfiltur (BWDIF)",
-    "Yadif": "Enn eitt sundurflættingarfiltur (YADIF)"
+    "Yadif": "Enn eitt sundurflættingarfiltur (YADIF)",
+    "LabelDelimiterWhitelist": "Loyvd markatekn"
 }
