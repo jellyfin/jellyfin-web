@@ -1588,5 +1588,6 @@
     "Bwdif": "Bob Weaver sundurflættingarfiltur (BWDIF)",
     "Yadif": "Enn eitt sundurflættingarfiltur (YADIF)",
     "LabelDelimiterWhitelist": "Loyvd markatekn",
-    "HeaderPreferredMetadataLanguage": "Ynskt mál fyri metadátur"
+    "HeaderPreferredMetadataLanguage": "Ynskt mál fyri metadátur",
+    "LabelMinResumeDurationHelp": "Stytsta spælilongd í sekundum ið verður goymd og harvið kann takast uppaftur."
 }
