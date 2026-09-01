@@ -1587,5 +1587,6 @@
     "DoNotRecord": "Tak ikki upp",
     "Bwdif": "Bob Weaver sundurflættingarfiltur (BWDIF)",
     "Yadif": "Enn eitt sundurflættingarfiltur (YADIF)",
-    "LabelDelimiterWhitelist": "Loyvd markatekn"
+    "LabelDelimiterWhitelist": "Loyvd markatekn",
+    "HeaderPreferredMetadataLanguage": "Ynskt mál fyri metadátur"
 }
