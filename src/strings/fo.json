@@ -1557,5 +1557,15 @@
     "MessageNoFavoritesAvailable": "Eingir yndismiðlar eru tøkir í løtuni.",
     "MessageNoItemsAvailable": "Eingir miðlar eru tøkir í løtuni.",
     "OptionTrackName": "Heiti lagsins",
-    "OptionUnairedEpisode": "Ósendir partar"
+    "OptionUnairedEpisode": "Ósendir partar",
+    "OriginalLanguage": "Upprunaligt talumál",
+    "PleaseEnterNameOrId": "Vinaliga inntøppa eitt navn ella ytri eyðmerki.",
+    "Previous": "Undanfarna",
+    "Primary": "Høvuðsmynd",
+    "RemoveFromCollection": "Strika úr samling",
+    "SortName": "Raðanarnavn",
+    "TabNetworks": "Sjónvarpsstøðir",
+    "UsersEditPageError": "Miseydnaðist at innlesa broytingarsíðu brúkaranna",
+    "AudioIsExternal": "Ljóðstroymurin er uttanífrá miðlinum",
+    "EnableSplashScreen": "Virkja vælkomumyndina"
 }
