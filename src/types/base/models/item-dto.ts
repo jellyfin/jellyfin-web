@@ -24,4 +24,5 @@ export interface ItemDto extends BaseItem, TimerInfo, SeriesTimerInfo, SearchHin
     'ItemId'?: string | null;
     'ProgramInfo'?: ItemDto;
     'CurrentProgram'?: ItemDto;
+    'HideItemsFromLibrary'?: boolean | null;
 }

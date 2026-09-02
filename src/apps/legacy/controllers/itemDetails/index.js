@@ -25,6 +25,7 @@ import ItemDetailsMetadataList from 'components/itemDetails/ItemDetailsMetadataL
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import itemShortcuts from 'components/shortcuts';
+import toast from 'components/toast/toast';
 import { AppFeature } from 'constants/appFeature';
 import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
@@ -32,14 +33,15 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
-import dom from 'utils/dom';
-import { renderComponent } from 'utils/reactUtils';
 import { download } from 'scripts/fileDownloader';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
+import { setHideItemsFromLibrary } from 'utils/collection';
 import Dashboard from 'utils/dashboard';
+import dom from 'utils/dom';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { renderComponent } from 'utils/reactUtils';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -1688,6 +1690,8 @@ function renderCollectionItems(page, parentItem, types, items) {
     page.querySelector('.collectionItems').classList.remove('hide');
     page.querySelector('.collectionItems').innerHTML = '';
 
+    renderHideFromLibraryToggle(page, parentItem);
+
     if (!items.length) {
         renderCollectionItemType(page, parentItem, {
             name: globalize.translate('Items')
@@ -1731,6 +1735,45 @@ function renderCollectionItems(page, parentItem, types, items) {
     // HACK: Call autoFocuser again because btnPlay may be hidden, but focused by reloadFromItem
     // FIXME: Sometimes focus does not move until all (?) sections are loaded
     autoFocus(page);
+}
+
+function renderHideFromLibraryToggle(page, parentItem) {
+    const apiClient = ServerConnections.getApiClient(parentItem.ServerId);
+
+    apiClient.getCurrentUser().then(user => {
+        if (!itemHelper.canManageCollections(user)) {
+            return;
+        }
+
+        const collectionItems = page.querySelector('.collectionItems');
+        if (!collectionItems || collectionItems.querySelector('#chkHideItemsFromLibrary')) {
+            return;
+        }
+
+        const html = '<div class="verticalSection padded-left padded-right hideFromLibraryToggle">'
+            + '<label class="checkboxContainer">'
+            + '<input is="emby-checkbox" type="checkbox" id="chkHideItemsFromLibrary" />'
+            + `<span>${globalize.translate('HideItemsFromLibrary')}</span>`
+            + '</label>'
+            + `<div class="fieldDescription">${globalize.translate('HideItemsFromLibraryHelp')}</div>`
+            + '</div>';
+
+        collectionItems.insertAdjacentHTML('afterbegin', html);
+
+        const checkbox = collectionItems.querySelector('#chkHideItemsFromLibrary');
+        checkbox.checked = !!parentItem.HideItemsFromLibrary;
+        checkbox.addEventListener('change', () => {
+            const hide = checkbox.checked;
+            setHideItemsFromLibrary(apiClient, parentItem.Id, hide).then(() => {
+                parentItem.HideItemsFromLibrary = hide;
+                toast(globalize.translate('SettingsSaved'));
+            }).catch(() => {
+                checkbox.checked = !hide;
+            });
+        });
+    }).catch(err => {
+        console.error('[itemDetails] failed to render hide-from-library toggle', err);
+    });
 }
 
 function renderCollectionItemType(page, parentItem, type, items) {

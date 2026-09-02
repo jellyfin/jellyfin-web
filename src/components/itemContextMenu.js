@@ -242,6 +242,16 @@ export async function getCommands(options) {
         });
     }
 
+    if (item.Type === BaseItemKind.BoxSet && itemHelper.canManageCollections(user)) {
+        commands.push({
+            name: item.HideItemsFromLibrary ?
+                globalize.translate('ShowItemsInLibrary') :
+                globalize.translate('HideItemsFromLibrary'),
+            id: 'togglehidefromlibrary',
+            icon: item.HideItemsFromLibrary ? 'visibility' : 'visibility_off'
+        });
+    }
+
     if (itemHelper.canEditImages(user, item) && options.editImages !== false) {
         commands.push({
             name: globalize.translate('EditImages'),
@@ -502,6 +512,16 @@ function executeCommand(item, id, options) {
                 break;
             case 'edit':
                 editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                break;
+            case 'togglehidefromlibrary':
+                import('../utils/collection').then(({ setHideItemsFromLibrary }) => {
+                    const hide = !item.HideItemsFromLibrary;
+                    setHideItemsFromLibrary(apiClient, itemId, hide).then(() => {
+                        item.HideItemsFromLibrary = hide;
+                        toast(globalize.translate('SettingsSaved'));
+                        getResolveFunction(resolve, id, true)();
+                    }, getResolveFunction(resolve, id));
+                });
                 break;
             case 'editplaylist':
                 import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {

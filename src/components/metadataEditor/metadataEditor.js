@@ -165,6 +165,7 @@ function onSubmit(e) {
         CustomRating: form.querySelector('#selectCustomRating').value,
         People: currentItem.People,
         LockData: form.querySelector('#chkLockData').checked,
+        HideItemsFromLibrary: currentItem.Type === 'BoxSet' ? form.querySelector('#chkHideItemsFromLibrary').checked : undefined,
         LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
             return !c.checked;
         }).map(function (c) {
@@ -332,6 +333,7 @@ function onResetClick() {
     });
 
     form.querySelector('#chkLockData').checked = false;
+    form.querySelector('#chkHideItemsFromLibrary').checked = false;
     showElement('.providerSettingsContainer');
 
     const lockedFields = form.querySelectorAll('.selectLockedField');
@@ -731,12 +733,14 @@ function setFieldVisibilities(context, item) {
 
     if (item.Type === 'BoxSet') {
         showElement('#fldDisplayOrder', context);
+        showElement('#fldHideItemsFromLibrary', context);
         hideElement('.seriesDisplayOrderDescription', context);
 
         context.querySelector('#selectDisplayOrder').innerHTML = '<option value="Default">' + globalize.translate('DateModified') + '<option value="SortName">' + globalize.translate('SortName') + '</option><option value="PremiereDate">' + globalize.translate('ReleaseDate') + '</option>';
     } else if (item.Type === 'Series') {
         showElement('#fldDisplayOrder', context);
         showElement('.seriesDisplayOrderDescription', context);
+        hideElement('#fldHideItemsFromLibrary', context);
 
         let html = '';
         html += '<option value="">' + globalize.translate('Aired') + '</option>';
@@ -755,6 +759,7 @@ function setFieldVisibilities(context, item) {
     } else {
         context.querySelector('#selectDisplayOrder').innerHTML = '';
         hideElement('#fldDisplayOrder', context);
+        hideElement('#fldHideItemsFromLibrary', context);
     }
 }
 
@@ -798,6 +803,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     } else {
         showElement('.providerSettingsContainer', context);
     }
+    context.querySelector('#chkHideItemsFromLibrary').checked = !!item.HideItemsFromLibrary;
     fillMetadataSettings(context, item, item.LockedFields);
 
     context.querySelector('#txtPath').value = item.Path || '';

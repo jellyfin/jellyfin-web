@@ -45,6 +45,7 @@ function createCollection(apiClient, dlg) {
     const url = apiClient.getUrl('Collections', {
         Name: dlg.querySelector('#txtNewCollectionName').value,
         IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
+        HideItemsFromLibrary: dlg.querySelector('#chkHideItemsFromLibrary').checked,
         Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
     });
 
@@ -161,6 +162,12 @@ function getEditorHtml() {
     html += '<input is="emby-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
     html += `<span>${globalize.translate('SearchForCollectionInternetMetadata')}</span>`;
     html += '</label>';
+
+    html += '<label class="checkboxContainer">';
+    html += '<input is="emby-checkbox" type="checkbox" id="chkHideItemsFromLibrary" />';
+    html += `<span>${globalize.translate('HideItemsFromLibrary')}</span>`;
+    html += '</label>';
+    html += `<div class="fieldDescription">${globalize.translate('HideItemsFromLibraryHelp')}</div>`;
 
     // newCollectionInfo
     html += '</div>';

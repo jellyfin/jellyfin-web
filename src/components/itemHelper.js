@@ -125,6 +125,10 @@ export function canEdit(user, item) {
     return user.Policy.IsAdministrator;
 }
 
+export function canManageCollections(user) {
+    return !!(user?.Policy?.IsAdministrator || user?.Policy?.EnableCollectionManagement);
+}
+
 export function isLocalItem(item) {
     return item?.Id && typeof item.Id === 'string' && item.Id.indexOf('local') === 0;
 }
@@ -359,6 +363,7 @@ export default {
     isLocalItem: isLocalItem,
     canIdentify: canIdentify,
     canEdit: canEdit,
+    canManageCollections,
     canEditImages: canEditImages,
     canEditSubtitles,
     canEditLyrics,
