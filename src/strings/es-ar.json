@@ -1889,5 +1889,7 @@
     "ViewLeftToRight": "Izquierda a Derecha",
     "ViewRightToLeft": "Derecha a Izquierda",
     "HeaderLatestBooks": "Libros Agregados Recientemente",
-    "HeaderLatestMusicVideos": "Videos de Música Agregados Recientemente"
+    "HeaderLatestMusicVideos": "Videos de Música Agregados Recientemente",
+    "HeaderTypeSimilarItemProviders": "Proveedores de elementos similares ({0})",
+    "LabelOriginalLanguage": "Idioma original"
 }
