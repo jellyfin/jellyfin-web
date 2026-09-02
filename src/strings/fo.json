@@ -633,7 +633,7 @@
     "HeaderSubtitleAppearance": "Undirtekstaútsjónd",
     "LabelDisplayLanguage": "Nýtaramótsmál",
     "LabelHardwareEncoding": "Tólbúnaðarkoting",
-    "LastSeen": "Seinasta virksemi varð fyri {0}",
+    "LastSeen": "Seinasta virksemi var fyri {0}",
     "LabelAudioAttributes": "Ljóðeginleikar",
     "NextUp": "Næst á skránni",
     "MaxParentalRatingHelp": "Innihald við hægri aldursmarki verður fjalt fyri hesum brúkaranum.",
@@ -1224,7 +1224,7 @@
     "SelectPreferredTranscodeVideoCodecHelp": "Áset ynskt kykmynda-kodek at umkota til. Er ynskta kodekkið ikki tøkt brúkar ambætarin tað besta ið er tøkt.",
     "MessageEnablingOptionLongerScans": "At virkja hesa stillingina kann hava við sær at savnsskanningar taka munandi longri tíð.",
     "MessageForgotPasswordFileCreated": "Fylgjandi fíla er gjørd á ambætaranum og inniheldur hon leiðbeining um hvussu haldast skal fram",
-    "MessageGetInstalledPluginsError": "Ein villa fór fram tá roynt varð at útvega listan av innløgdum ískoytisforritum.",
+    "MessageGetInstalledPluginsError": "Ein villa fór fram tá roynt var at útvega listan av innløgdum ískoytisforritum.",
     "MessageNoPluginConfiguration": "Hetta ískoytisforritið hevur ongar stillingar at stilla inn.",
     "MessageInvalidForgotPasswordPin": "PIN-kotan er ógildig ella útgingin. Vinaliga royn aftur.",
     "MessageSyncPlayLibraryAccessDenied": "Tú hevur ikki atgongd til hetta innihaldið.",
@@ -1616,5 +1616,10 @@
     "LabelEncodingFormatOptions": "Kotingarsnið stillingar",
     "LabelDisplayMode": "Sýnisháttur",
     "LabelDisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-sniðgevingarkotu",
-    "LabelMoviePrefixHelp": "Um filmsheitir hava eitt forskoyti, inntøppa tað her, so at ambætarin kann handfara tað á rættan hátt."
+    "LabelMoviePrefixHelp": "Um filmsheitir hava eitt forskoyti, inntøppa tað her, so at ambætarin kann handfara tað á rættan hátt.",
+    "MessageCancelTimerError": "Ein villa kom fyri tá roynt var at avlýsa upptøkuna",
+    "MessageCancelSeriesTimerError": "Ein villa kom fyri tá roynt var at avlýsa upptøku sendiraðarinnar",
+    "MessageConfirmShutdown": "Ynskir tú at steðga ambætaranum?",
+    "MessageUnauthorizedUser": "Tú hevur ikki atgongd til ambætaran í løtuni. Vinaliga set teg í samband við ambætaraumsitaran fyri nágreiniligari upplýsingar.",
+    "OptionDatePlaylistUpdated": "Broytingardegi spælilistanna"
 }
