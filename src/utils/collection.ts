@@ -11,6 +11,6 @@ export function setHideItemsFromLibrary(
 ): Promise<unknown> {
     return apiClient.ajax({
         type: 'POST',
-        url: apiClient.getUrl(`Collections/${collectionId}/HideItemsFromLibrary`, { hide })
+        url: `${apiClient.getUrl(`Collections/${collectionId}/HideItemsFromLibrary`)}?hide=${hide}`
     });
 }
