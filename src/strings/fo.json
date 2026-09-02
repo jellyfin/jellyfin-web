@@ -1613,5 +1613,7 @@
     "PlaylistError.UpdateFailed": "Villa kom fyri undir broyting av spælilista",
     "Reset": "Tómstilla",
     "AudioChannelsNotSupported": "Virkisføri vantar fyri mongdini av ljóðræsum",
-    "LabelEncodingFormatOptions": "Kotingarsnið stillingar"
+    "LabelEncodingFormatOptions": "Kotingarsnið stillingar",
+    "LabelDisplayMode": "Sýnisháttur",
+    "LabelDisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-sniðgevingarkotu"
 }
