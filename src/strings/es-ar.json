@@ -1891,5 +1891,10 @@
     "HeaderLatestBooks": "Libros Agregados Recientemente",
     "HeaderLatestMusicVideos": "Videos de Música Agregados Recientemente",
     "HeaderTypeSimilarItemProviders": "Proveedores de elementos similares ({0})",
-    "LabelOriginalLanguage": "Idioma original"
+    "LabelOriginalLanguage": "Idioma original",
+    "LabelSyncPlayJoinGroup": "Unirse al grupo",
+    "OnFilesystem": "En el sistema de archivos: {0}",
+    "OriginalLanguage": "Idioma original",
+    "StillWatchingOption": "{0} episodios o {1} minutos",
+    "TableOfContents": "Índice"
 }
