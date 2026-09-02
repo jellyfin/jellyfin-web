@@ -1944,5 +1944,6 @@
     "Screenplay": "Scénario",
     "HlsAudioSeekStrategy": "Stratégie à adopter pour effectuer des recherches dans les flux HLS.",
     "LabelHlsAudioSeekStrategy": "Stratégie de recherche audio.",
-    "MessageForgotPasswordRedirect": "Vous avez été transféré vers un service externe pour la récupération de votre mot de passe."
+    "MessageForgotPasswordRedirect": "Vous avez été transféré vers un service externe pour la récupération de votre mot de passe.",
+    "MessageItemMetadataLocked": "Les métadonnées de cet élément sont verrouillées. Déverrouillez-les avant d’utiliser la fonction Identifier."
 }
