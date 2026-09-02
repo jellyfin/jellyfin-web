@@ -1615,5 +1615,7 @@
     "AudioChannelsNotSupported": "Virkisføri vantar fyri mongdini av ljóðræsum",
     "LabelEncodingFormatOptions": "Kotingarsnið stillingar",
     "LabelDisplayMode": "Sýnisháttur",
-    "LabelDisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-sniðgevingarkotu"
+    "LabelDisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-sniðgevingarkotu",
+    "LabelKodiMetadataEnablePathSubstitution": "",
+    "LabelMoviePrefixHelp": "Um filmsheitir hava eitt forskoyti, inntøppa tað her, so at ambætarin kann handfara tað á rættan hátt."
 }
