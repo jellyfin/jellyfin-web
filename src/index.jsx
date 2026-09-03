@@ -15,6 +15,7 @@ import { appRouter } from './components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
 import globalize from './lib/globalize';
 import { loadCoreDictionary } from 'lib/globalize/loader';
+import getServerAddress from 'lib/jellyfin-apiclient/utils/getServerAddress';
 import { initialize as initializeAutoCast } from 'scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
@@ -22,6 +23,7 @@ import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
+import { initializeServerConnections } from './scripts/serverNotifications';
 
 import RootApp from './RootApp';
 
@@ -37,7 +39,6 @@ import './components/themeMediaPlayer';
 import './scripts/autoThemes';
 import './scripts/mouseManager';
 import './scripts/screensavermanager';
-import './scripts/serverNotifications';
 
 // Import site styles
 import './styles/site.scss';
@@ -66,11 +67,19 @@ build: ${__JF_BUILD_VERSION__}`);
         document.querySelector('.skinHeader').classList.remove('noHeaderRight');
     });
 
-    // Initialize the api client
-    const serverUrl = await serverAddress();
-    if (serverUrl) {
-        ServerConnections.initApiClient(serverUrl);
+    // Initialize app host
+    await appHost.init();
+
+    // Find the correct server URL
+    const lastServer = ServerConnections.getLastUsedServer();
+    let serverUrl;
+    if (lastServer) {
+        serverUrl = getServerAddress(lastServer);
+    } else {
+        serverUrl = await serverAddress();
     }
+    // Initialize the api client
+    if (serverUrl) ServerConnections.initApiClient(serverUrl);
 
     // Initialize automatic (default) cast target
     initializeAutoCast();
@@ -92,11 +101,6 @@ build: ${__JF_BUILD_VERSION__}`);
     // Load frontend plugins
     await loadPlugins();
 
-    // Establish the websocket connection
-    Events.on(appHost, 'resume', () => {
-        ServerConnections.currentApiClient()?.ensureWebSocket();
-    });
-
     // Register API request error handlers
     ServerConnections.getApiClients().forEach(apiClient => {
         Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
@@ -106,6 +110,9 @@ build: ${__JF_BUILD_VERSION__}`);
         Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
         Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
     });
+
+    // Start server notifications
+    initializeServerConnections();
 
     // Render the app
     await renderApp();

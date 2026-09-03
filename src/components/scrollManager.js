@@ -32,8 +32,6 @@ function minimumScrollY() {
     return 0;
 }
 
-const supportsSmoothScroll = 'scrollBehavior' in document.documentElement.style;
-
 let supportsScrollToOptions = false;
 try {
     const elem = document.createElement('div');
@@ -466,10 +464,10 @@ function animateScroll(xScroller, scrollX, yScroller, scrollY) {
 function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
     resetScrollTimer();
 
-    if (smooth && useAnimatedScroll()) {
+    if (smooth) {
         animateScroll(xScroller, scrollX, yScroller, scrollY);
     } else {
-        builtinScroll(xScroller, scrollX, yScroller, scrollY, smooth);
+        builtinScroll(xScroller, scrollX, yScroller, scrollY, false);
     }
 }
 
@@ -478,15 +476,6 @@ function doScroll(xScroller, scrollX, yScroller, scrollY, smooth) {
      */
 function useSmoothScroll() {
     return appSettings.enableSmoothScroll();
-}
-
-/**
-     * Returns true if animated implementation of smooth scroll must be used.
-     */
-function useAnimatedScroll() {
-    // Add block to force using (or not) of animated implementation
-
-    return !supportsSmoothScroll;
 }
 
 /**

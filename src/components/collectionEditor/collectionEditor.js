@@ -16,6 +16,10 @@ import '../formdialog.scss';
 import '../../styles/flexstyles.scss';
 import toast from '../toast/toast';
 
+import { EventType } from 'constants/eventType';
+import Events from 'utils/events';
+import { queryClient } from 'utils/query/queryClient';
+
 let currentServerId;
 
 function onSubmit(e) {
@@ -39,7 +43,6 @@ function onSubmit(e) {
 
 function createCollection(apiClient, dlg) {
     const url = apiClient.getUrl('Collections', {
-
         Name: dlg.querySelector('#txtNewCollectionName').value,
         IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
         Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
@@ -47,17 +50,23 @@ function createCollection(apiClient, dlg) {
 
     apiClient.ajax({
         type: 'POST',
-        url: url,
+        url,
         dataType: 'json'
-
     }).then(result => {
         loading.hide();
 
-        const id = result.Id;
-
         dlg.submitted = true;
         dialogHelper.close(dlg);
-        redirectToCollection(apiClient, id);
+
+        // The collection user view is only available after a collection is created.
+        // Ideally we would only invalidate if there are no other collections.
+        void queryClient.invalidateQueries({
+            queryKey: ['User', apiClient.getCurrentUserId(), 'Views']
+        });
+        // If a new collection is created, then trigger a refresh of the library views
+        Events.trigger(document, EventType.REFRESH_NEEDED);
+
+        redirectToCollection(apiClient, result.Id);
     });
 }
 

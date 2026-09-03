@@ -299,7 +299,7 @@ button::-moz-focus-inner {
 }
 
 .cardText {
-    padding: 0.06em 0.5em;
+    padding: 0.06em 2px; // 2px horizontal padding to avoid touching multiselect border
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -448,6 +448,11 @@ button::-moz-focus-inner {
     z-index: 1;
     padding: 0.75em;
     font-size: 88%;
+
+    /* The "modern" layout needs additional specificity to prevent MUI styles from overriding */
+    &.paper-icon-button-light {
+        color: rgba(255, 255, 255, 0.76);
+    }
 }
 
 .cardOverlayButton-br {
@@ -826,6 +831,13 @@ button::-moz-focus-inner {
     right: 0;
     user-select: none;
     border-radius: 0.2em;
+
+    /** Disable pointer events for the overlay container, but allow them for its children */
+    pointer-events: none;
+
+    * {
+        pointer-events: auto;
+    }
 }
 
 .visualCardBox .blurhash-canvas,
@@ -833,10 +845,6 @@ button::-moz-focus-inner {
 .visualCardBox .cardOverlayContainer {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-}
-
-.card-hoverable:hover .cardOverlayContainer {
-    opacity: 1;
 }
 
 .cardOverlayButton-hover {
@@ -850,8 +858,12 @@ button::-moz-focus-inner {
     background: transparent !important;
 }
 
-.card-hoverable:hover .cardOverlayButton-hover {
-    opacity: 1;
+.card-hoverable:focus-within,
+.card-hoverable:hover {
+    .cardOverlayContainer,
+    .cardOverlayButton-hover {
+        opacity: 1;
+    }
 }
 
 .cardOverlayContainer > .cardOverlayFab-primary {

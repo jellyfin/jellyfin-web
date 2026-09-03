@@ -93,8 +93,10 @@ export function getImageUrl(
 ) {
     let imgTag;
     let itemId;
-    const fillWidth = size;
-    const fillHeight = size;
+    const dpr = window.devicePixelRatio || 1;
+    const scaledSize = size ? Math.round(size * dpr) : undefined;
+    const fillWidth = scaledSize;
+    const fillHeight = scaledSize;
     const imgType = ImageType.Primary;
 
     if (item.ImageTags?.Primary) {
@@ -137,8 +139,10 @@ export function getChannelImageUrl(
 ) {
     let imgTag;
     let itemId;
-    const fillWidth = size;
-    const fillHeight = size;
+    const dpr = window.devicePixelRatio || 1;
+    const scaledSize = size ? Math.round(size * dpr) : undefined;
+    const fillWidth = scaledSize;
+    const fillHeight = scaledSize;
 
     if (item.ChannelId && item.ChannelPrimaryImageTag) {
         imgTag = item.ChannelPrimaryImageTag;

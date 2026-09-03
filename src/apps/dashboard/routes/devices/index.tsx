@@ -37,11 +37,21 @@ const getUserCell = (users: UsersRecords) => function UserCell({ renderedCellVal
 
 export const Component = () => {
     const { api } = useApi();
-    const { data, isLoading: isDevicesLoading, isRefetching } = useDevices({});
+    const {
+        data,
+        isLoading: isDevicesLoading,
+        isError: isDevicesError,
+        isRefetching
+    } = useDevices({});
     const devices = useMemo(() => (
         data?.Items || []
     ), [ data ]);
-    const { usersById: users, names: userNames, isLoading: isUsersLoading } = useUsersDetails();
+    const {
+        usersById: users,
+        names: userNames,
+        isLoading: isUsersLoading,
+        isError: isUsersError
+    } = useUsersDetails();
     const theme = useTheme();
 
     const [ isDeleteConfirmOpen, setIsDeleteConfirmOpen ] = useState(false);
@@ -67,7 +77,7 @@ export const Component = () => {
     const onConfirmDelete = useCallback(() => {
         if (pendingDeleteDeviceId) {
             deleteDevice.mutate({
-                id: pendingDeleteDeviceId
+                id: [pendingDeleteDeviceId]
             }, {
                 onSettled: onCloseDeleteConfirmDialog
             });
@@ -87,7 +97,7 @@ export const Component = () => {
             Promise
                 .all(devices.map(item => {
                     if (api && item.Id && api.deviceInfo.id === item.Id) {
-                        return deleteDevice.mutateAsync({ id: item.Id });
+                        return deleteDevice.mutateAsync({ id: [item.Id] });
                     }
                     return Promise.resolve();
                 }))
@@ -257,6 +267,8 @@ export const Component = () => {
             title={globalize.translate('HeaderDevices')}
             className='mainAnimatedPage type-interior'
             table={mrTable}
+            isError={isDevicesError || isUsersError}
+            errorMessage={globalize.translate('DevicesLoadError')}
         >
             <ConfirmDialog
                 open={isDeleteConfirmOpen}

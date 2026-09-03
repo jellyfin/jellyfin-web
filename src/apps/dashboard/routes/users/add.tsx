@@ -160,13 +160,17 @@ const UserNew = () => {
                         userPolicy: user.Policy
                     }, {
                         onSuccess: () => {
-                            navigate(`/dashboard/users/profile?userId=${user.Id}`);
+                            navigate(`/dashboard/users/${user.Id}/profile`);
                         },
                         onError: () => {
                             console.error('[usernew] failed to update user policy');
                             setIsErrorToastOpen(true);
                         }
                     });
+                },
+                onError: () => {
+                    loading.hide();
+                    setIsErrorToastOpen(true);
                 }
             });
         };
@@ -231,6 +235,9 @@ const UserNew = () => {
                             label={globalize.translate('LabelName')}
                             required
                         />
+                        <div className='fieldDescription'>
+                            {globalize.translate('LabelUsernameAllowedCharactersHelp')}
+                        </div>
                     </div>
                     <div className='inputContainer'>
                         <Input

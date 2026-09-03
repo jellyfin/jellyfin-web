@@ -2,9 +2,10 @@ import DOMPurify from 'dompurify';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
-import { useCustomSubtitles } from 'apps/stable/features/playback/utils/subtitleStyles';
+import { useCustomSubtitles } from 'apps/legacy/features/playback/utils/subtitleStyles';
 import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleappearancehelper';
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { MediaError } from 'types/mediaError';
@@ -40,10 +41,14 @@ import globalize from '../../lib/globalize';
 import profileBuilder, { canPlaySecondaryAudio } from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/backdrop/backdrop';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
+
+const NATIVE_UNSUPPORTED_SUBTITLE_CODECS = ['ssa', 'ass', 'pgssub', 'dvdsub', 'vobsub'];
+const ASS_SUBTITLE_CODECS = ['ssa', 'ass'];
+const VOBSUB_SUBTITLE_CODECS = ['dvdsub', 'vobsub'];
+const BITMAP_SUBTITLE_ASPECT_MODES = ['stretch', 'contain', 'cover'];
 
 /**
  * Returns resolved URL.
@@ -106,7 +111,7 @@ function enableNativeTrackSupport(mediaSource, track) {
 
     if (track) {
         const format = (track.Codec || '').toLowerCase();
-        if (format === 'ssa' || format === 'ass' || format === 'pgssub') {
+        if (NATIVE_UNSUPPORTED_SUBTITLE_CODECS.includes(format)) {
             return false;
         }
     }
@@ -175,11 +180,54 @@ function getTextTrackUrl(track, item, format) {
     return url;
 }
 
+function getSubtitleFileNameHint(track) {
+    const candidates = [track?.Path, track?.DeliveryUrl];
+    for (const candidate of candidates) {
+        if (!candidate) {
+            continue;
+        }
+
+        const sanitized = candidate.split(/[?#]/)[0];
+        const fileName = sanitized.split(/[\\/]/).pop();
+        if (fileName) {
+            return fileName;
+        }
+    }
+
+    const codec = (track?.Codec || '').toLowerCase();
+    if (VOBSUB_SUBTITLE_CODECS.includes(codec)) {
+        return 'subtitle.mks';
+    }
+
+    return undefined;
+}
+
+function getBitmapSubtitleDisplaySettings() {
+    const aspectMode = userSettings.getSubtitleAppearanceSettings()?.aspectMode;
+    const normalizedAspectMode = typeof aspectMode === 'string' ? aspectMode.toLowerCase() : 'stretch';
+
+    if (BITMAP_SUBTITLE_ASPECT_MODES.includes(normalizedAspectMode)) {
+        return {
+            aspectMode: normalizedAspectMode
+        };
+    }
+
+    return {
+        aspectMode: 'contain'
+    };
+}
+
+function getSubtitleTimeOffset(playOptions, subtitleOffset = 0) {
+    return ((playOptions?.transcodingOffsetTicks || 0) / 10000000) + subtitleOffset;
+}
+
 function getDefaultProfile() {
     return profileBuilder({});
 }
 
 const PRIMARY_TEXT_TRACK_INDEX = 0;
+const VOBSUB_DEBAND_THRESHOLD = 64;
+const VOBSUB_DEBAND_RANGE = 15;
 const SECONDARY_TEXT_TRACK_INDEX = 1;
 
 export class HtmlVideoPlayer {
@@ -228,7 +276,7 @@ export class HtmlVideoPlayer {
     /**
      * @type {any | null | undefined}
      */
-    #currentPgsRenderer;
+    #currentBitmapSubRenderer;
     /**
      * @type {number | undefined}
      */
@@ -277,6 +325,10 @@ export class HtmlVideoPlayer {
      * @type {number}
      */
     #fetchQueue = 0;
+    /**
+     * @type {Map<number, { token: symbol, active: boolean }>}
+     */
+    #pendingSubtitleLoads = new Map();
     /**
      * @type {string | undefined}
      */
@@ -359,6 +411,60 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
+    beginPendingSubtitleLoad(targetTextTrackIndex, loadToken) {
+        const pendingLoad = this.#pendingSubtitleLoads.get(targetTextTrackIndex);
+        if (!pendingLoad || pendingLoad.token !== loadToken || pendingLoad.active) {
+            return;
+        }
+
+        pendingLoad.active = true;
+        this.incrementFetchQueue();
+    }
+
+    /**
+     * @private
+     */
+    endPendingSubtitleLoad(targetTextTrackIndex, loadToken) {
+        const pendingLoad = this.#pendingSubtitleLoads.get(targetTextTrackIndex);
+        if (!pendingLoad || (loadToken && pendingLoad.token !== loadToken)) {
+            return;
+        }
+
+        this.#pendingSubtitleLoads.delete(targetTextTrackIndex);
+        if (pendingLoad.active) {
+            this.decrementFetchQueue();
+        }
+    }
+
+    /**
+     * @private
+     */
+    createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex) {
+        const loadToken = Symbol(String(targetTextTrackIndex));
+        const displaySettings = getBitmapSubtitleDisplaySettings();
+        this.endPendingSubtitleLoad(targetTextTrackIndex);
+        this.#pendingSubtitleLoads.set(targetTextTrackIndex, {
+            token: loadToken,
+            active: false
+        });
+
+        return {
+            video: videoElement,
+            subUrl: getTextTrackUrl(track, item),
+            timeOffset: getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset),
+            streamingLoad: true,
+            rangeRequests: true,
+            prefetchWindow: { before: 1, after: 2 },
+            ...(displaySettings ? { displaySettings } : {}),
+            onLoading: () => this.beginPendingSubtitleLoad(targetTextTrackIndex, loadToken),
+            onLoaded: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken),
+            onError: () => this.endPendingSubtitleLoad(targetTextTrackIndex, loadToken)
+        };
+    }
+
+    /**
+     * @private
+     */
     updateVideoUrl(streamInfo) {
         const mediaSource = streamInfo.mediaSource;
         const item = streamInfo.item;
@@ -400,6 +506,12 @@ export class HtmlVideoPlayer {
         this.#currentTime = null;
 
         if (options.resetSubtitleOffset !== false) this.resetSubtitleOffset();
+
+        if (appSettings.get('subtitlerenderpgs') === 'true') {
+            void import('libbitsub')
+                .then(({ warmup }) => warmup())
+                .catch((error) => console.warn('[libbitsub] worker prewarm failed; renderer fallback will be used', error));
+        }
 
         const elem = await this.createMediaElement(options);
         this.#applyAspectRatio(options.aspectRatio || this.getAspectRatio());
@@ -618,10 +730,10 @@ export class HtmlVideoPlayer {
         // if .ass currently rendering
         if (this.#currentAssRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
-            this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
-        } else if (this.#currentPgsRenderer) {
+            this.#currentAssRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
+        } else if (this.#currentBitmapSubRenderer) {
             this.updateCurrentTrackOffset(offsetValue);
-            this.#currentPgsRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + offsetValue;
+            this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
         } else {
             const trackElements = this.getTextTracks();
             // if .vtt currently rendering
@@ -633,6 +745,7 @@ export class HtmlVideoPlayer {
                 this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, PRIMARY_TEXT_TRACK_INDEX);
                 this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, SECONDARY_TEXT_TRACK_INDEX);
             } else {
+                this.updateCurrentTrackOffset(offsetValue);
                 console.debug('No available track, cannot apply offset: ', offsetValue);
             }
         }
@@ -1011,9 +1124,14 @@ export class HtmlVideoPlayer {
 
             seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
                 if (this.#currentAssRenderer) {
-                    this.#currentAssRenderer.timeOffset = (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000 + this.#currentTrackOffset;
+                    this.#currentAssRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
                     this.#currentAssRenderer.resize();
                     this.#currentAssRenderer.resetRenderAheadCache(false);
+                }
+
+                if (this.#currentBitmapSubRenderer) {
+                    this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                    this.#currentBitmapSubRenderer.updateCanvasSize?.();
                 }
             });
 
@@ -1193,6 +1311,13 @@ export class HtmlVideoPlayer {
      * @private
      */
     destroyCustomTrack(videoElement, targetTrackIndex) {
+        if (targetTrackIndex === undefined) {
+            this.endPendingSubtitleLoad(PRIMARY_TEXT_TRACK_INDEX);
+            this.endPendingSubtitleLoad(SECONDARY_TEXT_TRACK_INDEX);
+        } else {
+            this.endPendingSubtitleLoad(targetTrackIndex);
+        }
+
         this.destroyCustomRenderedTrackElements(targetTrackIndex);
         this.destroyNativeTracks(videoElement, targetTrackIndex);
         this.destroyStoredTrackInfo(targetTrackIndex);
@@ -1203,11 +1328,11 @@ export class HtmlVideoPlayer {
         }
         this.#currentAssRenderer = null;
 
-        const pgsRenderer = this.#currentPgsRenderer;
-        if (pgsRenderer) {
-            pgsRenderer.dispose();
+        const pgsOrVobSubRenderer = this.#currentBitmapSubRenderer;
+        if (pgsOrVobSubRenderer) {
+            pgsOrVobSubRenderer.dispose();
         }
-        this.#currentPgsRenderer = null;
+        this.#currentBitmapSubRenderer = null;
     }
 
     /**
@@ -1358,17 +1483,78 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    renderPgs(videoElement, track, item) {
-        import('libpgs').then((libpgs) => {
-            const aspectRatio = this.getAspectRatio() === 'auto' ? 'contain' : this.getAspectRatio();
-            const options = {
-                video: videoElement,
-                subUrl: getTextTrackUrl(track, item),
-                workerUrl: `${appRouter.baseUrl()}/libraries/libpgs.worker.js`,
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
-                aspectRatio
-            };
-            this.#currentPgsRenderer = new libpgs.PgsRenderer(options);
+    renderPgs(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        const options = this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex);
+        const onLoaded = options.onLoaded;
+        const onError = options.onError;
+        options.onLoaded = () => {
+            if (this.#currentBitmapSubRenderer) {
+                this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                this.#currentBitmapSubRenderer.updateCanvasSize?.();
+            }
+            onLoaded?.();
+        };
+        options.onError = (error) => {
+            console.error('[libbitsub] pgs error', error);
+            onError?.(error);
+        };
+        options.onEvent = (event) => {
+            if (event?.type === 'error' || event?.type === 'loaded' || event?.type === 'cue-change' || event?.type === 'renderer-change' || event?.type === 'worker-state') {
+                console.debug('[libbitsub] pgs', event);
+            }
+        };
+        import('libbitsub').then((libbitsub) => {
+            this.#currentBitmapSubRenderer = new libbitsub.PgsRenderer(options);
+            requestAnimationFrame(() => {
+                if (this.#currentBitmapSubRenderer) {
+                    this.#currentBitmapSubRenderer.updateCanvasSize?.();
+                }
+            });
+        }).catch((error) => {
+            this.endPendingSubtitleLoad(targetTextTrackIndex);
+            console.error(error);
+        });
+    }
+
+    /**
+     * @private
+     */
+    renderVobSub(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
+        const options = {
+            ...this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex),
+            fileName: getSubtitleFileNameHint(track)
+        };
+        const onLoaded = options.onLoaded;
+        const onError = options.onError;
+        options.onLoaded = () => {
+            if (this.#currentBitmapSubRenderer) {
+                this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
+                this.#currentBitmapSubRenderer.setDebandEnabled?.(true);
+                this.#currentBitmapSubRenderer.setDebandThreshold?.(VOBSUB_DEBAND_THRESHOLD);
+                this.#currentBitmapSubRenderer.setDebandRange?.(VOBSUB_DEBAND_RANGE);
+                this.#currentBitmapSubRenderer.updateCanvasSize?.();
+            }
+            onLoaded?.();
+        };
+        options.onError = (error) => {
+            console.error('[libbitsub] vobsub error', error);
+            onError?.(error);
+        };
+        options.onEvent = (event) => {
+            if (event?.type === 'error' || event?.type === 'loaded' || event?.type === 'cue-change' || event?.type === 'renderer-change' || event?.type === 'worker-state') {
+                console.debug('[libbitsub] vobsub', event);
+            }
+        };
+        import('libbitsub').then((libbitsub) => {
+            this.#currentBitmapSubRenderer = new libbitsub.VobSubRenderer(options);
+            requestAnimationFrame(() => {
+                if (this.#currentBitmapSubRenderer) {
+                    this.#currentBitmapSubRenderer.updateCanvasSize?.();
+                }
+            });
+        }).catch((error) => {
+            this.endPendingSubtitleLoad(targetTextTrackIndex);
+            console.error(error);
         });
     }
 
@@ -1377,6 +1563,9 @@ export class HtmlVideoPlayer {
      */
     renderSubtitlesWithCustomElement(videoElement, track, item, targetTextTrackIndex) {
         this.fetchSubtitles(track, item).then((subtitleData) => {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
             const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
 
@@ -1452,12 +1641,16 @@ export class HtmlVideoPlayer {
     async renderTracksEvents(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
         if (!itemHelper.isLocalItem(item) || track.IsExternal) {
             const format = (track.Codec || '').toLowerCase();
-            if (format === 'ssa' || format === 'ass') {
+            if (ASS_SUBTITLE_CODECS.includes(format)) {
                 this.renderSsaAss(videoElement, track, item);
                 return;
             }
             if (format === 'pgssub') {
-                this.renderPgs(videoElement, track, item);
+                this.renderPgs(videoElement, track, item, targetTextTrackIndex);
+                return;
+            }
+            if (VOBSUB_SUBTITLE_CODECS.includes(format)) {
+                this.renderVobSub(videoElement, track, item, targetTextTrackIndex);
                 return;
             }
 
@@ -1490,7 +1683,10 @@ export class HtmlVideoPlayer {
         }
 
         // download the track json
-        this.fetchSubtitles(track, item).then(function (data) {
+        this.fetchSubtitles(track, item).then(data => {
+            // Exit if the video element was destroyed while fetching subtitles
+            if (!this.#mediaElement) return;
+
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
@@ -2083,8 +2279,8 @@ export class HtmlVideoPlayer {
             }
         }
 
-        if (this.#currentPgsRenderer) {
-            this.#currentPgsRenderer.aspectRatio = val === 'auto' ? 'contain' : val;
+        if (this.#currentBitmapSubRenderer) {
+            this.#currentBitmapSubRenderer.updateCanvasSize?.();
         }
     }
 
@@ -2145,6 +2341,8 @@ export class HtmlVideoPlayer {
         };
         categories.push(mediaCategory);
 
+        const mediaInfos = [];
+        mediaInfos.push(this._hlsPlayer ? 'HLS' : 'Video');
         if (playOptions.url) {
             //  create an anchor element (note: no need to append this element to the document)
             let link = document.createElement('a');
@@ -2153,24 +2351,15 @@ export class HtmlVideoPlayer {
             const protocol = (link.protocol || '').replace(':', '');
 
             if (protocol) {
-                mediaCategory.stats.push({
-                    label: globalize.translate('LabelProtocol'),
-                    value: protocol
-                });
+                mediaInfos.push(`(${protocol})`);
             }
 
             link = null;
         }
-
-        if (this._hlsPlayer) {
+        if (mediaInfos.length) {
             mediaCategory.stats.push({
                 label: globalize.translate('LabelStreamType'),
-                value: 'HLS'
-            });
-        } else {
-            mediaCategory.stats.push({
-                label: globalize.translate('LabelStreamType'),
-                value: 'Video'
+                value: mediaInfos.join('  ')
             });
         }
 
@@ -2185,37 +2374,37 @@ export class HtmlVideoPlayer {
         let height = Math.round(rect.height * devicePixelRatio);
         let width = Math.round(rect.width * devicePixelRatio);
 
-        // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
+        const viewInfos = [];
+        // Don't show player dimensions on smart TVs because the app UI could be lower
+        // resolution than the video and this causes users to think there is a problem
         if (width && height && !browser.tv) {
-            videoCategory.stats.push({
-                label: globalize.translate('LabelPlayerDimensions'),
-                value: `${width}x${height}`
-            });
+            viewInfos.push(`${width}x${height}`);
         }
 
         height = mediaElement.videoHeight;
         width = mediaElement.videoWidth;
-
         if (width && height) {
+            viewInfos.push(`${width}x${height}`);
+        }
+        if (viewInfos.length) {
             videoCategory.stats.push({
-                label: globalize.translate('LabelVideoResolution'),
-                value: `${width}x${height}`
+                label: globalize.translate('LabelPlayerSizes'),
+                value: viewInfos.join(' / ')
             });
         }
 
         if (mediaElement.getVideoPlaybackQuality) {
             const playbackQuality = mediaElement.getVideoPlaybackQuality();
-
             const droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
-            videoCategory.stats.push({
-                label: globalize.translate('LabelDroppedFrames'),
-                value: droppedVideoFrames
-            });
-
             const corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
+
+            const qualityInfos = [];
+            qualityInfos.push(droppedVideoFrames);
+            qualityInfos.push(corruptedVideoFrames);
+
             videoCategory.stats.push({
-                label: globalize.translate('LabelCorruptedFrames'),
-                value: corruptedVideoFrames
+                label: globalize.translate('LabelPlaybackQuality'),
+                value: qualityInfos.join(' / ')
             });
         }
 

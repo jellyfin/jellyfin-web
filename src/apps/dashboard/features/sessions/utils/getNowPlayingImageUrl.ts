@@ -7,6 +7,10 @@ const getNowPlayingImageUrl = (item: BaseItemDto) => {
     if (!item.ServerId) return null;
 
     const apiClient = ServerConnections.getApiClient(item.ServerId);
+    if (!apiClient) {
+        console.error('[getNowPlayingImageUrl] No ApiClient instance available for serverId', item.ServerId);
+        return null;
+    }
 
     /* Screen width is multiplied by 0.2, as the there is currently no way to get the width of
                 elements that aren't created yet. */

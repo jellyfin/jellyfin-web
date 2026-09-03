@@ -14,12 +14,15 @@ import LibraryCard from 'apps/dashboard/features/libraries/components/LibraryCar
 import Loading from 'components/loading/LoadingComponent';
 import MediaLibraryCreator from 'components/mediaLibraryCreator/mediaLibraryCreator';
 import getCollectionTypeOptions from 'apps/dashboard/features/libraries/utils/collectionTypeOptions';
-import { queryClient } from 'utils/query/queryClient';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Add from '@mui/icons-material/Add';
+import Alert from '@mui/material/Alert';
+import { useApi } from 'hooks/useApi';
+import { invalidateVirtualFolders } from 'apps/dashboard/features/libraries/api/invalidateVirtualFolders';
 
 export const Component = () => {
-    const { data: virtualFolders, isPending: isVirtualFoldersPending } = useVirtualFolders();
+    const { user } = useApi();
+    const { data: virtualFolders, isPending: isVirtualFoldersPending, isError: isVirtualFoldersError } = useVirtualFolders();
     const startTask = useStartTask();
     const { data: tasks, isPending: isLiveTasksPending } = useLiveTasks({ isHidden: false });
 
@@ -34,13 +37,9 @@ export const Component = () => {
         }) as Promise<boolean>;
 
         void mediaLibraryCreator.then((hasChanges: boolean) => {
-            if (hasChanges) {
-                void queryClient.invalidateQueries({
-                    queryKey: ['VirtualFolders']
-                });
-            }
+            if (hasChanges) invalidateVirtualFolders(user);
         });
-    }, []);
+    }, [ user ]);
 
     const onScanLibraries = useCallback(() => {
         if (librariesTask?.Id) {
@@ -59,47 +58,51 @@ export const Component = () => {
             className='mainAnimatedPage type-interior'
         >
             <Box className='content-primary'>
-                <Stack spacing={3} mt={2}>
-                    <Stack direction='row' alignItems={'center'} spacing={1.5}>
-                        <Button
-                            startIcon={<Add />}
-                            onClick={showMediaLibraryCreator}
-                        >
-                            {globalize.translate('ButtonAddMediaLibrary')}
-                        </Button>
-                        <Button
-                            onClick={onScanLibraries}
-                            startIcon={<RefreshIcon />}
-                            loading={librariesTask && librariesTask.State !== TaskState.Idle}
-                            loadingPosition='start'
-                            variant='outlined'
-                        >
-                            {globalize.translate('ButtonScanAllLibraries')}
-                        </Button>
-                        {(librariesTask && librariesTask.State == TaskState.Running) && (
-                            <TaskProgress task={librariesTask} />
-                        )}
-                    </Stack>
+                {isVirtualFoldersError ? (
+                    <Alert severity='error'>{globalize.translate('LibrariesLoadError')}</Alert>
+                ) : (
+                    <Stack spacing={3} mt={2}>
+                        <Stack direction='row' alignItems={'center'} spacing={1.5}>
+                            <Button
+                                startIcon={<Add />}
+                                onClick={showMediaLibraryCreator}
+                            >
+                                {globalize.translate('ButtonAddMediaLibrary')}
+                            </Button>
+                            <Button
+                                onClick={onScanLibraries}
+                                startIcon={<RefreshIcon />}
+                                loading={librariesTask && librariesTask.State !== TaskState.Idle}
+                                loadingPosition='start'
+                                variant='outlined'
+                            >
+                                {globalize.translate('ButtonScanAllLibraries')}
+                            </Button>
+                            {(librariesTask && librariesTask.State == TaskState.Running) && (
+                                <TaskProgress task={librariesTask} />
+                            )}
+                        </Stack>
 
-                    <Box>
-                        <Grid container spacing={2}>
-                            {virtualFolders?.map(virtualFolder => (
-                                <Grid
-                                    key={virtualFolder?.ItemId}
-                                    item
-                                    xs={12}
-                                    sm={6}
-                                    md={3}
-                                    lg={2.4}
-                                >
-                                    <LibraryCard
-                                        virtualFolder={virtualFolder}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Box>
-                </Stack>
+                        <Box>
+                            <Grid container spacing={2}>
+                                {virtualFolders?.map(virtualFolder => (
+                                    <Grid
+                                        key={virtualFolder?.ItemId}
+                                        item
+                                        xs={12}
+                                        sm={6}
+                                        md={3}
+                                        lg={2.4}
+                                    >
+                                        <LibraryCard
+                                            virtualFolder={virtualFolder}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                    </Stack>
+                )}
             </Box>
         </Page>
     );

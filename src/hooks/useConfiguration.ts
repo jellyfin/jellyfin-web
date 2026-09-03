@@ -1,5 +1,5 @@
 import { Api } from '@jellyfin/sdk';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { useQuery } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import type { AxiosRequestConfig } from 'axios';
@@ -7,7 +7,7 @@ import type { AxiosRequestConfig } from 'axios';
 export const QUERY_KEY = 'Configuration';
 
 export const fetchConfiguration = async (api: Api, options?: AxiosRequestConfig) => {
-    const response = await getConfigurationApi(api).getConfiguration(options);
+    const response = await getSystemApi(api).getConfiguration(options);
 
     return response.data;
 };

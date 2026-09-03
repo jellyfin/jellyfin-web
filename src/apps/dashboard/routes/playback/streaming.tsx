@@ -9,23 +9,23 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { QUERY_KEY, useConfiguration } from 'hooks/useConfiguration';
 import Loading from 'components/loading/LoadingComponent';
 import { ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const { data: config } = await getSystemApi(api).getConfiguration();
     const formData = await request.formData();
 
     const bitrateLimit = formData.get('StreamingBitrateLimit')?.toString();
     config.RemoteClientBitrateLimit = Math.trunc(1e6 * parseFloat(bitrateLimit || '0'));
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
     void queryClient.invalidateQueries({
@@ -42,7 +42,7 @@ export const Component = () => {
     const actionData = useActionData() as ActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
 
-    const { isPending: isConfigurationPending, data: defaultConfiguration } = useConfiguration();
+    const { isPending: isConfigurationPending, isError: isConfigurationError, data: defaultConfiguration } = useConfiguration();
 
     if (isConfigurationPending) {
         return <Loading />;
@@ -56,38 +56,43 @@ export const Component = () => {
         >
             <Box className='content-primary'>
                 <Form method='POST'>
-                    <Stack spacing={3}>
-                        <Typography variant='h1'>
-                            {globalize.translate('TabStreaming')}
-                        </Typography>
+                    {isConfigurationError ? (
+                        <Alert severity='error'>{globalize.translate('StreamingLoadError')}</Alert>
+                    ) : (
+                        <Stack spacing={3}>
+                            <Typography variant='h1'>
+                                {globalize.translate('TabStreaming')}
+                            </Typography>
 
-                        {!isSubmitting && actionData?.isSaved && (
-                            <Alert severity='success'>
-                                {globalize.translate('SettingsSaved')}
-                            </Alert>
-                        )}
+                            {!isSubmitting && actionData?.isSaved && (
+                                <Alert severity='success'>
+                                    {globalize.translate('SettingsSaved')}
+                                </Alert>
+                            )}
 
-                        <TextField
-                            type='number'
-                            inputMode='decimal'
-                            name='StreamingBitrateLimit'
-                            label={globalize.translate('LabelRemoteClientBitrateLimit')}
-                            helperText={globalize.translate('LabelRemoteClientBitrateLimitHelp')}
-                            defaultValue={defaultConfiguration?.RemoteClientBitrateLimit ? defaultConfiguration?.RemoteClientBitrateLimit / 1e6 : ''}
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                    step: 0.25
-                                }
-                            }}
-                        />
-                        <Button
-                            type='submit'
-                            size='large'
-                        >
-                            {globalize.translate('Save')}
-                        </Button>
-                    </Stack>
+                            <TextField
+                                type='number'
+                                inputMode='decimal'
+                                name='StreamingBitrateLimit'
+                                label={globalize.translate('LabelRemoteClientBitrateLimit')}
+                                helperText={globalize.translate('LabelRemoteClientBitrateLimitHelp')}
+                                defaultValue={defaultConfiguration.RemoteClientBitrateLimit ? defaultConfiguration.RemoteClientBitrateLimit / 1e6 : ''}
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        step: 0.25,
+                                        max: 2147.25
+                                    }
+                                }}
+                            />
+                            <Button
+                                type='submit'
+                                size='large'
+                            >
+                                {globalize.translate('Save')}
+                            </Button>
+                        </Stack>
+                    )}
                 </Form>
             </Box>
         </Page>
