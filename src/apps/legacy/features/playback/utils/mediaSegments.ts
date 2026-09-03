@@ -20,6 +20,8 @@ export const isInSegment = (segment: MediaSegmentDto, time: number) => (
 );
 
 export const findCurrentSegment = (segments: MediaSegmentDto[], time: number, lastIndex = 0) => {
+    if (!segments.length) return;
+
     const lastSegment = segments[lastIndex];
     if (isInSegment(lastSegment, time)) {
         return { index: lastIndex, segment: lastSegment };

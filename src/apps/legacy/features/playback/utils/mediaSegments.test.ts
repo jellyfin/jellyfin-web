@@ -65,4 +65,8 @@ describe('findCurrentSegment()', () => {
         segmentDetails = findCurrentSegment(TEST_SEGMENTS, 100);
         expect(segmentDetails).toBeUndefined();
     });
+
+    it('Should return undefined for empty segments', () => {
+        expect(findCurrentSegment([], 0)).toBeUndefined();
+    });
 });
