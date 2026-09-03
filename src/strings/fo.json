@@ -1685,5 +1685,8 @@
     "LabelRecordingPathHelp": "Áset varagoymslustaðið fyri upptøkur. Er teigurin tómur verða upptøkur goymdar í forritsdátuskjáttu ambætarans.",
     "MessageSyncPlayErrorNoActivePlayer": "Eingin virkin spælari funnin. SyncPlay er óvirkja.",
     "LabelMaxDaysForNextUpHelp": "Áset dagatalsmark ið ein sendirøð kann verða í \"Næst á skránni\"-teiginum uttan at hon verður spæld.",
-    "LabelMaxDaysForNextUp": "Dagatalsmark fyri \"Næst á skránni\""
+    "LabelMaxDaysForNextUp": "Dagatalsmark fyri \"Næst á skránni\"",
+    "LabelEnableHttpsHelp": "Lurta á ásetta HTTPS-portrinum. Virknaðurin av hesum er eisini treytaður av at eitt galdandi sertifikat er ásett.",
+    "LabelHttpsPortHelp": "TCP-portur nummarið fyri HTTPS-ambætaran.",
+    "LabelFallbackMaxStreamingBitrate": "Varastroymibitferðahámark (Mbps)"
 }
