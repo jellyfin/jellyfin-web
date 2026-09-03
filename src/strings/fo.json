@@ -1633,5 +1633,6 @@
     "LabelProcessPriority": "Tilgongdarraðfesti",
     "LabelProcessPriorityHelp": "Hettar avgerð hvussu gerilin raðfestur ffmpeg tilgongdina ið framleiðir trickplay-myndir í mun til aðrar tilgongdir. Um tú varnast niðursett avrikaføri undir trickplay-myndaframleiðsluni og ikki ynskir at steðga henni, kanst tú royna at lækka hettar umframt tali av træðrum.",
     "VideoRangeTypeNotSupported": "Virkisføri vantar fyri kykmyndaspennislagnum",
-    "Watch": "Eygleið"
+    "Watch": "Eygleið",
+    "EnableFallbackFont": "Virkja varastavsnið"
 }
