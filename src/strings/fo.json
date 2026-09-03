@@ -1621,5 +1621,13 @@
     "MessageCancelSeriesTimerError": "Ein villa kom fyri tá roynt var at avlýsa upptøku sendiraðarinnar",
     "MessageConfirmShutdown": "Ynskir tú at steðga ambætaranum?",
     "MessageUnauthorizedUser": "Tú hevur ikki atgongd til ambætaran í løtuni. Vinaliga set teg í samband við ambætaraumsitaran fyri nágreiniligari upplýsingar.",
-    "OptionDatePlaylistUpdated": "Broytingardegi spælilistanna"
+    "OptionDatePlaylistUpdated": "Broytingardegi spælilistanna",
+    "MediaInfoElPresentFlag": "DV el-tøkt flagg",
+    "MediaInfoBlPresentFlag": "DV bl-tøkt flagg",
+    "MediaInfoRpuPresentFlag": "DV RPU-tøkt flagg",
+    "LabelProgressAndSpeed": "Støða / ferð",
+    "DirectPlayError": "Ein villa kom fyri tá fari var undir beinleiðis spæling",
+    "VideoRotationNotSupported": "Virkisføri vantar fyri kykmyndasnúningini",
+    "VideoBitDepthNotSupported": "Virkisføri vantar fyri bitdýpd kykmyndarinnar",
+    "AudioBitDepthNotSupported": "Virkisføri vantar fyri bitdýpd ljóðsins"
 }
