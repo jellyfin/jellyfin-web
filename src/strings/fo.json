@@ -284,7 +284,7 @@
     "HeaderUploadLyrics": "Uppsend sangtekstir",
     "HeaderUploadSubtitle": "Uppsend undirtekst",
     "HeaderUser": "Brúkari",
-    "HeaderUsers": "Brúkarir",
+    "HeaderUsers": "Brúkarar",
     "HeaderVideoQuality": "Myndagóðska",
     "HeaderYears": "Ár",
     "Help": "Hjálp",
@@ -913,7 +913,7 @@
     "EnableBackdropsHelp": "Vís bakmyndir í bakgrundini á summum síðum í savninum.",
     "Guide": "Sjónvarpsskrá",
     "HeaderGuideProviders": "Veitarar av sjónvarpsskráum",
-    "HeaderRunningTasks": "Koyrslur í gerð",
+    "HeaderRunningTasks": "Koyrandi koyrslur",
     "HeaderServerMismatch": "Ósambæri við ambætara",
     "HeaderSpecialEpisodeInfo": "Upplýsingar um eykapart",
     "HeaderSyncPlaySettings": "SyncPlay-stillingar",
@@ -1659,5 +1659,12 @@
     "ProductionLocations": "Upptøkustaðir",
     "SettingsWarning": "At broyta hesar stillingar kann elva til óreglusemi ella sambindingartrupulleikar. Um tú renur teg í trupulleikar er tilmælt at broyta stillingarnar aftur til forsettar.",
     "PleaseAddAtLeastOneFolder": "Vinaliga legg í minsta lagi eina skjáttu í hetta savni við at trýsta á \"+\"-knøttin í \"Skjáttur\"-teiginum.",
-    "ReleaseGroup": "Útgávubólkur"
+    "ReleaseGroup": "Útgávubólkur",
+    "UseEpisodeImagesInNextUpHelp": "Brúka smámyndir partanna í staðin fyri høvuðsmynd sendiraðanna í \"Næst á skránni\" og \"Hald á fram at hyggja\"-teigunum.",
+    "HeaderBackupWarning": "GEV GÆTUR: Fyriskipaðar koyrslur koyra",
+    "OptionDisplayFolderView": "Vís eitt skjáttusýni við reiðum miðlaskjáttum",
+    "OptionDisplayFolderViewHelp": "Vís skjáttusýni saman við tínum miðlasøvnum. Hetta er hent um tú ynskir eitt einfaldari skjáttusýni.",
+    "MovieLibraryHelp": "Sí {0}filmanevningaleiðbeiningina{1}.",
+    "MusicLibraryHelp": "Sí {0}tónleiksnevningaleiðbeiningina{1}.",
+    "MoreUsersCanBeAddedLater": "Til ber at leggja fleiri brúkarar inn seinni umvegis yvirlitsskíggjan."
 }
