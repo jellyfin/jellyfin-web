@@ -1688,5 +1688,5 @@
     "LabelMaxDaysForNextUp": "Dagatalsmark fyri \"Næst á skránni\"",
     "LabelEnableHttpsHelp": "Lurta á ásetta HTTPS-portrinum. Virknaðurin av hesum er eisini treytaður av at eitt galdandi sertifikat er ásett.",
     "LabelHttpsPortHelp": "TCP-portur nummarið fyri HTTPS-ambætaran.",
-    "LabelFallbackMaxStreamingBitrate": "Varastroymibitferðahámark (Mbps)"
+    "LabelFallbackMaxStreamingBitrate": "Varastroymibitferðmark (Mbps)"
 }
