@@ -1634,5 +1634,19 @@
     "LabelProcessPriorityHelp": "Hettar avgerð hvussu gerilin raðfestur ffmpeg tilgongdina ið framleiðir trickplay-myndir í mun til aðrar tilgongdir. Um tú varnast niðursett avrikaføri undir trickplay-myndaframleiðsluni og ikki ynskir at steðga henni, kanst tú royna at lækka hettar umframt tali av træðrum.",
     "VideoRangeTypeNotSupported": "Virkisføri vantar fyri kykmyndaspennislagnum",
     "Watch": "Eygleið",
-    "EnableFallbackFont": "Virkja varastavsnið"
+    "EnableFallbackFont": "Virkja varastavsnið",
+    "LabelFallbackFontPath": "Leið til varastavsniðaskjáttu",
+    "HeaderSelectFallbackFontPath": "Áset leið til varastavsniðaskjáttu",
+    "LabelFallbackFontPathHelp": "Summir viðskiftarar nýta hesi stavsnið til endurgeving av undirtekstum. Vinaliga sí skjalfestingina fyri nágreiniligari upplýsingar.",
+    "HeaderSelectFallbackFontPathHelp": "Vel ella inntøppa leiðina til skjáttuna við varastavsniðum ið skulu nýtast til endurgeving av ASS/SSA-undirtekstum.",
+    "EnableFallbackFontHelp": "Virkja tillagaði varastavsnið. Við hesum kann sleppast undan trupulleikanum við skeivari undirtekstaendurgeving.",
+    "WizardCompleted": "Hattar var alt ið tørvur var á á hesum sinni. Jellyfin er fari undir at savna upplýsingar um títt margmiðlasavn. Kunna teg um okkara Jellyfin-viðskiftara-appir. Trýst á <b>Loka</b> til tess at síggja <b>Yvirlitsskíggjan</b>.",
+    "Unwatch": "Steðga eygleiðing",
+    "SearchResultsEmpty": "Haldi okkum til góðar! Leitingin eftir \"{0}\" gav eingi úrslit",
+    "SecondarySubtitles": "Annar undirtekstur",
+    "ViewSettings": "Sí stillingar",
+    "SeriesName": "Navn á sendirøð",
+    "ViewLyrics": "Sí sangtekst",
+    "PreviewLyrics": "Sí sangtekst",
+    "RetryWithGlobalSearch": "Leita í øllum søvnunum"
 }
