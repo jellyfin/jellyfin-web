@@ -184,6 +184,18 @@ export function setOnBeforeChange(fn) {
     onBeforeChange = fn;
 }
 
+/**
+ * Updates the url recorded for the visible page. A page that writes its own state into
+ * the url has to keep this in sync, since restoring a view on back navigation matches
+ * on the url exactly and would otherwise miss and reload the page.
+ * @param {string} url The updated url, in `pathname + search` form.
+ */
+export function updateCurrentViewUrl(url) {
+    if (selectedPageIndex !== -1) {
+        currentUrls[selectedPageIndex] = url;
+    }
+}
+
 export function tryRestoreView(options) {
     console.debug('[viewContainer] tryRestoreView', options);
     const url = options.url;

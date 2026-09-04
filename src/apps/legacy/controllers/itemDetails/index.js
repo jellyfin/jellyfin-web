@@ -2,12 +2,14 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
+import { SeasonPicker } from 'apps/legacy/features/shows/SeasonPicker';
 import { appHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
@@ -30,7 +32,6 @@ import { EventType } from 'constants/eventType';
 import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'utils/dom';
 import { renderComponent } from 'utils/reactUtils';
@@ -40,11 +41,14 @@ import * as userSettings from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { getParameterByName, replaceLocationSearchParam } from 'utils/url';
+import { updateCurrentViewUrl } from 'components/viewContainer';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-button/emby-button';
+import 'elements/emby-button/paper-icon-button-light';
 import 'elements/emby-playstatebutton/emby-playstatebutton';
 import 'elements/emby-ratingbutton/emby-ratingbutton';
 import 'elements/emby-scroller/emby-scroller';
@@ -576,7 +580,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     renderSeriesTimerEditor(page, item, apiClient, user);
     renderTimerEditor(page, item, apiClient, user);
-    setInitialCollapsibleState(page, item, apiClient, params.context, user);
+    setInitialCollapsibleState(page, item, apiClient, params.context, user, instance);
     const canPlay = reloadPlayButtons(page, item);
 
     setTrailerButtonVisibility(page, item);
@@ -783,42 +787,73 @@ function setPeopleHeader(page, item) {
     }
 }
 
-function renderNextUp(page, item, user) {
+/**
+ * Resolves the single episode a series should be "pointed at" for the current user.
+ * The result drives both the Next Up card and the initially selected season, so the
+ * two agree with each other.
+ */
+function resolveNextUpEpisode(api, item, user) {
+    return getShowApi(api)
+        .getNextUp({
+            seriesId: item.Id,
+            userId: user.Id,
+            fields: [ItemFields.MediaSourceCount]
+        })
+        .then(response => response.data?.Items?.[0] || null)
+        .catch(err => {
+            console.error('[resolveNextUpEpisode] failed to get next up episode', err);
+            return null;
+        });
+}
+
+function renderNextUp(page, item, nextUpEpisode) {
     const section = page.querySelector('.nextUpSection');
 
-    if (item.Type != 'Series') {
+    if (item.Type != 'Series' || !nextUpEpisode) {
         section.classList.add('hide');
         return;
     }
 
-    ServerConnections.getApiClient(item.ServerId).getNextUpEpisodes({
-        SeriesId: item.Id,
-        UserId: user.Id,
-        Fields: 'MediaSourceCount'
-    }).then(function (result) {
-        if (result.Items.length) {
-            section.classList.remove('hide');
-        } else {
-            section.classList.add('hide');
-        }
+    section.classList.remove('hide');
 
-        const html = cardBuilder.getCardsHtml({
-            items: result.Items,
-            shape: 'overflowBackdrop',
-            showTitle: true,
-            displayAsSpecial: item.Type == 'Season' && item.IndexNumber,
-            overlayText: false,
-            centerText: true,
-            overlayPlayButton: true
-        });
-        const itemsContainer = section.querySelector('.nextUpItems');
-        itemsContainer.innerHTML = html;
-        imageLoader.lazyChildren(itemsContainer);
+    const itemsContainer = section.querySelector('.nextUpItems');
+    itemsContainer.innerHTML = cardBuilder.getCardsHtml({
+        items: [nextUpEpisode],
+        shape: 'overflowBackdrop',
+        showTitle: true,
+        overlayText: false,
+        centerText: true,
+        overlayPlayButton: true
+    });
+    imageLoader.lazyChildren(itemsContainer);
+}
+
+/**
+ * Renders the Next Up card and the season picker from one next up lookup.
+ */
+function renderSeasons(page, item, user, instance, requestedSeasonId) {
+    const picker = instance?._seasonPicker;
+    const api = ServerConnections.getApi(item.ServerId);
+
+    if (!api) {
+        console.error('[renderSeasons] No Api instance available for server', item.ServerId);
+        page.querySelector('#childrenCollapsible').classList.add('hide');
+        return;
+    }
+
+    return resolveNextUpEpisode(api, item, user).then(nextUpEpisode => {
+        renderNextUp(page, item, nextUpEpisode);
+
+        return picker?.render(api, item, user, nextUpEpisode, requestedSeasonId);
     });
 }
 
-function setInitialCollapsibleState(page, item, apiClient, context, user) {
+function setInitialCollapsibleState(page, item, apiClient, context, user, instance) {
     page.querySelector('.collectionItems').innerHTML = '';
+
+    // #childrenCollapsible is shared with every other item type, so the picker has
+    // to be hidden before anything that is not a series renders into it.
+    instance?._seasonPicker?.hide();
 
     if (item.Type == 'Playlist') {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
@@ -834,7 +869,18 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
             page.querySelector('#childrenCollapsible').classList.add('hide');
         }
 
-        renderChildren(page, item);
+        if (item.Type == 'Series') {
+            // Seasons and episodes render in the secondary container so they span
+            // the full page width rather than sitting in the poster's gutter.
+            page.querySelector('#listChildrenCollapsible').classList.add('hide');
+
+            // Read the season from the live url rather than the route params, since the
+            // picker writes its selection back with replaceState and the router does not
+            // see those updates.
+            renderSeasons(page, item, user, instance, getParameterByName('seasonId'));
+        } else {
+            renderChildren(page, item);
+        }
     } else {
         page.querySelector('#listChildrenCollapsible').classList.add('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
@@ -842,7 +888,6 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
 
     if (item.Type == 'Series') {
         renderSeriesSchedule(page, item);
-        renderNextUp(page, item, user);
     } else {
         page.querySelector('.nextUpSection').classList.add('hide');
     }
@@ -1040,10 +1085,6 @@ function renderDetails(page, instance, item, apiClient, context) {
 
     renderTags(page, item);
     renderSeriesAirTime(page, item);
-}
-
-function enableScrollX() {
-    return browser.mobile && window.screen.availWidth <= 1000;
 }
 
 function renderLyricsContainer(view, item, apiClient) {
@@ -1358,12 +1399,7 @@ function renderChildren(page, item) {
     const apiClient = ServerConnections.getApiClient(item.ServerId);
     const userId = apiClient.getCurrentUserId();
 
-    if (item.Type == 'Series') {
-        promise = apiClient.getSeasons(item.Id, {
-            userId: userId,
-            Fields: fields
-        });
-    } else if (item.Type == 'Season') {
+    if (item.Type == 'Season') {
         fields += ',Overview';
         promise = apiClient.getEpisodes(item.SeriesId, {
             seasonId: item.Id,
@@ -1402,17 +1438,6 @@ function renderChildren(page, item) {
                 containerAlbumArtists: item.AlbumArtists
             });
             isList = true;
-        } else if (item.Type == 'Series') {
-            scrollX = enableScrollX();
-            html = cardBuilder.getCardsHtml({
-                items: result.Items,
-                shape: 'overflowPortrait',
-                showTitle: true,
-                centerText: true,
-                lazy: true,
-                overlayPlayButton: true,
-                allowBottomPadding: !scrollX
-            });
         } else if (item.Type == 'Season' || item.Type == 'Episode') {
             if (item.Type !== 'Episode') {
                 isList = true;
@@ -1508,8 +1533,6 @@ function renderChildren(page, item) {
     let childrenTitle = globalize.translate('Items');
     if (item.Type == 'Season') {
         childrenTitle = globalize.translate('Episodes');
-    } else if (item.Type == 'Series') {
-        childrenTitle = globalize.translate('HeaderSeasons');
     } else if (item.Type == 'MusicAlbum') {
         childrenTitle = globalize.translate('HeaderTracks');
     }
@@ -2083,6 +2106,10 @@ export default function (view, params) {
 
         if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
 
+        // Cached seasons and episodes carry watched state, so drop them on any change
+        // to this user's data rather than trying to match individual episode keys.
+        self._seasonPicker?.invalidate();
+
         const key = currentItem.UserData.Key;
         const userData = (Data?.UserDataList ?? []).find(u => u.Key == key);
 
@@ -2100,6 +2127,14 @@ export default function (view, params) {
         const apiClient = getApiClient();
 
         self._unmount = [];
+        self._seasonPicker = SeasonPicker.create(view, {
+            // Keep the season in the url so a refresh or a shared link reopens it. The
+            // view manager restores a page by matching its url exactly, so the recorded
+            // url has to move with it.
+            onSeasonChange: seasonId => {
+                updateCurrentViewUrl(replaceLocationSearchParam('seasonId', seasonId));
+            }
+        });
 
         bindAll(view, '.btnPlay', 'click', onPlayClick);
         bindAll(view, '.btnReplay', 'click', onPlayClick);
@@ -2154,6 +2189,8 @@ export default function (view, params) {
         view.addEventListener('viewdestroy', function () {
             unmount(self);
 
+            self._seasonPicker?.destroy();
+            self._seasonPicker = null;
             currentItem = null;
             self._currentPlaybackMediaSources = null;
             self.currentRecordingFields = null;
