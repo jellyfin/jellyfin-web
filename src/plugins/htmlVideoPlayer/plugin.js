@@ -254,6 +254,14 @@ export class HtmlVideoPlayer {
      */
     isFetching = false;
     /**
+     * Do we try to use the native loop property on the underlying video element
+     * When true, and the underlying options actually takes effect, we no longer emits
+     * 'stopped' events
+     *
+     * @type {boolean}
+     */
+    isNativeLoop = false;
+    /**
      * @type {HTMLDivElement | null | undefined}
      */
     #videoDialog;
@@ -518,6 +526,13 @@ export class HtmlVideoPlayer {
 
         await this.updateVideoUrl(options);
         return this.setCurrentSrc(elem, options);
+    }
+
+    setNativeLoop(loop) {
+        this.isNativeLoop = loop;
+        if (this.#mediaElement && 'loop' in this.#mediaElement) {
+            this.#mediaElement.loop = loop;
+        }
     }
 
     /**
@@ -1848,6 +1863,10 @@ export class HtmlVideoPlayer {
                 videoElement.addEventListener('waiting', this.onWaiting);
                 if (options.backdropUrl) {
                     videoElement.poster = options.backdropUrl;
+                }
+
+                if ('loop' in videoElement) {
+                    videoElement.loop = this.isNativeLoop;
                 }
 
                 document.body.insertBefore(playerDlg, document.body.firstChild);
