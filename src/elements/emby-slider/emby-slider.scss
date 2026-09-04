@@ -253,18 +253,29 @@
     margin-bottom: 0.25em;
 }
 
-.sliderMarkerContainer {
+.sliderMarkerOuterContainer {
     position: absolute;
     left: 0;
     right: 0;
     margin: 0 0.54em; /* half of slider thumb size */
 }
 
-.sliderMarker {
+.sliderMarkerContainer {
+    z-index: 10;
     position: absolute;
     width: 2px;
     height: 12px;
     transform: translate3d(0, 25%, 0);
+}
+
+.sliderMarker {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.sliderMarker:hover {
+    transform: scale(1.5);
 }
 
 .sliderMarker.unwatched {
@@ -273,4 +284,8 @@
 
 .sliderMarker.watched {
     background-color: #00a4dc;
+}
+
+.sliderMarker.clickable {
+    cursor: pointer;
 }
