@@ -1712,5 +1712,7 @@
     "TvLibraryHelp": "Sí {0}nevningaleiðbeiningina fyri sendirøðir{1}.",
     "ContainerBitrateExceedsLimit": "Bitferð kykmyndarinnar er hægri enn markið",
     "LabelWidthResolutionsHelp": "Kommaskildur listi av breiddum (px) ið trickplay-myndir verða framleiddar í. Allar myndirnar verða framleiddar í støddarlutfalli keldunnar. T.v.s. at við eini breidd á 320 og einum 16:9 kykmyndastøddarlutfalli verða trickplay-myndirnar 320x180 til støddar.",
-    "NewCollectionHelp": "Við samlingum kanst tú gera samansetingar av filmum og øðrum innihaldi sum tær lystir."
+    "NewCollectionHelp": "Við samlingum kanst tú gera samansetingar av filmum og øðrum innihaldi sum tær lystir.",
+    "LabelTrickplayKeyFrameOnlyExtraction": "Framleið einans trickplay-myndir úr lyklamyndum",
+    "LabelTrickplayKeyFrameOnlyExtractionHelp": "Avmarkar trickplay-myndaframleiðslu til at einans verða úr lyklamyndum (keyframes/I-frames), fyri munandi skjótari viðgerð men við størri óneyvleika. Hevur uppsetti tólbúnaðaravkotarin ikki virkisføri fyri hesum verður ritbúnaðaravkotarin brúktur ístaðin."
 }
