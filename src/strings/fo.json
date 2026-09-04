@@ -1708,5 +1708,7 @@
     "OptionWakeFromSleep": "Vakna upp úr dvala",
     "OptionMax": "Mest møguligar",
     "OptionEnableExternalContentInSuggestions": "Loyv innihaldi uttanífrá í uppskotum",
-    "OptionEnableExternalContentInSuggestionsHelp": "Loyv brellbitar frá alnetinum og beinleiðis sjónvarpssendingum í uppskotsteigum."
+    "OptionEnableExternalContentInSuggestionsHelp": "Loyv brellbitar frá alnetinum og beinleiðis sjónvarpssendingum í uppskotsteigum.",
+    "TvLibraryHelp": "Sí {0}nevningaleiðbeiningina fyri sendirøðir{1}.",
+    "ContainerBitrateExceedsLimit": "Bitferð kykmyndarinnar er hægri enn markið"
 }
