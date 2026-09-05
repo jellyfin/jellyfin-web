@@ -1536,7 +1536,9 @@ export default function (view) {
 
     function getImgUrl(item, chapter, index, maxWidth, apiClient) {
         if (chapter.ImageTag) {
-            return apiClient.getScaledImageUrl(item.Id, {
+            const chapterItemId = currentPlayer?.streamInfo?.mediaSource?.Id || item.Id;
+
+            return apiClient.getScaledImageUrl(chapterItemId, {
                 maxWidth: maxWidth,
                 tag: chapter.ImageTag,
                 type: 'Chapter',
