@@ -8,6 +8,7 @@ import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
+import actionsheet from 'components/actionSheet/actionSheet';
 import { appHost } from 'components/apphost';
 import { clearBackdrop, setBackdrops } from 'components/backdrop/backdrop';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
@@ -397,6 +398,40 @@ function reloadUserDataButtons(page, item) {
         } else {
             btnUserRating.classList.add('hide');
             btnUserRating.setItem(null);
+        }
+    }
+
+    reloadMyRatingButtons(page, item);
+}
+
+function reloadMyRatingButtons(page, item) {
+    const btnMyRatings = page.querySelectorAll('.btnMyRating');
+    const rating = item?.UserData?.Rating;
+    const hasRating = rating !== null && rating !== undefined;
+
+    for (let i = 0, length = btnMyRatings.length; i < length; i++) {
+        const btnMyRating = btnMyRatings[i];
+
+        if (itemHelper.canRate(item)) {
+            btnMyRating.classList.remove('hide');
+        } else {
+            btnMyRating.classList.add('hide');
+        }
+
+        btnMyRating.title = hasRating ?
+            globalize.translate('MyRatingValue', rating) :
+            globalize.translate('MyRating');
+
+        // The star never moves; the slot beside it holds a placeholder until
+        // rated. Both are always present, so the button cannot change width.
+        btnMyRating.classList.toggle('is-rated', hasRating);
+
+        const valueElem = btnMyRating.querySelector('.btnMyRatingValue');
+        if (valueElem) {
+            // The picker offers whole numbers; round anything another client stored.
+            valueElem.textContent = hasRating ?
+                Math.round(rating).toLocaleString() :
+                '–';
         }
     }
 }
@@ -2044,6 +2079,64 @@ export default function (view, params) {
         }]);
     }
 
+    function onMyRatingClick(e) {
+        const button = e.currentTarget;
+        const item = currentItem;
+
+        if (!item) {
+            return;
+        }
+
+        const rating = item.UserData?.Rating;
+        const hasRating = rating !== null && rating !== undefined;
+        const items = [];
+
+        // The server stores a 0-10 double; the picker offers whole numbers 1-10.
+        for (let value = 10; value >= 1; value--) {
+            items.push({
+                id: String(value),
+                name: value.toLocaleString(),
+                selected: rating === value
+            });
+        }
+
+        if (hasRating) {
+            items.push({
+                id: 'clear',
+                name: globalize.translate('ClearRating')
+            });
+        }
+
+        actionsheet.show({
+            items: items,
+            positionTo: button
+        }).then(function (id) {
+            if (!id) {
+                return;
+            }
+
+            const apiClient = getApiClient();
+            const userId = apiClient.getCurrentUserId();
+            const isClear = id === 'clear';
+
+            // Replace with a dedicated ApiClient method once one exists for the numeric
+            // rating parameter (jellyfin/jellyfin#17634); updateUserItemRating only
+            // accepts a likes boolean.
+            return apiClient.ajax({
+                type: isClear ? 'DELETE' : 'POST',
+                url: apiClient.getUrl('UserItems/' + item.Id + '/Rating', isClear ?
+                    { userId: userId } :
+                    { userId: userId, rating: id }),
+                dataType: 'json'
+            }).then(function (userData) {
+                item.UserData = userData;
+                reloadUserDataButtons(view, item);
+            });
+        }).catch(function (err) {
+            console.error('[itemDetails] failed to update user rating', err);
+        });
+    }
+
     function onMoreCommandsClick() {
         const button = this;
         let selectedItem = view.querySelector('.selectSource').value || currentItem.Id;
@@ -2113,6 +2206,7 @@ export default function (view, params) {
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, apiClient, params);
         });
+        bindAll(view, '.btnMyRating', 'click', onMyRatingClick);
         bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
         view.querySelector('.selectSource').addEventListener('change', function () {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
