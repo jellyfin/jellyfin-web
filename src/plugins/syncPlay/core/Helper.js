@@ -17,18 +17,13 @@ export const TicksPerMillisecond = 10000.0;
  * Waits for an event to be triggered on an object. An optional timeout can specified after which the promise is rejected.
  * @param {Object} emitter Object on which to listen for events.
  * @param {string} eventType Event name to listen for.
- * @param {number} timeout Time before rejecting promise if event does not trigger, in milliseconds.
- * @param {Array} rejectEventTypes Event names to listen for and abort the waiting.
+ * @param {number} [timeout] Time before rejecting promise if event does not trigger, in milliseconds.
+ * @param {string[]} [rejectEventTypes] Event names to listen for and abort the waiting.
  * @returns {Promise} A promise that resolves when the event is triggered.
  */
 export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) {
     return new Promise((resolve, reject) => {
         let rejectTimeout;
-        if (timeout) {
-            rejectTimeout = setTimeout(() => {
-                reject(new Error('Timed out.'));
-            }, timeout);
-        }
 
         const clearAll = () => {
             Events.off(emitter, eventType, callback);
@@ -60,6 +55,13 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
             rejectEventTypes.forEach(eventName => {
                 Events.on(emitter, eventName, rejectCallback);
             });
+        }
+
+        if (timeout) {
+            rejectTimeout = setTimeout(() => {
+                clearAll();
+                reject(new Error('Timed out.'));
+            }, timeout);
         }
     });
 }
