@@ -23,13 +23,13 @@ const fetchBackups = async (api: Api, options?: AxiosRequestConfig) => {
     return backups;
 };
 
-export const useBackups = () => {
+export const useBackups = (isEnabled = true) => {
     const { api } = useApi();
 
     return useQuery({
         queryKey: [ QUERY_KEY ],
         queryFn: ({ signal }) =>
             fetchBackups(api!, { signal }),
-        enabled: !!api
+        enabled: !!api && isEnabled
     });
 };
