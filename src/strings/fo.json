@@ -1721,5 +1721,9 @@
     "DefaultMetadataLangaugeDescription": "Hettar eru tínar forsettu stillingar og kunnu tær eisini tillagast fyri hvørt savn.",
     "EnableStreamLooping": "Sjálvvirkandi endurumbøn av beinleiðis stroymum",
     "HeaderKodiMetadataHelp": "NFO-metadátur kunnu virkjast og óvirkjast fyri hvørt savn undir \"Metadátuskrivarar\"-teiginum.",
-    "HeaderIdentifyItemHelp": "Inntøppa eitt ella fleiri leitiorð. Færri leitiorð økja um úrslitini."
+    "HeaderIdentifyItemHelp": "Inntøppa eitt ella fleiri leitiorð. Færri leitiorð økja um úrslitini.",
+    "MessageSyncPlayDisabled": "SyncPlay er óvirkt.",
+    "MessageSyncPlayEnabled": "SyncPlay er virkt.",
+    "MessageNoNextUpItems": "Einki á skránni. Byrja at hyggja eftir sendirøðum!",
+    "Mixer": "Ljóðblandari"
 }
