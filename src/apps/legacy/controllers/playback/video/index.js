@@ -211,13 +211,8 @@ export default function (view) {
         btnFastForward.disabled = false;
         btnRewind.disabled = false;
 
-        if (playbackManager.subtitleTracks(player).length) {
-            view.querySelector('.btnSubtitles').classList.remove('hide');
-            toggleSubtitleSync();
-        } else {
-            view.querySelector('.btnSubtitles').classList.add('hide');
-            toggleSubtitleSync('forceToHide');
-        }
+        refreshSubtitleEditingPermission(item);
+        updateSubtitleButton(player);
 
         if (playbackManager.audioTracks(player).length > 1) {
             view.querySelector('.btnAudio').classList.remove('hide');
@@ -232,6 +227,41 @@ export default function (view) {
             view.querySelector('.btnPreviousChapter').classList.add('hide');
             view.querySelector('.btnNextChapter').classList.add('hide');
         }
+    }
+
+    function updateSubtitleButton(player) {
+        const subtitleTracks = playbackManager.subtitleTracks(player).length > 0;
+
+        if (subtitleTracks || canEditSubtitles) {
+            view.querySelector('.btnSubtitles').classList.remove('hide');
+        } else {
+            view.querySelector('.btnSubtitles').classList.add('hide');
+        }
+
+        toggleSubtitleSync(subtitleTracks ? undefined : 'forceToHide');
+    }
+
+    function refreshSubtitleEditingPermission(item) {
+        if (subtitleEditingItemId === item.Id) {
+            return;
+        }
+
+        subtitleEditingItemId = item.Id;
+        canEditSubtitles = false;
+
+        if (!item.ServerId) {
+            return;
+        }
+
+        ServerConnections.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+            canEditSubtitles = itemHelper.canEditSubtitles(user, item);
+
+            if (currentPlayer) {
+                updateSubtitleButton(currentPlayer);
+            }
+        }).catch(function (err) {
+            console.error('[videoosd] failed to read subtitle permissions', err);
+        });
     }
 
     function setTitle(item, parentName) {
@@ -1130,13 +1160,13 @@ export default function (view) {
         });
 
         /**
-            * Only show option if:
-            * - player has support
-            * - has more than 1 subtitle track
-            * - has valid secondary tracks
-            * - primary subtitle is not off
-            * - primary subtitle has support
-            */
+         * Only show option if:
+         * - player has support
+         * - has more than 1 subtitle track
+         * - has valid secondary tracks
+         * - primary subtitle is not off
+         * - primary subtitle has support
+         */
         const currentTrackCanAddSecondarySubtitle = playbackManager.playerHasSecondarySubtitleSupport(player)
                 && streams.length > 1
                 && secondaryStreams.length > 0
@@ -1149,6 +1179,16 @@ export default function (view) {
                 id: 'secondarysubtitle'
             };
             menuItems.unshift(secondarySubtitleMenuItem);
+        }
+
+        if (canEditSubtitles) {
+            menuItems.push({
+                divider: true
+            }, {
+                name: globalize.translate('EditSubtitles'),
+                id: 'editsubtitles',
+                icon: 'closed_caption'
+            });
         }
 
         const positionTo = this;
@@ -1165,6 +1205,8 @@ export default function (view) {
                     } catch (e) {
                         console.error(e);
                     }
+                } else if (id === 'editsubtitles') {
+                    showSubtitleEditor();
                 } else {
                     const index = parseInt(id, 10);
 
@@ -1180,6 +1222,23 @@ export default function (view) {
 
             setTimeout(resetIdle, 0);
         });
+    }
+
+    function showSubtitleEditor() {
+        if (!currentPlayer || !currentItem) {
+            return;
+        }
+
+        import('components/subtitleeditor/subtitleeditor')
+            .then(({ default: subtitleEditor }) => subtitleEditor.show(currentItem.Id, currentItem.ServerId))
+            .then(() => playbackManager.refreshMediaSource(currentPlayer)
+                .catch(
+                    (err) => {
+                        console.error('[videoosd] failed to refresh the subtitle tracks', err)
+                    }))
+            // The editor rejects when it is closed without changes
+            .catch(() => { /* no changes */ })
+            .finally(resetIdle);
     }
 
     function toggleSubtitleSync(action) {
@@ -1199,9 +1258,9 @@ export default function (view) {
     }
 
     /**
-         * Clicked element.
-         * To skip 'click' handling on Firefox/Edge.
-         */
+     * Clicked element.
+     * To skip 'click' handling on Firefox/Edge.
+     */
     let clickedElement;
 
     function onClickCapture(e) {
@@ -1635,6 +1694,8 @@ export default function (view) {
     let programEndDateMs = 0;
     let playbackStartTimeTicks = 0;
     let subtitleSyncOverlay;
+    let canEditSubtitles = false;
+    let subtitleEditingItemId = null;
     let trickplayResolution = null;
     const nowPlayingVolumeSlider = view.querySelector('.osdVolumeSlider');
     const nowPlayingVolumeSliderContainer = view.querySelector('.osdVolumeSliderContainer');
