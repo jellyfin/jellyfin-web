@@ -15,6 +15,8 @@ import { translateHtml } from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import Events from '../../utils/events.ts';
 import { renderComponent } from '../../utils/reactUtils';
+import { createEpubLocationCache } from '../../utils/bookPlayerLocationCache';
+import { prepareEpubLocations } from '../../utils/bookPlayerLocations';
 
 import 'material-design-icons-iconfont';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -56,7 +58,8 @@ export class BookPlayer {
     }
 
     play(options) {
-        this.progress = 0;
+        this.locationPreparation?.cancel();
+        this.progress = (options.startPositionTicks || 0) / 10000000;
         this.cancellationToken = false;
         this.loaded = false;
 
@@ -67,6 +70,8 @@ export class BookPlayer {
     }
 
     stop() {
+        this.cancellationToken = true;
+        this.locationPreparation?.cancel();
         this.unbindEvents();
         this.unmountBookOsd();
         screenSaverManager.unblock();
@@ -97,7 +102,6 @@ export class BookPlayer {
 
         // hide loader in case player was not fully loaded yet
         loading.hide();
-        this.cancellationToken = true;
     }
 
     destroy() {
@@ -316,7 +320,7 @@ export class BookPlayer {
         return elem;
     }
 
-    setCurrentSrc(elem, options) {
+    async setCurrentSrc(elem, options) {
         const item = options.items[0];
         this.item = item;
         this.streamInfo = {
@@ -328,58 +332,53 @@ export class BookPlayer {
             }
         };
 
-        return new Promise((resolve, reject) => {
-            import('epubjs').then(({ default: epubjs }) => {
-                const api = ServerConnections.getApi(item.ServerId);
-                if (!api) {
-                    console.error('[BookPlayer] no Api instance available for server', item.ServerId);
-                    return;
-                }
-                const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
-                const book = epubjs(downloadHref, { openAs: 'epub' });
+        try {
+            const { default: epubjs } = await import('epubjs');
+            if (this.cancellationToken || this.mediaElement !== elem || this.item !== item) return;
 
-                const rendition = book.renderTo('bookPlayerContainer', {
-                    width: '100%',
-                    height: '100%',
-                    // TODO: Add option for scrolled-doc
-                    flow: 'paginated'
-                });
-
-                this.currentSrc = () => downloadHref;
-                this.rendition = rendition;
-
-                return rendition.display().then(() => {
-                    const epubElem = document.querySelector('.epub-container');
-                    epubElem.style.opacity = '0';
-
-                    this.bindEvents();
-
-                    return this.rendition.book.locations.generate(1024).then(async () => {
-                        if (this.cancellationToken) reject();
-
-                        const percentageTicks = options.startPositionTicks / 10000000;
-                        if (percentageTicks !== 0.0) {
-                            const resumeLocation = book.locations.cfiFromPercentage(percentageTicks);
-                            await rendition.display(resumeLocation);
-                        }
-
-                        this.loaded = true;
-                        epubElem.style.opacity = '';
-                        rendition.on('relocated', (locations) => {
-                            this.progress = book.locations.percentageFromCfi(locations.start.cfi);
-                            Events.trigger(this, 'pause');
-                        });
-
-                        this.setTheme(this.theme, this.fontSize);
-                        loading.hide();
-                        return resolve();
-                    });
-                }, () => {
-                    console.error('failed to display epub');
-                    return reject();
-                });
+            const api = ServerConnections.getApi(item.ServerId);
+            if (!api) throw new Error('[BookPlayer] no Api instance available');
+            const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
+            const book = epubjs(downloadHref, { openAs: 'epub' });
+            const rendition = book.renderTo('bookPlayerContainer', {
+                width: '100%',
+                height: '100%',
+                // TODO: Add option for scrolled-doc
+                flow: 'paginated'
             });
-        });
+            this.currentSrc = () => downloadHref;
+            this.rendition = rendition;
+
+            await rendition.display();
+            if (this.cancellationToken || this.rendition !== rendition) return;
+
+            this.bindEvents();
+            this.loaded = true;
+            this.setTheme(this.theme, this.fontSize);
+            loading.hide();
+
+            const cache = createEpubLocationCache(item, book);
+            this.locationPreparation = prepareEpubLocations({
+                locations: book.locations,
+                rendition,
+                startPercentage: (options.startPositionTicks || 0) / 10000000,
+                onProgress: percentage => {
+                    this.progress = percentage;
+                    Events.trigger(this, 'pause');
+                },
+                beforeIndexing: () => new Promise(resolve => {
+                    requestAnimationFrame(() => requestAnimationFrame(resolve));
+                }),
+                loadLocations: cache.load,
+                saveLocations: cache.save
+            });
+            this.locationsReady = this.locationPreparation.ready.catch(error => {
+                console.error('[BookPlayer] failed to prepare EPUB locations', error);
+            });
+        } catch (error) {
+            if (!this.cancellationToken && this.mediaElement === elem && this.item === item) loading.hide();
+            throw error;
+        }
     }
 
     canPlayMediaType(mediaType) {
