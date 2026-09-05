@@ -1,3 +1,4 @@
+import { getBookResumePosition } from '../../utils/bookPlayerResume';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 
 import { PluginType } from 'constants/pluginType';
@@ -55,7 +56,11 @@ export class BookPlayer {
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
-    play(options) {
+    async play(options) {
+        const item = options.items[0];
+        const startPositionTicks = await getBookResumePosition(
+            ServerConnections.getApiClient(item.ServerId), item, options.startPositionTicks
+        );
         this.progress = 0;
         this.cancellationToken = false;
         this.loaded = false;
@@ -63,7 +68,7 @@ export class BookPlayer {
         screenSaverManager.block();
         loading.show();
         const elem = this.createMediaElement(options);
-        return this.setCurrentSrc(elem, options);
+        return this.setCurrentSrc(elem, { ...options, startPositionTicks });
     }
 
     stop() {

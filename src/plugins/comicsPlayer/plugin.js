@@ -1,3 +1,4 @@
+import { getBookResumePosition } from '../../utils/bookPlayerResume';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { Archive } from 'libarchive.js';
 
@@ -40,7 +41,11 @@ export class ComicsPlayer {
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
     }
 
-    play(options) {
+    async play(options) {
+        const item = options.items[0];
+        const startPositionTicks = await getBookResumePosition(
+            ServerConnections.getApiClient(item.ServerId), item, options.startPositionTicks
+        );
         this.currentPage = 0;
         this.pageCount = 0;
 
@@ -49,7 +54,7 @@ export class ComicsPlayer {
 
         screenSaverManager.block();
         const elem = this.createMediaElement(options);
-        return this.setCurrentSrc(elem, options);
+        return this.setCurrentSrc(elem, { ...options, startPositionTicks });
     }
 
     stop() {
