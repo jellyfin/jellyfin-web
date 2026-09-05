@@ -1716,5 +1716,9 @@
     "LabelTrickplayKeyFrameOnlyExtraction": "Framleið einans trickplay-myndir úr lyklamyndum",
     "LabelTrickplayKeyFrameOnlyExtractionHelp": "Avmarkar trickplay-myndaframleiðslu til at einans verða úr lyklamyndum (keyframes/I-frames), fyri munandi skjótari viðgerð men við størri óneyvleika. Hevur uppsetti tólbúnaðaravkotarin ikki virkisføri fyri hesum verður ritbúnaðaravkotarin brúktur ístaðin.",
     "MediaInfoRefFrames": "Tilvísingarmyndir",
-    "RefFramesNotSupported": "Virkisføri vantar fyri tilvísingarmyndum"
+    "RefFramesNotSupported": "Virkisføri vantar fyri tilvísingarmyndum",
+    "ChangingMetadataImageSettingsNewContent": "Broytingar av metadátu- og metadátuútveganarstillingum gerast einans galdandi fyri nýtt innihald lagt afturat savninum. Fyri at broytingarnar skulu gerast galdandi fyri núverandi miðlar noyðist tú at hand-endurinnlesa metadátur teirra.",
+    "DefaultMetadataLangaugeDescription": "Hettar eru tínar forsettu stillingar og kunnu tær eisini tillagast fyri hvørt savn.",
+    "EnableStreamLooping": "Sjálvvirkandi endurumbøn av beinleiðis stroymum",
+    "HeaderKodiMetadataHelp": "NFO-metadátur kunnu virkjast og óvirkjast fyri hvørt savn undir \"Metadátuskrivarar\"-teiginum."
 }
