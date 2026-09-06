@@ -344,5 +344,7 @@
     "LabelDisplaySpecialsWithinSeasons": "แสดงรายการพิเศษภายในซีซั่นที่ออกอากาศ",
     "HeaderActivity": "กิจกรรม",
     "LabelScreensaverTimeHelp": "ระยะเวลาในหน่วยวินาทีที่ไม่มีการใช้งานใด ๆ ที่จะทำให้โปรแกรมรักษาหน้าจอเริ่มทำงาน",
-    "LastSeen": "กิจกรรมล่าสุด {0}"
+    "LastSeen": "กิจกรรมล่าสุด {0}",
+    "Disabled": "ปิดใช้งาน",
+    "Watch": "รับชม"
 }
