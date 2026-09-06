@@ -149,7 +149,7 @@ function getItemsForPlayback(serverId, query) {
         } else {
             query.Limit = query.Limit || 300;
         }
-        query.Fields = ['Chapters', 'Trickplay'];
+        query.Fields = [ItemFields.Chapters, ItemFields.MediaSources, ItemFields.Trickplay];
         query.ExcludeLocationTypes = 'Virtual';
         query.EnableTotalRecordCount = false;
         query.CollapseBoxSetItems = false;
@@ -2684,7 +2684,16 @@ export class PlaybackManager {
                 const deviceProfile = responses[1];
                 const user = responses[2];
                 const sourceItem = responses[3];
-                const mediaStreams = sourceItem?.MediaStreams || [];
+
+                // Queued items do not always carry their media sources, in which case the version
+                // to keep playing can only be matched on the item fetched for playback.
+                const versionSource = mediaSourceId ? null : getMatchingMediaSource(sourceItem?.MediaSources, prevSource);
+
+                if (versionSource) {
+                    mediaSourceId = versionSource.Id;
+                }
+
+                const mediaStreams = versionSource?.MediaStreams || sourceItem?.MediaStreams || [];
 
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
@@ -3186,31 +3195,16 @@ export class PlaybackManager {
             };
         }
 
-        // Find the id of the version (media source) of an item whose name matches the
-        // currently playing version, so track navigation keeps the same version across episodes.
-        function getMatchingMediaSourceId(apiClient, item, prevSource) {
+        // Find the version (media source) whose name matches the currently playing version,
+        // so track navigation keeps the same version across episodes.
+        function getMatchingMediaSource(mediaSources, prevSource) {
             const versionName = prevSource?.Name;
-            if (!versionName || !prevSource.hasAlternateVersions) {
-                return Promise.resolve(null);
+
+            if (!versionName || !prevSource.hasAlternateVersions || (mediaSources?.length ?? 0) < 2) {
+                return null;
             }
 
-            const findMatch = function (mediaSources) {
-                if (!mediaSources || mediaSources.length < 2) {
-                    return null;
-                }
-                const match = mediaSources.find(source => source.Name === versionName);
-                return match ? match.Id : null;
-            };
-
-            // Queues built here request the media sources, so the merged alternate versions
-            // are already available. Items queued elsewhere may not carry them at all.
-            if (item.MediaSources) {
-                return Promise.resolve(findMatch(item.MediaSources));
-            }
-
-            return apiClient.getItem(apiClient.getCurrentUserId(), item.Id)
-                .then(fullItem => findMatch(fullItem.MediaSources))
-                .catch(() => null);
+            return mediaSources.find(source => source.Name === versionName);
         }
 
         self.nextTrack = function (player) {
@@ -3226,17 +3220,15 @@ export class PlaybackManager {
 
                 const prevSource = getPreviousSource(player);
                 const newItemPlayOptions = newItemInfo.item.playOptions || getDefaultPlayOptions();
-                const apiClient = ServerConnections.getApiClient(newItemInfo.item.ServerId);
+                const versionSource = getMatchingMediaSource(newItemInfo.item.MediaSources, prevSource);
 
-                getMatchingMediaSourceId(apiClient, newItemInfo.item, prevSource).then(function (mediaSourceId) {
-                    if (mediaSourceId) {
-                        newItemPlayOptions.mediaSourceId = mediaSourceId;
-                    }
+                if (versionSource) {
+                    newItemPlayOptions.mediaSourceId = versionSource.Id;
+                }
 
-                    playInternal(newItemInfo.item, newItemPlayOptions, function () {
-                        setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
-                    }, prevSource);
-                });
+                playInternal(newItemInfo.item, newItemPlayOptions, function () {
+                    setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
+                }, prevSource);
             }
         };
 
@@ -3255,17 +3247,15 @@ export class PlaybackManager {
                     const prevSource = getPreviousSource(player);
                     const newItemPlayOptions = newItem.playOptions || getDefaultPlayOptions();
                     newItemPlayOptions.startPositionTicks = 0;
-                    const apiClient = ServerConnections.getApiClient(newItem.ServerId);
+                    const versionSource = getMatchingMediaSource(newItem.MediaSources, prevSource);
 
-                    getMatchingMediaSourceId(apiClient, newItem, prevSource).then(function (mediaSourceId) {
-                        if (mediaSourceId) {
-                            newItemPlayOptions.mediaSourceId = mediaSourceId;
-                        }
+                    if (versionSource) {
+                        newItemPlayOptions.mediaSourceId = versionSource.Id;
+                    }
 
-                        playInternal(newItem, newItemPlayOptions, function () {
-                            setPlaylistState(newItem.PlaylistItemId, newIndex);
-                        }, prevSource);
-                    });
+                    playInternal(newItem, newItemPlayOptions, function () {
+                        setPlaylistState(newItem.PlaylistItemId, newIndex);
+                    }, prevSource);
                 }
             }
         };
