@@ -6,6 +6,7 @@ import { StillWatchingOptions } from 'plugins/stillWatching/constants';
 import Events from 'utils/events';
 import { queryClient } from 'utils/query/queryClient';
 import { toBoolean } from 'utils/string';
+import { hasCoarsePointer } from 'utils/pointer';
 
 import browser from '../browser';
 import appSettings from './appSettings';
@@ -234,6 +235,20 @@ export class UserSettings {
         }
 
         return toBoolean(this.get('enableNextVideoInfoOverlay', false), true);
+    }
+
+    /**
+     * Get or set video player touch gestures.
+     * Default is on only when the primary pointer is coarse (phone-like).
+     * @param {boolean|undefined} [val] - Enable flag or undefined to read.
+     * @return {boolean} Whether touch gestures are enabled.
+     */
+    enableVideoTouchGestures(val) {
+        if (val !== undefined) {
+            return this.set('enableVideoTouchGestures', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableVideoTouchGestures', false), hasCoarsePointer());
     }
 
     /**
@@ -731,6 +746,7 @@ export const limitSegmentLength = currentSettings.limitSegmentLength.bind(curren
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
+export const enableVideoTouchGestures = currentSettings.enableVideoTouchGestures.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);

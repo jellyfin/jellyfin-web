@@ -7,6 +7,7 @@ import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
 import { EventType } from 'constants/eventType';
 
 import { playbackManager } from 'components/playback/playbackmanager';
+import { VideoTouchGestures } from 'components/playback/videoTouchGestures';
 import browser from 'scripts/browser';
 import dom from 'utils/dom';
 import inputManager from 'scripts/inputManager';
@@ -737,7 +738,8 @@ export default function (view) {
         }
 
         btnPlayPauseIcon.classList.add(icon);
-        dom.setElementTitle(btnPlayPause, title + ' (K)', title);
+        const touchHint = globalize.translate('TouchGestureDoubleTapCenter');
+        dom.setElementTitle(btnPlayPause, `${title} (K) / ${touchHint}`, title);
     }
 
     function updatePlayerStateInternal(event, player, state) {
@@ -1758,6 +1760,7 @@ export default function (view) {
         });
         inputManager.off(window, onInputCommand);
         Events.off(playbackManager, 'playerchange', onPlayerChange);
+        document.removeEventListener('webkitbeginfullscreen', onWebkitBeginFullscreen, true);
         releaseCurrentPlayer();
     });
     view.querySelector('.btnFullscreen').addEventListener('click', function () {
@@ -1780,6 +1783,11 @@ export default function (view) {
             self.touchHelper = null;
         }
 
+        if (self.videoTouchGestures) {
+            self.videoTouchGestures.destroy();
+            self.videoTouchGestures = null;
+        }
+
         if (recordingButtonManager) {
             recordingButtonManager.destroy();
             recordingButtonManager = null;
@@ -1789,6 +1797,10 @@ export default function (view) {
         destroySubtitleSync();
     });
     let lastPointerDown = 0;
+    let lastPointerTypeForGestures = 'mouse';
+    /** Brief window to dismiss iOS native fullscreen if a touch gesture still triggers it. */
+    let suppressNativeFullscreenUntil = 0;
+
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
         if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
@@ -1797,10 +1809,16 @@ export default function (view) {
         }
 
         const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+        lastPointerTypeForGestures = pointerType;
         const now = new Date().getTime();
 
         switch (pointerType) {
             case 'touch':
+                // When touch gestures are enabled, VideoTouchGestures owns single/double-tap.
+                if (userSettings.enableVideoTouchGestures()) {
+                    break;
+                }
+
                 if (now - lastPointerDown > 300) {
                     lastPointerDown = now;
                     toggleOsd();
@@ -1833,9 +1851,108 @@ export default function (view) {
     });
 
     dom.addEventListener(view, 'dblclick', (e) => {
+        // Touch double-tap synthesizes dblclick → webkitEnterFullscreen → native iOS player.
+        if (lastPointerTypeForGestures === 'touch'
+            || (userSettings.enableVideoTouchGestures() && lastPointerTypeForGestures !== 'mouse')
+            || Date.now() < suppressNativeFullscreenUntil) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
+
         if (e.target !== view) return;
         playbackManager.toggleFullscreen(currentPlayer);
-    });
+    }, true);
+
+    function onWebkitBeginFullscreen(e) {
+        if (Date.now() >= suppressNativeFullscreenUntil) {
+            return;
+        }
+
+        const video = e?.target;
+        if (video?.webkitExitFullscreen) {
+            try {
+                video.webkitExitFullscreen();
+            } catch {
+                // Ignore if exit is unavailable mid-transition.
+            }
+        }
+    }
+
+    document.addEventListener('webkitbeginfullscreen', onWebkitBeginFullscreen, true);
+
+    /* eslint-disable-next-line compat/compat */
+    const SyncPlayPlugin = window.PointerEvent
+        ? pluginManager.firstOfType(PluginType.SyncPlay)?.instance
+        : null;
+    let previousPlaybackRate = null;
+
+    /* eslint-disable-next-line compat/compat */
+    if (window.PointerEvent) {
+        if (self.videoTouchGestures) {
+            self.videoTouchGestures.destroy();
+            self.videoTouchGestures = null;
+        }
+
+        self.videoTouchGestures = new VideoTouchGestures({
+            element: view,
+            feedbackElement: view.querySelector('.videoTouchGestureFeedback'),
+            isEnabled: () => userSettings.enableVideoTouchGestures(),
+            canSeek: () => {
+                const state = currentPlayer && playbackManager.getPlayerState(currentPlayer);
+                return !!state?.PlayState?.CanSeek;
+            },
+            isSyncPlayActive: () => !!SyncPlayPlugin?.Manager?.isSyncPlayEnabled(),
+            getSkipBackSeconds: () => Math.round(userSettings.skipBackLength() / 1000),
+            getSkipForwardSeconds: () => Math.round(userSettings.skipForwardLength() / 1000),
+            isPaused: () => !!(currentPlayer && playbackManager.paused(currentPlayer)),
+            isPlaying: () => !!(currentPlayer && !playbackManager.paused(currentPlayer)),
+            isInteractiveTarget: (target) => {
+                if (!(target instanceof Element)) {
+                    return false;
+                }
+
+                return !!target.closest([
+                    'button',
+                    'input',
+                    'textarea',
+                    'select',
+                    'a',
+                    '[role="button"]',
+                    '.videoOsdBottom',
+                    '.upNextContainer',
+                    '.dialog',
+                    '.dialogContainer',
+                    '.actionSheet',
+                    '.toast',
+                    '.subtitleSyncContainer'
+                ].join(','));
+            },
+            onGesture: () => {
+                suppressNativeFullscreenUntil = Date.now() + 1000;
+            },
+            onToggleOsd: () => toggleOsd(),
+            onSeekBackward: () => playbackManager.rewind(currentPlayer),
+            onSeekForward: () => playbackManager.fastForward(currentPlayer),
+            onPlayPause: () => playbackManager.playPause(currentPlayer),
+            onRateBoostStart: () => {
+                if (!currentPlayer) {
+                    return;
+                }
+
+                previousPlaybackRate = playbackManager.getPlaybackRate(currentPlayer);
+                playbackManager.setPlaybackRate(2, currentPlayer);
+            },
+            onRateBoostEnd: () => {
+                if (!currentPlayer || previousPlaybackRate == null) {
+                    return;
+                }
+
+                playbackManager.setPlaybackRate(previousPlaybackRate, currentPlayer);
+                previousPlaybackRate = null;
+            }
+        });
+    }
 
     view.querySelector('.buttonMute').addEventListener('click', function () {
         playbackManager.toggleMute(currentPlayer);

@@ -47,6 +47,11 @@
 
 .osdHeader-hidden {
     opacity: 0;
+    pointer-events: none !important;
+}
+
+.osdHeader-hidden .headerTop {
+    pointer-events: none !important;
 }
 
 .osdHeader .headerTop {
@@ -117,6 +122,12 @@
 
 .videoOsdBottom-hidden {
     opacity: 0;
+    /* Hidden OSD must not intercept taps (opacity alone still leaves children clickable). */
+    pointer-events: none !important;
+}
+
+.videoOsdBottom-hidden .osdControls {
+    pointer-events: none !important;
 }
 
 .osdControls {
