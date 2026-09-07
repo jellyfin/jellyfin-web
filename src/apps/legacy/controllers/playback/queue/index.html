@@ -12,7 +12,10 @@
                         <h2 class="nowPlayingPageTitle"></h2>
                         <div style="font-weight: bold;" class="nowPlayingSongName nowPlayingEpisode"></div>
                         <div class="nowPlayingAlbum nowPlayingSeason"></div>
-                        <div class="nowPlayingArtist nowPlayingSerie"></div>
+                        <div class="nowPlayingArtistChapterLine">
+                            <span class="nowPlayingArtist nowPlayingSerie"></span>
+                            <span class="nowPlayingChapterName hide"></span>
+                        </div>
                     </div>
                     <div class="nowPlayingPageUserDataButtonsTitle"></div>
 
@@ -21,6 +24,7 @@
                 <div class="sliderContainer flex" dir="ltr">
                     <div class="positionTime"></div>
                         <div class="nowPlayingPositionSliderContainer">
+                            <div class="sliderMarkerContainer"></div>
                             <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider" data-slider-keep-progress="true" />
                         </div>
                     <div class="runtime"></div>
@@ -37,6 +41,10 @@
 
                         <button is="paper-icon-button-light" class="btnRewind btnNowPlayingRewind btnPlayStateCommand autoSize" title="${Rewind}">
                             <span class="material-icons replay_10" aria-hidden="true"></span>
+                        </button>
+
+                        <button is="paper-icon-button-light" class="btnPreviousChapter btnPlayStateCommand autoSize hide" title="${PreviousChapter}">
+                            <span class="material-icons undo" aria-hidden="true"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnPreviousTrack btnPlayStateCommand autoSize" title="${ButtonPreviousTrack}">
@@ -57,6 +65,10 @@
 
                         <button is="paper-icon-button-light" class="btnPlayStateCommand btnFastForward btnNowPlayingFastForward autoSize" title="${FastForward}">
                             <span class="material-icons forward_30" aria-hidden="true"></span>
+                        </button>
+
+                        <button is="paper-icon-button-light" class="btnNextChapter btnPlayStateCommand autoSize hide" title="${NextChapter}">
+                            <span class="material-icons redo" aria-hidden="true"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnShuffleQueue autoSize" title="${Shuffle}">
@@ -83,6 +95,10 @@
 
                         <button is="paper-icon-button-light" class="btnLyrics autoSize hide" title="${Lyrics}">
                             <span class="material-icons lyrics" style="top:0.05em" aria-hidden="true"></span>
+                        </button>
+
+                        <button is="paper-icon-button-light" class="btnChapters autoSize hide" title="${TableOfContents}">
+                            <span class="material-icons toc" aria-hidden="true"></span>
                         </button>
 
                         <button is="paper-icon-button-light" class="btnShuffleQueue autoSize" title="${Shuffle}">
