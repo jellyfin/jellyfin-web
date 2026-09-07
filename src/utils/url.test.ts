@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { getLocationSearch, safeDecodeURIComponent } from './url';
+import { getLocationSearch, replaceLocationSearchParam, safeDecodeURIComponent } from './url';
 
 const mockLocation = (urlString: string) => {
     const url = new URL(urlString);
@@ -55,6 +55,54 @@ describe('getLocationSearch', () => {
                 search: ''
             });
         expect(getLocationSearch()).toBe('?foo');
+    });
+});
+
+describe('replaceLocationSearchParam', () => {
+    const mockReplaceState = () => vi.spyOn(window.history, 'replaceState')
+        .mockImplementation(() => undefined);
+
+    it('Should add a parameter to the hash search', () => {
+        mockLocation('https://example.com/web/#/details?id=1');
+        const replaceState = mockReplaceState();
+
+        expect(replaceLocationSearchParam('seasonId', '2')).toBe('/details?id=1&seasonId=2');
+        expect(replaceState).toHaveBeenCalledWith(
+            null, '', '/web/#/details?id=1&seasonId=2'
+        );
+    });
+
+    it('Should replace an existing parameter', () => {
+        mockLocation('https://example.com/web/#/details?id=1&seasonId=2');
+        mockReplaceState();
+
+        expect(replaceLocationSearchParam('seasonId', '3')).toBe('/details?id=1&seasonId=3');
+    });
+
+    it('Should remove the parameter if the value is empty', () => {
+        mockLocation('https://example.com/web/#/details?id=1&seasonId=2');
+        mockReplaceState();
+
+        expect(replaceLocationSearchParam('seasonId')).toBe('/details?id=1');
+        expect(replaceLocationSearchParam('seasonId', null)).toBe('/details?id=1');
+        expect(replaceLocationSearchParam('seasonId', '')).toBe('/details?id=1');
+    });
+
+    it('Should add a search string if the hash has none', () => {
+        mockLocation('https://example.com/web/#/details');
+        mockReplaceState();
+
+        expect(replaceLocationSearchParam('seasonId', '2')).toBe('/details?seasonId=2');
+    });
+
+    it('Should preserve the existing history state', () => {
+        mockLocation('https://example.com/web/#/details?id=1');
+        const replaceState = mockReplaceState();
+        vi.spyOn(window.history, 'state', 'get').mockReturnValue({ idx: 4 });
+
+        replaceLocationSearchParam('seasonId', '2');
+
+        expect(replaceState).toHaveBeenCalledWith({ idx: 4 }, '', expect.any(String));
     });
 });
 

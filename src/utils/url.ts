@@ -40,6 +40,46 @@ export const getParameterByName = (name: string, url?: string | null | undefined
 };
 
 /**
+ * Replaces a search parameter in the current url without navigating.
+ *
+ * The app router reloads a legacy view whenever the search string changes, so page
+ * state that belongs in the url has to be written to the history entry directly.
+ * The existing history state is preserved, since the router keys its own location
+ * tracking off it.
+ *
+ * @param name The parameter name.
+ * @param value The parameter value. A nullish or empty value removes the parameter.
+ * @returns The updated router url, in the `pathname + search` form the view manager
+ * records for a page.
+ */
+export const replaceLocationSearchParam = (name: string, value?: string | null) => {
+    const params = new URLSearchParams(getLocationSearch());
+
+    if (value) {
+        params.set(name, value);
+    } else {
+        params.delete(name);
+    }
+
+    const hashIndex = window.location.hash.indexOf('?');
+    const hashPath = hashIndex === -1 ?
+        window.location.hash :
+        window.location.hash.substring(0, hashIndex);
+
+    const search = params.toString();
+    const hash = search ? `${hashPath}?${search}` : hashPath;
+
+    window.history.replaceState(
+        window.history.state,
+        '',
+        `${window.location.pathname}${window.location.search}${hash}`
+    );
+
+    // The router treats the hash as the path, so strip the leading '#'
+    return search ? `${hashPath.substring(1)}?${search}` : hashPath.substring(1);
+};
+
+/**
  * Safely decodes a URI component, returning the original value if decoding fails.
  * This is useful for handling cases where the value may or may not be encoded.
  * @param value The value to decode.
