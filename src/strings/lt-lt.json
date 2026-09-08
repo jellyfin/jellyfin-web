@@ -1290,7 +1290,7 @@
     "LimitSegmentLengthHelp": "Šios parinkties įjungimas gali padėti išvengti HLS grotuvo užstrigimo ieškant tam tikruose įrenginiuose, pvz., webOS televizoriuose.",
     "LimitSegmentLength": "Naudoti trumpesnius HLS segmentus",
     "LabelSyncPlaySettingsExtraTimeOffset": "Papildoma laiko kompensacija",
-    "LabelSyncPlaySettingsSyncCorrectionHelp": "Įgalinkite aktyvų atkūrimo sinchronizavimą pagreitindami mediją arba ieškodami numatomos padėties. Išjunkite šią funkciją, jei labai stringa.",
+    "LabelSyncPlaySettingsSyncCorrectionHelp": "Įjunkite aktyvų atkūrimo sinchronizavimą pagreitindami mediją arba ieškodami numatomos padėties. Išjunkite šią funkciją, jei labai stringa.",
     "LabelUserRemoteClientBitrateLimitHelp": "Pakeiskite numatytąją bendrąją reikšmę, nustatytą serverio nustatymuose, žr. punktą Prietaisų skydelis > Atkūrimas > Srautinė transliacija.",
     "LabelSimultaneousConnectionLimit": "Vienalaikio srauto riba",
     "LabelServerVersion": "Serverio versija",
