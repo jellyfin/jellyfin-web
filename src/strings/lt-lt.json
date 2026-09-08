@@ -1705,7 +1705,7 @@
     "MediaInfoDvLevel": "DV lygis",
     "LabelVppTonemappingBrightness": "VPP Tono žemėlapio ryškumo stiprinimas",
     "MachineTranslated": "Mašininis vertimas",
-    "OptionExtractTrickplayImage": "Įgalinti Trickplay atvaizdo išgavimą",
+    "OptionExtractTrickplayImage": "Įjungti Trickplay atvaizdo išgavimą",
     "UseCustomTagDelimitersHelp": "Padalyti atlikėjo / žanro žymas su pasirinktiniais simboliais.",
     "XmlTvMovieCategoriesHelp": "Šių kategorijų programos bus rodomos kaip filmai. Atskirkite kelias su '|'.",
     "LabelSelectStereo": "Stereo",
