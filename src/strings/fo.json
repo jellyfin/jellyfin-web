@@ -1779,5 +1779,8 @@
     "ExitFullscreen": "Loka fullskíggjasýni",
     "LabelCustomCssHelp": "Innset egna tillagaða CSS-sniðgevingarkotu ið setur dám á vevmarkamótið.",
     "LabelHttpsPort": "Lurta á HTTPS-porturnummari",
-    "LabelMessageTitle": "Tittul boðsins"
+    "LabelMessageTitle": "Tittul boðsins",
+    "MetadataSettingChangeHelp": "Broyting av metadátustillingum verða einans galdandi fyri nýtt innihald ið verður lagt inn. Til tess at dagføra metadátur á innihaldi ið longu er innlisið skalt tú á miðlaupplýsingasýninum trýsta á \"Endurinnles\"-knøttin, ella gera heildarendurinnlesingar við \"Metadátuumsitaranum\".",
+    "Normal": "Vanlig",
+    "PasswordMatchError": "Loyniorð og loyniorðsváttan skulu vera eins."
 }
