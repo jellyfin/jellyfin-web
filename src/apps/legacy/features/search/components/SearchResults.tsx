@@ -1,12 +1,14 @@
-import React, { type FC, useMemo } from 'react';
-import { useSearchItems } from '../api/useSearchItems';
-import globalize from 'lib/globalize';
-import Loading from 'components/loading/LoadingComponent';
-import SearchResultsRow from './SearchResultsRow';
-import { CardShape } from 'components/cardbuilder/utils/shape';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { Section } from '../types';
+import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import React, { type FC, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useIntersectionObserver } from 'usehooks-ts';
+
+import Loading from 'components/loading/LoadingComponent';
+import globalize from 'lib/globalize';
+
+import { useSearchItems } from '../api/useSearchItems';
+import type { Section } from '../types';
+import SearchResultsRow from './SearchResultsRow';
 
 interface SearchResultsProps {
     parentId?: string;
@@ -22,26 +24,28 @@ const SearchResults: FC<SearchResultsProps> = ({
     collectionType,
     query
 }) => {
-    const { data, isPending, isPlaceholderData } = useSearchItems(parentId, collectionType, query?.trim());
+    const {
+        sections,
+        isPending,
+        isPlaceholderData,
+        hasNextSection,
+        fetchNextSection
+    } = useSearchItems(parentId, collectionType, query?.trim());
 
-    // Build the card options once per result set so rows are not rebuilt on every render
-    const sections = useMemo(() => (data || []).map(section => ({
-        ...section,
-        cardOptions: {
-            shape: CardShape.AutoOverflow,
-            scalable: true,
-            showTitle: true,
-            overlayText: false,
-            centerText: true,
-            allowBottomPadding: false,
-            ...section.cardOptions
+    const isLoading = isPending || isPlaceholderData;
+
+    // Load the next section once the end of the results scrolls into view
+    const { ref: sentinelRef, isIntersecting } = useIntersectionObserver({
+        rootMargin: '200px'
+    });
+
+    useEffect(() => {
+        if (isIntersecting && hasNextSection && !isLoading) {
+            fetchNextSection();
         }
-    })), [ data ]);
+    }, [ isIntersecting, hasNextSection, isLoading, fetchNextSection ]);
 
-    // Show the spinner without unmounting the previous results while a new search is loading
-    if (isPending || (isPlaceholderData && !sections.length)) return <Loading />;
-
-    if (!sections.length) {
+    if (!sections.length && !isLoading && !hasNextSection) {
         return (
             <div className='noItemsMessage centerMessage'>
                 {globalize.translate('SearchResultsEmpty', query)}
@@ -57,10 +61,11 @@ const SearchResults: FC<SearchResultsProps> = ({
         );
     }
 
-    const renderSection = (section: Section, index: number) => {
+    // Sections arrive one at a time, so key by title rather than index to avoid remounting rows as earlier ones load
+    const renderSection = (section: Section) => {
         return (
             <SearchResultsRow
-                key={`${section.title}-${index}`}
+                key={section.title}
                 title={globalize.translate(section.title)}
                 items={section.items}
                 cardOptions={section.cardOptions}
@@ -70,8 +75,9 @@ const SearchResults: FC<SearchResultsProps> = ({
 
     return (
         <div className={'searchResults padded-top padded-bottom-page'}>
-            {isPlaceholderData && <Loading />}
-            {sections.map((section, index) => renderSection(section, index))}
+            {(isLoading || (hasNextSection && !sections.length)) && <Loading />}
+            {sections.map(section => renderSection(section))}
+            {hasNextSection && <div ref={sentinelRef} style={{ height: 1 }} />}
         </div>
     );
 };
