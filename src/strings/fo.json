@@ -1782,5 +1782,7 @@
     "LabelMessageTitle": "Tittul boðsins",
     "MetadataSettingChangeHelp": "Broyting av metadátustillingum verða einans galdandi fyri nýtt innihald ið verður lagt inn. Til tess at dagføra metadátur á innihaldi ið longu er innlisið skalt tú á miðlaupplýsingasýninum trýsta á \"Endurinnles\"-knøttin, ella gera heildarendurinnlesingar við \"Metadátuumsitaranum\".",
     "Normal": "Vanlig",
-    "PasswordMatchError": "Loyniorð og loyniorðsváttan skulu vera eins."
+    "PasswordMatchError": "Loyniorð og loyniorðsváttan skulu vera eins.",
+    "SkipEpisodesAlreadyInMyLibraryHelp": "Umfar- og partanummur verða brúkt til at samanbera partar, tá tær upplýsingarnar eru tøkar.",
+    "Controls": "Fjarstýring"
 }
