@@ -1771,5 +1771,8 @@
     "PreferNonstandardArtistsTag": "Brúka ARTISTS-merkið um tað finst",
     "PreferNonstandardArtistsTagHelp": "Brúka tað minni vanliga ARTISTS-merkið í staðin fyri ARTIST-merkið tá tað er tøkt.",
     "LabelCustomTagDelimiters": "Tillagað merkjamarkatekn",
-    "LabelCustomTagDelimitersHelp": "Tekn ið skulu tulkast sum skilnaður millum merkir."
+    "LabelCustomTagDelimitersHelp": "Tekn ið skulu tulkast sum skilnaður millum merkir.",
+    "UseCustomTagDelimiters": "Brúka tillagað merkjamarkatekn",
+    "UseCustomTagDelimitersHelp": "Tekn ið skulu tulkast sum skilnaður millum tónlistafólk- og grein-merkir.",
+    "LabelDelimiterWhitelistHelp": "Lutir ella tekn ið skulu verða undantikin frá merkjaskilnaði. Ein lut fyri hvørja reglu."
 }
