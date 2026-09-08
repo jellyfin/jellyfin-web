@@ -1774,5 +1774,7 @@
     "LabelCustomTagDelimitersHelp": "Tekn ið skulu tulkast sum skilnaður millum merkir.",
     "UseCustomTagDelimiters": "Brúka tillagað merkjamarkatekn",
     "UseCustomTagDelimitersHelp": "Tekn ið skulu tulkast sum skilnaður millum tónlistafólk- og grein-merkir.",
-    "LabelDelimiterWhitelistHelp": "Lutir ella tekn ið skulu verða undantikin frá merkjaskilnaði. Ein lut fyri hvørja reglu."
+    "LabelDelimiterWhitelistHelp": "Lutir ella tekn ið skulu verða undantikin frá merkjaskilnaði. Ein lut fyri hvørja reglu.",
+    "Fullscreen": "Fullskíggjasýni",
+    "ExitFullscreen": "Loka fullskíggjasýni"
 }
