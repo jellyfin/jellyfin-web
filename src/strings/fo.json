@@ -1380,7 +1380,7 @@
     "DisplayInOtherHomeScreenSections": "Vís forsíðuteigar sum t.d. \"Nýliga innlagdir miðlar\" og \"Hald á fram at hyggja\"",
     "DisplayLoadError": "Ein villa kom fyri undir innlesing av sýnisstillingum.",
     "HeaderAlert": "Ávaring",
-    "LabelAudioTagSettings": "Spjaldurstillingar á ljóðum",
+    "LabelAudioTagSettings": "Ljóðmerkjastillingar",
     "LabelExtractChaptersDuringLibraryScanHelp": "Úttak kapitlamyndur tá kykmyndir verða innlisnar undir savsskanning. Er hetta frávalt verða tær úttiknar undir fyriskipaðu koyrsluni, og verða vanligu savnsskanningarnar tí skjótari avgreiddar.",
     "LabelMessageText": "Tekstboð",
     "OnApplicationStartup": "Tá skipanin byrjar",
@@ -1767,5 +1767,9 @@
     "LabelSyncPlayResumePlayback": "Tak spælingina á hesi eindini uppaftur",
     "MessageSyncPlayGroupDoesNotExist": "Bar ikki til at luttaka í bólkinum tí hann er ikki til.",
     "HeaderEnabledFields": "Virknir teigar",
-    "VideoCodecTagNotSupported": "Virkisføri vantar fyri kodek-eyðmerki kykmyndarinnar"
+    "VideoCodecTagNotSupported": "Virkisføri vantar fyri kodek-eyðmerki kykmyndarinnar",
+    "PreferNonstandardArtistsTag": "Brúka ARTISTS-merkið um tað finst",
+    "PreferNonstandardArtistsTagHelp": "Brúka tað minni vanliga ARTISTS-merkið í staðin fyri ARTIST-merkið tá tað er tøkt.",
+    "LabelCustomTagDelimiters": "Tillagað merkjamarkatekn",
+    "LabelCustomTagDelimitersHelp": "Tekn ið skulu tulkast sum skilnaður millum merkir."
 }
