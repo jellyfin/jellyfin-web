@@ -1791,5 +1791,12 @@
     "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-profili ljóðsins",
     "MediaInfoProfile": "Profilur",
     "EnableHi10p": "Virkja H.264 High 10 profil",
-    "DirectStreamHelp2": "Streymnýtslan ið brúkt verður undir beinleiðis stroyming valdast vanliga ljóðprofilin. Einans myndagóðskan er óávirkað."
+    "DirectStreamHelp2": "Streymnýtslan ið brúkt verður undir beinleiðis stroyming valdast vanliga ljóðprofilin. Einans myndagóðskan er óávirkað.",
+    "HeaderAllowMediaDeletionFrom": "Loyv miðlastriking úr",
+    "HeaderRemoveMediaFolder": "Strika miðlasavn",
+    "MessageAreYouSureYouWishToRemoveMediaFolder": "Ynskir tú at strika hetta miðlasavnið?",
+    "MessageConfirmRemoveMediaLocation": "Ynskir tú at strika tilvísingina til goymslustaðið úr Jellyfin?",
+    "HeaderRemoveMediaLocation": "Strika miðlastaðið úr Jellyfin",
+    "IndexNumber": "Vísitali",
+    "LabelAllowStreamSharing": "Loyv stroymtvítøku"
 }
