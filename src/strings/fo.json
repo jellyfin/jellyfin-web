@@ -1784,5 +1784,10 @@
     "Normal": "Vanlig",
     "PasswordMatchError": "Loyniorð og loyniorðsváttan skulu vera eins.",
     "SkipEpisodesAlreadyInMyLibraryHelp": "Umfar- og partanummur verða brúkt til at samanbera partar, tá tær upplýsingarnar eru tøkar.",
-    "Controls": "Fjarstýring"
+    "Controls": "Fjarstýring",
+    "SecondaryAudioNotSupported": "Virkisføri vantar fyri hjá-ljóðspori",
+    "MediaInfoDvProfile": "DV-kotusnið",
+    "VideoProfileNotSupported": "Virkisføri vantar fyri kodek-sniði kykmyndarinnar",
+    "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-sniði ljóðsins",
+    "MediaInfoProfile": "Kotusnið"
 }
