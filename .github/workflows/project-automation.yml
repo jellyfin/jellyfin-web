@@ -1,0 +1,29 @@
+name: Project Automation
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, edited]
+  pull_request_review:
+    types: [submitted]
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  contents: read
+
+jobs:
+  project-board:
+    name: Release project board
+    runs-on: ubuntu-latest
+    if: ${{ github.repository == 'jellyfin/jellyfin-web' && (github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository) }}
+    steps:
+      - name: Update project board
+        uses: jellyfin/jellyfin-packaging/.github/actions/project-automation@master
+        with:
+          github-token: ${{ secrets.GH_PROJECTS_TOKEN }}
+          repo: jellyfin-web
+          event-name: ${{ github.event_name }}
+          base-ref: ${{ github.event.pull_request.base.ref }}
+          pr-number: ${{ github.event.pull_request.number }}
+          pr-merged: ${{ github.event.pull_request.merged }}
+          required-approvals: '1'
