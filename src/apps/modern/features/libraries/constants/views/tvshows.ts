@@ -30,6 +30,13 @@ const studiosTabContent: LibraryTabContent = {
     isBtnSortEnabled: false
 };
 
+const networksTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Networks,
+    itemType: [BaseItemKind.Series],
+    isBtnGridListEnabled: false,
+    isBtnSortEnabled: false
+};
+
 const upcomingTabContent: LibraryTabContent = {
     viewType: LibraryTab.Upcoming
 };
@@ -74,10 +81,11 @@ const tvShowsViews: Record<number, LibraryTabContent> = {
     1: suggestionsTabContent,
     2: upcomingTabContent,
     3: genresTabContent,
-    4: studiosTabContent,
-    5: episodesTabContent,
-    6: collectionsTabContent,
-    7: playlistsTabContent
+    4: networksTabContent,
+    5: studiosTabContent,
+    6: episodesTabContent,
+    7: collectionsTabContent,
+    8: playlistsTabContent
 };
 
 export default tvShowsViews;

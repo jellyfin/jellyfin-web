@@ -1907,6 +1907,13 @@ export class PlaybackManager {
                         SortBy,
                         MediaTypes: MediaType.Video
                     }, queryOptions));
+                case BaseItemKind.Network:
+                    return getItemsForPlayback(serverId, mergePlaybackQueries({
+                        NetworkIds: firstItem.Id,
+                        Recursive: true,
+                        SortBy,
+                        MediaTypes: MediaType.Video
+                    }, queryOptions));
                 case BaseItemKind.Person:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
                         PersonIds: firstItem.Id,

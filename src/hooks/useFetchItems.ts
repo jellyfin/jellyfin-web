@@ -12,6 +12,7 @@ import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
+import { getNetworkApi } from '@jellyfin/sdk/lib/utils/api/network-api';
 import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
 import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
@@ -106,6 +107,45 @@ export const useGetStudios = (parentId: ParentId, itemType: BaseItemKind[]) => {
         queryKey: ['Studios', parentId, itemType],
         queryFn: ({ signal }) =>
             fetchGetStudios(currentApi, parentId, itemType, { signal }),
+        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
+    });
+};
+
+const fetchGetNetworks = async (
+    currentApi: JellyfinApiContext,
+    parentId: ParentId,
+    itemType: BaseItemKind[],
+    options?: AxiosRequestConfig
+) => {
+    const { api, user } = currentApi;
+    if (api && user?.Id) {
+        const response = await getNetworkApi(api).getNetworks(
+            {
+                userId: user.Id,
+                includeItemTypes: itemType,
+                fields: [
+                    ItemFields.DateCreated,
+                    ItemFields.PrimaryImageAspectRatio
+                ],
+                enableImageTypes: [ImageType.Thumb],
+                parentId: parentId ?? undefined,
+                enableTotalRecordCount: false
+            },
+            {
+                signal: options?.signal
+            }
+        );
+        return response.data.Items;
+    }
+};
+
+export const useGetNetworks = (parentId: ParentId, itemType: BaseItemKind[]) => {
+    const currentApi = useApi();
+    const isLivetv = parentId === 'livetv';
+    return useQuery({
+        queryKey: ['Networks', parentId, itemType],
+        queryFn: ({ signal }) =>
+            fetchGetNetworks(currentApi, parentId, itemType, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
     });
 };
@@ -278,6 +318,24 @@ const fetchGetItemsViewByType = async (
                     }
                 );
                 break;
+            case LibraryTab.Networks:
+                response = await getNetworkApi(api).getNetworks(
+                    {
+                        userId: user.Id,
+                        parentId: parentId ?? undefined,
+                        ...getFieldsQuery(viewType, libraryViewSettings),
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
+                        includeItemTypes: itemType,
+                        isFavorite,
+                        enableImageTypes: [ImageType.Thumb],
+                        startIndex: libraryViewSettings.StartIndex
+                    },
+                    {
+                        signal: options?.signal
+                    }
+                );
+                break;
             case LibraryTab.Channels: {
                 response = await getLiveTvApi(api).getLiveTvChannels(
                     {
@@ -397,6 +455,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Series,
                 LibraryTab.Episodes,
                 LibraryTab.Studios,
+                LibraryTab.Networks,
                 LibraryTab.Albums,
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,
