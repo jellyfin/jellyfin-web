@@ -1789,5 +1789,6 @@
     "MediaInfoDvProfile": "DV-kotusnið",
     "VideoProfileNotSupported": "Virkisføri vantar fyri kodek-sniði kykmyndarinnar",
     "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-sniði ljóðsins",
-    "MediaInfoProfile": "Kotusnið"
+    "MediaInfoProfile": "Kotusnið",
+    "EnableHi10p": "Virkja H.264 High 10-kotusnið"
 }
