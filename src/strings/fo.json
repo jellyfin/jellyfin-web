@@ -1817,5 +1817,7 @@
     "LabelTrackGain": "Ljóðstyrki sporsins",
     "LabelAllowedAudioChannels": "Hámark á ljóðræsum",
     "LabelDirectStreamingInfo": "Upplýsingar um beinleiðis-stroymingina",
-    "LabelSelectMono": "Einræsi (Mono)"
+    "LabelSelectMono": "Einræsi (Mono)",
+    "IgnoreDts": "Tak ikki hædd fyri DTS (avkodingartíðarstempli)",
+    "TonemappingRangeHelp": "Áset úttakslitspenni. Sjálvvirkandi merkir at úttakið verður eins og inntøkulitspenni."
 }
