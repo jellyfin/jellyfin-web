@@ -1790,5 +1790,6 @@
     "VideoProfileNotSupported": "Virkisføri vantar fyri kodek-sniði kykmyndarinnar",
     "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-sniði ljóðsins",
     "MediaInfoProfile": "Kotusnið",
-    "EnableHi10p": "Virkja H.264 High 10-kotusnið"
+    "EnableHi10p": "Virkja H.264 High 10-kotusnið",
+    "DirectStreamHelp2": "Streymnýtslan ið brúkt verður undir beinleiðis stroyming valdast vanliga ljóðkotingarsniðið. Einans myndagóðskan er óávirkað."
 }
