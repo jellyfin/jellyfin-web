@@ -1786,10 +1786,10 @@
     "SkipEpisodesAlreadyInMyLibraryHelp": "Umfar- og partanummur verða brúkt til at samanbera partar, tá tær upplýsingarnar eru tøkar.",
     "Controls": "Fjarstýring",
     "SecondaryAudioNotSupported": "Virkisføri vantar fyri hjá-ljóðspori",
-    "MediaInfoDvProfile": "DV-kotusnið",
-    "VideoProfileNotSupported": "Virkisføri vantar fyri kodek-sniði kykmyndarinnar",
-    "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-sniði ljóðsins",
-    "MediaInfoProfile": "Kotusnið",
-    "EnableHi10p": "Virkja H.264 High 10-kotusnið",
-    "DirectStreamHelp2": "Streymnýtslan ið brúkt verður undir beinleiðis stroyming valdast vanliga ljóðkotingarsniðið. Einans myndagóðskan er óávirkað."
+    "MediaInfoDvProfile": "DV-profilur",
+    "VideoProfileNotSupported": "Virkisføri vantar fyri kodek-profili kykmyndarinnar",
+    "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-profili ljóðsins",
+    "MediaInfoProfile": "Profilur",
+    "EnableHi10p": "Virkja H.264 High 10 profil",
+    "DirectStreamHelp2": "Streymnýtslan ið brúkt verður undir beinleiðis stroyming valdast vanliga ljóðprofilin. Einans myndagóðskan er óávirkað."
 }
