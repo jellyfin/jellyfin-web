@@ -1829,5 +1829,15 @@
     "MessagePasswordResetForUsers": "Loyniorði hjá fylgjandi brúkarum er endurstilla. Teir hava nú møgulleika at rita inn við PIN-kotunum ið vóru brúktar til endurstillingina.",
     "OptionRequirePerfectSubtitleMatch": "Tak einans niður undirtekstir ið samhóska fullkomiliga við kykmyndafílurnar",
     "PerfectMatch": "Samhóskar fullkomiliga",
-    "OptionRequirePerfectSubtitleMatchHelp": "At krevja at undirtekstir samhóska fullkomiliga, avmarkar niðurtøkuna til einans teir undirtekstir ið eru sannroyndir við júst teimum kykmyndafílum ið finnast í hesum savninum. At velja hetta frá økir sannlíkindini fyri at undirtekstir verða útvegaðir men við størri sannlíkindum fyri at teir eru ósamstillaðir ella óhóskandi."
+    "OptionRequirePerfectSubtitleMatchHelp": "At krevja at undirtekstir samhóska fullkomiliga, avmarkar niðurtøkuna til einans teir undirtekstir ið eru sannroyndir við júst teimum kykmyndafílum ið finnast í hesum savninum. At velja hetta frá økir sannlíkindini fyri at undirtekstir verða útvegaðir men við størri sannlíkindum fyri at teir eru ósamstillaðir ella óhóskandi.",
+    "MoveLeft": "Flyt til vinstru",
+    "MoveRight": "Flyt til høgru",
+    "MoveToTop": "Flyt ovast",
+    "MoveToBottom": "Flyt niðjast",
+    "LabelEnableGamepad": "Virkja fjarstýring og joystikk",
+    "EnableGamepadHelp": "Lurtar eftir boðum frá sambundnum fjarstýringum og joystikkum. Hetta krevur eisini at sýnishátturin er settur til \"Sjónvarp\".",
+    "LabelExternalServerUriHelp": "Kunngjørd ambætaraleinkja fyri atgongd uttanífrá.",
+    "HeaderTypeSimilarItemProviders": "Líkleikagreinarar ({0})",
+    "LabelSimilarItemProvidersHelp": "Virkja og raðfest eyðkennarar av líkum miðlum.",
+    "MessageForgotPasswordPinReset": "Inntøppa PIN-kotuna her fyri at fremja loyniorðsendurstillingina"
 }
