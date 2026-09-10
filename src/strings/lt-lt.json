@@ -688,7 +688,7 @@
     "HeaderBlockItemsWithNoRating": "Blokuoti elementus, kuriuose amžiaus kategorija yra neatpažinta arba jos nėra",
     "HeaderChapterImages": "Skyriaus atvaizdai",
     "HeaderFetcherSettings": "Teikėjo nustatymai",
-    "HeaderSelectServerCachePath": "Pasirinkite serverio \"Cache\" kelią",
+    "HeaderSelectServerCachePath": "Pasirinkite serverio talpyklos kelią",
     "HeaderStartNow": "Paleisti dabar",
     "HeaderStopRecording": "Sustabdyti įrašymą",
     "HeaderSubtitleAppearance": "Subtitrų Išvaizda",
@@ -1945,5 +1945,5 @@
     "HlsAudioSeekStrategy": "Strategija, kurią reikia naudoti ieškant HLS srautuose.",
     "LabelHlsAudioSeekStrategy": "Garso paieškos strategija.",
     "MessageForgotPasswordRedirect": "Buvote nukreipti pas išorinį teikėją slaptažodžio nustatymui iš naujo.",
-    "MessageItemMetadataLocked": "Šio elemento metaduomenys užrakinti. Atrakinkite juos prieš naudodami funkciją „Identifikuoti“."
+    "MessageItemMetadataLocked": "Šio elemento metaduomenys užrakinti. Prieš naudodami identifikavimo funkciją, juos atrakinkite."
 }
