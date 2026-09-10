@@ -1839,5 +1839,6 @@
     "LabelExternalServerUriHelp": "Kunngjørd ambætaraleinkja fyri atgongd uttanífrá.",
     "HeaderTypeSimilarItemProviders": "Líkleikagreinarar ({0})",
     "LabelSimilarItemProvidersHelp": "Virkja og raðfest eyðkennarar av líkum miðlum.",
-    "MessageForgotPasswordPinReset": "Inntøppa PIN-kotuna her fyri at fremja loyniorðsendurstillingina"
+    "MessageForgotPasswordPinReset": "Inntøppa PIN-kotuna her fyri at fremja loyniorðsendurstillingina",
+    "LabelExternalServerUri": "Almenn leinkja"
 }
