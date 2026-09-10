@@ -1840,5 +1840,6 @@
     "HeaderTypeSimilarItemProviders": "Líkleikagreinarar ({0})",
     "LabelSimilarItemProvidersHelp": "Virkja og raðfest eyðkennarar av líkum miðlum.",
     "MessageForgotPasswordPinReset": "Inntøppa PIN-kotuna her fyri at fremja loyniorðsendurstillingina",
-    "LabelExternalServerUri": "Almenn leinkja"
+    "LabelExternalServerUri": "Almenn leinkja",
+    "SelectAudioNormalizationHelp": "Ljóðstyrki sporsins - tillagar ljóðstyrkina á hvørjum einstøkum spori so at ljóðstyrkin er jøvn tvørtur um øll spor. Ljóðstyrki útgávunnar - tillagar ljóðstyrkina á øllum sporum men varðveitir munin ímillum ljóðstyrkina á sporunum á hvørjari útgávu sær. Broyting av hesi stilling fær virkna eftir at spælingin er endurbyrjað."
 }
