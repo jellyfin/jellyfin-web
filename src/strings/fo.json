@@ -1819,5 +1819,15 @@
     "LabelDirectStreamingInfo": "Upplýsingar um beinleiðis-stroymingina",
     "LabelSelectMono": "Einræsi (Mono)",
     "IgnoreDts": "Tak ikki hædd fyri DTS (avkodingartíðarstempli)",
-    "TonemappingRangeHelp": "Áset úttakslitspenni. Sjálvvirkandi merkir at úttakið verður eins og inntøkulitspenni."
+    "TonemappingRangeHelp": "Áset úttakslitspenni. Sjálvvirkandi merkir at úttakið verður eins og inntøkulitspenni.",
+    "LabelMinResumePercentageHelp": "Miðlaspæl styttri enn tað ið her er ásett verður ikki goymt til uppafturøku.",
+    "LabelMinAudiobookResumeHelp": "Ljóðbókaspæling styttri enn tað ið her er ásett verður ikki goymt til uppafturøku.",
+    "LabelMinAudiobookResume": "Stytsta spælilongd í minuttum til uppafturtøku av ljóbókum",
+    "LabelMinResumeDuration": "Stytsta uppafturtøkutíð í minuttum",
+    "LabelMinResumePercentage": "Stytsta uppafturtøkutíð í prosentum",
+    "MessageForgotPasswordInNetworkRequired": "Vinaliga royn aftur at endurstilla títt loyniorð frá heimanetinum.",
+    "MessagePasswordResetForUsers": "Loyniorði hjá fylgjandi brúkarum er endurstilla. Teir hava nú møgulleika at rita inn við PIN-kotunum ið vóru brúktar til endurstillingina.",
+    "OptionRequirePerfectSubtitleMatch": "Tak einans niður undirtekstir ið samhóska fullkomiliga við kykmyndafílurnar",
+    "PerfectMatch": "Samhóskar fullkomiliga",
+    "OptionRequirePerfectSubtitleMatchHelp": "At krevja at undirtekstir samhóska fullkomiliga, avmarkar niðurtøkuna til einans teir undirtekstir ið eru sannroyndir við júst teimum kykmyndafílum ið finnast í hesum savninum. At velja hetta frá økir sannlíkindini fyri at undirtekstir verða útvegaðir men við størri sannlíkindum fyri at teir eru ósamstillaðir ella óhóskandi."
 }
