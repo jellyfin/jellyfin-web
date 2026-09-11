@@ -1845,6 +1845,12 @@
     "MessageForgotPasswordRedirect": "Tú varð beindur til ein ytri samgildisveitara til tess at endurstilla loyniorðið.",
     "MessageAddRepository": "Fyri at leggja inn eina ískoytisforritakeldu, trýstur tú á knøttin tætt við yvirskriftina og tøppar síðani inn neyðugu upplýsingarnar.",
     "MessageSyncPlayNoGroupsAvailable": "Eingin bólkur er tøkur. Byrja at spæla onkran miðil fyrst.",
-    "MessageSyncPlayPlaybackPermissionRequired": "Tú tykist ikki hava neyðugu spælirættindini.",
-    "MessagePlayAccessRestricted": "Spæling av hesum miðlinum er avmarkað í løtuni. Vinaliga set teg í samband við ambætaraumsitaran fyri nágreiniligari upplýsingar."
+    "MessageSyncPlayPlaybackPermissionRequired": "Tú tykist ikki hava neyðug spælirættindi.",
+    "MessagePlayAccessRestricted": "Spæling av hesum miðlinum er avmarkað í løtuni. Vinaliga set teg í samband við ambætaraumsitaran fyri nágreiniligari upplýsingar.",
+    "OptionHideUserFromLoginHelp": "Hent fyri privatar- ella umsitarakontur ið ikki skulu verða ein valmøgulleiki á innritanarskíggjum. Brúkarin noyðist at rita inn við at skriva sítt brúkaranavn og loyniorð.",
+    "SyncPlayAccessHelp": "Við SyncPlay hentleikanum er møguligt at samstilla spælingar á fleiri eindum og brúkarum. Tilskila hesum brúkaranum SyncPlay rættindi.",
+    "RememberAudioSelectionsHelp": "Royn at velja ljóðspor líkt tí í undanfarnu kykmyndini.",
+    "RememberSubtitleSelectionsHelp": "Royn at velja undirtekst líkur honum í undanfarnu kykmyndini.",
+    "PlayAllFromHere": "Spæl hiðanífrá",
+    "LabelPasswordResetProvider": "Loyniorðsendurstillingarveitari"
 }
