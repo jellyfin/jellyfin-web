@@ -2,17 +2,25 @@ import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication
 import React, { FC, FormEvent, useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
+import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
-import globalize from 'lib/globalize';
-import Input from 'elements/emby-input/Input';
 import Button from 'elements/emby-button/Button';
+import Input from 'elements/emby-input/Input';
+import SelectElement from 'elements/SelectElement';
 import { useApi } from 'hooks/useApi';
+import { useUsers } from 'hooks/useUsers';
+import globalize from 'lib/globalize';
 
 import './quickConnect.scss';
 
 const QuickConnectPage: FC = () => {
     const { api, user } = useApi();
+    const {
+        data: users,
+        isPending
+    } = useUsers();
     const [ searchParams ] = useSearchParams();
+    const userIdDefault = searchParams.get('userId') ?? user?.Id;
     const [ code, setCode ] = useState(searchParams.get('code') ?? '');
     const [ error, setError ] = useState<string>();
     const [ success, setSuccess ] = useState(false);
@@ -31,13 +39,14 @@ const QuickConnectPage: FC = () => {
             return;
         }
 
+        const userId = form.querySelector<HTMLSelectElement>('#userId')?.value;
+
         if (!api) {
             console.error('[QuickConnect] cannot authorize, missing api instance');
             setError('UnknownError');
             return;
         }
 
-        const userId = searchParams.get('userId') ?? user?.Id;
         const normalizedCode = code.replace(/\s/g, '');
         console.log('[QuickConnect] authorizing code %s as user %s', normalizedCode, userId);
 
@@ -52,7 +61,9 @@ const QuickConnectPage: FC = () => {
             .catch(() => {
                 setError('QuickConnectAuthorizeFail');
             });
-    }, [api, code, searchParams, user?.Id]);
+    }, [ api, code ]);
+
+    if (isPending) return <Loading />;
 
     return (
         <Page
@@ -89,6 +100,21 @@ const QuickConnectPage: FC = () => {
                             </div>
                         ) : (
                             <>
+                                {user?.Policy?.IsAdministrator && (
+                                    <div className='selectContainer'>
+                                        <SelectElement
+                                            id='userId'
+                                            label='LabelUser'
+                                        >
+                                            {
+                                                users
+                                                    ?.filter(u => !u.Policy?.IsDisabled)
+                                                    .map(u => `<option value=${u.Id} ${u.Id === userIdDefault ? 'selected' : ''}>${u.Name}</option>`)
+                                            }
+                                        </SelectElement>
+                                    </div>
+                                )}
+
                                 <div className='inputContainer'>
                                     <Input
                                         value={code}

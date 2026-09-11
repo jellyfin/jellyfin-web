@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 
 import globalize from 'lib/globalize';
 
-const createSelectElement = ({ name, id, required, label, option }: { name?: string, id?: string, required?: string, label?: string, option?: React.ReactNode }) => ({
+const createSelectElement = ({ name, id, required, label, options }: { name?: string, id?: string, required?: string, label?: string, options?: string | string[] }) => ({
     __html: `<select
         is="emby-select"
         ${name}
@@ -10,27 +10,27 @@ const createSelectElement = ({ name, id, required, label, option }: { name?: str
         ${required}
         label="${label}"
     >
-        ${option}
+        ${options}
     </select>`
 });
 
-type IProps = {
+type SelectElementProps = {
     name?: string;
     id?: string;
-    required?: string;
-    label?: string;
-    children?: React.ReactNode
+    required?: boolean;
+    label: string;
+    children?: string | string[];
 };
 
-const SelectElement: FunctionComponent<IProps> = ({ name, id, required, label, children }: IProps) => {
+const SelectElement: FC<SelectElementProps> = ({ name, id, required, label, children }) => {
     return (
         <div
             dangerouslySetInnerHTML={createSelectElement({
                 name: name ? `name='${name}'` : '',
                 id: id,
-                required: required ? `required='${required}'` : '',
+                required: required ? 'required="required"' : '',
                 label: globalize.translate(label),
-                option: children
+                options: children
             })}
         />
     );
