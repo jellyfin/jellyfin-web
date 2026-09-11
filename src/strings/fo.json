@@ -1841,5 +1841,10 @@
     "LabelSimilarItemProvidersHelp": "Virkja og raðfest eyðkennarar av líkum miðlum.",
     "MessageForgotPasswordPinReset": "Inntøppa PIN-kotuna her fyri at fremja loyniorðsendurstillingina",
     "LabelExternalServerUri": "Almenn leinkja",
-    "SelectAudioNormalizationHelp": "Ljóðstyrki sporsins - tillagar ljóðstyrkina á hvørjum einstøkum spori so at ljóðstyrkin er jøvn tvørtur um øll spor. Ljóðstyrki útgávunnar - tillagar ljóðstyrkina á øllum sporum men varðveitir munin ímillum ljóðstyrkina á sporunum á hvørjari útgávu sær. Broyting av hesi stilling fær virkna eftir at spælingin er endurbyrjað."
+    "SelectAudioNormalizationHelp": "Ljóðstyrki sporsins - tillagar ljóðstyrkina á hvørjum einstøkum spori so at ljóðstyrkin er jøvn tvørtur um øll spor. Ljóðstyrki útgávunnar - tillagar ljóðstyrkina á øllum sporum men varðveitir munin ímillum ljóðstyrkina á sporunum á hvørjari útgávu sær. Broyting av hesi stilling fær virkna eftir at spælingin er endurbyrjað.",
+    "MessageForgotPasswordRedirect": "Tú varð beindur til ein ytri samgildisveitara til tess at endurstilla loyniorðið.",
+    "MessageAddRepository": "Fyri at leggja inn eina ískoytisforritakeldu, trýstur tú á knøttin tætt við yvirskriftina og tøppar síðani inn neyðugu upplýsingarnar.",
+    "MessageSyncPlayNoGroupsAvailable": "Eingin bólkur er tøkur. Byrja at spæla onkran miðil fyrst.",
+    "MessageSyncPlayPlaybackPermissionRequired": "Tú tykist ikki hava neyðugu spælirættindini.",
+    "MessagePlayAccessRestricted": "Spæling av hesum miðlinum er avmarkað í løtuni. Vinaliga set teg í samband við ambætaraumsitaran fyri nágreiniligari upplýsingar."
 }
