@@ -26,8 +26,8 @@ const SelectElement: FC<SelectElementProps> = ({ name, id, required, label, chil
     return (
         <div
             dangerouslySetInnerHTML={createSelectElement({
-                name: name ? `name='${name}'` : '',
-                id: id,
+                name: name ? `name="${name}"` : '',
+                id,
                 required: required ? 'required="required"' : '',
                 label: globalize.translate(label),
                 options: children

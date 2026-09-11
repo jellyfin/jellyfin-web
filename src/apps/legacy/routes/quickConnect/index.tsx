@@ -1,3 +1,4 @@
+import escapeHTML from 'escape-html';
 import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import React, { FC, FormEvent, useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -109,7 +110,11 @@ const QuickConnectPage: FC = () => {
                                             {
                                                 users
                                                     ?.filter(u => !u.Policy?.IsDisabled)
-                                                    .map(u => `<option value=${u.Id} ${u.Id === userIdDefault ? 'selected' : ''}>${u.Name}</option>`)
+                                                    .map(u => (
+                                                        `<option value=${u.Id} ${u.Id === userIdDefault ? 'selected' : ''}>`
+                                                        + escapeHTML(u.Name)
+                                                        + '</option>'
+                                                    ))
                                             }
                                         </SelectElement>
                                     </div>
