@@ -253,6 +253,8 @@ function bindEvents(elem) {
         }
     });
 
+    volumeSlider.addEventListener('wheel', handleVolumeScroll);
+
     positionSlider.addEventListener('change', function () {
         if (currentPlayer) {
             const newPercent = parseFloat(this.value);
@@ -709,6 +711,32 @@ function onVolumeChanged() {
     updatePlayerVolumeState(player.isMuted(), player.getVolume());
 }
 
+function handleVolumeKeyInput(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.key === 'ArrowUp') {
+        handleVolumeChange(2);
+    } else if (e.key === 'ArrowDown') {
+        handleVolumeChange(-2);
+    }
+}
+function handleVolumeScroll(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.deltaY < 0) {
+        handleVolumeChange(-2);
+    } else {
+        handleVolumeChange(2);
+    }
+}
+
+function handleVolumeChange(change) {
+    volumeSlider.value = Math.max(0, Math.min(100, parseInt(volumeSlider.value, 10) + change));
+    if (currentPlayer) {
+        currentPlayer.setVolume(parseInt(volumeSlider.value, 10));
+    }
+}
+
 function refreshFromPlayer(player, type) {
     const state = playbackManager.getPlayerState(player);
 
@@ -765,3 +793,5 @@ document.addEventListener('viewbeforeshow', function (e) {
         }
     }
 });
+
+document.addEventListener('keydown', handleVolumeKeyInput);
