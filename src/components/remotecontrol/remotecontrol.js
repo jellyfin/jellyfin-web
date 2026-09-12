@@ -579,13 +579,17 @@ export default function () {
     }
 
     function onTimeUpdate() {
-        const now = new Date().getTime();
+        const player = this;
+        const positionMs = playbackManager.currentTime(player);
 
-        if (now - lastUpdateTime >= 700) {
-            lastUpdateTime = now;
-            const player = this;
+        // Only touch the document when the displayed second actually changes. Throttling on a
+        // fixed wall clock interval instead makes the updates beat against the second boundary,
+        // so the time stalls or skips values depending on the playback rate.
+        const positionSeconds = Math.floor(positionMs / 1000);
+        if (positionSeconds !== lastRenderedSecond) {
+            lastRenderedSecond = positionSeconds;
             currentRuntimeTicks = playbackManager.duration(player);
-            updateTimeDisplay(playbackManager.currentTime(player) * 10000, currentRuntimeTicks);
+            updateTimeDisplay(positionMs * 10000, currentRuntimeTicks);
         }
     }
 
@@ -920,7 +924,7 @@ export default function () {
     let currentPlayer;
     let lastPlayerState;
     let currentPlayerSupportedCommands = [];
-    let lastUpdateTime = 0;
+    let lastRenderedSecond = -1;
     let currentRuntimeTicks = 0;
     const self = this;
 
