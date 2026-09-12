@@ -6,12 +6,20 @@ import listView from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import globalize from 'lib/globalize';
 import Events from 'utils/events';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { convertFilterValuesToItemsQuery } from 'utils/query/queryConverter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { getFilterStatus, setFilterStatus } from 'components/filterdialog/filterIndicator';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent, options) {
+    function getApiClient() {
+        return params.serverId ? ServerConnections.getApiClient(params.serverId) : ApiClient;
+    }
+
     const onViewStyleChange = () => {
         if (this.getCurrentViewStyle() == 'List') {
             itemsContainer.classList.add('vertical-list');
@@ -27,7 +35,10 @@ export default function (view, params, tabContent, options) {
     function fetchData() {
         isLoading = true;
         loading.show();
-        return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
+        const apiClient = getApiClient();
+        return getLibraryApi(toApi(apiClient)).getItems(
+            convertFilterValuesToItemsQuery(query, apiClient.getCurrentUserId())
+        ).then(result => result.data);
     }
 
     function playAll() {
