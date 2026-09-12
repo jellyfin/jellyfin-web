@@ -129,7 +129,7 @@ export function getMediaInfoHtml(item, options = {}) {
         }
     }
 
-    if ((item.Type === 'Episode' || item.MediaType === 'Photo')
+    if ((item.Type === 'Episode' || item.Type === 'Video' || item.MediaType === 'Photo')
             && options.originalAirDate !== false
             && item.PremiereDate
     ) {
@@ -245,7 +245,7 @@ export function getMediaInfoHtml(item, options = {}) {
         }
     }
 
-    if (options.year !== false && item.Type !== 'Series' && item.Type !== 'Episode' && item.Type !== 'Person'
+    if (options.year !== false && item.Type !== 'Series' && item.Type !== 'Episode' && item.Type !== 'Video' && item.Type !== 'Person'
             && item.MediaType !== 'Photo' && item.Type !== 'Program' && item.Type !== 'Season'
     ) {
         if (item.ProductionYear) {
