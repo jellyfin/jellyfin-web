@@ -19,7 +19,9 @@ export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryView
         ShowTitle: true,
         ShowYear: true,
         ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
-        ImageType: viewType === LibraryTab.Studios ? ImageType.Thumb : ImageType.Primary,
+        ImageType: viewType === LibraryTab.Studios || viewType === LibraryTab.Networks ?
+            ImageType.Thumb :
+            ImageType.Primary,
         CardLayout: false,
         SortBy: getDefaultSortBy(viewType),
         SortOrder: SortOrder.Ascending,

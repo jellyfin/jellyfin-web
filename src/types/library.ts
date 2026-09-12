@@ -41,6 +41,7 @@ export interface Filters {
     EpisodesStatus?: string[];
     SeriesStatus?: SeriesStatus[];
     StudioIds?: string[];
+    NetworkIds?: string[];
     Tags?: string[];
     VideoBasicFilter?: VideoBasicFilter[];
     VideoTypes?: VideoType[];

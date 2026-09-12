@@ -1009,6 +1009,7 @@ function renderDetails(page, instance, item, apiClient, context) {
             PersonKind.Creator,
             PersonKind.Director,
             PersonKind.Writer,
+            BaseItemKind.Network,
             BaseItemKind.Studio,
             BaseItemKind.Genre
         ];

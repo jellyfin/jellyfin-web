@@ -302,6 +302,8 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
 
         if (item.Type === 'Studio') {
             query.StudioIds = item.Id;
+        } else if (item.Type === 'Network') {
+            query.NetworkIds = item.Id;
         } else if (item.Type === 'Genre' || item.Type === 'MusicGenre') {
             query.GenreIds = item.Id;
         } else if (item.Type === 'Person') {
@@ -351,7 +353,7 @@ function getItem(params) {
     }
 
     const apiClient = ServerConnections.getApiClient(params.serverId);
-    const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
+    const itemId = params.genreId || params.musicGenreId || params.studioId || params.networkId || params.personId || params.parentId;
 
     if (itemId) {
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -1311,6 +1313,10 @@ class ItemsView {
 
         if (params.studioId) {
             values.push('Studio');
+        }
+
+        if (params.networkId) {
+            values.push('Network');
         }
 
         if (params.personId) {
