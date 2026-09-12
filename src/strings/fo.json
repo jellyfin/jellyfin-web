@@ -185,7 +185,7 @@
     "ButtonSignIn": "Innrita",
     "ButtonSignOut": "Útrita",
     "Channels": "Rásir",
-    "Favorites": "Yndislista",
+    "Favorites": "Yndislisti",
     "Folders": "Skjáttur",
     "Collections": "Samlingar",
     "Default": "Forsett",
@@ -1615,7 +1615,7 @@
     "AudioChannelsNotSupported": "Virkisføri vantar fyri mongdini av ljóðræsum",
     "LabelEncodingFormatOptions": "Kotingarsnið stillingar",
     "LabelDisplayMode": "Sýnisháttur",
-    "LabelDisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-sniðgevingarkotu",
+    "LabelDisableCustomCss": "Óvirkja ambætaraveitta tillagaða CSS-sniðgevingarkotu.",
     "LabelMoviePrefixHelp": "Um filmsheitir hava eitt forskoyti, inntøppa tað her, so at ambætarin kann handfara tað á rættan hátt.",
     "MessageCancelTimerError": "Ein villa kom fyri tá roynt var at avlýsa upptøkuna",
     "MessageCancelSeriesTimerError": "Ein villa kom fyri tá roynt var at avlýsa upptøku sendiraðarinnar",
@@ -1854,5 +1854,8 @@
     "PlayAllFromHere": "Spæl hiðanífrá",
     "LabelPasswordResetProvider": "Loyniorðsendurstillingarveitari",
     "LabelBindToLocalNetworkAddressHelp": "Ásetur lokala IP-atsetur HTTP-ambætarans. Er hesin teigurin tómur bindur ambætarin til øll tøk atsetur. Broyting av hesi stilling fær virkna eftir endurbyrjan av skipanini.",
-    "MessageBackupInProgress": "Trygdaravritar"
+    "MessageBackupInProgress": "Trygdaravritar",
+    "PlaybackError.RateLimitExceeded": "Hesin miðilin kann ikki spælast í løtuni vegna ferðavmarkingar.",
+    "PasswordResetProviderHelp": "Vel ein loyniorðsendurstillingarveitara fyri hendan brúkaran.",
+    "LabelImageInterval": "Myndamillumbil"
 }
