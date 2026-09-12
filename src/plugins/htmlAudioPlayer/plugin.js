@@ -634,6 +634,7 @@ class HtmlAudioPlayer {
 
         // Public API for the PlaybackManager to discard a stale preloaded track.
         self.clearNextSource = function() {
+            console.debug('[PRELOAD-QUEUED-AUDIO][CLEAR] Clearing next preloaded track');
             if (self._nextMediaElement) {
                 htmlMediaHelper.resetSrc(self._nextMediaElement);
                 self._nextMediaElement.remove();
