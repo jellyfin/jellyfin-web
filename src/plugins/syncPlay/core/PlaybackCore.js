@@ -8,6 +8,8 @@ import { toBoolean, toFloat } from '../../../utils/string.ts';
 import * as Helper from './Helper';
 import { getSetting } from './Settings';
 
+const SeekWaitCancelledEvent = 'seek-wait-cancelled';
+
 /**
  * Class that manages the playback of SyncPlay.
  */
@@ -26,6 +28,8 @@ class PlaybackCore {
         this.lastCommand = null; // Last scheduled playback command, might not be the latest one.
         this.scheduledCommandTimeout = null;
         this.syncTimeout = null;
+        this.seekIsPending = false;
+        this.seekWaitGeneration = 0;
 
         this.loadPreferences();
     }
@@ -113,8 +117,11 @@ class PlaybackCore {
      */
     onReady() {
         this.playerIsBuffering = false;
-        this.sendBufferingRequest(false);
+        const seekIsPending = this.seekIsPending;
         Events.trigger(this.manager, 'ready');
+        if (!seekIsPending) {
+            this.sendBufferingRequest(false);
+        }
     }
 
     /**
@@ -386,16 +393,34 @@ class PlaybackCore {
         const seekAtTimeLocal = this.timeSyncCore.remoteDateToLocal(seekAtTime);
 
         const callback = () => {
-            this.localUnpause();
-            this.localSeek(positionTicks);
+            const seekWaitGeneration = this.seekWaitGeneration;
+            this.seekIsPending = true;
 
-            Helper.waitForEventOnce(this.manager, 'ready', Helper.WaitForEventDefaultTimeout).then(() => {
+            Helper.waitForEventOnce(
+                this.manager,
+                'ready',
+                Helper.WaitForEventDefaultTimeout,
+                [SeekWaitCancelledEvent]
+            ).then(() => {
+                if (this.seekWaitGeneration !== seekWaitGeneration) {
+                    return;
+                }
+
+                this.seekIsPending = false;
                 this.localPause();
                 this.sendBufferingRequest(false);
             }).catch((error) => {
+                if (error === SeekWaitCancelledEvent || this.seekWaitGeneration !== seekWaitGeneration) {
+                    return;
+                }
+
+                this.seekIsPending = false;
                 console.error(`Timed out while waiting for 'ready' event! Seeking to ${positionTicks}.`, error);
                 this.localSeek(positionTicks);
             });
+
+            this.localUnpause();
+            this.localSeek(positionTicks);
         };
 
         if (seekAtTimeLocal > currentTime) {
@@ -415,6 +440,9 @@ class PlaybackCore {
     clearScheduledCommand() {
         clearTimeout(this.scheduledCommandTimeout);
         clearTimeout(this.syncTimeout);
+        this.seekIsPending = false;
+        this.seekWaitGeneration++;
+        Events.trigger(this.manager, SeekWaitCancelledEvent);
 
         this.syncEnabled = false;
         const playerWrapper = this.manager.getPlayerWrapper();
