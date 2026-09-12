@@ -117,8 +117,9 @@ function fillSubtitleList(context, item) {
             itemHtml += '</a>';
             itemHtml += '</div>';
 
+            const buttonVisibility = item.CanDelete ? '' : 'hide';
             if (!layoutManager.tv && s.Path) {
-                itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><span class="material-icons delete" aria-hidden="true"></span></button>';
+                itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton ' + buttonVisibility + '"><span class="material-icons delete" aria-hidden="true"></span></button>';
             }
 
             itemHtml += '</' + tagName + '>';
