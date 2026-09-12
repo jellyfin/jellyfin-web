@@ -1,8 +1,8 @@
-const { merge } = require('webpack-merge');
+import { merge } from 'webpack-merge';
 
-const common = require('./webpack.common');
+import common from './webpack.common.js';
 
-module.exports = merge(common, {
+export default merge(common, {
     // In order for live reload to work we must use "web" as the target not "browserslist"
     target: process.env.WEBPACK_SERVE ? 'web' : 'browserslist',
     mode: 'development',
