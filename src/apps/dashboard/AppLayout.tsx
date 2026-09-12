@@ -36,7 +36,7 @@ export const Component: FC = () => {
 
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
-    }, [ isDrawerActive, setIsDrawerActive ]);
+    }, [ isDrawerActive ]);
 
     // Update body class
     useEffect(() => {
