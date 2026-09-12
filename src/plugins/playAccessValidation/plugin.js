@@ -32,11 +32,11 @@ class PlayAccessValidation {
 
             // reject but don't show an error message
             if (!options.fullscreen) {
-                return Promise.reject();
+                return Promise.reject(new Error('PlayAccessValidationInterceptError'));
             }
 
             return showErrorMessage()
-                .finally(() => Promise.reject());
+                .finally(() => Promise.reject(new Error('ShowPlayAccessValidationInterceptError')));
         });
     }
 }

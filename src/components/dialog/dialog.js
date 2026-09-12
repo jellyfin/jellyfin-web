@@ -114,7 +114,7 @@ function showDialog(options = { dialogOptions: {}, buttons: [] }) {
         if (dialogResult) {
             return dialogResult;
         } else {
-            return Promise.reject();
+            return Promise.reject(new Error('ShowDialogError'));
         }
     });
 }
