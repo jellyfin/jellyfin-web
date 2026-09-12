@@ -100,6 +100,9 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
     // Notify that report has been sent
     reportPlaybackPromise.then(() => {
         Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
+    }, () => {
+        // Session may already be gone (e.g. stop() during sign out), nothing to report to
+        Events.trigger(playbackManagerInstance, 'reportplayback', [false]);
     });
 }
 
@@ -3840,6 +3843,7 @@ export class PlaybackManager {
                 });
                 Events.on(ServerConnections, 'localusersignedout', () => {
                     _unsubscribeRemoteControl?.();
+                    self.stop();
                 });
             });
         }
