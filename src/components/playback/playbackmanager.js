@@ -3785,8 +3785,8 @@ export class PlaybackManager {
             // Only preload for audio playback
             const currentItem = self.currentItem(player);
             if (currentItem?.MediaType !== 'Audio') {
-                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Current item is not Audio — skipping preload',
-                    currentItem?.MediaType);
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Current item is not Audio — skipping preload', currentItem?.MediaType);
+                player.clearNextSource?.();
                 return;
             }
 
@@ -3794,6 +3794,7 @@ export class PlaybackManager {
             const nextItemInfo = self._playQueueManager.getNextItemInfo();
             if (nextItemInfo?.item?.MediaType !== 'Audio') {
                 console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] No next item in queue — reduced-gap preload skipped');
+                player.clearNextSource?.();
                 return;
             }
 
@@ -3827,12 +3828,15 @@ export class PlaybackManager {
                 if (player.setNextSource) {
                     player.setNextSource(playOptions).catch(function(err) {
                         console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to preload next track', err);
+                        player.clearNextSource?.();
                     });
                 } else {
                     console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Player does not support setNextSource — skipping');
+                    player.clearNextSource?.();
                 }
             }).catch(function(err) {
                 console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to get playback info for next track', err);
+                player.clearNextSource?.();
             });
         }
 

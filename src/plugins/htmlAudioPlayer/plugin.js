@@ -100,6 +100,7 @@ class HtmlAudioPlayer {
 
         // Reduced-gap playback state
         self._nextMediaElement = null;
+        self._nextHlsPlayer = null;
         self._nextPlayOptions = null;
         self._isPreloadingNext = false;
         self._preloadQueuedAudioEnabled = false;
@@ -428,11 +429,13 @@ class HtmlAudioPlayer {
 
         self.setNextSource = function(options) {
             if (!self._preloadQueuedAudioEnabled) {
-                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called but gapless is disabled — skipping');
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called but preloading is disabled — skipping');
+                self._isPreloadingNext = false;
                 return Promise.resolve();
             }
             if (!options) {
                 console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called with no options — skipping');
+                self._isPreloadingNext = false;
                 return Promise.resolve();
             }
 
@@ -491,6 +494,8 @@ class HtmlAudioPlayer {
                 }).catch((err) => {
                     // Pre-bake failure is non-fatal; playback will still work, just with more latency.
                     console.warn('[PRELOAD-QUEUED-AUDIO][PREBAKE] Could not pre-bake next track pipeline', err);
+                }).finally(() => {
+                    self._isPreloadingNext = false;
                 });
             });
         };
@@ -593,7 +598,6 @@ class HtmlAudioPlayer {
             self._nextPlayOptions = null;
             self._nextGainNode = null;
             self._nextNormalizationGain = null;
-            self._isPreloadingNext = false;
 
             // Reset playback state for the new track.
             self._started = false;
@@ -608,7 +612,6 @@ class HtmlAudioPlayer {
             return self._mediaElement.play().then(() => {
                 console.debug('[PRELOAD-QUEUED-AUDIO][SWITCH] Reduced-gap transition complete', nextItem?.Name);
                 self._started = true;
-                Events.trigger(self, 'playing');
 
                 // Tear down the old element only after the new one is audibly playing.
                 if (oldElement) {
@@ -623,13 +626,6 @@ class HtmlAudioPlayer {
                 // Resolve with the item/mediaSource so the PlaybackManager can wire up stream info.
                 return { item: nextItem, mediaSource: nextMediaSource };
             });
-        };
-
-        self.setPreloadNextTrack = function(toggle) {
-            self._preloadQueuedAudioEnabled = toggle;
-            if (!toggle) {
-                self.clearNextSource();
-            }
         };
 
         // Public API for the PlaybackManager to discard a stale preloaded track.
