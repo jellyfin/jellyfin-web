@@ -10,6 +10,7 @@ import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
+import { bindVolumeWheel } from '../playback/volumeWheel';
 import { appHost } from '../apphost';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
@@ -246,6 +247,8 @@ function bindEvents(elem) {
     toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
 
     volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
+
+    bindVolumeWheel(volumeSlider);
 
     volumeSlider.addEventListener('input', (e) => {
         if (currentPlayer) {
