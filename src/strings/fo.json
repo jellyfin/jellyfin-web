@@ -1852,5 +1852,7 @@
     "RememberAudioSelectionsHelp": "Royn at velja ljóðspor líkt tí í undanfarnu kykmyndini.",
     "RememberSubtitleSelectionsHelp": "Royn at velja undirtekst líkur honum í undanfarnu kykmyndini.",
     "PlayAllFromHere": "Spæl hiðanífrá",
-    "LabelPasswordResetProvider": "Loyniorðsendurstillingarveitari"
+    "LabelPasswordResetProvider": "Loyniorðsendurstillingarveitari",
+    "LabelBindToLocalNetworkAddressHelp": "Ásetur lokala IP-atsetur HTTP-ambætarans. Er hesin teigurin tómur bindur ambætarin til øll tøk atsetur. Broyting av hesi stilling fær virkna eftir endurbyrjan av skipanini.",
+    "MessageBackupInProgress": "Trygdaravritar"
 }
