@@ -6,6 +6,13 @@ import globalize from 'lib/globalize';
 import * as userSettings from '../../../scripts/settings/userSettings';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client';
 import Screenfull from 'screenfull';
+import LinearProgress from '@mui/material/LinearProgress';
+import { PlayerEvent } from 'apps/legacy/features/playback/constants/playerEvent';
+import { playbackManager } from 'components/playback/playbackmanager';
+import Events, { type Event } from 'utils/events';
+import { PlaybackManagerEvent } from 'apps/legacy/features/playback/constants/playbackManagerEvent';
+import type { PlayerState } from 'types/playbackStopInfo';
+import type { PlayerPlugin } from 'types/plugin';
 
 interface BookOsdProps {
     item: BaseItemDto;
@@ -42,10 +49,15 @@ const BookOsd: FC<BookOsdProps> = ({
     const settings = userSettings.getComicsPlayerSettings(item.Id!) as ComicsPlayerSettings;
     const timeout = useRef<ReturnType<typeof setTimeout>>();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const player = useRef<any>(undefined);
+
     const [direction, setDirection] = useState(settings.langDir === 'rtl');
     const [layout, setLayout] = useState(settings.pagesPerView === 2);
     const [fullscreen, setFullscreen] = useState(false);
     const [visible, setVisible] = useState(true);
+    const [position, setPosition] = useState(-1);
+    const [duration, setDuration] = useState(100);
 
     const scheduleHide = useCallback(() => {
         clearTimeout(timeout.current);
@@ -104,11 +116,48 @@ const BookOsd: FC<BookOsdProps> = ({
         };
     }, [scheduleHide, updateFullscreen]);
 
+    useEffect(() => {
+        const onStateChange = (_e: Event, _newState: PlayerState) => {
+            // special case to handle EPUB progress as percentage value
+            if (_newState.NowPlayingItem?.Path?.endsWith('.epub')) {
+                setPosition(Math.floor(player.current?.currentTime() / 10));
+                setDuration(100);
+            } else {
+                setPosition(player.current?.currentTime());
+                setDuration(player.current?.duration());
+            }
+        };
+
+        const onPlaybackStart = (_e: Event, _player: PlayerPlugin, _state?: PlayerState) => {
+            player.current = _player;
+
+            Events.on(player.current, PlayerEvent.StateChange, onStateChange);
+            onStateChange(_e, _state!);
+        };
+
+        Events.on(playbackManager, PlaybackManagerEvent.PlaybackStart, onPlaybackStart);
+
+        return () => {
+            Events.off(playbackManager, PlaybackManagerEvent.PlaybackStart, onPlaybackStart);
+            Events.off(player.current, PlayerEvent.StateChange, onStateChange);
+        };
+    }, []);
+
     return (
         <div className='bookOsd'>
             <div className='bookOsdRow' style={{ paddingTop: 'env(safe-area-inset-top)', ...(!visible && { opacity: 0, pointerEvents: 'none' }) }}>
                 <IconButton onClick={onExit} icon='arrow_back' title={globalize.translate('ButtonBack')} />
                 <span className='bookOsdTitle'>{item.Name}</span>
+            </div>
+
+            <div className='bookOsdRow bookOsdProgressRow' style={{ ...(!visible && { opacity: 0, pointerEvents: 'none' }) }}>
+                <span className='bookOsdProgressText'>{position + 1}</span>
+                <LinearProgress
+                    variant='determinate'
+                    value={position !== 0 ? position / (duration - 1) * 100 : 0}
+                    style={{ flex: 1 }}
+                />
+                <span className='bookOsdProgressText'>{duration}</span>
             </div>
 
             <div className='bookOsdRow' style={{ paddingBottom: 'env(safe-area-inset-bottom)', ...(!visible && { opacity: 0, pointerEvents: 'none' }) }}>
