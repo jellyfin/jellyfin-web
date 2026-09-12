@@ -1791,7 +1791,7 @@
     "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-profili ljóðsins",
     "MediaInfoProfile": "Profilur",
     "EnableHi10p": "Virkja H.264 High 10 profil",
-    "DirectStreamHelp2": "Streymnýtslan undir beinleiðis stroyming valdast vanliga ljóðprofilin. Myndagóðskan er óávirkað.",
+    "DirectStreamHelp2": "Streymnýtslan undir beinleiðis stroyming valdast vanliga ljóðprofilin. Myndagóðskan er óbroytt.",
     "HeaderAllowMediaDeletionFrom": "Loyv miðlastriking úr",
     "HeaderRemoveMediaFolder": "Strika miðlasavn",
     "MessageAreYouSureYouWishToRemoveMediaFolder": "Ynskir tú at strika hetta miðlasavnið?",
@@ -1860,5 +1860,8 @@
     "LabelImageInterval": "Myndamillumbil",
     "HeaderRevisionHistory": "Broytingaryvirlit",
     "DeviceAccessHelp": "Hetta er bert galdandi fyri eindir ið kunnu verða einskilt eyðmerktar. Hetta noktar ikki atgongd umvegis vevkagara. Er atgongd avmarkað til ávísar eindir verður atgongd frá nýggjum eindum ikki sjálvvirkandi loyvd og skulu tær játtast her.",
-    "GroupBySeries": "Bólka eftir røðum"
+    "GroupBySeries": "Bólka eftir røðum",
+    "LabelParentNumber": "Høvuðsnummar",
+    "LabelPublicHttpPortHelp": "Almenna porturnummarið ið er beint til innara HTTP-portrið.",
+    "LabelPublicHttpsPortHelp": "Almenna porturnummarið ið er beint til innara HTTPS-portrið."
 }
