@@ -83,34 +83,16 @@ export function getQueryPagingHtml (options) {
 export function showSortMenu (options) {
     Promise.all([
         import('../components/dialogHelper/dialogHelper'),
-        import('../elements/emby-radio/emby-radio')
+        import('../elements/emby-radio/emby-radio'),
+        import('../elements/emby-checkbox/emby-checkbox')
     ]).then(([{ default: dialogHelper }]) => {
-        function onSortByChange() {
-            const newValue = this.value;
+        const isUnplayedFirst = options.query.UnplayedFirst === true ||
+            (options.query.SortBy || '').startsWith('IsPlayed,');
+        const rawSortBy = (options.query.SortBy || '').replace(/^IsPlayed,/, '');
 
-            if (this.checked) {
-                const changed = options.query.SortBy != newValue;
-                options.query.SortBy = newValue.replace('_', ',');
-                options.query.StartIndex = 0;
-
-                if (options.callback && changed) {
-                    options.callback();
-                }
-            }
-        }
-
-        function onSortOrderChange() {
-            const newValue = this.value;
-
-            if (this.checked) {
-                const changed = options.query.SortOrder != newValue;
-                options.query.SortOrder = newValue;
-                options.query.StartIndex = 0;
-
-                if (options.callback && changed) {
-                    options.callback();
-                }
-            }
+        let rawSortOrder = options.query.SortOrder || 'Ascending';
+        if (isUnplayedFirst && rawSortOrder.startsWith('Ascending,')) {
+            rawSortOrder = rawSortOrder.substring('Ascending,'.length).split(',')[0];
         }
 
         const dlg = dialogHelper.createDialog({
@@ -134,7 +116,7 @@ export function showSortMenu (options) {
         for (i = 0, length = options.items.length; i < length; i++) {
             const option = options.items[i];
             const radioValue = option.id.replace(',', '_');
-            isChecked = (options.query.SortBy || '').replace(',', '_') == radioValue ? ' checked' : '';
+            isChecked = (rawSortBy || '').replace(',', '_') == radioValue ? ' checked' : '';
             html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortBy" data-id="' + option.id + '" value="' + radioValue + '" class="menuSortBy" ' + isChecked + ' /><span>' + option.name + '</span></label>';
         }
 
@@ -143,24 +125,69 @@ export function showSortMenu (options) {
         html += globalize.translate('HeaderSortOrder');
         html += '</h2>';
         html += '<div>';
-        isChecked = options.query.SortOrder == 'Ascending' ? ' checked' : '';
+        isChecked = rawSortOrder == 'Ascending' ? ' checked' : '';
         html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Ascending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Ascending') + '</span></label>';
-        isChecked = options.query.SortOrder == 'Descending' ? ' checked' : '';
+        isChecked = rawSortOrder == 'Descending' ? ' checked' : '';
         html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
         html += '</div>';
+
+        const enableUnplayedSort = options.enableUnplayedSort !== false;
+        if (enableUnplayedSort) {
+            html += '<div style="margin-top: 1em;">';
+            isChecked = isUnplayedFirst ? ' checked' : '';
+            html += '<label class="checkboxContainer" style="margin-bottom: 0;"><input type="checkbox" is="emby-checkbox" class="chkUnplayedFirst" ' + isChecked + ' /><span>' + globalize.translate('OptionUnplayedFirst') + '</span></label>';
+            html += '</div>';
+        }
+
         html += '</div>';
         dlg.innerHTML = html;
         dialogHelper.open(dlg);
-        const sortBys = dlg.querySelectorAll('.menuSortBy');
 
+        function applySort() {
+            const selectedSortBy = dlg.querySelector('.menuSortBy:checked');
+            const selectedSortOrder = dlg.querySelector('.menuSortOrder:checked');
+            const unplayedFirstCheckbox = dlg.querySelector('.chkUnplayedFirst');
+
+            const currentBaseSortBy = selectedSortBy ? selectedSortBy.getAttribute('data-id') : rawSortBy;
+            const currentBaseSortOrder = selectedSortOrder ? selectedSortOrder.value : rawSortOrder;
+            const currentUnplayedFirst = unplayedFirstCheckbox ? unplayedFirstCheckbox.checked : false;
+
+            const cleanBaseSortBy = (currentBaseSortBy || '').replace(/^IsPlayed,/, '');
+            let finalSortBy = cleanBaseSortBy;
+            let finalSortOrder = currentBaseSortOrder;
+
+            if (currentUnplayedFirst && cleanBaseSortBy) {
+                finalSortBy = 'IsPlayed,' + cleanBaseSortBy;
+                finalSortOrder = 'Ascending,' + currentBaseSortOrder;
+            }
+
+            const changed = options.query.SortBy !== finalSortBy ||
+                options.query.SortOrder !== finalSortOrder ||
+                options.query.UnplayedFirst !== currentUnplayedFirst;
+
+            options.query.SortBy = finalSortBy;
+            options.query.SortOrder = finalSortOrder;
+            options.query.UnplayedFirst = currentUnplayedFirst;
+            options.query.StartIndex = 0;
+
+            if (options.callback && changed) {
+                options.callback();
+            }
+        }
+
+        const sortBys = dlg.querySelectorAll('.menuSortBy');
         for (i = 0, length = sortBys.length; i < length; i++) {
-            sortBys[i].addEventListener('change', onSortByChange);
+            sortBys[i].addEventListener('change', applySort);
         }
 
         const sortOrders = dlg.querySelectorAll('.menuSortOrder');
-
         for (i = 0, length = sortOrders.length; i < length; i++) {
-            sortOrders[i].addEventListener('change', onSortOrderChange);
+            sortOrders[i].addEventListener('change', applySort);
+        }
+
+        const chkUnplayedFirst = dlg.querySelector('.chkUnplayedFirst');
+        if (chkUnplayedFirst) {
+            chkUnplayedFirst.addEventListener('change', applySort);
         }
     });
 }
