@@ -1067,7 +1067,7 @@
     "PreferEmbeddedExtrasTitlesOverFileNames": "Nýt innpakkaði heitir heldur enn tey úr fílunøvnum fyri eykatilfar",
     "PreferEmbeddedTitlesOverFileNames": "Nýt innpakkaði heitir í staðin fyri at lesa tey úr fílunøvnum",
     "PreferEmbeddedTitlesOverFileNamesHelp": "Avger vísta heitið tá metadátur ikki útvegaðar, hvørki umvegis alnet ella nærnet.",
-    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Tíðum hevur eykatilfar sama innpakkaða heitið eins og høvuðstilfarið. Vel hetta til tess at brúka innpakkaði heitir koritini.",
+    "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "Mangan hevur eykatilfar sama innpakkaða heitið eins og høvuðstilfarið. Vel hetta til tess at brúka innpakkaði heitir koritini.",
     "LabelSkipIfGraphicalSubsPresent": "Leyp kykmynd um í fall hon hevur innpakkaðar undirtekstir",
     "AllowEmbeddedSubtitles": "Nokta ymiskum sløgum av innpakkaðum undirtekstum",
     "YoutubeDenied": "Umbidna kykmyndin er noktað at verða spæld í innbygdum spælarum.",
@@ -1791,7 +1791,7 @@
     "AudioProfileNotSupported": "Virkisføri vantar fyri kodek-profili ljóðsins",
     "MediaInfoProfile": "Profilur",
     "EnableHi10p": "Virkja H.264 High 10 profil",
-    "DirectStreamHelp2": "Streymnýtslan ið brúkt verður undir beinleiðis stroyming valdast vanliga ljóðprofilin. Einans myndagóðskan er óávirkað.",
+    "DirectStreamHelp2": "Streymnýtslan undir beinleiðis stroyming valdast vanliga ljóðprofilin. Myndagóðskan er óávirkað.",
     "HeaderAllowMediaDeletionFrom": "Loyv miðlastriking úr",
     "HeaderRemoveMediaFolder": "Strika miðlasavn",
     "MessageAreYouSureYouWishToRemoveMediaFolder": "Ynskir tú at strika hetta miðlasavnið?",
@@ -1857,5 +1857,8 @@
     "MessageBackupInProgress": "Trygdaravritar",
     "PlaybackError.RateLimitExceeded": "Hesin miðilin kann ikki spælast í løtuni vegna ferðavmarkingar.",
     "PasswordResetProviderHelp": "Vel ein loyniorðsendurstillingarveitara fyri hendan brúkaran.",
-    "LabelImageInterval": "Myndamillumbil"
+    "LabelImageInterval": "Myndamillumbil",
+    "HeaderRevisionHistory": "Broytingaryvirlit",
+    "DeviceAccessHelp": "Hetta er bert galdandi fyri eindir ið kunnu verða einskilt eyðmerktar. Hetta noktar ikki atgongd umvegis vevkagara. Er atgongd avmarkað til ávísar eindir verður atgongd frá nýggjum eindum ikki sjálvvirkandi loyvd og skulu tær játtast her.",
+    "GroupBySeries": "Bólka eftir røðum"
 }
