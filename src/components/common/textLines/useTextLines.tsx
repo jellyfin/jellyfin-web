@@ -75,8 +75,9 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     const addProgramDateTime = () => {
         if (showProgramDateTime) {
             const programDateTime = datetime.toLocaleString(
-                datetime.parseISO8601Date(item.StartDate),
+                datetime.parseISO8601Date(item.StartDate as string),
                 {
+                    // @ts-expect-error: these arguments don't match what toLocaleString expects
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric',
@@ -91,7 +92,8 @@ function useTextLines({ item, textLineOpts = {} }: UseTextLinesProps) {
     const addProgramTime = () => {
         if (showProgramTime) {
             const programTime = datetime.getDisplayTime(
-                datetime.parseISO8601Date(item.StartDate)
+                // If StartDate is null, this will throw an Error
+                datetime.parseISO8601Date(item.StartDate as string)
             );
             addTextLine({ title: programTime });
         }
