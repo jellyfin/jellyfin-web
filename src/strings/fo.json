@@ -1863,5 +1863,8 @@
     "GroupBySeries": "Bólka eftir røðum",
     "LabelParentNumber": "Høvuðsnummar",
     "LabelPublicHttpPortHelp": "Almenna porturnummarið ið er beint til innara HTTP-portrið.",
-    "LabelPublicHttpsPortHelp": "Almenna porturnummarið ið er beint til innara HTTPS-portrið."
+    "LabelPublicHttpsPortHelp": "Almenna porturnummarið ið er beint til innara HTTPS-portrið.",
+    "MessageRestoreInProgress": "Endurstovnar",
+    "MessageRestoreDisclaimer": "GEV GÆTUR: Tú er í ferð við at endurstovna frá einum eldri trygdaravriti. Ambætarin verður ikki nýtiligur undir tilgongdini, og allar dátur yngri enn trygdaravritið verða strikaðar.\n\nTrygdaravrit eiga einans at verða endurstovnaði í somu ambætaraútgávu sum tey vóru stovnaði við. At endurstovna eitt trygdaravrit við aðrari ambætaraútgávu er frámælt og kann elva til at ambætarin gerst ónýtiligur.",
+    "MessageRestoreSuccess": "Endurstovnanin eydnaðist"
 }
