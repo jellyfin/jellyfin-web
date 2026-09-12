@@ -1989,6 +1989,9 @@ export class HtmlVideoPlayer {
         if (mediaElement) {
             if (val != null) {
                 mediaElement.currentTime = val / 1000;
+                // Update the cached position immediately so readers such as the
+                // SyncPlay ready report see the seek target, not the pre-seek time.
+                this.#currentTime = val / 1000;
                 return;
             }
 
