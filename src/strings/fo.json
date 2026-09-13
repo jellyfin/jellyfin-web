@@ -1882,5 +1882,9 @@
     "LabelExtractTrickplayDuringLibraryScanHelp": "Framleiður trickplay-myndir tá ið kykmyndir verða innlisnar í savnið. Annars verða tær framleiddar av fyriskipaðu koyrsluni ið framleiður trickplay-myndir. Er framleiðsluatburðurin settur til \"óhindrandi\" hevur tað ikki ávirkan á savnsskanningartíðina.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Áset ynskta ljóð-kodekkið ið umkotast skal til tá hugt verður at kykmyndum. Er virkisføri ikki fyri ynskta kodekkinum velur ambætarin tað fragasta tøka kodekkið ið virkisføri er fyri.",
     "MediaInfoDvBlSignalCompatibilityId": "DV BL-sínamillumvirkisflagg",
-    "UserProfilesIntro": "Jellyfin hevur virkisføri fyri brúkarum við egnum neyvstillaðum sýnisstillingum, spælistøðum og aldursmørkum."
+    "UserProfilesIntro": "Jellyfin hevur virkisføri fyri brúkarum við egnum neyvstillaðum sýnisstillingum, spælistøðum og aldursmørkum.",
+    "OptionLoginAttemptsBeforeLockoutHelp": "Er virðið null arvar stillingin forsettu mørkini, ið eru tríggjar royndir fyri vanligar brúkarar og fimm royndir fyri umsitarar. Áset -1 til tess at óvirkja markið.",
+    "MessageLeaveEmptyToInherit": "Lat teigin verða tóman til tess at arva stillingina frá eini yvirskjáttu ella frá tí heiltøka forsetta virðinum.",
+    "OptionAllowRemoteControlOthers": "Loyv brúkaranum at fjarstýra aðrar brúkarar",
+    "MediaInfoTimestamp": "Tíðarstempul"
 }
