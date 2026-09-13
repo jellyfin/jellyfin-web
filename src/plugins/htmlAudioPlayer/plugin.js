@@ -117,6 +117,32 @@ class HtmlAudioPlayer {
             return setCurrentSrc(elem, options);
         };
 
+        function normalizationGainFromSettings(userSettings, options) {
+            const normalizationSetting = userSettings.selectAudioNormalization();
+            if (normalizationSetting == 'TrackGain') {
+                return options.item.NormalizationGain
+                    ?? options.mediaSource.albumNormalizationGain;
+            } else if (normalizationSetting == 'AlbumGain') {
+                return options.mediaSource.albumNormalizationGain
+                    ?? options.item.NormalizationGain;
+            }
+            console.debug('normalization disabled');
+        }
+
+        async function newHlsPlayer(elem, val) {
+            const includeCorsCredentials = await getIncludeCorsCredentials();
+
+            const hls = new Hls({
+                manifestLoadingTimeOut: 20000,
+                xhrSetup: (xhr) => {
+                    xhr.withCredentials = includeCorsCredentials;
+                }
+            });
+            hls.loadSource(val);
+            hls.attachMedia(elem);
+            return hls;
+        }
+
         function setCurrentSrc(elem, options) {
             unBindEvents(elem);
             bindEvents(elem);
@@ -131,18 +157,7 @@ class HtmlAudioPlayer {
                     return;
                 }
 
-                let normalizationGain;
-                if (userSettings.selectAudioNormalization() == 'TrackGain') {
-                    normalizationGain = options.item.NormalizationGain
-                        ?? options.mediaSource.albumNormalizationGain;
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
-                    normalizationGain =
-                        options.mediaSource.albumNormalizationGain
-                        ?? options.item.NormalizationGain;
-                } else {
-                    console.debug('normalization disabled');
-                    return;
-                }
+                const normalizationGain = normalizationGainFromSettings(userSettings, options);
 
                 if (!self.gainNode) {
                     addGainElement(elem);
@@ -188,16 +203,7 @@ class HtmlAudioPlayer {
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
                 return new Promise(function (resolve, reject) {
                     requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
-
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
-                                xhr.withCredentials = includeCorsCredentials;
-                            }
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
+                        const hls = await newHlsPlayer(elem, val);
 
                         htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
 
@@ -447,14 +453,12 @@ class HtmlAudioPlayer {
 
             // Eagerly resolve normalization gain so the gain node is wired before the switch.
             const normalizationSetup = import('../../scripts/settings/userSettings').then((userSettings) => {
-                let normalizationGain;
-                if (userSettings.selectAudioNormalization() == 'TrackGain') {
-                    normalizationGain = options.item.NormalizationGain
-                        ?? options.mediaSource?.albumNormalizationGain;
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
-                    normalizationGain = options.mediaSource?.albumNormalizationGain
-                        ?? options.item.NormalizationGain;
+                if (browser.iOS) {
+                    // createMediaElementSource breaks playbackRate and pitch on iOS WebKit
+                    return;
                 }
+
+                const normalizationGain = normalizationGainFromSettings(userSettings, options);
 
                 if (normalizationGain) {
                     // Create a dedicated AudioContext for the next element so it is ready to play
@@ -510,26 +514,22 @@ class HtmlAudioPlayer {
             }
 
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
-                return new Promise(function (resolve) {
+                return new Promise(function (resolve, reject) {
                     requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
+                        const hls = await newHlsPlayer(elem, val);
 
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
-                                xhr.withCredentials = includeCorsCredentials;
-                            }
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
+                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
 
                         self._nextHlsPlayer = hls;
                         resolve();
                     });
                 });
             }, async () => {
+                elem.autoplay = true;
+
                 const includeCorsCredentials = await getIncludeCorsCredentials();
                 if (includeCorsCredentials) {
+                    // Safari will not send cookies without this
                     elem.crossOrigin = 'use-credentials';
                 }
 
