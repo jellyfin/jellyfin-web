@@ -583,7 +583,6 @@ class HtmlAudioPlayer {
             self._currentPlayOptions = self._nextPlayOptions;
             self._currentSrc = self._nextPlayOptions?.url;
 
-            // Apply pre-built gain node; fall back to addGainElement if pre-bake didn't run.
             if (self._nextGainNode) {
                 self.gainNode = self._nextGainNode;
                 self.normalizationGain = self._nextNormalizationGain ?? 1;

@@ -2389,7 +2389,7 @@ export class PlaybackManager {
                 return Promise.reject();
             }
 
-            // Normalize defaults to simplfy checks throughout the process
+            // Normalize defaults to simplify checks throughout the process
             normalizePlayOptions(playOptions);
 
             playOptions.isFirstItem = playOptions.isFirstItem || !prevSource;
@@ -3307,7 +3307,7 @@ export class PlaybackManager {
                     player.preloadNextQueuedTrack?.();
                 }
             }
-        };
+        }
 
         function queueAll(items, mode, player) {
             if (!items.length) {
@@ -3625,37 +3625,19 @@ export class PlaybackManager {
                         if (preloadedId && preloadedId === nextItem.item.PlaylistItemId && player.activatePreloadedTrack) {
                             console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Activating preloaded track', nextItem.item.Name);
 
-                            // Advance the playlist position before activating.
-                            setPlaylistState(nextItem.item.PlaylistItemId, nextItem.index);
-
                             player.activatePreloadedTrack().then(({ item, mediaSource }) => {
+                                // Advance the playlist position to the activated track.
+                                setPlaylistState(nextItem.item.PlaylistItemId, nextItem.index);
+
                                 // Wire up the new stream info now that the element is playing.
-                                const playerData = getPlayerData(player);
-                                playerData.streamInfo = createStreamInfo(
+                                const nextStreamInfo = createStreamInfo(
                                     ServerConnections.getApiClient(item.ServerId),
                                     'Audio', item, mediaSource, 0, player
                                 );
-                                playerData.streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
-                                playerData.streamInfo.started = true;
 
-                                if (mediaSource) {
-                                    playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
-                                    playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
-                                    playerData.secondarySubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
-                                }
-
-                                const newState = self.getPlayerState(player, item, mediaSource);
-                                console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Stream info wired, reporting playback start', item.Name);
-                                reportPlayback(self, newState, player, true, item.ServerId, 'reportPlaybackStart');
-                                Events.trigger(player, 'playbackstart', [newState]);
-                                Events.trigger(self, 'playbackstart', [player, newState]);
-
-                                // Queue preload of the track after this one now that the playlist
-                                // position has advanced and the new item is playing.
-                                if (player.preloadNextQueuedTrack) {
-                                    console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Triggering preload on preloaded-track activation', item.Name);
-                                    player.preloadNextQueuedTrack();
-                                }
+                                // Note that the preloaded track is never the first item, and `fullscreen` acts differently for audio, `true` is the correct behavior.
+                                const playOptions = { isFirstItem: false, fullscreen: true };
+                                onPlaybackStarted(player, playOptions, nextStreamInfo, mediaSource);
                             }).catch((err) => {
                                 console.error('[PRELOAD-QUEUED-AUDIO][STOPPED] activatePreloadedTrack failed — falling back to nextTrack()', err);
                                 player.clearNextSource?.();
