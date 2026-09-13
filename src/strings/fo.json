@@ -1873,5 +1873,14 @@
     "OptionAllowLinkSharingHelp": "Bert vevsíður við miðlaupplýsingum verða deildar. Miðlafílur verða ongantíð deildar alment. Deilingar eru tíðaravmarkaðar og fyrna eftir {0} dagar.",
     "OptionMaxActiveSessions": "Avmarka samstundis setur brúkarans.",
     "OptionMaxActiveSessionsHelp": "Verður 0 ásett er avmarkingin óvirkja.",
-    "LabelDropShadow": "Skuggar"
+    "LabelDropShadow": "Skuggar",
+    "LabelSyncPlayHaltPlaybackDescription": "Og tak ikki hædd fyri broytingum á núverandi spælilista",
+    "LabelScanBehaviorHelp": "Forsetti atburðurin er óhindrandi, ið leggur miðlar inn í savnið áðrenn trickplay-myndaframleiðslan er liðug. Hindrandi atburðurin tryggjar at trickplay-myndirnar eru framleiddar áðrenn miðlar verða lagdir í savnið, men hevur við sær at savnsskanningar taka munandi longri tíð.",
+    "NonBlockingScan": "Óhindrandi - setur myndaframleiðsluna í bíðirøð og heldur fram",
+    "BlockingScan": "Hindrandi - setur myndaframleiðsluna í bíðirøð og heldur ikki fram við skanningini fyrr enn hon er liðug",
+    "LabelScanBehavior": "Skanningaratburður",
+    "LabelExtractTrickplayDuringLibraryScanHelp": "Framleiður trickplay-myndir tá ið kykmyndir verða innlisnar í savnið. Annars verða tær framleiddar av fyriskipaðu koyrsluni ið framleiður trickplay-myndir. Er framleiðsluatburðurin settur til \"óhindrandi\" hevur tað ikki ávirkan á savnsskanningartíðina.",
+    "SelectPreferredTranscodeVideoAudioCodecHelp": "Áset ynskta ljóð-kodekkið ið umkotast skal til tá hugt verður at kykmyndum. Er virkisføri ikki fyri ynskta kodekkinum velur ambætarin tað fragasta tøka kodekkið ið virkisføri er fyri.",
+    "MediaInfoDvBlSignalCompatibilityId": "DV BL-sínamillumvirkisflagg",
+    "UserProfilesIntro": "Jellyfin hevur virkisføri fyri brúkarum við egnum neyvstillaðum sýnisstillingum, spælistøðum og aldursmørkum."
 }
