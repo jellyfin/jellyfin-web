@@ -237,6 +237,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Enable Preloading Queued Audio' state.
+     * @param {boolean|undefined} [val] - Flag to enable preloading queued audio or undefined.
+     * @return {boolean} 'Enable Preloading Queued Audio' state.
+     */
+    enablePreloadQueuedAudio(val) {
+        if (val !== undefined) {
+            return this.set('enablePreloadQueuedAudio', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enablePreloadQueuedAudio', false), false);
+    }
+
+    /**
      * Get or set 'Video Remaining/Total Time' state.
      * @param {boolean|undefined} val - Flag to enable 'Video Remaining/Total Time' or undefined.
      * @return {boolean} 'Video Remaining/Total Time' state.
@@ -731,6 +744,7 @@ export const limitSegmentLength = currentSettings.limitSegmentLength.bind(curren
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
+export const enablePreloadQueuedAudio = currentSettings.enablePreloadQueuedAudio.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
