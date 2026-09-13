@@ -12,9 +12,12 @@ import screenSaverManager from 'scripts/screensavermanager';
 import Events from '../../utils/events.ts';
 import BookOsd from '../bookPlayer/BookOsd/BookOsd';
 import { renderComponent } from '../../utils/reactUtils';
+import * as userSettings from '../../scripts/settings/userSettings';
 
 import 'material-design-icons-iconfont';
 import './style.scss';
+
+const PDF_PLAYER_THEME_KEY = 'pdfPlayerTheme';
 
 export class PdfPlayer {
     constructor() {
@@ -29,6 +32,21 @@ export class PdfPlayer {
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
+        this.toggleTheme = this.toggleTheme.bind(this);
+
+        const savedTheme = userSettings.get(PDF_PLAYER_THEME_KEY, false);
+        this.theme = savedTheme || 'light';
+    }
+
+    applyTheme() {
+        const container = document.querySelector('#pdfPlayer');
+        if (container) {
+            container.classList.toggle('theme-dark', this.theme === 'dark');
+        }
+        // Re-render current page with new theme
+        if (this.loaded && this.book) {
+            this.loadPage(this.progress + 1);
+        }
     }
 
     play(options) {
@@ -36,6 +54,7 @@ export class PdfPlayer {
         this.loaded = false;
         this.cancellationToken = false;
         this.pages = {};
+        this.textLayers = {};
 
         screenSaverManager.block();
         loading.show();
@@ -49,6 +68,11 @@ export class PdfPlayer {
         this.unmountBookOsd?.();
         screenSaverManager.unblock();
 
+        const container = document.querySelector('#pdfPlayer');
+        if (container) {
+            container.classList.remove('theme-dark');
+        }
+
         const stopInfo = {
             src: this.item
         };
@@ -61,15 +85,12 @@ export class PdfPlayer {
             this.mediaElement = null;
         }
 
-        // hide loading animation
         loading.hide();
-
-        // cancel page render
         this.cancellationToken = true;
     }
 
     destroy() {
-        // Nothing to do here
+        // No cleanup needed - resources released in stop()
     }
 
     currentItem() {
@@ -103,7 +124,6 @@ export class PdfPlayer {
     onWindowKeyDown(e) {
         if (!this.loaded) return;
 
-        // Skip modified keys
         if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
 
         const key = keyboardnavigation.getKeyName(e);
@@ -154,6 +174,12 @@ export class PdfPlayer {
         setTimeout(() => this.loadPage(this.progress + 1), 200);
     }
 
+    toggleTheme() {
+        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        userSettings.set(PDF_PLAYER_THEME_KEY, this.theme, false);
+        this.applyTheme();
+    }
+
     createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
@@ -172,7 +198,7 @@ export class PdfPlayer {
             });
 
             elem.id = 'pdfPlayer';
-            elem.innerHTML = '<div id="bookOsdMount"></div><div id="container"><canvas id="canvas"></canvas></div>';
+            elem.innerHTML = '<div id="bookOsdMount"></div><div id="container"><div id="canvasWrapper"><canvas id="canvas"></canvas><div id="textLayer"></div></div></div>';
 
             dialogHelper.open(elem);
         }
@@ -183,8 +209,11 @@ export class PdfPlayer {
             onExit: this.onDialogClosed,
             onPrevious: this.previous,
             onNext: this.next,
-            onToggleFullscreen: this.toggleFullscreen
+            onToggleFullscreen: this.toggleFullscreen,
+            onRotateTheme: this.toggleTheme
         }, elem.querySelector('#bookOsdMount'));
+
+        this.applyTheme();
 
         return elem;
     }
@@ -216,8 +245,6 @@ export class PdfPlayer {
 
             const downloadTask = getDocument({
                 url: downloadHref,
-                // Disable for PDF.js XSS vulnerability
-                // https://github.com/mozilla/pdf.js/security/advisories/GHSA-wgrm-67xf-hhpq
                 isEvalSupported: false
             });
             return downloadTask.promise.then(book => {
@@ -256,33 +283,39 @@ export class PdfPlayer {
     loadPage(number) {
         const prefix = 'page';
         const pad = 2;
-        const canvas = document.querySelector('#canvas');
+        const canvasWrapper = document.querySelector('#canvasWrapper');
 
-        // generate list of cached pages by padding the requested page on both sides
         const pages = [prefix + number];
         for (let i = 1; i <= pad; i++) {
             if (number - i > 0) pages.push(prefix + (number - i));
             if (number + i < this.duration()) pages.push(prefix + (number + i));
         }
 
-        // load any missing pages in the cache
         for (const page of pages) {
             if (!this.pages[page] || this.cacheWidth !== window.innerWidth || this.cacheHeight !== window.innerHeight) {
-                this.pages[page] = document.createElement('canvas');
-                this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
+                const canvas = document.createElement('canvas');
+                const textLayer = document.createElement('div');
+                textLayer.className = 'textLayer';
+                this.pages[page] = { canvas, textLayer };
+                this.renderPage(canvas, textLayer, parseInt(page.slice(4), 10));
 
-                this.pages[page].id = 'canvas';
+                canvas.id = 'canvas';
             }
         }
 
-        // show the requested page
-        canvas?.parentNode.replaceChild(this.pages[prefix + number], canvas);
+        const pageData = this.pages[prefix + number];
+        if (pageData) {
+            const oldCanvas = canvasWrapper.querySelector('#canvas');
+            const oldTextLayer = canvasWrapper.querySelector('#textLayer');
+            if (oldCanvas) oldCanvas.replaceWith(pageData.canvas);
+            if (oldTextLayer) oldTextLayer.replaceWith(pageData.textLayer);
+            pageData.canvas.id = 'canvas';
+            pageData.textLayer.id = 'textLayer';
+        }
 
-        // track size so we can render all pages again when the screen has changed
         this.cacheWidth = window.innerWidth;
         this.cacheHeight = window.innerHeight;
 
-        // delete all pages outside the cache area
         for (const page in this.pages) {
             if (!pages.includes(page)) {
                 delete this.pages[page];
@@ -290,31 +323,48 @@ export class PdfPlayer {
         }
     }
 
-    renderPage(canvas, number) {
+    async renderPage(canvas, textLayer, number) {
         const devicePixelRatio = window.devicePixelRatio || 1;
-        this.book.getPage(number).then(page => {
-            const original = page.getViewport({ scale: 1 });
-            const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width));
-            const viewport = page.getViewport({ scale: scale * devicePixelRatio });
+        const page = await this.book.getPage(number);
 
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+        const original = page.getViewport({ scale: 1 });
+        const scale = Math.min((window.innerHeight / original.height), (window.innerWidth / original.width));
+        const viewport = page.getViewport({ scale: scale * devicePixelRatio });
 
-            canvas.style.width = `${original.width * scale}px`;
-            canvas.style.height = `${original.height * scale}px`;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
 
-            const context = canvas.getContext('2d');
+        canvas.style.width = `${original.width * scale}px`;
+        canvas.style.height = `${original.height * scale}px`;
 
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
+        textLayer.style.width = `${original.width * scale}px`;
+        textLayer.style.height = `${original.height * scale}px`;
 
-            const renderTask = page.render(renderContext);
-            renderTask.promise.then(() => {
-                loading.hide();
-            });
+        // Render page to canvas with transparent background
+        const context = canvas.getContext('2d');
+        const renderContext = {
+            canvasContext: context,
+            viewport: viewport,
+            background: 'rgba(0,0,0,0)' // Transparent background
+        };
+
+        const renderTask = page.render(renderContext);
+        await renderTask.promise;
+
+        // Get text content for text layer
+        const textContent = await page.getTextContent();
+        const pdfjsLib = await import('pdfjs-dist');
+
+        // Render text layer on top
+        pdfjsLib.renderTextLayer({
+            textContent: textContent,
+            container: textLayer,
+            viewport: viewport,
+            textDivs: [],
+            enhanceTextSelection: true
         });
+
+        loading.hide();
     }
 
     canPlayMediaType(mediaType) {

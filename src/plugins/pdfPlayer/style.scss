@@ -21,4 +21,25 @@
         display: block;
         margin: auto;
     }
+
+    #textLayer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+
+    &.theme-dark {
+        background: #000;
+
+        #textLayer {
+            div {
+                color: #d8dadc !important;
+            }
+        }
+
+        ::selection {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
 }
