@@ -3297,14 +3297,16 @@ export class PlaybackManager {
         }
 
         function invalidatePreloadedTrackIfNextChanged(player) {
-            if (player._preloadQueuedAudioEnabled) {
-                // Check if the preloaded next track was invalidated by the new queue order.
-                const preloadedId = player._nextMediaElement?.dataset.playlistItemId || null;
+            if (player?.isPreloadQueuedAudioEnabled?.()) {
+                // Check if the preloaded next track was invalidated by a new queue order.
+                const preloadedId = player.getPreloadedItemId?.() || null;
                 const currentNextId = self._playQueueManager.getNextItemInfo()?.item?.PlaylistItemId || null;
                 if (preloadedId !== currentNextId) {
                     console.debug('[PRELOAD-QUEUED-AUDIO][INVALIDATE] Preloaded track was invalidated by new queue order');
                     player.clearNextSource?.();
-                    player.preloadNextQueuedTrack?.();
+                    if (currentNextId) {
+                        player.preloadNextQueuedTrack?.();
+                    }
                 }
             }
         }
@@ -3619,10 +3621,11 @@ export class PlaybackManager {
                     if (user.Configuration.EnableNextEpisodeAutoPlay || nextMediaType !== MediaType.Video) {
                         // If the player has already preloaded the next track, activate it directly
                         // instead of going through a full playInternal cycle.
-                        const preloadedId = player.getPreloadedItemId?.();
+                        const preloadedId = player.getPreloadedItemId?.() || null;
+                        const nextItemId = nextItem.item.PlaylistItemId || null;
                         console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Checking for preloaded track',
                             { preloadedId, expectedId: nextItem.item.PlaylistItemId, nextItem: nextItem.item.Name });
-                        if (preloadedId && preloadedId === nextItem.item.PlaylistItemId && player.activatePreloadedTrack) {
+                        if (nextMediaType === MediaType.Audio && preloadedId && preloadedId === nextItemId && player.activatePreloadedTrack) {
                             console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Activating preloaded track', nextItem.item.Name);
 
                             player.activatePreloadedTrack().then(({ item, mediaSource }) => {
@@ -3635,7 +3638,7 @@ export class PlaybackManager {
                                     'Audio', item, mediaSource, 0, player
                                 );
 
-                                // Note that the preloaded track is never the first item, and `fullscreen` acts differently for audio, `true` is the correct behavior.
+                                // Note that the preloaded track is never the first item, and `fullscreen` acts differently for audio (`true` is the correct behavior).
                                 const playOptions = { isFirstItem: false, fullscreen: true };
                                 onPlaybackStarted(player, playOptions, nextStreamInfo, mediaSource);
                             }).catch((err) => {
@@ -3646,8 +3649,13 @@ export class PlaybackManager {
                         } else {
                             if (preloadedId) {
                                 // Preloaded track exists but is stale — discard it before advancing.
-                                console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] Preloaded track ID mismatch — discarding',
-                                    { preloaded: preloadedId, expected: nextItem.item.PlaylistItemId });
+                                console.debug(
+                                    '[PRELOAD-QUEUED-AUDIO][STOPPED] Preloaded track ID mismatch — discarding',
+                                    { preloaded: preloadedId, expected: nextItemId },
+                                    preloadedId === nextItem.item.PlaylistItemId,
+                                    nextMediaType === MediaType.Audio,
+                                    player.activatePreloadedTrack
+                                );
                                 player.clearNextSource?.();
                             } else {
                                 console.debug('[PRELOAD-QUEUED-AUDIO][STOPPED] No preloaded track — falling through to nextTrack()');

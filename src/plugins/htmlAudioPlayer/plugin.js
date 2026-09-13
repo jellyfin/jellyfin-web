@@ -127,6 +127,7 @@ class HtmlAudioPlayer {
                     ?? options.item.NormalizationGain;
             }
             console.debug('normalization disabled');
+            return false;
         }
 
         async function newHlsPlayer(elem, val) {
@@ -158,6 +159,7 @@ class HtmlAudioPlayer {
                 }
 
                 const normalizationGain = normalizationGainFromSettings(userSettings, options);
+                if (normalizationGain === false) return;
 
                 if (!self.gainNode) {
                     addGainElement(elem);
@@ -319,19 +321,26 @@ class HtmlAudioPlayer {
             return elem;
         }
 
+        // Helper to create and connect a gain node to the audio context for the given media element.
+        // Returns the GainNode hooked to the input element.
+        // Throws an exception if an audio context cannot be created or the source or gain nodes cannot be connected.
+        function createConnectedGainNode(elem) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
+
+            const audioCtx = new AudioContext();
+            const source = audioCtx.createMediaElementSource(elem);
+
+            const gainNode = audioCtx.createGain();
+
+            source.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            return gainNode;
+        }
+
         function addGainElement(elem) {
             try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
-
-                const audioCtx = new AudioContext();
-                const source = audioCtx.createMediaElementSource(elem);
-
-                const gainNode = audioCtx.createGain();
-
-                source.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                self.gainNode = gainNode;
+                self.gainNode = createConnectedGainNode(elem);
             } catch (e) {
                 console.error('Web Audio API is not supported in this browser', e);
             }
@@ -459,17 +468,11 @@ class HtmlAudioPlayer {
                 }
 
                 const normalizationGain = normalizationGainFromSettings(userSettings, options);
-
                 if (normalizationGain) {
                     // Create a dedicated AudioContext for the next element so it is ready to play
                     // immediately on switch without going through addGainElement at transition time.
                     try {
-                        const AudioContext = window.AudioContext || window.webkitAudioContext;
-                        const audioCtx = new AudioContext();
-                        const source = audioCtx.createMediaElementSource(elem);
-                        const gainNode = audioCtx.createGain();
-                        source.connect(gainNode);
-                        gainNode.connect(audioCtx.destination);
+                        const gainNode = createConnectedGainNode(elem);
                         const gain = Math.pow(10, normalizationGain / 20);
                         gainNode.gain.value = browser.safari ? gain * elem.volume : gain;
                         self._nextGainNode = gainNode;
@@ -558,10 +561,8 @@ class HtmlAudioPlayer {
             return elem;
         };
 
-        // Returns the PlaylistItemId stamped on the preloaded element, or null if none is preloaded.
-        // Used by PlaybackManager.onPlaybackStopped to decide whether to activate the preloaded track.
         self.getPreloadedItemId = function() {
-            return self._nextMediaElement?.dataset.playlistItemId || null;
+            return self._nextMediaElement?.dataset?.playlistItemId;
         };
 
         self.activatePreloadedTrack = function() {
@@ -820,6 +821,10 @@ class HtmlAudioPlayer {
             return !!document.AirplayElement;
         }
         return false;
+    }
+
+    isPreloadQueuedAudioEnabled() {
+        return this._preloadQueuedAudioEnabled;
     }
 
     setAirPlayEnabled(isEnabled) {
