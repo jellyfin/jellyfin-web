@@ -383,8 +383,8 @@ class AppRouter {
             return url;
         }
 
-        if (item.Type === 'Studio') {
-            url = '#/list?studioId=' + item.Id + '&serverId=' + serverId;
+        if (item.Type === 'Company') {
+            url = '#/list?companyId=' + item.Id + '&serverId=' + serverId;
 
             if (options.parentId) {
                 url += '&parentId=' + options.parentId;

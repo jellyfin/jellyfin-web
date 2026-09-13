@@ -10,6 +10,7 @@ export enum LibraryTab {
     Genres = 'genres',
     Guide = 'guide',
     Movies = 'movies',
+    Networks = 'networks',
     Playlists = 'playlists',
     Programs = 'programs',
     Recordings = 'recordings',

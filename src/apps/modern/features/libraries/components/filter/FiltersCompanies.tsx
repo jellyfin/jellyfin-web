@@ -5,52 +5,52 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { LibraryViewSettings } from 'types/library';
 
-interface FiltersStudiosProps {
-    studiosOptions: BaseItemDto[];
+interface FiltersCompaniesProps {
+    companiesOptions: BaseItemDto[];
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
-const FiltersStudios: FC<FiltersStudiosProps> = ({
-    studiosOptions,
+const FiltersCompanies: FC<FiltersCompaniesProps> = ({
+    companiesOptions,
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
-    const onFiltersStudiosChange = useCallback(
+    const onFiltersCompaniesChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
             const value = event.target.value;
-            const existingStudioIds = libraryViewSettings?.Filters?.StudioIds ?? [];
+            const existingCompanyIds = libraryViewSettings?.Filters?.CompanyIds ?? [];
 
-            const updatedStudioIds = existingStudioIds.includes(value) ?
-                existingStudioIds.filter((filter) => filter !== value) :
-                [...existingStudioIds, value];
+            const updatedCompanyIds = existingCompanyIds.includes(value) ?
+                existingCompanyIds.filter((filter) => filter !== value) :
+                [...existingCompanyIds, value];
 
             setLibraryViewSettings((prevState) => ({
                 ...prevState,
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    StudioIds: updatedStudioIds.length ? updatedStudioIds : undefined
+                    CompanyIds: updatedCompanyIds.length ? updatedCompanyIds : undefined
                 }
             }));
         },
-        [setLibraryViewSettings, libraryViewSettings.Filters?.StudioIds]
+        [setLibraryViewSettings, libraryViewSettings.Filters?.CompanyIds]
     );
 
     return (
         <FormGroup>
-            {studiosOptions?.map((filter) => (
+            {companiesOptions?.map((filter) => (
                 <FormControlLabel
                     key={filter.Id}
                     control={
                         <Checkbox
                             checked={
-                                !!libraryViewSettings?.Filters?.StudioIds?.includes(
+                                !!libraryViewSettings?.Filters?.CompanyIds?.includes(
                                     String(filter.Id)
                                 )
                             }
-                            onChange={onFiltersStudiosChange}
+                            onChange={onFiltersCompaniesChange}
                             value={String(filter.Id)}
                         />
                     }
@@ -61,4 +61,4 @@ const FiltersStudios: FC<FiltersStudiosProps> = ({
     );
 };
 
-export default FiltersStudios;
+export default FiltersCompanies;

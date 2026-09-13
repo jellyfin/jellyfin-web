@@ -40,7 +40,7 @@ export interface Filters {
     Status?: ItemFilter[];
     EpisodesStatus?: string[];
     SeriesStatus?: SeriesStatus[];
-    StudioIds?: string[];
+    CompanyIds?: string[];
     Tags?: string[];
     VideoBasicFilter?: VideoBasicFilter[];
     VideoTypes?: VideoType[];

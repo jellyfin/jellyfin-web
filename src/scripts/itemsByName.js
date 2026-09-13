@@ -356,8 +356,8 @@ function getMoreItemsHref(item, type) {
         return '#/list?type=' + type + '&musicGenreId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
-    if (item.Type === 'Studio') {
-        return '#/list?type=' + type + '&studioId=' + item.Id + '&serverId=' + item.ServerId;
+    if (item.Type === 'Company') {
+        return '#/list?type=' + type + '&companyId=' + item.Id + '&serverId=' + item.ServerId;
     }
 
     if (item.Type === 'MusicArtist') {
@@ -382,8 +382,8 @@ function addCurrentItemToQuery(query, item) {
         case BaseItemKind.MusicGenre:
             query.Genres = item.Name;
             break;
-        case BaseItemKind.Studio:
-            query.StudioIds = item.Id;
+        case BaseItemKind.Company:
+            query.CompanyIds = item.Id;
             break;
         case BaseItemKind.MusicArtist:
             if (query.IncludeItemTypes === BaseItemKind.MusicVideo) {

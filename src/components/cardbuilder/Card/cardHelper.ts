@@ -144,7 +144,7 @@ export function getAirTimeText(
 }
 
 function isGenreOrStudio(itemType: ItemKind) {
-    return itemType === ItemKind.Genre || itemType === ItemKind.Studio;
+    return itemType === ItemKind.Genre || itemType === ItemKind.Company;
 }
 
 function isMusicGenreOrMusicArtist(

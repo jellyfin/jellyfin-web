@@ -1,4 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { CompanyKind } from '@jellyfin/sdk/lib/generated-client/models/company-kind';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
@@ -824,7 +825,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
         renderPlaylistItems(page, item);
-    } else if (item.Type == 'Studio' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
+    } else if (item.Type == 'Company' || item.Type == 'Person' || item.Type == 'Genre' || item.Type == 'MusicGenre' || item.Type == 'MusicArtist') {
         page.querySelector('#listChildrenCollapsible').classList.remove('hide');
         page.querySelector('#childrenCollapsible').classList.add('hide');
         renderItemsByName(page, item, user);
@@ -1009,7 +1010,10 @@ function renderDetails(page, instance, item, apiClient, context) {
             PersonKind.Creator,
             PersonKind.Director,
             PersonKind.Writer,
-            BaseItemKind.Studio,
+            CompanyKind.Network,
+            CompanyKind.Studio,
+            CompanyKind.Label,
+            CompanyKind.Publisher,
             BaseItemKind.Genre
         ];
 
