@@ -1910,5 +1910,8 @@
     "LabelTileWidthHelp": "Myndahámark fyri hvønn vatnrættan teig.",
     "LabelTileHeightHelp": "Myndahámark fyri hvønn loddrættan teig.",
     "LabelTileHeight": "Teigahædd",
-    "LabelTileWidth": "Teigabreidd"
+    "LabelTileWidth": "Teigabreidd",
+    "LabelAutomaticallyAddToCollectionHelp": "Tá ið í minsta lagi 2 filmar hava eins samlingsnavn verða teir sjálvvirkandi lagdir í samlingina.",
+    "LabelKodiMetadataEnablePathSubstitution": "Virkja skifti av fíluleiðum",
+    "LabelKodiMetadataEnablePathSubstitutionHelp": "Virkja skifti av myndafíluleiðum ið ger gagn av leiðarskiftisstillingum ambætarans."
 }
