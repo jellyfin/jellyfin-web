@@ -1886,5 +1886,21 @@
     "OptionLoginAttemptsBeforeLockoutHelp": "Er virðið null arvar stillingin forsettu mørkini, ið eru tríggjar royndir fyri vanligar brúkarar og fimm royndir fyri umsitarar. Áset -1 til tess at óvirkja markið.",
     "MessageLeaveEmptyToInherit": "Lat teigin verða tóman til tess at arva stillingina frá eini yvirskjáttu ella frá tí heiltøka forsetta virðinum.",
     "OptionAllowRemoteControlOthers": "Loyv brúkaranum at fjarstýra aðrar brúkarar",
-    "MediaInfoTimestamp": "Tíðarstempul"
+    "MediaInfoTimestamp": "Tíðarstempul",
+    "LabelTonemappingDesatHelp": "Doyv litir bjartari enn hettar. Tilmælt virði er 0 (óvirkja).",
+    "LabelSyncPlaySettingsMinDelaySpeedToSyncHelp": "Skunda ikki undir spælingina (SpeedToSync) til tess at koma ájavnt aftur fyrr enn spælingin er dragna so nógv millisekund afturúr.",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSyncHelp": "Spola fram (SkipToSync), heldur enn at skunda undir spælingina (SpeedToSync), tá spælingin er dragna so nógv millisekund ella meira afturúr.",
+    "LabelSyncPlaySettingsMinDelaySpeedToSync": "Seinkan áðrenn SpeedToSync verður tikin í nýtslu",
+    "LabelSyncPlaySettingsMaxDelaySpeedToSync": "Seinkanarhámark fyri SpeedToSync verður tikin í nýtslu",
+    "LabelSyncPlaySettingsSpeedToSyncHelp": "Samstillingarháttur ið skundar undir spælingina til tess at varðveita stevið. Hetta er treytað av at Stevjavning er virkt.",
+    "LabelSyncPlaySettingsSkipToSyncHelp": "Samstillingarháttur ið spolar til tess at varðveita stevið. Hetta er treytað av at Stevjavning er virkt.",
+    "LabelSyncPlaySettingsMinDelaySkipToSync": "Seinkan áðrenn SkipToSync verður tikin í nýtslu",
+    "LabelSyncPlaySettingsMinDelaySkipToSyncHelp": "Spola fram (SkipToSync) tá spælingin er dragna so nógv millisekund ella meira afturúr.",
+    "HeaderUpcomingOnTV": "Á sjónvarpsskrá",
+    "MediaInfoAnamorphic": "Anamorfisk",
+    "AnamorphicVideoNotSupported": "Virkisføri vantar fyri anamorfiskum kykmyndum",
+    "LabelStartWhenPossible": "Byrja upptøku",
+    "LabelStopWhenPossible": "Steðga upptøku",
+    "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Áset eina tíðarfrávik í millisekundum ið hendan eindin víkir frá samstilling bólksins. Hetta skal brúkast við varsemi.",
+    "LabelSyncPlaySettingsExtraTimeOffset": "Eyka tíðarfrávik"
 }
