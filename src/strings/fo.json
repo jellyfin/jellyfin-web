@@ -1902,5 +1902,13 @@
     "LabelStartWhenPossible": "Byrja upptøku",
     "LabelStopWhenPossible": "Steðga upptøku",
     "LabelSyncPlaySettingsExtraTimeOffsetHelp": "Áset eina tíðarfrávik í millisekundum ið hendan eindin víkir frá samstilling bólksins. Hetta skal brúkast við varsemi.",
-    "LabelSyncPlaySettingsExtraTimeOffset": "Eyka tíðarfrávik"
+    "LabelSyncPlaySettingsExtraTimeOffset": "Eyka tíðarfrávik",
+    "EnableCardLayout": "Vís kortfløtuna",
+    "HeaderSyncPlayTimeSyncSettings": "Tíðarmótrokning",
+    "LabelUserRemoteClientBitrateLimitHelp": "Skúgvar til viks altøka virði ið er ásett í ambætarastillingum. Sí Yvirlitssýni > Spæling > Stroyming.",
+    "PictureInPicture": "Egnan spælaraglugga",
+    "LabelTileWidthHelp": "Myndahámark fyri hvønn vatnrættan teig.",
+    "LabelTileHeightHelp": "Myndahámark fyri hvønn loddrættan teig.",
+    "LabelTileHeight": "Teigahædd",
+    "LabelTileWidth": "Teigabreidd"
 }
