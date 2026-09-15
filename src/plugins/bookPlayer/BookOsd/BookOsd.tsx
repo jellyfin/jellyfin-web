@@ -92,15 +92,22 @@ const BookOsd: FC<BookOsdProps> = ({
             setVisible(state => !state);
         };
 
+        const onKeyDown = () => {
+            scheduleHide();
+            setVisible(true);
+        };
+
         scheduleHide();
         document.addEventListener('pointermove', onPointerMove);
         document.addEventListener('click', onClick);
+        document.addEventListener('keydown', onKeyDown);
 
         return () => {
             clearTimeout(timeout.current);
             updateFullscreen(false);
             document.removeEventListener('pointermove', onPointerMove);
             document.removeEventListener('click', onClick);
+            document.removeEventListener('keydown', onKeyDown);
         };
     }, [scheduleHide, updateFullscreen]);
 
