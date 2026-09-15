@@ -5,6 +5,7 @@ import { MediaError } from 'types/mediaError';
 import browser from '../../scripts/browser';
 import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
+import { SUPPORTED_PLAYBACK_RATES } from '../../components/playback/playbackRateMenu';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
 import Events from '../../utils/events.ts';
@@ -516,6 +517,10 @@ class HtmlAudioPlayer {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.playbackRate = value;
+            // The media element resets playbackRate to defaultPlaybackRate whenever a new
+            // source is loaded, so set both to keep the rate across tracks. This matters for
+            // audiobooks, where the rate would otherwise reset on every chapter.
+            mediaElement.defaultPlaybackRate = value;
         }
     }
 
@@ -525,6 +530,10 @@ class HtmlAudioPlayer {
             return mediaElement.playbackRate;
         }
         return null;
+    }
+
+    getSupportedPlaybackRates() {
+        return SUPPORTED_PLAYBACK_RATES;
     }
 
     setVolume(val) {
