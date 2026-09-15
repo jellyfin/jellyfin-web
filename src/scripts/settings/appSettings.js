@@ -248,6 +248,19 @@ class AppSettings {
     }
 
     /**
+     * Get or set 'Always remux OGG audio files' state.
+     * @param {boolean|undefined} val - Flag to enable 'Always remux OGG audio files' or undefined.
+     * @return {boolean} 'Always remux OGG audio files' state.
+     */
+    alwaysRemuxOgg(val) {
+        if (val !== undefined) {
+            return this.set('alwaysRemuxOgg', val.toString());
+        }
+
+        return toBoolean(this.get('alwaysRemuxOgg'), false);
+    }
+
+    /**
      * Get or set the preferred video aspect ratio.
      * @param {string|undefined} val - The aspect ratio or undefined.
      * @returns {string} The saved aspect ratio state.
