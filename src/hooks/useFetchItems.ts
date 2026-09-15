@@ -2,6 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { LibraryApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
 import type { PlaylistApiMoveItemRequest } from '@jellyfin/sdk/lib/generated-client/api/playlist-api';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { CompanyKind } from '@jellyfin/sdk/lib/generated-client/models/company-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
@@ -11,7 +12,7 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
-import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
+import { getCompanyApi } from '@jellyfin/sdk/lib/utils/api/company-api';
 import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
 import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
@@ -71,7 +72,7 @@ export const useGetItems = (parametersOptions: LibraryApiGetItemsRequest) => {
     });
 };
 
-const fetchGetStudios = async (
+const fetchGetCompanies = async (
     currentApi: JellyfinApiContext,
     parentId: ParentId,
     itemType: BaseItemKind[],
@@ -79,7 +80,7 @@ const fetchGetStudios = async (
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id) {
-        const response = await getStudioApi(api).getStudios(
+        const response = await getCompanyApi(api).getCompanies(
             {
                 userId: user.Id,
                 includeItemTypes: itemType,
@@ -99,13 +100,13 @@ const fetchGetStudios = async (
     }
 };
 
-export const useGetStudios = (parentId: ParentId, itemType: BaseItemKind[]) => {
+export const useGetCompanies = (parentId: ParentId, itemType: BaseItemKind[]) => {
     const currentApi = useApi();
     const isLivetv = parentId === 'livetv';
     return useQuery({
-        queryKey: ['Studios', parentId, itemType],
+        queryKey: ['Companies', parentId, itemType],
         queryFn: ({ signal }) =>
-            fetchGetStudios(currentApi, parentId, itemType, { signal }),
+            fetchGetCompanies(currentApi, parentId, itemType, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId && !isLivetv
     });
 };
@@ -261,10 +262,12 @@ const fetchGetItemsViewByType = async (
                 break;
             }
             case LibraryTab.Studios:
-                response = await getStudioApi(api).getStudios(
+            case LibraryTab.Networks:
+                response = await getCompanyApi(api).getCompanies(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
+                        companyTypes: [viewType === LibraryTab.Networks ? CompanyKind.Network : CompanyKind.Studio],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
@@ -397,6 +400,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.Series,
                 LibraryTab.Episodes,
                 LibraryTab.Studios,
+                LibraryTab.Networks,
                 LibraryTab.Albums,
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,

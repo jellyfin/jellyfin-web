@@ -289,7 +289,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         }));
     }
 
-    if (item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'Studio' || item.Type === 'Person') {
+    if (item.Type === 'Genre' || item.Type === 'MusicGenre' || item.Type === 'Company' || item.Type === 'Person') {
         instance.queryRecursive = true;
         const query = {
             StartIndex: startIndex,
@@ -300,8 +300,8 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             SortBy: sortBy
         };
 
-        if (item.Type === 'Studio') {
-            query.StudioIds = item.Id;
+        if (item.Type === 'Company') {
+            query.CompanyIds = item.Id;
         } else if (item.Type === 'Genre' || item.Type === 'MusicGenre') {
             query.GenreIds = item.Id;
         } else if (item.Type === 'Person') {
@@ -351,7 +351,7 @@ function getItem(params) {
     }
 
     const apiClient = ServerConnections.getApiClient(params.serverId);
-    const itemId = params.genreId || params.musicGenreId || params.studioId || params.personId || params.parentId;
+    const itemId = params.genreId || params.musicGenreId || params.companyId || params.personId || params.parentId;
 
     if (itemId) {
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
@@ -1309,8 +1309,8 @@ class ItemsView {
             values.push('MusicGenre');
         }
 
-        if (params.studioId) {
-            values.push('Studio');
+        if (params.companyId) {
+            values.push('Company');
         }
 
         if (params.personId) {

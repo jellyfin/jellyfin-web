@@ -1,3 +1,4 @@
+import { CompanyKind } from '@jellyfin/sdk/lib/generated-client/models/company-kind';
 import escapeHtml from 'escape-html';
 import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
@@ -149,9 +150,13 @@ function onSubmit(e) {
         AirTime: form.querySelector('#txtAirTime').value,
         Genres: getListValues(form.querySelector('#listGenres')),
         Tags: getListValues(form.querySelector('#listTags')),
-        Studios: getListValues(form.querySelector('#listStudios')).map(function (element) {
-            return { Name: element };
-        }),
+        // Only the studios are editable here; the other kinds of company go back untouched
+        // rather than being dropped, since the item carries all of them in one list.
+        Companies: (currentItem.Companies || []).filter(function (company) {
+            return company.Type !== CompanyKind.Studio;
+        }).concat(getListValues(form.querySelector('#listStudios')).map(function (element) {
+            return { Name: element, Type: CompanyKind.Studio };
+        })),
 
         PremiereDate: getDateValue(form, '#txtPremiereDate', 'PremiereDate'),
         DateCreated: getDateValue(form, '#txtDateAdded', 'DateCreated'),
@@ -625,7 +630,7 @@ function setFieldVisibilities(context, item) {
 
     if (item.Type === 'Person'
             || item.Type === 'Genre'
-            || item.Type === 'Studio'
+            || item.Type === 'Company'
             || item.Type === 'MusicGenre'
             || item.Type === 'TvChannel') {
         hideElement('#peopleCollapsible', context);
@@ -633,7 +638,7 @@ function setFieldVisibilities(context, item) {
         showElement('#peopleCollapsible', context);
     }
 
-    if (item.Type === 'Person' || item.Type === 'Genre' || item.Type === 'Studio' || item.Type === 'MusicGenre' || item.Type === 'TvChannel') {
+    if (item.Type === 'Person' || item.Type === 'Genre' || item.Type === 'Company' || item.Type === 'MusicGenre' || item.Type === 'TvChannel') {
         hideElement('#fldCommunityRating', context);
         hideElement('#genresCollapsible', context);
         hideElement('#studiosCollapsible', context);
@@ -784,7 +789,9 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     populateListView(context.querySelector('#listGenres'), item.Genres);
     populatePeople(context, item.People || []);
 
-    populateListView(context.querySelector('#listStudios'), (item.Studios || []).map(function (element) {
+    populateListView(context.querySelector('#listStudios'), (item.Companies || []).filter(function (company) {
+        return company.Type === CompanyKind.Studio;
+    }).map(function (element) {
         return element.Name || '';
     }));
 
@@ -1041,7 +1048,7 @@ function fillMetadataSettings(context, item, lockedFields) {
         lockedFieldsList.push({ name: globalize.translate('Runtime'), value: 'Runtime' });
     }
 
-    lockedFieldsList.push({ name: globalize.translate('Studios'), value: 'Studios' });
+    lockedFieldsList.push({ name: globalize.translate('Companies'), value: 'Companies' });
     lockedFieldsList.push({ name: globalize.translate('Tags'), value: 'Tags' });
 
     let html = '';

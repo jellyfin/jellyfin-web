@@ -2,4 +2,4 @@ import { CompanyKind } from '@jellyfin/sdk/lib/generated-client/models/company-k
 
 import createCompaniesController from './tvcompanies';
 
-export default createCompaniesController(CompanyKind.Studio);
+export default createCompaniesController(CompanyKind.Network);

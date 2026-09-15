@@ -1,20 +1,20 @@
 import { Api } from '@jellyfin/sdk';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { StudioApiGetStudiosRequest } from '@jellyfin/sdk/lib/generated-client/api/studio-api';
-import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
+import { CompanyApiGetCompaniesRequest } from '@jellyfin/sdk/lib/generated-client/api/company-api';
+import { getCompanyApi } from '@jellyfin/sdk/lib/utils/api/company-api';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosRequestConfig } from 'axios';
 import { useApi } from 'hooks/useApi';
 import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { isMovies, isTVShows } from '../utils/search';
 
-const fetchStudios = async (
+const fetchCompanies = async (
     api: Api,
     userId: string,
-    params?: StudioApiGetStudiosRequest,
+    params?: CompanyApiGetCompaniesRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getStudioApi(api).getStudios(
+    const response = await getCompanyApi(api).getCompanies(
         {
             ...QUERY_OPTIONS,
             userId,
@@ -25,7 +25,7 @@ const fetchStudios = async (
     return response.data;
 };
 
-export const useStudiosSearch = (
+export const useCompaniesSearch = (
     parentId?: string,
     collectionType?: CollectionType,
     searchTerm?: string
@@ -33,11 +33,11 @@ export const useStudiosSearch = (
     const { api, user } = useApi();
     const userId = user?.Id;
 
-    const isStudiosEnabled = (!collectionType || isMovies(collectionType) || isTVShows(collectionType));
+    const isCompaniesEnabled = (!collectionType || isMovies(collectionType) || isTVShows(collectionType));
 
     return useQuery({
-        queryKey: ['Search', 'Studios', collectionType, parentId, searchTerm],
-        queryFn: ({ signal }) => fetchStudios(
+        queryKey: ['Search', 'Companies', collectionType, parentId, searchTerm],
+        queryFn: ({ signal }) => fetchCompanies(
             api!,
             userId!,
             {
@@ -46,6 +46,6 @@ export const useStudiosSearch = (
             },
             { signal }
         ),
-        enabled: !!api && !!userId && isStudiosEnabled
+        enabled: !!api && !!userId && isCompaniesEnabled
     });
 };

@@ -15,7 +15,7 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { useGetQueryFilters, useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
+import { useGetCompanies, useGetQueryFilters, useGetQueryFiltersLegacy } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
 
 import FiltersAudioLanguages from './FiltersAudioLanguages';
@@ -25,7 +25,7 @@ import FiltersOfficialRatings from './FiltersOfficialRatings';
 import FiltersEpisodesStatus from './FiltersEpisodesStatus';
 import FiltersSeriesStatus from './FiltersSeriesStatus';
 import FiltersStatus from './FiltersStatus';
-import FiltersStudios from './FiltersStudios';
+import FiltersCompanies from './FiltersCompanies';
 import FiltersSubtitleLanguages from './FiltersSubtitleLanguages';
 import FiltersTags from './FiltersTags';
 import FiltersVideoTypes from './FiltersVideoTypes';
@@ -103,7 +103,7 @@ const FilterButton: FC<FilterButtonProps> = ({
 
     const { data: filtersLegacy } = useGetQueryFiltersLegacy(parentId, itemType);
     const { data: filters } = useGetQueryFilters(parentId, itemType);
-    const { data: studios } = useGetStudios(parentId, itemType);
+    const { data: companies } = useGetCompanies(parentId, itemType);
 
     const handleChange =
         (panel: string) =>
@@ -148,7 +148,7 @@ const FilterButton: FC<FilterButtonProps> = ({
         );
     };
 
-    const isFiltersStudiosEnabled = () => {
+    const isFiltersCompaniesEnabled = () => {
         return (
             viewType === LibraryTab.Movies
             || viewType === LibraryTab.Series
@@ -450,22 +450,22 @@ const FilterButton: FC<FilterButtonProps> = ({
                         )}
                     </>
                 )}
-                {isFiltersStudiosEnabled() && studios && studios.length > 0 && (
+                {isFiltersCompaniesEnabled() && companies && companies.length > 0 && (
                     <Accordion
-                        expanded={expanded === 'filtersStudios'}
-                        onChange={handleChange('filtersStudios')}
+                        expanded={expanded === 'filtersCompanies'}
+                        onChange={handleChange('filtersCompanies')}
                     >
                         <AccordionSummary
-                            aria-controls='filtersStudios-content'
-                            id='filtersStudios-header'
+                            aria-controls='filtersCompanies-content'
+                            id='filtersCompanies-header'
                         >
                             <Typography>
-                                {globalize.translate('Studios')}
+                                {globalize.translate('Companies')}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <FiltersStudios
-                                studiosOptions={studios}
+                            <FiltersCompanies
+                                companiesOptions={companies}
                                 libraryViewSettings={libraryViewSettings}
                                 setLibraryViewSettings={
                                     setLibraryViewSettings
