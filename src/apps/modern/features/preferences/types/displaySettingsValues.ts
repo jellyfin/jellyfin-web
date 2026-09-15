@@ -21,4 +21,5 @@ export interface DisplaySettingsValues {
     backdropScreensaverInterval: number;
     slideshowInterval: number;
     theme: string;
+    useOriginalTitles: boolean;
 }
