@@ -1935,5 +1935,11 @@
     "LabelTonemappingParam": "Bundnatal til tónaavmyndan",
     "LabelTonemappingParamHelp": "Fínstilla tónaavmyndanaralgoritmuna. Í flestu umstøðum skal teigurin verða tómur.",
     "EnableVppTonemapping": "Virkja VPP-tónaavmyndan",
-    "AllowVppTonemappingHelp": "Tónaavmyndan ið er fult grundað á Intel-drívara. Í løtuni virkar hettar einans við ávísum tólbúnaði og HDR10-kykmyndum. Hetta hevur hægri raðfesti enn aðrar OpenCL-verksetingar."
+    "AllowVppTonemappingHelp": "Tónaavmyndan ið er fult grundað á Intel-drívara. Í løtuni virkar hettar einans við ávísum tólbúnaði og HDR10-kykmyndum. Hetta hevur hægri raðfesti enn aðrar OpenCL-verksetingar.",
+    "LabelOpenclDeviceHelp": "Hetta er OpenCL-eindin ið verður brúkt til tónaavmyndan. Vinstrumegin punktum er palsnummarið, og høgrumegin er eindarnummarið á pallinum. Forsetta virðið er 0.0. Tørvur er á at FFmpeg-forritið hevur virkisføri fyri OpenCL-tólbúnaðarstyðjanarháttalagnum.",
+    "AllowTonemappingHelp": "Tónaavmyndan kann ummynda dynamiska kykmyndaspenni frá HDR til SDR og samstundis varðveita myndasmálutir og litir, ið eru sera umráðandi til tess at endurgeva upprunaligu myndina. Í løtuni riggar hettar einans við 10bit HDR10, HLG og Dolby Vision kykmyndum. Hetta krevur at tilsvarandi GPGPU-koyrsluumhvørvi er tøkt.",
+    "LabelTonemappingPeak": "Tónaavmyndanarhámarksvirði",
+    "LabelTonemappingPeakHelp": "Hámarksvirði at brúka ístaðin fyri metadátuinnpakkaða virðið keldunnar. Forsetta virðið er 100 (1000nit).",
+    "LabelTonemappingRange": "Tónaavmyndanarspenni",
+    "TonemappingAlgorithmHelp": "Møguligt er at neyvstilla tónaavmyndan. Kennist tú ikki við hesar kostirnar er mælt til at tú varðveitur tann forsetta ið er \"BT.2390\"."
 }
