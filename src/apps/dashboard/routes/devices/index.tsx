@@ -96,7 +96,8 @@ export const Component = () => {
         if (devices) {
             Promise
                 .all(devices.map(item => {
-                    if (api && item.Id && api.deviceInfo.id === item.Id) {
+                    const isCurrentDevice = api && item.Id && api.deviceInfo.id === item.Id;
+                    if (item.Id && !isCurrentDevice) {
                         return deleteDevice.mutateAsync({ id: [item.Id] });
                     }
                     return Promise.resolve();
@@ -208,7 +209,7 @@ export const Component = () => {
             }
         },
         renderRowActions: ({ row, table }) => {
-            const isDeletable = api && row.original.Id && api.deviceInfo.id === row.original.Id;
+            const isCurrentDevice = api && row.original.Id && api.deviceInfo.id === row.original.Id;
             return (
                 <Box
                     sx={{
@@ -228,7 +229,7 @@ export const Component = () => {
                         </IconButton>
                     </Tooltip>
                     {/* Don't include Tooltip when disabled */}
-                    {isDeletable ? (
+                    {isCurrentDevice ? (
                         <IconButton
                             color='error'
                             disabled
