@@ -1922,7 +1922,7 @@
     "LabelRemoteClientBitrateLimitHelp": "Eitt valfrítt bitferðarhámark ið er galdandi fyri hvønn stroym til eindir ið ikki eru á nærnetinum. Hetta er hent til tess at nokta eindum eina hægri bitferð enn títt alnetssamband megnar. Hetta kann elva til økta byrðu á ambætaran, til tess at leypandi umkota kykmyndir til eina lægri bitferð.",
     "FallbackMaxStreamingBitrateHelp": "Eitt tiltaksbitferðarhámark ið verður brúkt tá ffprobe ikki fær staðfest bitferðina á keldustroyminum. Hetta er við til at avmarka bitferðina ið viðskiftarar fáa, so at teir ikki ovbyrða kotaran og elva til spælivillur.",
     "BoxSet": "Savnssett",
-    "ColorTransfer": "Litaflutningur",
-    "LabelColorTransfer": "Litaflutningur",
-    "MediaInfoColorTransfer": "Litaflutningur"
+    "ColorTransfer": "Litayvirførsla",
+    "LabelColorTransfer": "Litayvirførsla",
+    "MediaInfoColorTransfer": "Litayvirførsla"
 }
