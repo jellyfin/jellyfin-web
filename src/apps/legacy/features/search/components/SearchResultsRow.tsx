@@ -3,6 +3,7 @@ import React, { type FC, useEffect, useRef } from 'react';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import type { CardOptions } from 'types/cardOptions';
+import escapeHtml from 'escape-html';
 import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -10,7 +11,7 @@ import 'elements/emby-itemscontainer/emby-itemscontainer';
 // React and our legacy web components, so we need to inject
 // them as an html string for now =/
 const createScroller = ({ title = '' }) => ({
-    __html: `<h2 class="sectionTitle sectionTitle-cards focuscontainer-x padded-left padded-right">${title}</h2>
+    __html: `<h2 class="sectionTitle sectionTitle-cards focuscontainer-x padded-left padded-right">${escapeHtml(title)}</h2>
     <div is="emby-scroller" data-horizontal="true" data-centerfocus="card" class="padded-top-focusscale padded-bottom-focusscale">
     <div is="emby-itemscontainer" class="focuscontainer-x itemsContainer scrollSlider"></div>
 </div>`
