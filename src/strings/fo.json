@@ -1924,5 +1924,16 @@
     "BoxSet": "Savnssett",
     "ColorTransfer": "Litayvirførsla",
     "LabelColorTransfer": "Litayvirførsla",
-    "MediaInfoColorTransfer": "Litayvirførsla"
+    "MediaInfoColorTransfer": "Litayvirførsla",
+    "EnableTonemapping": "Virkja tónaavmyndan",
+    "LabelTonemappingDesat": "Doyving undir tónaavmyndan",
+    "EnableVideoToolboxTonemapping": "Virkja VideoToolbox-tónaavmyndan",
+    "AllowVideoToolboxTonemappingHelp": "Tólbúnaðarstyðja tónaavmyndan við VideoToolbox. Tað hevur virkisføri fyri flestu HDR-sniðum, harímillum HDR10, HDR10+ og HLG, men ikki fyri Dolby Vision profili 5. Hetta hevur hægri raðfesti enn aðrar Metal-verksetingar.",
+    "LabelTonemappingAlgorithm": "Vel tónaavmyndanaralgoritmu at brúka",
+    "LabelTonemappingMode": "Tónaavmyndanarháttalag",
+    "TonemappingModeHelp": "Vel tónaavmyndanarháttalagið. Um tú varnast ovlýstar litir kanst tú royna at skifta til RGB-háttalagið.",
+    "LabelTonemappingParam": "Bundnatal til tónaavmyndan",
+    "LabelTonemappingParamHelp": "Fínstilla tónaavmyndanaralgoritmuna. Í flestu umstøðum skal teigurin verða tómur.",
+    "EnableVppTonemapping": "Virkja VPP-tónaavmyndan",
+    "AllowVppTonemappingHelp": "Tónaavmyndan ið er fult grundað á Intel-drívara. Í løtuni virkar hettar einans við ávísum tólbúnaði og HDR10-kykmyndum. Hetta hevur hægri raðfesti enn aðrar OpenCL-verksetingar."
 }
