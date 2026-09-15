@@ -50,7 +50,6 @@ const SearchFields: FC<SearchFieldsProps> = ({
                         data-keyboard='true'
                         placeholder={globalize.translate('Search')}
                         autoComplete='off'
-                        maxLength={40}
                         // eslint-disable-next-line jsx-a11y/no-autofocus
                         autoFocus
                         value={query}
