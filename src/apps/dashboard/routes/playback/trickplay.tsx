@@ -38,6 +38,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     options.EnableHwAcceleration = data.HwAcceleration?.toString() === 'on';
     options.EnableHwEncoding = data.HwEncoding?.toString() === 'on';
     options.EnableKeyFrameOnlyExtraction = data.KeyFrameOnlyExtraction?.toString() === 'on';
+
+    // AI-GENERATED CODE: Save the global primary-media trickplay settings.
+    // Cleanup is forcibly disabled whenever primary-only is disabled.
+    const primaryMediaOnly =
+        data.PrimaryMediaOnly?.toString() === 'on';
+
+    options.GenerateTrickplayForPrimaryMediaOnly = primaryMediaOnly;
+
+    options.RemoveUnwantedTrickplayOnNextPass =
+        primaryMediaOnly &&
+        data.RemoveUnwantedTrickplayOnNextPass?.toString() === 'on';
+
     options.ScanBehavior = data.ScanBehavior.toString() as TrickplayScanBehavior;
     options.ProcessPriority = data.ProcessPriority.toString() as ProcessPriorityClass;
     options.Interval = parseInt(data.ImageInterval.toString() || '10000', 10);
@@ -65,6 +77,18 @@ export const Component = () => {
     const actionData = useActionData() as ActionData | undefined;
     const { data: defaultConfig, isPending, isError } = useConfiguration();
     const isSubmitting = navigation.state === 'submitting';
+
+    // AI-GENERATED CODE: Track whether trickplay generation is restricted to primary media.
+    // Future human editors: This controls the dependent cleanup option in the UI.
+    const [primaryMediaOnly, setPrimaryMediaOnly] = React.useState(
+        defaultConfig.TrickplayOptions?.GenerateTrickplayForPrimaryMediaOnly ?? false
+    );
+
+    // AI-GENERATED CODE: Track whether unwanted trickplay cleanup is enabled.
+    // Future human editors: The option is only meaningful when primaryMediaOnly is enabled.
+    const [removeUnwanted, setRemoveUnwanted] = React.useState(
+        defaultConfig.TrickplayOptions?.RemoveUnwantedTrickplayOnNextPass ?? false
+    );
 
     if (!defaultConfig || isPending) {
         return <Loading />;
@@ -128,6 +152,55 @@ export const Component = () => {
                                     label={globalize.translate('LabelTrickplayKeyFrameOnlyExtraction')}
                                 />
                                 <FormHelperText>{globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}</FormHelperText>
+                            </FormControl>
+
+                            {/* AI-GENERATED CODE: Global primary-media-only trickplay setting.
+                                This applies to all libraries. */}
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name='PrimaryMediaOnly'
+                                            checked={primaryMediaOnly}
+                                            onChange={(event) =>
+                                                setPrimaryMediaOnly(event.target.checked)
+                                            }
+                                        />
+                                    }
+                                    label={globalize.translate('LabelTrickplayPrimaryMediaOnly')}
+                                />
+                                <FormHelperText>
+                                    {globalize.translate('LabelTrickplayPrimaryMediaOnlyHelp')}
+                                </FormHelperText>
+                            </FormControl>
+
+                            {/* AI-GENERATED CODE: Optional cleanup of existing excluded trickplay.
+                                Keep this disabled whenever primary-only is disabled. */}
+                            <FormControl>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name='RemoveUnwantedTrickplayOnNextPass'
+                                            checked={primaryMediaOnly && removeUnwanted}
+                                            onChange={(event) =>
+                                                setRemoveUnwanted(event.target.checked)
+                                            }
+                                            disabled={!primaryMediaOnly}
+                                        />
+                                    }
+                                    label={globalize.translate('LabelTrickplayRemoveUnwanted')}
+                                />
+                                <FormHelperText>
+                                    {globalize.translate('LabelTrickplayRemoveUnwantedHelp')}
+                                </FormHelperText>
+
+                                {/* AI-GENERATED CODE: Warn about permanent deletion when cleanup is enabled.
+                                    The warning intentionally appears only when deletion is active. */}
+                                {primaryMediaOnly && removeUnwanted && (
+                                    <Alert severity='warning'>
+                                        {globalize.translate('LabelTrickplayRemoveUnwantedWarning')}
+                                    </Alert>
+                                )}
                             </FormControl>
 
                             <TextField
