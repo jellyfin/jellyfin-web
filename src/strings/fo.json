@@ -1921,5 +1921,8 @@
     "ErrorAddingListingsToSchedulesDirect": "Ein villa kom fyri undir skráseting av rásalistanum á tíni Schedules Direct konto. Schedules Direct loyvir bert eini avmarkaðari mongd av rásum á hvørjari konto. Tú noyðist møguliga at rita inn á Schedules Direct-vevsíðuna, til tess at strika aðrar skráir av tíni konto áðrenn tú kanst halda áfram.",
     "LabelRemoteClientBitrateLimitHelp": "Eitt valfrítt bitferðarhámark ið er galdandi fyri hvønn stroym til eindir ið ikki eru á nærnetinum. Hetta er hent til tess at nokta eindum eina hægri bitferð enn títt alnetssamband megnar. Hetta kann elva til økta byrðu á ambætaran, til tess at leypandi umkota kykmyndir til eina lægri bitferð.",
     "FallbackMaxStreamingBitrateHelp": "Eitt tiltaksbitferðarhámark ið verður brúkt tá ffprobe ikki fær staðfest bitferðina á keldustroyminum. Hetta er við til at avmarka bitferðina ið viðskiftarar fáa, so at teir ikki ovbyrða kotaran og elva til spælivillur.",
-    "BoxSet": "Savnssett"
+    "BoxSet": "Savnssett",
+    "ColorTransfer": "Litaflutningur",
+    "LabelColorTransfer": "Litaflutningur",
+    "MediaInfoColorTransfer": "Litaflutningur"
 }
