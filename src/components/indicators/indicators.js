@@ -150,7 +150,7 @@ export function getTypeIndicator(item) {
 }
 
 export function getMissingIndicator(item) {
-    if (item.Type === 'Episode' && item.LocationType === 'Virtual') {
+    if ((item.Type === 'Episode' || item.Type === 'Movie') && item.LocationType === 'Virtual') {
         if (item.PremiereDate) {
             try {
                 const premiereDate = datetime.parseISO8601Date(item.PremiereDate).getTime();
