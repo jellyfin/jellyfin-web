@@ -108,7 +108,7 @@
     "Tuesday": "Týsdag",
     "TV": "Sjónvarp",
     "TypeOptionPluralAudio": "Ljóð",
-    "TypeOptionPluralBoxSet": "Bokssett",
+    "TypeOptionPluralBoxSet": "Savnssett",
     "TypeOptionPluralMusicAlbum": "Tónleikaútgávur",
     "TypeOptionPluralMusicVideo": "Sjónbandaløg",
     "TypeOptionPluralVideo": "Sjónbond",
@@ -1941,5 +1941,9 @@
     "LabelTonemappingPeak": "Tónaavmyndanarhámarksvirði",
     "LabelTonemappingPeakHelp": "Hámarksvirði at brúka ístaðin fyri metadátuinnpakkaða virðið keldunnar. Forsetta virðið er 100 (1000nit).",
     "LabelTonemappingRange": "Tónaavmyndanarspenni",
-    "TonemappingAlgorithmHelp": "Møguligt er at neyvstilla tónaavmyndan. Kennist tú ikki við hesar kostirnar er mælt til at tú varðveitur tann forsetta ið er \"BT.2390\"."
+    "TonemappingAlgorithmHelp": "Møguligt er at neyvstilla tónaavmyndan. Kennist tú ikki við hesar kostirnar er mælt til at tú varðveitur tann forsetta ið er \"BT.2390\".",
+    "LabelVppTonemappingBrightness": "Bjartleikahækkan undir VPP-tónaavmyndan",
+    "LabelVppTonemappingBrightnessHelp": "Hækka bjartleikan undir VPP-tónaavmyndan. Tilmælda virðið er 16.",
+    "LabelVppTonemappingContrast": "Mótsetningahækkan undir VPP-tónaavmyndan",
+    "LabelVppTonemappingContrastHelp": "Hækka litmótsetningar undir VPP-tónaavmyndan. Tilmælda virðið er 1."
 }
