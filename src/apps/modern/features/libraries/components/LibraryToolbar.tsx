@@ -176,7 +176,6 @@ const LibraryToolbar: FC = () => {
                                     collectionType={collectionType}
                                     hasFilters={hasFilters}
                                     isTextVisible={isSmallScreen && !isBtnPlayAllEnabled}
-                                    libraryViewSettings={libraryViewSettings}
                                 />
                             )}
 
