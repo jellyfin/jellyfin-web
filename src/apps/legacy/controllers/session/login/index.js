@@ -306,8 +306,10 @@ export default function (view, params) {
             loginDisclaimer.innerHTML = domPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
-                elem.rel = 'noopener noreferrer';
-                elem.target = '_blank';
+                if (new URL(elem.href).origin !== window.location.origin) {
+                    elem.rel = 'noopener noreferrer';
+                    elem.target = '_blank';
+                }
                 elem.classList.add('button-link');
                 elem.setAttribute('is', 'emby-linkbutton');
 
