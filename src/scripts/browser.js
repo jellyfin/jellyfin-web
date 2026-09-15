@@ -201,7 +201,7 @@ const uaMatch = function (ua) {
         || /(opera)[ /]([\w.]+)/.exec(ua)
         || /(opr)[ /]([\w.]+)/.exec(ua)
         || /(chrome)[ /]([\w.]+)/.exec(ua)
-        || /(safari)[ /]([\w.]+)/.exec(ua)
+        || /(applewebkit|webkit)[ /]([\w.]+)/.exec(ua)
         || /(firefox)[ /]([\w.]+)/.exec(ua)
         || !ua.includes('compatible') && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua)
         || [];
@@ -223,6 +223,10 @@ const uaMatch = function (ua) {
 
     if (browser === 'opr') {
         browser = 'opera';
+    }
+
+    if (browser === 'applewebkit') {
+        browser = 'webkit';
     }
 
     let version;
@@ -264,10 +268,6 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
 
     browser.edgeChromium = browser.edg || browser.edga || browser.edgios;
 
-    if (!browser.chrome && !browser.edgeChromium && !browser.edge && !browser.opera && normalizedUA.includes('webkit')) {
-        browser.safari = true;
-    }
-
     browser.osx = normalizedUA.includes('mac os x');
 
     // This is a workaround to detect iPads on iOS 13+ that report as desktop Safari
@@ -295,6 +295,17 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
     browser.operaTv = browser.tv && normalizedUA.includes('opr/');
 
     browser.edgeUwp = (browser.edge || browser.edgeChromium) && (normalizedUA.includes('msapphost') || normalizedUA.includes('webview'));
+
+    const isApplePlatform = browser.osx || browser.iphone || browser.ipad || browser.ipod || normalizedUA.includes('mac os x');
+    const isLinux = normalizedUA.includes('linux') && !browser.android && !browser.tizen && !browser.web0s;
+
+    if (browser.webkit) {
+        if (isApplePlatform) {
+            browser.safari = true;
+        } else if (isLinux && !browser.tv && !browser.titanos && !browser.vidaa && !browser.hisense) {
+            browser.webkitGtk = true;
+        }
+    }
 
     if (browser.web0s) {
         browser.web0sVersion = web0sVersion(browser);
