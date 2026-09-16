@@ -1550,7 +1550,7 @@
     "Select": "Välj",
     "HeaderPerformance": "Prestanda",
     "LabelParallelImageEncodingLimit": "Gräns för parallellbildkodning",
-    "HeaderConfirmRepositoryInstallation": "Bekräfta tillägarkivets installation",
+    "HeaderConfirmRepositoryInstallation": "Bekräfta installation av nytt tilläggsarkiv",
     "LabelEnableLUFSScan": "Aktivera LUFS-skanning",
     "Featurette": "Klipp",
     "AllowSegmentDeletion": "Radera segment",
@@ -1608,7 +1608,7 @@
     "ChannelResolutionHD": "HD",
     "ChannelResolutionFullHD": "Full HD",
     "ChannelResolutionUHD4K": "UHD (4k)",
-    "DeleteSeries": "Ta bort Serier",
+    "DeleteSeries": "Ta bort Serie",
     "DeleteEpisode": "Ta bort Avsnitt",
     "DeleteName": "Ta bort{0}",
     "BlockContentWithTagsHelp": "Dölj media med minst en av de angivna taggarna.",
@@ -1941,5 +1941,9 @@
     "LabelBitmapSubtitleAspectMode": "Bildförhållande för bitmappsundertexter",
     "Novel": "Roman",
     "Screenplay": "Manus",
-    "LabelUsernameAllowedCharactersHelp": "Användarnamn får innehålla bokstäver, siffror, mellanslag, och följande tecken: - _ ' . @ +. De får inte börja eller sluta med ett mellanslag."
+    "LabelUsernameAllowedCharactersHelp": "Användarnamn får innehålla bokstäver, siffror, mellanslag, och följande tecken: - _ ' . @ +. De får inte börja eller sluta med ett mellanslag.",
+    "HlsAudioSeekStrategy": "Strategin att använda under sökning i HLS strömmar.",
+    "LabelHlsAudioSeekStrategy": "Spolningsstrategi för ljud.",
+    "MessageForgotPasswordRedirect": "Du har omdirigerats till en extern leverantör för lösenordsåterställning.",
+    "MessageItemMetadataLocked": "Objektets metadata är låsta. Lås upp dem innan du använder funktionen Identifiera."
 }

@@ -1,16 +1,23 @@
+.homeLibraryButtonContainer {
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+}
+
 .homeLibraryButton {
     min-width: 18%;
     margin: 0.5em !important;
-}
 
-@media all and (max-width: 50em) {
-    .homeLibraryButton {
-        width: 46% !important;
+    @media all and (max-width: 50em) {
+        width: 45% !important;
+        width: calc(50% - 1em) !important;
+    }
+
+    @media all and (max-width: 18em) {
+        width: 100% !important;
     }
 }
 
 .homeLibraryIcon {
-    margin-left: 0.5em;
     margin-right: 0.5em;
     flex-shrink: 0;
 }

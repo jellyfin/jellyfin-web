@@ -1,4 +1,11 @@
-@use 'mixins' as *;
+@use "mixins" as *;
+
+.videoOsd-appBar {
+    margin-left: env(safe-area-inset-left);
+    margin-right: env(safe-area-inset-right);
+    padding-left: 1em;
+    padding-right: 1em;
+}
 
 .chapterThumbTextContainer,
 .videoOsdBottom {

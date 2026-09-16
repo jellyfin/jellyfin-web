@@ -11,7 +11,7 @@ const useCurrentTab = () => {
     const activeTab: number =
         searchParamsTab !== null ?
             parseInt(searchParamsTab, 10) :
-            getDefaultViewIndex(location.pathname, libraryId);
+            getDefaultViewIndex(location.pathname, settingsKey);
 
     return {
         searchParams,

@@ -1818,5 +1818,6 @@
     "ActivitiesLoadError": "Gagal memuat aktifitas",
     "ApiKeysLoadError": "Gagal memuat kunci API",
     "Authors": "Pengarang",
-    "BrandingLoadError": "Gagal memuat pengaturan branding"
+    "BrandingLoadError": "Gagal memuat pengaturan branding",
+    "MessageItemMetadataLocked": "Metadata item ini terkunci. Buka kuncinya sebelum menggunakan fitur Mengenali."
 }

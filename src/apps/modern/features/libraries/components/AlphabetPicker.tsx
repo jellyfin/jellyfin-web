@@ -1,38 +1,31 @@
 import React, { useCallback } from 'react';
 
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-
-import type { LibraryViewSettings } from 'types/library';
 
 import 'components/alphaPicker/style.scss';
 
 interface AlphabetPickerProps {
-    libraryViewSettings: LibraryViewSettings;
-    setLibraryViewSettings: React.Dispatch<
-        React.SetStateAction<LibraryViewSettings>
-    >;
+    value?: string | null;
+    onChange: (value: string | null | undefined) => void;
 }
 
 const LETTER_VALUES = ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
-    libraryViewSettings,
-    setLibraryViewSettings
+    value,
+    onChange
 }) => {
     const handleValue = useCallback(
         (
             event: React.MouseEvent<HTMLElement>,
             newValue: string | null | undefined
         ) => {
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                StartIndex: 0,
-                Alphabet: newValue
-            }));
+            onChange(newValue);
         },
-        [setLibraryViewSettings]
+        [onChange]
     );
 
     return (
@@ -49,43 +42,51 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 fontSize: '80%',
                 display: 'flex',
                 alignItems: {
-                    xs: 'start',
+                    xs: 'flex-start',
                     sm: 'center'
                 },
                 // This should render under the main AppBar if overlapping
                 zIndex: theme.zIndex.appBar - 1
             })}
         >
-            <ToggleButtonGroup
-                orientation='vertical'
-                value={libraryViewSettings.Alphabet}
-                exclusive
-                color='primary'
-                size='small'
-                onChange={handleValue}
+            <Paper
+                elevation={0}
+                sx={{
+                    borderRadius: 1,
+                    overflow: 'hidden'
+                }}
             >
-                {LETTER_VALUES.map((l) => (
-                    <ToggleButton
-                        key={l}
-                        value={l}
-                        sx={{
-                            borderWidth: 0,
-                            paddingTop: {
-                                xs: 0,
-                                md: 0.25
-                            },
-                            paddingBottom: {
-                                xs: 0,
-                                md: 0.25
-                            },
-                            paddingLeft: 0.5,
-                            paddingRight: 0.5
-                        }}
-                    >
-                        {l}
-                    </ToggleButton>
-                ))}
-            </ToggleButtonGroup>
+                <ToggleButtonGroup
+                    orientation='vertical'
+                    value={value}
+                    exclusive
+                    color='primary'
+                    size='small'
+                    onChange={handleValue}
+                >
+                    {LETTER_VALUES.map((l) => (
+                        <ToggleButton
+                            key={l}
+                            value={l}
+                            sx={{
+                                borderWidth: 0,
+                                paddingTop: {
+                                    xs: 0,
+                                    md: 0.25
+                                },
+                                paddingBottom: {
+                                    xs: 0,
+                                    md: 0.25
+                                },
+                                paddingLeft: 0.5,
+                                paddingRight: 0.5
+                            }}
+                        >
+                            {l}
+                        </ToggleButton>
+                    ))}
+                </ToggleButtonGroup>
+            </Paper>
         </Box>
     );
 };

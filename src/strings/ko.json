@@ -1894,5 +1894,6 @@
     "MessageNoEpisodesFound": "지금 볼 수 있는 에피소드가 없습니다.",
     "NetworkingPageLoadError": "네트워크 세팅을 불러오는 데 실패했습니다",
     "NewPlaylist": "새로운 플레이리스트",
-    "OriginalLanguage": "원본 언어"
+    "OriginalLanguage": "원본 언어",
+    "MessageItemMetadataLocked": "이 항목의 메타데이터가 잠겨 있습니다. 식별 기능을 사용하기 전에 잠금을 해제하세요."
 }

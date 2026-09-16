@@ -13,8 +13,10 @@ import loading from 'components/loading/loading';
 import { pluginManager } from './components/pluginManager';
 import { appRouter } from './components/router/appRouter';
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
 import globalize from './lib/globalize';
 import { loadCoreDictionary } from 'lib/globalize/loader';
+import getServerAddress from 'lib/jellyfin-apiclient/utils/getServerAddress';
 import { initialize as initializeAutoCast } from 'scripts/autocast';
 import browser from './scripts/browser';
 import keyboardNavigation from './scripts/keyboardNavigation';
@@ -22,6 +24,7 @@ import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
+import { updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
 import { initializeServerConnections } from './scripts/serverNotifications';
 
 import RootApp from './RootApp';
@@ -69,11 +72,16 @@ build: ${__JF_BUILD_VERSION__}`);
     // Initialize app host
     await appHost.init();
 
-    // Initialize the api client
-    const serverUrl = await serverAddress();
-    if (serverUrl) {
-        ServerConnections.initApiClient(serverUrl);
+    // Find the correct server URL
+    const lastServer = ServerConnections.getLastUsedServer();
+    let serverUrl;
+    if (lastServer) {
+        serverUrl = getServerAddress(lastServer);
+    } else {
+        serverUrl = await serverAddress();
     }
+    // Initialize the api client
+    if (serverUrl) ServerConnections.initApiClient(serverUrl);
 
     // Initialize automatic (default) cast target
     initializeAutoCast();
@@ -83,6 +91,14 @@ build: ${__JF_BUILD_VERSION__}`);
     // Update localization on user changes
     Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
     Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
+    // Update sdk language on language changes
+    Events.on(document, EventType.LANGUAGE_CHANGE, () => {
+        ServerConnections.getCurrentApiClientAsync()
+            .then(updateApiClientSdk)
+            .catch(err => {
+                console.error('Failed to update ApiClient SDK on language change', err);
+            });
+    });
 
     // Load the font styles
     loadFonts();

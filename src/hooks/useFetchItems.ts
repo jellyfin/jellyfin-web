@@ -10,7 +10,6 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
-import { getGenreApi } from '@jellyfin/sdk/lib/utils/api/genre-api';
 import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 import { getShowApi } from '@jellyfin/sdk/lib/utils/api/show-api';
@@ -69,41 +68,6 @@ export const useGetItems = (parametersOptions: LibraryApiGetItemsRequest) => {
         refetchOnMount: isRandom ? false : undefined,
         refetchOnWindowFocus: isRandom ? false : undefined,
         enabled: !!currentApi.api && !!currentApi.user?.Id
-    });
-};
-
-const fetchGetGenres = async (
-    currentApi: JellyfinApiContext,
-    itemType: BaseItemKind[],
-    parentId: ParentId,
-    options?: AxiosRequestConfig
-) => {
-    const { api, user } = currentApi;
-    if (api && user?.Id) {
-        const response = await getGenreApi(api).getGenres(
-            {
-                userId: user.Id,
-                sortBy: [ItemSortBy.SortName],
-                sortOrder: [SortOrder.Ascending],
-                includeItemTypes: itemType,
-                enableTotalRecordCount: false,
-                parentId: parentId ?? undefined
-            },
-            {
-                signal: options?.signal
-            }
-        );
-        return response.data as ItemDtoQueryResult;
-    }
-};
-
-export const useGetGenres = (itemType: BaseItemKind[], parentId: ParentId) => {
-    const currentApi = useApi();
-    return useQuery({
-        queryKey: ['Genres', parentId],
-        queryFn: ({ signal }) =>
-            fetchGetGenres(currentApi, itemType, parentId, { signal }),
-        enabled: !!currentApi.api && !!currentApi.user?.Id && !!parentId
     });
 };
 
