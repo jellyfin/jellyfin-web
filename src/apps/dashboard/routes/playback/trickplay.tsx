@@ -39,8 +39,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     options.EnableHwEncoding = data.HwEncoding?.toString() === 'on';
     options.EnableKeyFrameOnlyExtraction = data.KeyFrameOnlyExtraction?.toString() === 'on';
 
-    // AI-GENERATED CODE: Save the global primary-media trickplay settings.
-    // Cleanup is forcibly disabled whenever primary-only is disabled.
     const primaryMediaOnly =
         data.PrimaryMediaOnly?.toString() === 'on';
 
@@ -154,8 +152,6 @@ export const Component = () => {
                                 <FormHelperText>{globalize.translate('LabelTrickplayKeyFrameOnlyExtractionHelp')}</FormHelperText>
                             </FormControl>
 
-                            {/* AI-GENERATED CODE: Global primary-media-only trickplay setting.
-                                This applies to all libraries. */}
                             <FormControl>
                                 <FormControlLabel
                                     control={
@@ -172,10 +168,8 @@ export const Component = () => {
                                 <FormHelperText>
                                     {globalize.translate('LabelTrickplayPrimaryMediaOnlyHelp')}
                                 </FormHelperText>
-                            </FormControl>
+                            </FormControl>}
 
-                            {/* AI-GENERATED CODE: Optional cleanup of existing excluded trickplay.
-                                Keep this disabled whenever primary-only is disabled. */}
                             <FormControl>
                                 <FormControlLabel
                                     control={
@@ -193,9 +187,6 @@ export const Component = () => {
                                 <FormHelperText>
                                     {globalize.translate('LabelTrickplayRemoveUnwantedHelp')}
                                 </FormHelperText>
-
-                                {/* AI-GENERATED CODE: Warn about permanent deletion when cleanup is enabled.
-                                    The warning intentionally appears only when deletion is active. */}
                                 {primaryMediaOnly && removeUnwanted && (
                                     <Alert severity='warning'>
                                         {globalize.translate('LabelTrickplayRemoveUnwantedWarning')}
