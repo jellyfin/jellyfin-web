@@ -934,7 +934,7 @@
     "LabelScreensaver": "Ekrano užsklanda",
     "LabelBaseUrlHelp": "Pridėkite pasirinktinį pakatalogį prie serverio URL. Pavyzdžiui: https://example.com/<baseurl>",
     "LabelBindToLocalNetworkAddressHelp": "Pakeiskite vietinį HTTP serverio IP adresą. Jei paliekama tuščia, serveris bus susietas su visais prieinamais adresais. Keičiant šią reikšmę reikia iš naujo paleisti serverį.",
-    "LabelEnableHttpsHelp": "Klausykitės sukonfigūruotame HTTPS prievade. Taip pat turi būti pateiktas galiojantis sertifikatas, kad tai įsigaliotų.",
+    "LabelEnableHttpsHelp": "Klausytis sukonfigūruotame HTTPS prievade. Kad tai įsigaliotų, taip pat būtina pateikti galiojantį sertifikatą.",
     "LabelExtractChaptersDuringLibraryScanHelp": "Generuoti skyrių atvaizdus, kai bibliotekos skenavimo metu importuojami vaizdo įrašai. Priešingu atveju jie bus išskirti atliekant suplanuotą skyrių atvaizdų užduotį, todėl įprastas bibliotekos skenavimas bus baigtas greičiau.",
     "LabelCreateHttpPortMap": "Įjungti automatinį prievadų atvaizdavimą HTTP ir HTTPS srautui.",
     "LabelCustomDeviceDisplayNameHelp": "Nurodykite pasirinktinį rodomą pavadinimą arba palikite tuščią laukelį, kad būtų naudojamas įrenginio pateiktas pavadinimas.",
