@@ -13,6 +13,7 @@ import appSettings from './settings/appSettings';
  */
 const KeyNames = {
     13: 'Enter',
+    19: 'Pause',
     27: 'Escape',
     37: 'ArrowLeft',
     38: 'ArrowUp',
