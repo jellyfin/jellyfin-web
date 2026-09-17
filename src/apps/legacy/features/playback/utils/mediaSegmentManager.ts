@@ -56,14 +56,25 @@ class MediaSegmentManager extends PlaybackSubscriber {
         }
     }
 
-    promptToSkip(mediaSegment: MediaSegmentDto) {
+    playNextTrack(mediaSegment: MediaSegmentDto) {
+        // Ignore segment if playback progress has passed the segment's start time
+        if (mediaSegment.StartTicks !== undefined && this.lastTime > mediaSegment.StartTicks) {
+            console.info('[MediaSegmentManager] ignoring next track for segment that has been seeked back into', mediaSegment);
+            this.isLastSegmentIgnored = true;
+            return;
+        }
+        console.debug('[MediaSegmentManager] playing next item in queue');
+        this.playbackManager.nextTrack(this.player);
+    }
+
+    promptToSkip(mediaSegment: MediaSegmentDto, action: MediaSegmentAction) {
         if (mediaSegment.StartTicks && mediaSegment.EndTicks
             && mediaSegment.EndTicks - mediaSegment.StartTicks < TICKS_PER_SECOND * 3) {
             console.info('[MediaSegmentManager] ignoring segment prompt with duration <3s', mediaSegment);
             this.isLastSegmentIgnored = true;
             return;
         }
-        this.playbackManager.promptToSkip(mediaSegment);
+        this.playbackManager.promptToSkip(mediaSegment, action);
     }
 
     private performAction(mediaSegment: MediaSegmentDto) {
@@ -75,8 +86,10 @@ class MediaSegmentManager extends PlaybackSubscriber {
         const action = this.mediaSegmentTypeActions[mediaSegment.Type];
         if (action === MediaSegmentAction.Skip) {
             this.skipSegment(mediaSegment);
-        } else if (action === MediaSegmentAction.AskToSkip) {
-            this.promptToSkip(mediaSegment);
+        } else if (action === MediaSegmentAction.PlayNext) {
+            this.playNextTrack(mediaSegment);
+        } else if (action === MediaSegmentAction.AskToSkip || action === MediaSegmentAction.AskToPlayNext) {
+            this.promptToSkip(mediaSegment, action);
         }
     }
 

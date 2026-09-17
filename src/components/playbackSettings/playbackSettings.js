@@ -52,14 +52,29 @@ function populateLanguages(select, languages) {
     select.innerHTML = html;
 }
 
-function populateMediaSegments(container, userSettings) {
-    const selectedValues = {};
-    const actionOptions = Object.values(MediaSegmentAction)
+// Actions that advance to the next item only make sense for segments at the
+// end of an item, so they are not offered for other segment types.
+const PLAY_NEXT_ACTIONS = [
+    MediaSegmentAction.AskToPlayNext,
+    MediaSegmentAction.PlayNext
+];
+const PLAY_NEXT_SEGMENT_TYPES = [ MediaSegmentType.Outro ];
+
+function getActionOptions(segmentType) {
+    return Object.values(MediaSegmentAction)
+        .filter(action => (
+            !PLAY_NEXT_ACTIONS.includes(action)
+            || PLAY_NEXT_SEGMENT_TYPES.includes(segmentType)
+        ))
         .map(action => {
             const actionLabel = globalize.translate(`MediaSegmentAction.${action}`);
             return `<option value='${action}'>${actionLabel}</option>`;
         })
         .join('');
+}
+
+function populateMediaSegments(container, userSettings) {
+    const selectedValues = {};
 
     const segmentSettings = [
         // List the types in a logical order (and exclude "Unknown" type)
@@ -74,7 +89,7 @@ function populateMediaSegments(container, userSettings) {
         selectedValues[id] = getMediaSegmentAction(userSettings, segmentType);
         return `<div class="selectContainer">
 <select is="emby-select" id="${id}" class="segmentTypeAction" label="${segmentTypeLabel}">
-    ${actionOptions}
+    ${getActionOptions(segmentType)}
 </select>
 </div>`;
     }).join('');

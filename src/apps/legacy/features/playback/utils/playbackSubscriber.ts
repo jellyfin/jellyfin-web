@@ -9,6 +9,7 @@ import type { PlayTarget } from 'types/playTarget';
 import type { PlaybackStopInfo, PlayerState } from 'types/playbackStopInfo';
 import type { PlayerPlugin } from 'types/plugin';
 import Events, { type Event } from 'utils/events';
+import type { MediaSegmentAction } from '../constants/mediaSegmentAction';
 import { PlaybackManagerEvent } from '../constants/playbackManagerEvent';
 import { PlayerEvent } from '../constants/playerEvent';
 
@@ -19,7 +20,7 @@ export interface PlaybackSubscriber {
     onPlaybackStart?(e: Event, player: PlayerPlugin, state: PlayerState): void
     onPlaybackStop?(e: Event, info: PlaybackStopInfo): void
     onPlayerChange?(e: Event, player: PlayerPlugin, target: PlayTarget, previousPlayer: PlayerPlugin): void
-    onPromptSkip?(e: Event, mediaSegment: MediaSegmentDto): void
+    onPromptSkip?(e: Event, mediaSegment: MediaSegmentDto, action?: MediaSegmentAction): void
     onPlayerError?(e: Event, error: PlayerError): void
     onPlayerFullscreenChange?(e: Event, fullscreen: boolean): void
     onPlayerItemStarted?(e: Event, item?: BaseItemDto, mediaSource?: MediaSourceInfo): void

@@ -2,6 +2,7 @@ import { PlaybackManager } from './playbackmanager';
 import { TICKS_PER_MILLISECOND, TICKS_PER_SECOND } from 'constants/time';
 import type { MediaSegmentDto } from '@jellyfin/sdk/lib/generated-client/models/media-segment-dto';
 import type { PlaybackStopInfo } from 'types/playbackStopInfo';
+import { MediaSegmentAction } from 'apps/legacy/features/playback/constants/mediaSegmentAction';
 import { PlaybackSubscriber } from 'apps/legacy/features/playback/utils/playbackSubscriber';
 import { isInSegment } from 'apps/legacy/features/playback/utils/mediaSegments';
 import Events, { type Event } from 'utils/events';
@@ -37,6 +38,7 @@ function onHideComplete(this: HTMLButtonElement) {
 class SkipSegment extends PlaybackSubscriber {
     private skipElement: HTMLButtonElement | null;
     private currentSegment: MediaSegmentDto | null | undefined;
+    private currentAction: MediaSegmentAction | undefined;
     private hideTimeout: ReturnType<typeof setTimeout> | null | undefined;
 
     constructor(playbackManager: PlaybackManager) {
@@ -58,6 +60,11 @@ class SkipSegment extends PlaybackSubscriber {
             this.skipElement = document.body.querySelector('.skip-button');
             if (this.skipElement) {
                 this.skipElement.addEventListener('click', () => {
+                    if (this.currentAction === MediaSegmentAction.AskToPlayNext) {
+                        this.playbackManager.nextTrack();
+                        return;
+                    }
+
                     const time = this.playbackManager.currentTime() * TICKS_PER_MILLISECOND;
                     if (this.currentSegment?.EndTicks) {
                         if (time < this.currentSegment.EndTicks - TICKS_PER_SECOND) {
@@ -73,7 +80,9 @@ class SkipSegment extends PlaybackSubscriber {
 
     setButtonText() {
         if (this.skipElement && this.currentSegment) {
-            this.skipElement.innerHTML = globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
+            this.skipElement.innerHTML = this.currentAction === MediaSegmentAction.AskToPlayNext ?
+                globalize.translate('MediaSegmentPlayNextPrompt') :
+                globalize.translate('MediaSegmentSkipPrompt', globalize.translate(`MediaSegmentType.${this.currentSegment.Type}`));
             this.skipElement.innerHTML += '<span class="material-icons skip_next" aria-hidden="true"></span>';
         }
     }
@@ -148,7 +157,7 @@ class SkipSegment extends PlaybackSubscriber {
         }
     }
 
-    onPromptSkip(e: Event, segment: MediaSegmentDto) {
+    onPromptSkip(e: Event, segment: MediaSegmentDto, action?: MediaSegmentAction) {
         if (this.player && segment.EndTicks != null
             && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
             && this.playbackManager.getNextItem()
@@ -159,6 +168,7 @@ class SkipSegment extends PlaybackSubscriber {
         }
         if (!this.currentSegment) {
             this.currentSegment = segment;
+            this.currentAction = action;
 
             this.createSkipElement();
 
@@ -177,6 +187,7 @@ class SkipSegment extends PlaybackSubscriber {
 
             if (!isInSegment(this.currentSegment, time)) {
                 this.currentSegment = null;
+                this.currentAction = undefined;
                 this.hideSkipButton();
             }
         }
@@ -191,6 +202,7 @@ class SkipSegment extends PlaybackSubscriber {
 
     onPlaybackStop(_e: Event, playbackStopInfo: PlaybackStopInfo) {
         this.currentSegment = null;
+        this.currentAction = undefined;
         this.hideSkipButton();
         if (!playbackStopInfo.nextItem) {
             Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);

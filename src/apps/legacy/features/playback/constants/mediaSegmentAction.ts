@@ -4,5 +4,7 @@
 export enum MediaSegmentAction {
     None = 'None',
     AskToSkip = 'AskToSkip',
-    Skip = 'Skip'
+    Skip = 'Skip',
+    AskToPlayNext = 'AskToPlayNext',
+    PlayNext = 'PlayNext'
 }
