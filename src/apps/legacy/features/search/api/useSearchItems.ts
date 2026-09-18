@@ -1,108 +1,66 @@
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { useQuery } from '@tanstack/react-query';
-import { CardShape } from 'components/cardbuilder/utils/shape';
-import { useApi } from '../../../../../hooks/useApi';
-import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
-import { useArtistsSearch } from './useArtistsSearch';
-import { usePeopleSearch } from './usePeopleSearch';
-import { useStudiosSearch } from './useStudiosSearch';
-import { useVideoSearch } from './useVideoSearch';
-import { Section } from '../types';
-import { useLiveTvSearch } from './useLiveTvSearch';
-import { fetchItemsByType } from './fetchItemsByType';
-import { useProgramsSearch } from './useProgramsSearch';
-import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
+import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { keepPreviousData, type QueryFunctionContext, useQueries } from '@tanstack/react-query';
+import { useCallback, useMemo, useState } from 'react';
+
+import layoutManager from 'components/layoutManager';
+import { useApi } from 'hooks/useApi';
+import dom from 'utils/dom';
+
+import { getSearchLimit } from '../utils/searchLimit';
+import { getSearchSections, INITIAL_SECTION_COUNT } from './searchSections';
 
 export const useSearchItems = (
     parentId?: string,
     collectionType?: CollectionType,
     searchTerm?: string
 ) => {
-    const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
-    const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
-    const { data: studios, isPending: isStudiosPending } = useStudiosSearch(parentId, collectionType, searchTerm);
-    const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
-    const { data: programs, isPending: isProgramsPending } = useProgramsSearch(parentId, collectionType, searchTerm);
-    const { data: liveTvSections, isPending: isLiveTvPending } = useLiveTvSearch(parentId, collectionType, searchTerm);
     const { api, user } = useApi();
     const userId = user?.Id;
+    const displayMissingEpisodes = user?.Configuration?.DisplayMissingEpisodes;
 
-    const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
-    const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
-    const isStudiosEnabled = !isStudiosPending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
-    const isVideosEnabled = !isVideosPending || collectionType;
-    const isProgramsEnabled = !isProgramsPending || collectionType;
-    const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
+    const sectionSpecs = useMemo(() => getSearchSections(collectionType), [ collectionType ]);
 
-    return useQuery({
-        queryKey: ['Search', 'Items', collectionType, parentId, searchTerm],
-        queryFn: async ({ signal }) => {
-            if (liveTvSections && collectionType && isLivetv(collectionType)) {
-                return sortSections(liveTvSections);
-            }
+    // Size each request for the screen once per mount; a resize mid-session is not worth refetching for
+    const [ windowSize ] = useState(() => dom.getWindowSize());
 
-            const sections: Section[] = [];
+    // Sections load a few at a time as the user scrolls. Start over whenever the search itself changes.
+    const scope = `${collectionType ?? ''}|${parentId ?? ''}|${searchTerm ?? ''}`;
+    const [ loaded, setLoaded ] = useState({ scope, count: INITIAL_SECTION_COUNT });
+    const activeCount = loaded.scope === scope ? loaded.count : INITIAL_SECTION_COUNT;
 
-            addSection(sections, 'Artists', artists?.Items, {
-                coverImage: true
-            });
+    const results = useQueries({
+        queries: sectionSpecs.slice(0, activeCount).map(spec => {
+            const limit = getSearchLimit(spec.shape, windowSize.innerWidth, windowSize.innerHeight, layoutManager.tv);
 
-            addSection(sections, 'Programs', programs?.Items, {
-                ...LIVETV_CARD_OPTIONS
-            });
-
-            addSection(sections, 'People', people?.Items, {
-                coverImage: true
-            });
-
-            addSection(sections, 'Studios', studios?.Items, {
-                shape: CardShape.SquareOverflow
-            });
-
-            addSection(sections, 'HeaderVideos', videos?.Items, {
-                showParentTitle: true
-            });
-
-            const itemTypes: BaseItemKind[] = getItemTypesFromCollectionType(collectionType);
-
-            const searchData = await fetchItemsByType(
-                api!,
-                userId,
-                {
-                    includeItemTypes: itemTypes,
-                    parentId,
-                    searchTerm,
-                    isMissing: itemTypes.includes(BaseItemKind.Episode) && !user?.Configuration?.DisplayMissingEpisodes ? false : undefined,
-                    limit: 800
-                },
-                { signal }
-            );
-
-            if (searchData.Items) {
-                for (const itemType of itemTypes) {
-                    const items: BaseItemDto[] = [];
-                    for (const searchItem of searchData.Items) {
-                        if (searchItem.Type === itemType) {
-                            items.push(searchItem);
-                        }
-                    }
-                    addSection(sections, getTitleFromType(itemType), items, getCardOptionsFromType(itemType));
-                }
-            }
-
-            return sortSections(sections);
-        },
-        enabled: (
-            !!api
-            && !!userId
-            && !!isArtistsEnabled
-            && !!isPeopleEnabled
-            && !!isStudiosEnabled
-            && !!isVideosEnabled
-            && !!isLiveTvEnabled
-            && !!isProgramsEnabled
-        )
+            return {
+                queryKey: [ 'Search', spec.id, collectionType, parentId, searchTerm, limit ],
+                queryFn: ({ signal }: QueryFunctionContext) => spec.fetch(
+                    api!,
+                    userId!,
+                    { parentId, searchTerm, limit, displayMissingEpisodes },
+                    { signal }
+                ),
+                enabled: !!api && !!userId,
+                // Keep showing the previous results while a new search term is loading
+                placeholderData: keepPreviousData
+            };
+        })
     });
+
+    const hasNextSection = activeCount < sectionSpecs.length;
+
+    const fetchNextSection = useCallback(() => {
+        setLoaded(previous => ({
+            scope,
+            count: Math.min((previous.scope === scope ? previous.count : INITIAL_SECTION_COUNT) + 1, sectionSpecs.length)
+        }));
+    }, [ scope, sectionSpecs.length ]);
+
+    return {
+        sections: results.flatMap(result => result.data ?? []),
+        isPending: results.some(result => result.isPending),
+        isPlaceholderData: results.some(result => result.isPlaceholderData),
+        hasNextSection,
+        fetchNextSection
+    };
 };
