@@ -557,6 +557,7 @@ export function setContentType(parent, contentType) {
 
     if (contentType === 'tvshows' || contentType === 'movies' || contentType === 'musicvideos' || contentType === 'mixed') {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.remove('hide');
+        parent.querySelector('.fldSaveSubtitlesSettings').classList.remove('hide');
     } else {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
     }
