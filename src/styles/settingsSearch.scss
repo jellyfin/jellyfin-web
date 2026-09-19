@@ -1,0 +1,37 @@
+/**
+ * Settings Search Styles
+ * Add to: src/styles/dashboard.scss or create new file
+ */
+
+/* Highlight styling for matched text */
+.settings-search-highlight {
+    background-color: rgba(255, 235, 59, 0.4);
+    color: inherit;
+    padding: 0.1em 0;
+    border-radius: 2px;
+    font-weight: inherit;
+}
+
+/* Dark theme variant */
+[data-theme='dark'] .settings-search-highlight,
+.theme-dark .settings-search-highlight {
+    background-color: rgba(255, 235, 59, 0.3);
+}
+
+/* High contrast for accessibility */
+@media (prefers-contrast: high) {
+    .settings-search-highlight {
+        background-color: rgba(255, 235, 59, 0.6);
+        font-weight: 600;
+    }
+}
+
+/* Smooth transitions for show/hide */
+.MuiAccordion-root {
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Ensure hidden elements are truly hidden */
+[style*='display: none'] {
+    display: none !important;
+}
