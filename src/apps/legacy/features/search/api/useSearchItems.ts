@@ -7,7 +7,7 @@ import { useApi } from '../../../../../hooks/useApi';
 import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
 import { useArtistsSearch } from './useArtistsSearch';
 import { usePeopleSearch } from './usePeopleSearch';
-import { useStudiosSearch } from './useStudiosSearch';
+import { useCompaniesSearch } from './useCompaniesSearch';
 import { useVideoSearch } from './useVideoSearch';
 import { Section } from '../types';
 import { useLiveTvSearch } from './useLiveTvSearch';
@@ -22,7 +22,7 @@ export const useSearchItems = (
 ) => {
     const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
     const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
-    const { data: studios, isPending: isStudiosPending } = useStudiosSearch(parentId, collectionType, searchTerm);
+    const { data: companies, isPending: isCompaniesPending } = useCompaniesSearch(parentId, collectionType, searchTerm);
     const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
     const { data: programs, isPending: isProgramsPending } = useProgramsSearch(parentId, collectionType, searchTerm);
     const { data: liveTvSections, isPending: isLiveTvPending } = useLiveTvSearch(parentId, collectionType, searchTerm);
@@ -31,7 +31,7 @@ export const useSearchItems = (
 
     const isArtistsEnabled = !isArtistsPending || (collectionType && !isMusic(collectionType));
     const isPeopleEnabled = !isPeoplePending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
-    const isStudiosEnabled = !isStudiosPending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
+    const isCompaniesEnabled = !isCompaniesPending || (collectionType && !isMovies(collectionType) && !isTVShows(collectionType));
     const isVideosEnabled = !isVideosPending || collectionType;
     const isProgramsEnabled = !isProgramsPending || collectionType;
     const isLiveTvEnabled = !isLiveTvPending || !collectionType || !isLivetv(collectionType);
@@ -57,7 +57,7 @@ export const useSearchItems = (
                 coverImage: true
             });
 
-            addSection(sections, 'Studios', studios?.Items, {
+            addSection(sections, 'Companies', companies?.Items, {
                 shape: CardShape.SquareOverflow
             });
 
@@ -99,7 +99,7 @@ export const useSearchItems = (
             && !!userId
             && !!isArtistsEnabled
             && !!isPeopleEnabled
-            && !!isStudiosEnabled
+            && !!isCompaniesEnabled
             && !!isVideosEnabled
             && !!isLiveTvEnabled
             && !!isProgramsEnabled

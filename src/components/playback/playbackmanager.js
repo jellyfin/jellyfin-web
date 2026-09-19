@@ -1900,9 +1900,9 @@ export class PlaybackManager {
                         SortBy,
                         MediaTypes: MediaType.Video
                     }, queryOptions));
-                case BaseItemKind.Studio:
+                case BaseItemKind.Company:
                     return getItemsForPlayback(serverId, mergePlaybackQueries({
-                        StudioIds: firstItem.Id,
+                        CompanyIds: firstItem.Id,
                         Recursive: true,
                         SortBy,
                         MediaTypes: MediaType.Video

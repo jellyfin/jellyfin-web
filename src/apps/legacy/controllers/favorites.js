@@ -2,7 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
-import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
+import { getCompanyApi } from '@jellyfin/sdk/lib/utils/api/company-api';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
@@ -96,8 +96,8 @@ function getSections() {
         overlayPlayButton: true,
         coverImage: true
     }, {
-        name: 'Studios',
-        types: BaseItemKind.Studio,
+        name: 'Companies',
+        types: BaseItemKind.Company,
         shape: getBackdropShape(enableScrollX()),
         preferThumb: true,
         showTitle: true,
@@ -201,15 +201,15 @@ function getFetchDataFn(section) {
         options.Limit = 20;
         const userId = apiClient.getCurrentUserId();
 
-        if (section.types === BaseItemKind.Studio) {
+        if (section.types === BaseItemKind.Company) {
             const api = ServerConnections.getApi(apiClient.serverId());
             if (!api) {
                 console.error('[Favorites] no Api instance available for server', apiClient.serverId());
                 return Promise.resolve(undefined);
             }
 
-            return getStudioApi(api)
-                .getStudios({
+            return getCompanyApi(api)
+                .getCompanies({
                     userId,
                     isFavorite: true,
                     fields: [ItemFields.PrimaryImageAspectRatio],
