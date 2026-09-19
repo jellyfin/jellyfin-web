@@ -195,27 +195,60 @@ function onSuccessfulPlay(elem, onErrorFn) {
     elem.addEventListener('error', onErrorFn);
 }
 
-export function playWithPromise(elem, onErrorFn) {
+function getMediaElementError(elem) {
+    return elem.error || new Error('Media element error');
+}
+
+function isIgnoredPlayError(err) {
+    const errorName = (err?.name || '').toLowerCase();
+
+    // safari uses aborterror
+    return errorName === 'notallowederror'
+        || errorName === 'aborterror';
+}
+
+function playElement(elem) {
     try {
-        return elem.play()
-            .catch((e) => {
-                const errorName = (e.name || '').toLowerCase();
-                // safari uses aborterror
-                if (errorName === 'notallowederror'
-                        || errorName === 'aborterror') {
-                    // swallow this error because the user can still click the play button on the video element
+        return Promise.resolve(elem.play())
+            .catch((err) => {
+                if (isIgnoredPlayError(err)) {
+                    // swallow this error because the user can still click the play button on the media element
                     return Promise.resolve();
                 }
-                return Promise.reject(e);
-            })
-            .then(() => {
-                onSuccessfulPlay(elem, onErrorFn);
-                return Promise.resolve();
+
+                throw err;
             });
     } catch (err) {
         console.error('error calling video.play: ' + err);
-        return Promise.reject();
+        throw err;
     }
+}
+
+export function playWithPromise(elem, onErrorFn, options = {}) {
+    let cleanupStartupError;
+
+    const startupErrorPromise = new Promise((resolve, reject) => {
+        const onStartupError = () => reject(getMediaElementError(elem));
+
+        cleanupStartupError = () => {
+            elem.removeEventListener('error', onStartupError);
+        };
+
+        elem.addEventListener('error', onStartupError);
+    });
+
+    const playPromise = Promise.resolve()
+        .then(options.beforePlay)
+        .then(() => playElement(elem));
+
+    return Promise.race([playPromise, startupErrorPromise])
+        .then(() => {
+            cleanupStartupError();
+            onSuccessfulPlay(elem, onErrorFn);
+        }, (err) => {
+            cleanupStartupError();
+            throw err;
+        });
 }
 
 export function destroyCastPlayer(instance) {
