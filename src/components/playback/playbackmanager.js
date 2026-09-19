@@ -1307,6 +1307,14 @@ export class PlaybackManager {
             return getPlayerData(player).audioStreamIndex;
         };
 
+        self.getProgressState = function (player) {
+            player = player || self._currentPlayer;
+            if (player && player.getProgressState) {
+                return player.getProgressState();
+            }
+            return null;
+        };
+
         function isAudioStreamSupported(mediaSource, index, deviceProfile) {
             let mediaStream;
             const mediaStreams = mediaSource.MediaStreams;
@@ -2222,6 +2230,7 @@ export class PlaybackManager {
                 }
                 state.PlayState.PlaySessionId = self.playSessionId(player);
                 state.PlayState.PlaylistItemId = self.getCurrentPlaylistItemId(player);
+                state.PlayState.ProgressState = self.getProgressState(player);
             }
 
             if (mediaSource) {
