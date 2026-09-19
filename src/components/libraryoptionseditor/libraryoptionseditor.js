@@ -406,7 +406,7 @@ function populateMetadataSettings(parent, contentType) {
         renderMediaSegmentProviders(parent, availableOptions, {});
         renderImageFetchers(parent, availableOptions, {});
         renderSimilarItemProviders(parent, availableOptions, {});
-        availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hide') : parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
+        availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleProviderSettings').classList.remove('hide') : parent.querySelector('.subtitleProviderSettings').classList.add('hide');
     }).catch(() => {
         return Promise.resolve();
     });
@@ -557,9 +557,10 @@ export function setContentType(parent, contentType) {
 
     if (contentType === 'tvshows' || contentType === 'movies' || contentType === 'musicvideos' || contentType === 'mixed') {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.remove('hide');
-        parent.querySelector('.fldSaveSubtitlesSettings').classList.remove('hide');
+        parent.querySelector('.subtitleDownloadSettings').classList.remove('hide');
     } else {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
+        parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
     }
 
     if (contentType === 'music') {
