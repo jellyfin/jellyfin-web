@@ -99,7 +99,8 @@ function addSeriesTimerInfo(
         if (itemRecordAnyTime) {
             addMiscInfo({ text: globalize.translate('Anytime') });
         } else {
-            addMiscInfo({ text: datetime.getDisplayTime(itemStartDate) });
+            // If itemStartDate is ever null, then getDisplayTime will throw an Error
+            addMiscInfo({ text: datetime.getDisplayTime(itemStartDate as string) });
         }
 
         if (itemRecordAnyChannel) {
@@ -288,6 +289,9 @@ function addproductionYearWithEndDate(
                 { useGrouping: false }
             );
             /* At this point, text will contain only the start year */
+            // @ts-expect-error: this appears to be an error. Since, toLocaleString() returns a `string` it can never equal itemProductionYear since it's a number.
+            // This is either a logic error or the typing on BaseItemDto is incorrect.
+            // eslint-disable-next-line sonarjs/different-types-comparison
             if (endYear !== itemProductionYear) {
                 productionYear += `-${endYear}`;
             }
