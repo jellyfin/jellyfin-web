@@ -166,7 +166,6 @@
 
 <div class="subtitleDownloadSettings hide">
     <h2>${HeaderSubtitleDownloads}</h2>
-
     <div>
         <h3 class="checkboxListLabel">${LabelDownloadLanguages}</h3>
         <div class="subtitleDownloadLanguages paperList checkboxList" style="max-height: 10.5em; overflow-y: auto; padding: .5em 1em;">
@@ -198,8 +197,10 @@
         </label>
         <div class="fieldDescription checkboxFieldDescription">${LabelSkipIfGraphicalSubsPresentHelp}</div>
     </div>
+</div>
 
-    <div class="checkboxContainer checkboxContainer-withDescription advanced">
+<div class="fldSaveSubtitlesSettings hide">
+    <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkSaveSubtitlesLocally" checked />
             <span>${SaveSubtitlesIntoMediaFolders}</span>
