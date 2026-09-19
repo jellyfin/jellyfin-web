@@ -1533,6 +1533,7 @@
     "ReplaceAllMetadata": "Replace all metadata",
     "ReplaceExistingImages": "Replace existing images",
     "ReplaceTrickplayImages": "Replace existing trickplay images",
+    "RepositoryAddError": "Unable to add the repository. Check that the URL points to a valid plugin manifest and is reachable by your server, then try again.",
     "RepositoriesPageLoadError": "Failed to load repositories",
     "Retry": "Retry",
     "RetryWithGlobalSearch": "Retry with a global search",
