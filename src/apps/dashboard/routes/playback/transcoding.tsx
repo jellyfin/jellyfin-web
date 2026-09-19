@@ -32,11 +32,16 @@ import SimpleAlert from 'components/SimpleAlert';
 
 const CONFIG_KEY = 'encoding';
 
+/** Declared here until the generated SDK model carries EnableHdrPassthrough. */
+type EncodingConfig = EncodingOptions & {
+    EnableHdrPassthrough?: boolean;
+};
+
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
-    const data = await request.json() as EncodingOptions;
+    const data = await request.json() as EncodingConfig;
 
     await getSystemApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: data });
@@ -51,8 +56,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const Component = () => {
-    const { data: initialConfig, isPending, isError } = useNamedConfiguration<EncodingOptions>(CONFIG_KEY);
-    const [ config, setConfig ] = useState<EncodingOptions | null>(null);
+    const { data: initialConfig, isPending, isError } = useNamedConfiguration<EncodingConfig>(CONFIG_KEY);
+    const [ config, setConfig ] = useState<EncodingConfig | null>(null);
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const submit = useSubmit();
@@ -466,6 +471,22 @@ export const Component = () => {
                                         }
                                     />
                                     <FormHelperText>{globalize.translate('AllowVideoToolboxTonemappingHelp')}</FormHelperText>
+                                </FormControl>
+                            )}
+
+                            {hardwareAccelType !== 'v4l2m2m' && (
+                                <FormControl>
+                                    <FormControlLabel
+                                        label={globalize.translate('EnableHdrPassthrough')}
+                                        control={
+                                            <Checkbox
+                                                name='EnableHdrPassthrough'
+                                                checked={config.EnableHdrPassthrough ?? false}
+                                                onChange={onCheckboxChange}
+                                            />
+                                        }
+                                    />
+                                    <FormHelperText>{globalize.translate('AllowHdrPassthroughHelp')}</FormHelperText>
                                 </FormControl>
                             )}
 
