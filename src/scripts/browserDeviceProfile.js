@@ -638,9 +638,6 @@ export default function (options) {
     if (canPlayAudioFormat('opus')) {
         videoAudioCodecs.push('opus');
         webmAudioCodecs.push('opus');
-        if (browser.tizen) {
-            hlsInTsVideoAudioCodecs.push('opus');
-        }
         hlsInFmp4VideoAudioCodecs.push('opus');
     } else if (safariSupportsOpus) {
         videoAudioCodecs.push('opus');
