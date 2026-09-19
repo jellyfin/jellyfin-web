@@ -38,6 +38,18 @@ export function loadView(options) {
             pageIndex = 0;
         }
 
+        // Remove any previous cached page for the same URL to prevent
+        // duplicate DOM elements (e.g. duplicate #indexPage ids)
+        const mainAnimatedPagesContainer = getMainAnimatedPages();
+        for (let i = 0; i < allPages.length; i++) {
+            if (i !== pageIndex && currentUrls[i] === options.url && allPages[i]) {
+                triggerDestroy(allPages[i]);
+                mainAnimatedPagesContainer?.removeChild(allPages[i]);
+                allPages[i] = null;
+                currentUrls[i] = null;
+            }
+        }
+
         const isPluginpage = options.url.includes('configurationpage');
         const newViewInfo = normalizeNewView(options, isPluginpage);
         const newView = newViewInfo.elem;
@@ -166,7 +178,7 @@ function normalizeNewView(options, isPluginpage) {
 
 function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
     for (let index = 0, length = allPages.length; index < length; index++) {
-        if (newPageIndex !== index && oldPageIndex !== index) {
+        if (newPageIndex !== index && oldPageIndex !== index && allPages[index]) {
             allPages[index].classList.add('hide');
         }
     }
@@ -174,7 +186,7 @@ function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
 
 function afterAnimate(allPages, newPageIndex) {
     for (let index = 0, length = allPages.length; index < length; index++) {
-        if (newPageIndex !== index) {
+        if (newPageIndex !== index && allPages[index]) {
             allPages[index].classList.add('hide');
         }
     }
