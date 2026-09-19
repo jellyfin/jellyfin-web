@@ -173,7 +173,6 @@
   },
   "engines": {
     "node": ">=24.0.0",
-    "npm": ">=11.0.0",
-    "yarn": "YARN NO LONGER USED - use npm instead."
+    "npm": ">=11.0.0"
   }
 }
