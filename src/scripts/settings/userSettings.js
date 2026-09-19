@@ -28,7 +28,7 @@ function saveServerPreferences(instance) {
     instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
 }
 
-const allowedSortSettings = ['SortBy', 'SortOrder'];
+const allowedSortSettings = ['SortBy', 'SortOrder', 'UnplayedFirst'];
 
 const filterSettingsPostfix = '-filter';
 const allowedFilterSettings = [
