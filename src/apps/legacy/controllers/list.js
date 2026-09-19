@@ -793,7 +793,8 @@ class ItemsView {
                 getItems(self, self.params, currentItem, 'Random', 0, 300).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
-                        autoplay: true
+                        autoplay: true,
+                        shuffle: true
                     });
                 });
             }
