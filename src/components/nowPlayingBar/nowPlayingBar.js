@@ -10,6 +10,7 @@ import browser from '../../scripts/browser';
 import imageLoader from '../images/imageLoader';
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
+import { showPlaybackRateMenu } from '../playback/playbackRateMenu';
 import { appHost } from '../apphost';
 import dom from '../../utils/dom';
 import globalize from 'lib/globalize';
@@ -37,6 +38,7 @@ let positionSlider;
 let toggleAirPlayButton;
 let toggleRepeatButton;
 let toggleRepeatButtonIcon;
+let showPlaybackRateMenuButton;
 let lyricButton;
 
 let lastUpdateTime = 0;
@@ -89,6 +91,8 @@ function getNowPlayingBarHtml() {
     html += `<button is="paper-icon-button-light" class="btnAirPlay mediaButton" title="${globalize.translate('AirPlay')}"><span class="material-icons airplay" aria-hidden="true"></span></button>`;
 
     html += `<button is="paper-icon-button-light" class="openLyricsButton mediaButton hide" title="${globalize.translate('Lyrics')}"><span class="material-icons lyrics" style="top:0.1em" aria-hidden="true"></span></button>`;
+
+    html += `<button is="paper-icon-button-light" class="showPlaybackRateMenuButton mediaButton hide" title="${globalize.translate('PlaybackRate')}"><span class="material-icons speed" aria-hidden="true"></span></button>`;
 
     html += `<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton" title="${globalize.translate('Repeat')}"><span class="material-icons repeat" aria-hidden="true"></span></button>`;
     html += `<button is="paper-icon-button-light" class="btnShuffleQueue mediaButton" title="${globalize.translate('Shuffle')}"><span class="material-icons shuffle" aria-hidden="true"></span></button>`;
@@ -152,6 +156,7 @@ function bindEvents(elem) {
     muteButton = elem.querySelector('.muteButton');
     playPauseButtons = elem.querySelectorAll('.playPauseButton');
     toggleRepeatButton = elem.querySelector('.toggleRepeatButton');
+    showPlaybackRateMenuButton = elem.querySelector('.showPlaybackRateMenuButton');
     volumeSlider = elem.querySelector('.nowPlayingBarVolumeSlider');
     volumeSliderContainer = elem.querySelector('.nowPlayingBarVolumeSliderContainer');
     lyricButton = nowPlayingBarElement.querySelector('.openLyricsButton');
@@ -244,6 +249,11 @@ function bindEvents(elem) {
     });
 
     toggleRepeatButtonIcon = toggleRepeatButton.querySelector('.material-icons');
+
+    showPlaybackRateMenuButton.addEventListener('click', function () {
+        showPlaybackRateMenu(currentPlayer, showPlaybackRateMenuButton)
+            .catch(() => { /* no rate selected */ });
+    });
 
     volumeSliderContainer.classList.toggle('hide', appHost.supports(AppFeature.PhysicalVolumeControl));
 
@@ -354,6 +364,9 @@ function updatePlayerStateInternal(event, state, player) {
 
     const hideAirPlayButton = supportedCommands.indexOf('AirPlay') === -1;
     toggleAirPlayButton.classList.toggle('hide', hideAirPlayButton);
+
+    const hidePlaybackRateButton = supportedCommands.indexOf('PlaybackRate') === -1;
+    showPlaybackRateMenuButton.classList.toggle('hide', hidePlaybackRateButton);
 
     updateRepeatModeDisplay(playbackManager.getRepeatMode());
     onQueueShuffleModeChange();
