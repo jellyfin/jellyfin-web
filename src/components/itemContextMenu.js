@@ -205,6 +205,14 @@ export async function getCommands(options) {
                 icon: 'content_copy'
             });
         }
+
+        if (item.CanExport) {
+            commands.push({
+                name: globalize.translate('Export'),
+                id: 'export',
+                icon: 'file_download'
+            });
+        }
     }
 
     if (item.CanDelete && options.deleteItem !== false) {
@@ -490,6 +498,20 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             }
+            case 'export':
+                import('../scripts/fileDownloader').then((fileDownloader) => {
+                    const url = getLibraryApi(api).getExportUrl({ itemId });
+                    fileDownloader.download([{
+                        url,
+                        item,
+                        itemId,
+                        serverId,
+                        title: item.Name,
+                        filename: item.Path.replace(/^.*[\\/]/, '')
+                    }]);
+                    getResolveFunction(getResolveFunction(resolve, id), id)();
+                });
+                break;
             case 'editsubtitles':
                 import('./subtitleeditor/subtitleeditor').then(({ default: subtitleEditor }) => {
                     subtitleEditor.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
