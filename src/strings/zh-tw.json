@@ -528,7 +528,7 @@
     "LabelAllowedRemoteAddresses": "遠端 IP 位址過濾",
     "LabelAllowedRemoteAddressesMode": "遠端 IP 位址過濾模式",
     "LabelAppName": "APP 名稱",
-    "LabelAppNameExample": "用於識別API 金鑰的名稱，此設置不會影響功能性。",
+    "LabelAppNameExample": "用於識別API 金鑰的名稱，此設定不會影響功能性。",
     "LabelArtists": "藝人",
     "LabelArtistsHelp": "將多位演出者以分號（;）分隔。",
     "LabelAuthProvider": "身份驗證提供者",
@@ -1218,7 +1218,7 @@
     "QuickConnectAuthorizeSuccess": "您的裝置認證成功！",
     "QuickConnectAuthorizeCode": "輸入代號 {0} 來登入",
     "QuickConnectActivationSuccessful": "成功啟用",
-    "QuickConnect": "快速連接",
+    "QuickConnect": "快速連線",
     "PosterCard": "海報卡片",
     "PlaybackRate": "播放速度",
     "LabelQuickConnectCode": "Quick Connect 驗證碼",
@@ -1885,5 +1885,9 @@
     "HlsAudioSeekStrategy": "設定 HLS 串流跳轉播放位置時使用的策略。",
     "LabelHlsAudioSeekStrategy": "音頻快進策略",
     "LabelUsernameAllowedCharactersHelp": "用戶名可以包含字母、數字及如下字符「 - _ ' . @ +」，并且不能以空格開始或結束。",
-    "MessageItemMetadataLocked": "此項目的媒體資訊已鎖定。請先解除鎖定，再使用識別功能。"
+    "MessageItemMetadataLocked": "此項目的媒體資訊已鎖定。請先解除鎖定，再使用識別功能。",
+    "ApiKeysLoadError": "無法載入 API 金鑰",
+    "Authors": "作者",
+    "BrandingLoadError": "無法載入品牌設定",
+    "CardSettings": "卡片設定"
 }
