@@ -1889,5 +1889,6 @@
     "ApiKeysLoadError": "無法載入 API 金鑰",
     "Authors": "作者",
     "BrandingLoadError": "無法載入品牌設定",
-    "CardSettings": "卡片設定"
+    "CardSettings": "卡片設定",
+    "Disabled": "停用"
 }
