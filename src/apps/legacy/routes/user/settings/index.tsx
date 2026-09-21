@@ -278,7 +278,7 @@ const UserSettingsPage: FC = () => {
                                     <span className='material-icons listItemIcon listItemIcon-transparent dashboard' aria-hidden='true' />
                                     <div className='listItemBody'>
                                         <div className='listItemBodyText'>
-                                            {globalize.translate('TabDashboard')}
+                                            {globalize.translate('ManageServer')}
                                         </div>
                                     </div>
                                 </div>

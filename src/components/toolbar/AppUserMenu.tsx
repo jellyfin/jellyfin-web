@@ -147,7 +147,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabDashboard')} />
+                    <ListItemText primary={globalize.translate('ManageServer')} />
                 </MenuItem>,
                 <MenuItem
                     key='admin-metadata-link'
