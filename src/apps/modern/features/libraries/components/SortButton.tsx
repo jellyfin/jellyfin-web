@@ -75,7 +75,8 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'OptionDateEpisodeAdded', value: [ItemSortBy.DateLastContentAdded, ItemSortBy.SortName] },
         { label: 'OptionDatePlayed', value: [ItemSortBy.SeriesDatePlayed, ItemSortBy.SortName] },
         { label: 'OptionParentalRating', value: [ItemSortBy.OfficialRating, ItemSortBy.SortName] },
-        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] }
+        { label: 'OptionReleaseDate', value: [ItemSortBy.ProductionYear, ItemSortBy.PremiereDate, ItemSortBy.SortName] },
+        { label: 'OptionUnplayedRuntime', value: [ItemSortBy.SeriesUnplayedRuntime, ItemSortBy.SortName] }
     ],
     [LibraryTab.Episodes]: [
         { label: 'Name', value: [ItemSortBy.SeriesSortName] },
