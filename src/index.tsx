@@ -1,52 +1,52 @@
 // Import legacy browser polyfills
-import 'lib/legacy';
+import '@/lib/legacy';
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 // NOTE: We need to import this first to initialize the connection
-import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
 
-import { appHost } from './components/apphost';
-import autoFocuser from './components/autoFocuser';
-import loading from 'components/loading/loading';
-import { pluginManager } from './components/pluginManager';
-import { appRouter } from './components/router/appRouter';
-import { AppFeature } from 'constants/appFeature';
-import { EventType } from 'constants/eventType';
-import globalize from './lib/globalize';
-import { loadCoreDictionary } from 'lib/globalize/loader';
-import getServerAddress from 'lib/jellyfin-apiclient/utils/getServerAddress';
-import { initialize as initializeAutoCast } from 'scripts/autocast';
-import browser from './scripts/browser';
-import keyboardNavigation from './scripts/keyboardNavigation';
-import { getPlugins } from './scripts/settings/webSettings';
-import taskButton from './scripts/taskbutton';
-import { pageClassOn, serverAddress } from './utils/dashboard';
-import Events from './utils/events';
-import { updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
-import { initializeServerConnections } from './scripts/serverNotifications';
+import { appHost } from '@/components/apphost';
+import autoFocuser from '@/components/autoFocuser';
+import loading from '@/components/loading/loading';
+import { pluginManager } from '@/components/pluginManager';
+import { appRouter } from '@/components/router/appRouter';
+import { AppFeature } from '@/constants/appFeature';
+import { EventType } from '@/constants/eventType';
+import globalize from '@/lib/globalize';
+import { loadCoreDictionary } from '@/lib/globalize/loader';
+import getServerAddress from '@/lib/jellyfin-apiclient/utils/getServerAddress';
+import { initialize as initializeAutoCast } from '@/scripts/autocast';
+import browser from '@/scripts/browser';
+import keyboardNavigation from '@/scripts/keyboardNavigation';
+import { getPlugins } from '@/scripts/settings/webSettings';
+import taskButton from '@/scripts/taskbutton';
+import { pageClassOn, serverAddress } from '@/utils/dashboard';
+import Events from '@/utils/events';
+import { updateApiClientSdk } from '@/utils/jellyfin-apiclient/compat';
+import { initializeServerConnections } from '@/scripts/serverNotifications';
 
-import RootApp from './RootApp';
+import RootApp from '@/RootApp';
 
 // Import the button webcomponent for use throughout the site
 // NOTE: This is a bit of a hack, files should ensure the component is imported before use
-import './elements/emby-button/emby-button';
+import '@/elements/emby-button/emby-button';
 
 // Import auto-running components
 // NOTE: This is an anti-pattern
-import './components/playback/displayMirrorManager';
-import './components/playback/playerSelectionMenu';
-import './components/themeMediaPlayer';
-import './scripts/mouseManager';
-import './scripts/screensavermanager';
+import '@/components/playback/displayMirrorManager';
+import '@/components/playback/playerSelectionMenu';
+import '@/components/themeMediaPlayer';
+import '@/scripts/mouseManager';
+import '@/scripts/screensavermanager';
 
 // Import site styles
-import './styles/site.scss';
-import './styles/livetv.scss';
-import './styles/dashboard.scss';
-import './styles/detailtable.scss';
-import './styles/librarybrowser.scss';
+import '@/styles/site.scss';
+import '@/styles/livetv.scss';
+import '@/styles/dashboard.scss';
+import '@/styles/detailtable.scss';
+import '@/styles/librarybrowser.scss';
 
 async function init() {
     // Log current version to console to help out with issue triage and debugging
@@ -62,10 +62,10 @@ build: ${__JF_BUILD_VERSION__}`);
 
     // Register handlers to update header classes
     pageClassOn('viewshow', 'standalonePage', function () {
-        document.querySelector('.skinHeader').classList.add('noHeaderRight');
+        document.querySelector('.skinHeader')?.classList.add('noHeaderRight');
     });
     pageClassOn('viewhide', 'standalonePage', function () {
-        document.querySelector('.skinHeader').classList.remove('noHeaderRight');
+        document.querySelector('.skinHeader')?.classList.remove('noHeaderRight');
     });
 
     // Initialize app host
@@ -100,11 +100,11 @@ build: ${__JF_BUILD_VERSION__}`);
     });
 
     // Load the font styles
-    loadFonts();
+    await loadFonts();
 
     // Load iOS specific styles
     if (browser.iOS) {
-        import('./styles/ios.scss');
+        await import('@/styles/ios.scss');
     }
 
     // Load frontend plugins
@@ -127,24 +127,26 @@ build: ${__JF_BUILD_VERSION__}`);
     await renderApp();
 
     // Load platform specific features
-    loadPlatformFeatures();
+    await loadPlatformFeatures();
 
     // Enable navigation controls
     keyboardNavigation.enable();
     autoFocuser.enable();
 }
 
-function loadFonts() {
+async function loadFonts() {
     if (browser.tv && !browser.android) {
         console.debug('using system fonts with explicit sizes');
-        import('./styles/fonts.sized.scss');
+        await import('@/styles/fonts.sized.scss');
     } else if (__USE_SYSTEM_FONTS__) {
         console.debug('using system fonts');
-        import('./styles/fonts.scss');
+        await import('@/styles/fonts.scss');
     } else {
         console.debug('using default fonts');
-        import('./styles/fonts.scss');
-        import('./styles/fonts.noto.scss');
+        await Promise.all([
+            import('@/styles/fonts.scss'),
+            import('@/styles/fonts.noto.scss')
+        ]);
     }
 }
 
@@ -174,29 +176,31 @@ async function loadPlugins() {
         console.warn('failed loading plugins', e);
     }
 
-    console.groupEnd('loading installed plugins');
+    console.groupEnd();
 }
 
-function loadPlatformFeatures() {
+async function loadPlatformFeatures() {
     if (!browser.tv && !browser.xboxOne && !browser.ps4) {
-        import('./components/nowPlayingBar/nowPlayingBar');
+        await import('@/components/nowPlayingBar/nowPlayingBar');
     }
 
     if (appHost.supports(AppFeature.RemoteControl)) {
-        import('./components/playback/playerSelectionMenu');
-        import('./components/playback/remotecontrolautoplay');
+        await Promise.all([
+            import('@/components/playback/playerSelectionMenu'),
+            import('@/components/playback/remotecontrolautoplay')
+        ]);
     }
 
     if (!appHost.supports(AppFeature.PhysicalVolumeControl) || browser.touch) {
-        import('./components/playback/volumeosd');
+        await import('@/components/playback/volumeosd');
     }
 
     if (!browser.tv && !browser.xboxOne) {
-        import('./components/playback/playbackorientation');
+        await import('@/components/playback/playbackorientation');
         registerServiceWorker();
 
         if (window.Notification) {
-            import('./components/notifications/notifications');
+            await import('@/components/notifications/notifications');
         }
     }
 }
@@ -215,6 +219,10 @@ function registerServiceWorker() {
 
 async function renderApp() {
     const container = document.getElementById('reactRoot');
+    if (!container) {
+        throw new Error('reactRoot element not found');
+    }
+
     // Remove the splash logo
     container.innerHTML = '';
 
@@ -226,4 +234,6 @@ async function renderApp() {
     );
 }
 
-init();
+init().catch(error => {
+    console.error('Fatal error during initialization', error);
+});
