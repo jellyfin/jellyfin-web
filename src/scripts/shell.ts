@@ -20,14 +20,14 @@ export default {
             window.NativeShell.openDownloadManager();
         }
     },
-    openUrl: function(url, target) {
+    openUrl: function(url: string, target?: string) {
         if (window.NativeShell?.openUrl) {
             window.NativeShell.openUrl(url, target);
         } else {
             window.open(url, target || '_blank');
         }
     },
-    updateMediaSession(mediaInfo) {
+    updateMediaSession(mediaInfo: NativeShellMediaInfo) {
         if (window.NativeShell?.updateMediaSession) {
             window.NativeShell.updateMediaSession(mediaInfo);
         }
@@ -41,7 +41,7 @@ export default {
      * Notify the NativeShell about volume level changes.
      * Useful for e.g. remote playback.
      */
-    updateVolumeLevel(volume) {
+    updateVolumeLevel(volume: number) {
         if (window.NativeShell?.updateVolumeLevel) {
             window.NativeShell.updateVolumeLevel(volume);
         }
@@ -51,14 +51,15 @@ export default {
      *
      * @returns true on success
      */
-    downloadFiles(items) {
+    downloadFiles(items: NativeShellDownloadItem[]) {
         if (window.NativeShell?.downloadFiles) {
             window.NativeShell.downloadFiles(items);
             return true;
         }
-        if (window.NativeShell?.downloadFile) {
+        const downloadFile = window.NativeShell?.downloadFile;
+        if (downloadFile) {
             items.forEach(item => {
-                window.NativeShell.downloadFile(item);
+                downloadFile(item);
             });
             return true;
         }
