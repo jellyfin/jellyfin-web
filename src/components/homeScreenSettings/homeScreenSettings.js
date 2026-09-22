@@ -94,6 +94,10 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Suggestions
             },
             {
+                name: globalize.translate('Favorites'),
+                value: LibraryTab.Favorites
+            },
+            {
                 name: globalize.translate('TabUpcoming'),
                 value: LibraryTab.Upcoming
             },
@@ -128,6 +132,10 @@ function getLandingScreenOptions(type) {
             {
                 name: globalize.translate('Suggestions'),
                 value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('Favorites'),
+                value: LibraryTab.Favorites
             },
             {
                 name: globalize.translate('HeaderAlbumArtists'),
