@@ -275,7 +275,7 @@ const UserSettingsPage: FC = () => {
                                 }}
                             >
                                 <div className='listItem'>
-                                    <span className='material-icons listItemIcon listItemIcon-transparent dashboard' aria-hidden='true' />
+                                    <span className='material-icons listItemIcon listItemIcon-transparent dns' aria-hidden='true' />
                                     <div className='listItemBody'>
                                         <div className='listItemBodyText'>
                                             {globalize.translate('ManageServer')}
