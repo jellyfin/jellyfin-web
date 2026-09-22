@@ -16,7 +16,6 @@ function executeAction(action, data, serverId) {
     });
 }
 
-/* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
 self.addEventListener('notificationclick', function (event) {
     const notification = event.notification;
     notification.close();
@@ -34,5 +33,4 @@ self.addEventListener('notificationclick', function (event) {
     event.waitUntil(executeAction(action, data, serverId));
 }, false);
 
-/* eslint-disable-next-line no-restricted-globals -- self is valid in a serviceworker environment */
 self.addEventListener('activate', () => self.clients.claim());

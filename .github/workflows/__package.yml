@@ -28,10 +28,20 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci --no-audit
 
-      - name: Run a production build
+      - name: Run a production build and create comparison report
         env:
           JELLYFIN_VERSION: ${{ inputs.commit || github.sha }}
-        run: npm run build:production
+        run: npm run build:report
+
+      - name: Add build comparison to workflow summary
+        run: cat build-reports/bundle-size-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload build report artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: build-report
+          path: build-reports
+          if-no-files-found: error
 
       - name: Update config.json for testing
         run: |

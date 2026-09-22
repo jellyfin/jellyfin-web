@@ -184,6 +184,14 @@ export default tseslint.config(
         }
     },
 
+    // Build scripts run in Node and are not shipped to supported browsers
+    {
+        files: [ 'scripts/**/*.mjs' ],
+        rules: {
+            'compat/compat': 'off'
+        }
+    },
+
     // Config files are commonjs by default
     {
         files: [ '**/*.{cjs,js}' ],
@@ -402,6 +410,9 @@ export default tseslint.config(
             globals: {
                 ...globals.serviceworker
             }
+        },
+        rules: {
+            'no-restricted-globals': ['error'].concat(restrictedGlobals.filter(global => global !== 'self'))
         }
     },
 

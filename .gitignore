@@ -2,6 +2,7 @@
 dist
 web
 node_modules
+build-reports
 
 # test coverage
 coverage
