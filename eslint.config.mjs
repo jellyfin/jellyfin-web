@@ -216,14 +216,12 @@ export default tseslint.config(
                 // WebOS globals
                 'webOS': 'readonly',
                 // Dependency globals
+                'Hls': 'readonly',
                 '$': 'readonly',
                 'jQuery': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'readonly',
                 'Events': 'readonly',
-                'Emby': 'readonly',
-                'Hls': 'readonly',
-                'LibraryMenu': 'readonly',
                 // Build time definitions
                 __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',
