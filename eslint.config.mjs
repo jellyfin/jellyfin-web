@@ -221,7 +221,6 @@ export default tseslint.config(
                 'jQuery': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'readonly',
-                'Events': 'readonly',
                 // Build time definitions
                 __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',
