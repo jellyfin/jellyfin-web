@@ -30,7 +30,7 @@ domPurify.setConfig({
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
-function authenticateUserByName(page, apiClient, url, username, password) {
+function authenticateUserByName(page, apiClient, url, username, password, onUnauthorized) {
     loading.show();
     apiClient.authenticateUserByName(username, password).then(function (result) {
         const user = result.User;
@@ -40,6 +40,11 @@ function authenticateUserByName(page, apiClient, url, username, password) {
     }, function (response) {
         page.querySelector('#txtManualPassword').value = '';
         loading.hide();
+
+        if (response.status === 401 && onUnauthorized) {
+            onUnauthorized();
+            return;
+        }
 
         const UnauthorizedOrForbidden = [401, 403];
         if (UnauthorizedOrForbidden.includes(response.status)) {
@@ -162,7 +167,7 @@ function loadUserList(context, apiClient, users) {
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += `<div class="cardContent" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
+        html += `<div class="cardContent" data-username="${user.Name}" data-userid="${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -232,17 +237,19 @@ export default function (view, params) {
             const context = view;
             const id = cardContent.getAttribute('data-userid');
             const name = cardContent.getAttribute('data-username');
-            const haspw = cardContent.getAttribute('data-haspw');
 
             if (id === 'manual') {
                 context.querySelector('#txtManualName').value = '';
                 showManualForm(context, true);
-            } else if (haspw == 'false') {
-                authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '');
             } else {
-                context.querySelector('#txtManualName').value = name;
-                context.querySelector('#txtManualPassword').value = '';
-                showManualForm(context, true, true);
+                // The server no longer says whether an account has a password
+                // (jellyfin/jellyfin#14950), so try signing in without one and
+                // only ask for a password when the server refuses.
+                authenticateUserByName(context, getApiClient(), getTargetUrl(), name, '', function () {
+                    context.querySelector('#txtManualName').value = name;
+                    context.querySelector('#txtManualPassword').value = '';
+                    showManualForm(context, true, true);
+                });
             }
         }
     });
