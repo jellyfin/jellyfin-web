@@ -218,7 +218,6 @@ export default tseslint.config(
                 // Dependency globals
                 'Hls': 'readonly',
                 '$': 'readonly',
-                'jQuery': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'readonly',
                 // Build time definitions

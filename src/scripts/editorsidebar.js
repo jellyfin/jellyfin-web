@@ -281,7 +281,7 @@ function updateEditorNode(page, item) {
     $('.editorNode', elem).remove();
     $(elem).append(getNodeInnerHtml(item));
     if (item.IsFolder) {
-        const tree = jQuery.jstree._reference('.libraryTree');
+        const tree = $.jstree._reference('.libraryTree');
         const currentNode = tree._get_node(null, false);
         tree.refresh(currentNode);
     }
