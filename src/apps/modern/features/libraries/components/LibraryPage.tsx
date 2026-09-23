@@ -5,6 +5,8 @@ import React, { type FC } from 'react';
 import viewsByKind from 'apps/modern/features/libraries/constants/views';
 import Page from 'components/Page';
 import useCurrentTab from 'hooks/useCurrentTab';
+import { useItem } from 'hooks/useItem';
+import { useSystemInfo } from 'hooks/useSystemInfo';
 
 import PageTabContent from './PageTabContent';
 
@@ -43,12 +45,15 @@ const LibraryPage: FC<LibraryPageProps> = ({
 }) => {
     const { libraryId, activeTab } = useCurrentTab();
     const currentTab = viewsByKind[type][activeTab];
+    const { data: library } = useItem(libraryId || undefined);
+    const { data: systemInfo } = useSystemInfo();
 
     return (
         <Page
             id={PAGE_IDS[type]}
             className={'mainAnimatedPage libraryPage pageWithAbsoluteTabs withTabs'}
             backDropType={PAGE_BACKDROPS[type]}
+            title={library?.Name || systemInfo?.ServerName || undefined}
         >
             <PageTabContent
                 key={`${currentTab.viewType}-${libraryId}`}
