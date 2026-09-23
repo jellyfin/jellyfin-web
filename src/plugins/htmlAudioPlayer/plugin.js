@@ -50,13 +50,12 @@ function supportsFade() {
     return !browser.tv;
 }
 
-function requireHlsPlayer(callback) {
-    import('hls.js/dist/hls.js').then(({ default: hls }) => {
+function requireHlsPlayer() {
+    return import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
         hls.DefaultConfig.liveBackBufferLength = 90;
-        window.Hls = hls;
-        callback();
+        return hls;
     });
 }
 
@@ -174,26 +173,25 @@ class HtmlAudioPlayer {
                 navigator.audioSession.type = 'playback';
             }
 
-            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
+            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(async function () {
+                const Hls = await requireHlsPlayer();
+                const includeCorsCredentials = await getIncludeCorsCredentials();
+
                 return new Promise(function (resolve, reject) {
-                    requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
-
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
-                                xhr.withCredentials = includeCorsCredentials;
-                            }
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
-
-                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
-
-                        self._hlsPlayer = hls;
-
-                        self._currentSrc = val;
+                    const hls = new Hls({
+                        manifestLoadingTimeOut: 20000,
+                        xhrSetup: function (xhr) {
+                            xhr.withCredentials = includeCorsCredentials;
+                        }
                     });
+                    hls.loadSource(val);
+                    hls.attachMedia(elem);
+
+                    htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                    self._hlsPlayer = hls;
+
+                    self._currentSrc = val;
                 });
             }, async () => {
                 elem.autoplay = true;

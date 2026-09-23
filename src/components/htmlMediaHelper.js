@@ -1,4 +1,6 @@
-import appSettings from '../scripts/settings/appSettings' ;
+import { Events as HlsEvents, ErrorTypes as HlsErrorTypes } from 'hls.js';
+
+import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
 import { MediaError } from 'types/mediaError';
@@ -242,7 +244,7 @@ export function destroyFlvPlayer(instance) {
 }
 
 export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+    hls.on(HlsEvents.MANIFEST_PARSED, function () {
         playWithPromise(elem, onErrorFn).then(resolve, function () {
             if (reject) {
                 reject();
@@ -251,11 +253,11 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         });
     });
 
-    hls.on(Hls.Events.ERROR, function (event, data) {
+    hls.on(HlsEvents.ERROR, function (event, data) {
         console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
         // try to recover network error
-        if (data.type === Hls.ErrorTypes.NETWORK_ERROR
+        if (data.type === HlsErrorTypes.NETWORK_ERROR
                 && data.response?.code && data.response.code >= 400
         ) {
             console.debug('hls.js response error code: ' + data.response.code);
@@ -275,7 +277,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
 
         if (data.fatal) {
             switch (data.type) {
-                case Hls.ErrorTypes.NETWORK_ERROR:
+                case HlsErrorTypes.NETWORK_ERROR:
 
                     if (data.response && data.response.code === 0) {
                         // This could be a CORS error related to access control response headers
@@ -297,7 +299,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
                     }
 
                     break;
-                case Hls.ErrorTypes.MEDIA_ERROR:
+                case HlsErrorTypes.MEDIA_ERROR:
                     console.debug('fatal media error encountered, try to recover');
                     handleHlsJsMediaError(instance, reject);
                     reject = null;

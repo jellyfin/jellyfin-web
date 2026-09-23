@@ -216,7 +216,6 @@ export default tseslint.config(
                 // WebOS globals
                 'webOS': 'readonly',
                 // Dependency globals
-                'Hls': 'readonly',
                 '$': 'readonly',
                 // Jellyfin globals
                 'ApiClient': 'readonly',
