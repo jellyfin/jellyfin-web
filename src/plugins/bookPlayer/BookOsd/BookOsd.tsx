@@ -101,6 +101,8 @@ const BookOsd: FC<BookOsdProps> = ({
         document.addEventListener('pointermove', onPointerMove);
         document.addEventListener('click', onClick);
         document.addEventListener('keydown', onKeyDown);
+        // keydowns inside the epub.js iframe, forwarded by bookPlayer
+        document.addEventListener('bookplayerkeydown', onKeyDown);
 
         return () => {
             clearTimeout(timeout.current);
@@ -108,6 +110,7 @@ const BookOsd: FC<BookOsdProps> = ({
             document.removeEventListener('pointermove', onPointerMove);
             document.removeEventListener('click', onClick);
             document.removeEventListener('keydown', onKeyDown);
+            document.removeEventListener('bookplayerkeydown', onKeyDown);
         };
     }, [scheduleHide, updateFullscreen]);
 
