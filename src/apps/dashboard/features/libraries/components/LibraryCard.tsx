@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import type { VirtualFolderInfo } from '@jellyfin/sdk/lib/generated-client/models/virtual-folder-info';
+import Box from '@mui/material/Box';
 import BaseCard from 'apps/dashboard/components/BaseCard';
+import RefreshIndicator from 'elements/emby-itemrefreshindicator/RefreshIndicator';
 import getCollectionTypeOptions from '../utils/collectionTypeOptions';
 import globalize from 'lib/globalize';
 import Icon from '@mui/material/Icon';
@@ -179,17 +181,22 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
                 onCancel={onCancelDeleteLibrary}
             />
 
-            <BaseCard
-                title={virtualFolder.Name || ''}
-                text={typeName}
-                image={imageUrl}
-                icon={<Icon sx={{ fontSize: 70 }}>{getLibraryIcon(virtualFolder.CollectionType)}</Icon>}
-                action={true}
-                actionRef={actionRef}
-                onActionClick={onActionClick}
-                onClick={showMediaLibraryEditor}
-                height={260}
-            />
+            <Box sx={{ position: 'relative' }}>
+                <BaseCard
+                    title={virtualFolder.Name || ''}
+                    text={typeName}
+                    image={imageUrl}
+                    icon={<Icon sx={{ fontSize: 70 }}>{getLibraryIcon(virtualFolder.CollectionType)}</Icon>}
+                    action={true}
+                    actionRef={actionRef}
+                    onActionClick={onActionClick}
+                    onClick={showMediaLibraryEditor}
+                    height={260}
+                />
+                <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+                    <RefreshIndicator item={{ Id: virtualFolder.ItemId }} />
+                </Box>
+            </Box>
             <Menu
                 anchorEl={anchorEl}
                 open={isMenuOpen}
