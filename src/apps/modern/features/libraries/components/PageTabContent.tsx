@@ -17,6 +17,7 @@ interface PageTabContentProps {
 }
 
 const PageTabContent: FC<PageTabContentProps> = ({ parentId, currentTab }) => {
+
     if (currentTab.viewType === LibraryTab.Suggestions) {
         return (
             <SuggestionsSectionView
