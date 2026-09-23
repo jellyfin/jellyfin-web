@@ -1,4 +1,4 @@
-import { Events as HlsEvents, ErrorTypes as HlsErrorTypes } from 'hls.js';
+import { Events as HlsEvents, ErrorTypes as HlsErrorTypes } from 'hls.js/dist/hls.js';
 
 import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
