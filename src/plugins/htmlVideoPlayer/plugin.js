@@ -655,6 +655,7 @@ export class HtmlVideoPlayer {
             }
 
             elem.src = val;
+            this.#currentSrc = val;
             return playWithPromise(elem, this.onError);
         }
     }

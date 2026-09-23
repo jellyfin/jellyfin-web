@@ -203,6 +203,7 @@ class HtmlAudioPlayer {
                 }
 
                 elem.src = val;
+                self._currentSrc = val;
                 return htmlMediaHelper.playWithPromise(elem, onError);
             });
         }
