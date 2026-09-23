@@ -24,7 +24,6 @@ import {
     destroyCastPlayer,
     getCrossOriginValue,
     enableHlsJsPlayerForCodecs,
-    applySrc,
     resetSrc,
     playWithPromise,
     onEndedInternal,
@@ -657,11 +656,8 @@ export class HtmlVideoPlayer {
                 elem.crossOrigin = 'use-credentials';
             }
 
-            return applySrc(elem, val, options).then(() => {
-                this.#currentSrc = val;
-
-                return playWithPromise(elem, this.onError);
-            });
+            elem.src = val;
+            return playWithPromise(elem, this.onError);
         }
     }
 
@@ -1326,22 +1322,7 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    fetchSubtitlesUwp(track) {
-        return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (storageFile) {
-            return Windows.Storage.FileIO.readTextAsync(storageFile);
-        }).then(function (text) {
-            return JSON.parse(text);
-        });
-    }
-
-    /**
-     * @private
-     */
     async fetchSubtitles(track, item) {
-        if (window.Windows && itemHelper.isLocalItem(item)) {
-            return this.fetchSubtitlesUwp(track, item);
-        }
-
         this.incrementFetchQueue();
         try {
             const response = await fetch(getTextTrackUrl(track, item, '.js'));
@@ -1950,10 +1931,6 @@ export class HtmlVideoPlayer {
         if (
             // Check non-standard Safari PiP support
             typeof video.webkitSupportsPresentationMode === 'function' && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === 'function'
-            // Check non-standard Windows PiP support
-            || (window.Windows
-                && Windows.UI.ViewManagement.ApplicationView.getForCurrentView()
-                    .isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay))
             // Check standard PiP support
             || document.pictureInPictureEnabled
         ) {
@@ -2036,13 +2013,6 @@ export class HtmlVideoPlayer {
                 } else {
                     document.exitPictureInPicture().catch(HtmlVideoPlayer.onPictureInPictureError);
                 }
-            }
-        } else if (window.Windows) {
-            this.isPip = isEnabled;
-            if (isEnabled) {
-                Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay);
-            } else {
-                Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
             video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');

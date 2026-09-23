@@ -167,24 +167,6 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
     }
 }
 
-export function applySrc(elem, src, options) {
-    if (window.Windows && options.mediaSource?.IsLocal) {
-        return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
-            const playlist = new Windows.Media.Playback.MediaPlaybackList();
-
-            const source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
-            const startTime = (options.playerStartPositionTicks || 0) / 10000;
-            playlist.items.append(new Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
-            elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
-            return Promise.resolve();
-        });
-    } else {
-        elem.src = src;
-    }
-
-    return Promise.resolve();
-}
-
 export function resetSrc(elem) {
     elem.src = '';
     elem.innerHTML = '';

@@ -224,7 +224,6 @@ export default tseslint.config(
                 'Emby': 'readonly',
                 'Hls': 'readonly',
                 'LibraryMenu': 'readonly',
-                'Windows': 'readonly',
                 // Build time definitions
                 __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',

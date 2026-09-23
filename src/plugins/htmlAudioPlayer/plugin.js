@@ -204,11 +204,8 @@ class HtmlAudioPlayer {
                     elem.crossOrigin = 'use-credentials';
                 }
 
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-                    self._currentSrc = val;
-
-                    return htmlMediaHelper.playWithPromise(elem, onError);
-                });
+                elem.src = val;
+                return htmlMediaHelper.playWithPromise(elem, onError);
             });
         }
 
