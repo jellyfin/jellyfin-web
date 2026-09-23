@@ -213,9 +213,9 @@ function testCanPlayMkv(videoTestElement) {
         return true;
     }
 
-    if (browser.firefox) {
-        // As of Firefox 145, its mkv support is buggy and causes playback issues because it would force preloading the
-        // whole mkv file before playback starts, which is extremely undesirable for streaming.
+    if (browser.firefox || browser.webkitGtk) {
+        // As of Firefox 145 and Linux WebKit (WebKitGTK), mkv direct streaming causes playback issues/hanging
+        // because it forces preloading the whole mkv file before playback starts.
         // See https://github.com/jellyfin/jellyfin/issues/15521
         return false;
     }
@@ -360,7 +360,7 @@ function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, vide
             supported = browser.tizen;
             break;
         case 'mov':
-            supported = browser.safari || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp;
+            supported = browser.safari || browser.tizen || browser.web0s || browser.chrome || browser.edgeChromium || browser.edgeUwp || browser.webkitGtk;
             videoCodecs.push('h264');
             break;
         case 'm2ts':
@@ -457,7 +457,7 @@ function getPhysicalAudioChannels(options, videoTestElement) {
         return options.audioChannels;
     }
 
-    const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.tv || browser.ps4 || browser.xboxOne;
+    const isSurroundSoundSupportedBrowser = browser.safari || browser.chrome || browser.edgeChromium || browser.firefox || browser.webkitGtk || browser.tv || browser.ps4 || browser.xboxOne;
     const isAc3Eac3Supported = supportsAc3(videoTestElement) || supportsEac3(videoTestElement);
     const speakerCount = getSpeakerCount();
 
@@ -683,7 +683,7 @@ export default function (options) {
     }
 
     if (canPlayHevc(videoTestElement, options)
-        && (browser.edgeChromium || browser.safari || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134))) {
+        && (browser.edgeChromium || browser.safari || browser.webkitGtk || browser.tizen || browser.web0s || (browser.chrome && (!browser.android || browser.versionMajor >= 105)) || (browser.opera && !browser.mobile) || (browser.firefox && browser.versionMajor >= 134))) {
         // Chromium used to support HEVC on Android but not via MSE
         hlsInFmp4VideoCodecs.push('hevc');
     }
