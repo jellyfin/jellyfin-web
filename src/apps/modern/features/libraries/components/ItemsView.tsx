@@ -208,6 +208,7 @@ const ItemsView: FC = () => {
                     onChange={handleAlphabetChange}
                 />
             )}
+            
             {(!itemsResult || itemsResult.isPending) ? (
                 <Loading />
             ) : (
