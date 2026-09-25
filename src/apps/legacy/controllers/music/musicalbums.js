@@ -22,9 +22,14 @@ export default function (view, params, tabContent) {
     }
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
-            getQuery();
-            playbackManager.shuffle(item);
+        const query = { ...getQuery(), SortBy: 'Random', StartIndex: 0, Limit: 300 };
+
+        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
+            playbackManager.play({
+                items: result.Items,
+                autoplay: true,
+                shuffle: true
+            });
         });
     }
 
