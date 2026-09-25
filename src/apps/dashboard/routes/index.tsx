@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import ConfirmDialog from 'components/ConfirmDialog';
 import Page from 'components/Page';
+import Toast from 'apps/dashboard/components/Toast';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 
@@ -27,6 +28,7 @@ export const Component = () => {
     const { api } = useApi();
     const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
     const [ isShutdownConfirmDialogOpen, setIsShutdownConfirmDialogOpen ] = useState(false);
+    const [ isScanUnavailableToastOpen, setIsScanUnavailableToastOpen ] = useState(false);
     const startTask = useStartTask();
     const restartServer = useRestartServer();
     const shutdownServer = useShutdownServer();
@@ -61,8 +63,14 @@ export const Component = () => {
             startTask.mutate({
                 taskId: scanLibrariesTask.Id
             });
+        } else {
+            setIsScanUnavailableToastOpen(true);
         }
     }, [ startTask, tasks ]);
+
+    const handleScanUnavailableToastClose = useCallback(() => {
+        setIsScanUnavailableToastOpen(false);
+    }, []);
 
     const onRestartConfirm = useCallback(() => {
         restartServer.mutate();
@@ -96,6 +104,11 @@ export const Component = () => {
                 confirmButtonText={globalize.translate('Restart')}
                 confirmButtonColor='error'
             />
+            <Toast
+                open={isScanUnavailableToastOpen}
+                onClose={handleScanUnavailableToastClose}
+                message={globalize.translate('MessageUnableToScanLibraries')}
+            />
             <ConfirmDialog
                 open={isShutdownConfirmDialogOpen}
                 title={globalize.translate('ButtonShutdown')}
@@ -113,7 +126,7 @@ export const Component = () => {
                                 onScanLibrariesClick={onScanLibraries}
                                 onRestartClick={promptRestart}
                                 onShutdownClick={promptShutdown}
-                                isScanning={librariesTask?.State !== TaskState.Idle}
+                                isScanning={librariesTask && librariesTask.State !== TaskState.Idle}
                             />
                             <ItemCountsWidget />
                             <RunningTasksWidget tasks={tasks} />
