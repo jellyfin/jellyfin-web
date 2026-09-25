@@ -20,6 +20,7 @@ import globalize from 'lib/globalize';
 
 import FiltersAudioLanguages from './FiltersAudioLanguages';
 import FiltersFeatures from './FiltersFeatures';
+import FiltersMyRating from './FiltersMyRating';
 import FiltersGenres from './FiltersGenres';
 import FiltersOfficialRatings from './FiltersOfficialRatings';
 import FiltersEpisodesStatus from './FiltersEpisodesStatus';
@@ -168,6 +169,15 @@ const FilterButton: FC<FilterButtonProps> = ({
         );
     };
 
+    const isFiltersMyRatingEnabled = () => {
+        return (
+            viewType === LibraryTab.Movies
+            || viewType === LibraryTab.Series
+            || viewType === LibraryTab.Episodes
+            || viewType === LibraryTab.Albums
+        );
+    };
+
     const isFiltersSeriesStatusEnabled = () => {
         return viewType === LibraryTab.Series;
     };
@@ -284,6 +294,30 @@ const FilterButton: FC<FilterButtonProps> = ({
                         </AccordionDetails>
                     </Accordion>
                 )}
+                {isFiltersMyRatingEnabled() && (
+                    <Accordion
+                        expanded={expanded === 'filtersMyRating'}
+                        onChange={handleChange('filtersMyRating')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersMyRating-content'
+                            id='filtersMyRating-header'
+                        >
+                            <Typography>
+                                {globalize.translate('MyRating')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersMyRating
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={
+                                    setLibraryViewSettings
+                                }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
+
                 {isFiltersFeaturesEnabled() && (
                     <Accordion
                         expanded={expanded === 'filtersFeatures'}
