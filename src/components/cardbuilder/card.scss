@@ -317,6 +317,12 @@ button::-moz-focus-inner {
     text-overflow: initial;
 }
 
+.identificationSearchResultList .cardText {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
 .cardText-secondary {
     font-size: 86%;
 }
