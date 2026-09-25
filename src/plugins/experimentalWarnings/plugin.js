@@ -1,19 +1,11 @@
+import { getISOWeek } from 'date-fns';
+
 import { PluginType } from 'constants/pluginType';
 
 import globalize from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { appHost } from '../../components/apphost';
 import alert from '../../components/alert';
-
-// TODO: Replace with date-fns
-// https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php
-function getWeek(date) {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-}
 
 function showMessage(text, userSettingsKey, appHostFeature) {
     if (appHost.supports(appHostFeature)) {
@@ -22,8 +14,7 @@ function showMessage(text, userSettingsKey, appHostFeature) {
 
     const now = new Date();
 
-    // TODO: Use date-fns
-    userSettingsKey += now.getFullYear() + '-w' + getWeek(now);
+    userSettingsKey += now.getFullYear() + '-w' + getISOWeek(now);
 
     if (userSettings.get(userSettingsKey, false) === '1') {
         return Promise.resolve();
