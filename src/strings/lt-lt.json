@@ -1325,7 +1325,7 @@
     "LabelZipCode": "Pašto kodas",
     "LabelRequireHttps": "Reikalauti HTTPS",
     "LabelRequireHttpsHelp": "Jei pažymėta, serveris automatiškai nukreipia visas HTTP užklausas į HTTPS. Tai neturi poveikio, jei serveris neklauso HTTPS.",
-    "LabelScheduledTaskLastRan": "Paskutinį kartą paleistas {0}, o dabar {1}.",
+    "LabelScheduledTaskLastRan": "Paskutinį kartą paleista {0}, užtruko {1}.",
     "LabelSyncPlayResumePlaybackDescription": "Grįžkite prie grupinio atkūrimo",
     "LabelStable": "Stabilus",
     "LibraryScanFanoutConcurrency": "Lygiagrečių bibliotekos skenavimo užduočių riba",
