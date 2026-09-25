@@ -271,6 +271,9 @@ export default function (view, params, tabContent) {
                 }, {
                     name: globalize.translate('OptionReleaseDate'),
                     id: 'PremiereDate,SortName'
+                }, {
+                    name: globalize.translate('OptionUnplayedRuntime'),
+                    id: 'SeriesUnplayedRuntime,SortName'
                 }],
                 callback: function () {
                     getQuery().StartIndex = 0;
