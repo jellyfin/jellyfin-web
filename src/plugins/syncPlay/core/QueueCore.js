@@ -203,7 +203,7 @@ class QueueCore {
     startPlayback(apiClient) {
         if (!this.manager.isFollowingGroupPlayback()) {
             console.debug('SyncPlay startPlayback: ignoring, not following playback.');
-            return Promise.reject();
+            return Promise.reject(new Error('IsNotFollowingGroupPlaybackError'));
         }
 
         if (this.isPlaylistEmpty()) {
