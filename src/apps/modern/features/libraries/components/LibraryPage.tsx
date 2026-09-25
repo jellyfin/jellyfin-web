@@ -50,6 +50,7 @@ const LibraryPage: FC<LibraryPageProps> = ({
 
     return (
         <Page
+            key={library?.Id}
             id={PAGE_IDS[type]}
             className={'mainAnimatedPage libraryPage pageWithAbsoluteTabs withTabs'}
             backDropType={PAGE_BACKDROPS[type]}
