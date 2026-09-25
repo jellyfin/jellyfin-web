@@ -830,6 +830,11 @@ export default function (options) {
                 Container: audioFormat,
                 Type: 'Audio'
             });
+        } else if (audioFormat !== 'ogg' || !appSettings.alwaysRemuxOgg()) { // ogg remux profile is already injected
+            profile.DirectPlayProfiles.push({
+                Container: audioFormat,
+                Type: 'Audio'
+            });
         }
 
         // https://www.webmproject.org/about/faq/
