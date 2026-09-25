@@ -1,7 +1,7 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
 import Close from '@mui/icons-material/Close';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import DnsIcon from '@mui/icons-material/Dns';
 import Download from '@mui/icons-material/Download';
 import Edit from '@mui/icons-material/Edit';
 import Logout from '@mui/icons-material/Logout';
@@ -145,9 +145,9 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 >
 
                     <ListItemIcon>
-                        <DashboardIcon />
+                        <DnsIcon />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('TabDashboard')} />
+                    <ListItemText primary={globalize.translate('ManageServer')} />
                 </MenuItem>,
                 <MenuItem
                     key='admin-metadata-link'
