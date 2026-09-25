@@ -39,6 +39,15 @@ const Home = () => {
     const documentRef = useRef<Document>(document);
     const element = useRef<HTMLDivElement>(null);
 
+    const updateHomeHeader = useCallback((isActive: boolean) => {
+        const header = documentRef.current.querySelector('.skinHeader');
+        if (isActive) {
+            header?.classList.add('noHomeButtonHeader');
+        } else {
+            header?.classList.remove('noHomeButtonHeader');
+        }
+    }, []);
+
     const setTitle = async () => {
         (await libraryMenu).setTitle(null);
     };
@@ -127,7 +136,6 @@ const Home = () => {
         } else if (currentTabController?.onResume) {
             currentTabController.onResume({});
         }
-        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
     }, [ initialTabIndex, mainTabsManager ]);
 
     const onPause = useCallback(() => {
@@ -135,13 +143,13 @@ const Home = () => {
         if (currentTabController?.onPause) {
             currentTabController.onPause();
         }
-        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
     }, []);
 
     const renderHome = useCallback(() => {
+        updateHomeHeader(true);
         void onSetTabs();
         void onResume();
-    }, [ onResume, onSetTabs ]);
+    }, [ onResume, onSetTabs, updateHomeHeader ]);
 
     useEffect(() => {
         if (documentRef.current?.querySelector('.headerTabs')) {
@@ -150,8 +158,9 @@ const Home = () => {
 
         return () => {
             onPause();
+            updateHomeHeader(false);
         };
-    }, [onPause, renderHome]);
+    }, [onPause, renderHome, updateHomeHeader]);
 
     useEffect(() => {
         const doc = documentRef.current;
