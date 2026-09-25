@@ -1,3 +1,5 @@
+import { isYesterday } from 'date-fns';
+
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
@@ -55,7 +57,7 @@ function renderUpcoming(elem, items) {
         if (item.PremiereDate) {
             try {
                 const premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
+                dateText = isYesterday(premiereDate) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric'
