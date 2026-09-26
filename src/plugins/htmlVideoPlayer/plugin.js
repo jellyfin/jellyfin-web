@@ -847,6 +847,10 @@ export class HtmlVideoPlayer {
         return this.#currentTrackOffset;
     }
 
+    getCurrentTrackEvents() {
+        return this.#currentTrackEvents || [];
+    }
+
     isPrimaryTrack(textTrackIndex) {
         return textTrackIndex === PRIMARY_TEXT_TRACK_INDEX;
     }
