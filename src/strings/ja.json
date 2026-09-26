@@ -1782,7 +1782,7 @@
     "ViewAllPlugins": "すべてのプラグインを表示",
     "EnableVideoToolboxTonemapping": "VideoToolboxのトーンマッピングを有効化",
     "DisplayLoadError": "表示設定データの読み込みでエラーが発生しました。",
-    "LabelSelectPreferredTranscodeVideoAudioCodec": "ビデオ再生時の優先する音声トランスコードコーデック",
+    "LabelSelectPreferredTranscodeVideoAudioCodec": "ビデオ再生時の優先音声トランスコードコーデック",
     "LabelCustomTagDelimiters": "カスタムタグの区切り文字",
     "LabelCustomTagDelimitersHelp": "タグを区切る区切り文字として扱う文字を指定します。",
     "LabelFallbackMaxStreamingBitrate": "フォールバック時の最大ストリームビットレート（Mbps）",
