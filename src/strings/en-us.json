@@ -1019,6 +1019,7 @@
     "LabelTextBackgroundColor": "Text background color",
     "LabelTextColor": "Text color",
     "LabelTextSize": "Text size",
+    "LabelTextSizeHelp": "Scale of subtitle text relative to the video. 1.36 approximates the previous default.",
     "LabelTextWeight": "Text weight",
     "Bold": "Bold",
     "LabelTheme": "Theme",
