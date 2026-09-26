@@ -15,7 +15,7 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { useGetQueryFilters, useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
+import { useGetNetworks, useGetQueryFilters, useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
 
 import FiltersAudioLanguages from './FiltersAudioLanguages';
@@ -25,6 +25,7 @@ import FiltersOfficialRatings from './FiltersOfficialRatings';
 import FiltersEpisodesStatus from './FiltersEpisodesStatus';
 import FiltersSeriesStatus from './FiltersSeriesStatus';
 import FiltersStatus from './FiltersStatus';
+import FiltersNetworks from './FiltersNetworks';
 import FiltersStudios from './FiltersStudios';
 import FiltersSubtitleLanguages from './FiltersSubtitleLanguages';
 import FiltersTags from './FiltersTags';
@@ -104,6 +105,7 @@ const FilterButton: FC<FilterButtonProps> = ({
     const { data: filtersLegacy } = useGetQueryFiltersLegacy(parentId, itemType);
     const { data: filters } = useGetQueryFilters(parentId, itemType);
     const { data: studios } = useGetStudios(parentId, itemType);
+    const { data: networks } = useGetNetworks(parentId, itemType);
 
     const handleChange =
         (panel: string) =>
@@ -158,6 +160,10 @@ const FilterButton: FC<FilterButtonProps> = ({
             || viewType === LibraryTab.Artists
             || viewType === LibraryTab.Songs
         );
+    };
+
+    const isFiltersNetworksEnabled = () => {
+        return viewType === LibraryTab.Series;
     };
 
     const isFiltersFeaturesEnabled = () => {
@@ -466,6 +472,30 @@ const FilterButton: FC<FilterButtonProps> = ({
                         <AccordionDetails>
                             <FiltersStudios
                                 studiosOptions={studios}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={
+                                    setLibraryViewSettings
+                                }
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
+                {isFiltersNetworksEnabled() && networks && networks.length > 0 && (
+                    <Accordion
+                        expanded={expanded === 'filtersNetworks'}
+                        onChange={handleChange('filtersNetworks')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersNetworks-content'
+                            id='filtersNetworks-header'
+                        >
+                            <Typography>
+                                {globalize.translate('Networks')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersNetworks
+                                networksOptions={networks}
                                 libraryViewSettings={libraryViewSettings}
                                 setLibraryViewSettings={
                                     setLibraryViewSettings
