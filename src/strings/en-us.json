@@ -1933,6 +1933,8 @@
     "LabelExternalServerUri": "External URI",
     "LabelExternalServerUriHelp": "Published server URI for external access.",
     "LabelExtractTrickplayDuringLibraryScan": "Extract trickplay images during the library scan",
+    "LabelExtractSubtitlesDuringLibraryScan": "Extract embedded subtitles during the library scan",
+    "LabelExtractSubtitlesDuringLibraryScanHelp": "Extract embedded subtitles when videos are imported, so they are available immediately on playback instead of after the whole file has been read. Videos already in the library are processed by the subtitle extraction scheduled task. This reads every file with embedded subtitles in full and makes library scans slower.",
     "LabelExtractTrickplayDuringLibraryScanHelp": "Generate trickplay images when videos are imported during the library scan. Otherwise, they will be extracted during the trickplay images scheduled task. If generation is set to non-blocking this will not affect the time a library scan takes to complete.",
     "LogLoadFailure": "Failed to load the log file. It may still be actively written to.",
     "LabelVideoAttributes": "Video attributes",
