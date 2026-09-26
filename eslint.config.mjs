@@ -208,29 +208,22 @@ export default tseslint.config(
             },
             globals: {
                 ...globals.browser,
+                // Chromecast globals
+                'chrome': 'readonly',
                 // Tizen globals
-                'tizen': false,
-                'webapis': false,
+                'tizen': 'readonly',
+                'webapis': 'readonly',
                 // WebOS globals
-                'webOS': false,
-                // Dependency globals
-                '$': false,
-                'jQuery': false,
+                'webOS': 'readonly',
                 // Jellyfin globals
-                'ApiClient': true,
-                'Events': true,
-                'chrome': true,
-                'Emby': false,
-                'Hls': true,
-                'LibraryMenu': true,
-                'Windows': false,
+                'ApiClient': 'readonly',
                 // Build time definitions
-                __COMMIT_SHA__: false,
-                __JF_BUILD_VERSION__: false,
-                __PACKAGE_JSON_NAME__: false,
-                __PACKAGE_JSON_VERSION__: false,
-                __USE_SYSTEM_FONTS__: false,
-                __WEBPACK_SERVE__: false
+                __COMMIT_SHA__: 'readonly',
+                __JF_BUILD_VERSION__: 'readonly',
+                __PACKAGE_JSON_NAME__: 'readonly',
+                __PACKAGE_JSON_VERSION__: 'readonly',
+                __USE_SYSTEM_FONTS__: 'readonly',
+                __WEBPACK_SERVE__: 'readonly'
             }
         },
         settings: {

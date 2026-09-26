@@ -1,6 +1,9 @@
+import $ from 'jquery';
 import { importModule } from '@uupaa/dynamic-import-polyfill';
+
+import Dashboard from 'utils/dashboard';
+
 import './viewManager/viewContainer.scss';
-import Dashboard from '../utils/dashboard';
 
 const getMainAnimatedPages = () => {
     return document.querySelector('.mainAnimatedPages');
@@ -65,13 +68,13 @@ export function loadView(options) {
         }
 
         if (currentPage) {
-            if (newViewInfo.hasScript && window.$) {
+            if (newViewInfo.hasScript) {
                 mainAnimatedPages.removeChild(currentPage);
                 view = $(view).appendTo(mainAnimatedPages)[0];
             } else {
                 mainAnimatedPages.replaceChild(view, currentPage);
             }
-        } else if (newViewInfo.hasScript && window.$) {
+        } else if (newViewInfo.hasScript) {
             view = $(view).appendTo(mainAnimatedPages)[0];
         } else {
             mainAnimatedPages.appendChild(view);
@@ -107,11 +110,6 @@ export function loadView(options) {
 
                 if (!options.cancel && previousAnimatable) {
                     afterAnimate(allPages, pageIndex);
-                }
-
-                if (window.$) {
-                    $.mobile = $.mobile || {};
-                    $.mobile.activePage = view;
                 }
 
                 return view;
@@ -211,11 +209,6 @@ export function tryRestoreView(options) {
 
                 if (!options.cancel && previousAnimatable) {
                     afterAnimate(allPages, index);
-                }
-
-                if (window.$) {
-                    $.mobile = $.mobile || {};
-                    $.mobile.activePage = view;
                 }
 
                 return view;

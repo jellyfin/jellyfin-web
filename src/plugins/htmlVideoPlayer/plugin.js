@@ -24,7 +24,6 @@ import {
     destroyCastPlayer,
     getCrossOriginValue,
     enableHlsJsPlayerForCodecs,
-    applySrc,
     resetSrc,
     playWithPromise,
     onEndedInternal,
@@ -119,13 +118,12 @@ function enableNativeTrackSupport(mediaSource, track) {
     return true;
 }
 
-function requireHlsPlayer(callback) {
-    import('hls.js/dist/hls.js').then(({ default: hls }) => {
+function requireHlsPlayer() {
+    return import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
         hls.DefaultConfig.liveBackBufferLength = 90;
-        window.Hls = hls;
-        callback();
+        return hls;
     });
 }
 
@@ -549,41 +547,40 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    setSrcWithHlsJs(elem, options, url) {
+    async setSrcWithHlsJs(elem, options, url) {
+        const Hls = await requireHlsPlayer();
+        const includeCorsCredentials = await getIncludeCorsCredentials();
+
         return new Promise((resolve, reject) => {
-            requireHlsPlayer(async () => {
-                let maxBufferLength = 30;
+            let maxBufferLength = 30;
 
-                // Some browsers cannot handle huge fragments in high bitrate.
-                // This issue usually happens when using HWA encoders with a high bitrate setting.
-                // Limit the BufferLength to 6s, it works fine when playing 4k 120Mbps over HLS on chrome.
-                // https://github.com/video-dev/hls.js/issues/876
-                if ((browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
-                    maxBufferLength = 6;
+            // Some browsers cannot handle huge fragments in high bitrate.
+            // This issue usually happens when using HWA encoders with a high bitrate setting.
+            // Limit the BufferLength to 6s, it works fine when playing 4k 120Mbps over HLS on chrome.
+            // https://github.com/video-dev/hls.js/issues/876
+            if ((browser.chrome || browser.edgeChromium || browser.firefox) && playbackManager.getMaxStreamingBitrate(this) >= 25000000) {
+                maxBufferLength = 6;
+            }
+
+            const hls = new Hls({
+                startPosition: options.playerStartPositionTicks / 10000000,
+                manifestLoadingTimeOut: 20000,
+                maxBufferLength,
+                maxMaxBufferLength: maxBufferLength,
+                videoPreference: { preferHDR: true },
+                xhrSetup(xhr) {
+                    xhr.withCredentials = includeCorsCredentials;
                 }
-
-                const includeCorsCredentials = await getIncludeCorsCredentials();
-
-                const hls = new Hls({
-                    startPosition: options.playerStartPositionTicks / 10000000,
-                    manifestLoadingTimeOut: 20000,
-                    maxBufferLength: maxBufferLength,
-                    maxMaxBufferLength: maxBufferLength,
-                    videoPreference: { preferHDR: true },
-                    xhrSetup(xhr) {
-                        xhr.withCredentials = includeCorsCredentials;
-                    }
-                });
-                hls.loadSource(url);
-                hls.attachMedia(elem);
-
-                bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
-
-                this._hlsPlayer = hls;
-
-                // This is needed in setCurrentTrackElement
-                this.#currentSrc = url;
             });
+            hls.loadSource(url);
+            hls.attachMedia(elem);
+
+            bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
+
+            this._hlsPlayer = hls;
+
+            // This is needed in setCurrentTrackElement
+            this.#currentSrc = url;
         });
     }
 
@@ -657,11 +654,9 @@ export class HtmlVideoPlayer {
                 elem.crossOrigin = 'use-credentials';
             }
 
-            return applySrc(elem, val, options).then(() => {
-                this.#currentSrc = val;
-
-                return playWithPromise(elem, this.onError);
-            });
+            elem.src = val;
+            this.#currentSrc = val;
+            return playWithPromise(elem, this.onError);
         }
     }
 
@@ -1326,22 +1321,7 @@ export class HtmlVideoPlayer {
     /**
      * @private
      */
-    fetchSubtitlesUwp(track) {
-        return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (storageFile) {
-            return Windows.Storage.FileIO.readTextAsync(storageFile);
-        }).then(function (text) {
-            return JSON.parse(text);
-        });
-    }
-
-    /**
-     * @private
-     */
     async fetchSubtitles(track, item) {
-        if (window.Windows && itemHelper.isLocalItem(item)) {
-            return this.fetchSubtitlesUwp(track, item);
-        }
-
         this.incrementFetchQueue();
         try {
             const response = await fetch(getTextTrackUrl(track, item, '.js'));
@@ -1950,10 +1930,6 @@ export class HtmlVideoPlayer {
         if (
             // Check non-standard Safari PiP support
             typeof video.webkitSupportsPresentationMode === 'function' && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === 'function'
-            // Check non-standard Windows PiP support
-            || (window.Windows
-                && Windows.UI.ViewManagement.ApplicationView.getForCurrentView()
-                    .isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay))
             // Check standard PiP support
             || document.pictureInPictureEnabled
         ) {
@@ -2036,13 +2012,6 @@ export class HtmlVideoPlayer {
                 } else {
                     document.exitPictureInPicture().catch(HtmlVideoPlayer.onPictureInPictureError);
                 }
-            }
-        } else if (window.Windows) {
-            this.isPip = isEnabled;
-            if (isEnabled) {
-                Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay);
-            } else {
-                Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
             }
         } else if (video?.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function') {
             video.webkitSetPresentationMode(isEnabled ? 'picture-in-picture' : 'inline');
