@@ -159,6 +159,15 @@ function getTranscodingStats(session, player, displayPlayMethod) {
             value: targetInfos.join(',  ')
         });
     }
+
+    // Not necessarily the source range: HDR is tone mapped to SDR unless passthrough kept it.
+    const outputRangeType = session.TranscodingInfo?.VideoRangeType;
+    if (outputRangeType && outputRangeType !== 'Unknown') {
+        sessionStats.push({
+            label: globalize.translate('LabelTargetVideoRange'),
+            value: outputRangeType
+        });
+    }
     if (transcodeInfos.length) {
         sessionStats.push({
             label: globalize.translate('LabelProgressAndSpeed'),
@@ -246,6 +255,13 @@ function getMediaSourceStats(session, player) {
         sessionStats.push({
             label: globalize.translate('LabelVideoCodec'),
             value: videoCodecInfos.join('  ')
+        });
+    }
+
+    if (videoStream.VideoRangeType && videoStream.VideoRangeType !== 'Unknown') {
+        sessionStats.push({
+            label: globalize.translate('LabelSourceVideoRange'),
+            value: videoStream.VideoRangeType
         });
     }
 
