@@ -1,8 +1,17 @@
 {
     "name": "Jellyfin",
+    "name_localized": {
+      "fa": { "value": "جلی‌فین", "lang": "fa", "dir": "rtl" }
+    },
     "description": "The Free Software Media System",
+    "description_localized": {
+      "fa": { "value": "سامانه رسانه‌ای نرم‌افزار آزاد", "lang": "fa", "dir": "rtl" }
+    },
     "lang": "en-US",
     "short_name": "Jellyfin",
+    "short_name_localized": {
+      "fa": { "value": "جلی‌فین", "lang": "fa", "dir": "rtl" }
+    },
     "start_url": "index.html#/home",
     "theme_color": "#101010",
     "background_color": "#101010",
