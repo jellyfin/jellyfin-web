@@ -882,7 +882,7 @@
     "LabelMoviePrefixHelp": "映画のタイトルに接頭辞が適用されている場合,ここに記入することでサーバが適切に扱える可能性があります。",
     "LabelMinResumePercentageHelp": "この割合の時間よりも前に再生を停止した場合,そのアイテムは未再生とみなします。",
     "LabelMinResumePercentage": "レジューム再生する時間の最小パーセンテージ",
-    "LabelMinResumeDurationHelp": "動画で再生している場所を記録してレジュームできるようにする,最短の時間です。",
+    "LabelMinResumeDurationHelp": "再生位置を保存し、再生を再開できる、ビデオの最短再生時間（秒）。",
     "LabelMinResumeDuration": "レジューム再生する最小時間",
     "LabelMinBackdropDownloadWidth": "ダウンロードする背景の最小幅",
     "LabelMetadataSaversHelp": "メタデータを保存する際のファイル形式を選択します。",
