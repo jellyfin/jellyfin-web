@@ -37,7 +37,15 @@ const PlayedButton: FC<PlayedButtonProps> = ({
         return buttonTitle;
     }, [itemType, isPlayed]);
 
-    const onClick = useCallback(async () => {
+    const onClick = useCallback(async (event: React.MouseEvent<HTMLButtonElement>) => {
+        // Clicking the button moves DOM focus to it, which keeps the card's
+        // `:focus-within` style (and its dark overlay) active after the pointer
+        // leaves. Release focus for pointer-driven clicks so the overlay hides
+        // again; keyboard-driven clicks report `detail === 0` and keep focus.
+        if (event.detail > 0) {
+            event.currentTarget.blur();
+        }
+
         try {
             if (!itemId) {
                 throw new Error('Item has no Id');
