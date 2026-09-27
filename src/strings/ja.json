@@ -885,7 +885,7 @@
     "LabelMinResumeDurationHelp": "動画で再生している場所を記録してレジュームできるようにする,最短の時間です。",
     "LabelMinResumeDuration": "レジューム再生する最小時間",
     "LabelMinBackdropDownloadWidth": "ダウンロードする背景の最小幅",
-    "LabelMetadataSaversHelp": "メタデータを保存する際に使うファイル形式を選択します。",
+    "LabelMetadataSaversHelp": "メタデータを保存する際のファイル形式を選択します。",
     "LabelMetadataReadersHelp": "ローカルメタデータ取得元の優先度に合わせて並べ替えます。最初に見つかったファイルを読み込みます。",
     "LabelMetadataDownloadersHelp": "メタデータ ダウンローダーの優先度の設定を有効にし、順位をつけます。より優先度が低いメタデータダウンローダーは、足りない情報を補う目的でのみ利用します。",
     "LabelMetadataPathHelp": "ダウンロードしたアートワークとメタデータの保存先を指定します。",
