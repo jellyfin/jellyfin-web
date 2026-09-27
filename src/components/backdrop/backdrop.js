@@ -141,7 +141,14 @@ function setBackdropImage(url) {
     }
 
     const elem = getBackdropContainer();
-    const existingBackdropImage = elem.querySelector('.displayingBackdropImage');
+    const backdrops = elem.querySelectorAll('.displayingBackdropImage');
+
+    // Leave 2 images in case fade animation did not finish
+    for (let i = 0; i < backdrops.length - 2; i++) {
+        backdrops[i].remove();
+    }
+    const existingBackdropImage = backdrops[backdrops.length - 1];
+
     // If the current backdrop image is the same as the new one, do nothing
     if (existingBackdropImage && existingBackdropImage.getAttribute('data-url') === url) {
         return;
@@ -231,6 +238,7 @@ export function setBackdropImages(images) {
     onRotationInterval();
 }
 
+let removeOldImagesTimeout;
 function onRotationInterval() {
     if (playbackManager.isPlayingLocally(['Video'])) {
         return;
@@ -245,9 +253,13 @@ function onRotationInterval() {
     const currentImage = currentRotatingImages[newIndex];
     setBackdropImage(currentImage);
 
+    if (removeOldImagesTimeout) {
+        clearTimeout(removeOldImagesTimeout);
+    }
+
     // Remove old images after a delay to allow fade-in animation (800ms) to complete
-    setTimeout(() => {
-        const oldImages = getBackdropContainer().querySelectorAll(`.backdropImage:not([data-url="${currentImage}"])`);
+    removeOldImagesTimeout = setTimeout(() => {
+        const oldImages = getBackdropContainer().querySelectorAll('.backdropImage:not(:last-child)');
         oldImages.forEach(img => {
             img.remove();
         });
