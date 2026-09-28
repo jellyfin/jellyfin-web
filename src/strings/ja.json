@@ -1051,7 +1051,7 @@
     "Normal": "正常",
     "None": "なし",
     "NoSubtitlesHelp": "デフォルトで字幕を読み込みません。再生中に手動でオンにすることができます。",
-    "MessageNoPluginConfiguration": "このプラグインは設定がありません。",
+    "MessageNoPluginConfiguration": "このプラグインには行うべき設定がありません。",
     "MessageNoNextUpItems": "何も見つかりませんでした。番組の視聴をはじめましょう！",
     "NoNewDevicesFound": "新しいデバイスは見つかりませんでした。新しいチューナーを追加する場合、このダイアログを閉じてデバイス情報を手動で入力してください。",
     "NoCreatedLibraries": "まだライブラリーを作成していないようです。{0}今すぐ作成しますか？{1}",
