@@ -272,6 +272,9 @@ export default function (view, params, tabContent) {
                     name: globalize.translate('OptionReleaseDate'),
                     id: 'PremiereDate,SortName'
                 }, {
+                    name: globalize.translate('Runtime'),
+                    id: 'SeriesRuntime,SortName'
+                }, {
                     name: globalize.translate('OptionUnplayedRuntime'),
                     id: 'SeriesUnplayedRuntime,SortName'
                 }],
