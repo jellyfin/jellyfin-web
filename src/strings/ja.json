@@ -1003,7 +1003,7 @@
     "LabelRepositoryUrlHelp": "追加するリポジトリ マニフェストの場所。",
     "LabelRepositoryUrl": "リポジトリ URL",
     "HeaderNewRepository": "新しいリポジトリ",
-    "MessageNoRepositories": "リポジトリはありません。",
+    "MessageNoRepositories": "リポジトリがありません。",
     "MessageNoGenresAvailable": "一部のメタデータプロバイダーによるインターネットからのジャンル取得を有効にします。",
     "MessageNoCollectionsAvailable": "コレクションを使うと、映画、シリーズ、アルバムを個人的にグループ化して楽しむことができます。 「+」ボタンをクリックしてコレクションの作成をはじめます。",
     "MetadataSettingChangeHelp": "メタデータ設定の変更は、今後追加される新しいコンテンツに影響します。既存のコンテンツを更新する場合、詳細画面を開いてリフレッシュボタンをクリックするか、メタデータマネージャーを使って一括リフレッシュを行ってください。",
