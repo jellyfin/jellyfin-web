@@ -101,7 +101,7 @@ export default tseslint.config(
             'radix': 'error',
             'yoda': 'error',
 
-            'sonarjs/fixme-tag': 'off',
+            'sonarjs/fixme-tag': 'warn',
             'sonarjs/todo-tag': 'off',
             'sonarjs/deprecation': 'off',
             'sonarjs/no-alphabetical-sort': 'warn',
