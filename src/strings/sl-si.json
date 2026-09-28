@@ -1939,5 +1939,11 @@
     "BitmapSubtitleAspectModeContain": "Ne prilagodi velikosti podnapisov Bitmap oknu",
     "BitmapSubtitleAspectModeCover": "Prilagodi velikosti podnapisov Bitmap oknu",
     "BitmapSubtitleAspectModeStretch": "Raztegni velikost podnapisov Bitmap",
-    "IndexNumber": "Indeks"
+    "IndexNumber": "Indeks",
+    "MessageItemMetadataLocked": "Metapodatki tega elementa so zaklenjeni. Odklenite jih pred uporabo funkcije Identificiraj.",
+    "Novel": "Roman",
+    "Screenplay": "Scenarij",
+    "HlsAudioSeekStrategy": "Strategija, ki se uporablja pri iskanju v tokovih HLS.",
+    "LabelHlsAudioSeekStrategy": "Strategija iskanja po zvoku.",
+    "MessageForgotPasswordRedirect": "Za ponastavitev gesla ste bili preusmerjeni k zunanjemu ponudniku."
 }

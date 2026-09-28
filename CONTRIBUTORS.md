@@ -111,6 +111,7 @@
 - [Alex Dickens](https://github.com/alex-dicko)
 - [shindouj](https://github.com/shindouj)
 - [LuisTheOne](https://github.com/LuisThe0ne)
+- [TheDreadPirate](https://github.com/thedreaddpirate)
 
 ## Emby Contributors
 

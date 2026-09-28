@@ -16,7 +16,7 @@ const fetchPackages = async (
     return response.data;
 };
 
-const getPackagesQuery = (
+export const getPackagesQuery = (
     api?: Api
 ) => queryOptions({
     queryKey: [ QueryKey.Packages ],

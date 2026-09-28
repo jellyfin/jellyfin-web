@@ -100,7 +100,7 @@
     "Channels": "Kanały",
     "CinemaModeConfigurationHelp": "Tryb kinowy, wnosi kinowe doświadczenia wprost do Twojego salonu, z możliwością odtwarzania zwiastunów i niestandardowych prezentacji przed seansem.",
     "Collections": "Kolekcje",
-    "ColorPrimaries": "Wzorce kolorów",
+    "ColorPrimaries": "Kolory podstawowe",
     "ColorSpace": "Przestrzeń kolorów",
     "ColorTransfer": "Transfer kolorów",
     "CommunityRating": "Ocena społeczności",
@@ -1944,5 +1944,6 @@
     "LabelUsernameAllowedCharactersHelp": "Nazwy użytkowników mogą zawierać litery, cyfry, spacje i następujące znaki: - _ ' . @ +. Nie mogą zaczynać się ani kończyć spacją.",
     "HlsAudioSeekStrategy": "Strategia do wykorzystania podczas przeszukiwania strumieni HLS.",
     "LabelHlsAudioSeekStrategy": "Strategia przeszukiwania dźwięku.",
-    "MessageForgotPasswordRedirect": "Przekierowano do zewnętrznego dostawcy w celu zresetowania hasła."
+    "MessageForgotPasswordRedirect": "Przekierowano do zewnętrznego dostawcy w celu zresetowania hasła.",
+    "MessageItemMetadataLocked": "Metadane tej pozycji są zablokowane. Odblokuj je przed użyciem funkcji identyfikacji."
 }

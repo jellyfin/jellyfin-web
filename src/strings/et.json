@@ -1941,5 +1941,9 @@
     "SeriesName": "Sarja nimi",
     "LabelUsernameAllowedCharactersHelp": "Kasutajanimi võib sisaldada tähti, numbreid, tühikuid ning märke - _ ' . @ +. Tühik ei tohi olla alguses ega lõpus.",
     "AudioLanguages": "Heli keeled",
-    "SubtitleLanguages": "Subtiitrite keeled"
+    "SubtitleLanguages": "Subtiitrite keeled",
+    "MessageItemMetadataLocked": "Selle üksuse metaandmed on lukustatud. Ava need enne funktsiooni Tuvasta kasutamist.",
+    "HlsAudioSeekStrategy": "HLS-voogudes kerimisel kasutatav strateegia.",
+    "LabelHlsAudioSeekStrategy": "Heli kerimisstrateegia.",
+    "MessageForgotPasswordRedirect": "Sind suunati parooli lähtestamiseks välise teenusepakkuja juurde."
 }

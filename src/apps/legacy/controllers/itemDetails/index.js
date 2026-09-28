@@ -214,7 +214,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
 
     const currentValue = select.value;
 
-    const selectedId = mediaSources[0].Id;
+    const selectedId = mediaSources.some(m => m.Id === currentValue) ? currentValue : mediaSources[0].Id;
     select.innerHTML = mediaSources.map(function (v) {
         const selected = v.Id === selectedId ? ' selected' : '';
         return '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>';
@@ -256,7 +256,7 @@ function renderVideoSelections(page, mediaSources) {
             titleParts.push(v.Codec.toUpperCase());
         }
 
-        return '<option value="' + v.Index + '" ' + selected + '>' + (v.DisplayTitle || titleParts.join(' ')) + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle || titleParts.join(' '))}</option>`;
     }).join('');
     select.setAttribute('disabled', 'disabled');
 
@@ -279,7 +279,7 @@ function renderAudioSelections(page, mediaSources) {
     const selectedId = mediaSource.DefaultAudioStreamIndex;
     select.innerHTML = tracks.map(function (v) {
         const selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle)}</option>`;
     }).join('');
 
     if (tracks.length > 1) {
@@ -309,7 +309,7 @@ function renderSubtitleSelections(page, mediaSources) {
     let selected = selectedId === -1 ? ' selected' : '';
     select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
         selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle)}</option>`;
     }).join('');
 
     if (tracks.length > 0) {
@@ -349,7 +349,7 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
 
-        const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
+        const isResumable = (item.UserData?.PlaybackPositionTicks || 0) > 0;
         hideAll(page, 'btnReplay', isResumable);
 
         for (const btnPlay of page.querySelectorAll('.btnPlay')) {
@@ -729,12 +729,22 @@ function renderLinks(page, item) {
     const links = [];
 
     if (!layoutManager.tv && item.HomePageUrl) {
-        links.push(`<a is="emby-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        try {
+            const parsedUrl = new URL(item.HomePageUrl);
+            links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        } catch {
+            console.error('[renderLinks] Failed to parse home page URL', item.HomePageUrl);
+        }
     }
 
     if (item.ExternalUrls) {
         for (const url of item.ExternalUrls) {
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            try {
+                const parsedUrl = new URL(url.Url);
+                links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            } catch {
+                console.error('[renderLinks] Failed to parse external URL', url.Url);
+            }
         }
     }
 
@@ -1830,7 +1840,8 @@ function getVideosHtml(items) {
         action: 'play',
         overlayText: false,
         centerText: true,
-        showRuntime: true
+        showRuntime: true,
+        overlayMoreButton: true
     });
 }
 
@@ -1982,7 +1993,7 @@ export default function (view, params) {
             return;
         }
 
-        playItem(item, item.UserData && mode === ItemAction.Resume ? item.UserData.PlaybackPositionTicks : 0);
+        playItem(item, mode === ItemAction.Resume ? (item.UserData?.PlaybackPositionTicks || 0) : 0);
     }
 
     function onPlayClick() {
@@ -2082,8 +2093,9 @@ export default function (view, params) {
 
         if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
 
-        const key = currentItem.UserData.Key;
-        const userData = (Data?.UserDataList ?? []).find(u => u.Key == key);
+        // Match by item id: alternate versions share the same user data key, so a key match
+        // would apply another version's progress to the displayed item.
+        const userData = (Data?.UserDataList ?? []).find(u => u.ItemId == currentItem.Id);
 
         if (userData) {
             currentItem.UserData = userData;
@@ -2117,7 +2129,6 @@ export default function (view, params) {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
-            updateMiscInfo();
             refreshSelectedVersion();
         });
         view.addEventListener('viewshow', function (e) {
@@ -2130,6 +2141,7 @@ export default function (view, params) {
                     libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                     renderBackdrop(page, currentItem);
+                    refreshSelectedVersion();
                 }
             } else {
                 reload(self, page, params);
@@ -2159,18 +2171,6 @@ export default function (view, params) {
         });
     }
 
-    function updateMiscInfo() {
-        const selectedMediaSource = getSelectedMediaSource(view, self._currentPlaybackMediaSources);
-        renderMiscInfo(view, {
-            // patch currentItem (primary item) with details from the selected MediaSource:
-            ...currentItem,
-            ...selectedMediaSource
-        });
-    }
-
-    // When the user picks an alternate version, fetch that Video item's own DTO
-    // and refresh the play/user-data buttons so resume position, watched state, and
-    // stack-part count reflect the selected version rather than the primary's.
     function refreshSelectedVersion() {
         const selectedId = view.querySelector('.selectSource').value;
         if (!selectedId || !currentItem || selectedId === currentItem.Id) {
@@ -2186,24 +2186,22 @@ export default function (view, params) {
             return;
         }
 
-        getLibraryApi(api).getItem({
-            userId: apiClient?.getCurrentUserId(),
-            itemId: selectedId
-        }).then(function ({ data: altItem }) {
+        Promise.all([
+            getLibraryApi(api).getItem({
+                userId: apiClient?.getCurrentUserId(),
+                itemId: selectedId
+            }),
+            apiClient.getCurrentUser()
+        ]).then(function ([{ data: versionItem }, user]) {
             if (view.querySelector('.selectSource').value !== selectedId) {
                 return;
             }
-            // Keep primary's shared metadata (overview, cast, etc.) and override the
-            // fields that are intrinsic to the playback target (UserData, runtime, parts).
-            const merged = {
-                ...currentItem,
-                UserData: altItem.UserData,
-                RunTimeTicks: altItem.RunTimeTicks,
-                PartCount: altItem.PartCount,
-                MediaStreams: altItem.MediaStreams
-            };
-            reloadPlayButtons(view, merged);
-            reloadUserDataButtons(view, merged);
+
+            currentItem = versionItem;
+            reloadFromItem(self, view, params, versionItem, user);
+            renderVideoSelections(view, self._currentPlaybackMediaSources);
+            renderAudioSelections(view, self._currentPlaybackMediaSources);
+            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
         }).catch(function (err) {
             console.error('failed to load alternate version item', err);
         });
