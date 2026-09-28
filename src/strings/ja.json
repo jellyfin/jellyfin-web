@@ -1030,7 +1030,7 @@
     "MessagePleaseEnsureInternetMetadata": "インターネットからのメタデータのダウンロードが有効化されているか確認してください。",
     "MessagePlayAccessRestricted": "このコンテンツの再生は現在制限されています。詳細はサーバー管理者にお問い合わせください。",
     "MessagePasswordResetForUsers": "以下のユーザーのパスワードをリセットしました。リセットに使用した PIN コードでサインインすることができます。",
-    "MessageNoServersAvailable": "サーバーの自動探索ではサーバーが発見できませんでした。",
+    "MessageNoServersAvailable": "サーバーの自動探索では発見できませんでした。",
     "MessageNoMovieSuggestionsAvailable": "おすすめの映画は現在ありません。映画の視聴をし、評価して戻ってくると、あなたへのおすすめを表示します。",
     "Never": "しない",
     "MySubtitles": "マイ字幕",
