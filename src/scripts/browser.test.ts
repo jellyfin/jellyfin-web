@@ -35,4 +35,22 @@ describe('Browser', () => {
         expect(browser.xboxOne).toBe(true);
         expect(browser.tv).toBe(true);
     });
+
+    it('should identify Samsung Tizen TV devices', () => {
+        // 2024 Samsung TV (Tizen 8.0)
+        const browser = detectBrowser('Mozilla/5.0 (SMART-TV; Linux; Tizen 8.0) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/7.0 Chrome/108.0.5359.1 TV Safari/537.36');
+        expect(browser.tizen).toBe(true);
+        expect(browser.tizenVersion).toBe(8);
+        expect(browser.tv).toBe(true);
+        expect(browser.mobile).toBeFalsy();
+    });
+
+    it('should not identify Samsung Browser (Android) as a TV', () => {
+        // Ref: https://developer.samsung.com/browser/user-agent-string-format.html
+        const browser = detectBrowser('Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/24.0 Chrome/117.0.0.0 Mobile Safari/537.36');
+        expect(browser.android).toBe(true);
+        expect(browser.mobile).toBe(true);
+        expect(browser.tizen).toBeFalsy();
+        expect(browser.tv).toBeFalsy();
+    });
 });

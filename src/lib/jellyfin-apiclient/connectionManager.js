@@ -6,10 +6,9 @@ import { compareVersions } from '@jellyfin/sdk/lib/utils/versioning';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { toApi, updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
 import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
-import { safeDecodeURIComponent } from 'utils/url';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
@@ -187,18 +186,7 @@ export default class ConnectionManager {
             apiClient.setAuthenticationInfo(result.AccessToken, result.User.Id);
 
             // Update SDK Api instance
-            apiClient._sdk?.update({
-                basePath: apiClient.serverAddress(),
-                accessToken: apiClient.accessToken(),
-                clientInfo: {
-                    name: safeDecodeURIComponent(apiClient.appName()),
-                    version: safeDecodeURIComponent(apiClient.appVersion())
-                },
-                deviceInfo: {
-                    name: safeDecodeURIComponent(apiClient.deviceName()),
-                    id: safeDecodeURIComponent(apiClient.deviceId())
-                }
-            });
+            updateApiClientSdk(apiClient);
 
             afterConnected(apiClient, options);
 
@@ -621,18 +609,7 @@ export default class ConnectionManager {
             result.ApiClient.setAuthenticationInfo(server.AccessToken, server.UserId);
 
             // Update SDK Api instance
-            result.ApiClient._sdk?.update({
-                basePath: result.ApiClient.serverAddress(),
-                accessToken: result.ApiClient.accessToken(),
-                clientInfo: {
-                    name: safeDecodeURIComponent(result.ApiClient.appName()),
-                    version: safeDecodeURIComponent(result.ApiClient.appVersion())
-                },
-                deviceInfo: {
-                    name: safeDecodeURIComponent(result.ApiClient.deviceName()),
-                    id: safeDecodeURIComponent(result.ApiClient.deviceId())
-                }
-            });
+            updateApiClientSdk(result.ApiClient);
 
             const resolveActions = function () {
                 resolve(result);
