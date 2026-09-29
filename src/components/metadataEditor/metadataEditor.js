@@ -129,6 +129,7 @@ function onSubmit(e) {
         Id: currentItem.Id,
         Name: form.querySelector('#txtName').value,
         OriginalTitle: form.querySelector('#txtOriginalName').value,
+        OriginalLanguage: form.querySelector('#selectOriginalLanguage').value,
         ForcedSortName: form.querySelector('#txtSortName').value,
         CommunityRating: form.querySelector('#txtCommunityRating').value,
         CriticRating: form.querySelector('#txtCriticRating').value,
@@ -141,6 +142,7 @@ function onSubmit(e) {
         Album: form.querySelector('#txtAlbum').value,
         AlbumArtists: getAlbumArtists(form),
         ArtistItems: getArtists(form),
+        SeriesName: form.querySelector('#txtseriesName').value,
         Overview: form.querySelector('#txtOverview').value,
         Status: form.querySelector('#selectStatus').value,
         AirDays: getSelectedAirDays(form),
@@ -301,8 +303,8 @@ function bindAll(elems, eventName, fn) {
 }
 
 function onResetClick() {
-    const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
-        '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
+    const resetElementId = ['#txtName', '#txtOriginalName', '#selectOriginalLanguage', '#txtSortName', '#txtCommunityRating', '#txtCriticRating',
+        '#txtIndexNumber', '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
         '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
         '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
         '#txtSeriesRuntime', '#txtTagline'];
@@ -549,6 +551,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldOriginalName', context);
     }
 
+    if (item.Type === 'Series' || item.MediaType === 'Video') {
+        showElement('#fldOriginalLanguage', context);
+    } else {
+        hideElement('#fldOriginalLanguage', context);
+    }
+
     if (item.Type === 'Series') {
         showElement('#fldSeriesRuntime', context);
     } else {
@@ -571,6 +579,12 @@ function setFieldVisibilities(context, item) {
         showElement('#fldCriticRating', context);
     } else {
         hideElement('#fldCriticRating', context);
+    }
+
+    if (item.Type === BaseItemKind.Book) {
+        showElement('#seriesName', context);
+    } else {
+        hideElement('#seriesName', context);
     }
 
     if (item.Type === 'Series') {
@@ -789,6 +803,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtPath').value = item.Path || '';
     context.querySelector('#txtName').value = item.Name || '';
     context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
+    context.querySelector('#selectOriginalLanguage').value = item.OriginalLanguage || '';
     context.querySelector('#txtOverview').value = item.Overview || '';
     context.querySelector('#txtTagline').value = (item.Taglines?.length ? item.Taglines[0] : '');
     context.querySelector('#txtSortName').value = item.ForcedSortName || '';
@@ -810,6 +825,10 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     }).join(';');
 
     context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+
+    if (item.Type == 'Book') {
+        context.querySelector('#txtseriesName').value = item.SeriesName || '';
+    }
 
     context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
         return a.Name;
@@ -1049,6 +1068,7 @@ function reload(context, itemId, serverId) {
 
         loadExternalIds(context, item, metadataEditorInfo.ExternalIdInfos);
 
+        populateLanguages(context.querySelector('#selectOriginalLanguage'), languages);
         populateLanguages(context.querySelector('#selectLanguage'), languages);
         populateCountries(context.querySelector('#selectCountry'), countries);
 

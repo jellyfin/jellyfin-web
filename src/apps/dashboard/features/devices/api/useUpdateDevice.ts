@@ -1,5 +1,5 @@
-import type { DevicesApiUpdateDeviceOptionsRequest } from '@jellyfin/sdk/lib/generated-client/api/devices-api';
-import { getDevicesApi } from '@jellyfin/sdk/lib/utils/api/devices-api';
+import type { DeviceApiUpdateDeviceOptionsRequest } from '@jellyfin/sdk/lib/generated-client/api/device-api';
+import { getDeviceApi } from '@jellyfin/sdk/lib/utils/api/device-api';
 import { useMutation } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
@@ -10,8 +10,8 @@ export const useUpdateDevice = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: DevicesApiUpdateDeviceOptionsRequest) => (
-            getDevicesApi(api!)
+        mutationFn: (params: DeviceApiUpdateDeviceOptionsRequest) => (
+            getDeviceApi(api!)
                 .updateDeviceOptions(params)
         ),
         onSuccess: () => {

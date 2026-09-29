@@ -151,7 +151,8 @@ div[data-role=controlgroup] a.ui-btn-active {
     vertical-align: middle;
 }
 
-.content-primary {
+.content-primary,
+.dashboardDocument .dashboard-appBar {
     padding-right: 1em;
     padding-left: 1em;
 }

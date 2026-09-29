@@ -129,7 +129,7 @@
     "ButtonPause": "ޕޯސް",
     "ButtonParentalControl": "ބެލެނިވެރިންގެ ކޮންޓްރޯލް",
     "ButtonPlayer": "ޕްލޭޔަރު",
-    "ButtonQuickStartGuide": "ކުއިކް ސްޓާޓް ގައިޑް",
+    "ButtonQuickStartGuide": "ސެޓަޕް ގައިޑް",
     "ButtonRemove": "ފުހެލާ",
     "ButtonRename": "ނަން ބަދަލުކޮއްލާ",
     "ButtonRevoke": "ނަގާ",
@@ -231,8 +231,9 @@
     "DirectPlayHelp": "ސޯސް ފައިލް އެއްކޮށް މި ކްލައިންޓާ ގުޅޭ ސެޝަނަށް ފައިލް ލިބެމުންދަނީ ބަދަލެއް ނުގެނެސް.",
     "CustomSplashScreenSize": "ކަސްޓަމް އިމޭޖްތައް ހުންނަންވާނީ 16x9 އެސްޕެކްޓް ރޭޝިއޯއެއްގައި އެންމެ ކުޑަމިނުން 1920x1080 ގެ ސައިޒް.",
     "DeleteImageConfirmation": "މި އިމޭޖް ޑިލީޓް ކުރަން ބޭނުންވާކަން ޔަގީން؟",
-    "Desktop": "ޑެސްކްޓޮޕް",
+    "Desktop": "ޑެސްކްޓޮޕް (ލެގަސީ)",
     "ConfigureDateAdded": "'ޑޭޓް އެޑްޑް' އަށް މެޓަޑޭޓާ ސެޓްއަޕް ކުރަން ޑޭޝްބޯޑް > ލައިބްރަރީތައް > ޑިސްޕްލޭ",
     "ConfirmDeleteRepository": "ރިޕޮޒިޓަރީ ޑިލީޓް ކުރަންވީތަ؟",
-    "DeleteEntireSeries": "{0} އެޕިސޯޑް ޑިލީޓްކޮއްލާ"
+    "DeleteEntireSeries": "{0} އެޕިސޯޑް ޑިލީޓްކޮއްލާ",
+    "ActivitiesLoadError": "އެކްޓިވިޓީތައް ލޯޑު ނުވެވުނު"
 }

@@ -329,6 +329,13 @@ function showEditor(itemId) {
     const apiClient = getApiClient();
 
     apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
+        if (item.LockData) {
+            loading.hide();
+            toast(globalize.translate('MessageItemMetadataLocked'));
+            currentReject();
+            return;
+        }
+
         currentItem = item;
         currentItemType = currentItem.Type;
 

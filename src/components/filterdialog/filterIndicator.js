@@ -1,6 +1,6 @@
 import './filterIndicator.scss';
 
-function getFilterStatus(query) {
+export function getFilterStatus(query) {
     return Boolean(
         query.Filters
             || query.IsFavorite

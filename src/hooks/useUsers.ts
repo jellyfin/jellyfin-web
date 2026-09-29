@@ -8,6 +8,11 @@ import { useApi } from './useApi';
 
 export type UsersRecords = Record<string, UserDto>;
 
+interface UseUsersOptions {
+    /** Force the query to refresh instead of using the cache. */
+    forceRefresh?: boolean;
+}
+
 export const QUERY_KEY = 'Users';
 
 const fetchUsers = async (
@@ -22,13 +27,17 @@ const fetchUsers = async (
     return response.data;
 };
 
-export const useUsers = (requestParams?: UserApiGetUsersRequest) => {
+export const useUsers = (
+    requestParams?: UserApiGetUsersRequest,
+    options?: UseUsersOptions
+) => {
     const { api } = useApi();
     return useQuery({
         queryKey: [ QUERY_KEY ],
         queryFn: ({ signal }) =>
             fetchUsers(api!, requestParams, { signal }),
-        enabled: !!api
+        enabled: !!api,
+        staleTime: options?.forceRefresh ? 0 : undefined
     });
 };
 

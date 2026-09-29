@@ -6,7 +6,6 @@ import globalize from 'lib/globalize';
 import Icon from '@mui/material/Icon';
 import { getLibraryIcon } from 'utils/image';
 import MediaLibraryEditor from 'components/mediaLibraryEditor/mediaLibraryEditor';
-import { queryClient } from 'utils/query/queryClient';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -27,13 +26,14 @@ import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import { useApi } from 'hooks/useApi';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import dom from 'utils/dom';
+import { invalidateVirtualFolders } from '../api/invalidateVirtualFolders';
 
 type LibraryCardProps = {
     virtualFolder: VirtualFolderInfo;
 };
 
 const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
-    const { api } = useApi();
+    const { api, user } = useApi();
     const actionRef = useRef<HTMLButtonElement | null>(null);
     const [ anchorEl, setAnchorEl ] = useState<HTMLElement | null>(null);
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
@@ -44,9 +44,10 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
 
     const imageUrl = useMemo(() => {
         if (virtualFolder.PrimaryImageItemId && virtualFolder.ItemId && api) {
+            const dpr = window?.devicePixelRatio || 1;
             return getImageApi(api)
                 .getItemImageUrlById(virtualFolder.ItemId, ImageType.Primary, {
-                    maxWidth: Math.round(dom.getScreenWidth() * 0.40)
+                    maxWidth: Math.round(dom.getScreenWidth() * dpr * 0.40)
                 });
         }
     }, [ api, virtualFolder ]);
@@ -105,17 +106,14 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
         setIsMenuOpen(false);
 
         const mediaLibraryEditor = new MediaLibraryEditor({
-            library: virtualFolder
+            library: virtualFolder,
+            refresh: true
         }) as Promise<boolean>;
 
         void mediaLibraryEditor.then((hasChanges: boolean) => {
-            if (hasChanges) {
-                void queryClient.invalidateQueries({
-                    queryKey: ['VirtualFolders']
-                });
-            }
+            if (hasChanges) invalidateVirtualFolders(user, virtualFolder);
         });
-    }, [ virtualFolder ]);
+    }, [ user, virtualFolder ]);
 
     const showImageEditor = useCallback(() => {
         setAnchorEl(null);
@@ -125,13 +123,11 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
             itemId: virtualFolder.ItemId,
             serverId: ServerConnections.currentApiClient()?.serverId()
         }).then(() => {
-            void queryClient.invalidateQueries({
-                queryKey: ['VirtualFolders']
-            });
+            invalidateVirtualFolders(user);
         }).catch(() => {
             /* pop up closed */
         });
-    }, [ virtualFolder ]);
+    }, [ user, virtualFolder ]);
 
     const showDeleteLibraryDialog = useCallback(() => {
         setAnchorEl(null);

@@ -19,3 +19,21 @@
     background: #03a9f4;
     font-weight: bold;
 }
+
+.resetFilters {
+    align-items: center;
+    display: flex;
+    font-size: 86%;
+    justify-content: right;
+    margin: 0;
+    width: 100%;
+}
+
+.resetFilters:disabled {
+    color: #777;
+    cursor: default;
+}
+
+.resetFilters .material-icons {
+    margin-right: 3px;
+}

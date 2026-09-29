@@ -35,7 +35,7 @@ const SectionHeader: FC<SectionHeaderProps> = ({
 
     return (
         <Box className={sectionHeaderClass}>
-            {url && itemsLength > 5 ? (
+            {url && itemsLength > 1 ? (
                 <Link
                     className='clearLink button-flat sectionTitleTextButton'
                     underline='none'

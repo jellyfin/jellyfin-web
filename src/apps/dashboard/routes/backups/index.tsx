@@ -22,6 +22,9 @@ import { useRestoreBackup } from 'apps/dashboard/features/backups/api/useRestore
 import RestoreProgressDialog from 'apps/dashboard/features/backups/components/RestoreProgressDialog';
 import { useApi } from 'hooks/useApi';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
+import useLiveTasks from 'apps/dashboard/features/tasks/hooks/useLiveTasks';
+import { TaskState } from '@jellyfin/sdk/lib/generated-client/models/task-state';
+import ConfirmDialog from 'components/ConfirmDialog';
 
 export const Component = () => {
     const { api } = useApi();
@@ -33,8 +36,15 @@ export const Component = () => {
     const [ isErrorOccurred, setIsErrorOccurred ] = useState(false);
     const [ isRestoreDialogOpen, setIsRestoreDialogOpen ] = useState(false);
     const [ backupToRestore, setBackupToRestore ] = useState<BackupManifestDto | null>(null);
+    const [ isConfirmBackupOpen, setIsConfirmBackupOpen ] = useState(false);
+    const [ pendingBackupOptions, setPendingBackupOptions ] = useState<BackupOptionsDto | null>(null);
     const createBackup = useCreateBackup();
     const restoreBackup = useRestoreBackup();
+
+    const {
+        data: tasks,
+        isPending: isTasksPending
+    } = useLiveTasks({ isHidden: false });
 
     const onCreateClick = useCallback(() => {
         setIsCreateFormOpen(true);
@@ -56,7 +66,11 @@ export const Component = () => {
         setIsRestoreSuccess(false);
     }, []);
 
-    const onBackupCreate = useCallback((backupOptions: BackupOptionsDto) => {
+    const onCancelBackupCreateDialog = useCallback(() => {
+        setIsConfirmBackupOpen(false);
+    }, []);
+
+    const startBackupProcess = useCallback((backupOptions: BackupOptionsDto) => {
         setBackupInProgress(true);
         setIsCreateFormOpen(false);
         createBackup.mutate(backupOptions, {
@@ -68,6 +82,24 @@ export const Component = () => {
             }
         });
     }, [ createBackup ]);
+
+    const startPendingBackup = useCallback(() => {
+        setIsConfirmBackupOpen(false);
+        if (pendingBackupOptions) {
+            startBackupProcess(pendingBackupOptions);
+        }
+    }, [ startBackupProcess, pendingBackupOptions ]);
+
+    const onBackupCreate = useCallback((backupOptions: BackupOptionsDto) => {
+        const isTasksRunning = tasks?.some(task => task?.State !== TaskState.Idle);
+        if (isTasksRunning) {
+            setPendingBackupOptions(backupOptions);
+            setIsCreateFormOpen(false);
+            setIsConfirmBackupOpen(true);
+        } else {
+            startBackupProcess(backupOptions);
+        }
+    }, [ startBackupProcess, tasks ]);
 
     const promptRestore = useCallback((backup: BackupManifestDto) => {
         setIsRestoreDialogOpen(true);
@@ -110,7 +142,7 @@ export const Component = () => {
         }
     }, [api, restoreInProgress]);
 
-    if (isPending) {
+    if (isPending || isTasksPending) {
         return <Loading />;
     }
 
@@ -122,6 +154,20 @@ export const Component = () => {
         >
             <BackupProgressDialog open={backupInProgress} />
             <RestoreProgressDialog open={restoreInProgress} />
+            <ConfirmDialog
+                open={isConfirmBackupOpen}
+                title={globalize.translate('HeaderBackupWarning')}
+                text={
+                    globalize.translate('LabelBackupWarning')
+                    + '\n\n'
+                    + tasks?.filter(task => task.State !== TaskState.Idle)
+                        .map(task => '- ' + task.Name).join('\n')
+                }
+                confirmButtonText={globalize.translate('Create')}
+                confirmButtonColor='warning'
+                onConfirm={startPendingBackup}
+                onCancel={onCancelBackupCreateDialog}
+            />
             <CreateBackupForm
                 open={isCreateFormOpen}
                 onClose={onCreateFormClose}

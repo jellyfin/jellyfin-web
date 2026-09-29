@@ -1,9 +1,12 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import { getRecordingsQuery } from 'apps/legacy/features/liveTv/api/useRecordings';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
 
@@ -13,15 +16,16 @@ function getLatestRecordingsFetchFn(
     { enableOverflow }: SectionOptions
 ) {
     return function () {
+        const api = ServerConnections.getApi(serverId);
         const apiClient = ServerConnections.getApiClient(serverId);
-        return apiClient.getLiveTvRecordings({
-            userId: apiClient.getCurrentUserId(),
-            Limit: enableOverflow ? 12 : 5,
-            Fields: 'PrimaryImageAspectRatio',
-            EnableTotalRecordCount: false,
-            IsLibraryItem: activeRecordingsOnly ? null : false,
-            IsInProgress: activeRecordingsOnly ? true : null
-        });
+        return queryClient.fetchQuery(getRecordingsQuery(api, {
+            userId: apiClient?.getCurrentUserId(),
+            limit: enableOverflow ? 12 : 5,
+            fields: [ ItemFields.PrimaryImageAspectRatio ],
+            enableTotalRecordCount: false,
+            isLibraryItem: activeRecordingsOnly ? undefined : false,
+            isInProgress: activeRecordingsOnly ? true : undefined
+        }));
     };
 }
 

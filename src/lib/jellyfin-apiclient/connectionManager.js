@@ -1,30 +1,20 @@
-import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/api';
+import { AUTHORIZATION_HEADER } from '@jellyfin/sdk/lib/constants';
 import { getAuthorizationHeader } from '@jellyfin/sdk/lib/utils';
 import { MINIMUM_VERSION } from '@jellyfin/sdk/lib/versions';
-import { ApiClient } from 'jellyfin-apiclient';
+import { getSessionApi } from '@jellyfin/sdk/lib/utils/api/session-api';
+import { compareVersions } from '@jellyfin/sdk/lib/utils/versioning';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
+import { toApi, updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
+import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
-import { compareVersions } from './utils/compareVersions';
+import getServerAddress from './utils/getServerAddress';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
-
-function getServerAddress(server, mode) {
-    switch (mode) {
-        case ConnectionMode.Local:
-            return server.LocalAddress;
-        case ConnectionMode.Manual:
-            return server.ManualAddress;
-        case ConnectionMode.Remote:
-            return server.RemoteAddress;
-        default:
-            return server.ManualAddress || server.LocalAddress || server.RemoteAddress;
-    }
-}
 
 function updateServerInfo(server, systemInfo) {
     server.Name = systemInfo.ServerName;
@@ -63,13 +53,15 @@ export default class ConnectionManager {
         // Set the minimum version to match the SDK
         self._minServerVersion = MINIMUM_VERSION;
 
-        self.appVersion = () => appVersion;
+        self.appVersion = () => typeof appVersion === 'function' ? appVersion() : appVersion;
 
-        self.appName = () => appName;
+        self.appName = () => typeof appName === 'function' ? appName() : appName;
 
         self.capabilities = () => capabilities;
 
-        self.deviceId = () => deviceId;
+        self.deviceName = () => typeof deviceName === 'function' ? deviceName() : deviceName;
+
+        self.deviceId = () => typeof deviceId === 'function' ? deviceId() : deviceId;
 
         self.credentialProvider = () => credentialProvider;
 
@@ -93,6 +85,7 @@ export default class ConnectionManager {
 
         self.addApiClient = (apiClient) => {
             self._apiClients.push(apiClient);
+            apiClient._sdk ??= toApi(apiClient);
 
             const existingServers = credentialProvider
                 .credentials()
@@ -137,18 +130,15 @@ export default class ConnectionManager {
             let apiClient = self.getApiClient(server.Id);
 
             if (!apiClient) {
-                apiClient = new ApiClient(serverUrl, appName, appVersion, deviceName, deviceId);
-
+                apiClient = createApiClient(serverUrl, self.appName(), self.appVersion(), self.deviceName(), self.deviceId());
                 self._apiClients.push(apiClient);
-
                 apiClient.serverInfo(server);
-
                 apiClient.onAuthenticated = (instance, result) => {
                     return onAuthenticated(instance, result, {}, true);
                 };
-
                 events.trigger(self, 'apiclientcreated', [apiClient]);
             }
+            apiClient._sdk ??= toApi(apiClient);
 
             console.log('returning instance from getOrAddApiClient');
             return apiClient;
@@ -164,7 +154,7 @@ export default class ConnectionManager {
 
             const server = servers[0];
 
-            return self._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+            return self._getOrAddApiClient(server, getServerAddress(server));
         };
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
@@ -189,11 +179,15 @@ export default class ConnectionManager {
             credentialProvider.addOrUpdateServer(credentials.Servers, server);
             credentialProvider.credentials(credentials);
 
-            // set this now before updating server info, otherwise it won't be set in time
-            apiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
+            // Disable the legacy apiclient's bitrate detection as this feature is now upstreamed.
+            apiClient.enableAutomaticBitrateDetection = false;
 
             apiClient.serverInfo(server);
             apiClient.setAuthenticationInfo(result.AccessToken, result.User.Id);
+
+            // Update SDK Api instance
+            updateApiClientSdk(apiClient);
+
             afterConnected(apiClient, options);
 
             return onLocalUserSignIn(server, apiClient.serverAddress(), result.User);
@@ -203,13 +197,7 @@ export default class ConnectionManager {
             if (options.reportCapabilities !== false) {
                 apiClient.reportCapabilities(capabilities);
             }
-            apiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
-
-            if (options.enableWebSocket !== false) {
-                console.log('calling apiClient.ensureWebSocket');
-
-                apiClient.ensureWebSocket();
-            }
+            apiClient.enableAutomaticBitrateDetection = false;
         }
 
         function onLocalUserSignIn(server, serverUrl, user) {
@@ -232,12 +220,12 @@ export default class ConnectionManager {
                 headers: {
                     [AUTHORIZATION_HEADER]: getAuthorizationHeader(
                         {
-                            name: appName,
-                            version: appVersion
+                            name: self.appName(),
+                            version: self.appVersion()
                         },
                         {
-                            id: deviceId,
-                            name: deviceName
+                            id: self.deviceId(),
+                            name: self.deviceName()
                         },
                         server.AccessToken
                     )
@@ -334,14 +322,26 @@ export default class ConnectionManager {
                 serverId: serverInfo.Id
             };
 
-            return apiClient.logout().then(
-                () => {
-                    events.trigger(self, 'localusersignedout', [logoutInfo]);
-                },
-                () => {
-                    events.trigger(self, 'localusersignedout', [logoutInfo]);
-                }
-            );
+            const onLogout = () => {
+                events.trigger(self, 'localusersignedout', [logoutInfo]);
+            };
+
+            apiClient._sdk ??= toApi(apiClient);
+            const api = apiClient._sdk;
+
+            const sessionApi = api ? getSessionApi(api) : undefined;
+
+            const logoutPromises = [
+                apiClient.logout(),
+                sessionApi?.reportSessionEnded()
+            ].filter(Boolean);
+
+            return Promise
+                .allSettled(logoutPromises)
+                .then(
+                    onLogout,
+                    onLogout
+                );
         }
 
         self.getSavedServers = () => {
@@ -602,11 +602,14 @@ export default class ConnectionManager {
 
             result.Servers.push(server);
 
-            // set this now before updating server info, otherwise it won't be set in time
-            result.ApiClient.enableAutomaticBitrateDetection = options.enableAutomaticBitrateDetection;
+            // Disable the legacy apiclient's bitrate detection as this feature is now upstreamed.
+            result.ApiClient.enableAutomaticBitrateDetection = false;
 
             result.ApiClient.updateServerInfo(server, serverUrl);
             result.ApiClient.setAuthenticationInfo(server.AccessToken, server.UserId);
+
+            // Update SDK Api instance
+            updateApiClientSdk(result.ApiClient);
 
             const resolveActions = function () {
                 resolve(result);
@@ -745,7 +748,7 @@ export default class ConnectionManager {
         for (let i = 0, length = servers.length; i < length; i++) {
             const server = servers[i];
             if (server.Id) {
-                this._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+                this._getOrAddApiClient(server, getServerAddress(server));
             }
         }
 
@@ -754,8 +757,8 @@ export default class ConnectionManager {
 
     /**
      * Gets the ApiClient for a given BaseItem or ServerId.
-     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | undefined} item
-     * @returns {ApiClient}
+     * @param {import('@jellyfin/sdk/lib/generated-client').BaseItemDto | string | null | undefined} item
+     * @returns {import('jellyfin-apiclient').ApiClient | undefined}
      */
     getApiClient(item) {
         if (!item) {
@@ -773,6 +776,29 @@ export default class ConnectionManager {
             // We have to keep this hack in here because of the addApiClient method
             return !serverInfo || serverInfo.Id === item;
         })[0];
+    }
+
+    /**
+     * Returns or creates an Api instance for a given server. If no serverId is provided,
+     * the last used server will be used instead.
+     * @param {string} [serverId] The ID of the server
+     * @returns {import('@jellyfin/sdk').Api|undefined}
+     */
+    getApi(serverId) {
+        // If no serverId is provided, try to use the last used server
+        if (!serverId) {
+            const server = this.getLastUsedServer();
+            serverId = server?.Id;
+        }
+
+        // If no serverId is available still, return undefined
+        if (!serverId) {
+            return undefined;
+        }
+
+        const apiClient = this.getApiClient(serverId);
+        apiClient._sdk ??= toApi(apiClient);
+        return apiClient._sdk;
     }
 
     minServerVersion(val) {

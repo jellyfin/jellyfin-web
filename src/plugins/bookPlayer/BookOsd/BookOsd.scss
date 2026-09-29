@@ -1,0 +1,42 @@
+.bookOsd {
+    position: absolute;
+    inset: 0;
+    z-index: 1002;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    flex-direction: column;
+}
+
+.bookOsdRow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 5vh;
+    padding: 0 0.8vw;
+    background-color: var(--jf-palette-AppBar-defaultBg);
+    pointer-events: auto;
+    transition: all 200ms linear;
+    // force WebKit to promote the element onto its own compositor layer for opacity on iOS
+    transform: translateZ(0);
+}
+
+// TODO disable landscape on mobile devices
+@media (orientation: landscape) and (max-width: 60em) {
+    .bookOsdRow {
+        height: 10vh;
+    }
+}
+
+.bookOsdSpacer {
+    flex: 1;
+}
+
+.bookOsdTitle {
+    font-size: 1.1rem;
+    margin-left: 0.35rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

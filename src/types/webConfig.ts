@@ -5,7 +5,7 @@ export interface Theme {
     color: string
 }
 
-interface MenuLink {
+export interface MenuLink {
     name: string
     icon?: string
     url: string

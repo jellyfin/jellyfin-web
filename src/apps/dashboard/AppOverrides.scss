@@ -19,20 +19,8 @@ $drawer-width: 240px;
         position: unset !important;
     }
 
-    // Fix the padding of dashboard pages
-    .content-primary {
-        padding-top: 3.25rem;
-    }
-    // Tabbed pages
-    .withTabs .content-primary {
-        padding-top: 6.5rem;
-
-        @media all and (min-width: $mui-bp-lg) {
-            padding-top: 3.25rem;
-        }
-    }
-
+    // Fix the padding of the metadata editor
     .metadataEditorPage {
-        padding-top: 3.25rem !important;
+        padding-top: 0 !important;
     }
 }

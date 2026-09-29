@@ -3,19 +3,18 @@ import { LibraryStructureApiRemoveVirtualFolderRequest } from '@jellyfin/sdk/lib
 import { useMutation } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+
+import { invalidateVirtualFolders } from './invalidateVirtualFolders';
 
 export const useRemoveVirtualFolder = () => {
-    const { api } = useApi();
+    const { api, user } = useApi();
     return useMutation({
         mutationFn: (params: LibraryStructureApiRemoveVirtualFolderRequest) => (
             getLibraryStructureApi(api!)
                 .removeVirtualFolder(params)
         ),
         onSuccess: () => {
-            void queryClient.invalidateQueries({
-                queryKey: [ 'VirtualFolders' ]
-            });
+            invalidateVirtualFolders(user);
         }
     });
 };

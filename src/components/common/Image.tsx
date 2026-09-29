@@ -2,6 +2,8 @@ import React, { type FC, useCallback, useState } from 'react';
 import { BlurhashCanvas } from 'react-blurhash';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
+import * as userSettings from '../../scripts/settings/userSettings';
+
 const imageStyle: React.CSSProperties = {
     position: 'absolute',
     top: 0,
@@ -25,9 +27,18 @@ const Image: FC<ImageProps> = ({
     containImage
 }) => {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isTransitionComplete, setIsTransitionComplete] = useState(false);
     const [isLoadStarted, setIsLoadStarted] = useState(false);
+
+    const fadeinDuration = userSettings.enableFastFadein() ? '0.1s' : '0.5s';
+    const transitionDuration = isLoaded ? fadeinDuration : 'none';
+
     const handleLoad = useCallback(() => {
         setIsLoaded(true);
+    }, []);
+
+    const handleTransitionEnd = useCallback(() => {
+        setIsTransitionComplete(true);
     }, []);
 
     const handleLoadStarted = useCallback(() => {
@@ -36,7 +47,7 @@ const Image: FC<ImageProps> = ({
 
     return (
         <div>
-            {!isLoaded && isLoadStarted && blurhash && (
+            {!isTransitionComplete && isLoadStarted && blurhash && userSettings.enableBlurhash() && (
                 <BlurhashCanvas
                     hash={blurhash}
                     width= {20}
@@ -54,9 +65,12 @@ const Image: FC<ImageProps> = ({
                 src={imgUrl}
                 style={{
                     ...imageStyle,
-                    objectFit: containImage ? 'contain' : 'cover'
+                    objectFit: containImage ? 'contain' : 'cover',
+                    opacity: isLoaded ? 1 : 0,
+                    transition: transitionDuration
                 }}
                 onLoad={handleLoad}
+                onTransitionEnd={handleTransitionEnd}
                 beforeLoad={handleLoadStarted}
             />
 

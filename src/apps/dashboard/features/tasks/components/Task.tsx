@@ -43,7 +43,7 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             <ListItemLink to={`/dashboard/tasks/${task.Id}`}>
                 <ListItemAvatar>
                     <Avatar sx={{ bgcolor: 'primary.main' }}>
-                        <AccessTimeIcon sx={{ color: '#fff' }} />
+                        <AccessTimeIcon sx={{ color: '#fff', fontSize: 24 }} />
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText

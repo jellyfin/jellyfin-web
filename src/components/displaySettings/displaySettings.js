@@ -1,6 +1,11 @@
 import escapeHtml from 'escape-html';
 
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
+import { getUserQuery } from 'hooks/api/useUser';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from 'utils/query/queryClient';
+
 import browser from '../../scripts/browser';
 import layoutManager from '../layoutManager';
 import { pluginManager } from '../pluginManager';
@@ -8,17 +13,17 @@ import { appHost } from '../apphost';
 import focusManager from '../focusManager';
 import datetime from '../../scripts/datetime';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from '../loading/loading';
 import skinManager from '../../scripts/themeManager';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
+import toast from '../toast/toast';
+
+import template from './displaySettings.template.html';
+
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-button/emby-button';
 import '../../elements/emby-textarea/emby-textarea';
-import toast from '../toast/toast';
-import template from './displaySettings.template.html';
 
 function fillThemes(select, selectedTheme) {
     skinManager.getThemes().then(themes => {
@@ -233,25 +238,25 @@ class DisplaySettings {
         embed(options, this);
     }
 
-    loadData(autoFocus) {
+    async loadData(autoFocus) {
         const self = this;
         const context = self.options.element;
 
         loading.show();
 
         const userId = self.options.userId;
+        const api = ServerConnections.getApi(self.options.serverId);
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
-        return apiClient.getUser(userId).then(user => {
-            return userSettings.setUserInfo(userId, apiClient).then(() => {
-                self.dataLoaded = true;
-                loadForm(context, user, userSettings);
-                if (autoFocus) {
-                    focusManager.autoFocus(context);
-                }
-            });
-        });
+        const user = await queryClient.fetchQuery(getUserQuery(api, { userId }));
+        await userSettings.setUserInfo(userId, apiClient);
+
+        self.dataLoaded = true;
+        loadForm(context, user, userSettings);
+        if (autoFocus) {
+            focusManager.autoFocus(context);
+        }
     }
 
     submit() {

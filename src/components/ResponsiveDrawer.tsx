@@ -45,6 +45,12 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
         <SwipeableDrawer
             anchor='left'
             open={open}
+            sx={{
+                '& .MuiDrawer-paper': {
+                    paddingBottom: '4.2rem', // Padding for now playing bar
+                    boxSizing: 'border-box'
+                }
+            }}
             onClose={onClose}
             onOpen={onOpen}
             // Disable swipe to open on iOS since it interferes with back navigation

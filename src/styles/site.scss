@@ -50,6 +50,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+#reactRoot {
+    height: 100%;
+}
+
 .clipForScreenReader {
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
@@ -70,7 +74,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100vw;
     bottom: 0;
     contain: strict;
 }

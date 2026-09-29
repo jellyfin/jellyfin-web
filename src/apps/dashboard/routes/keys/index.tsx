@@ -23,7 +23,7 @@ export const Component = () => {
     const [ isCreateApiKeyPromptOpen, setIsCreateApiKeyPromptOpen ] = useState(false);
     const [ isConfirmDeleteOpen, setIsConfirmDeleteOpen ] = useState(false);
     const [ apiKeyToDelete, setApiKeyToDelete ] = useState('');
-    const { data, isLoading } = useApiKeys();
+    const { data, isLoading, isError } = useApiKeys();
     const keys = useMemo(() => (
         data?.Items || []
     ), [ data ]);
@@ -94,7 +94,6 @@ export const Component = () => {
                     <Tooltip title={globalize.translate('ButtonRevoke')}>
                         <IconButton
                             color='error'
-                            // eslint-disable-next-line react/jsx-no-bind
                             onClick={() => row.original?.AccessToken && onRevokeKey(row.original.AccessToken)}
                         >
                             <DeleteIcon />
@@ -170,6 +169,8 @@ export const Component = () => {
                 subtitle={globalize.translate('HeaderApiKeysHelp')}
                 className='mainAnimatedPage type-interior'
                 table={table}
+                isError={isError}
+                errorMessage={globalize.translate('ApiKeysLoadError')}
             />
         </>
     );

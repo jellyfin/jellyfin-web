@@ -1,4 +1,4 @@
-import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
+import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
 import itemHelper from 'components/itemHelper';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import globalize from 'lib/globalize';
@@ -11,7 +11,7 @@ type NowPlayingInfo = {
     image?: string;
 };
 
-const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
+const getNowPlayingName = (session: SessionInfoDto): NowPlayingInfo => {
     let imgUrl = '';
     const nowPlayingItem = session.NowPlayingItem;
     // FIXME: It seems that, sometimes, server sends date in the future, so date-fns displays messages like 'in less than a minute'. We should fix
@@ -35,25 +35,28 @@ const getNowPlayingName = (session: SessionInfo): NowPlayingInfo => {
         bottomText = nowPlayingItem.ProductionYear.toString();
     }
 
-    if (nowPlayingItem.ImageTags?.Logo) {
-        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(nowPlayingItem.Id!, {
-            tag: nowPlayingItem.ImageTags.Logo,
-            maxHeight: 24,
-            maxWidth: 130,
-            type: 'Logo'
-        });
-    } else if (nowPlayingItem.ParentLogoImageTag) {
-        imgUrl = ServerConnections.getApiClient(session.ServerId!).getScaledImageUrl(nowPlayingItem.ParentLogoItemId!, {
-            tag: nowPlayingItem.ParentLogoImageTag,
-            maxHeight: 24,
-            maxWidth: 130,
-            type: 'Logo'
-        });
+    const apiClient = ServerConnections.getApiClient(session.ServerId);
+    if (apiClient) {
+        if (nowPlayingItem.ImageTags?.Logo) {
+            imgUrl = apiClient.getScaledImageUrl(nowPlayingItem.Id!, {
+                tag: nowPlayingItem.ImageTags.Logo,
+                maxHeight: 24,
+                maxWidth: 130,
+                type: 'Logo'
+            });
+        } else if (nowPlayingItem.ParentLogoImageTag) {
+            imgUrl = apiClient.getScaledImageUrl(nowPlayingItem.ParentLogoItemId!, {
+                tag: nowPlayingItem.ParentLogoImageTag,
+                maxHeight: 24,
+                maxWidth: 130,
+                type: 'Logo'
+            });
+        }
     }
 
     return {
-        topText: topText,
-        bottomText: bottomText,
+        topText,
+        bottomText,
         image: imgUrl
     };
 };

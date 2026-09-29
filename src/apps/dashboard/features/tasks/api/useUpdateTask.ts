@@ -1,5 +1,5 @@
-import { ScheduledTasksApiUpdateTaskRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-tasks-api';
-import { getScheduledTasksApi } from '@jellyfin/sdk/lib/utils/api/scheduled-tasks-api';
+import { ScheduledTaskApiUpdateTaskRequest } from '@jellyfin/sdk/lib/generated-client/api/scheduled-task-api';
+import { getScheduledTaskApi } from '@jellyfin/sdk/lib/utils/api/scheduled-task-api';
 import { useMutation } from '@tanstack/react-query';
 import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
@@ -9,8 +9,8 @@ export const useUpdateTask = () => {
     const { api } = useApi();
 
     return useMutation({
-        mutationFn: (params: ScheduledTasksApiUpdateTaskRequest) => (
-            getScheduledTasksApi(api!)
+        mutationFn: (params: ScheduledTaskApiUpdateTaskRequest) => (
+            getScheduledTaskApi(api!)
                 .updateTask(params)
         ),
         onSuccess: (_data, params) => {
