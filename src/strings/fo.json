@@ -905,7 +905,7 @@
     "Creator": "Skapari",
     "Creators": "Skaparar",
     "Create": "Stovna",
-    "DirectStreamHelp1": "Eindin fær spælt kykmyndastroymin men er ikki før fyri at spæla ljóðsniðið (DST, Dolby TrueHD, o.s.fr.) ella mongdina av ljóðræsum. Kykmyndastroymurin verður umpakkaður uttan ávirkan á myndagóðskuna áðrenn hann verður sendur til eindina. Einans ljóðstroymurin verður umkotaður.",
+    "DirectStreamHelp1": "Eindin fær spælt kykmyndastroymin men er ikki før fyri at spæla ljóðsniðið (DTS, Dolby TrueHD, o.s.fr.) ella mongdina av ljóðræsum. Kykmyndastroymurin verður umpakkaður uttan ávirkan á myndagóðskuna áðrenn hann verður sendur til eindina. Einans ljóðstroymurin verður umkotaður.",
     "EnableDtsHelp": "Einans virkja hetta um tín eind hevur DTS-virkisføri ella er knýtt í ein ljóðmóttakara við DTS-virkisføri. Annars kann hetta elva til spælitrupulleika.",
     "DrmChannelsNotImported": "Rásir við DRM verða ikki innlisnar.",
     "EnableBlurHash": "Virkja kámar fyribilsmyndir",
