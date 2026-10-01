@@ -10,8 +10,28 @@ import { persister, queryClient } from 'utils/query/queryClient';
 
 import RootAppRouter from 'RootAppRouter';
 
+const hasValidBrowserLanguageTag = (() => {
+    const locale = navigator.language || navigator.userLanguage;
+    if (!locale) {
+        return true;
+    }
+
+    if (typeof Intl === 'object' && Intl && typeof Intl.getCanonicalLocales === 'function') {
+        try {
+            Intl.getCanonicalLocales(locale);
+            return true;
+        } catch {
+            console.warn('[RootApp] Invalid browser locale for React Query Devtools. Disabling devtools.', locale);
+            return false;
+        }
+    }
+
+    return true;
+})();
+
 const useReactQueryDevtools = window.Proxy // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
-    && !browser.tv; // Don't use devtools on the TV as the navigation is weird
+    && !browser.tv // Don't use devtools on the TV as the navigation is weird
+    && hasValidBrowserLanguageTag;
 
 const ReactQueryDevtools = React.lazy(() => import('@tanstack/react-query-devtools')
     .then(module => ({ default: module.ReactQueryDevtools }))
