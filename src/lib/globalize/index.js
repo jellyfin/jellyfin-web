@@ -147,7 +147,25 @@ function ensureTranslation(translationInfo, culture) {
 }
 
 export function normalizeLocaleName(culture) {
-    return culture.replace('_', '-').toLowerCase();
+    const normalizedCulture = typeof culture === 'string'
+        ? culture.replaceAll('_', '-').trim().toLowerCase()
+        : '';
+
+    if (!normalizedCulture || normalizedCulture === 'auto') {
+        return FALLBACK_CULTURE;
+    }
+
+    if (typeof Intl === 'object' && Intl && typeof Intl.getCanonicalLocales === 'function') {
+        try {
+            // Validate the candidate before using it in toLocale*/Intl APIs.
+            Intl.getCanonicalLocales(normalizedCulture);
+        } catch {
+            console.warn('[globalize] invalid locale name, falling back to default', culture);
+            return FALLBACK_CULTURE;
+        }
+    }
+
+    return normalizedCulture;
 }
 
 function getDictionary(module, locale) {
