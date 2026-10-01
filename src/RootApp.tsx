@@ -11,7 +11,8 @@ import { persister, queryClient } from 'utils/query/queryClient';
 import RootAppRouter from 'RootAppRouter';
 
 const hasValidBrowserLanguageTag = (() => {
-    const locale = navigator.language || navigator.userLanguage;
+    const legacyNavigator = navigator as Navigator & { userLanguage?: string };
+    const locale = legacyNavigator.language || legacyNavigator.userLanguage;
     if (!locale) {
         return true;
     }
