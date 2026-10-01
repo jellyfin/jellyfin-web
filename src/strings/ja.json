@@ -1142,7 +1142,7 @@
     "SettingsWarning": "この値を変更すると、不安定や接続失敗などの原因となる可能性があります。問題が発生した場合は、デフォルトに戻すことをおすすめします。",
     "ServerUpdateNeeded": "このサーバーはアップデートが必要です。最新バージョンをダウンロードするには、 {0} をご覧ください",
     "ServerRestartNeededAfterPluginInstall": "プラグインのインストール後に Jellyfin を再起動してください。",
-    "SeriesRecordingScheduled": "シリーズの録画予約。",
+    "SeriesRecordingScheduled": "シリーズを録画予約しました。",
     "SeriesDisplayOrderHelp": "エピソードを、放送日、DVD の順番、番号順で並べ替えます。",
     "SelectServer": "サーバーを選択",
     "SelectAdminUsername": "管理者アカウントのユーザ名を選択してください。",
