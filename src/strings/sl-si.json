@@ -1605,7 +1605,7 @@
     "ConfirmDeleteLyrics": "Če izbrišete ta besedila pesmi, jih boste izbrisali iz datotečnega sistema in knjižnice predstavnosti. Ste prepričani, da želite nadaljevati?",
     "Alternate": "Izmenjavati",
     "AlternateDVD": "Nadomestni DVD",
-    "Anime": "Anime",
+    "Anime": "Japonske risanke",
     "FallbackMaxStreamingBitrateHelp": "Največja bitna hitrost pretakanja se uporablja kot nadomestna, ko ffprobe ne more določiti bitne hitrosti izvornega toka. S tem preprečite, da bi odjemalci zahtevali previsoko bitno hitrost prekodiranja, kar bi lahko povzročilo odpoved predvajalnika in preobremenitev kodirnika.",
     "HeaderMediaSegmentActions": "Dejanja Medijskega Segmenta",
     "DeleteEpisode": "Izbriši Epizodo",
