@@ -1,4 +1,3 @@
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import React from 'react';
 
@@ -13,6 +12,13 @@ import RootAppRouter from 'RootAppRouter';
 
 const useReactQueryDevtools = window.Proxy // '@tanstack/query-devtools' requires 'Proxy', which cannot be polyfilled for legacy browsers
     && !browser.tv; // Don't use devtools on the TV as the navigation is weird
+
+const ReactQueryDevtools = React.lazy(() => import('@tanstack/react-query-devtools')
+    .then(module => ({ default: module.ReactQueryDevtools }))
+    .catch((err) => {
+        console.warn('[RootApp] Failed to load React Query Devtools. Disabling devtools for this session.', err);
+        return { default: () => null };
+    }));
 
 const RootApp = () => (
     <PersistQueryClientProvider
@@ -31,7 +37,9 @@ const RootApp = () => (
             </UserSettingsProvider>
         </ApiProvider>
         {useReactQueryDevtools && (
-            <ReactQueryDevtools initialIsOpen={false} />
+            <React.Suspense fallback={null}>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </React.Suspense>
         )}
     </PersistQueryClientProvider>
 );
