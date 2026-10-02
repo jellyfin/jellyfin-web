@@ -1,13 +1,14 @@
 import globalize from 'lib/globalize';
 
-export function parseISO8601Date(s, toLocal) {
+export function parseISO8601Date(s: string, toLocal?: boolean) {
     // parenthese matches:
     // year month day    hours minutes seconds
     // dotmilliseconds
     // tzstring plusminus hours minutes
     const re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?(Z|([+-])(\d{2}):(\d{2}))?/;
 
-    const d = s.match(re);
+    // eslint-disable-next-line sonarjs/prefer-regexp-exec
+    const d = s.match(re) as (string | number)[];
 
     // "2010-12-07T11:00:00.000-09:00" parses to:
     //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
@@ -23,14 +24,14 @@ export function parseISO8601Date(s, toLocal) {
     // parse strings, leading zeros into proper ints
     const a = [1, 2, 3, 4, 5, 6, 10, 11];
     for (const i in a) {
-        d[a[i]] = parseInt(d[a[i]], 10);
+        d[a[i]] = parseInt(d[a[i]] as string, 10);
     }
-    d[7] = parseFloat(d[7]);
+    d[7] = parseFloat(d[7] as string);
 
     // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
     // note that month is 0-11, not 1-12
     // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
-    let ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
+    let ms = Date.UTC(d[1] as number, d[2] as number - 1, d[3] as number, d[4] as number, d[5] as number, d[6] as number);
 
     // if there are milliseconds, add them
     if (d[7] > 0) {
@@ -39,9 +40,9 @@ export function parseISO8601Date(s, toLocal) {
 
     // if there's a timezone, calculate it
     if (d[8] !== 'Z' && d[10]) {
-        let offset = d[10] * 60 * 60 * 1000;
+        let offset = d[10] as number * 60 * 60 * 1000;
         if (d[11]) {
-            offset += d[11] * 60 * 1000;
+            offset += d[11] as number * 60 * 1000;
         }
         if (d[9] === '-') {
             ms -= offset;
@@ -57,9 +58,9 @@ export function parseISO8601Date(s, toLocal) {
 
 /**
      * Return a string in '{}h {}m' format for duration.
-     * @param {number} ticks - Duration in ticks.
+     * @param ticks - Duration in ticks.
      */
-export function getDisplayDuration(ticks) {
+export function getDisplayDuration(ticks: number): string {
     const totalMinutes = Math.round(ticks / 600000000) || 1;
     const totalHours = Math.floor(totalMinutes / 60);
     const remainderMinutes = totalMinutes % 60;
@@ -71,7 +72,7 @@ export function getDisplayDuration(ticks) {
     return result.join(' ');
 }
 
-export function getDisplayRunningTime(ticks) {
+export function getDisplayRunningTime(ticks: number) {
     const ticksPerHour = 36000000000;
     const ticksPerMinute = 600000000;
     const ticksPerSecond = 10000000;
@@ -87,7 +88,7 @@ export function getDisplayRunningTime(ticks) {
 
     ticks -= (hours * ticksPerHour);
 
-    let minutes = ticks / ticksPerMinute;
+    let minutes: string | number = ticks / ticksPerMinute;
     minutes = Math.floor(minutes);
 
     ticks -= (minutes * ticksPerMinute);
@@ -99,7 +100,7 @@ export function getDisplayRunningTime(ticks) {
     }
     parts.push(minutes);
 
-    let seconds = ticks / ticksPerSecond;
+    let seconds: string | number = ticks / ticksPerSecond;
     seconds = Math.floor(seconds);
 
     if (seconds < 10) {
@@ -117,12 +118,13 @@ const toLocaleTimeStringSupportsLocales = function () {
         // eslint-disable-next-line sonarjs/no-ignored-return
         new Date().toLocaleTimeString('i');
     } catch (e) {
+        // @ts-expect-error: type of e is not specified
         return e.name === 'RangeError';
     }
     return false;
 }();
 
-function getOptionList(options) {
+function getOptionList<T>(options: Record<string, T>): { name: string; value: T }[] {
     const list = [];
 
     for (const i in options) {
@@ -135,7 +137,7 @@ function getOptionList(options) {
     return list;
 }
 
-export function toLocaleString(date, options) {
+export function toLocaleString(date: Date | number, options?: Intl.NumberFormatOptions) {
     if (!date) {
         throw new Error('date cannot be null');
     }
@@ -153,7 +155,7 @@ export function toLocaleString(date, options) {
     return date.toLocaleString();
 }
 
-export function toLocaleDateString(date, options) {
+export function toLocaleDateString(date: Date, options?: Intl.DateTimeFormatOptions) {
     if (!date) {
         throw new Error('date cannot be null');
     }
@@ -169,6 +171,7 @@ export function toLocaleDateString(date, options) {
     }
 
     // This is essentially a hard-coded polyfill
+    // @ts-expect-error: the typing here is rather complex
     const optionList = getOptionList(options);
     if (optionList.length === 1 && optionList[0].name === 'weekday') {
         const weekday = [];
@@ -185,7 +188,7 @@ export function toLocaleDateString(date, options) {
     return date.toLocaleDateString();
 }
 
-export function toLocaleTimeString(date, options) {
+export function toLocaleTimeString(date: Date, options?: Intl.DateTimeFormatOptions) {
     if (!date) {
         throw new Error('date cannot be null');
     }
@@ -203,7 +206,7 @@ export function toLocaleTimeString(date, options) {
     return date.toLocaleTimeString();
 }
 
-export function getDisplayDateTime(date) {
+export function getDisplayDateTime(date: Date | string): string {
     if (!date) {
         throw new Error('date cannot be null');
     }
@@ -212,14 +215,14 @@ export function getDisplayDateTime(date) {
         try {
             date = parseISO8601Date(date, true);
         } catch {
-            return date;
+            return date as string;
         }
     }
 
     return toLocaleString(date);
 }
 
-export function getDisplayTime(date) {
+export function getDisplayTime(date: Date | string): string {
     if (!date) {
         throw new Error('date cannot be null');
     }
@@ -228,13 +231,12 @@ export function getDisplayTime(date) {
         try {
             date = parseISO8601Date(date, true);
         } catch {
-            return date;
+            return date as string;
         }
     }
 
     if (toLocaleTimeStringSupportsLocales) {
         return toLocaleTimeString(date, {
-
             hour: 'numeric',
             minute: '2-digit'
 
@@ -251,7 +253,7 @@ export function getDisplayTime(date) {
         if (!hour) {
             hour = 12;
         }
-        let minutes = date.getMinutes();
+        let minutes: number | string = date.getMinutes();
 
         if (minutes < 10) {
             minutes = '0' + minutes;
@@ -273,7 +275,7 @@ export function getDisplayTime(date) {
     return time;
 }
 
-export function isRelativeDay(date, offsetInDays) {
+export function isRelativeDay(date: Date, offsetInDays: number) {
     if (!date) {
         throw new Error('date cannot be null');
     }
