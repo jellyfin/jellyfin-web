@@ -213,6 +213,8 @@ export class BookPlayer {
         // eslint-disable-next-line compat/compat
         iframe.addEventListener('pointermove', (event) => document.dispatchEvent(new PointerEvent(event.type, event)));
         iframe.addEventListener('click', (event) => document.dispatchEvent(new MouseEvent(event.type, event)));
+        // not forwarded as a keydown: onWindowKeyDown is bound to the rendition too, so that would turn two pages
+        iframe.addEventListener('keydown', () => document.dispatchEvent(new CustomEvent('bookplayerkeydown')));
     }
 
     openTableOfContents() {
