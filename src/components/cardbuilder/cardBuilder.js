@@ -657,7 +657,7 @@ function getItemCountsHtml(options, item) {
         }
 
         counts.push(childText);
-    } else if (item.Type === 'Genre' || item.Type === 'Studio') {
+    } else if (item.Type === 'Genre' || item.Type === 'Studio' || item.Type === 'Network') {
         if (item.MovieCount) {
             childText = item.MovieCount === 1 ?
                 globalize.translate('ValueOneMovie') :

@@ -92,7 +92,7 @@ const getItemFieldsEnum = (
 ) => {
     const itemFields: ItemFields[] = [];
 
-    if (viewType !== LibraryTab.Studios) {
+    if (viewType !== LibraryTab.Studios && viewType !== LibraryTab.Networks) {
         itemFields.push(ItemFields.MediaSourceCount);
     }
 
@@ -100,7 +100,7 @@ const getItemFieldsEnum = (
         itemFields.push(ItemFields.PrimaryImageAspectRatio);
     }
 
-    if (viewType === LibraryTab.Studios) {
+    if (viewType === LibraryTab.Studios || viewType === LibraryTab.Networks) {
         itemFields.push(
             ItemFields.DateCreated,
             ItemFields.PrimaryImageAspectRatio
@@ -151,6 +151,7 @@ export const getFiltersQuery = (
         tags: libraryViewSettings?.Filters?.Tags,
         years: libraryViewSettings?.Filters?.Years,
         studioIds: libraryViewSettings?.Filters?.StudioIds,
+        networkIds: libraryViewSettings?.Filters?.NetworkIds,
         audioLanguages: libraryViewSettings?.Filters?.AudioLanguages,
         subtitleLanguages: libraryViewSettings?.Filters?.SubtitleLanguages
     };

@@ -102,6 +102,10 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Genres
             },
             {
+                name: globalize.translate('TabNetworks'),
+                value: LibraryTab.Networks
+            },
+            {
                 name: globalize.translate('Studios'),
                 value: LibraryTab.Studios
             },
