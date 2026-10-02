@@ -1,0 +1,48 @@
+.bookTocHeader {
+    flex: 0 0 auto;
+    align-items: center;
+    display: flex;
+    background-color: var(--jf-palette-AppBar-defaultBg);
+    padding: env(safe-area-inset-top) 0.8vw 0 0.8vw;
+    height: 5vh;
+}
+
+.bookTocTitle {
+    font-size: 1.1rem;
+    margin-left: 0.35rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.bookTocList {
+    flex: 1 1 auto;
+    padding: 1rem 2rem calc(1rem + env(safe-area-inset-bottom)) 2rem;
+    background-color: var(--book-theme-background);
+    overflow-y: auto;
+}
+
+ul {
+    list-style: none;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+li {
+    padding: 0.6rem 0 0 2rem;
+    font-weight: bold;
+
+    li {
+        font-weight: normal;
+    }
+}
+
+a {
+    color: var(--book-theme-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00a4dc;
+}
