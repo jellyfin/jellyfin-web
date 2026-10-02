@@ -16,7 +16,10 @@
     "checkJs": false,
     "strictNullChecks": true,
     "jsx": "react-jsx",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "src"
