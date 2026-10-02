@@ -25,6 +25,7 @@ import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
 import { updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
+import { unregisterServiceWorkers } from './utils/serviceWorker';
 import { initializeServerConnections } from './scripts/serverNotifications';
 
 import RootApp from './RootApp';
@@ -49,6 +50,9 @@ import './styles/detailtable.scss';
 import './styles/librarybrowser.scss';
 
 async function init() {
+    // TODO: Remove this cleanup after users have migrated away from the service worker.
+    void unregisterServiceWorkers();
+
     // Log current version to console to help out with issue triage and debugging
     console.info(
         `[${__PACKAGE_JSON_NAME__}]
@@ -193,23 +197,10 @@ function loadPlatformFeatures() {
 
     if (!browser.tv && !browser.xboxOne) {
         import('./components/playback/playbackorientation');
-        registerServiceWorker();
 
         if (window.Notification) {
             import('./components/notifications/notifications');
         }
-    }
-}
-
-function registerServiceWorker() {
-    if (navigator.serviceWorker && window.appMode !== 'cordova' && window.appMode !== 'android') {
-        navigator.serviceWorker.register('serviceworker.js').then(() =>
-            console.log('serviceWorker registered')
-        ).catch(error =>
-            console.log('error registering serviceWorker: ' + error)
-        );
-    } else {
-        console.warn('serviceWorker unsupported');
     }
 }
 
