@@ -26,10 +26,10 @@ class Backdrop {
             }
 
             const backdropImage = document.getElementById(`backdropImage${slot}`);
-            backdropImage.classList.add('displayingBackdropImage');
             backdropImage.style.backgroundImage = `url('${url}')`;
             backdropImage.setAttribute('data-url', url);
-            backdropImage.classList.add('backdropImageFadeIn');
+            backdropImage.classList.add('displayingBackdropImage', 'backdropImageFadeIn');
+            self.currentAnimatingElement = backdropImage;
 
             document.getElementById(`backdropImage${1 - slot}`)?.classList.remove('displayingBackdropImage');
 
@@ -46,7 +46,7 @@ class Backdrop {
                     self.currentAnimatingElement = null;
                 }
 
-                document.getElementById(`backdropImage${1 - slot}`)?.classList.remove('backdropImageFadeIn');
+                backdropImage?.classList.remove('backdropImageFadeIn');
             };
 
             dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
@@ -97,14 +97,10 @@ export function clearBackdrop(clearAll) {
     }
 
     // Remove backdrop images from each slot element
-    [0, 1].forEach(slot => {
-        const elem = document.getElementById(`backdropImage${slot}`);
-        if (elem) {
-            elem.classList.remove('displayingBackdropImage');
-            elem.classList.remove('backdropImageFadeIn');
-            elem.style.backgroundImage = 'none';
-            elem.removeAttribute('data-url');
-        }
+    document.querySelectorAll('.backdropImage').forEach(elem => {
+        elem.classList.remove('displayingBackdropImage', 'backdropImageFadeIn');
+        elem.style.backgroundImage = 'none';
+        elem.removeAttribute('data-url');
     });
 
     if (clearAll) {
@@ -145,11 +141,6 @@ export function externalBackdrop(isEnabled) {
 let currentLoadingBackdrop;
 let currentBackdropSlot = 0;
 function setBackdropImage(url) {
-    if (currentLoadingBackdrop) {
-        currentLoadingBackdrop.destroy();
-        currentLoadingBackdrop = null;
-    }
-
     const elem = getBackdropContainer();
     const existingBackdropImage = elem.querySelector('.displayingBackdropImage');
     // If the current backdrop image is the same as the new one, do nothing
