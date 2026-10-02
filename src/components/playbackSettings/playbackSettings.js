@@ -270,6 +270,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('.chkDisableVbrAudioEncoding').checked = appSettings.disableVbrAudio();
     context.querySelector('.chkAlwaysRemuxFlac').checked = appSettings.alwaysRemuxFlac();
     context.querySelector('.chkAlwaysRemuxMp3').checked = appSettings.alwaysRemuxMp3();
+    context.querySelector('.chkAlwaysRemuxOgg').checked = appSettings.alwaysRemuxOgg();
 
     setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -318,6 +319,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     appSettings.disableVbrAudio(context.querySelector('.chkDisableVbrAudioEncoding').checked);
     appSettings.alwaysRemuxFlac(context.querySelector('.chkAlwaysRemuxFlac').checked);
     appSettings.alwaysRemuxMp3(context.querySelector('.chkAlwaysRemuxMp3').checked);
+    appSettings.alwaysRemuxOgg(context.querySelector('.chkAlwaysRemuxOgg').checked);
 
     setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
     setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
