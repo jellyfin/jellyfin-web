@@ -19,6 +19,7 @@ export const Component = () => {
     const { data: repositories, isPending, isError } = useRepositories();
     const [ isRepositoryFormOpen, setIsRepositoryFormOpen ] = useState(false);
     const setRepositories = useSetRepositories();
+    const [ hasAddError, setHasAddError ] = useState(false);
 
     const onDelete = useCallback((repository: RepositoryInfo) => {
         if (repositories) {
@@ -29,27 +30,35 @@ export const Component = () => {
     }, [ repositories, setRepositories ]);
 
     const onRepositoryAdd = useCallback((repository: RepositoryInfo) => {
-        if (repositories) {
+        if (repositories && !setRepositories.isPending) {
+            setHasAddError(false);
             setRepositories.mutate({
                 repositoryInfo: [
                     ...repositories,
                     repository
-                ]
+                ],
+                validateRepository: repository
             }, {
-                onSettled: () => {
+                onSuccess: () => {
                     setIsRepositoryFormOpen(false);
+                },
+                onError: () => {
+                    setHasAddError(true);
                 }
             });
         }
     }, [ repositories, setRepositories ]);
 
     const openRepositoryForm = useCallback(() => {
+        setHasAddError(false);
         setIsRepositoryFormOpen(true);
     }, []);
 
     const onRepositoryFormClose = useCallback(() => {
-        setIsRepositoryFormOpen(false);
-    }, []);
+        if (!setRepositories.isPending) {
+            setIsRepositoryFormOpen(false);
+        }
+    }, [ setRepositories.isPending ]);
 
     if (isPending) {
         return <Loading />;
@@ -65,6 +74,8 @@ export const Component = () => {
                 open={isRepositoryFormOpen}
                 onClose={onRepositoryFormClose}
                 onAdd={onRepositoryAdd}
+                isPending={setRepositories.isPending}
+                hasError={hasAddError}
             />
             <Box className='content-primary'>
                 {isError ? (
