@@ -261,6 +261,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     context.querySelector('#selectAudioNormalization').value = userSettings.selectAudioNormalization();
     context.querySelector('.fldAudioNormalization').classList.toggle('hide', browser.iOS);
     context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
+    context.querySelector('.chkEnablePreloadQueuedAudio').checked = userSettings.enablePreloadQueuedAudio();
     context.querySelector('.chkRememberAudioSelections').checked = user.Configuration.RememberAudioSelections || false;
     context.querySelector('.chkRememberSubtitleSelections').checked = user.Configuration.RememberSubtitleSelections || false;
     context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
@@ -333,6 +334,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.enableCinemaMode(context.querySelector('.chkEnableCinemaMode').checked);
     userSettingsInstance.selectAudioNormalization(context.querySelector('#selectAudioNormalization').value);
     userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
+    userSettingsInstance.enablePreloadQueuedAudio(context.querySelector('.chkEnablePreloadQueuedAudio').checked);
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
