@@ -52,6 +52,12 @@ const genresTabContent: LibraryTabContent = {
     collectionType: CollectionType.Tvshows
 };
 
+const favoritesTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Favorites,
+    itemType: [BaseItemKind.Series],
+    collectionType: CollectionType.Tvshows
+};
+
 const collectionsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Collections,
     collectionType: CollectionType.Tvshows,
@@ -72,12 +78,13 @@ const playlistsTabContent: LibraryTabContent = {
 const tvShowsViews: Record<number, LibraryTabContent> = {
     0: seriesTabContent,
     1: suggestionsTabContent,
-    2: upcomingTabContent,
-    3: genresTabContent,
-    4: studiosTabContent,
-    5: episodesTabContent,
-    6: collectionsTabContent,
-    7: playlistsTabContent
+    2: favoritesTabContent,
+    3: upcomingTabContent,
+    4: genresTabContent,
+    5: studiosTabContent,
+    6: episodesTabContent,
+    7: collectionsTabContent,
+    8: playlistsTabContent
 };
 
 export default tvShowsViews;

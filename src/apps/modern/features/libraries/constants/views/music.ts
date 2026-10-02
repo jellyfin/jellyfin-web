@@ -54,6 +54,12 @@ const suggestionsTabContent: LibraryTabContent = {
     }
 };
 
+const favoritesTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Favorites,
+    collectionType: CollectionType.Music,
+    itemType: [BaseItemKind.MusicAlbum]
+};
+
 const genresTabContent: LibraryTabContent = {
     viewType: LibraryTab.Genres,
     collectionType: CollectionType.Music,
@@ -71,12 +77,13 @@ const collectionsTabContent: LibraryTabContent = {
 const musicViews: Record<number, LibraryTabContent> = {
     0: albumsTabContent,
     1: suggestionsTabContent,
-    2: albumArtistsTabContent,
-    3: artistsTabContent,
-    4: playlistsTabContent,
-    5: songsTabContent,
-    6: genresTabContent,
-    7: collectionsTabContent
+    2: favoritesTabContent,
+    3: albumArtistsTabContent,
+    4: artistsTabContent,
+    5: playlistsTabContent,
+    6: songsTabContent,
+    7: genresTabContent,
+    8: collectionsTabContent
 };
 
 export default musicViews;
