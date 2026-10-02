@@ -1,0 +1,69 @@
+// Theme options
+$dark: true !default;
+
+// Catpuccin color palette
+$rosewater: #f5e0dc !default;
+$flamingo: #f2cdcd !default;
+$pink: #f5c2e7 !default;
+$muave: #cba6f7 !default;
+$red: #f38ba8 !default;
+$maroon: #eba0ac !default;
+$peach: #fab387 !default;
+$yellow: #f9e2af !default;
+$green: #a6e3a1 !default;
+$teal: #94e2d5 !default;
+$sky: #89dceb !default;
+$sapphire: #74c7ec !default;
+$blue: #89b4fa !default;
+$lavender: #b4befe !default;
+$text: #cdd6f4 !default;
+$subtext1: #bac2de !default;
+$subtext0: #a6adc8 !default;
+$overlay2: #9399b2 !default;
+$overlay1: #7f849c !default;
+$overlay0: #6c7086 !default;
+$surface2: #585b70 !default;
+$surface1: #45475a !default;
+$surface0: #313244 !default;
+$base: #1e1e2e !default;
+$mantle: #181825 !default;
+$crust: #11111b !default;
+
+/* Import the base theme with overrides */
+@use "../_base/theme" with (
+    // Theme options
+    $dark: $dark,
+    $rounded-person-cards: true,
+
+    // Color palette
+    $background-default: $base,
+    $background-paper: $mantle,
+    $text-primary: $text,
+    $text-secondary: $subtext1,
+    $primary-main: $sapphire,
+    $secondary-main: $sapphire,
+    // Components
+    $appBar-defaultBg: $crust,
+    $appBar-transparentBg: rgba($crust, 0.86),
+    $alert-infoFilledBg: $blue,
+    $alert-infoFilledColor: $crust
+);
+
+/* Card background color variants */
+.defaultCardBackground1,
+.defaultCardBackground2,
+.defaultCardBackground3,
+.defaultCardBackground4,
+.defaultCardBackground5 {
+    color: $base;
+    background-color: $surface0;
+}
+
+/* Detail ribbon on item details pages */
+.detailRibbon {
+    background-color: $crust;
+
+    .layout-tv & {
+        background: none;
+    }
+}
