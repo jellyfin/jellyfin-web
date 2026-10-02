@@ -978,6 +978,7 @@ export class HtmlVideoPlayer {
             videoElement.removeEventListener('timeupdate', this.onTimeUpdate);
             videoElement.removeEventListener('ended', this.onEnded);
             videoElement.removeEventListener('volumechange', this.onVolumeChange);
+            videoElement.removeEventListener('ratechange', this.onRateChange);
             videoElement.removeEventListener('pause', this.onPause);
             videoElement.removeEventListener('playing', this.onPlaying);
             videoElement.removeEventListener('play', this.onPlay);
@@ -1059,6 +1060,13 @@ export class HtmlVideoPlayer {
         const elem = e.target;
         saveVolume(elem.volume);
         Events.trigger(this, 'volumechange');
+    };
+
+    /**
+     * @private
+     */
+    onRateChange = () => {
+        Events.trigger(this, 'ratechange', [this.getPlaybackRate()]);
     };
 
     /**
@@ -1840,6 +1848,7 @@ export class HtmlVideoPlayer {
                 videoElement.addEventListener('timeupdate', this.onTimeUpdate);
                 videoElement.addEventListener('ended', this.onEnded);
                 videoElement.addEventListener('volumechange', this.onVolumeChange);
+                videoElement.addEventListener('ratechange', this.onRateChange);
                 videoElement.addEventListener('pause', this.onPause);
                 videoElement.addEventListener('playing', this.onPlaying);
                 videoElement.addEventListener('play', this.onPlay);
@@ -2172,6 +2181,7 @@ export class HtmlVideoPlayer {
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             mediaElement.playbackRate = value;
+            Events.trigger(this, 'ratechange', [value]);
         }
     }
 

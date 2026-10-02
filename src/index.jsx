@@ -191,6 +191,8 @@ function loadPlatformFeatures() {
         import('./components/playback/volumeosd');
     }
 
+    import('./components/playback/speedosd');
+
     if (!browser.tv && !browser.xboxOne) {
         import('./components/playback/playbackorientation');
         registerServiceWorker();
