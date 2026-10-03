@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 
 import { useLibrary } from 'apps/modern/features/libraries/hooks/useLibrary';
+import { getHomeVideosPlaybackMediaType, toPlaybackQuery } from 'apps/modern/features/libraries/utils/playbackQuery';
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
@@ -35,10 +36,23 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
     const totalRecordCount = itemsResult?.data?.TotalRecordCount ?? 0;
 
     const play = useCallback(() => {
-        // For the Homevideos library Videos tab, pass items directly to playback since
-        // the playback manager hardcodes MediaTypes: 'Photo' for the Homevideos library
-        // which would exclude videos from the queue
-        if (item && !hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
+        if (item && collectionType === CollectionType.Homevideos) {
+            // Queue the whole library (not only the page that is currently loaded) with the
+            // active filters applied, limited to the media type of the current tab since
+            // mixed photo/video queues are not supported
+            playbackManager.play({
+                items: [item],
+                autoplay: true,
+                queryOptions: {
+                    ...toPlaybackQuery(getFiltersQuery(viewType, libraryViewSettings)),
+                    MediaTypes: getHomeVideosPlaybackMediaType(viewType, collectionType),
+                    SortBy: libraryViewSettings.SortBy,
+                    SortOrder: libraryViewSettings.SortOrder
+                }
+            }).catch(err => {
+                console.error('[PlayAllButton] failed to play', err);
+            });
+        } else if (item && !hasFilters) {
             playbackManager.play({
                 items: [item],
                 autoplay: true,

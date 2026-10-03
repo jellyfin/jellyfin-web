@@ -5,6 +5,7 @@ import Shuffle from '@mui/icons-material/Shuffle';
 import Button from '@mui/material/Button';
 
 import { useLibrary } from 'apps/modern/features/libraries/hooks/useLibrary';
+import { getHomeVideosPlaybackMediaType, toPlaybackQuery } from 'apps/modern/features/libraries/utils/playbackQuery';
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
 import { getFiltersQuery } from 'utils/items';
@@ -36,10 +37,22 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
     const totalRecordCount = itemsResult?.data?.TotalRecordCount ?? 0;
 
     const shuffle = useCallback(() => {
-        // For the Homevideos library Videos tab, pass items directly to playback since
-        // the playback manager hardcodes MediaTypes: 'Photo' for the Homevideos library
-        // which would exclude videos from the queue
-        if (item && !hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
+        if (item && collectionType === CollectionType.Homevideos) {
+            // Queue the whole library (not only the page that is currently loaded) with the
+            // active filters applied, limited to the media type of the current tab since
+            // mixed photo/video queues are not supported
+            playbackManager.play({
+                items: [item],
+                shuffle: true,
+                autoplay: true,
+                queryOptions: {
+                    ...toPlaybackQuery(getFiltersQuery(viewType, libraryViewSettings)),
+                    MediaTypes: getHomeVideosPlaybackMediaType(viewType, collectionType)
+                }
+            }).catch(err => {
+                console.error('[ShuffleButton] failed to play', err);
+            });
+        } else if (item && !hasFilters) {
             playbackManager.shuffle(item);
         } else {
             playbackManager.play({
