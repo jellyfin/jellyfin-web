@@ -1951,15 +1951,7 @@ export class PlaybackManager {
                     return Promise.resolve(result);
                 });
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'homevideos') {
-                return getItemsForPlayback(serverId, mergePlaybackQueries({
-                    ParentId: firstItem.Id,
-                    Filters: 'IsNotFolder',
-                    Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    // Only include Photos because we do not handle mixed queues currently
-                    MediaTypes: 'Photo',
-                    Limit: UNLIMITED_ITEMS
-                }, queryOptions));
+                return getHomeVideosPlaybackPromise(firstItem, serverId, options, queryOptions);
             } else if (firstItem.IsFolder && firstItem.CollectionType === 'musicvideos') {
                 return getItemsForPlayback(serverId, mergePlaybackQueries({
                     ParentId: firstItem.Id,
@@ -1992,6 +1984,33 @@ export class PlaybackManager {
             }
 
             return null;
+        }
+
+        /**
+         * Builds the queue for a "Home Videos and Photos" library (or a folder in one).
+         *
+         * Mixed photo/video queues are not supported (see jellyfin-web#2752), so only a single
+         * media type is queued. Callers can pick it via `queryOptions.MediaTypes` (e.g. the
+         * Photos or Videos tab). Otherwise videos are preferred, falling back to photos for
+         * photo-only libraries. This used to always queue photos, so play all / shuffle on a
+         * library of videos failed with "no valid media source" (jellyfin#11667).
+         */
+        function getHomeVideosPlaybackPromise(firstItem, serverId, options, queryOptions) {
+            const getItemsOfMediaType = mediaTypes => getItemsForPlayback(serverId, mergePlaybackQueries({
+                ParentId: firstItem.Id,
+                Filters: 'IsNotFolder',
+                Recursive: true,
+                SortBy: options.shuffle ? 'Random' : 'SortName',
+                Limit: UNLIMITED_ITEMS
+            }, { ...queryOptions, MediaTypes: mediaTypes }));
+
+            if (queryOptions.MediaTypes) {
+                return getItemsOfMediaType(queryOptions.MediaTypes);
+            }
+
+            return getItemsOfMediaType(MediaType.Video).then(result => (
+                result?.Items?.length ? result : getItemsOfMediaType(MediaType.Photo)
+            ));
         }
 
         async function getSeriesOrSeasonPlaybackPromise(firstItem, options, items) {
