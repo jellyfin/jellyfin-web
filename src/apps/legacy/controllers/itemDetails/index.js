@@ -869,7 +869,9 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
     const mergeablePersonTypes = new Set([
         PersonKind.Writer,
         PersonKind.Director,
-        PersonKind.Producer
+        PersonKind.Producer,
+        PersonKind.Author,
+        PersonKind.Narrator
     ]);
 
     const cast = [];
