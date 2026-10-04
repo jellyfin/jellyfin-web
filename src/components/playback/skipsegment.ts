@@ -47,6 +47,13 @@ class SkipSegment extends PlaybackSubscriber {
         this.onOsdChanged = this.onOsdChanged.bind(this);
     }
 
+    cancelAnimationFrame() {
+        if (this.animationFrame !== null) {
+            cancelAnimationFrame(this.animationFrame);
+            this.animationFrame = null;
+        }
+    }
+
     createSkipElement() {
         if (!this.skipElement && this.currentSegment) {
             let buttonHtml = '';
@@ -82,10 +89,7 @@ class SkipSegment extends PlaybackSubscriber {
     showSkipButton(options: ShowOptions) {
         const elem = this.skipElement;
         if (elem) {
-            if (this.animationFrame !== null) {
-                cancelAnimationFrame(this.animationFrame);
-                this.animationFrame = null;
-            }
+            this.cancelAnimationFrame();
             this.clearHideTimeout();
             dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                 once: true
@@ -120,10 +124,7 @@ class SkipSegment extends PlaybackSubscriber {
     hideSkipButton() {
         const elem = this.skipElement;
         if (elem) {
-            if (this.animationFrame !== null) {
-                cancelAnimationFrame(this.animationFrame);
-                this.animationFrame = null;
-            }
+            this.cancelAnimationFrame();
             elem.classList.remove('no-transition');
             // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
@@ -186,12 +187,6 @@ class SkipSegment extends PlaybackSubscriber {
         }
     }
 
-    onPlayerPlaybackStart() {
-        this.currentSegment = null;
-        this.clearHideTimeout();
-        this.hideSkipButton();
-    }
-
     onPlayerTimeUpdate() {
         if (this.currentSegment) {
             const time = this.playbackManager.currentTime(this.player) * TICKS_PER_MILLISECOND;
@@ -212,6 +207,7 @@ class SkipSegment extends PlaybackSubscriber {
 
     onPlaybackStop(_e: Event, playbackStopInfo: PlaybackStopInfo) {
         this.currentSegment = null;
+        this.clearHideTimeout();
         this.hideSkipButton();
         if (!playbackStopInfo.nextItem) {
             Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);

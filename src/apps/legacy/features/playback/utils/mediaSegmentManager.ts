@@ -22,19 +22,18 @@ class MediaSegmentManager extends PlaybackSubscriber {
     private lastTime = -1;
     private mediaSegmentTypeActions: Record<Partial<MediaSegmentType>, MediaSegmentAction> | undefined;
     private mediaSegments: MediaSegmentDto[] = [];
-    private activeItemId: string | null = null;
     private playbackGeneration = 0;
 
     private async fetchMediaSegments(api: Api, itemId: string, includeSegmentTypes: MediaSegmentType[], playbackGeneration: number) {
         try {
             const { data: mediaSegments } = await getMediaSegmentApi(api)
                 .getItemSegments({ itemId, includeSegmentTypes });
-            if (playbackGeneration === this.playbackGeneration && itemId === this.activeItemId) {
+            if (playbackGeneration === this.playbackGeneration) {
                 this.mediaSegments = mediaSegments.Items || [];
             }
         } catch (err) {
             console.error('[MediaSegmentManager] failed to fetch segments', err);
-            if (playbackGeneration === this.playbackGeneration && itemId === this.activeItemId) {
+            if (playbackGeneration === this.playbackGeneration) {
                 this.mediaSegments = [];
             }
         }
@@ -88,20 +87,12 @@ class MediaSegmentManager extends PlaybackSubscriber {
 
     onPlayerPlaybackStart(_e: Event, state: PlayerState) {
         this.playbackGeneration++;
-        this.isLastSegmentIgnored = false;
-        this.lastSegmentIndex = 0;
-        this.lastTime = -1;
         this.hasSegments = !!state.MediaSource?.HasSegments;
-        this.mediaSegments = [];
-        this.mediaSegmentTypeActions = undefined;
 
         const itemId = state.MediaSource?.Id;
         const serverId = state.NowPlayingItem?.ServerId || ServerConnections.currentApiClient()?.serverId();
-        this.activeItemId = this.hasSegments && itemId ? itemId : null;
 
-        if (!this.activeItemId || !serverId || !itemId) {
-            return;
-        }
+        if (!this.hasSegments || !serverId || !itemId) return;
 
         // Get the user settings for media segment actions
         this.mediaSegmentTypeActions = Object.values(MediaSegmentType)
@@ -129,7 +120,8 @@ class MediaSegmentManager extends PlaybackSubscriber {
         void this.fetchMediaSegments(
             api,
             itemId,
-            Object.keys(this.mediaSegmentTypeActions).map(t => t as keyof typeof MediaSegmentType), this.playbackGeneration);
+            Object.keys(this.mediaSegmentTypeActions).map(t => t as keyof typeof MediaSegmentType),
+            this.playbackGeneration);
     }
 
     onPlayerTimeUpdate() {
@@ -153,6 +145,15 @@ class MediaSegmentManager extends PlaybackSubscriber {
             }
             this.lastTime = time;
         }
+    }
+
+    onPlaybackStop() {
+        this.isLastSegmentIgnored = false;
+        this.lastSegmentIndex = 0;
+        this.lastTime = -1;
+        this.hasSegments = false;
+        this.mediaSegments = [];
+        this.mediaSegmentTypeActions = undefined;
     }
 }
 
