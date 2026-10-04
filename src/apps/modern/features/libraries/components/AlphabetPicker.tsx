@@ -52,7 +52,9 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
                 elevation={0}
                 sx={{
                     borderRadius: 1,
-                    overflow: 'hidden'
+                    maxHeight: '100%',
+                    overflowX: 'hidden',
+                    overflowY: 'auto'
                 }}
             >
                 <ToggleButtonGroup
