@@ -38,6 +38,7 @@ class SkipSegment extends PlaybackSubscriber {
     private skipElement: HTMLButtonElement | null;
     private currentSegment: MediaSegmentDto | null | undefined;
     private hideTimeout: ReturnType<typeof setTimeout> | null | undefined;
+    private animationFrame: number | null = null;
 
     constructor(playbackManager: PlaybackManager) {
         super(playbackManager);
@@ -81,6 +82,10 @@ class SkipSegment extends PlaybackSubscriber {
     showSkipButton(options: ShowOptions) {
         const elem = this.skipElement;
         if (elem) {
+            if (this.animationFrame !== null) {
+                cancelAnimationFrame(this.animationFrame);
+                this.animationFrame = null;
+            }
             this.clearHideTimeout();
             dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                 once: true
@@ -100,7 +105,9 @@ class SkipSegment extends PlaybackSubscriber {
                 focusManager.focus(elem);
             }
 
-            requestAnimationFrame(() => {
+            this.animationFrame = requestAnimationFrame(() => {
+                this.animationFrame = null;
+
                 elem.classList.remove('skip-button-hidden');
 
                 if (!options.keep) {
@@ -113,11 +120,17 @@ class SkipSegment extends PlaybackSubscriber {
     hideSkipButton() {
         const elem = this.skipElement;
         if (elem) {
+            if (this.animationFrame !== null) {
+                cancelAnimationFrame(this.animationFrame);
+                this.animationFrame = null;
+            }
             elem.classList.remove('no-transition');
             // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
-            requestAnimationFrame(() => {
+            this.animationFrame = requestAnimationFrame(() => {
+                this.animationFrame = null;
+
                 elem.classList.add('skip-button-hidden');
 
                 dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
