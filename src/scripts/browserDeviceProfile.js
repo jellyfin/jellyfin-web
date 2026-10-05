@@ -1543,6 +1543,25 @@ export default function (options) {
     });
 
     if (browser.web0s && supportsDolbyVision(options)) {
+        // webOS can reject Profile 8.1 in fMP4 when its sample entry is dvh1.
+        profile.CodecProfiles.push({
+            Type: 'Video',
+            Container: 'mp4',
+            Codec: 'hevc',
+            ApplyConditions: [{
+                Condition: 'Equals',
+                Property: 'VideoRangeType',
+                Value: 'DOVIWithHDR10',
+                IsRequired: true
+            }],
+            Conditions: [{
+                Condition: 'EqualsAny',
+                Property: 'VideoCodecTag',
+                Value: 'hvc1|hev1',
+                IsRequired: false
+            }]
+        });
+
         // Adjust DOVI container rules based on WebOS version.
         // On WebOS 25 and newer, mp4, ts, and mkv containers are allowed.
         // On WebOS 24 and lower, only mp4 and ts containers are allowed.
