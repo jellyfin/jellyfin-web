@@ -10,9 +10,9 @@ import Theaters from '@mui/icons-material/Theaters';
 import MusicVideo from '@mui/icons-material/MusicVideo';
 import Book from '@mui/icons-material/Book';
 import Queue from '@mui/icons-material/Queue';
-import Quiz from '@mui/icons-material/Quiz';
 import VideoLibrary from '@mui/icons-material/VideoLibrary';
 import Folder from '@mui/icons-material/Folder';
+import OndemandVideo from '@mui/icons-material/OndemandVideo';
 import React, { FC } from 'react';
 
 import { MetaView } from '../constants/metaView';
@@ -51,7 +51,7 @@ const LibraryIcon: FC<LibraryIconProps> = ({
         case CollectionType.Playlists:
             return <Queue />;
         case undefined:
-            return <Quiz />;
+            return <OndemandVideo />;
         default:
             return <Folder />;
     }
