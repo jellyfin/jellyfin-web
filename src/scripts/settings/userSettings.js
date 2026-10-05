@@ -708,12 +708,14 @@ export class UserSettings {
      * use this one)
      * @param {string} key - Filter key.
      * @param {string} defaultSortBy - Default SortBy value.
+     * @param {string} defaultSortOrder - Default SortOrder value.
      * @return {Object} sortOptions object
      */
-    getSortValuesLegacy(key, defaultSortBy) {
+    getSortValuesLegacy(key, defaultSortBy, defaultSortOrder = 'Ascending') {
+        const sortOrder = this.getFilter(key + '-sortorder') || defaultSortOrder;
         return {
             sortBy: this.getFilter(key + '-sortby') || defaultSortBy,
-            sortOrder: this.getFilter(key + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
+            sortOrder: sortOrder === 'Descending' ? 'Descending' : 'Ascending'
         };
     }
 }
