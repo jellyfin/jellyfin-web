@@ -8,7 +8,10 @@ const Backdrop = () => {
 
     return (
         <>
-            <div className='backdropContainer' />
+            <div className='backdropContainer'>
+                <div id='backdropImage0' className='backdropImage' />
+                <div id='backdropImage1' className='backdropImage' />
+            </div>
             <div className='backgroundContainer' />
         </>
     );
