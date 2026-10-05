@@ -1,6 +1,6 @@
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { UseQueryResult } from '@tanstack/react-query';
-import React, { type FC, type PropsWithChildren, createContext, useContext, useMemo } from 'react';
+import React, { type FC, type PropsWithChildren, createContext, useContext, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -13,7 +13,7 @@ import { LibraryTabContent } from 'types/libraryTabContent';
 
 import { LibraryRoutes } from '../constants/libraryRoutes';
 import { isLibraryPath } from '../utils/path';
-import { getDefaultLibraryViewSettings, getSettingsKey } from '../utils/settings';
+import { getDefaultLibraryViewSettings, getSettingsKey, getSortSettingsFromUrl } from '../utils/settings';
 import { getViewContent } from '../utils/viewContent';
 
 interface LibraryState {
@@ -35,7 +35,7 @@ export const useLibrary = () => useContext(LibraryContext);
 
 export const LibraryProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
     const { pathname } = useLocation();
-    const { libraryId, activeTab, settingsKey } = useCurrentTab();
+    const { searchParams, libraryId, activeTab, settingsKey } = useCurrentTab();
 
     const route = useMemo(() => LibraryRoutes.find(({ path }) => path === pathname), [pathname]);
     const collectionType = route?.type;
@@ -51,6 +51,25 @@ export const LibraryProvider: FC<PropsWithChildren<unknown>> = ({ children }) =>
         getSettingsKey(settingsViewType, settingsKey),
         getDefaultLibraryViewSettings(settingsViewType)
     );
+
+    const sortByParam = searchParams.get('SortBy');
+    const sortOrderParam = searchParams.get('SortOrder');
+    const urlSortSettings = useMemo(
+        () => getSortSettingsFromUrl(sortByParam, sortOrderParam),
+        [sortByParam, sortOrderParam]
+    );
+
+    // apply url sorting after saved settings load
+    useEffect(() => {
+        if (!urlSortSettings) return;
+
+        setViewSettings(currentSettings => ({
+            ...currentSettings,
+            ...urlSortSettings,
+            // start from the first page after changing the sort
+            StartIndex: 0
+        }));
+    }, [setViewSettings, urlSortSettings]);
 
     const itemsResult = useGetItemsViewByType(
         viewType,
