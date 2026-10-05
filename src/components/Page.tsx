@@ -13,7 +13,9 @@ type CustomPageProps = {
     isNowPlayingBarEnabled?: boolean,
     isThemeMediaSupported?: boolean,
     shouldAutoFocus?: boolean,
-    backDropType?: BaseItemKind[]
+    backDropType?: BaseItemKind[],
+    homeTabIndex?: string,
+    libraryId?: string
 };
 
 export type PageProps = CustomPageProps & HTMLAttributes<HTMLDivElement>;
@@ -32,7 +34,9 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
     isNowPlayingBarEnabled = true,
     isThemeMediaSupported = false,
     shouldAutoFocus = false,
-    backDropType
+    backDropType,
+    homeTabIndex,
+    libraryId
 }) => {
     const element = useRef<HTMLDivElement>(null);
 
@@ -62,6 +66,22 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
         // pageshow - updates header/navigation in libraryMenu
         element.current?.dispatchEvent(new CustomEvent('pageshow', event));
     }, [ element, isNowPlayingBarEnabled, isThemeMediaSupported ]);
+
+    useEffect(() => {
+        const event = {
+            bubbles: true,
+            cancelable: false,
+            detail: {
+                isRestored: false,
+                options: {
+                    homeTabIndex: homeTabIndex,
+                    libraryId: libraryId
+                }
+            }
+        };
+        // backdropshow - update backdrops
+        element.current?.dispatchEvent(new CustomEvent('backdropshow', event));
+    }, [ homeTabIndex, libraryId ]);
 
     useEffect(() => {
         if (shouldAutoFocus) {

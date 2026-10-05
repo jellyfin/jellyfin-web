@@ -13,8 +13,8 @@ function enabled() {
     return userSettings.enableBackdrops();
 }
 
-function getBackdropItemIds(apiClient, userId, types, parentId) {
-    const key = `backdrops2_${userId + (types || '') + (parentId || '')}`;
+function getBackdropItemIds(apiClient, userId, types, parentId, filters) {
+    const key = `backdrops2_${userId + (types || '') + (parentId || '') + (filters || '')}`;
     let data = cache[key];
 
     if (data) {
@@ -31,7 +31,8 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
         ImageTypes: 'Backdrop',
         ParentId: parentId,
         EnableTotalRecordCount: false,
-        MaxOfficialRating: parentId ? '' : 'PG-13'
+        MaxOfficialRating: parentId ? '' : 'PG-13',
+        Filters: filters
     };
     return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
         const images = result.Items.map(function (i) {
@@ -46,11 +47,11 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
     });
 }
 
-function showBackdrop(type, parentId) {
+function showBackdrop(type, parentId, filters) {
     const apiClient = ServerConnections.currentApiClient();
 
     if (apiClient) {
-        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId).then(function (images) {
+        getBackdropItemIds(apiClient, apiClient.getCurrentUserId(), type, parentId, filters).then(function (images) {
             if (images.length) {
                 setBackdrops(images.map(function (i) {
                     i.BackdropImageTags = [i.tag];
@@ -75,7 +76,7 @@ async function showSplashScreen() {
     }
 }
 
-pageClassOn('pageshow', 'page', function () {
+pageClassOn('backdropshow', 'page', function (event) {
     const page = this;
 
     if (!page.classList.contains('selfBackdropPage')) {
@@ -85,7 +86,9 @@ pageClassOn('pageshow', 'page', function () {
                 showSplashScreen();
             } else if (enabled()) {
                 const parentId = page.classList.contains('globalBackdropPage') ? '' : libraryMenu.getTopParentId();
-                showBackdrop(type, parentId);
+                // Set filters when tabIndex == 1 which is 'Favorites'
+                const filters = event?.detail?.options?.homeTabIndex == '1' ? 'IsFavorite' : null;
+                showBackdrop(type, parentId, filters);
             } else {
                 page.classList.remove('backdropPage');
                 clearBackdrop();

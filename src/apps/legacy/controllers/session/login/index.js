@@ -317,6 +317,15 @@ export default function (view, params) {
                 }
             }
         });
+
+        const event = {
+            bubbles: true,
+            cancelable: false,
+            detail: {
+                isRestored: false
+            }
+        };
+        view?.dispatchEvent(new CustomEvent('backdropshow', event));
     });
     view.addEventListener('viewhide', function () {
         libraryMenu.setTransparentMenu(false);
