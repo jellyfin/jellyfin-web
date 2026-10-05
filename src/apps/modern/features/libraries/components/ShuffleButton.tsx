@@ -1,5 +1,4 @@
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import React, { FC, useCallback } from 'react';
 import Shuffle from '@mui/icons-material/Shuffle';
 import Button from '@mui/material/Button';
@@ -7,8 +6,6 @@ import Button from '@mui/material/Button';
 import { useLibrary } from 'apps/modern/features/libraries/hooks/useLibrary';
 import { playbackManager } from 'components/playback/playbackmanager';
 import globalize from 'lib/globalize';
-import { getFiltersQuery } from 'utils/items';
-import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDto } from 'types/base/models/item-dto';
 
@@ -19,7 +16,6 @@ interface ShuffleButtonProps {
     collectionType: CollectionType | undefined
     hasFilters: boolean
     isTextVisible: boolean
-    libraryViewSettings: LibraryViewSettings
 }
 
 const ShuffleButton: FC<ShuffleButtonProps> = ({
@@ -28,8 +24,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
     viewType,
     collectionType,
     hasFilters,
-    isTextVisible,
-    libraryViewSettings
+    isTextVisible
 }) => {
     const { itemsResult } = useLibrary();
     const isPending = itemsResult?.isPending ?? true;
@@ -42,19 +37,17 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
         if (item && !hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
             playbackManager.shuffle(item);
         } else {
+            // items is already scoped to the active filters, so pass it through directly
+            // rather than re-deriving a query (which previously reapplied list filters to the wrong item type)
             playbackManager.play({
                 items,
                 autoplay: true,
-                queryOptions: {
-                    ParentId: item?.Id ?? undefined,
-                    ...getFiltersQuery(viewType, libraryViewSettings),
-                    SortBy: [ItemSortBy.Random]
-                }
+                shuffle: true
             }).catch(err => {
                 console.error('[ShuffleButton] failed to play', err);
             });
         }
-    }, [collectionType, hasFilters, item, items, libraryViewSettings, viewType]);
+    }, [collectionType, hasFilters, item, items, viewType]);
 
     return (
         <Button
