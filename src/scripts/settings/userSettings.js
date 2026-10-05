@@ -583,7 +583,7 @@ export class UserSettings {
             return this.set('stillWatchingPrompt', val, false);
         }
 
-        return this.get('stillWatchingPrompt', false) || StillWatchingOptions.Default;
+        return this.get('stillWatchingPrompt', false) || StillWatchingOptions.Disabled;
     }
 
     /**
