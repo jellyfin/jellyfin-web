@@ -42,7 +42,7 @@ export const Component = () => {
                 }}
             >
                 <StrictMode>
-                    <OffsetAppBar dense elevation={4}>
+                    <OffsetAppBar dense>
                         <AppToolbar
                             isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
                             isDrawerOpen={isDrawerOpen}

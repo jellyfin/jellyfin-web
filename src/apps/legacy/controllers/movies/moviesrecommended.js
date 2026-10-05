@@ -347,7 +347,9 @@ export default function (view, params) {
         }));
     }
 
-    function onPlaybackStop(e, state) {
+    function onPlaybackStop(e, stopInfo) {
+        const state = stopInfo.state;
+
         if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
             renderedTabs = [];
             mainTabsManager.getTabsElement().triggerTabChange();
@@ -397,6 +399,7 @@ export default function (view, params) {
     });
     view.addEventListener('viewbeforehide', function () {
         inputManager.off(window, onInputCommand);
+        Events.off(playbackManager, 'playbackstop', onPlaybackStop);
     });
     for (const tabController of tabControllers) {
         if (tabController.destroy) {

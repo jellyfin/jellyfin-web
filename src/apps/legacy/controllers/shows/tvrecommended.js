@@ -316,7 +316,9 @@ export default function (view, params) {
         });
     }
 
-    function onPlaybackStop(e, state) {
+    function onPlaybackStop(e, stopInfo) {
+        const state = stopInfo.state;
+
         if (state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
             renderedTabs = [];
             mainTabsManager.getTabsElement().triggerTabChange();

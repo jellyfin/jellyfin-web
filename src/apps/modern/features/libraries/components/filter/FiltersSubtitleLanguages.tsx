@@ -1,0 +1,59 @@
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import React, { FC, useCallback } from 'react';
+import { LibraryViewSettings } from 'types/library';
+
+interface FiltersSubtitleLanguagesProps {
+    options: { Name?: string | null, Value?: string | null }[];
+    libraryViewSettings: LibraryViewSettings;
+    setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
+}
+
+const FiltersSubtitleLanguages: FC<FiltersSubtitleLanguagesProps> = ({
+    options,
+    libraryViewSettings,
+    setLibraryViewSettings
+}) => {
+    const onFiltersChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            event.preventDefault();
+            const value = event.target.value;
+            const existingValues = libraryViewSettings?.Filters?.SubtitleLanguages ?? [];
+
+            const updatedValues = existingValues.includes(value) ?
+                existingValues.filter((filter) => filter !== value) :
+                [...existingValues, value];
+
+            setLibraryViewSettings((prevState) => ({
+                ...prevState,
+                StartIndex: 0,
+                Filters: {
+                    ...prevState.Filters,
+                    SubtitleLanguages: updatedValues.length ? updatedValues : undefined
+                }
+            }));
+        },
+        [setLibraryViewSettings, libraryViewSettings?.Filters?.SubtitleLanguages]
+    );
+
+    return (
+        <FormGroup>
+            {options.filter((filter) => filter?.Value != null).map((filter) => (
+                <FormControlLabel
+                    key={filter.Value}
+                    control={
+                        <Checkbox
+                            checked={!!libraryViewSettings?.Filters?.SubtitleLanguages?.includes(filter.Value!)}
+                            onChange={onFiltersChange}
+                            value={filter.Value}
+                        />
+                    }
+                    label={filter.Name}
+                />
+            ))}
+        </FormGroup>
+    );
+};
+
+export default FiltersSubtitleLanguages;

@@ -6,12 +6,12 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { type ParentId, ViewMode, type LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 
-export const getDefaultSortBy = (viewType: LibraryTab) => {
+export const getDefaultSortBy = (viewType: LibraryTab): ItemSortBy[] => {
     if (viewType === LibraryTab.Episodes) {
-        return ItemSortBy.SeriesSortName;
+        return [ItemSortBy.SeriesSortName];
     }
 
-    return ItemSortBy.SortName;
+    return [ItemSortBy.SortName];
 };
 
 export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {

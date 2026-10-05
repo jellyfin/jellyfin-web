@@ -110,7 +110,16 @@ export const Component = () => {
                 ref={contentPrimaryRef}
             >
                 <Box>
-                    <Typography variant='h1'>{fileName}</Typography>
+                    <Typography
+                        variant='h1'
+                        sx={{
+                            whiteSpace: 'normal',
+                            overflowWrap: 'anywhere',
+                            wordBreak: 'break-word'
+                        }}
+                    >
+                        {fileName}
+                    </Typography>
 
                     {error && (
                         <Alert

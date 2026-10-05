@@ -49,7 +49,8 @@ function filterQuerySettings(query, allowedItems) {
 }
 
 const defaultSubtitleAppearanceSettings = {
-    verticalPosition: -3
+    verticalPosition: -3,
+    aspectMode: 'contain'
 };
 
 const defaultComicsPlayerSettings = {
@@ -669,7 +670,7 @@ export class UserSettings {
      */
     getComicsPlayerSettings(mediaSourceId) {
         const settings = JSON.parse(this.get('comicsPlayerSettings', false) || '{}');
-        return Object.assign(defaultComicsPlayerSettings, settings[mediaSourceId]);
+        return Object.assign({}, defaultComicsPlayerSettings, settings[mediaSourceId]);
     }
 
     /**

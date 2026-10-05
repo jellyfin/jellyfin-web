@@ -1,6 +1,4 @@
-import React from 'react';
-import globalize from 'lib/globalize';
-import Widget from './Widget';
+import { getDisplayVersion } from '@jellyfin/sdk/lib/utils/versioning';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -9,8 +7,12 @@ import Skeleton from '@mui/material/Skeleton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import React from 'react';
+
 import { useSystemInfo } from 'hooks/useSystemInfo';
-import { getDisplayVersion } from 'utils/versions';
+import globalize from 'lib/globalize';
+
+import Widget from './Widget';
 
 type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;

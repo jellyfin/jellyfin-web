@@ -247,5 +247,14 @@
     "Delete": "डिलीट",
     "ConfirmDeleteRepository": "रिपोजिटरी हटाएँ?",
     "ButtonAddProvider": "प्रदाता जोड़े",
-    "ActivitiesLoadError": "गतिविधियाँ लोड करना विफल रहा"
+    "ActivitiesLoadError": "गतिविधियाँ लोड करना विफल रहा",
+    "ApiKeysLoadError": "एपीआई की लोड नहीं हो सकीं",
+    "Authors": "लेखक",
+    "BrandingLoadError": "ब्रांडिंग सेटिंग लोड करने में विफल",
+    "ButtonAddTunerDevice": "ट्यूनर डिवाइस जोड़ें",
+    "CardSettings": "कार्ड सेटिंग्स",
+    "ConfirmDeleteCollection": "क्या आप वाकई इस कलेक्शन को डिलीट करना चाहते हैं?",
+    "ConfirmDeletePlaylist": "क्या आप वाकई इस प्लेलिस्ट को डिलीट करना चाहते हैं?",
+    "ConfirmSplitMedia": "क्या आप वाकई मीडिया सोर्स को अलग-अलग आइटम में बांटना चाहते हैं?",
+    "ConfirmStillWatching": "क्या आप अभी भी देख रहे हैं?"
 }

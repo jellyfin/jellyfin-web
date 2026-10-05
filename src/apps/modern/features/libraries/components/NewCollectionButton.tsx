@@ -38,6 +38,7 @@ const NewCollectionButton: FC<NewCollectionButtonProps> = ({
     return (
         <Button
             variant='contained'
+            size={isTextVisible ? undefined : 'small'}
             startIcon={isTextVisible ? <Add /> : undefined}
             onClick={showCollectionEditor}
         >

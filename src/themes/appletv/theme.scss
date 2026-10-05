@@ -21,6 +21,7 @@ $header-gradient: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, 
     $divider: rgba(0, 0, 0, 0.158),
     // Components
     $appBar-defaultBg: $header-background,
+    $appBar-gradient: $header-gradient,
     $appBar-transparentBg: rgba(213, 233, 242, 0.86),
     $filledInput-bg: rgba(255, 255, 255, 0.9),
     $filledInput-borderColor: rgba(0, 0, 0, 0.158),
@@ -61,8 +62,7 @@ $header-gradient: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, 
     background-color: #f57f17;
 }
 
-/* Gradient header, footer, and ribbon — used throughout the appletv theme */
-.skinHeader-withBackground,
+/* Gradient footer, form dialog header/footer, and ribbon — skinHeader and detailRibbon handled by base */
 .formDialogHeader:not(.formDialogHeader-clear),
 .formDialogFooter:not(.formDialogFooter-clear),
 .appfooter,
@@ -104,16 +104,6 @@ $header-gradient: linear-gradient(to right, #bcbcbc, #a7b4b7, #beb5a5, #adbec2, 
 /* Main drawer uses white rather than the page background color */
 .mainDrawer {
     background: #fff;
-}
-
-/* Detail ribbon on item details pages */
-.detailRibbon {
-    background: $header-background;
-    background: $header-gradient;
-
-    .layout-tv & {
-        background: none;
-    }
 }
 
 /* Inner card footer spacing and rounding */

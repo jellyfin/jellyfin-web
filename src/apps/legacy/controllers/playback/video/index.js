@@ -622,6 +622,8 @@ export default function (view) {
             Events.off(player, 'timeupdate', onTimeUpdate);
             Events.off(player, 'fullscreenchange', onFullscreenChanged);
             Events.off(player, 'mediastreamschange', onMediaStreamsChanged);
+            Events.off(player, 'beginFetch', onBeginFetch);
+            Events.off(player, 'endFetch', onEndFetch);
             currentPlayer = null;
         }
     }
@@ -1534,7 +1536,9 @@ export default function (view) {
 
     function getImgUrl(item, chapter, index, maxWidth, apiClient) {
         if (chapter.ImageTag) {
-            return apiClient.getScaledImageUrl(item.Id, {
+            const chapterItemId = currentPlayer?.streamInfo?.mediaSource?.Id || item.Id;
+
+            return apiClient.getScaledImageUrl(chapterItemId, {
                 maxWidth: maxWidth,
                 tag: chapter.ImageTag,
                 type: 'Chapter',

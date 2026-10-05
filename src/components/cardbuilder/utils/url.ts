@@ -35,6 +35,8 @@ export function getCardImageUrl({
     let imgType: ImageType | undefined;
     let itemId = null;
 
+    const skipEpisodeParentPoster = item.Type === 'Episode' && uiAspect != null && uiAspect > 1;
+
     /* eslint-disable sonarjs/no-duplicated-branches */
     if (options.preferThumb && item.ImageTags?.Thumb) {
         imgType = ImageType.Thumb;
@@ -68,6 +70,16 @@ export function getCardImageUrl({
         imgType = ImageType.Backdrop;
         imgTag = item.ParentBackdropImageTags[0];
         itemId = item.ParentBackdropItemId;
+    } else if (options.preferParentPoster && !options.preferThumb && item.Type === 'Episode'
+        && ((item.ParentPrimaryImageTag && item.ParentPrimaryImageItemId) || (item.SeriesPrimaryImageTag && item.SeriesId))) {
+        imgType = ImageType.Primary;
+        if (item.ParentPrimaryImageTag && item.ParentPrimaryImageItemId) {
+            imgTag = item.ParentPrimaryImageTag;
+            itemId = item.ParentPrimaryImageItemId;
+        } else {
+            imgTag = item.SeriesPrimaryImageTag;
+            itemId = item.SeriesId;
+        }
     } else if (item.ImageTags?.Primary && (item.Type !== 'Episode' || item.ChildCount !== 0)) {
         imgType = ImageType.Primary;
         imgTag = item.ImageTags.Primary;
@@ -80,7 +92,7 @@ export function getCardImageUrl({
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.SeriesPrimaryImageTag) {
+    } else if (item.SeriesPrimaryImageTag && !skipEpisodeParentPoster) {
         imgType = ImageType.Primary;
         imgTag = item.SeriesPrimaryImageTag;
         itemId = item.SeriesId;
@@ -97,7 +109,7 @@ export function getCardImageUrl({
         if (primaryImageAspectRatio && uiAspect) {
             coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
         }
-    } else if (item.ParentPrimaryImageTag) {
+    } else if (item.ParentPrimaryImageTag && !skipEpisodeParentPoster) {
         imgType = ImageType.Primary;
         imgTag = item.ParentPrimaryImageTag;
         itemId = item.ParentPrimaryImageItemId;

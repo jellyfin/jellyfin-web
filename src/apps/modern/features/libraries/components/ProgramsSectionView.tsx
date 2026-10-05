@@ -9,22 +9,19 @@ import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
 import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
-import type { ParentId } from 'types/library';
 import type { Section, SectionType } from 'types/sections';
 
 interface ProgramsSectionViewProps {
-    parentId: ParentId;
     sectionType: SectionType[];
     isUpcomingRecordingsEnabled: boolean | undefined
 }
 
 const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
-    parentId,
     sectionType,
     isUpcomingRecordingsEnabled = false
 }) => {
     const { __legacyApiClient__ } = useApi();
-    const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(parentId, sectionType);
+    const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(sectionType);
     const {
         isLoading: isUpcomingRecordingsLoading,
         data: upcomingRecordings

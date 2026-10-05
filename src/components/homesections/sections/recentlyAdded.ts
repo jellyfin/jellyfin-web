@@ -83,6 +83,7 @@ function getLatestItemsHtmlFn(
             items: items,
             shape: shape,
             preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+            preferParentPoster: true,
             showUnplayedIndicator: false,
             showChildCountIndicator: true,
             context: 'home',

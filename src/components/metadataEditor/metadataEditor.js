@@ -142,6 +142,7 @@ function onSubmit(e) {
         Album: form.querySelector('#txtAlbum').value,
         AlbumArtists: getAlbumArtists(form),
         ArtistItems: getArtists(form),
+        SeriesName: form.querySelector('#txtseriesName').value,
         Overview: form.querySelector('#txtOverview').value,
         Status: form.querySelector('#selectStatus').value,
         AirDays: getSelectedAirDays(form),
@@ -580,6 +581,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldCriticRating', context);
     }
 
+    if (item.Type === BaseItemKind.Book) {
+        showElement('#seriesName', context);
+    } else {
+        hideElement('#seriesName', context);
+    }
+
     if (item.Type === 'Series') {
         showElement('#fldStatus', context);
         showElement('#fldAirDays', context);
@@ -818,6 +825,10 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     }).join(';');
 
     context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+
+    if (item.Type == 'Book') {
+        context.querySelector('#txtseriesName').value = item.SeriesName || '';
+    }
 
     context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
         return a.Name;
