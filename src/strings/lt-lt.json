@@ -335,7 +335,7 @@
     "SeriesCancelled": "Serialas atšauktas.",
     "SeriesRecordingScheduled": "Serialo įrašymas suplanuotas.",
     "SeriesSettings": "Serialų nustatymai",
-    "SeriesYearToPresent": "{0} - Dabar",
+    "SeriesYearToPresent": "{0} - Dabartis",
     "ServerNameIsRestarting": "Jellyfin Serveris - {0} leidžiamas iš naujo.",
     "ServerNameIsShuttingDown": "Jellyfin Serveris - {0} išsijungia.",
     "ServerUpdateNeeded": "Šį Jellyfin serverį reikia atnaujinti. Naujausią versiją atsisiųsti galite {0}",
