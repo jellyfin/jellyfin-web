@@ -1,6 +1,8 @@
 import escapeHtml from 'escape-html';
 
 import { PlayerEvent } from 'apps/legacy/features/playback/constants/playerEvent';
+import { createVideoGestures } from 'apps/legacy/features/playback/utils/videoGestures';
+import { createVideoSeekQueue } from 'apps/legacy/features/playback/utils/videoSeekQueue';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
 import { TICKS_PER_MINUTE, TICKS_PER_SECOND } from 'constants/time';
@@ -39,6 +41,36 @@ function getOpenedDialog() {
 }
 
 export default function (view) {
+    let dispatchingVideoSeek = false;
+    const videoSeekQueue = createVideoSeekQueue(ticks => {
+        dispatchingVideoSeek = true;
+        try {
+            return playbackManager.seek(ticks, currentPlayer);
+        } finally {
+            dispatchingVideoSeek = false;
+        }
+    });
+    let seekContextPlayer;
+    let seekContextItem;
+    let seekContextServer;
+
+    function resetVideoSeeking() {
+        videoGestures?.reset();
+        videoSeekQueue.reset();
+        seekContextPlayer = null;
+        seekContextItem = null;
+        seekContextServer = null;
+    }
+
+    function invalidateVideoSeeking() {
+        videoGestures?.reset();
+        videoSeekQueue.invalidate();
+    }
+
+    function onSeekRequest(_event, player) {
+        if (player === currentPlayer && !dispatchingVideoSeek) invalidateVideoSeeking();
+    }
+
     function getDisplayItem(item) {
         if (item.Type === 'TvChannel') {
             const apiClient = ServerConnections.getApiClient(item.ServerId);
@@ -410,6 +442,10 @@ export default function (view) {
     function onInputCommand(e) {
         const player = currentPlayer;
 
+        if (['left', 'right', 'pageup', 'pagedown', 'fastforward', 'rewind', 'next', 'previous'].includes(e.detail.command)) {
+            invalidateVideoSeeking();
+        }
+
         switch (e.detail.command) {
             case 'left':
                 if (currentVisibleMenu === 'osd') {
@@ -497,10 +533,10 @@ export default function (view) {
         icon.classList.remove('fullscreen_exit', 'fullscreen');
 
         if (playbackManager.isFullscreen(currentPlayer)) {
-            button.setAttribute('title', globalize.translate('ExitFullscreen') + ' (F)');
+            dom.setElementTitle(button, globalize.translate('ExitFullscreen') + ' (F)', globalize.translate('ExitFullscreen'));
             icon.classList.add('fullscreen_exit');
         } else {
-            button.setAttribute('title', globalize.translate('Fullscreen') + ' (F)');
+            dom.setElementTitle(button, globalize.translate('Fullscreen') + ' (F)', globalize.translate('Fullscreen'));
             icon.classList.add('fullscreen');
         }
     }
@@ -513,6 +549,13 @@ export default function (view) {
         const player = this;
 
         if (state.NowPlayingItem) {
+            const item = state.NowPlayingItem;
+            if (seekContextPlayer !== player || seekContextItem !== item.Id || seekContextServer !== item.ServerId) {
+                resetVideoSeeking();
+                seekContextPlayer = player;
+                seekContextItem = item.Id;
+                seekContextServer = item.ServerId;
+            }
             isEnabled = true;
             updatePlayerStateInternal(event, player, state);
             updatePlaylist();
@@ -535,9 +578,11 @@ export default function (view) {
     }
 
     function onPlaybackStart(e, state) {
+        if (this !== currentPlayer) return;
         console.debug('nowplaying event: ' + e.type);
         const player = this;
         onStateChanged.call(player, e, state);
+        videoSeekQueue.observe(playbackManager.getCurrentTicks(player));
         resetUpNextDialog();
     }
 
@@ -552,6 +597,8 @@ export default function (view) {
     }
 
     function onPlaybackStopped(e, state) {
+        if (this !== currentPlayer) return;
+        resetVideoSeeking();
         currentRuntimeTicks = null;
         resetUpNextDialog();
         console.debug('nowplaying event: ' + e.type);
@@ -607,6 +654,7 @@ export default function (view) {
     }
 
     function releaseCurrentPlayer() {
+        resetVideoSeeking();
         destroyStats();
         destroySubtitleSync();
         resetUpNextDialog();
@@ -629,6 +677,7 @@ export default function (view) {
     }
 
     function onTimeUpdate() {
+        if (this === currentPlayer) videoSeekQueue.observe(playbackManager.getCurrentTicks(this));
         // Test for 'currentItem' is required for Firefox since its player spams 'timeupdate' events even being at breakpoint
         if (isEnabled && currentItem) {
             const now = new Date().getTime();
@@ -1224,6 +1273,12 @@ export default function (view) {
 
         const key = keyboardnavigation.getKeyName(e);
 
+        if (key.startsWith('Digit') || key.startsWith('Numpad') || [
+            'KeyJ', 'KeyL', 'ArrowLeft', 'ArrowRight', 'Left', 'Right', 'Comma', 'Period',
+            'NavigationLeft', 'NavigationRight', 'GamepadDPadLeft', 'GamepadDPadRight',
+            'GamepadLeftThumbstickLeft', 'GamepadLeftThumbstickRight', 'Home', 'End', 'PageUp', 'PageDown'
+        ].includes(key)) invalidateVideoSeeking();
+
         const btnPlayPause = osdBottomElement.querySelector('.btnPause');
 
         if (e.keyCode === 32) {
@@ -1587,12 +1642,10 @@ export default function (view) {
         return html + '</div>';
     }
 
-    let playPauseClickTimeout;
     function onViewHideStopPlayback() {
         if (playbackManager.isPlayingVideo()) {
             shell.disableFullscreen();
 
-            clearTimeout(playPauseClickTimeout);
             const player = currentPlayer;
             view.removeEventListener('viewbeforehide', onViewHideStopPlayback);
             releaseCurrentPlayer();
@@ -1667,6 +1720,8 @@ export default function (view) {
     });
     view.addEventListener('viewshow', function () {
         try {
+            Events.off(playbackManager, 'seekrequest', onSeekRequest);
+            Events.on(playbackManager, 'seekrequest', onSeekRequest);
             Events.on(playbackManager, 'playerchange', onPlayerChange);
             bindToPlayer(playbackManager.getCurrentPlayer());
             /* eslint-disable-next-line compat/compat */
@@ -1714,6 +1769,7 @@ export default function (view) {
         }
     });
     view.addEventListener('viewbeforehide', function () {
+        Events.off(playbackManager, 'seekrequest', onSeekRequest);
         if (statsOverlay) {
             statsOverlay.enabled(false);
         }
@@ -1773,10 +1829,14 @@ export default function (view) {
     });
     view.querySelector('.btnVideoOsdSettings').addEventListener('click', onSettingsButtonClick);
     view.addEventListener('viewhide', function () {
+        resetVideoSeeking();
         clearHideAnimationEventListeners(headerElement);
         headerElement.classList.remove('hide');
     });
     view.addEventListener('viewdestroy', function () {
+        Events.off(playbackManager, 'seekrequest', onSeekRequest);
+        resetVideoSeeking();
+        videoGestures.destroy();
         if (self.touchHelper) {
             self.touchHelper.destroy();
             self.touchHelper = null;
@@ -1790,53 +1850,30 @@ export default function (view) {
         destroyStats();
         destroySubtitleSync();
     });
-    let lastPointerDown = 0;
+    const videoGestures = createVideoGestures(view, {
+        enabled: () => isEnabled && !!currentPlayer && !getOpenedDialog(),
+        single: kind => {
+            if (kind === 'touch') {
+                toggleOsd();
+            } else {
+                playbackManager.playPause(currentPlayer);
+                showOsd();
+            }
+        },
+        double: direction => {
+            if (nowPlayingPositionSlider.disabled) return;
+            if (videoSeekQueue.request(direction, playbackManager.getCurrentTicks(currentPlayer), playbackManager.duration(currentPlayer))) {
+                showOsd();
+            }
+        }
+    });
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(view, window.PointerEvent ? 'pointerdown' : 'click', function (e) {
         if (dom.parentWithClass(e.target, ['videoOsdBottom', 'upNextContainer'])) {
             showOsd();
-            return;
-        }
-
-        const pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
-        const now = new Date().getTime();
-
-        switch (pointerType) {
-            case 'touch':
-                if (now - lastPointerDown > 300) {
-                    lastPointerDown = now;
-                    toggleOsd();
-                }
-
-                break;
-
-            case 'mouse':
-                if (!e.button) {
-                    if (playPauseClickTimeout) {
-                        clearTimeout(playPauseClickTimeout);
-                        playPauseClickTimeout = 0;
-                    } else {
-                        playPauseClickTimeout = setTimeout(function() {
-                            playbackManager.playPause(currentPlayer);
-                            showOsd();
-                            playPauseClickTimeout = 0;
-                        }, 300);
-                    }
-                }
-
-                break;
-
-            default:
-                playbackManager.playPause(currentPlayer);
-                showOsd();
         }
     }, {
         passive: true
-    });
-
-    dom.addEventListener(view, 'dblclick', (e) => {
-        if (e.target !== view) return;
-        playbackManager.toggleFullscreen(currentPlayer);
     });
 
     view.querySelector('.buttonMute').addEventListener('click', function () {
@@ -1848,6 +1885,7 @@ export default function (view) {
     });
 
     nowPlayingPositionSlider.addEventListener('change', function () {
+        invalidateVideoSeeking();
         const player = currentPlayer;
 
         if (player) {
@@ -1938,21 +1976,25 @@ export default function (view) {
         playbackManager.previousTrack(currentPlayer);
     });
     view.querySelector('.btnPreviousChapter').addEventListener('click', function () {
+        invalidateVideoSeeking();
         playbackManager.previousChapter(currentPlayer);
     });
     view.querySelector('.btnPause').addEventListener('click', function () {
         playbackManager.playPause(currentPlayer);
     });
     view.querySelector('.btnNextChapter').addEventListener('click', function () {
+        invalidateVideoSeeking();
         playbackManager.nextChapter(currentPlayer);
     });
     view.querySelector('.btnNextTrack').addEventListener('click', function () {
         playbackManager.nextTrack(currentPlayer);
     });
     btnRewind.addEventListener('click', function () {
+        invalidateVideoSeeking();
         playbackManager.rewind(currentPlayer);
     });
     btnFastForward.addEventListener('click', function () {
+        invalidateVideoSeeking();
         playbackManager.fastForward(currentPlayer);
     });
     view.querySelector('.btnAudio').addEventListener('click', showAudioTrackSelection);
