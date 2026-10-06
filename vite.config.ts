@@ -7,7 +7,8 @@ export default defineConfig({
     plugins: [ tsconfigPaths() ],
     test: {
         coverage: {
-            include: [ 'src' ]
+            include: [ 'src/**/*.{js,jsx,ts,tsx}' ],
+            reporter: [ 'text-summary', 'html', 'lcov' ]
         },
         environment: 'jsdom',
         restoreMocks: true
