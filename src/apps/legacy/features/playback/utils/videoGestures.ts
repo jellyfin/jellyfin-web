@@ -90,7 +90,7 @@ export function createVideoGestures(surface: HTMLElement, options: Options) {
             return;
         }
         const direction = x < bounds.left + bounds.width / 2 ? -1 : 1;
-        if (pending && pending.kind === contact.kind && pending.direction === direction
+        if (pending?.kind === contact.kind && pending.direction === direction
             && now - pending.completedAt <= PAIR_WINDOW_MS
             && Math.hypot(x - pending.x, y - pending.y) <= MAX_DISTANCE) {
             clearPending();
