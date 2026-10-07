@@ -25,7 +25,7 @@ export interface CardOptions {
     overlayText?: boolean;
     imageBlurhashes?: BaseItemDtoImageBlurHashes | null;
     preferBanner?: boolean;
-    preferThumb?: boolean | string | null;
+    preferThumb?: boolean | 'auto' | null;
     preferDisc?: boolean;
     preferLogo?: boolean;
     preferParentPoster?: boolean;
@@ -85,6 +85,7 @@ export interface CardOptions {
     defaultCardImageIcon?: string;
     disableHoverMenu?: boolean;
     disableIndicators?: boolean;
+    /** @deprecated - use {@link showChildCountIndicator} instead */
     showGroupCount?: boolean;
     containerClass?: string;
     noItemsMessage?: string;

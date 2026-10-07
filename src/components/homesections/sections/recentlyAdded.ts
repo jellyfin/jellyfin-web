@@ -1,3 +1,4 @@
+import type { LibraryApiGetLatestMediaRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
@@ -14,15 +15,26 @@ import layoutManager from 'components/layoutManager';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
+import type { Nullable } from 'types/base/common/shared/types';
 import { queryClient } from 'utils/query/queryClient';
 
 import type { SectionContainerElement, SectionOptions } from './section';
+
+const CHILD_COUNT_COLLECTIONS: Nullable<CollectionType>[] = [
+    undefined,
+    CollectionType.Tvshows
+];
+
+const CHILD_COUNT_VIEWS: Nullable<string>[] = [
+    'mixed',
+    'tvshows'
+];
 
 function getFetchLatestItemsFn(
     apiClient: ApiClient,
     user: UserDto | undefined,
     parentId: string | undefined,
-    collectionType: string | null | undefined,
+    collectionType: Nullable<CollectionType>,
     { enableOverflow }: SectionOptions
 ) {
     return function () {
@@ -42,7 +54,7 @@ function getFetchLatestItemsFn(
             limit = 8;
         }
 
-        const options = {
+        const options: LibraryApiGetLatestMediaRequest = {
             userId: user?.Id,
             limit,
             fields: [
@@ -58,6 +70,10 @@ function getFetchLatestItemsFn(
             parentId
         };
 
+        if (CHILD_COUNT_COLLECTIONS.includes(collectionType)) {
+            options.fields?.push(ItemFields.RecursiveItemCount);
+        }
+
         return queryClient
             .fetchQuery(getLatestMediaQuery(api, options));
     };
@@ -71,7 +87,7 @@ function getLatestItemsHtmlFn(
     return function (items: BaseItemDto[]) {
         const cardLayout = false;
         let shape;
-        if (itemType === 'Channel' || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
+        if (itemType === BaseItemKind.Channel || viewType === 'movies' || viewType === 'books' || viewType === 'tvshows') {
             shape = getPortraitShape(enableOverflow);
         } else if (viewType === 'music' || viewType === 'homevideos') {
             shape = getSquareShape(enableOverflow);
@@ -80,18 +96,18 @@ function getLatestItemsHtmlFn(
         }
 
         return cardBuilder.getCardsHtml({
-            items: items,
-            shape: shape,
-            preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+            items,
+            shape,
+            preferThumb: viewType !== 'movies' && viewType !== 'tvshows' && itemType !== BaseItemKind.Channel && viewType !== 'music' ? 'auto' : null,
             preferParentPoster: true,
             showUnplayedIndicator: false,
-            showChildCountIndicator: true,
+            showChildCountIndicator: CHILD_COUNT_VIEWS.includes(viewType),
             context: 'home',
             overlayText: false,
             centerText: !cardLayout,
             overlayPlayButton: viewType !== 'photos',
             allowBottomPadding: !enableOverflow && !cardLayout,
-            cardLayout: cardLayout,
+            cardLayout,
             showTitle: viewType !== 'photos',
             showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
             showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType || (cardLayout && (viewType === 'tvshows')),
