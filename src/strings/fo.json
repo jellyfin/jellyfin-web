@@ -1871,7 +1871,7 @@
     "PriorityIdle": "Lágt",
     "OptionAllowLinkSharing": "Loyv deiling á sosialum miðlum",
     "OptionAllowLinkSharingHelp": "Bert vevsíður við miðlaupplýsingum verða deildar. Miðlafílur verða ongantíð deildar alment. Deilingar eru tíðaravmarkaðar og fyrna eftir {0} dagar.",
-    "OptionMaxActiveSessions": "Avmarka samstundis setur brúkarans.",
+    "OptionMaxActiveSessions": "Samstundis setur brúkarans.",
     "OptionMaxActiveSessionsHelp": "Verður 0 ásett er avmarkingin óvirkja.",
     "LabelDropShadow": "Skuggar",
     "LabelSyncPlayHaltPlaybackDescription": "Og tak ikki hædd fyri broytingum á núverandi spælilista",
