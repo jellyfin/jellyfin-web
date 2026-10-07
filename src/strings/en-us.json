@@ -1354,6 +1354,8 @@
     "OptionEnableForAllTuners": "Enable for all tuner devices",
     "OptionEveryday": "Every day",
     "OptionExtractChapterImage": "Enable chapter image extraction",
+    "OptionForcePlaybackRemuxing": "Force remuxing when direct play is possible",
+    "OptionForcePlaybackRemuxingHelp": "When enabled, compatible media will be remuxed using the client's playback profile instead of being played directly. Jellyfin will still transcode when required. This requires video remuxing to be allowed for the user.",
     "OptionForceRemoteSourceTranscoding": "Force transcoding of remote media sources such as Live TV",
     "OptionHasThemeSong": "Theme Song",
     "OptionHasThemeVideo": "Theme Video",
