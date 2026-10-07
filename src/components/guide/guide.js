@@ -635,6 +635,13 @@ function Guide(options) {
                 html += '<div class="guideChannelName">' + escapeHtml(channel.Name) + '</div>';
             }
 
+            if (channel.ActiveStreamCount > 0) {
+                html += '<div class="guideChannelStreams" title="' + globalize.translate('StreamsInUse') + '">';
+                html += '<span class="material-icons visibility" aria-hidden="true"></span>';
+                html += channel.ActiveStreamCount;
+                html += '</div>';
+            }
+
             html += '</button>';
         }
 
