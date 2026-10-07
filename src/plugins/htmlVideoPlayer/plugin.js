@@ -181,7 +181,7 @@ function getTextTrackUrl(track, item, format) {
 }
 
 function getSubtitleFileNameHint(track) {
-    const candidates = [track?.Path, track?.DeliveryUrl];
+    const candidates = [track?.Path];
     for (const candidate of candidates) {
         if (!candidate) {
             continue;

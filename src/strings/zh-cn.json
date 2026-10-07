@@ -1913,7 +1913,7 @@
     "LabelSimilarItemProvidersHelp": "启用并按优先级对您首选的类似项目提供商进行排序。",
     "ConfirmDeleteItemByName": "删除“{0}”将同时从文件系统和媒体库中将其删除。您是否确定要继续？",
     "ConfirmStillWatching": "您仍在观看吗？",
-    "Disabled": "关闭",
+    "Disabled": "禁用",
     "LabelOriginalLanguage": "原始语言",
     "OriginalLanguage": "原始语言",
     "StillWatchingOption": "{0} 集或 {1} 分钟",
