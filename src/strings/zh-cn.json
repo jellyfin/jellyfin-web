@@ -490,7 +490,7 @@
     "LabelMoviePrefix": "电影前缀",
     "LabelMoviePrefixHelp": "如果将前缀应用于影片标题, 请在此处输入它, 以便服务器可以正确处理它。",
     "LabelMovieRecordingPath": "电影录制路径",
-    "LabelName": "描述",
+    "LabelName": "名称",
     "LabelNewName": "新名字",
     "LabelNewPassword": "新密码",
     "LabelNewPasswordConfirm": "确认新密码",
