@@ -41,16 +41,17 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
         // which would exclude videos from the queue
         if (item && !hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
             playbackManager.shuffle(item);
+        } else if (items && hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
+            playbackManager.shuffle(items);
         } else {
             playbackManager.play({
                 items,
-                autoplay: true,
                 queryOptions: {
                     ParentId: item?.Id ?? undefined,
                     ...getFiltersQuery(viewType, libraryViewSettings),
                     SortBy: [ItemSortBy.Random]
                 }
-            }).catch(err => {
+            }).catch((err: unknown) => {
                 console.error('[ShuffleButton] failed to play', err);
             });
         }

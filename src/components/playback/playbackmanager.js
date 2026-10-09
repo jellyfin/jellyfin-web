@@ -718,6 +718,19 @@ function sortPlayerTargets(a, b) {
     return aVal.localeCompare(bVal);
 }
 
+function shuffleArray(shuffleItems) {
+    let shuffleIndex = shuffleItems.length;
+
+    while (shuffleIndex != 0) {
+        const randomIndex = Math.floor(Math.random() * shuffleIndex);
+        shuffleIndex--;
+
+        [shuffleItems[shuffleIndex], shuffleItems[randomIndex]] = [shuffleItems[randomIndex], shuffleItems[shuffleIndex]];
+    }
+
+    return shuffleItems;
+}
+
 export class PlaybackManager {
     constructor() {
         const self = this;
@@ -2332,6 +2345,11 @@ export class PlaybackManager {
             if (!firstItem) {
                 playStartIndex = 0;
                 firstItem = items[playStartIndex];
+            }
+
+            if (firstItem.length > 1) {
+                items = items[0];
+                firstItem = items[0];
             }
 
             // If it's still null then there's nothing to play
@@ -4160,8 +4178,12 @@ export class PlaybackManager {
         if (player?.shuffle) {
             return player.shuffle(shuffleItem);
         }
-
-        return this.play({ items: [shuffleItem], shuffle: true });
+        if (shuffleItem.length > 1) {
+            const shuffleItems = shuffleArray(shuffleItem);
+            return this.play({ items: shuffleItems, shuffle: true });
+        } else {
+            return this.play({ items: [shuffleItem], shuffle: true });
+        }
     }
 
     audioTracks(player = this._currentPlayer) {
