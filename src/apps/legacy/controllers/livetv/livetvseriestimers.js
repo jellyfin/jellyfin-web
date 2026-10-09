@@ -20,7 +20,7 @@ function renderTimers(context, timers) {
         overlayMoreButton: true,
         lines: 3
     });
-    const elem = context.querySelector('#items');
+    const elem = context.querySelector('#seriesTimerItems');
     elem.innerHTML = html;
     imageLoader.lazyChildren(elem);
     loading.hide();
