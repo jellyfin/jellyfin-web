@@ -161,6 +161,31 @@ button::-moz-focus-inner {
     z-index: 1;
 }
 
+.starRatingIndicator {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    bottom: .6em;
+    left: .6em;
+    font-size: 88%;
+    font-weight: 500;
+    height: 2em;
+    color: #ddd;
+    //background: #202020;
+    background-color: var(--jf-palette-AppBar-defaultBg);
+    padding: 0 .5em 0 .4em;
+    border-radius: .2em;
+    z-index: 1;
+
+    .starIcon {
+        font-size: 1.4em;
+        margin-right: .125em;
+        color: #f2b01e;
+        width: 1em !important;
+        height: 1em !important;
+    }
+}
+
 .cardImageContainer {
     background-size: cover;
     background-repeat: no-repeat;
