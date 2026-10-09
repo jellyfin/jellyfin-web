@@ -39,7 +39,7 @@ const ShuffleButton: FC<ShuffleButtonProps> = ({
         // For the Homevideos library Videos tab, pass items directly to playback since
         // the playback manager hardcodes MediaTypes: 'Photo' for the Homevideos library
         // which would exclude videos from the queue
-        if (item && !hasFilters && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
+        if (item && !(viewType === LibraryTab.Videos && collectionType === CollectionType.Homevideos)) {
             playbackManager.shuffle(item);
         } else {
             playbackManager.play({
