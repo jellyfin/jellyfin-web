@@ -306,28 +306,29 @@ export async function getCommands(options) {
         });
     }
 
+    // Only show playlist edit actions if the user can modify the playlist
     if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
         commands.push({
             name: globalize.translate('RemoveFromPlaylist'),
             id: 'removefromplaylist',
             icon: 'playlist_remove'
         });
-    }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
-        commands.push({
-            name: globalize.translate('MoveToTop'),
-            id: 'movetotop',
-            icon: 'vertical_align_top'
-        });
-    }
+        if (item.PlaylistIndex > 0) {
+            commands.push({
+                name: globalize.translate('MoveToTop'),
+                id: 'movetotop',
+                icon: 'vertical_align_top'
+            });
+        }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
-        commands.push({
-            name: globalize.translate('MoveToBottom'),
-            id: 'movetobottom',
-            icon: 'vertical_align_bottom'
-        });
+        if (item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
+            commands.push({
+                name: globalize.translate('MoveToBottom'),
+                id: 'movetobottom',
+                icon: 'vertical_align_bottom'
+            });
+        }
     }
 
     if (options.collectionId) {
