@@ -84,7 +84,7 @@ export default function (view, params, tabContent) {
         }
 
         const html = getChannelsHtml(result.Items);
-        const elem = context.querySelector('#items');
+        const elem = context.querySelector('#channelItems');
         elem.innerHTML = html;
         imageLoader.lazyChildren(elem);
         let i;
