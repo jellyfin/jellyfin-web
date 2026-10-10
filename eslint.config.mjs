@@ -393,16 +393,6 @@ export default tseslint.config(
         }
     },
 
-    // Service worker
-    {
-        files: [ 'src/serviceworker.js' ],
-        languageOptions: {
-            globals: {
-                ...globals.serviceworker
-            }
-        }
-    },
-
     // Legacy JS (less strict)
     {
         files: [ 'src/**/*.{js,jsx}' ],
