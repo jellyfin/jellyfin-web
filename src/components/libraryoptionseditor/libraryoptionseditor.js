@@ -548,6 +548,7 @@ export function setContentType(parent, contentType) {
     }
 
     parent.querySelector('.chkEnableLUFSScanContainer').classList.toggle('hide', contentType !== 'music');
+    parent.querySelector('.chkEnableAlbumSpecificImageExtractionContainer').classList.toggle('hide', contentType !== 'music');
 
     if (contentType === 'tvshows') {
         parent.querySelector('.chkEnableEmbeddedEpisodeInfosContainer').classList.remove('hide');
@@ -707,6 +708,7 @@ export function getLibraryOptions(parent) {
         EnablePhotos: parent.querySelector('.chkEnablePhotos').checked,
         EnableRealtimeMonitor: parent.querySelector('.chkEnableRealtimeMonitor').checked,
         EnableLUFSScan: parent.querySelector('.chkEnableLUFSScan').checked,
+        EnableAlbumSpecificImageExtraction: parent.querySelector('.chkEnableAlbumSpecificImageExtraction').checked,
         ExtractTrickplayImagesDuringLibraryScan: parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked,
         SaveTrickplayWithMedia: parent.querySelector('.chkSaveTrickplayLocally').checked,
         EnableTrickplayImageExtraction: parent.querySelector('.chkExtractTrickplayImages').checked,
@@ -781,6 +783,7 @@ export function setLibraryOptions(parent, options) {
     parent.querySelector('.chkEnablePhotos').checked = options.EnablePhotos;
     parent.querySelector('.chkEnableRealtimeMonitor').checked = options.EnableRealtimeMonitor;
     parent.querySelector('.chkEnableLUFSScan').checked = options.EnableLUFSScan;
+    parent.querySelector('.chkEnableAlbumSpecificImageExtraction').checked = !!options.EnableAlbumSpecificImageExtraction;
     parent.querySelector('.chkExtractTrickplayDuringLibraryScan').checked = options.ExtractTrickplayImagesDuringLibraryScan;
     parent.querySelector('.chkExtractTrickplayImages').checked = options.EnableTrickplayImageExtraction;
     parent.querySelector('.chkSaveTrickplayLocally').checked = options.SaveTrickplayWithMedia;
