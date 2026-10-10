@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 import globalize from 'lib/globalize';
 
 export function showLayoutMenu (button, currentLayout, views) {
@@ -30,7 +32,7 @@ export function showLayoutMenu (button, currentLayout, views) {
                     cancelable: false
                 }));
 
-                if (!dispatchEvent && window.$) {
+                if (!dispatchEvent) {
                     $(button).trigger('layoutchange', [id]);
                 }
             }
