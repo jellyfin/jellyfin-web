@@ -38,6 +38,7 @@ video[controls]::-webkit-media-controls {
     -webkit-font-smoothing: antialiased;
     font-family: inherit;
     line-height: normal; /* Restore value. See -webkit-media-text-track-container 'line-height' */
+    visibility: visible;
 }
 
 .htmlvideoplayer::-webkit-media-text-track-container {
