@@ -385,6 +385,9 @@ function addCurrentItemToQuery(query, item) {
         case BaseItemKind.Studio:
             query.StudioIds = item.Id;
             break;
+        case BaseItemKind.Network:
+            query.NetworkIds = item.Id;
+            break;
         case BaseItemKind.MusicArtist:
             if (query.IncludeItemTypes === BaseItemKind.MusicVideo) {
                 query.ArtistIds = item.Id;
