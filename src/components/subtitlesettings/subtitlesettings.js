@@ -6,7 +6,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
-import subtitleAppearanceHelper from './subtitleappearancehelper';
+import subtitleAppearanceHelper, { resolveTextScale } from './subtitleappearancehelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../utils/dom';
 import Events from '../../utils/events.ts';
@@ -30,7 +30,7 @@ function getSubtitleAppearanceObject(context) {
     return {
         aspectMode: context.querySelector('#selectBitmapSubtitleAspectMode').value,
         subtitleStyling: context.querySelector('#selectSubtitleStyling').value,
-        textSize: context.querySelector('#selectTextSize').value,
+        textScale: Number.parseFloat(context.querySelector('#sliderTextSize').value),
         textWeight: context.querySelector('#selectTextWeight').value,
         dropShadow: context.querySelector('#selectDropShadow').value,
         font: context.querySelector('#selectFont').value,
@@ -66,7 +66,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
 
         context.querySelector('#selectSubtitleStyling').value = appearanceSettings.subtitleStyling || 'Auto';
         context.querySelector('#selectSubtitleStyling').dispatchEvent(new CustomEvent('change', {}));
-        context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
+        context.querySelector('#sliderTextSize').value = resolveTextScale(appearanceSettings);
         context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
         context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
@@ -84,7 +84,7 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#chkAlwaysBurnInSubtitleWhenTranscoding').checked = appSettings.alwaysBurnInSubtitleWhenTranscoding();
 
         onAppearanceFieldChange({
-            target: context.querySelector('#selectTextSize')
+            target: context.querySelector('#sliderTextSize')
         });
 
         loading.hide();
@@ -216,7 +216,6 @@ function embed(options, self) {
     options.element.querySelector('#selectSubtitleStyling').addEventListener('change', onSubtitleStyleChange);
     options.element.querySelector('#selectSubtitleBurnIn').addEventListener('change', onSubtitleBurnInChange);
     options.element.querySelector('#chkSubtitleRenderPgs').addEventListener('change', onSubtitleRenderPgsChange);
-    options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectTextWeight').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
@@ -238,6 +237,10 @@ function embed(options, self) {
         const sliderVerticalPosition = options.element.querySelector('#sliderVerticalPosition');
         sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
         sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
+
+        const sliderTextSize = options.element.querySelector('#sliderTextSize');
+        sliderTextSize.addEventListener('input', onAppearanceFieldChange);
+        sliderTextSize.addEventListener('input', () => showSubtitlePreview.call(self));
 
         const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
         sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
