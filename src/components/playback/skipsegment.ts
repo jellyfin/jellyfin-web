@@ -38,12 +38,20 @@ class SkipSegment extends PlaybackSubscriber {
     private skipElement: HTMLButtonElement | null;
     private currentSegment: MediaSegmentDto | null | undefined;
     private hideTimeout: ReturnType<typeof setTimeout> | null | undefined;
+    private animationFrame: number | null = null;
 
     constructor(playbackManager: PlaybackManager) {
         super(playbackManager);
 
         this.skipElement = null;
         this.onOsdChanged = this.onOsdChanged.bind(this);
+    }
+
+    cancelAnimationFrame() {
+        if (this.animationFrame !== null) {
+            cancelAnimationFrame(this.animationFrame);
+            this.animationFrame = null;
+        }
     }
 
     createSkipElement() {
@@ -81,6 +89,7 @@ class SkipSegment extends PlaybackSubscriber {
     showSkipButton(options: ShowOptions) {
         const elem = this.skipElement;
         if (elem) {
+            this.cancelAnimationFrame();
             this.clearHideTimeout();
             dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                 once: true
@@ -100,7 +109,9 @@ class SkipSegment extends PlaybackSubscriber {
                 focusManager.focus(elem);
             }
 
-            requestAnimationFrame(() => {
+            this.animationFrame = requestAnimationFrame(() => {
+                this.animationFrame = null;
+
                 elem.classList.remove('skip-button-hidden');
 
                 if (!options.keep) {
@@ -113,11 +124,14 @@ class SkipSegment extends PlaybackSubscriber {
     hideSkipButton() {
         const elem = this.skipElement;
         if (elem) {
+            this.cancelAnimationFrame();
             elem.classList.remove('no-transition');
             // eslint-disable-next-line sonarjs/void-use
             void elem.offsetWidth;
 
-            requestAnimationFrame(() => {
+            this.animationFrame = requestAnimationFrame(() => {
+                this.animationFrame = null;
+
                 elem.classList.add('skip-button-hidden');
 
                 dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
@@ -149,8 +163,10 @@ class SkipSegment extends PlaybackSubscriber {
     }
 
     onPromptSkip(e: Event, segment: MediaSegmentDto) {
-        if (this.player && segment.EndTicks != null
-            && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
+        const currentItem = this.player ? this.playbackManager.currentItem(this.player) : null;
+        if (currentItem && segment.EndTicks != null
+            && currentItem.RunTimeTicks != null
+            && segment.EndTicks >= currentItem.RunTimeTicks
             && this.playbackManager.getNextItem()
             && userSettings.enableNextVideoInfoOverlay()
         ) {
@@ -191,6 +207,7 @@ class SkipSegment extends PlaybackSubscriber {
 
     onPlaybackStop(_e: Event, playbackStopInfo: PlaybackStopInfo) {
         this.currentSegment = null;
+        this.clearHideTimeout();
         this.hideSkipButton();
         if (!playbackStopInfo.nextItem) {
             Events.off(document, EventType.SHOW_VIDEO_OSD, this.onOsdChanged);
