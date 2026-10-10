@@ -1945,5 +1945,7 @@
     "LabelPlayerSizes": "Player sizes",
     "LabelPlaybackQuality": "Frame dropped / corrupted",
     "AudioLanguages": "Audio languages",
-    "SubtitleLanguages": "Subtitle languages"
+    "SubtitleLanguages": "Subtitle languages",
+    "UseVirtualIsoForSingleClipBluRays": "Use virtual ISO for single-clip Blu-rays",
+    "UseVirtualIsoForSingleClipBluRaysHelp": "Play single-clip Blu-ray folders as a complete disc, including playlists and chapters, in players that support Blu-ray ISO. Multi-clip Blu-rays always use virtual ISO. Media files are not copied or converted."
 }

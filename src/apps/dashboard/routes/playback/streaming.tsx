@@ -5,6 +5,9 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -24,6 +27,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const bitrateLimit = formData.get('StreamingBitrateLimit')?.toString();
     config.RemoteClientBitrateLimit = Math.trunc(1e6 * parseFloat(bitrateLimit || '0'));
+    if ('UseVirtualIsoForSingleClipBluRays' in config) {
+        config.UseVirtualIsoForSingleClipBluRays = formData.has('UseVirtualIsoForSingleClipBluRays');
+    }
 
     await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
@@ -85,6 +91,23 @@ export const Component = () => {
                                     }
                                 }}
                             />
+                            {'UseVirtualIsoForSingleClipBluRays' in defaultConfiguration && (
+                                <Box>
+                                    <FormControlLabel
+                                        label={globalize.translate('UseVirtualIsoForSingleClipBluRays')}
+                                        control={
+                                            <Checkbox
+                                                name='UseVirtualIsoForSingleClipBluRays'
+                                                defaultChecked={defaultConfiguration.UseVirtualIsoForSingleClipBluRays === true}
+                                                slotProps={{ input: { 'aria-describedby': 'virtualIsoHelp' } }}
+                                            />
+                                        }
+                                    />
+                                    <FormHelperText id='virtualIsoHelp'>
+                                        {globalize.translate('UseVirtualIsoForSingleClipBluRaysHelp')}
+                                    </FormHelperText>
+                                </Box>
+                            )}
                             <Button
                                 type='submit'
                                 size='large'
