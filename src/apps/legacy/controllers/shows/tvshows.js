@@ -8,10 +8,18 @@ import * as userSettings from 'scripts/settings/userSettings';
 import globalize from 'lib/globalize';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { convertFilterValuesToItemsQuery } from 'utils/query/queryConverter';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
+    function getApiClient() {
+        return params.serverId ? ServerConnections.getApiClient(params.serverId) : ApiClient;
+    }
+
     function getPageData() {
         const key = getSavedQueryKey();
         let pageData = data[key];
@@ -71,7 +79,12 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(page, query);
 
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
+        const apiClient = getApiClient();
+        return getLibraryApi(toApi(apiClient)).getItems(
+            convertFilterValuesToItemsQuery(query, apiClient.getCurrentUserId())
+        ).then((response) => {
+            const result = response.data;
+
             function onNextPageClick() {
                 if (isLoading) {
                     return;

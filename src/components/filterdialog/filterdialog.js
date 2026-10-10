@@ -3,6 +3,7 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import union from 'lodash-es/union';
+import unionBy from 'lodash-es/unionBy';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
@@ -41,32 +42,81 @@ function renderOptions(context, selector, cssClass, items, isCheckedFn) {
     elem.querySelector('.filterOptions').innerHTML = html;
 }
 
-function renderFilters(context, result, query) {
-    renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(result.Genres, query.Genres, '|'), function (i) {
+function renderNameValueOptions(context, selector, cssClass, items, isCheckedFn) {
+    const elem = context.querySelector(selector);
+    if (items.length) {
+        elem.classList.remove('hide');
+    } else {
+        elem.classList.add('hide');
+    }
+    let html = '';
+    html += '<div class="checkboxList">';
+    html += items.map(function (filter) {
+        let itemHtml = '';
+        const checkedHtml = isCheckedFn(filter.Value) ? 'checked' : '';
+        itemHtml += '<label>';
+        itemHtml += `<input is="emby-checkbox" type="checkbox" ${checkedHtml} data-filter="${filter.Value}" class="${cssClass}"/>`;
+        itemHtml += `<span>${filter.Name ?? filter.Value}</span>`;
+        itemHtml += '</label>';
+        return itemHtml;
+    }).join('');
+    html += '</div>';
+    elem.querySelector('.filterOptions').innerHTML = html;
+}
+
+function renderFilters(context, filters, filters2, query) {
+    renderOptions(context, '.genreFilters', 'chkGenreFilter', merge(filters.Genres, query.Genres, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.Genres || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', merge(result.OfficialRatings, query.OfficialRatings, '|'), function (i) {
+    renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', merge(filters.OfficialRatings, query.OfficialRatings, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.OfficialRatings || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.tagFilters', 'chkTagFilter', merge(result.Tags, query.Tags, '|'), function (i) {
+    renderOptions(context, '.tagFilters', 'chkTagFilter', merge(filters.Tags, query.Tags, '|'), function (i) {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years.map(String), query.Years, ','), function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(filters.Years.map(String), query.Years, ','), function (i) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });
+    renderNameValueOptions(
+        context,
+        '.audioLanguageFilters',
+        'chkAudioLanguageFilter',
+        unionBy(filters2?.AudioLanguages ?? [], query?.AudioLanguages?.split(',').map(x => ({ Value: x, Name: x })) ?? [], 'Value'),
+        function (i) {
+            const delimeter = ',';
+            return (delimeter + (query?.AudioLanguages || '') + delimeter).includes(delimeter + i + delimeter);
+        }
+    );
+    renderNameValueOptions(
+        context,
+        '.subtitleLanguageFilters',
+        'chkSubtitleLanguageFilter',
+        unionBy(filters2?.SubtitleLanguages ?? [], query?.SubtitleLanguages?.split(',').map(x => ({ Value: x, Name: x })) ?? [], 'Value'),
+        function (i) {
+            const delimeter = ',';
+            return (delimeter + (query?.SubtitleLanguages || '') + delimeter).includes(delimeter + i + delimeter);
+        }
+    );
 }
 
 function loadDynamicFilters(context, apiClient, userId, itemQuery) {
-    return apiClient.getJSON(apiClient.getUrl('Items/Filters', {
+    const filters = apiClient.getJSON(apiClient.getUrl('Items/Filters', {
         UserId: userId,
         ParentId: itemQuery.ParentId,
         IncludeItemTypes: itemQuery.IncludeItemTypes
-    })).then(function (result) {
-        renderFilters(context, result, itemQuery);
+    }));
+    const filters2 = apiClient.getJSON(apiClient.getUrl('Items/Filters2', {
+        UserId: userId,
+        ParentId: itemQuery.ParentId,
+        IncludeItemTypes: itemQuery.IncludeItemTypes
+    }));
+
+    return Promise.all([filters, filters2]).then(([result1, result2]) => {
+        renderFilters(context, result1, result2, itemQuery);
     });
 }
 
@@ -149,6 +199,7 @@ function applyEpisodeStatusFilters(query, isMissingChecked, isUnairedChecked) {
 function setVisibility(context, options) {
     if (options.mode === 'livetvchannels' || options.mode === 'albums' || options.mode === 'artists' || options.mode === 'albumartists' || options.mode === 'songs') {
         hideByClass(context, 'videoStandard');
+        hideByClass(context, 'languageFilters');
     }
 
     if (enableDynamicFilters(options.mode)) {
@@ -164,6 +215,7 @@ function setVisibility(context, options) {
 
     if (options.mode === 'movies' || options.mode === 'series' || options.mode === 'episodes') {
         context.querySelector('.features').classList.remove('hide');
+        context.querySelector('.languageFilters').classList.remove('hide');
     }
 
     if (options.mode === 'series') {
@@ -458,6 +510,34 @@ class FilterDialog {
                 query.StartIndex = 0;
                 query.OfficialRatings = filters;
                 triggerChange(this);
+                return;
+            }
+            const chkAudioLanguageFilter = dom.parentWithClass(e.target, 'chkAudioLanguageFilter');
+            if (chkAudioLanguageFilter) {
+                const filterName = chkAudioLanguageFilter.getAttribute('data-filter');
+                let filters = query.AudioLanguages || '';
+                const delimiter = ',';
+                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                if (chkAudioLanguageFilter.checked) {
+                    filters = filters ? (filters + delimiter + filterName) : filterName;
+                }
+                query.StartIndex = 0;
+                query.AudioLanguages = filters;
+                triggerChange(this);
+                return;
+            }
+            const chkSubtitleLanguageFilter = dom.parentWithClass(e.target, 'chkSubtitleLanguageFilter');
+            if (chkSubtitleLanguageFilter) {
+                const filterName = chkSubtitleLanguageFilter.getAttribute('data-filter');
+                let filters = query.SubtitleLanguages || '';
+                const delimiter = ',';
+                filters = (delimiter + filters).replace(delimiter + filterName, '').substring(1);
+                if (chkSubtitleLanguageFilter.checked) {
+                    filters = filters ? (filters + delimiter + filterName) : filterName;
+                }
+                query.StartIndex = 0;
+                query.SubtitleLanguages = filters;
+                triggerChange(this);
             }
         });
     }
@@ -480,6 +560,8 @@ class FilterDialog {
         query.HasTrailer = null;
         query.Tags = null;
         query.Years = '';
+        query.AudioLanguages = '';
+        query.SubtitleLanguages = '';
     }
 
     show() {
