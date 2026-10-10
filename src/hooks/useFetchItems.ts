@@ -342,6 +342,7 @@ const fetchGetItemsViewByType = async (
                         isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
+                        randomSeed: libraryViewSettings.RandomSeed,
                         includeItemTypes: itemType,
                         startIndex: libraryViewSettings.StartIndex
                     },
