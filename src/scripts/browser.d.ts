@@ -19,6 +19,8 @@ declare namespace browser {
     export let mobile: boolean;
     export let xboxOne: boolean;
     export let animate: boolean;
+    export let android: boolean;
+    export let chrome: boolean;
     export let hisense: boolean;
     export let tizen: boolean;
     export let vega: boolean;
@@ -30,6 +32,7 @@ declare namespace browser {
     export let tizenVersion: number | undefined;
     export let orsay: boolean;
     export let operaTv: boolean;
+    export let opera: boolean;
     export let slow: boolean;
     export let touch: boolean;
     export let keyboard: boolean;
