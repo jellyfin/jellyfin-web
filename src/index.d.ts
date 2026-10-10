@@ -9,3 +9,7 @@ declare module '*.scss' {
     const value: string;
     export default value;
 }
+
+declare module 'ua-parser-js/enums' {
+    export { BrowserName, BrowserType, CPUArch, DeviceType, DeviceVendor, EngineName, OSName } from 'ua-parser-js/src/enums/ua-parser-enums';
+}
