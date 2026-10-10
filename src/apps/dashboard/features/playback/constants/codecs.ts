@@ -10,7 +10,8 @@ export const CODECS = [
             'vaapi',
             'rkmpp',
             'videotoolbox',
-            'v4l2m2m'
+            'v4l2m2m',
+            'nvmpi'
         ]
     },
     {
@@ -22,7 +23,8 @@ export const CODECS = [
             'qsv',
             'vaapi',
             'rkmpp',
-            'videotoolbox'
+            'videotoolbox',
+            'nvmpi'
         ]
     },
     {
@@ -38,7 +40,8 @@ export const CODECS = [
             'nvenc',
             'qsv',
             'vaapi',
-            'rkmpp'
+            'rkmpp',
+            'nvmpi'
         ]
     },
     {
@@ -46,7 +49,8 @@ export const CODECS = [
         codec: 'mpeg4',
         types: [
             'nvenc',
-            'rkmpp'
+            'rkmpp',
+            'nvmpi'
         ]
     },
     {
@@ -67,7 +71,8 @@ export const CODECS = [
             'qsv',
             'vaapi',
             'rkmpp',
-            'videotoolbox'
+            'videotoolbox',
+            'nvmpi'
         ]
     },
     {
@@ -79,7 +84,8 @@ export const CODECS = [
             'qsv',
             'vaapi',
             'rkmpp',
-            'videotoolbox'
+            'videotoolbox',
+            'nvmpi'
         ]
     },
     {
