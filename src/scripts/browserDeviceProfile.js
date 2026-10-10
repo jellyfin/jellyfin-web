@@ -237,10 +237,20 @@ function testCanPlayTs() {
 }
 
 function supportsMpeg2Video() {
+    if (browser.xboxOne) {
+        // webview2 on xbox matches the edgeUwp check but cannot actually decode mpeg2
+        return false;
+    }
+
     return browser.tizen || browser.web0s || browser.edgeUwp;
 }
 
 function supportsVc1(videoTestElement) {
+    if (browser.xboxOne) {
+        // webview2 on xbox matches the edgeUwp check but cannot actually decode vc-1
+        return false;
+    }
+
     return browser.tizen || browser.web0s || browser.edgeUwp || videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '');
 }
 
