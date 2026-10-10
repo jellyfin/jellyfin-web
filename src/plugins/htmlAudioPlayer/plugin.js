@@ -98,6 +98,15 @@ class HtmlAudioPlayer {
         // Let any players created by plugins take priority
         self.priority = 1;
 
+        // Reduced-gap playback state
+        self._nextMediaElement = null;
+        self._nextHlsPlayer = null;
+        self._nextPlayOptions = null;
+        self._isPreloadingNext = false;
+        self._preloadQueuedAudioEnabled = false;
+        self._nextGainNode = null;
+        self._nextNormalizationGain = null;
+
         self.play = function (options) {
             self._started = false;
             self._timeUpdated = false;
@@ -108,6 +117,33 @@ class HtmlAudioPlayer {
             return setCurrentSrc(elem, options);
         };
 
+        function normalizationGainFromSettings(userSettings, options) {
+            const normalizationSetting = userSettings.selectAudioNormalization();
+            if (normalizationSetting == 'TrackGain') {
+                return options.item.NormalizationGain
+                    ?? options.mediaSource.albumNormalizationGain;
+            } else if (normalizationSetting == 'AlbumGain') {
+                return options.mediaSource.albumNormalizationGain
+                    ?? options.item.NormalizationGain;
+            }
+            console.debug('normalization disabled');
+            return false;
+        }
+
+        async function newHlsPlayer(elem, val) {
+            const includeCorsCredentials = await getIncludeCorsCredentials();
+
+            const hls = new Hls({
+                manifestLoadingTimeOut: 20000,
+                xhrSetup: (xhr) => {
+                    xhr.withCredentials = includeCorsCredentials;
+                }
+            });
+            hls.loadSource(val);
+            hls.attachMedia(elem);
+            return hls;
+        }
+
         function setCurrentSrc(elem, options) {
             unBindEvents(elem);
             bindEvents(elem);
@@ -115,23 +151,15 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
+                self._preloadQueuedAudioEnabled = userSettings.enablePreloadQueuedAudio();
+
                 if (browser.iOS) {
                     // createMediaElementSource breaks playbackRate and pitch on iOS WebKit
                     return;
                 }
 
-                let normalizationGain;
-                if (userSettings.selectAudioNormalization() == 'TrackGain') {
-                    normalizationGain = options.item.NormalizationGain
-                        ?? options.mediaSource.albumNormalizationGain;
-                } else if (userSettings.selectAudioNormalization() == 'AlbumGain') {
-                    normalizationGain =
-                        options.mediaSource.albumNormalizationGain
-                        ?? options.item.NormalizationGain;
-                } else {
-                    console.debug('normalization disabled');
-                    return;
-                }
+                const normalizationGain = normalizationGainFromSettings(userSettings, options);
+                if (normalizationGain === false) return;
 
                 if (!self.gainNode) {
                     addGainElement(elem);
@@ -177,16 +205,7 @@ class HtmlAudioPlayer {
             return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
                 return new Promise(function (resolve, reject) {
                     requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
-
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
-                                xhr.withCredentials = includeCorsCredentials;
-                            }
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
+                        const hls = await newHlsPlayer(elem, val);
 
                         htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
 
@@ -244,6 +263,7 @@ class HtmlAudioPlayer {
                     elem.pause();
 
                     htmlMediaHelper.onEndedInternal(self, elem, onError);
+                    self.clearNextSource();
 
                     if (destroyPlayer) {
                         self.destroy();
@@ -258,6 +278,7 @@ class HtmlAudioPlayer {
                     elem.volume = originalVolume;
 
                     htmlMediaHelper.onEndedInternal(self, elem, onError);
+                    self.clearNextSource();
 
                     if (destroyPlayer) {
                         self.destroy();
@@ -270,6 +291,7 @@ class HtmlAudioPlayer {
         self.destroy = function () {
             unBindEvents(self._mediaElement);
             htmlMediaHelper.resetSrc(self._mediaElement);
+            self.clearNextSource();
         };
 
         function createMediaElement() {
@@ -299,19 +321,26 @@ class HtmlAudioPlayer {
             return elem;
         }
 
+        // Helper to create and connect a gain node to the audio context for the given media element.
+        // Returns the GainNode hooked to the input element.
+        // Throws an exception if an audio context cannot be created or the source or gain nodes cannot be connected.
+        function createConnectedGainNode(elem) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
+
+            const audioCtx = new AudioContext();
+            const source = audioCtx.createMediaElementSource(elem);
+
+            const gainNode = audioCtx.createGain();
+
+            source.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            return gainNode;
+        }
+
         function addGainElement(elem) {
             try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext; /* eslint-disable-line compat/compat */
-
-                const audioCtx = new AudioContext();
-                const source = audioCtx.createMediaElementSource(elem);
-
-                const gainNode = audioCtx.createGain();
-
-                source.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                self.gainNode = gainNode;
+                self.gainNode = createConnectedGainNode(elem);
             } catch (e) {
                 console.error('Web Audio API is not supported in this browser', e);
             }
@@ -401,6 +430,223 @@ class HtmlAudioPlayer {
 
             htmlMediaHelper.onErrorInternal(self, type);
         }
+
+        self.preloadNextQueuedTrack = function() {
+            if (self._isPreloadingNext) {
+                console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Skipped — preload already in progress');
+                return;
+            }
+            self._isPreloadingNext = true;
+
+            console.debug('[PRELOAD-QUEUED-AUDIO][TRIGGER] Requesting next track info from PlaybackManager');
+            Events.trigger(self, 'preloadnextqueuedtrack');
+        };
+
+        self.setNextSource = function(options) {
+            if (!self._preloadQueuedAudioEnabled) {
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called but preloading is disabled — skipping');
+                self._isPreloadingNext = false;
+                return Promise.resolve();
+            }
+            if (!options) {
+                console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] setNextSource called with no options — skipping');
+                self._isPreloadingNext = false;
+                return Promise.resolve();
+            }
+
+            console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Starting preload for next track', options.item?.Name);
+            self._nextPlayOptions = options;
+
+            const elem = self._createSecondaryMediaElement();
+            elem.dataset.playlistItemId = options.item?.PlaylistItemId ?? '';
+
+            // Eagerly resolve normalization gain so the gain node is wired before the switch.
+            const normalizationSetup = import('../../scripts/settings/userSettings').then((userSettings) => {
+                if (browser.iOS) {
+                    // createMediaElementSource breaks playbackRate and pitch on iOS WebKit
+                    return;
+                }
+
+                const normalizationGain = normalizationGainFromSettings(userSettings, options);
+                if (normalizationGain) {
+                    // Create a dedicated AudioContext for the next element so it is ready to play
+                    // immediately on switch without going through addGainElement at transition time.
+                    try {
+                        const gainNode = createConnectedGainNode(elem);
+                        const gain = Math.pow(10, normalizationGain / 20);
+                        gainNode.gain.value = browser.safari ? gain * elem.volume : gain;
+                        self._nextGainNode = gainNode;
+                        self._nextNormalizationGain = gain;
+                        console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Gain node created for next track', { normalizationGain, gain });
+                    } catch (e) {
+                        console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to create gain node for next track', e);
+                    }
+                } else {
+                    console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] No normalization gain for next track — skipping gain node');
+                }
+            }).catch((err) => {
+                console.error('[PRELOAD-QUEUED-AUDIO][PRELOAD] Failed to setup normalization for next track', err);
+            });
+
+            return Promise.all([self._setNextSrc(elem, options), normalizationSetup]).then(() => {
+                // Pre-bake the audio pipeline: play then immediately pause so the browser
+                // initializes the decoder and audio hardware path. This eliminates the
+                // startup latency that would otherwise appear at the moment of the real switch.
+                const desiredVolume = elem.volume;
+                elem.volume = 0;
+                return elem.play().then(() => {
+                    elem.pause();
+                    elem.currentTime = 0;
+                    elem.volume = desiredVolume;
+                }).catch((err) => {
+                    // Pre-bake failure is non-fatal; playback will still work, just with more latency.
+                    console.warn('[PRELOAD-QUEUED-AUDIO][PREBAKE] Could not pre-bake next track pipeline', err);
+                }).finally(() => {
+                    self._isPreloadingNext = false;
+                });
+            });
+        };
+
+        self._setNextSrc = function(elem, options) {
+            const val = options.url;
+            console.debug('[PRELOAD-QUEUED-AUDIO][PRELOAD] Setting next src:', val);
+
+            const crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
+            if (crossOrigin) {
+                elem.crossOrigin = crossOrigin;
+            }
+
+            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
+                return new Promise(function (resolve, reject) {
+                    requireHlsPlayer(async () => {
+                        const hls = await newHlsPlayer(elem, val);
+
+                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                        self._nextHlsPlayer = hls;
+                        resolve();
+                    });
+                });
+            }, async () => {
+                elem.autoplay = true;
+
+                const includeCorsCredentials = await getIncludeCorsCredentials();
+                if (includeCorsCredentials) {
+                    // Safari will not send cookies without this
+                    elem.crossOrigin = 'use-credentials';
+                }
+
+                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
+                    // Preload the audio
+                    elem.load();
+                });
+            });
+        };
+
+        self._createSecondaryMediaElement = function() {
+            if (self._nextMediaElement) {
+                return self._nextMediaElement;
+            }
+
+            const elem = document.createElement('audio');
+            elem.preload = 'auto';
+            elem.classList.add('mediaPlayerAudioNext', 'hide');
+            document.body.appendChild(elem);
+
+            if (!appHost.supports(AppFeature.PhysicalVolumeControl)) {
+                elem.volume = htmlMediaHelper.getSavedVolume();
+            }
+
+            self._nextMediaElement = elem;
+            return elem;
+        };
+
+        self.getPreloadedItemId = function() {
+            return self._nextMediaElement?.dataset?.playlistItemId;
+        };
+
+        self.activatePreloadedTrack = function() {
+            const nextItem = self._nextPlayOptions?.item;
+            const nextMediaSource = self._nextPlayOptions?.mediaSource;
+
+            // Capture old element refs before swapping — teardown happens after new element starts.
+            const oldElement = self._mediaElement;
+            const oldHlsPlayer = self._hlsPlayer;
+
+            // Unbind events from old element now to prevent double-firing during overlap.
+            if (oldElement) {
+                unBindEvents(oldElement);
+            }
+
+            // Promote next track to current.
+            self._mediaElement = self._nextMediaElement;
+            self._hlsPlayer = self._nextHlsPlayer;
+            self._currentPlayOptions = self._nextPlayOptions;
+            self._currentSrc = self._nextPlayOptions?.url;
+
+            if (self._nextGainNode) {
+                self.gainNode = self._nextGainNode;
+                self.normalizationGain = self._nextNormalizationGain ?? 1;
+            } else {
+                self.gainNode = null;
+                self.normalizationGain = 1;
+            }
+
+            // Reset next track state.
+            self._nextMediaElement = null;
+            self._nextHlsPlayer = null;
+            self._nextPlayOptions = null;
+            self._nextGainNode = null;
+            self._nextNormalizationGain = null;
+
+            // Reset playback state for the new track.
+            self._started = false;
+            self._timeUpdated = false;
+            self._currentTime = null;
+
+            // Bind events to the new current element before starting.
+            bindEvents(self._mediaElement);
+
+            // Start the new element immediately — it was pre-baked so latency should be minimal.
+            console.debug('[PRELOAD-QUEUED-AUDIO][SWITCH] Playing next track', nextItem?.Name);
+            return self._mediaElement.play().then(() => {
+                console.debug('[PRELOAD-QUEUED-AUDIO][SWITCH] Reduced-gap transition complete', nextItem?.Name);
+                self._started = true;
+
+                // Tear down the old element only after the new one is audibly playing.
+                if (oldElement) {
+                    htmlMediaHelper.resetSrc(oldElement);
+                    oldElement.remove();
+                }
+                if (oldHlsPlayer) {
+                    htmlMediaHelper.destroyHlsPlayer({ _hlsPlayer: oldHlsPlayer });
+                }
+                console.debug('[PRELOAD-QUEUED-AUDIO][SWITCH] Old track element cleaned up');
+
+                // Resolve with the item/mediaSource so the PlaybackManager can wire up stream info.
+                return { item: nextItem, mediaSource: nextMediaSource };
+            });
+        };
+
+        // Public API for the PlaybackManager to discard a stale preloaded track.
+        self.clearNextSource = function() {
+            console.debug('[PRELOAD-QUEUED-AUDIO][CLEAR] Clearing next preloaded track');
+            if (self._nextMediaElement) {
+                htmlMediaHelper.resetSrc(self._nextMediaElement);
+                self._nextMediaElement.remove();
+                self._nextMediaElement = null;
+            }
+
+            if (self._nextHlsPlayer) {
+                htmlMediaHelper.destroyHlsPlayer({ _hlsPlayer: self._nextHlsPlayer });
+                self._nextHlsPlayer = null;
+            }
+
+            self._nextPlayOptions = null;
+            self._nextGainNode = null;
+            self._nextNormalizationGain = null;
+            self._isPreloadingNext = false;
+        };
     }
 
     currentSrc() {
@@ -530,7 +776,13 @@ class HtmlAudioPlayer {
     setVolume(val) {
         const mediaElement = this._mediaElement;
         if (mediaElement) {
-            mediaElement.volume = Math.pow(val / 100, 3);
+            const newVolume = Math.pow(val / 100, 3);
+            mediaElement.volume = newVolume;
+
+            if (this._nextMediaElement) {
+                // Keep the preloaded element in sync so volume is correct at switch time.
+                this._nextMediaElement.volume = newVolume;
+            }
         }
     }
 
@@ -569,6 +821,10 @@ class HtmlAudioPlayer {
             return !!document.AirplayElement;
         }
         return false;
+    }
+
+    isPreloadQueuedAudioEnabled() {
+        return this._preloadQueuedAudioEnabled;
     }
 
     setAirPlayEnabled(isEnabled) {

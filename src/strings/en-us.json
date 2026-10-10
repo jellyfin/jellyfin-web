@@ -756,6 +756,8 @@
     "LabelEnableLUFSScan": "Enable LUFS scan",
     "LabelEnableLUFSScanHelp": "Clients can normalize audio playback to get equal loudness across tracks. This will make library scans longer and take more resources.",
     "LabelEnablePlugin": "Enable plugin",
+    "LabelEnablePreloadQueuedAudio": "Enable preloading queued audio (experimental)",
+    "LabelEnablePreloadQueuedAudioHelp": "Experimental: preloads the next audio track before the current one ends to reduce silence between tracks.",
     "LabelEnableRealtimeMonitor": "Enable real time monitoring",
     "LabelEnableRealtimeMonitorHelp": "Changes to files will be processed immediately on supported file systems.",
     "LabelEncoderPreset": "Encoding preset",
