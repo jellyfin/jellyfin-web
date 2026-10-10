@@ -4124,6 +4124,7 @@ export class PlaybackManager {
 
             // Save the new playback rate in the browser session, to restore when playing a new video.
             sessionStorage.setItem('playbackRateSpeed', value);
+            Events.trigger(this, 'playbackratechange', [player, value]);
         }
     }
 

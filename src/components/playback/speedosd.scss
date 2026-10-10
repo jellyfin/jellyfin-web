@@ -1,0 +1,32 @@
+.speedOsd {
+    position: fixed;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45em 1.25em;
+    border-radius: 9999px;
+    background: rgba(28, 28, 28, 0.85);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    user-select: none;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+    transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.speedOsd-hidden {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.92);
+}
+
+.speedOsdText {
+    display: inline-block;
+    line-height: 1.2;
+}
