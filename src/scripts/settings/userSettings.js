@@ -315,6 +315,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the parental rating limit for global backdrops state.
+     * @param {boolean|undefined} [val] - Flag to enable the parental rating limit for global backdrops or undefined.
+     * @return {boolean} The parental rating limit for global backdrops state.
+     */
+    backdropParentalRatingLimit(val) {
+        if (val !== undefined) {
+            return this.set('backdropParentalRatingLimit', val.toString(), false);
+        }
+
+        return toBoolean(this.get('backdropParentalRatingLimit', false), true);
+    }
+
+    /**
      * Get or set 'disableCustomCss' state.
      * @param {boolean|undefined} [val] - Flag to enable 'disableCustomCss' or undefined.
      * @return {boolean} 'disableCustomCss' state.
@@ -737,6 +750,7 @@ export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentS
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
+export const backdropParentalRatingLimit = currentSettings.backdropParentalRatingLimit.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
 export const useEpisodeImagesInNextUpAndResume = currentSettings.useEpisodeImagesInNextUpAndResume.bind(currentSettings);
 export const language = currentSettings.language.bind(currentSettings);
