@@ -22,6 +22,7 @@ import RunningTasksWidget from '../components/widgets/RunningTasksWidget';
 import DevicesWidget from '../components/widgets/DevicesWidget';
 import { useStartTask } from '../features/tasks/api/useStartTask';
 import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
+import ActiveRecordingsWidget from '../components/widgets/ActiveRecordingsWidget';
 
 export const Component = () => {
     const { api } = useApi();
@@ -125,6 +126,7 @@ export const Component = () => {
                     </Grid>
                     <Grid item xs={12} md={6} lg={12} xl={3}>
                         <Stack spacing={3}>
+                            <ActiveRecordingsWidget />
                             <AlertsLogWidget />
                             <ServerPathWidget />
                         </Stack>
