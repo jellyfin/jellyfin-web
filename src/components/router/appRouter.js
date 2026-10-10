@@ -419,7 +419,8 @@ class AppRouter {
                 url = `#/movies?topParentId=${item.Id}&collectionType=${item.CollectionType}`;
 
                 if (options && options.section === 'latest') {
-                    url += '&tab=1';
+                    const sortBy = isModernLayout ? 'DateCreated,SortName' : 'DateCreated,SortName,ProductionYear';
+                    url += `&tab=0&SortBy=${sortBy}&SortOrder=Descending`;
                 }
 
                 return url;
