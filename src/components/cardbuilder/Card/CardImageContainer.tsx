@@ -41,6 +41,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
             {cardOptions.disableIndicators !== true && (
                 <Box className='indicators'>
                     {indicator.getMediaSourceIndicator()}
+                    {indicator.getStarRatingIndicator()}
 
                     <Box className='cardIndicators'>
                         {cardOptions.missingIndicator !== false

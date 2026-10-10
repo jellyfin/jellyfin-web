@@ -36,7 +36,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
     downloadWidth
 }) => {
     const { api } = useApi();
-    const { getMediaSourceIndicator, getProgressBar, getPlayedIndicator } = useIndicator(item);
+    const { getMediaSourceIndicator, getStarRatingIndicator, getProgressBar, getPlayedIndicator } = useIndicator(item);
     const imgInfo = listOptions.imageSource === 'channel' ?
         getChannelImageUrl(item, api, downloadWidth) :
         getImageUrl(item, api, downloadWidth);
@@ -63,6 +63,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
         'paper-icon-button-light listItemImageButton itemAction';
 
     const mediaSourceIndicator = getMediaSourceIndicator();
+    const starRatingIndicator = getStarRatingIndicator();
     const playedIndicator = getPlayedIndicator();
     const progressBar = getProgressBar();
     const playbackPositionTicks = item?.UserData?.PlaybackPositionTicks;
@@ -75,7 +76,7 @@ const ListImageContainer: FC<ListImageContainerProps> = ({
 
             <Media item={item} imgUrl={imgUrl} blurhash={blurhash ?? undefined} defaultCardImageIcon={defaultCardImageIcon} />
 
-            {disableIndicators !== true && mediaSourceIndicator}
+            {disableIndicators !== true && mediaSourceIndicator && starRatingIndicator}
 
             {playedIndicator && (
                 <Box className='indicators listItemIndicators'>

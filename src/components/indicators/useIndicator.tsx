@@ -11,6 +11,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import FolderIcon from '@mui/icons-material/Folder';
 import PhotoAlbumIcon from '@mui/icons-material/PhotoAlbum';
 import PhotoIcon from '@mui/icons-material/Photo';
+import StarIcon from '@mui/icons-material/Star';
 import classNames from 'classnames';
 
 import datetime from 'scripts/datetime';
@@ -73,6 +74,15 @@ const useIndicator = (item: ItemDto) => {
         const mediaSourceCount = item.MediaSourceCount ?? 0;
         if (mediaSourceCount > 1) {
             return <Box className='mediaSourceIndicator'>{mediaSourceCount}</Box>;
+        }
+
+        return null;
+    };
+
+    const getStarRatingIndicator = () => {
+        const itemCommunityRating = item.CommunityRating ?? 0;
+        if (itemCommunityRating > 1) {
+            return <Box className='starRatingIndicator'><StarIcon className='starIcon' />{itemCommunityRating.toFixed(1)}</Box>;
         }
 
         return null;
@@ -258,6 +268,7 @@ const useIndicator = (item: ItemDto) => {
         getProgress,
         getProgressBar,
         getMediaSourceIndicator,
+        getStarRatingIndicator,
         getMissingIndicator,
         getTimerIndicator,
         getTypeIndicator,
