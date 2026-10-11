@@ -32,7 +32,6 @@ import SimpleAlert from 'components/SimpleAlert';
 
 const CONFIG_KEY = 'encoding';
 
-// TODO: Use EncodingOptions directly once the SDK includes MaxTranscodingVideoBitrate
 type TranscodingOptions = EncodingOptions & {
     MaxTranscodingVideoBitrate?: number;
 };
