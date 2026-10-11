@@ -82,7 +82,7 @@ export const Component = () => {
         setMaxTranscodingVideoBitrate(e.target.value);
         setConfig({
             ...config,
-            MaxTranscodingVideoBitrate: Math.trunc(1e6 * parseFloat(e.target.value || '0')) || 0
+            MaxTranscodingVideoBitrate: Math.trunc(1e6 * Number.parseFloat(e.target.value || '0')) || 0
         });
     }, [ config ]);
 
