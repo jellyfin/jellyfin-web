@@ -9,7 +9,8 @@ import AccessContainer from 'components/dashboard/users/AccessContainer';
 import SectionTitleContainer from 'elements/SectionTitleContainer';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import Toast from 'apps/dashboard/components/Toast';
-
+import accessschedule from 'components/accessSchedule/accessSchedule';
+				
 interface AccessProps {
     userId: string;
 }
@@ -159,6 +160,42 @@ const Access = ({ userId }: AccessProps) => {
         loading.hide();
     }, [loadChannels, loadDevices, loadMediaFolders]);
 
+	const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
+		schedule = schedule || {};
+		
+			accessschedule.show({schedule: schedule})
+			.then(function (updatedSchedule) {
+				const schedules = getSchedulesFromPage() || [];
+
+				if (index == -1) {
+					index = schedules.length;
+				}
+
+				schedules[index] = updatedSchedule;
+				setAccessSchedules(schedules);
+			})
+			.catch(err => {
+				console.error('[userparentalcontrol] failed to load access schedule', err);
+			});
+	};
+
+	const getSchedulesFromPage = () => {
+		const page = element.current;
+		
+		if (!page) {
+            console.error('[userlibraryaccess] Unexpected null page reference');
+            return;
+        }
+		
+		return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
+			return {
+				DayOfWeek: elem.dataset.day,
+				StartHour: elem.dataset.start,
+				EndHour: elem.dataset.end
+			};
+		}) as AccessSchedule[];
+	};
+	
     const loadData = useCallback(() => {
         loading.show();
         const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
@@ -184,38 +221,6 @@ const Access = ({ userId }: AccessProps) => {
 
         loadData();
 
-        const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
-            schedule = schedule || {};
-            import('components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
-                accessschedule.show({
-                    schedule: schedule
-                }).then(function (updatedSchedule) {
-                    const schedules = getSchedulesFromPage();
-
-                    if (index == -1) {
-                        index = schedules.length;
-                    }
-
-                    schedules[index] = updatedSchedule;
-                    setAccessSchedules(schedules);
-                }).catch(() => {
-                    // access schedule closed
-                });
-            }).catch(err => {
-                console.error('[userparentalcontrol] failed to load access schedule', err);
-            });
-        };
-
-        const getSchedulesFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
-                return {
-                    DayOfWeek: elem.getAttribute('data-day'),
-                    StartHour: elem.getAttribute('data-start'),
-                    EndHour: elem.getAttribute('data-end')
-                };
-            }) as AccessSchedule[];
-        };
-		
         const onSubmit = (e: Event) => {
             if (!userId) {
                 console.error('[userlibraryaccess] missing user id');
