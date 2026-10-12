@@ -32,7 +32,6 @@
   "menuLinks": [],
   "servers": [],
   "plugins": [
-	"autoLogoutScreensaver/plugin",
     "playAccessValidation/plugin",
     "experimentalWarnings/plugin",
     "htmlAudioPlayer/plugin",
