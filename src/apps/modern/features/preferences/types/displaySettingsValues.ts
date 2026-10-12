@@ -3,6 +3,7 @@ export interface DisplaySettingsValues {
     dashboardTheme: string;
     dateTimeLocale: string;
     disableCustomCss: boolean;
+    displayCardRatings: boolean;
     displayMissingEpisodes: boolean;
     enableBlurHash: boolean;
     enableFasterAnimation: boolean;

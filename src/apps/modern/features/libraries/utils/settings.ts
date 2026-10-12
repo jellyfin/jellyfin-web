@@ -17,6 +17,8 @@ export const getDefaultSortBy = (viewType: LibraryTab): ItemSortBy[] => {
 export const getDefaultLibraryViewSettings = (viewType: LibraryTab): LibraryViewSettings => {
     return {
         ShowTitle: true,
+        ShowCommunityRating: false,
+        ShowCriticRating: false,
         ShowYear: true,
         ViewMode: viewType === LibraryTab.Songs ? ViewMode.ListView : ViewMode.GridView,
         ImageType: viewType === LibraryTab.Studios ? ImageType.Thumb : ImageType.Primary,

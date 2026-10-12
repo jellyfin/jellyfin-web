@@ -62,6 +62,8 @@ export interface LibraryViewSettings {
     ImageType: ImageType;
     ViewMode: ViewMode;
     ShowTitle: boolean;
+    ShowCommunityRating: boolean;
+    ShowCriticRating: boolean;
     ShowYear?: boolean;
     Filters?: Filters;
     Alphabet?: string | null;

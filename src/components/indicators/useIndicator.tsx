@@ -79,10 +79,41 @@ const useIndicator = (item: ItemDto) => {
         return null;
     };
 
-    const getStarRatingIndicator = () => {
+    const getCommunityRatingIndicator = () => {
         const itemCommunityRating = item.CommunityRating ?? 0;
-        if (itemCommunityRating > 1) {
-            return <Box className='starRatingIndicator'><StarIcon className='starIcon' />{itemCommunityRating.toFixed(1)}</Box>;
+        if (itemCommunityRating) {
+            const cssClass = classNames(
+                'ratingIndicator',
+                'communityRatingIndicator'
+            );
+            return (
+                <Box className={cssClass}>
+                    <StarIcon
+                        className='indicatorIcon'
+                        fontSize={'small'}
+                        sx={(theme) => ({
+                            color: theme.vars.palette.starIcon.main
+                        })}
+                    />
+                    {itemCommunityRating.toFixed(1)}
+                </Box>
+            );
+        }
+
+        return null;
+    };
+
+    const getCriticRatingIndicator = () => {
+        const criticRating = item.CriticRating;
+        if (criticRating) {
+            const cssClass = classNames(
+                'ratingIndicator',
+                'criticRatingIndicator',
+                criticRating >= 60 ?
+                    'mediaInfoCriticRatingFresh' :
+                    'mediaInfoCriticRatingRotten'
+            );
+            return <Box className={cssClass}>{criticRating}</Box>;
         }
 
         return null;
@@ -268,7 +299,8 @@ const useIndicator = (item: ItemDto) => {
         getProgress,
         getProgressBar,
         getMediaSourceIndicator,
-        getStarRatingIndicator,
+        getCommunityRatingIndicator,
+        getCriticRatingIndicator,
         getMissingIndicator,
         getTimerIndicator,
         getTypeIndicator,

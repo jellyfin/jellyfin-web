@@ -302,6 +302,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'DisplayCardRatings' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'DisplayCardRatings' or undefined.
+     * @return {boolean} 'DisplayCardRatings' state.
+     */
+    enableCardRatings(val) {
+        if (val !== undefined) {
+            return this.set('displayCardRatings', val.toString(), false);
+        }
+
+        return toBoolean(this.get('displayCardRatings', false), true);
+    }
+
+    /**
      * Get or set 'Backdrops' state.
      * @param {boolean|undefined} [val] - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
@@ -735,6 +748,7 @@ export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
+export const enableCardRatings = currentSettings.enableCardRatings.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);

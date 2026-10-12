@@ -112,6 +112,23 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
                     {globalize.translate('DisplayMissingEpisodesWithinSeasonsHelp')}
                 </FormHelperText>
             </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-show-card-ratings-description'
+                    control={
+                        <Checkbox
+                            checked={values.displayCardRatings}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('DisplayCardRatings')}
+                    name='displayCardRatings'
+                />
+                <FormHelperText id='display-settings-show-card-ratings-description'>
+                    {globalize.translate('DisplayCardRatingsHelp')}
+                </FormHelperText>
+            </FormControl>
         </Stack>
     );
 }
