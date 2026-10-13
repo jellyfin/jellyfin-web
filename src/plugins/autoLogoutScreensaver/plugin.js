@@ -3,39 +3,47 @@ import Dashboard from 'utils/dashboard';
 import globalize from 'lib/globalize';
 import { playbackManager } from 'components/playback/playbackmanager';
 
-export default function () {
-    const self = this;
+class AutoLogoutScreensaver {
+	constructor() {
+		this.name = 'AutoLogoutScreensaver';
+		this.version = '1.0';
+		this.type = PluginType.Screensaver;
+		this.id = 'autologoutscreensaver';
+		this.description = '';
+		this.supportsAnonymous = false;
+		this.hideOnClick = true;
+		this.hideOnMouse = true;
+		this.hideOnKey = true;
+		this._msg_;
+		this._msg_counter_;
+		this._counter_;
+		this.interval;
+	}
 
-    self.name = 'AutoLogoutScreensaver';
-    self.type = PluginType.Screensaver;
-    self.id = 'autologoutscreensaver';
-	self.supportsAnonymous = false;
-	self.hideOnClick = true;
-	self.hideOnMouse = true;
-	self.hideOnKey = true;
-	self._msg_;
-	self._msg_counter_;
-	self._counter_;
-
-	let interval;
-
-    self.stopInterval = function () {
-        if (interval) {
-            clearInterval(interval);
-            interval = null;
+    fadeOut(elem, iterations) {
+        const keyframes = [
+            { opacity: '1', offset: 0 },
+            { opacity: '0', offset: 1 }];
+        const timing = { duration: 900, iterations: iterations };
+        return elem.animate(keyframes, timing);
+    }
+	
+    stopInterval() {
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
         }
     }
 	
-	self.countdown = function () {
-		self._counter_ --;
-		switch(self._counter_) {	
+	countdown() {
+		this._msg_counter_.innerHTML = this._counter_;
+		switch(this._counter_) {	
 			case 0:
-				self.stopInterval();
-				const elem = document.querySelector('.autoLogoutScreenSaver');
-				self._msg_.innerHTML = '';
-				self._msg_counter_.innerHTML = '';
+				this.stopInterval();
 				Dashboard.logout();
-				setTimeout(() => {
+				
+				setTimeout(() => {	
+					const elem = document.querySelector('.autoLogoutScreenSaver');
 					if (elem)
 						elem.parentNode.removeChild(elem);
 					document.body.classList.remove('screensaver-noScroll');
@@ -43,46 +51,59 @@ export default function () {
 				break;
 				
 			default:
-				self._msg_counter_.innerHTML = self._counter_;
+				this.fadeOut(this._msg_counter_, 1);
+				this._counter_ --;
 		}
 	}
 
-    self.show = function () {
+    show() {	
 		// Stop any instance that could be running.
-		self.stopInterval();
+		this.stopInterval();
 		
+		// Dont go any further if a media is currently playing.
+		// Note: This may not be always a desirable behavior 
+		// which might sooner or later require a dedicated option in the display settings.
 		const isPlaying = playbackManager.isPlayingVideo() || playbackManager.isPlayingAudio();
 		if (isPlaying)
 			return Promise.resolve();
 		
-		self._counter_ = 4;
+		this._counter_ = 3;
 		
 		import('./style.scss').then(() => {
 			let elem = document.querySelector('.autoLogoutScreenSaver');
-
             if (!elem) {
                 elem = document.createElement('div');
                 elem.classList.add('autoLogoutScreenSaver');
                 document.body.appendChild(elem);
             }
 			
+			// Retrieve some palette related properties of the theme in use.
+			const ref = document.getElementsByClassName("backgroundContainer")[0];
+			const computedStyles = window.getComputedStyle(ref);
+			const fgcolor = computedStyles.getPropertyValue('--jf-palette-text-primary');
+			const bgcolor = computedStyles.getPropertyValue('--jf-palette-background-default');
+			// and apply them 
+			elem.style.backgroundColor = bgcolor;
+			elem.style.color = fgcolor;
+			
 			let elem2 = document.createElement('div');
 			elem2.classList.add('autoLogoutText');
 			elem.appendChild(elem2);
 			elem2.innerHTML = '<span id="autoLogoutMesg" class="autoLogoutMesg"></span>';
-			
-			self._msg_ = document.getElementById("autoLogoutMesg");
-			self._msg_.innerHTML = globalize.translate('SigningOut');
-			
 			elem2.innerHTML += '<br><span id="autoLogoutCounter" class="autoLogoutCounter"></span>';
-			self._msg_counter_ = document.getElementById("autoLogoutCounter");
-			self.countdown();
-			interval = setInterval(self.countdown, 1000);
+			
+			this._msg_ = document.getElementById("autoLogoutMesg");
+			this._msg_counter_ = document.getElementById("autoLogoutCounter");
+			
+			this._msg_.innerHTML = globalize.translate('SigningOut');
+			
+			this.countdown();
+			this.interval = setInterval(this.countdown.bind(this), 1000);
         });
     };
 	
-    self.hide = function () {
-        self.stopInterval();
+    hide() {
+        this.stopInterval();
 		const elem = document.querySelector('.autoLogoutScreenSaver');
 		if (elem) {
             return new Promise((resolve) => {
@@ -93,3 +114,5 @@ export default function () {
         return Promise.resolve();
     };
 }
+
+export default AutoLogoutScreensaver;
