@@ -244,9 +244,42 @@ function supportsVc1(videoTestElement) {
     return browser.tizen || browser.web0s || browser.edgeUwp || videoTestElement.canPlayType('video/mp4; codecs="vc-1"').replace(/no/, '');
 }
 
+/**
+ * Whether the display can present HDR, or null when the browser cannot answer.
+ *
+ * `(dynamic-range: standard)` matches on any display once the feature is supported, which is
+ * what separates "this display is SDR" from "this browser does not know".
+ */
+function displaySupportsHdr() {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+        return null;
+    }
+
+    if (window.matchMedia('(dynamic-range: high)').matches) {
+        return true;
+    }
+
+    if (window.matchMedia('(dynamic-range: standard)').matches) {
+        return false;
+    }
+
+    return null;
+}
+
 function supportsHdr10(options) {
+    if (options.supportsHdr10 !== undefined && options.supportsHdr10 !== null) {
+        return options.supportsHdr10;
+    }
+
+    // A veto only, never a grant. The server keeps HDR through a transcode when the client
+    // advertises it, so an overstated claim now shows as a washed out picture. Browsers that
+    // cannot answer fall through to the allowlist, leaving TV platforms unchanged.
+    if (displaySupportsHdr() === false) {
+        return false;
+    }
+
     // eslint-disable-next-line no-constant-binary-expression, sonarjs/no-redundant-boolean
-    return options.supportsHdr10 ?? (false
+    return (false
             || browser.vidaa
             || browser.tizen
             || browser.web0s
