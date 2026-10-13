@@ -14,10 +14,10 @@ class AutoLogoutScreensaver {
 		this.hideOnClick = true;
 		this.hideOnMouse = true;
 		this.hideOnKey = true;
-		this._msg_;
-		this._msg_counter_;
-		this._counter_;
-		this.interval;
+		this._msg_ = "";
+		this._msg_counter_ = "";
+		this._counter_ = "";
+		this.interval = 0;
 	}
 
     fadeOut(elem, iterations) {
@@ -37,22 +37,19 @@ class AutoLogoutScreensaver {
 	
 	countdown() {
 		this._msg_counter_.innerHTML = this._counter_;
-		switch(this._counter_) {	
-			case 0:
-				this.stopInterval();
-				Dashboard.logout();
-				
-				setTimeout(() => {	
-					const elem = document.querySelector('.autoLogoutScreenSaver');
-					if (elem)
-						elem.parentNode.removeChild(elem);
-					document.body.classList.remove('screensaver-noScroll');
-				}, 1000);
-				break;
-				
-			default:
-				this.fadeOut(this._msg_counter_, 1);
-				this._counter_ --;
+		if (!this._counter_) {	
+			this.stopInterval();
+			Dashboard.logout();
+			
+			setTimeout(() => {	
+				const elem = document.querySelector('.autoLogoutScreenSaver');
+				if (elem)
+					elem.remove();
+				document.body.classList.remove('screensaver-noScroll');
+			}, 1000);
+		} else {
+			this.fadeOut(this._msg_counter_, 1);
+			this._counter_ --;
 		}
 	}
 
@@ -107,7 +104,7 @@ class AutoLogoutScreensaver {
 		const elem = document.querySelector('.autoLogoutScreenSaver');
 		if (elem) {
             return new Promise((resolve) => {
-				elem.parentNode.removeChild(elem);
+				elem.remove();
 				resolve();
             });
         }
