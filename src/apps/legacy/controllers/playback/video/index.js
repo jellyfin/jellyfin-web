@@ -1316,17 +1316,19 @@ export default function (view) {
                     showOsd(btnFastForward);
                 }
                 break;
+            case '<':
             case 'Comma':
                 e.preventDefault();
-                if (!e.shiftKey) {
+                if (!e.shiftKey && key !== '<') {
                     playbackManager.seekFrames(-1, currentPlayer);
                 } else {
                     playbackManager.decreasePlaybackRate(currentPlayer);
                 }
                 break;
+            case '>':
             case 'Period':
                 e.preventDefault();
-                if (!e.shiftKey) {
+                if (!e.shiftKey && key !== '>') {
                     playbackManager.seekFrames(1, currentPlayer);
                 } else {
                     playbackManager.increasePlaybackRate(currentPlayer);
