@@ -16,6 +16,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import SearchIcon from '@mui/icons-material/Search';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -211,6 +212,29 @@ export const Component = () => {
                                 </Alert>
                             )}
 
+                            <Button
+                                sx={{ alignSelf: 'flex-start' }}
+                                startIcon={<AutoFixHighIcon />}
+                                variant='outlined'
+                                onClick={onUseRecommendedSettings}
+                                loading={isLoadingRecommendation}
+                                loadingPosition='start'
+                            >
+                                {globalize.translate('ButtonUseRecommendedSettings')}
+                            </Button>
+
+                            {isRecommendationFound === true && (
+                                <Alert severity='info'>
+                                    {globalize.translate('RecommendedHardwareAccelerationApplied')}
+                                </Alert>
+                            )}
+
+                            {isRecommendationFound === false && (
+                                <Alert severity='warning'>
+                                    {globalize.translate('RecommendedHardwareAccelerationNotFound')}
+                                </Alert>
+                            )}
+
                             <TextField
                                 name='HardwareAccelerationType'
                                 select
@@ -232,28 +256,6 @@ export const Component = () => {
                                 <MenuItem value='videotoolbox'>Apple VideoToolBox</MenuItem>
                                 <MenuItem value='v4l2m2m'>Video4Linux2 (V4L2)</MenuItem>
                             </TextField>
-
-                            <Box>
-                                <Button
-                                    variant='outlined'
-                                    onClick={onUseRecommendedSettings}
-                                    disabled={isLoadingRecommendation}
-                                >
-                                    {globalize.translate('ButtonUseRecommendedSettings')}
-                                </Button>
-                            </Box>
-
-                            {isRecommendationFound === true && (
-                                <Alert severity='info'>
-                                    {globalize.translate('RecommendedHardwareAccelerationApplied')}
-                                </Alert>
-                            )}
-
-                            {isRecommendationFound === false && (
-                                <Alert severity='warning'>
-                                    {globalize.translate('RecommendedHardwareAccelerationNotFound')}
-                                </Alert>
-                            )}
 
                             {hardwareAccelType === 'vaapi' && (
                                 <TextField

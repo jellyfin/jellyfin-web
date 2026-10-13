@@ -1504,7 +1504,7 @@
     "RecommendationBecauseYouWatched": "Because you watched {0}",
     "RecommendationDirectedBy": "Directed by {0}",
     "RecommendationStarring": "Starring {0}",
-    "RecommendedHardwareAccelerationApplied": "The recommended hardware acceleration settings for this server have been filled in. Save to apply them.",
+    "RecommendedHardwareAccelerationApplied": "The hardware acceleration, hardware decoding, hardware encoding and tone-mapping settings recommended for this server have been filled in. Save to apply them.",
     "RecommendedHardwareAccelerationNotFound": "No supported hardware acceleration was found on this server.",
     "Record": "Record",
     "RecordingCancelled": "Recording cancelled.",
