@@ -757,6 +757,8 @@
     "LabelEnableLUFSScanHelp": "Clients can normalize audio playback to get equal loudness across tracks. This will make library scans longer and take more resources.",
     "LabelEnablePlugin": "Enable plugin",
     "LabelEnableRealtimeMonitor": "Enable real time monitoring",
+    "LabelRemoveMissingItemsAutomatically": "Remove missing items automatically",
+    "LabelRemoveMissingItemsAutomaticallyHelp": "During library scans, remove missing items unless the library root is unreachable; turn off to keep missing items.",
     "LabelEnableRealtimeMonitorHelp": "Changes to files will be processed immediately on supported file systems.",
     "LabelEncoderPreset": "Encoding preset",
     "LabelEndDate": "End date",
