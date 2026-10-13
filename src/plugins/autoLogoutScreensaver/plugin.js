@@ -17,7 +17,7 @@ class AutoLogoutScreensaver {
 		this._msg_ = "";
 		this._msg_counter_ = "";
 		this._counter_ = "";
-		this.interval = 0;
+		this.interval = null;
 	}
 
     fadeOut(elem, iterations) {
