@@ -231,25 +231,12 @@ function updateBubble(range, percent, value, bubble) {
 }
 
 function setMarker(range, valueMarker, marker, valueProgress) {
-    requestAnimationFrame(function () {
-        const bubbleTrackRect = range.sliderBubbleTrack.getBoundingClientRect();
-        const markerRect = marker.getBoundingClientRect();
+    marker.style.left = `${valueMarker}%`;
 
-        if (!bubbleTrackRect.width || !markerRect.width) {
-            // width is not set, most probably because the OSD is currently hidden
-            return;
-        }
+    const watched = valueProgress >= valueMarker;
 
-        marker.style.left = `calc(${valueMarker}% - ${markerRect.width / 2}px)`;
-
-        if (valueProgress >= valueMarker) {
-            marker.classList.remove('unwatched');
-            marker.classList.add('watched');
-        } else {
-            marker.classList.add('unwatched');
-            marker.classList.remove('watched');
-        }
-    });
+    marker.classList.toggle('watched', watched);
+    marker.classList.toggle('unwatched', !watched);
 }
 
 function updateMarkers(range, currentValue) {
