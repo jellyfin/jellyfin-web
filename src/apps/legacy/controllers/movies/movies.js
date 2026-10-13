@@ -306,6 +306,14 @@ export default function (view, params, tabContent, options) {
 
     query = userSettings.loadQuerySettings(savedQueryKey, query);
 
+    // url sorting should override saved settings
+    if (params.SortBy && params.SortOrder) {
+        query.SortBy = params.SortBy;
+        query.SortOrder = params.SortOrder;
+        query.StartIndex = 0;
+        userSettings.saveQuerySettings(savedQueryKey, query);
+    }
+
     this.showFilterMenu = function () {
         import('components/filterdialog/filterdialog').then(({ default: FilterDialog }) => {
             const filterDialog = new FilterDialog({
