@@ -64,6 +64,19 @@ function onAddLibrary(e) {
 
     const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions.PathInfos = pathInfos;
+
+    if (currentOptions.onCreate) {
+        // The callback returns false to reject (e.g. a duplicate name), keeping the dialog open.
+        const accepted = currentOptions.onCreate({ Name: name, CollectionType: type, LibraryOptions: libraryOptions });
+        isCreating = false;
+        loading.hide();
+        if (accepted !== false) {
+            hasChanges = true;
+            dialogHelper.close(dlg);
+        }
+        return;
+    }
+
     ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
         hasChanges = true;
         isCreating = false;
