@@ -898,7 +898,7 @@ function buildCard(index, item, apiClient, options) {
 
         if (userSettings.enableCardRatings()) {
             if (item.CommunityRating) {
-                indicatorsHtml += '<div class="ratingIndicator communityRatingIndicator"><span class="material-icons starIcon star indicatorIcon" aria-hidden="true"></span>' + item.CommunityRating.toFixed(1) + '</div>';
+                indicatorsHtml += '<div class="ratingIndicator communityRatingIndicator"><span class="material-icons starIcon star ratingIcon" aria-hidden="true"></span>' + item.CommunityRating.toFixed(1) + '</div>';
             }
 
             if (item.CriticRating) {

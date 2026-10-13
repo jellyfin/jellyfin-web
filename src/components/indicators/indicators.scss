@@ -128,7 +128,7 @@
 
     margin: 0 0.25em;
 
-    .indicatorIcon {
+    .ratingIcon {
         [dir="ltr"] & {
             margin-right: 0.1em;
         }
@@ -141,7 +141,6 @@
     .starIcon {
         color: var(--jf-palette-starIcon-main);
         font-size: 1.25rem;
-        margin-right: 0.1em;
     }
 
     &.communityRatingIndicator {
