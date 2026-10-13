@@ -58,6 +58,8 @@ export const Component = () => {
     const submit = useSubmit();
     const isSubmitting = navigation.state === 'submitting';
     const [ isAlertOpen, setIsAlertOpen ] = useState(false);
+    const [ isLoadingRecommendation, setIsLoadingRecommendation ] = useState(false);
+    const [ isRecommendationFound, setIsRecommendationFound ] = useState<boolean | null>(null);
 
     useEffect(() => {
         if (initialConfig && config == null) {
@@ -97,6 +99,32 @@ export const Component = () => {
             }
         }
     }, [ config ]);
+
+    const onUseRecommendedSettings = useCallback(() => {
+        const api = ServerConnections.getApi();
+        if (!api) return;
+
+        setIsLoadingRecommendation(true);
+        setIsRecommendationFound(null);
+
+        // The server leaves the saved settings alone, they are only filled in here
+        api.axiosInstance.get<EncodingOptions>(`${api.basePath}/System/Configuration/Encoding/Recommended`, {
+            headers: { Authorization: api.authorizationHeader }
+        }).then(({ data }) => {
+            setConfig(current => ({
+                ...current,
+                HardwareAccelerationType: data.HardwareAccelerationType,
+                HardwareDecodingCodecs: data.HardwareDecodingCodecs,
+                EnableHardwareEncoding: data.EnableHardwareEncoding,
+                EnableVideoToolboxTonemapping: data.EnableVideoToolboxTonemapping
+            }));
+            setIsRecommendationFound(true);
+        }).catch(() => {
+            setIsRecommendationFound(false);
+        }).finally(() => {
+            setIsLoadingRecommendation(false);
+        });
+    }, []);
 
     const onAlertClose = useCallback(() => {
         setIsAlertOpen(false);
@@ -204,6 +232,28 @@ export const Component = () => {
                                 <MenuItem value='videotoolbox'>Apple VideoToolBox</MenuItem>
                                 <MenuItem value='v4l2m2m'>Video4Linux2 (V4L2)</MenuItem>
                             </TextField>
+
+                            <Box>
+                                <Button
+                                    variant='outlined'
+                                    onClick={onUseRecommendedSettings}
+                                    disabled={isLoadingRecommendation}
+                                >
+                                    {globalize.translate('ButtonUseRecommendedSettings')}
+                                </Button>
+                            </Box>
+
+                            {isRecommendationFound === true && (
+                                <Alert severity='info'>
+                                    {globalize.translate('RecommendedHardwareAccelerationApplied')}
+                                </Alert>
+                            )}
+
+                            {isRecommendationFound === false && (
+                                <Alert severity='warning'>
+                                    {globalize.translate('RecommendedHardwareAccelerationNotFound')}
+                                </Alert>
+                            )}
 
                             {hardwareAccelType === 'vaapi' && (
                                 <TextField
