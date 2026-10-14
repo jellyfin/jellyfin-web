@@ -286,10 +286,15 @@ function showIdentificationForm(page, item) {
     const apiClient = getApiClient();
 
     apiClient.getJSON(apiClient.getUrl(`Items/${item.Id}/ExternalIdInfos`)).then(idList => {
-        let html = '';
-
+        const uniqueIds = new Map();
         for (let i = 0, length = idList.length; i < length; i++) {
             const idInfo = idList[i];
+            uniqueIds.set(idInfo.Key, idInfo);
+        }
+
+        let html = '';
+
+        for (const idInfo of uniqueIds.values()) {
 
             const id = `txtLookup${idInfo.Key}`;
 
