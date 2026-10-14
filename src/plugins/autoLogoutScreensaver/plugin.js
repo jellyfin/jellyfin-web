@@ -1,7 +1,6 @@
 import { PluginType } from 'constants/pluginType';
 import Dashboard from 'utils/dashboard';
 import globalize from 'lib/globalize';
-import { playbackManager } from 'components/playback/playbackmanager';
 
 class AutoLogoutScreensaver {
 	constructor() {
