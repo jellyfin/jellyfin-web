@@ -235,8 +235,7 @@ class PlayQueueManager {
 
     getNextItemInfo() {
         let newIndex;
-        const playlist = this.getPlaylist();
-        const playlistLength = playlist.length;
+        const playlistLength = this._playlist.length;
 
         switch (this.getRepeatMode()) {
             case 'RepeatOne':
@@ -245,6 +244,19 @@ class PlayQueueManager {
             case 'RepeatAll':
                 newIndex = this.getCurrentPlaylistIndex() + 1;
                 if (newIndex >= playlistLength) {
+                    if (this._shuffleMode === 'Shuffle' && playlistLength > 1 && this._sortedPlaylist.length > 0) {
+                        this._playlist = [];
+                        for (const item of this._sortedPlaylist) {
+                            this._playlist.push(item);
+                        }
+
+                        for (let i = this._playlist.length - 1; i > 0; i--) {
+                            const j = randomInt(0, i - 1);
+                            const temp = this._playlist[i];
+                            this._playlist[i] = this._playlist[j];
+                            this._playlist[j] = temp;
+                        }
+                    }
                     newIndex = 0;
                 }
                 break;
@@ -253,11 +265,11 @@ class PlayQueueManager {
                 break;
         }
 
-        if (newIndex < 0 || newIndex >= playlistLength) {
+        if (newIndex < 0 || newIndex >= this._playlist.length) {
             return null;
         }
 
-        const item = playlist[newIndex];
+        const item = this._playlist[newIndex];
 
         if (!item) {
             return null;
