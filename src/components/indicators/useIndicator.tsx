@@ -89,7 +89,7 @@ const useIndicator = (item: ItemDto) => {
             return (
                 <Box className={cssClass}>
                     <StarIcon
-                        className='indicatorIcon'
+                        className='ratingIcon'
                         fontSize={'small'}
                         sx={(theme) => ({
                             color: theme.vars.palette.starIcon.main
