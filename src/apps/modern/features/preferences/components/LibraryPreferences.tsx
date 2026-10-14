@@ -115,18 +115,35 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
 
             <FormControl fullWidth>
                 <FormControlLabel
-                    aria-describedby='display-settings-show-card-ratings-description'
+                    aria-describedby='display-settings-show-card-community-ratings-description'
                     control={
                         <Checkbox
-                            checked={values.displayCardRatings}
+                            checked={values.displayCardCommunityRatings}
                             onChange={onChange}
                         />
                     }
-                    label={globalize.translate('DisplayCardRatings')}
-                    name='displayCardRatings'
+                    label={globalize.translate('DisplayCardCommunityRatings')}
+                    name='displayCardCommunityRatings'
                 />
-                <FormHelperText id='display-settings-show-card-ratings-description'>
-                    {globalize.translate('DisplayCardRatingsHelp')}
+                <FormHelperText id='display-settings-show-card-community-ratings-description'>
+                    {globalize.translate('DisplayCardCommunityRatingsHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
+                    aria-describedby='display-settings-show-card-critic-ratings-description'
+                    control={
+                        <Checkbox
+                            checked={values.displayCardCriticRatings}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('DisplayCardCriticRatings')}
+                    name='displayCardCriticRatings'
+                />
+                <FormHelperText id='display-settings-show-card-critic-ratings-description'>
+                    {globalize.translate('DisplayCardCriticRatingsHelp')}
                 </FormHelperText>
             </FormControl>
         </Stack>

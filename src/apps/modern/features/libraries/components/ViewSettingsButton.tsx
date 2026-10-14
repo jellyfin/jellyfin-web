@@ -216,32 +216,6 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                                     label={globalize.translate('ShowTitle')}
                                 />
                             </MenuItem>
-                            <MenuItem>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            size='small'
-                                            checked={libraryViewSettings.ShowCommunityRating}
-                                            onChange={handleChange}
-                                            name='ShowCommunityRating'
-                                        />
-                                    }
-                                    label={globalize.translate('ShowCommunityRating')}
-                                />
-                            </MenuItem>
-                            <MenuItem>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            size='small'
-                                            checked={libraryViewSettings.ShowCriticRating}
-                                            onChange={handleChange}
-                                            name='ShowCriticRating'
-                                        />
-                                    }
-                                    label={globalize.translate('ShowCriticRating')}
-                                />
-                            </MenuItem>
                             {isImageTypeVisible && (
                                 <MenuItem>
                                     <FormControlLabel

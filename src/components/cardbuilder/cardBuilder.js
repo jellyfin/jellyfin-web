@@ -896,15 +896,13 @@ function buildCard(index, item, apiClient, options) {
     if (options.disableIndicators !== true) {
         let indicatorsHtml = '';
 
-        if (userSettings.enableCardRatings()) {
-            if (item.CommunityRating) {
-                indicatorsHtml += '<div class="ratingIndicator communityRatingIndicator"><span class="material-icons starIcon star indicatorIcon" aria-hidden="true"></span>' + item.CommunityRating.toFixed(1) + '</div>';
-            }
+        if (userSettings.enableCardCommunityRatings() && item.CommunityRating) {
+            indicatorsHtml += '<div class="ratingIndicator communityRatingIndicator"><span class="material-icons starIcon star indicatorIcon" aria-hidden="true"></span>' + item.CommunityRating.toFixed(1) + '</div>';
+        }
 
-            if (item.CriticRating) {
-                const criticRatingIcon = item.CriticRating >= 60 ? 'mediaInfoCriticRatingFresh' : 'mediaInfoCriticRatingRotten';
-                indicatorsHtml += '<div class="ratingIndicator criticRatingIndicator ' + criticRatingIcon + '">' + item.CriticRating + '</div>';
-            }
+        if (userSettings.enableCardCriticRatings() && item.CriticRating) {
+            const criticRatingIcon = item.CriticRating >= 60 ? 'mediaInfoCriticRatingFresh' : 'mediaInfoCriticRatingRotten';
+            indicatorsHtml += '<div class="ratingIndicator criticRatingIndicator ' + criticRatingIcon + '">' + item.CriticRating + '</div>';
         }
 
         if (options.missingIndicator !== false) {

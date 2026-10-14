@@ -101,8 +101,6 @@ const ItemsView: FC = () => {
 
         const cardOptions: CardOptions = {
             shape,
-            ShowCommunityRating: libraryViewSettings.ShowCommunityRating,
-            ShowCriticRating: libraryViewSettings.ShowCriticRating,
             showTitle: libraryViewSettings.ShowTitle,
             showYear: libraryViewSettings.ShowYear,
             cardLayout: libraryViewSettings.CardLayout,
@@ -149,8 +147,6 @@ const ItemsView: FC = () => {
         return cardOptions;
     }, [
         __legacyApiClient__,
-        libraryViewSettings.ShowCommunityRating,
-        libraryViewSettings.ShowCriticRating,
         libraryViewSettings.ShowTitle,
         libraryViewSettings.ImageType,
         libraryViewSettings.ShowYear,

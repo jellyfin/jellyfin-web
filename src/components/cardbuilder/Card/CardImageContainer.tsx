@@ -5,6 +5,7 @@ import useIndicator from 'components/indicators/useIndicator';
 import RefreshIndicator from 'elements/emby-itemrefreshindicator/RefreshIndicator';
 import Media from '../../common/Media';
 import CardInnerFooter from './CardInnerFooter';
+import * as userSettings from 'scripts/settings/userSettings';
 
 import { ItemKind } from 'types/base/models/item-kind';
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -43,10 +44,10 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                     {indicator.getMediaSourceIndicator()}
 
                     <Box className='cardIndicators'>
-                        {cardOptions.ShowCommunityRating !== false
+                        {userSettings.enableCardCommunityRatings()
                             && indicator.getCommunityRatingIndicator()}
-                            
-                        {cardOptions.ShowCriticRating !== false
+
+                        {userSettings.enableCardCriticRatings()
                             && indicator.getCriticRatingIndicator()}
 
                         {cardOptions.missingIndicator !== false

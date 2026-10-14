@@ -19,7 +19,6 @@ import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import datetime from '../../scripts/datetime';
 import cardBuilder from '../cardbuilder/cardBuilder';
-import * as userSettings from '../../scripts/settings/userSettings';
 
 import './listview.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
@@ -301,17 +300,6 @@ export function getListViewHtml(options) {
             }
 
             let indicatorsHtml = '';
-
-            if (userSettings.enableCardRatings()) {
-                if (item.CommunityRating) {
-                    indicatorsHtml += '<div class="ratingIndicator communityRatingIndicator"><span class="material-icons starIcon star" aria-hidden="true"></span>' + item.CommunityRating.toFixed(1) + '</div>';
-                }
-
-                if (item.CriticRating) {
-                    const criticRatingIcon = item.CriticRating >= 60 ? 'mediaInfoCriticRatingFresh' : 'mediaInfoCriticRatingRotten';
-                    indicatorsHtml += '<div class="ratingIndicator criticRatingIndicator ' + criticRatingIcon + '">' + item.CriticRating + '</div>';
-                }
-            }
 
             indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
 
