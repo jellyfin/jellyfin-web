@@ -4,7 +4,7 @@
 	text-align: center;
 	align-items: center;
 	justify-content: center;
-	background: rgb(10, 10, 10);
+	background: #000;
 	color: #fff;
 	z-index: 10000;
 	position: fixed;
@@ -16,18 +16,14 @@
 }
 
 .autoLogoutText {
-	top: 50%;
-	left:50%;
 }
 
 .autoLogoutMesg {
-	position: relative;
 	font-size: 2rem;
 	font-weight: bold;
 }
 
 .autoLogoutCounter {	
-	position: relative;
 	font-size: 3rem;
 	font-weight: bold;
 }
