@@ -121,7 +121,7 @@ export function getLibraryIcon(library: CollectionType | string | null | undefin
         case 'channels':
             return 'videocam';
         case undefined:
-            return 'quiz';
+            return 'ondemand_video';
         default:
             return 'folder';
     }

@@ -20,7 +20,6 @@ const StarIcons: FC<StarIconsProps> = ({ className, communityRating }) => {
         <Box className={cssClass}>
             <StarIcon
                 fontSize={'small'}
-                // eslint-disable-next-line react/jsx-no-bind
                 sx={(theme) => ({
                     color: theme.vars.palette.starIcon.main
                 })}

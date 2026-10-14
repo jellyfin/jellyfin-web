@@ -3,6 +3,8 @@
  */
 export enum EventType {
     HEADER_RENDERED = 'HEADER_RENDERED',
+    /** The user's language has changed. */
+    LANGUAGE_CHANGE = 'LANGUAGE_CHANGE',
     /** Items have been updated/deleted and the UI should refresh. */
     REFRESH_NEEDED = 'REFRESH_NEEDED',
     SET_TABS = 'SET_TABS',

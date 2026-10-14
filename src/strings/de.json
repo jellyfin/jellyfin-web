@@ -1886,7 +1886,7 @@
     "ResumeLoadError": "Fortsetzen-Einstellungen konnten nicht geladen werden",
     "StreamingLoadError": "Streaming-Seiteneinstellungen konnten nicht geladen werden",
     "Unwatch": "Ungesehen",
-    "Watch": "Gesehen",
+    "Watch": "Anschauen",
     "TrickplayLoadError": "Trickplay-Einstellungen konnten nicht geladen werden",
     "LabelExternalServerUri": "Externe URI",
     "LabelExternalServerUriHelp": "Veröffentlichte Server-URI für externen Zugriff.",
@@ -1944,5 +1944,6 @@
     "Screenplay": "Drehbuch",
     "HlsAudioSeekStrategy": "Die verwendete Methode zum Vor- und Zurückspulen in HLS Streams.",
     "LabelHlsAudioSeekStrategy": "Audio Vorspul-Methode.",
-    "LabelBitmapSubtitleAspectMode": "Bitmap Untertitel Seitenverhältnismodus"
+    "LabelBitmapSubtitleAspectMode": "Bitmap Untertitel Seitenverhältnismodus",
+    "MessageItemMetadataLocked": "Die Metadaten des Elements sind gesperrt. Entsperre sie, bevor die Identifitätsfunktion genutzt wird."
 }

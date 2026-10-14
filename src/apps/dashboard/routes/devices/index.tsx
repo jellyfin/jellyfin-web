@@ -221,7 +221,6 @@ export const Component = () => {
                 >
                     <Tooltip title={globalize.translate('Edit')}>
                         <IconButton
-                            // eslint-disable-next-line react/jsx-no-bind
                             onClick={() => table.setEditingRow(row)}
                         >
                             <Edit />

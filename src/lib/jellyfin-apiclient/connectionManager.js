@@ -6,28 +6,15 @@ import { compareVersions } from '@jellyfin/sdk/lib/utils/versioning';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
+import { toApi, updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
 import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
-import { safeDecodeURIComponent } from 'utils/url';
+import getServerAddress from './utils/getServerAddress';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;
-
-function getServerAddress(server, mode) {
-    switch (mode) {
-        case ConnectionMode.Local:
-            return server.LocalAddress;
-        case ConnectionMode.Manual:
-            return server.ManualAddress;
-        case ConnectionMode.Remote:
-            return server.RemoteAddress;
-        default:
-            return server.ManualAddress || server.LocalAddress || server.RemoteAddress;
-    }
-}
 
 function updateServerInfo(server, systemInfo) {
     server.Name = systemInfo.ServerName;
@@ -167,7 +154,7 @@ export default class ConnectionManager {
 
             const server = servers[0];
 
-            return self._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+            return self._getOrAddApiClient(server, getServerAddress(server));
         };
 
         function onAuthenticated(apiClient, result, options, saveCredentials) {
@@ -199,18 +186,7 @@ export default class ConnectionManager {
             apiClient.setAuthenticationInfo(result.AccessToken, result.User.Id);
 
             // Update SDK Api instance
-            apiClient._sdk?.update({
-                basePath: apiClient.serverAddress(),
-                accessToken: apiClient.accessToken(),
-                clientInfo: {
-                    name: safeDecodeURIComponent(apiClient.appName()),
-                    version: safeDecodeURIComponent(apiClient.appVersion())
-                },
-                deviceInfo: {
-                    name: safeDecodeURIComponent(apiClient.deviceName()),
-                    id: safeDecodeURIComponent(apiClient.deviceId())
-                }
-            });
+            updateApiClientSdk(apiClient);
 
             afterConnected(apiClient, options);
 
@@ -633,18 +609,7 @@ export default class ConnectionManager {
             result.ApiClient.setAuthenticationInfo(server.AccessToken, server.UserId);
 
             // Update SDK Api instance
-            result.ApiClient._sdk?.update({
-                basePath: result.ApiClient.serverAddress(),
-                accessToken: result.ApiClient.accessToken(),
-                clientInfo: {
-                    name: safeDecodeURIComponent(result.ApiClient.appName()),
-                    version: safeDecodeURIComponent(result.ApiClient.appVersion())
-                },
-                deviceInfo: {
-                    name: safeDecodeURIComponent(result.ApiClient.deviceName()),
-                    id: safeDecodeURIComponent(result.ApiClient.deviceId())
-                }
-            });
+            updateApiClientSdk(result.ApiClient);
 
             const resolveActions = function () {
                 resolve(result);
@@ -783,7 +748,7 @@ export default class ConnectionManager {
         for (let i = 0, length = servers.length; i < length; i++) {
             const server = servers[i];
             if (server.Id) {
-                this._getOrAddApiClient(server, getServerAddress(server, server.LastConnectionMode));
+                this._getOrAddApiClient(server, getServerAddress(server));
             }
         }
 

@@ -27,7 +27,8 @@ export default class PhotoPlayer {
                         interactive: true,
                         // playbackManager.shuffle has no options. So treat 'shuffle' as a 'play' action
                         autoplay: {
-                            delay: userSettings.slideshowInterval() * 1000
+                            delay: userSettings.slideshowInterval() * 1000,
+                            enabled: !!(options.autoplay || options.shuffle)
                         },
                         user: result,
                         onClose: () => screenSaverManager.unblock()

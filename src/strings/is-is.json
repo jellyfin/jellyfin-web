@@ -1941,5 +1941,9 @@
     "LabelPlayerSizes": "Stærð spilara",
     "LabelPlaybackQuality": "Slepptir / Skemmdir rammar",
     "AudioLanguages": "Tungumál hljóðs",
-    "SubtitleLanguages": "Tungumál texta"
+    "SubtitleLanguages": "Tungumál texta",
+    "MessageItemMetadataLocked": "Lýsigögn þessa atriðis eru læst. Opnaðu þau áður en þú notar aðgerðina Bera kennsl á.",
+    "HlsAudioSeekStrategy": "Aðferðin sem notuð er þegar leitað er í HLS-straumum.",
+    "LabelHlsAudioSeekStrategy": "Leitaraðferð fyrir hljóð.",
+    "MessageForgotPasswordRedirect": "Þér hefur verið vísað til utanaðkomandi þjónustuveitu til að endurstilla lykilorðið."
 }

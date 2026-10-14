@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'jellyfin-apiclient' {
+    import type { Api } from '@jellyfin/sdk';
     import type {
         AllThemeMediaResult,
         AuthenticationResult,
@@ -70,6 +71,8 @@ declare module 'jellyfin-apiclient' {
     import type { ConnectionState } from 'lib/jellyfin-apiclient';
 
     class ApiClient {
+        _sdk?: Api;
+
         constructor(serverAddress: string, appName: string, appVersion: string, deviceName: string, deviceId: string);
 
         accessToken(): string;
