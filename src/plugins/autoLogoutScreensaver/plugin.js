@@ -57,13 +57,6 @@ class AutoLogoutScreensaver {
 		// Stop any instance that could be running.
 		this.stopInterval();
 		
-		// Dont go any further if a media is currently playing.
-		// Note: This may not be always a desirable behavior 
-		// which might sooner or later require a dedicated option in the display settings.
-		const isPlaying = playbackManager.isPlayingVideo() || playbackManager.isPlayingAudio();
-		if (isPlaying)
-			return Promise.resolve();
-		
 		this._counter_ = 3;
 		
 		import('./style.scss').then(() => {
