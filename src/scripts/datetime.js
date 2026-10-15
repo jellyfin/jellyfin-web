@@ -1,4 +1,5 @@
 import globalize from 'lib/globalize';
+import { getSafeLocale } from '../utils/locale';
 
 export function parseISO8601Date(s, toLocal) {
     // parenthese matches:
@@ -81,8 +82,11 @@ export function getDisplayRunningTime(ticks) {
     let hours = ticks / ticksPerHour;
     hours = Math.floor(hours);
 
+    const locale = globalize.getCurrentDateTimeLocale();
+    const safeLocale = getSafeLocale(locale);
+
     if (hours) {
-        parts.push(hours.toLocaleString(globalize.getCurrentDateTimeLocale()));
+        parts.push(safeLocale ? hours.toLocaleString(safeLocale) : hours.toString());
     }
 
     ticks -= (hours * ticksPerHour);
@@ -93,9 +97,11 @@ export function getDisplayRunningTime(ticks) {
     ticks -= (minutes * ticksPerMinute);
 
     if (minutes < 10 && hours) {
-        minutes = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
+        const zero = safeLocale ? (0).toLocaleString(safeLocale) : '0';
+        const min = safeLocale ? minutes.toLocaleString(safeLocale) : minutes.toString();
+        minutes = zero + min;
     } else {
-        minutes = minutes.toLocaleString(globalize.getCurrentDateTimeLocale());
+        minutes = safeLocale ? minutes.toLocaleString(safeLocale) : minutes.toString();
     }
     parts.push(minutes);
 
@@ -103,9 +109,11 @@ export function getDisplayRunningTime(ticks) {
     seconds = Math.floor(seconds);
 
     if (seconds < 10) {
-        seconds = (0).toLocaleString(globalize.getCurrentDateTimeLocale()) + seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
+        const zero = safeLocale ? (0).toLocaleString(safeLocale) : '0';
+        const sec = safeLocale ? seconds.toLocaleString(safeLocale) : seconds.toString();
+        seconds = zero + sec;
     } else {
-        seconds = seconds.toLocaleString(globalize.getCurrentDateTimeLocale());
+        seconds = safeLocale ? seconds.toLocaleString(safeLocale) : seconds.toString();
     }
     parts.push(seconds);
 
@@ -144,9 +152,10 @@ export function toLocaleString(date, options) {
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
+        const safeLocale = getSafeLocale(currentLocale);
 
-        if (currentLocale) {
-            return date.toLocaleString(currentLocale, options);
+        if (safeLocale) {
+            return date.toLocaleString(safeLocale, options);
         }
     }
 
@@ -162,9 +171,10 @@ export function toLocaleDateString(date, options) {
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
+        const safeLocale = getSafeLocale(currentLocale);
 
-        if (currentLocale) {
-            return date.toLocaleDateString(currentLocale, options);
+        if (safeLocale) {
+            return date.toLocaleDateString(safeLocale, options);
         }
     }
 
@@ -194,9 +204,10 @@ export function toLocaleTimeString(date, options) {
 
     if (toLocaleTimeStringSupportsLocales) {
         const currentLocale = globalize.getCurrentDateTimeLocale();
+        const safeLocale = getSafeLocale(currentLocale);
 
-        if (currentLocale) {
-            return date.toLocaleTimeString(currentLocale, options);
+        if (safeLocale) {
+            return date.toLocaleTimeString(safeLocale, options);
         }
     }
 
