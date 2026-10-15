@@ -57,6 +57,8 @@ function getLabel(type: BaseItemKind | PersonKind, itemCount: number): string | 
             return globalize.translate(itemCount > 1 ? 'Writers' : 'Writer');
         case BaseItemKind.Studio:
             return globalize.translate(itemCount > 1 ? 'Studios' : 'Studio');
+        case BaseItemKind.Network:
+            return globalize.translate(itemCount > 1 ? 'Networks' : 'Network');
         case BaseItemKind.Genre:
             return globalize.translate(itemCount > 1 ? 'Genres' : 'Genre');
     }
@@ -84,6 +86,8 @@ function getRouteType(type: BaseItemKind | PersonKind, context: string): string 
             return 'Person';
         case BaseItemKind.Studio:
             return 'Studio';
+        case BaseItemKind.Network:
+            return 'Network';
         case BaseItemKind.Genre:
             return context === 'music' ? 'MusicGenre' : 'Genre';
     }
@@ -103,6 +107,8 @@ function getMetadataItems(type: BaseItemKind | PersonKind, item: BaseItemDto): N
                 return null;
             }
             return item.Studios ?? null;
+        case BaseItemKind.Network:
+            return item.Networks ?? null;
         case BaseItemKind.Genre:
             return item.GenreItems ?? null;
     }
