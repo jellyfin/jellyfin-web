@@ -295,7 +295,6 @@ function showIdentificationForm(page, item) {
         let html = '';
 
         for (const idInfo of uniqueIds.values()) {
-
             const id = `txtLookup${idInfo.Key}`;
 
             html += '<div class="inputContainer">';
