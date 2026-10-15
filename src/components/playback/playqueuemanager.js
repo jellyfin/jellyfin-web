@@ -125,10 +125,10 @@ class PlayQueueManager {
             const currentIndex = this.getCurrentPlaylistIndex();
             const playlistLength = this._playlist.length;
 
-            if (this._repeatMode === 'RepeatAll' && 
-                currentIndex === playlistLength - 1 && 
-                playlistIndex === 0 &&
-                playlistLength > 1) {
+            if (this._repeatMode === 'RepeatAll'
+                && currentIndex === playlistLength - 1
+                && playlistIndex === 0
+                && playlistLength > 1) {
                 this._reshuffleForRepeat();
             }
 

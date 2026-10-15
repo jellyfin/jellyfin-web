@@ -28,10 +28,7 @@ describe('PlayQueueManager', () => {
             manager.setRepeatMode('RepeatAll');
             manager.setShuffleMode('Shuffle');
 
-            const initialPlaylist = manager.getPlaylist();
-            const initialOrder = initialPlaylist.map(item => item.Id);
-
-            const lastIndex = initialPlaylist.length - 1;
+            const lastIndex = testItems.length - 1;
             manager.setPlaylistIndex(lastIndex);
 
             const peekOrder1 = manager.getPlaylist().map(item => item.Id);
