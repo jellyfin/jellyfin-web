@@ -22,7 +22,7 @@ describe('PlayQueueManager', () => {
     });
 
     describe('RepeatAll with Shuffle', () => {
-        it('should reshuffle the queue when wrapping around with RepeatAll and Shuffle enabled', () => {
+        it('should NOT reshuffle when peeking at next item repeatedly', () => {
             manager.setPlaylist(testItems);
             manager.setPlaylistIndex(0);
             manager.setRepeatMode('RepeatAll');
@@ -34,15 +34,34 @@ describe('PlayQueueManager', () => {
             const lastIndex = initialPlaylist.length - 1;
             manager.setPlaylistIndex(lastIndex);
 
-            const nextInfo = manager.getNextItemInfo();
+            const peekOrder1 = manager.getPlaylist().map(item => item.Id);
+            manager.getNextItemInfo();
+            const peekOrder2 = manager.getPlaylist().map(item => item.Id);
+            manager.getNextItemInfo();
+            const peekOrder3 = manager.getPlaylist().map(item => item.Id);
 
-            expect(nextInfo).not.toBeNull();
-            expect(nextInfo.index).toBe(0);
+            expect(peekOrder1).toEqual(peekOrder2);
+            expect(peekOrder2).toEqual(peekOrder3);
+        });
 
-            const newPlaylist = manager.getPlaylist();
-            const newOrder = newPlaylist.map(item => item.Id);
+        it('should reshuffle when actually advancing past the end with RepeatAll and Shuffle', () => {
+            manager.setPlaylist(testItems);
+            manager.setPlaylistIndex(0);
+            manager.setRepeatMode('RepeatAll');
+            manager.setShuffleMode('Shuffle');
 
-            expect(newOrder).not.toEqual(initialOrder);
+            const initialPlaylist = manager.getPlaylist();
+            const initialOrder = initialPlaylist.map(item => item.Id);
+
+            const lastIndex = initialPlaylist.length - 1;
+            manager.setPlaylistIndex(lastIndex);
+
+            const beforeAdvance = manager.getPlaylist().map(item => item.Id);
+            manager.setPlaylistIndex(0);
+            const afterAdvance = manager.getPlaylist().map(item => item.Id);
+
+            expect(afterAdvance).not.toEqual(beforeAdvance);
+            expect(afterAdvance).not.toEqual(initialOrder);
         });
 
         it('should not reshuffle when advancing within the queue', () => {
@@ -54,11 +73,7 @@ describe('PlayQueueManager', () => {
             const initialPlaylist = manager.getPlaylist();
             const initialOrder = initialPlaylist.map(item => item.Id);
 
-            manager.setPlaylistIndex(1);
-            const nextInfo = manager.getNextItemInfo();
-
-            expect(nextInfo.index).toBe(2);
-
+            manager.setPlaylistIndex(2);
             const newPlaylist = manager.getPlaylist();
             const newOrder = newPlaylist.map(item => item.Id);
 
@@ -77,10 +92,7 @@ describe('PlayQueueManager', () => {
             const lastIndex = initialPlaylist.length - 1;
             manager.setPlaylistIndex(lastIndex);
 
-            const nextInfo = manager.getNextItemInfo();
-
-            expect(nextInfo).toBeNull();
-
+            manager.setPlaylistIndex(0);
             const newPlaylist = manager.getPlaylist();
             const newOrder = newPlaylist.map(item => item.Id);
 
@@ -97,15 +109,29 @@ describe('PlayQueueManager', () => {
             const lastIndex = testItems.length - 1;
             manager.setPlaylistIndex(lastIndex);
 
-            const nextInfo = manager.getNextItemInfo();
-
-            expect(nextInfo).not.toBeNull();
-            expect(nextInfo.index).toBe(0);
-
+            manager.setPlaylistIndex(0);
             const newPlaylist = manager.getPlaylist();
             const newOrder = newPlaylist.map(item => item.Id);
 
             expect(newOrder).toEqual(initialOrder);
+        });
+
+        it('should not place the last-played track in the first position after reshuffle', () => {
+            manager.setPlaylist(testItems);
+            manager.setPlaylistIndex(0);
+            manager.setRepeatMode('RepeatAll');
+            manager.setShuffleMode('Shuffle');
+
+            const lastIndex = testItems.length - 1;
+            manager.setPlaylistIndex(lastIndex);
+
+            const lastPlayedId = manager.getCurrentItem().Id;
+
+            manager.setPlaylistIndex(0);
+
+            const firstItemAfterReshuffle = manager.getPlaylist()[0].Id;
+
+            expect(firstItemAfterReshuffle).not.toBe(lastPlayedId);
         });
     });
 });
