@@ -252,6 +252,16 @@ dom.addEventListener(document, 'click', notify, {
     passive: true
 });
 
+// we add two handlers to manage middle/right clicks as well as mousewheel events.
+dom.addEventListener(document, 'mouseup', notify, {
+    passive: true
+});
+
+dom.addEventListener(document, 'wheel', notify, {
+    passive: true
+});
+
+
 export default {
     handleCommand: handleCommand,
     notify: notify,
