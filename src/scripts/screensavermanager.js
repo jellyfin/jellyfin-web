@@ -65,12 +65,12 @@ function ScreenSaverManager() {
 
         if (screensaver.hideOnClick !== false) {
             window.addEventListener('click', hide, true);
-			// Following is an handler for middle/right click events
+			// Following is a handler for middle/right click events
 			window.addEventListener('mouseup', hide, true);
         }
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
-			// Following is an handler for mousewheel events
+			// Following is a handler for mousewheel events
 			window.addEventListener('wheel', hide, true);
         }
         if (screensaver.hideOnKey !== false) {
@@ -78,11 +78,19 @@ function ScreenSaverManager() {
         }
     }
 
-    function hide() {
+    function hide(event) {
 		if (!activeScreenSaver) {
             throw new Error('There is no active screensaver.');
         }
-		   
+		
+		// We first stop the event from being spread to the UI
+		// which could be a problem in some cases 
+		// i.e: user unexpectedly clicking a button under the screensaver overlay.
+		event.stopPropagation();
+		// Since we block events propagation, 
+		// we must do a call to notify() in order to keep the manager internal counter uptodate.
+		inputManager.notify();
+		
 		console.debug('Hiding screensaver ' + activeScreenSaver.name);
 		
 		if (activeScreenSaver.hideOnClick !== false) {
