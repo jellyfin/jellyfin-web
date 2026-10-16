@@ -252,7 +252,9 @@ dom.addEventListener(document, 'click', notify, {
     passive: true
 });
 
-// we add two handlers to manage middle/right clicks as well as mousewheel events.
+// We add two handlers for middle/right click and mousewheel events
+// since they too should postpone screensavers launch.
+
 dom.addEventListener(document, 'mouseup', notify, {
     passive: true
 });
@@ -261,6 +263,11 @@ dom.addEventListener(document, 'wheel', notify, {
     passive: true
 });
 
+// We add a handle for key events which was missing
+
+dom.addEventListener(document, 'keydown', notify, {
+    passive: true
+});
 
 export default {
     handleCommand: handleCommand,
