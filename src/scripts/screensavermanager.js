@@ -163,10 +163,6 @@ function ScreenSaverManager() {
         if (playbackManager.isPlayingVideo() && !playbackManager.paused()) {
             return;
         }
-
-		if (playbackManager.isPlayingAudio() && !playbackManager.paused()) {
-            return;
-        }
 		
         this.show();
     };
