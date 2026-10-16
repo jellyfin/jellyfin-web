@@ -2678,11 +2678,52 @@ export class PlaybackManager {
             }
 
             if (!isServerItem(item) || item.MediaType === 'Book') {
-                return promise.then(function () {
+                const onPlaybackFailed = async (errorCode) => {
+                    const trailerPlayback = playOptions.trailerPlayback;
+                    if (trailerPlayback?.cancelled) {
+                        if (self._trailerPlayback === trailerPlayback) {
+                            loading.hide();
+                        }
+                        return;
+                    }
+                    let remainingTrailers;
+                    if (trailerPlayback && item.Type === 'Trailer' && !item.Id && errorCode === 'YoutubeDenied') {
+                        const trailerItems = playOptions.items || self._playQueueManager.getPlaylist();
+                        const trailerIndex = trailerItems.indexOf(item);
+                        const nextTrailer = trailerItems[trailerIndex + 1];
+                        if (trailerIndex >= 0 && nextTrailer?.Type === 'Trailer' && !nextTrailer.Id) {
+                            remainingTrailers = trailerItems.slice(trailerIndex + 1);
+                        }
+                    }
+
+                    if (remainingTrailers?.length) {
+                        self._playNextAfterEnded = false;
+                        await player.stop(true, true);
+                        if (trailerPlayback.cancelled) {
+                            if (self._trailerPlayback === trailerPlayback) {
+                                loading.hide();
+                            }
+                            return;
+                        }
+                        console.warn('[playbackmanager] Skipping a trailer that disallows embedding');
+                        return self.play({
+                            ...truncatePlayOptions(playOptions),
+                            items: remainingTrailers
+                        });
+                    }
+
+                    self.stop(player);
+                    loading.hide();
+                    showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
+                };
+
+                return promise.then(async function () {
                     const streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
                     getPlayerData(player).isChangingStream = false;
-                    return player.play(streamInfo).then(async () => {
+                    const playback = player.play(streamInfo);
+                    try {
+                        await playback;
                         if (playOptions.trailerPlayback?.cancelled) {
                             if (self._trailerPlayback === playOptions.trailerPlayback) {
                                 await player.stop(true, true);
@@ -2695,44 +2736,9 @@ export class PlaybackManager {
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo);
-                    }).catch(async (errorCode) => {
-                        const trailerPlayback = playOptions.trailerPlayback;
-                        if (trailerPlayback?.cancelled) {
-                            if (self._trailerPlayback === trailerPlayback) {
-                                loading.hide();
-                            }
-                            return;
-                        }
-                        let remainingTrailers;
-                        if (trailerPlayback && item.Type === 'Trailer' && !item.Id && errorCode === 'YoutubeDenied') {
-                            const trailerItems = playOptions.items || self._playQueueManager.getPlaylist();
-                            const trailerIndex = trailerItems.indexOf(item);
-                            const nextTrailer = trailerItems[trailerIndex + 1];
-                            if (trailerIndex >= 0 && nextTrailer?.Type === 'Trailer' && !nextTrailer.Id) {
-                                remainingTrailers = trailerItems.slice(trailerIndex + 1);
-                            }
-                        }
-
-                        if (remainingTrailers?.length) {
-                            self._playNextAfterEnded = false;
-                            await player.stop(true, true);
-                            if (trailerPlayback.cancelled) {
-                                if (self._trailerPlayback === trailerPlayback) {
-                                    loading.hide();
-                                }
-                                return;
-                            }
-                            console.warn('[playbackmanager] Skipping a trailer that disallows embedding');
-                            return self.play({
-                                ...truncatePlayOptions(playOptions),
-                                items: remainingTrailers
-                            });
-                        }
-
-                        self.stop(player);
-                        loading.hide();
-                        showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
-                    });
+                    } catch (error_) {
+                        return onPlaybackFailed(error_);
+                    }
                 });
             }
 
