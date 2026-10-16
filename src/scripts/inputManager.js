@@ -263,7 +263,7 @@ dom.addEventListener(document, 'wheel', notify, {
     passive: true
 });
 
-// We add a handle for key events which was missing
+// We add a handler for key events which was missing
 
 dom.addEventListener(document, 'keydown', notify, {
     passive: true
