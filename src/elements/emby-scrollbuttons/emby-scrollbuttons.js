@@ -164,7 +164,10 @@ EmbyScrollButtonsPrototype.attachedCallback = function () {
     });
 
     requestAnimationFrame(() => {
-        this.scrollHandler();
+        // The element may have been detached before the frame fired
+        if (this.scrollHandler) {
+            this.scrollHandler();
+        }
     });
 };
 
