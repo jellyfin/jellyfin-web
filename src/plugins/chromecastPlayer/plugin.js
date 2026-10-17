@@ -367,7 +367,10 @@ class CastPlayer {
         }
 
         if (message.options?.items) {
-            message.subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            const currentItem = message.options.items[message.options.startIndex || 0]
+                || message.options.items[0];
+            const subtitleAppearanceKey = currentItem?.Id ? `subtitleappearance_${currentItem.Id}` : undefined;
+            message.subtitleAppearance = userSettings.getSubtitleAppearanceSettingsWithFallback(subtitleAppearanceKey);
             message.subtitleBurnIn = appSettings.get('subtitleburnin') || '';
         }
 
