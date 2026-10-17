@@ -1927,7 +1927,7 @@
     "TableOfContents": "もくじ",
     "Unwatch": "未視聴",
     "UsersEditPageError": "ユーザー編集ページの読み取りに失敗",
-    "Watch": "視聴する",
+    "Watch": "視聴",
     "HlsAudioSeekStrategy": "HLS ストリームのシーク方式。",
     "VideoRotationNotSupported": "動画の回転がサポートされていません",
     "LabelHlsAudioSeekStrategy": "音声シーク方式。",
