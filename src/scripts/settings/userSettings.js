@@ -302,6 +302,32 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'DisplayCardCommunityRatings' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'DisplayCardCommunityRatings' or undefined.
+     * @return {boolean} 'DisplayCardCommunityRatings' state.
+     */
+    enableCardCommunityRatings(val) {
+        if (val !== undefined) {
+            return this.set('displayCardCommunityRatings', val.toString(), false);
+        }
+
+        return toBoolean(this.get('displayCardCommunityRatings', false), false);
+    }
+
+    /**
+     * Get or set 'DisplayCardCriticRatings' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'DisplayCardCriticRatings' or undefined.
+     * @return {boolean} 'DisplayCardCriticRatings' state.
+     */
+    enableCardCriticRatings(val) {
+        if (val !== undefined) {
+            return this.set('displayCardCriticRatings', val.toString(), false);
+        }
+
+        return toBoolean(this.get('displayCardCriticRatings', false), false);
+    }
+
+    /**
      * Get or set 'Backdrops' state.
      * @param {boolean|undefined} [val] - Flag to enable 'Backdrops' or undefined.
      * @return {boolean} 'Backdrops' state.
@@ -735,6 +761,8 @@ export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
+export const enableCardCommunityRatings = currentSettings.enableCardCommunityRatings.bind(currentSettings);
+export const enableCardCriticRatings = currentSettings.enableCardCriticRatings.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);

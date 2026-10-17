@@ -418,6 +418,24 @@ button::-moz-focus-inner {
     [dir="rtl"] & {
         left: 0.225em;
     }
+
+    & > div {
+        [dir="ltr"] & {
+            margin-left: 0.25em;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+
+        [dir="rtl"] & {
+            margin-right: 0.25em;
+
+            &:first-child {
+                margin-right: 0;
+            }
+        }
+    }
 }
 
 .cardProgramAttributeIndicators {
