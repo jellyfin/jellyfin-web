@@ -665,7 +665,8 @@ function truncatePlayOptions(playOptions) {
         mediaSourceId: playOptions.mediaSourceId,
         audioStreamIndex: playOptions.audioStreamIndex,
         subtitleStreamIndex: playOptions.subtitleStreamIndex,
-        startPositionTicks: playOptions.startPositionTicks
+        startPositionTicks: playOptions.startPositionTicks,
+        trailerPlayback: playOptions.trailerPlayback
     };
 }
 
@@ -2113,6 +2114,11 @@ export class PlaybackManager {
         self.getItemsForPlayback = getItemsForPlayback;
 
         self.play = async function (options) {
+            if (self._trailerPlayback && self._trailerPlayback !== options.trailerPlayback) {
+                self._trailerPlayback.cancelled = true;
+            }
+            self._trailerPlayback = options.trailerPlayback;
+
             normalizePlayOptions(options);
 
             if (self._currentPlayer) {
@@ -2383,6 +2389,17 @@ export class PlaybackManager {
         }
 
         function playInternal(item, playOptions, onPlaybackStartedFn, prevSource) {
+            if (playOptions.trailerPlayback?.cancelled) {
+                if (self._trailerPlayback === playOptions.trailerPlayback) {
+                    loading.hide();
+                }
+                return Promise.resolve();
+            }
+            if (self._trailerPlayback && self._trailerPlayback !== playOptions.trailerPlayback) {
+                self._trailerPlayback.cancelled = true;
+            }
+            self._trailerPlayback = playOptions.trailerPlayback;
+
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
@@ -2417,6 +2434,9 @@ export class PlaybackManager {
         }
 
         function cancelPlayback() {
+            if (self._trailerPlayback) {
+                self._trailerPlayback.cancelled = true;
+            }
             const player = self._currentPlayer;
 
             if (player) {
@@ -2658,19 +2678,67 @@ export class PlaybackManager {
             }
 
             if (!isServerItem(item) || item.MediaType === 'Book') {
-                return promise.then(function () {
+                const onPlaybackFailed = async (errorCode) => {
+                    const trailerPlayback = playOptions.trailerPlayback;
+                    if (trailerPlayback?.cancelled) {
+                        if (self._trailerPlayback === trailerPlayback) {
+                            loading.hide();
+                        }
+                        return;
+                    }
+                    let remainingTrailers;
+                    if (trailerPlayback && item.Type === 'Trailer' && !item.Id && errorCode === 'YoutubeDenied') {
+                        const trailerItems = playOptions.items || self._playQueueManager.getPlaylist();
+                        const trailerIndex = trailerItems.indexOf(item);
+                        const nextTrailer = trailerItems[trailerIndex + 1];
+                        if (trailerIndex >= 0 && nextTrailer?.Type === 'Trailer' && !nextTrailer.Id) {
+                            remainingTrailers = trailerItems.slice(trailerIndex + 1);
+                        }
+                    }
+
+                    if (remainingTrailers?.length) {
+                        self._playNextAfterEnded = false;
+                        await player.stop(true, true);
+                        if (trailerPlayback.cancelled) {
+                            if (self._trailerPlayback === trailerPlayback) {
+                                loading.hide();
+                            }
+                            return;
+                        }
+                        console.warn('[playbackmanager] Skipping a trailer that disallows embedding');
+                        return self.play({
+                            ...truncatePlayOptions(playOptions),
+                            items: remainingTrailers
+                        });
+                    }
+
+                    self.stop(player);
+                    loading.hide();
+                    showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
+                };
+
+                return promise.then(async function () {
                     const streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
                     getPlayerData(player).isChangingStream = false;
-                    return player.play(streamInfo).then(() => {
+                    const playback = player.play(streamInfo);
+                    try {
+                        await playback;
+                        if (playOptions.trailerPlayback?.cancelled) {
+                            if (self._trailerPlayback === playOptions.trailerPlayback) {
+                                await player.stop(true, true);
+                                if (self._trailerPlayback === playOptions.trailerPlayback) {
+                                    loading.hide();
+                                }
+                            }
+                            return;
+                        }
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo);
-                    }).catch((errorCode) => {
-                        self.stop(player);
-                        loading.hide();
-                        showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
-                    });
+                    } catch (error_) {
+                        return onPlaybackFailed(error_);
+                    }
                 });
             }
 
@@ -4025,6 +4093,10 @@ export class PlaybackManager {
     async playTrailers(item) {
         const player = this._currentPlayer;
 
+        if (this._trailerPlayback) {
+            this._trailerPlayback.cancelled = true;
+        }
+
         if (player?.playTrailers) {
             return player.playTrailers(item);
         }
@@ -4032,26 +4104,30 @@ export class PlaybackManager {
         const apiClient = ServerConnections.getApiClient(item.ServerId);
 
         let items;
+        let trailerPlayback;
 
         if (item.LocalTrailerCount) {
             items = await apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id);
         }
 
         if (!items?.length) {
+            trailerPlayback = { cancelled: false };
             items = (item.RemoteTrailers || []).map((t) => {
                 return {
                     Name: t.Name || (item.Name + ' Trailer'),
                     Url: t.Url,
                     MediaType: 'Video',
                     Type: 'Trailer',
-                    ServerId: apiClient.serverId()
+                    ServerId: apiClient.serverId(),
+                    playOptions: { trailerPlayback }
                 };
             });
         }
 
         if (items.length) {
             return this.play({
-                items
+                items,
+                trailerPlayback
             });
         }
 
@@ -4065,6 +4141,10 @@ export class PlaybackManager {
     }
 
     stop(player) {
+        if (this._trailerPlayback) {
+            this._trailerPlayback.cancelled = true;
+            loading.hide();
+        }
         player = player || this._currentPlayer;
         if (player) {
             if (enableLocalPlaylistManagement(player)) {
