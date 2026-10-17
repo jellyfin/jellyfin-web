@@ -1241,6 +1241,7 @@
     "MessageSyncPlayPlaybackPermissionRequired": "Playback permission required.",
     "MessageSyncPlayUserJoined": "{0} has joined the group.",
     "MessageSyncPlayUserLeft": "{0} has left the group.",
+    "MessageSubtitleFileTypeAllowed": "The file \"{0}\" is not a supported subtitle type. Supported types are: {1}",
     "MessageTheFollowingLocationWillBeRemovedFromLibrary": "The following media locations will be removed from your library",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
     "MessageUnauthorizedUser": "You are not authorized to access the server at this time. Please contact your server administrator for more information.",
