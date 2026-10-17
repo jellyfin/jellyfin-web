@@ -35,4 +35,4 @@ Fixed keypress events not resetting the screensaver manager internal timer.</br>
 Fixed event propagating to the UI when leaving a screensaver.</br>
 
 ### ImproveDisplayModeTV
-Removed margins of section Libraries which caused an horizontal scroll when navigating using arrows.</br>
+Removed margins of section Libraries which caused the screen to scroll horizontally when navigating using arrow keys.</br>
