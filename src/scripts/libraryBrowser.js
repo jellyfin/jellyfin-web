@@ -1,4 +1,5 @@
 import globalize from 'lib/globalize';
+import { randomInt } from 'utils/number';
 
 export function showLayoutMenu (button, currentLayout, views) {
     let dispatchEvent = true;
@@ -80,6 +81,18 @@ export function getQueryPagingHtml (options) {
     return html;
 }
 
+function isRandomSortBy(query) {
+    return (query.SortBy || '').startsWith('Random');
+}
+
+function updateRandomSeed(query) {
+    if (isRandomSortBy(query)) {
+        query.RandomSeed = randomInt(0, 2 ** 31 - 1);
+    } else {
+        delete query.RandomSeed;
+    }
+}
+
 export function showSortMenu (options) {
     Promise.all([
         import('../components/dialogHelper/dialogHelper'),
@@ -92,8 +105,24 @@ export function showSortMenu (options) {
                 const changed = options.query.SortBy != newValue;
                 options.query.SortBy = newValue.replace('_', ',');
                 options.query.StartIndex = 0;
+                updateRandomSeed(options.query);
+                dlg.querySelector('.sortOrderOptions').classList.toggle('hide', isRandomSortBy(options.query));
 
                 if (options.callback && changed) {
+                    options.callback();
+                }
+            }
+        }
+
+        function onSortByClick() {
+            const isCurrentSortBy = (options.query.SortBy || '').replace(',', '_') == this.value;
+            const isRandomPickedAgain = isCurrentSortBy && this.value.startsWith('Random');
+
+            if (isRandomPickedAgain) {
+                options.query.StartIndex = 0;
+                updateRandomSeed(options.query);
+
+                if (options.callback) {
                     options.callback();
                 }
             }
@@ -139,6 +168,7 @@ export function showSortMenu (options) {
         }
 
         html += '</div>';
+        html += '<div class="sortOrderOptions' + (isRandomSortBy(options.query) ? ' hide' : '') + '">';
         html += '<h2 style="margin: 1em 0 .5em;">';
         html += globalize.translate('HeaderSortOrder');
         html += '</h2>';
@@ -149,12 +179,14 @@ export function showSortMenu (options) {
         html += '<label class="radio-label-block"><input type="radio" is="emby-radio" name="SortOrder" value="Descending" class="menuSortOrder" ' + isChecked + ' /><span>' + globalize.translate('Descending') + '</span></label>';
         html += '</div>';
         html += '</div>';
+        html += '</div>';
         dlg.innerHTML = html;
         dialogHelper.open(dlg);
         const sortBys = dlg.querySelectorAll('.menuSortBy');
 
         for (i = 0, length = sortBys.length; i < length; i++) {
             sortBys[i].addEventListener('change', onSortByChange);
+            sortBys[i].addEventListener('click', onSortByClick);
         }
 
         const sortOrders = dlg.querySelectorAll('.menuSortOrder');
