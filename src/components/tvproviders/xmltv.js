@@ -94,6 +94,7 @@ export default function (page, providerId, options) {
                 page.querySelector('.txtMoviePrefix').value = info.MoviePrefix || '';
                 page.querySelector('.txtUserAgent').value = info.UserAgent || '';
                 page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
+                page.querySelector('.chkUseGuideChannelNames').checked = !!info.UseGuideChannelNames;
 
                 if (page.querySelector('.chkAllTuners').checked) {
                     page.querySelector('.selectTunersSection').classList.add('hide');
@@ -133,6 +134,7 @@ export default function (page, providerId, options) {
             info.NewsCategories = getCategories(page.querySelector('.txtNews'));
             info.SportsCategories = getCategories(page.querySelector('.txtSports'));
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
+            info.UseGuideChannelNames = page.querySelector('.chkUseGuideChannelNames').checked;
             info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (tuner) {
                 return tuner.checked;
             }).map(function (tuner) {

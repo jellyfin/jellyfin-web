@@ -69,6 +69,7 @@ export default function (page, providerId, options) {
             }
 
             page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
+            page.querySelector('.chkUseGuideChannelNames').checked = !!info.UseGuideChannelNames;
 
             if (info.EnableAllTuners) {
                 page.querySelector('.selectTunersSection').classList.add('hide');
@@ -176,6 +177,7 @@ export default function (page, providerId, options) {
             info.Country = page.querySelector('#selectCountry').value;
             info.ListingsId = selectedListingsId;
             info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
+            info.UseGuideChannelNames = page.querySelector('.chkUseGuideChannelNames').checked;
             info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (i) {
                 return i.checked;
             }).map(function (i) {

@@ -1383,6 +1383,8 @@
     "OptionTrackName": "Track Name",
     "OptionTvdbRating": "TheTVDB Rating",
     "OptionUnairedEpisode": "Unaired Episodes",
+    "OptionUseGuideChannelNames": "Use channel names from the guide",
+    "OptionUseGuideChannelNamesHelp": "When channel names from the tuner are cut short, use this option. It replaces the mapped channel names with the full names from the guide. This applies after you save, when the guide is refreshed.",
     "OptionWakeFromSleep": "Wake from sleep",
     "OptionWeekdays": "Weekdays",
     "OptionWeekends": "Weekends",
