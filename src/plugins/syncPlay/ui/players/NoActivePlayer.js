@@ -31,6 +31,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager._localUnpause = playbackManager.unpause;
         playbackManager._localPause = playbackManager.pause;
         playbackManager._localSeek = playbackManager.seek;
+        playbackManager._localSetPlaybackRate = playbackManager.setPlaybackRate;
         playbackManager._localSendCommand = playbackManager.sendCommand;
 
         // Override local callbacks.
@@ -38,6 +39,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager.unpause = this.unpauseRequest;
         playbackManager.pause = this.pauseRequest;
         playbackManager.seek = this.seekRequest;
+        playbackManager.setPlaybackRate = this.setPlaybackRateRequest;
         playbackManager.sendCommand = this.sendCommandRequest;
 
         // Save local callbacks.
@@ -89,6 +91,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager.unpause = playbackManager._localUnpause;
         playbackManager.pause = playbackManager._localPause;
         playbackManager.seek = playbackManager._localSeek;
+        playbackManager.setPlaybackRate = playbackManager._localSetPlaybackRate;
         playbackManager.sendCommand = playbackManager._localSendCommand;
 
         playbackManager._playQueueManager = playbackManager._localPlayQueueManager; // TODO: should move elsewhere?
@@ -217,6 +220,17 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     }
 
     /**
+     * Calls original PlaybackManager's setPlaybackRate method.
+     */
+    localSetPlaybackRate(playbackRate) {
+        if (playbackManager.syncPlayEnabled) {
+            playbackManager._localSetPlaybackRate(playbackRate, this.player);
+        } else {
+            playbackManager.setPlaybackRate(playbackRate, this.player);
+        }
+    }
+
+    /**
      * Calls original PlaybackManager's stop method.
      */
     localStop() {
@@ -240,6 +254,14 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     playRequest(options) {
         const controller = syncPlayManager.getController();
         return controller.play(options);
+    }
+
+    /**
+     * Overrides PlaybackManager's setPlaybackRate method.
+     */
+    setPlaybackRateRequest(playbackRate) {
+        const controller = syncPlayManager.getController();
+        controller.setPlaybackRate(playbackRate);
     }
 
     /**
