@@ -828,6 +828,8 @@
     "LabelLocalCustomCss": "Custom CSS code for styling which applies to this client only. You may want to disable server custom CSS code.",
     "LabelLocalHttpServerPortNumber": "Local HTTP port number",
     "LabelLocalHttpServerPortNumberHelp": "The TCP port number for the HTTP server.",
+    "LabelLocalImageProviders": "Local image providers",
+    "LabelLocalImageProvidersHelp": "Image files stored next to your media are used ahead of artwork from metadata providers and artwork uploaded through Jellyfin. Turn off \"Local Images\" to ignore them.",
     "LabelLockItemToPreventChanges": "Lock this item to prevent future metadata changes",
     "LabelLoginDisclaimer": "Login disclaimer",
     "LabelLoginDisclaimerHelp": "A message that will be displayed at the bottom of the login page.",
