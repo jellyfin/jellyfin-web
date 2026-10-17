@@ -1,11 +1,7 @@
 import { Api } from '@jellyfin/sdk';
-import type { EndPointInfo } from '@jellyfin/sdk/lib/generated-client/models/end-point-info';
-import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 
 /** Maximum bitrate (Int32) */
 const MAX_BITRATE = 2147483647;
-/** Approximate LAN bitrate */
-const LAN_BITRATE = 140000000;
 /** Bitrate test timeout in milliseconds */
 const BITRATETEST_TIMEOUT = 5000;
 /** Bitrate cache time in milliseconds */
@@ -158,13 +154,23 @@ const detectBitrateInternal = (api: Api, tests: BitrateTest[], index: number, cu
 };
 
 /**
- * Detects the bitrate using a series of tests
- * @param {Api} api The api client
- * @param {EndPointInfo} endpointInfo Endpoint info for special handling on local networks
- * @returns {number} Normalized bitrate
+ * Detects the bitrate on the current device
+ * @param {Api} api The Api client
+ * @param {boolean} force Ignore the cached bitrate and force a re-detection
+ * @returns {number} The detected bitrate
  */
-const detectBitrateWithEndpointInfo = (api: Api, endpointInfo: EndPointInfo) => {
-    return detectBitrateInternal(
+export const detectBitrate = (api: Api, force: boolean) => {
+    if (!force
+        && lastDetectedBitrate
+        && Date.now() - (lastDetectedBitrateTime || 0) <= BITRATE_CACHE_DURATION) {
+        return Promise.resolve(lastDetectedBitrate);
+    }
+
+    if (pendingBitrateDetection) {
+        return pendingBitrateDetection;
+    }
+
+    pendingBitrateDetection = detectBitrateInternal(
         api,
         [
             {
@@ -185,41 +191,10 @@ const detectBitrateWithEndpointInfo = (api: Api, endpointInfo: EndPointInfo) => 
     ).then(result => {
         const bitrateInMbps = (result / 1048576).toFixed(2);
         console.debug(`[bitratetest] bitrate detected as ${bitrateInMbps} Mbps`);
-        if (endpointInfo.IsInNetwork) {
-            result = Math.max(result || 0, LAN_BITRATE);
-
-            lastDetectedBitrate = result;
-            lastDetectedBitrateTime = Date.now();
-        }
         return result;
+    }).finally(() => {
+        pendingBitrateDetection = null;
     });
-};
-
-/**
- * Detects the bitrate on the current device
- * @param {Api} api The Api client
- * @param {boolean} force Ignore the cached bitrate and force a re-detection
- * @returns {number} The detected bitrate
- */
-export const detectBitrate = (api: Api, force: boolean) => {
-    if (!force
-        && lastDetectedBitrate
-        && Date.now() - (lastDetectedBitrateTime || 0) <= BITRATE_CACHE_DURATION) {
-        return Promise.resolve(lastDetectedBitrate);
-    }
-
-    if (pendingBitrateDetection) {
-        return pendingBitrateDetection;
-    }
-
-    pendingBitrateDetection = getSystemApi(api)
-        .getEndpointInfo()
-        .then(
-            (response) => detectBitrateWithEndpointInfo(api, response.data),
-            () => detectBitrateWithEndpointInfo(api, {})
-        ).finally(() => {
-            pendingBitrateDetection = null;
-        });
 
     return pendingBitrateDetection;
 };
