@@ -88,7 +88,7 @@ const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Brow
 /**
  * Keys used for media playback control.
  */
-const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
+const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause', 'MediaPause'];
 
 /**
  * Elements for which navigation should be constrained.
@@ -227,6 +227,7 @@ export function enable() {
             case 'MediaPlay':
                 inputManager.handleCommand('play');
                 break;
+            case 'MediaPause':
             case 'Pause':
                 inputManager.handleCommand('pause');
                 break;
