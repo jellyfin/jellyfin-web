@@ -140,7 +140,13 @@ form {
 .mediaInfoContent {
     margin-left: auto;
     margin-right: auto;
-    width: 85%;
+    width: 94%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+
+    @media all and (min-width: 50em) {
+        width: 85%;
+    }
 }
 
 .headroom {

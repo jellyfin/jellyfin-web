@@ -34,6 +34,11 @@ const copyButtonHtml = layoutManager.tv ? '' :
         ><span class="material-icons content_copy" aria-hidden="true"></span></button>`;
 const attributeDelimiterHtml = layoutManager.tv ? '' : '<span class="hide">: </span>';
 
+// Release names and paths have no spaces to wrap at, so let them break after a separator
+function escapeAndAllowBreaks(value) {
+    return escapeHtml(value).replace(/[._\\/]/g, '$&<wbr>');
+}
+
 function setMediaInfo(user, page, item) {
     let html = item.MediaSources.map(version => {
         return getMediaSourceHtml(user, item, version);
@@ -61,7 +66,7 @@ function setMediaInfo(user, page, item) {
 function getMediaSourceHtml(user, item, version) {
     let html = '<div class="mediaInfoSource">';
     if (version.Name) {
-        html += `<div><h2 class="mediaInfoStreamType">${escapeHtml(version.Name)}${copyButtonHtml}</h2></div>\n`;
+        html += `<div><h2 class="mediaInfoStreamType">${escapeAndAllowBreaks(version.Name)}${copyButtonHtml}</h2></div>\n`;
     }
     if (version.Container) {
         html += `${createAttribute(globalize.translate('MediaInfoContainer'), version.Container)}<br/>`;
@@ -222,7 +227,7 @@ function getMediaSourceHtml(user, item, version) {
 
 // File Paths should be always ltr. The isLtr parameter allows this.
 function createAttribute(label, value, isLtr) {
-    return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute" ${isLtr && 'dir="ltr"'}>${escapeHtml(value)}</span>\n`;
+    return `<span class="mediaInfoLabel">${label}</span>${attributeDelimiterHtml}<span class="mediaInfoAttribute" ${isLtr && 'dir="ltr"'}>${escapeAndAllowBreaks(value)}</span>\n`;
 }
 
 function loadMediaInfo(itemId, serverId) {
