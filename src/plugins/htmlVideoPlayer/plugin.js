@@ -44,6 +44,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
+import { getVideoBoxSize } from './videoBox.ts';
 
 const NATIVE_UNSUPPORTED_SUBTITLE_CODECS = ['ssa', 'ass', 'pgssub', 'dvdsub', 'vobsub'];
 const ASS_SUBTITLE_CODECS = ['ssa', 'ass'];
@@ -321,6 +322,10 @@ export class HtmlVideoPlayer {
      * @type {HTMLVideoElement | null | undefined}
      */
     #mediaElement;
+    /**
+     * @type {string | undefined}
+     */
+    #aspectRatio;
     /**
      * @type {number}
      */
@@ -985,6 +990,9 @@ export class HtmlVideoPlayer {
             videoElement.removeEventListener('dblclick', this.onDblClick);
             videoElement.removeEventListener('waiting', this.onWaiting);
             videoElement.removeEventListener('error', this.onError); // bound in htmlMediaHelper
+            videoElement.removeEventListener('loadedmetadata', this.#updateVideoSize);
+            videoElement.removeEventListener('resize', this.#updateVideoSize);
+            window.removeEventListener('resize', this.#updateVideoSize);
 
             resetSrc(videoElement);
 
@@ -1829,6 +1837,11 @@ export class HtmlVideoPlayer {
 
                 html += '</video>';
 
+                if (browser.web0s) {
+                    // The video is sized through this box, see #updateVideoSize
+                    html = '<div class="htmlvideoplayer-box">' + html + '</div>';
+                }
+
                 playerDlg.innerHTML = html;
                 const videoElement = playerDlg.querySelector('video');
 
@@ -1846,6 +1859,11 @@ export class HtmlVideoPlayer {
                 videoElement.addEventListener('click', this.onClick);
                 videoElement.addEventListener('dblclick', this.onDblClick);
                 videoElement.addEventListener('waiting', this.onWaiting);
+                if (browser.web0s) {
+                    videoElement.addEventListener('loadedmetadata', this.#updateVideoSize);
+                    videoElement.addEventListener('resize', this.#updateVideoSize);
+                    window.addEventListener('resize', this.#updateVideoSize);
+                }
                 if (options.backdropUrl) {
                     videoElement.poster = options.backdropUrl;
                 }
@@ -2258,6 +2276,8 @@ export class HtmlVideoPlayer {
     }
 
     #applyAspectRatio(val = this.getAspectRatio()) {
+        this.#aspectRatio = val;
+
         const mediaElement = this.#mediaElement;
         if (mediaElement) {
             if (val === 'auto') {
@@ -2267,10 +2287,42 @@ export class HtmlVideoPlayer {
             }
         }
 
-        if (this.#currentBitmapSubRenderer) {
+        if (browser.web0s) {
+            this.#updateVideoSize();
+        } else if (this.#currentBitmapSubRenderer) {
             this.#currentBitmapSubRenderer.updateCanvasSize?.();
         }
     }
+
+    /**
+     * webOS draws video on a hardware plane that fills the element box and ignores object-fit,
+     * so size the element to the video rectangle for the selected aspect ratio instead.
+     * The size is set on a wrapping box rather than the video itself, as subtitle renderers
+     * expect the video to sit at the top left of its parent.
+     * @private
+     */
+    #updateVideoSize = () => {
+        const mediaElement = this.#mediaElement;
+        const box = mediaElement?.parentElement;
+        if (box?.classList.contains('htmlvideoplayer-box')) {
+            const size = getVideoBoxSize(
+                { width: mediaElement.videoWidth, height: mediaElement.videoHeight },
+                { width: this.#videoDialog.clientWidth, height: this.#videoDialog.clientHeight },
+                this.#aspectRatio
+            );
+
+            if (size) {
+                box.style.width = `${size.width}px`;
+                box.style.height = `${size.height}px`;
+            } else {
+                box.style.removeProperty('width');
+                box.style.removeProperty('height');
+            }
+        }
+
+        this.#currentAssRenderer?.resize();
+        this.#currentBitmapSubRenderer?.updateCanvasSize?.();
+    };
 
     setAspectRatio(val) {
         appSettings.aspectRatio(val);
