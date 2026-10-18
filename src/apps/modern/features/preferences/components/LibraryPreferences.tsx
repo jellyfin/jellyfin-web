@@ -52,7 +52,6 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
 
             <Stack spacing={2}>
                 <Typography variant='h3'>{globalize.translate('HeaderLibraryViewDefaults')}</Typography>
-                <FormHelperText>{globalize.translate('LibraryViewDefaultsHelp')}</FormHelperText>
 
                 <FormControl fullWidth>
                     <InputLabel id='library-view-defaults-viewmode-label'>{globalize.translate('LabelDefaultLibraryView')}</InputLabel>
