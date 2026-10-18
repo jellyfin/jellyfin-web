@@ -1,5 +1,9 @@
 @use "mixins" as *;
 
+#videoOsdPage {
+    touch-action: manipulation;
+}
+
 .videoOsd-appBar {
     margin-left: env(safe-area-inset-left);
     margin-right: env(safe-area-inset-right);

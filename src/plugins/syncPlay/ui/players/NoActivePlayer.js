@@ -6,6 +6,7 @@
 import { playbackManager } from '../../../../components/playback/playbackmanager';
 import SyncPlay from '../../core';
 import QueueManager from './QueueManager';
+import Events from 'utils/events';
 
 let syncPlayManager;
 
@@ -138,7 +139,8 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     /**
      * Overrides PlaybackManager's seek method.
      */
-    seekRequest(positionTicks) {
+    seekRequest(positionTicks, player = playbackManager.getCurrentPlayer()) {
+        Events.trigger(playbackManager, 'seekrequest', [player]);
         const controller = syncPlayManager.getController();
         controller.seek(positionTicks);
     }

@@ -1665,6 +1665,8 @@ export class PlaybackManager {
             ticks = Math.max(0, ticks);
 
             player = player || self._currentPlayer;
+            // SyncPlay reports requests before dispatch; its later local realization is not a new request.
+            if (!self.syncPlayEnabled) Events.trigger(self, 'seekrequest', [player]);
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.seek(ticks);
             }
@@ -1675,6 +1677,7 @@ export class PlaybackManager {
         self.seekRelative = function (offsetTicks, player) {
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player) && player.seekRelative) {
+                Events.trigger(self, 'seekrequest', [player]);
                 return player.seekRelative(ticks);
             }
 
@@ -3974,6 +3977,7 @@ export class PlaybackManager {
 
     fastForward(player = this._currentPlayer) {
         if (player.fastForward != null) {
+            Events.trigger(this, 'seekrequest', [player]);
             player.fastForward(userSettings.skipForwardLength());
             return;
         }
@@ -3986,6 +3990,7 @@ export class PlaybackManager {
 
     rewind(player = this._currentPlayer) {
         if (player.rewind != null) {
+            Events.trigger(this, 'seekrequest', [player]);
             player.rewind(userSettings.skipBackLength());
             return;
         }

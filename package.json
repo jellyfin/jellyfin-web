@@ -168,6 +168,7 @@
     "escheck": "es-check",
     "lint": "eslint",
     "test": "vitest --watch=false --config vite.config.ts",
+    "test:coverage": "npm run test -- --coverage",
     "test:watch": "vitest --config vite.config.ts",
     "stylelint": "stylelint \"src/**/*.{css,scss}\""
   },
