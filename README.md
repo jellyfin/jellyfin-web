@@ -20,23 +20,23 @@ Flush your browser's cache if necessary.</br>
 ## Patch Bundle details
 
 ### RelocateAccessSchedule
-Relocated the "Access Schedule" settings into the access tab.</br>
+Relocate the "Access Schedule" settings into the access tab.</br>
 
 ### AutoLogoutScreenSaver
-Added a screen saver to automatically sign users out to keep their account safe.</br>
+Add a screen saver to automatically sign users out to keep their account safe.</br>
 
 ### FixLogoScreenSaver
-Fixed screensaver 'Logo' appearing behind the top toolbar and the footer frames.</br>
-Fixed screensaver 'Logo' incorrectly centered.</br>
+Fix screensaver 'Logo' appearing behind the top toolbar and the footer frames.</br>
+Fix screensaver 'Logo' incorrectly centered.</br>
 
 ### ImproveScreenManager
-Fixed mousewheel and middle/right click events not handled by the screensaver manager.</br>
-Fixed keypress events not resetting the screensaver manager internal timer.</br>
-Fixed event propagating to the UI when leaving a screensaver.</br>
+Fix mousewheel and middle/right click events not handled by the screensaver manager.</br>
+Fix keypress events not resetting the screensaver manager internal timer.</br>
+Fix event propagating to the UI when leaving a screensaver.</br>
 
 ### ImproveDisplayModeTV
-Removed margins of section Libraries which caused the screen to scroll horizontally when navigating using arrow keys.</br>
+Remove margins of section Libraries which caused the screen to scroll horizontally when navigating using arrow keys.</br>
 
 ### ThemeHalloween
-Intoducing a new Halloween based theme.</br>
+Intoduce a new Halloween based theme.</br>
 
