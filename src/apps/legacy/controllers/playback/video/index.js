@@ -28,6 +28,7 @@ import 'elements/emby-ratingbutton/emby-ratingbutton';
 import 'styles/videoosd.scss';
 import shell from 'scripts/shell';
 import SubtitleSync from 'components/subtitlesync/subtitlesync';
+import { SUBTITLES_OFF_INDEX, getSubtitleIndexToEnable } from 'apps/legacy/features/playback/utils/subtitleToggle';
 import { appRouter } from 'components/router/appRouter';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import LibraryMenu from 'scripts/libraryMenu';
@@ -1102,6 +1103,36 @@ export default function (view) {
         setTimeout(resetIdle, 0);
     }
 
+    function toggleSubtitles(player) {
+        if (!player) {
+            return;
+        }
+
+        const tracks = playbackManager.subtitleTracks(player);
+        if (!tracks.length) {
+            return;
+        }
+
+        const currentIndex = playbackManager.getSubtitleStreamIndex(player) ?? SUBTITLES_OFF_INDEX;
+
+        // Turning off: remember the track so the next toggle restores it
+        if (currentIndex !== SUBTITLES_OFF_INDEX) {
+            lastSubtitleStreamIndex = currentIndex;
+            playbackManager.setSubtitleStreamIndex(SUBTITLES_OFF_INDEX, player);
+            return;
+        }
+
+        const index = getSubtitleIndexToEnable(
+            tracks,
+            lastSubtitleStreamIndex,
+            playbackManager.currentMediaSource(player)?.DefaultSubtitleStreamIndex
+        );
+
+        if (index !== SUBTITLES_OFF_INDEX) {
+            playbackManager.setSubtitleStreamIndex(index, player);
+        }
+    }
+
     function showSubtitleTrackSelection() {
         const player = currentPlayer;
         const streams = playbackManager.subtitleTracks(player);
@@ -1407,6 +1438,12 @@ export default function (view) {
                     playbackManager.previousChapter(currentPlayer);
                 }
                 break;
+            case 'KeyC':
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    toggleSubtitles(currentPlayer);
+                }
+                break;
             case 'KeyG':
                 if (!e.shiftKey) {
                     e.preventDefault();
@@ -1626,6 +1663,7 @@ export default function (view) {
     let recordingButtonManager;
     let enableProgressByTimeOfDay;
     let currentVisibleMenu;
+    let lastSubtitleStreamIndex;
     let statsOverlay;
     let osdHideTimeout;
     let lastPointerMoveData;
