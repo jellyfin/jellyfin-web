@@ -670,6 +670,8 @@ function reloadFromItem(instance, page, params, item, user) {
         hideAll(page, 'btnDownload', true);
     }
 
+    page.classList.add(item.Type);
+
     autoFocus(page);
 }
 
