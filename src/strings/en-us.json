@@ -1547,6 +1547,8 @@
     "Runtime": "Runtime",
     "Saturday": "Saturday",
     "Save": "Save",
+    "SaveAsDefaultView": "Save as default for all libraries",
+    "SaveAsDefaultViewConfirmation": "Default view saved. Libraries you haven't customized will now use it.",
     "SaveLyricsIntoMediaFolders": "Save lyrics into media folders",
     "SaveLyricsIntoMediaFoldersHelp": "Storing lyrics next to audio files will allow them to be more easily managed.",
     "SavePassword": "Save Password",

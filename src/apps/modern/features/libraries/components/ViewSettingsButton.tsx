@@ -18,9 +18,12 @@ import MenuList from '@mui/material/MenuList';
 import Popover from '@mui/material/Popover';
 import Switch from '@mui/material/Switch';
 
+import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { LibraryViewSettings, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+
+import { setUserDefaultViewSettings } from '../utils/settings';
 
 const IMAGE_TYPE_EXCLUDED_VIEWS = [
     LibraryTab.Episodes,
@@ -96,6 +99,12 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
         e.stopPropagation();
         setIsSettingsOpen(prev => !prev);
     }, []);
+
+    const onSaveAsDefaultClick = useCallback(() => {
+        setUserDefaultViewSettings(libraryViewSettings);
+        toast(globalize.translate('SaveAsDefaultViewConfirmation'));
+        handleClose();
+    }, [libraryViewSettings, handleClose]);
 
     const setImageType = useCallback((imageType: ImageType) => {
         setLibraryViewSettings((prevState) => ({
@@ -256,6 +265,16 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
                         </ListItemIcon>
                         <ListItemText>
                             {globalize.translate('ListView')}
+                        </ListItemText>
+                    </MenuItem>
+
+                    <Divider />
+
+                    <MenuItem
+                        onClick={onSaveAsDefaultClick}
+                    >
+                        <ListItemText>
+                            {globalize.translate('SaveAsDefaultView')}
                         </ListItemText>
                     </MenuItem>
                 </MenuList>
