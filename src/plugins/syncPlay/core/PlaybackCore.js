@@ -199,10 +199,8 @@ class PlaybackCore {
                 switch (command.Command) {
                     case 'Unpause': {
                         const serverPositionTicks = this.estimateCurrentTicks(command.PositionTicks, command.When, currentTime);
-                        if (!isPlaying) {
+                        if (!isPlaying || Math.abs(serverPositionTicks - currentPositionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
                             this.scheduleUnpause(command.When, command.PositionTicks);
-                        } else if (Math.abs(serverPositionTicks - currentPositionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
-                            this.localSeek(serverPositionTicks);
                         }
                         break;
                     }
@@ -290,7 +288,7 @@ class PlaybackCore {
             const playTimeout = playAtTimeLocal - currentTime;
 
             // Seek only if delay is noticeable.
-            if ((currentPositionTicks - positionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
+            if (Math.abs(currentPositionTicks - positionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
                 this.localSeek(positionTicks);
             }
 
@@ -307,10 +305,16 @@ class PlaybackCore {
         } else {
             // Group playback already started.
             const serverPositionTicks = this.estimateCurrentTicks(positionTicks, playAtTime);
-            Helper.waitForEventOnce(this.manager, 'unpause').then(() => {
+            if (playerWrapper.isPlaying()) {
                 this.localSeek(serverPositionTicks);
-            });
-            this.localUnpause();
+            } else {
+                Helper.waitForEventOnce(this.manager, 'unpause', Helper.WaitForPlayerEventTimeout).then(() => {
+                    this.localSeek(serverPositionTicks);
+                }).catch(() => {
+                    this.localSeek(serverPositionTicks);
+                });
+                this.localUnpause();
+            }
             setTimeout(() => {
                 Events.trigger(this.manager, 'notify-osd', ['unpause']);
             }, 100);
