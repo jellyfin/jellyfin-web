@@ -197,12 +197,15 @@ class PlaybackCore {
                 const isPlaying = playerWrapper.isPlaying();
 
                 switch (command.Command) {
-                    case 'Unpause':
-                        // Check playback state only, as position ticks will be corrected by sync.
+                    case 'Unpause': {
+                        const serverPositionTicks = this.estimateCurrentTicks(command.PositionTicks, command.When, currentTime);
                         if (!isPlaying) {
                             this.scheduleUnpause(command.When, command.PositionTicks);
+                        } else if (Math.abs(serverPositionTicks - currentPositionTicks) > this.minDelaySkipToSync * Helper.TicksPerMillisecond) {
+                            this.localSeek(serverPositionTicks);
                         }
                         break;
+                    }
                     case 'Pause':
                         // FIXME: check range instead of fixed value for ticks.
                         if (isPlaying || currentPositionTicks !== command.PositionTicks) {
