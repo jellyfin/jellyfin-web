@@ -1,1 +1,69 @@
+/* Import the base theme */
+@use '../_base/theme';
+
+@font-face {
+	font-family: "HSpirits";
+    src: url(./HalloweenSpirits-K7aAl.ttf) format("truetype"); 
+}
+
+.material-icons.home::before {
+	font-family: "HSpirits";
+	font-size: 100%;
+	font-weight: 100;
+	content: "j";
+}
+
+.emby-tab-button > * > .material-icons.home::before {
+	font-family: "HSpirits";
+	font-size: 100%;
+	font-weight: 100;
+	content: "j";
+}
+
+.checkboxIcon {
+  color: #F87A0B;
+}
+
+.paperList {
+	background-color: #EF7407;
+}
+
+.listItemIcon:not(.listItemIcon-transparent) {
+  background-color: #c26400;
+  color: #EF9637;
+}
+
+.button-submit {
+  color: #e4d376;
+}
+
+/* Card background color variants */
+.defaultCardBackground1 {
+    background-color: #00455c;
+}
+
+.defaultCardBackground2 {
+    background-color: #44bae1;
+}
+
+.defaultCardBackground3 {
+    background-color: #00a4db;
+}
+
+.defaultCardBackground4 {
+    background-color: #1c4c5c;
+}
+
+.defaultCardBackground5 {
+    background-color: #007ea8;
+}
+
+/* Detail ribbon on item details pages */
+.detailRibbon {
+    background: rgba(var(--jf-palette-background-paperChannel, 32 32 32) / 0.8);
+
+    .layout-tv & {
+        background: none;
+    }
+}
 
