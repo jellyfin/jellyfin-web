@@ -1,22 +1,18 @@
 /* Import the base theme */
-@use '../_base/theme';
+@use '../_base/theme' with (
+    // Theme options
+    $dark: true,
+    $background-defaultImage: url(bg.jpg),
+);
 
 @font-face {
-	font-family: "HSpirits";
+	font-family: "Halloween";
     src: url(./HalloweenSpirits-K7aAl.ttf) format("truetype"); 
 }
 
 .material-icons.home::before {
-	font-family: "HSpirits";
+	font-family: "Halloween";
 	font-size: 100%;
-	font-weight: 100;
-	content: "j";
-}
-
-.emby-tab-button > * > .material-icons.home::before {
-	font-family: "HSpirits";
-	font-size: 100%;
-	font-weight: 100;
 	content: "j";
 }
 
