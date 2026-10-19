@@ -74,7 +74,7 @@ const QuickConnectPage: FC = () => {
             shouldAutoFocus
         >
             <div className='padded-left padded-right padded-bottom-page'>
-                <form onSubmit={onSubmitCode}>
+                <form onSubmit={onSubmitCode} style={{ margin: '0 auto' }}>
                     <div className='verticalSection'>
                         <h2 className='sectionTitle'>
                             {globalize.translate('QuickConnect')}
