@@ -40,3 +40,5 @@ Remove margins of section Libraries which caused the screen to scroll horizontal
 ### ThemeHalloween
 Intoduce a new Halloween based theme.</br>
 
+### ImproveQuickConnect
+Place the QuickConnect page content at the center of its frame. This is consistent with how other pages are rendered.</br>
