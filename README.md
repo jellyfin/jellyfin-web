@@ -38,7 +38,7 @@ Fix event propagating to the UI when leaving a screensaver.</br>
 Remove margins of section Libraries which caused the screen to scroll horizontally when navigating using arrow keys.</br>
 
 ### ThemeHalloween
-Intoduce a new Halloween based theme.</br>
+Introduce a new Halloween based theme.</br>
 
 ### ImproveQuickConnect
 Place the QuickConnect page content at the center of its frame. This is consistent with how other pages are rendered.</br>
