@@ -43,7 +43,9 @@ const getCurrentUserView = (
     if (!isUserViewPath) return undefined;
 
     if (collectionType === CollectionType.Livetv) {
-        return userViews?.find(({ CollectionType: type }) => type === CollectionType.Livetv);
+        // eslint-disable-next-line sonarjs/different-types-comparison
+        return userViews?.find(({ Id: id, CollectionType: type }) => type === CollectionType.Livetv && id === libraryId)
+            ?? userViews?.find(({ CollectionType: type }) => type === CollectionType.Livetv);
     }
 
     if (pathname === HOME_PATH && tab === 1) {

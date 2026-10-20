@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Guide from 'components/guide/guide';
+import type { ParentId } from 'types/library';
 import 'material-design-icons-iconfont';
 import 'elements/emby-programcell/emby-programcell';
 import 'elements/emby-button/emby-button';
@@ -12,16 +13,21 @@ import 'components/guide/programs.scss';
 import 'styles/scrollstyles.scss';
 import 'styles/flexstyles.scss';
 
-const GuideView: FC = () => {
+interface GuideViewProps {
+    parentId: ParentId;
+}
+
+const GuideView: FC<GuideViewProps> = ({ parentId }) => {
     const guideInstance = useRef<Guide | null>();
     const tvGuideContainerRef = useRef<HTMLDivElement>(null);
 
     const initGuide = useCallback((element: HTMLDivElement) => {
         guideInstance.current = new Guide({
             element: element,
-            serverId: window.ApiClient.serverId()
+            serverId: window.ApiClient.serverId(),
+            parentId
         });
-    }, []);
+    }, [parentId]);
 
     useEffect(() => {
         const element = tvGuideContainerRef.current;
@@ -29,9 +35,8 @@ const GuideView: FC = () => {
             console.error('Unexpected null reference');
             return;
         }
-        if (!guideInstance.current) {
-            initGuide(element);
-        }
+        guideInstance.current?.destroy();
+        initGuide(element);
     }, [initGuide]);
 
     useEffect(() => {

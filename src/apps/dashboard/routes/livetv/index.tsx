@@ -23,6 +23,7 @@ import Alert from '@mui/material/Alert';
 import List from '@mui/material/List';
 import Provider from 'apps/dashboard/features/livetv/components/Provider';
 import Grid from '@mui/material/Grid';
+import LiveTvInstanceManager from 'apps/dashboard/features/livetv/components/LiveTvInstanceManager';
 
 const CONFIG_KEY = 'livetv';
 
@@ -116,6 +117,8 @@ export const Component = () => {
                                 ))}
                             </Grid>
                         </Box>
+
+                        <LiveTvInstanceManager tunerHosts={config.TunerHosts || []} />
 
                         <Typography variant='h2'>{globalize.translate('HeaderGuideProviders')}</Typography>
 

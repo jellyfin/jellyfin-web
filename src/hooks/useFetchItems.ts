@@ -31,6 +31,9 @@ import { ItemKind } from 'types/base/models/item-kind';
 import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
 import type { ItemDto } from 'types/base/models/item-dto';
 
+const getLiveTvParentIdParams = (parentId: ParentId) =>
+    parentId && parentId !== 'livetv' ? { parentId } : undefined;
+
 const fetchGetItems = async (
     currentApi: JellyfinApiContext,
     parametersOptions: LibraryApiGetItemsRequest,
@@ -288,7 +291,8 @@ const fetchGetItemsViewByType = async (
                         enableImageTypes: [ImageType.Primary]
                     },
                     {
-                        signal: options?.signal
+                        signal: options?.signal,
+                        params: getLiveTvParentIdParams(parentId)
                     }
                 );
                 break;
@@ -323,7 +327,8 @@ const fetchGetItemsViewByType = async (
                         sortOrder: SortOrder.Ascending
                     },
                     {
-                        signal: options?.signal
+                        signal: options?.signal,
+                        params: getLiveTvParentIdParams(parentId)
                     }
                 );
                 break;
@@ -565,6 +570,7 @@ function groupsTimers(timers: ItemDto[], indexByDate?: boolean) {
 
 const fetchGetTimers = async (
     currentApi: JellyfinApiContext,
+    parentId: ParentId,
     indexByDate?: boolean,
     options?: AxiosRequestConfig
 ) => {
@@ -576,7 +582,8 @@ const fetchGetTimers = async (
                 isScheduled: true
             },
             {
-                signal: options?.signal
+                signal: options?.signal,
+                params: getLiveTvParentIdParams(parentId)
             }
         );
 
@@ -586,11 +593,11 @@ const fetchGetTimers = async (
     }
 };
 
-export const useGetTimers = (isUpcomingRecordingsEnabled: boolean, indexByDate?: boolean) => {
+export const useGetTimers = (parentId: ParentId, isUpcomingRecordingsEnabled: boolean, indexByDate?: boolean) => {
     const currentApi = useApi();
     return useQuery({
-        queryKey: ['Timers', { isUpcomingRecordingsEnabled, indexByDate }],
-        queryFn: ({ signal }) => fetchGetTimers(currentApi, indexByDate, { signal }),
+        queryKey: ['Timers', parentId, { isUpcomingRecordingsEnabled, indexByDate }],
+        queryFn: ({ signal }) => fetchGetTimers(currentApi, parentId, indexByDate, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id && isUpcomingRecordingsEnabled
     });
 };
@@ -622,7 +629,8 @@ const fetchGetSectionItems = async (
                             ...section.parametersOptions
                         },
                         {
-                            signal: options?.signal
+                            signal: options?.signal,
+                            params: getLiveTvParentIdParams(parentId)
                         }
                     )
                 ).data.Items;
@@ -644,7 +652,8 @@ const fetchGetSectionItems = async (
                             ...section.parametersOptions
                         },
                         {
-                            signal: options?.signal
+                            signal: options?.signal,
+                            params: getLiveTvParentIdParams(parentId)
                         }
                     )
                 ).data.Items;
@@ -829,13 +838,14 @@ export const useGetSuggestionSectionsWithItems = (
 };
 
 export const useGetProgramsSectionsWithItems = (
+    parentId: ParentId,
     programSectionType: SectionType[]
 ) => {
     const currentApi = useApi();
     const sections = getProgramSections();
     return useQuery({
-        queryKey: ['ProgramSectionWithItems', { programSectionType }],
-        queryFn: ({ signal }) => getSectionsWithItems(currentApi, undefined, sections, programSectionType, { signal }),
+        queryKey: ['ProgramSectionWithItems', parentId, { programSectionType }],
+        queryFn: ({ signal }) => getSectionsWithItems(currentApi, parentId, sections, programSectionType, { signal }),
         enabled: !!currentApi.api && !!currentApi.user?.Id
     });
 };

@@ -356,7 +356,7 @@ class AppRouter {
         }
 
         if (item.CollectionType == CollectionType.Livetv) {
-            return `#/livetv?collectionType=${item.CollectionType}`;
+            return `#/livetv?collectionType=${item.CollectionType}&topParentId=${item.Id}`;
         }
 
         if (item.Type === 'Genre') {

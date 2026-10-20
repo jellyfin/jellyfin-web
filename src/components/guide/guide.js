@@ -230,6 +230,7 @@ function Guide(options) {
         };
 
         channelQuery.UserId = apiClient.getCurrentUserId();
+        channelQuery.ParentId = options.parentId;
 
         const channelLimit = 500;
         currentChannelLimit = channelLimit;
@@ -336,6 +337,7 @@ function Guide(options) {
                 channelIds: channelsResult.Items.map(function (c) {
                     return c.Id;
                 }).join(','),
+                ParentId: options.parentId,
                 ImageTypeLimit: 1,
                 EnableImages: false,
                 //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
