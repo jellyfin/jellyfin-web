@@ -5,6 +5,7 @@ declare module '@mui/material/styles' {
     interface ColorSchemeOverrides {
         appletv: true;
         blueradiance: true;
+        'catppuccin-frappe': true;
         'catppuccin-macchiato': true;
         'catppuccin-mocha': true;
         purplehaze: true;
