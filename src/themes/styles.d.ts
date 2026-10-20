@@ -6,6 +6,7 @@ declare module '@mui/material/styles' {
         appletv: true;
         blueradiance: true;
         'catppuccin-frappe': true;
+        'catppuccin-latte': true;
         'catppuccin-macchiato': true;
         'catppuccin-mocha': true;
         purplehaze: true;

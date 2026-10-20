@@ -1,6 +1,9 @@
+import type { PaletteMode } from '@mui/material/styles';
+
 import { buildCustomColorScheme } from 'themes/utils';
 
 interface CatppuccinTheme {
+    mode?: PaletteMode;
     rosewater: string;
     flamingo: string;
     pink: string;
@@ -32,6 +35,7 @@ interface CatppuccinTheme {
 /** Creates a color scheme from Catpuccin theme colors. */
 export const buildCatppuccinColorScheme = (catppuccin: CatppuccinTheme) => buildCustomColorScheme({
     palette: {
+        mode: catppuccin.mode,
         background: {
             default: catppuccin.base,
             paper: catppuccin.mantle
