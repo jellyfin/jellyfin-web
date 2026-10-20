@@ -42,6 +42,18 @@ export const buildCatppuccinColorScheme = (catppuccin: CatppuccinTheme) => build
         secondary: {
             main: catppuccin.sapphire
         },
+        error: {
+            main: catppuccin.red
+        },
+        info: {
+            main: catppuccin.blue
+        },
+        success: {
+            main: catppuccin.green
+        },
+        warning: {
+            main: catppuccin.yellow
+        },
         text: {
             primary: catppuccin.text,
             secondary: catppuccin.subtext1
