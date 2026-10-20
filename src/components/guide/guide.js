@@ -1025,12 +1025,13 @@ function Guide(options) {
             if (programCell) {
                 scrollHelper.toCenter(programGrid, programCell, true, true);
             }
-        } else if (lastFocusDirection === 'up' || lastFocusDirection === 'down') {
-            const verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
-            if (verticalScroller) {
-                const focusedElement = programCell || dom.parentWithTag(target, 'BUTTON');
-                verticalScroller.toCenter(focusedElement, true);
-            }
+        }
+
+        // Native TV focus changes can bypass the guide command handler.
+        const verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
+        const focusedElement = programCell || dom.parentWithTag(target, 'BUTTON');
+        if (verticalScroller && focusedElement) {
+            verticalScroller.toCenter(focusedElement, true);
         }
     }
 
