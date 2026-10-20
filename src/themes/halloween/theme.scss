@@ -2,27 +2,54 @@
 
 /* Secondary pink color for the theme */
 $secondary-main: #6d4b66;
+$button-inheritContainedBg: rgba(255, 143, 0, 0.5) !important;
+$button-inheritContainedHoverBg: rgba(255, 143, 0, 0.8) !important;
+$text-secondary: #2d1f2d !important;
+$appBar-transparentBg: #e4700ade !important;
 
 /* Import the base theme */
 @use '../_base/theme' with (
 
     // Theme options
-    $dark: false,
+    $dark: true,
 	
 	// Color palette
     $background-default: #f87a0b,
 	$background-defaultImage: url(bg.jpg),
     $background-paper: #f87a0b,
     $text-primary: #220426,
-    $text-secondary: #220426,
+    $text-secondary: $text-secondary,
     $action-focus: #777,
     $action-hover: #777,
 	$secondary-main: $secondary-main,
     $divider: rgba(0, 0, 0, 0.14),
 	$primary-main: #58405a,
 	$primary-dark: #413243,
-	$primary-contrastText: #d3a972
+	$appBar-transparentBg: $appBar-transparentBg,
+	$primary-contrastText: #d3a972,
+	$button-inheritContainedBg: $button-inheritContainedBg,
+	$button-inheritContainedHoverBg: $button-inheritContainedHoverBg
 );
+
+* {
+    scrollbar-color: #fe9001 #282828;
+    scrollbar-width: thin;
+}
+
+.skinHeader,
+html {
+    color: #282828;
+}
+
+::-moz-selection { 
+	color: #ffa700;
+	background: #282828;
+}
+
+::selection {
+	color: #ffa700;
+	background: #282828;
+}
 
 @font-face {
 	font-family: "Halloween";
@@ -39,7 +66,7 @@ $secondary-main: #6d4b66;
 	overflow: visible;
 }
 
-.material-icons.check::before {
+span.checkboxOutline > .material-icons.check::before {
 	font-family: "Halloween";
 	font-size: 160%;
 	content: "j";
@@ -51,7 +78,7 @@ $secondary-main: #6d4b66;
 	color: #58405a;
 }
 
-div.selectArrowContainer > .material-icons.keyboard_arrow_down::before {
+div.userPreferencesPage div.selectContainer .material-icons.keyboard_arrow_down::before {
 	font-family: "Halloween";
 	font-size: 100%;
 	content: "q";
@@ -91,4 +118,21 @@ div.imagePlaceHolder > #image {
 	width: 170px !important;
 	height: 170px !important;
 	border-radius: 20% !important;
+}
+
+.mdl-spinner__layer-1,
+.mdl-spinner__layer-2,
+.mdl-spinner__layer-3,
+.mdl-spinner__layer-4 {
+    border-color: #6f53d3 !important;
+}
+
+::-moz-selection { 
+	color: #ffa700;
+	background: #282828;
+}
+
+::selection {
+	color: #ffa700;
+	background: #282828;
 }
