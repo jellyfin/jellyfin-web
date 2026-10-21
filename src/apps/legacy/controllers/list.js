@@ -269,9 +269,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         instance.queryRecursive = true;
         let method = 'getItems';
 
-        if (params.type === 'MusicArtist') {
-            method = 'getArtists';
-        } else if (params.type === 'Person') {
+        if (params.type === 'MusicArtist' || params.type === 'Person') {
             method = 'getPeople';
         }
 
@@ -281,6 +279,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             Fields: 'PrimaryImageAspectRatio,SortName,Chapters,Trickplay',
             ImageTypeLimit: 1,
             IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
+            PersonTypes: params.type === 'MusicArtist' ? 'Artist' : null,
             Recursive: true,
             IsFavorite: params.IsFavorite === 'true' || null,
             ArtistIds: params.artistId || null,

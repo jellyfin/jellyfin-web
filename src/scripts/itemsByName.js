@@ -423,7 +423,7 @@ function getItemsFunction(options, item) {
 
         if (query.IncludeItemTypes === 'MusicArtist') {
             query.IncludeItemTypes = null;
-            return apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query);
+            return apiClient.getPeople(apiClient.getCurrentUserId(), { ...query, PersonTypes: 'AlbumArtist' });
         }
 
         return apiClient.getItems(apiClient.getCurrentUserId(), query);

@@ -124,7 +124,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
     let promise;
 
     if (section.types === 'MusicArtist') {
-        promise = ApiClient.getArtists(userId, options);
+        promise = ApiClient.getPeople(userId, { ...options, PersonTypes: 'Artist' });
     } else {
         options.IncludeItemTypes = section.types;
         promise = ApiClient.getItems(userId, options);
