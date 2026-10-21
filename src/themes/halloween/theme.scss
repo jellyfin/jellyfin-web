@@ -51,6 +51,13 @@ html {
 	background: #282828;
 }
 
+.mdl-spinner__layer-1,
+.mdl-spinner__layer-2,
+.mdl-spinner__layer-3,
+.mdl-spinner__layer-4 {
+    border-color: #6f53d3 !important;
+}
+
 @font-face {
 	font-family: "Halloween";
     src: url(./HalloweenSpirits-K7aAl.ttf) format("truetype"); 
@@ -120,19 +127,120 @@ div.imagePlaceHolder > #image {
 	border-radius: 20% !important;
 }
 
-.mdl-spinner__layer-1,
-.mdl-spinner__layer-2,
-.mdl-spinner__layer-3,
-.mdl-spinner__layer-4 {
-    border-color: #6f53d3 !important;
+/********************/
+/* checkbox widgets */
+/********************/
+
+@keyframes check-in {
+	from {transform: scale(0);}
+	to {transform: scale(1.8);}
 }
 
-::-moz-selection { 
-	color: #ffa700;
-	background: #282828;
+.checkboxIcon-checked {
+	color: #573fac !important;
+	animation-name: check-in;
+	animation-duration: .15s;
+	text-shadow: 0px 0px 0px;
+	font-size: 1.7em;
 }
 
-::selection {
-	color: #ffa700;
+.checkboxOutline {
+	overflow: visible;
+	transform: scale(0.78);
+	border: .2em solid rgb(93, 62, 15);
+	border-radius: 100%;
+}
+
+.emby-checkbox + span + .checkboxOutline {
+    border-color: #825b10;
+}
+
+.emby-checkbox:hover:not(:disabled) + span + .checkboxOutline,
+.emby-checkbox:hover:not(:disabled) + span + .checkboxOutline > .checkboxIcon-checked,
+.emby-checkbox:focus + span + .checkboxOutline,
+.emby-checkbox:focus + span + .checkboxOutline > .checkboxIcon-checked {
+	border-color: #5539b8 !important;
+	color: #5539b8 !important;
+}
+
+
+/******************/
+/* slider widgets */
+/******************/
+
+.mdl-slider {
+	background: transparent;
+}
+
+.mdl-slider-background,
+.mdl-slider-background-flex  {
+	box-shadow: 1px 1px 3px #5e2f06;
+	background: #c4721b;
+}
+
+.mdl-slider:focus,
+.mdl-slider:hover:not(:disabled) {
+	background-color: rgba(255, 166, 86, 0.1);
+}
+
+.mdl-slider:active {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mdl-slider-background-lower {
+	background: linear-gradient(135deg, #4114e5 0%, #6f53d3 100%);
+}
+
+.mdl-slider::-moz-range-thumb {
+	box-shadow: 0px 2px 8px #1e1d25;
+	background: #43395b;
+}
+
+.mdl-slider::-ms-thumb {
+	box-shadow: 0px 2px 8px #1e1d25;
+	background: #43395b;
+}
+
+.mdl-slider::-webkit-slider-thumb {
+	box-shadow: 0px 2px 8px #1e1d25;
+	background: #43395b;
+}
+
+.mdl-slider:focus::-moz-range-thumb,
+.mdl-slider:hover:not(:disabled)::-moz-range-thumb {
+	box-shadow: 0px 2px 8px #1e1d25;
+	background: #733ee6;
+}
+
+.mdl-slider:focus::-ms-thumb,
+.mdl-slider:hover:not(:disabled)::-ms-thumb {
+	box-shadow: 0px 2px 8px #1e1d25;
+	background: #733ee6;
+}
+
+.mdl-slider:focus::-webkit-slider-thumb,
+.mdl-slider:hover:not(:disabled)::-webkit-slider-thumb {
+	box-shadow: 0px 2px 8px #1e1d25;
+	background: #733ee6;
+}
+
+.mdl-slider-container {
+    height: 0.83em !important;
+}
+
+.sliderBubble {
+	background: rgba(255, 155, 0, 0.8);
+	color: #282828;
+	border-radius: 62px;
+	border: 3px ridge #c46e00;
+}
+
+.sliderBubbleText {
+	font-family: "Mystery";
+	font-size: 170% !important;
+}
+
+.sliderBubble.sliderBubbleCurrentValue {
 	background: #282828;
+	color: rgba(255, 155, 0, 0.8);
 }
