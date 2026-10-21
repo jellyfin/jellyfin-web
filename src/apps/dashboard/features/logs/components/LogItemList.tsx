@@ -12,7 +12,8 @@ type LogItemProps = {
 
 const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) => {
     const getDate = (logFile: LogFile) => {
-        const date = datetime.parseISO8601Date(logFile.DateModified, true);
+        // If DateModified is undefined or null, then this will throw an Error
+        const date = datetime.parseISO8601Date(logFile.DateModified as string, true);
         return datetime.toLocaleDateString(date) + ' ' + datetime.getDisplayTime(date);
     };
 
