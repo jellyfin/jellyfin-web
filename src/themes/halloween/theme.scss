@@ -252,3 +252,87 @@ div.imagePlaceHolder > #image {
 .starIcon {
 	color: #f2e51e;
 }
+
+/* Skin Header */
+
+.skinHeader {
+	contain: layout style !important;
+	box-shadow: none;
+	overflow: visible !important;
+}
+
+.libraryDocument .skinHeader {
+  background: linear-gradient(180deg, rgb(59, 22, 60) 0%, rgb(180, 106, 27) 60%, rgba(224, 133, 17, 0.62) 80%, rgba(153, 104, 52, 0.4) 95%, rgba(40, 40, 40, 0.05) 100%) !important;
+}
+
+.skinHeader {
+	background: rgb(40, 40, 40) !important;
+}
+
+.skinHeader.osdHeader {
+	height: 4.5em;
+	transition: opacity .6s ease-out;
+	color: #fe9001;
+	background: rgba(255, 143, 0, 0.64) !important;
+}
+
+.osdHeader {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.headerLeft, .headerRight {
+	overflow: visible !important;
+	margin-right: .5em;
+	margin-left: .5em;
+}
+
+/* tab buttons */
+
+.emby-tab-button {
+	overflow: visible;
+}
+
+.emby-tab-button:hover {
+	color: #fac075 !important;
+}
+
+.emby-tab-button-active {
+	text-shadow: 0 0 4px #756b7d, 0 0 8px #e8e5ed, 0 0 16px #f7f4fa, 0 0 34px #caa8fc !important;
+	color: #282828 !important;
+	animation-name: buttonfocus !important;
+	animation-duration: .15s !important;
+	transform: scale(1.4) !important;
+}
+
+/* headerButton */
+
+@keyframes buttonfocus {
+	from {transform: scale(1.0);}
+	80% {transform: scale(1.4);}
+	to {transform: scale(1.3);}
+}
+
+.detailButton:focus,
+.headerButton:focus {
+	background-color: rgba(231, 123, 7, 0.4);
+	animation-name: buttonfocus;
+	animation-duration: .10s;
+	transform: scale(1.3);
+}
+
+.headerButton:hover:not(:disabled) {
+	color: #efe4aa;
+	background-color: rgba(116, 46, 217, 0.4);
+}
+
+.headerButton:active:not(:disabled) {
+    color: #f0ed3c;
+	background-color: rgba(133, 84, 204, 0.8);
+}
+
+.scrollX {
+	overflow-x: visible;
+	overflow-y: visible;
+	white-space: nowrap;
+}
