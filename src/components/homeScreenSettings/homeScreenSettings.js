@@ -450,7 +450,7 @@ function onSectionOrderListClick(e) {
                 const next = viewItem.nextSibling;
 
                 if (next) {
-                    viewItem.parentNode.removeChild(viewItem);
+                    viewItem.remove();
                     next.parentNode.insertBefore(viewItem, next.nextSibling);
                     focusManager.focus(e.target);
                 }
@@ -458,7 +458,7 @@ function onSectionOrderListClick(e) {
                 const prev = viewItem.previousSibling;
 
                 if (prev) {
-                    viewItem.parentNode.removeChild(viewItem);
+                    viewItem.remove();
                     prev.parentNode.insertBefore(viewItem, prev);
                     focusManager.focus(e.target);
                 }

@@ -18,7 +18,7 @@ function getToastContainer() {
 
 function remove(elem: HTMLElement) {
     setTimeout(function () {
-        elem.parentNode?.removeChild(elem);
+        elem.remove();
     }, 300);
 }
 

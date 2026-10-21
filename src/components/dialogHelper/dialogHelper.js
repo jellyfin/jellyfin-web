@@ -37,7 +37,7 @@ function tryRemoveElement(elem) {
     if (parentNode) {
         // Seeing crashes in edge webview
         try {
-            parentNode.removeChild(elem);
+            elem.remove();
         } catch (err) {
             console.error('[dialogHelper] error removing dialog element: ' + err);
         }
@@ -243,7 +243,7 @@ export function open(dlg) {
 
     const parent = dlg.parentNode;
     if (parent) {
-        parent.removeChild(dlg);
+        dlg.remove();
     }
 
     const dialogContainer = document.createElement('div');

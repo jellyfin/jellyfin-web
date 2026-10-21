@@ -204,8 +204,8 @@ function supportsCue() {
         document.body.appendChild(video);
 
         const cue = window.getComputedStyle(video, '::cue').background;
-        document.body.removeChild(style);
-        document.body.removeChild(video);
+        style.remove();
+        video.remove();
 
         return !!cue.length;
     } catch (err) {

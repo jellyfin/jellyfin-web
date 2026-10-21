@@ -462,13 +462,13 @@ function onSortableContainerClick(e) {
         if (btnSortable.classList.contains('btnSortableMoveDown')) {
             const next = li.nextSibling;
             if (next) {
-                li.parentNode.removeChild(li);
+                li.remove();
                 next.parentNode.insertBefore(li, next.nextSibling);
             }
         } else {
             const prev = li.previousSibling;
             if (prev) {
-                li.parentNode.removeChild(li);
+                li.remove();
                 prev.parentNode.insertBefore(li, prev);
             }
         }

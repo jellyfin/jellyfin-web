@@ -37,7 +37,7 @@ function textAreaCopy(text) {
         ret = Promise.reject();
     }
 
-    document.body.removeChild(textArea);
+    textArea.remove();
 
     return ret;
 }

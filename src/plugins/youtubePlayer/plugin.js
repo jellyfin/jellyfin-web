@@ -237,7 +237,7 @@ class YoutubePlayer {
         if (dlg) {
             this.videoDialog = null;
 
-            dlg.parentNode.removeChild(dlg);
+            dlg.remove();
         }
     }
     canPlayMediaType(mediaType) {

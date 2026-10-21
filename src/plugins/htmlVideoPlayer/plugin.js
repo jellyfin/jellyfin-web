@@ -74,7 +74,7 @@ function tryRemoveElement(elem) {
     if (parentNode) {
         // Seeing crashes in edge webview
         try {
-            parentNode.removeChild(elem);
+            elem.remove();
         } catch (err) {
             console.error(`error removing dialog element: ${err}`);
         }
@@ -984,13 +984,13 @@ export class HtmlVideoPlayer {
 
             resetSrc(videoElement);
 
-            videoElement.parentNode.removeChild(videoElement);
+            videoElement.remove();
         }
 
         const dlg = this.#videoDialog;
         if (dlg) {
             this.#videoDialog = null;
-            dlg.parentNode.removeChild(dlg);
+            dlg.remove();
         }
 
         if (Screenfull.isEnabled) {

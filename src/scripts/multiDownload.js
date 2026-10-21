@@ -16,7 +16,7 @@ function fallback(urls) {
 
                 // Safari needs a timeout
                 setTimeout(function () {
-                    frame.parentNode.removeChild(frame);
+                    frame.remove();
                 }, 1000);
 
                 if (i < urls.length) {

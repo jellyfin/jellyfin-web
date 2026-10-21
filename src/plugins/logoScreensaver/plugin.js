@@ -151,7 +151,7 @@ export default function () {
         if (elem) {
             return new Promise((resolve) => {
                 const onAnimationFinish = function () {
-                    elem.parentNode.removeChild(elem);
+                    elem.remove();
                     resolve();
                 };
 

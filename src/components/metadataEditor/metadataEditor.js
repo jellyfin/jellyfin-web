@@ -228,7 +228,7 @@ function addElementToList(source, sortCallback) {
 
 function removeElementFromList(source) {
     const el = dom.parentWithClass(source, 'listItem');
-    el.parentNode.removeChild(el);
+    el.remove();
 }
 
 function editPerson(context, person, index) {

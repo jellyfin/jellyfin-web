@@ -1074,7 +1074,7 @@ function Guide(options) {
             const icon = cell.querySelector('.timerIcon');
 
             if (icon) {
-                icon.parentNode.removeChild(icon);
+                icon.remove();
             }
 
             cell.removeAttribute('data-timerid');
@@ -1090,7 +1090,7 @@ function Guide(options) {
             const icon = cell.querySelector('.seriesTimerIcon');
 
             if (icon) {
-                icon.parentNode.removeChild(icon);
+                icon.remove();
             }
 
             cell.removeAttribute('data-seriestimerid');

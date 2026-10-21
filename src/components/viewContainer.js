@@ -69,7 +69,7 @@ export function loadView(options) {
 
         if (currentPage) {
             if (newViewInfo.hasScript) {
-                mainAnimatedPages.removeChild(currentPage);
+                currentPage.remove();
                 view = $(view).appendTo(mainAnimatedPages)[0];
             } else {
                 mainAnimatedPages.replaceChild(view, currentPage);

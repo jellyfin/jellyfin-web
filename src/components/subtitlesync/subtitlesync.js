@@ -117,7 +117,7 @@ class SubtitleSync {
         }
         const elem = this.element;
         if (elem) {
-            elem.parentNode.removeChild(elem);
+            elem.remove();
             this.element = null;
         }
     }

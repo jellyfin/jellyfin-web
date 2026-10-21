@@ -1141,7 +1141,7 @@ function updateUserData(card, userData) {
     } else {
         playedIndicator = card.querySelector('.playedIndicator');
         if (playedIndicator) {
-            playedIndicator.parentNode.removeChild(playedIndicator);
+            playedIndicator.remove();
         }
     }
     if (userData.UnplayedItemCount) {
@@ -1157,7 +1157,7 @@ function updateUserData(card, userData) {
     } else if (enableCountIndicator) {
         countIndicator = card.querySelector('.countIndicator');
         if (countIndicator) {
-            countIndicator.parentNode.removeChild(countIndicator);
+            countIndicator.remove();
         }
     }
 
@@ -1189,7 +1189,7 @@ function updateUserData(card, userData) {
     } else {
         itemProgressBar = card.querySelector('.itemProgressBar');
         if (itemProgressBar) {
-            itemProgressBar.parentNode.removeChild(itemProgressBar);
+            itemProgressBar.remove();
         }
     }
 }
@@ -1238,7 +1238,7 @@ export function onTimerCancelled(timerId, itemsContainer) {
     for (const cell of cells) {
         const icon = cell.querySelector('.timerIndicator');
         if (icon) {
-            icon.parentNode.removeChild(icon);
+            icon.remove();
         }
         cell.removeAttribute('data-timerid');
     }
@@ -1255,7 +1255,7 @@ export function onSeriesTimerCancelled(cancelledTimerId, itemsContainer) {
     for (const cell of cells) {
         const icon = cell.querySelector('.timerIndicator');
         if (icon) {
-            icon.parentNode.removeChild(icon);
+            icon.remove();
         }
         cell.removeAttribute('data-seriestimerid');
     }

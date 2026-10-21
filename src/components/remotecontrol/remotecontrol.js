@@ -550,7 +550,7 @@ export default function () {
                 const listItem = context.querySelector('.listItem[data-playlistItemId="' + playlistItemIds[i] + '"]');
 
                 if (listItem) {
-                    listItem.parentNode.removeChild(listItem);
+                    listItem.remove();
                 }
             }
         } else {

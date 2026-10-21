@@ -23,7 +23,7 @@ let currentSelectionCommandsPanel;
 function hideSelections() {
     const selectionCommandsPanel = currentSelectionCommandsPanel;
     if (selectionCommandsPanel) {
-        selectionCommandsPanel.parentNode.removeChild(selectionCommandsPanel);
+        selectionCommandsPanel.remove();
         currentSelectionCommandsPanel = null;
 
         selectedItems = [];
@@ -31,7 +31,7 @@ function hideSelections() {
         const elems = document.querySelectorAll('.itemSelectionPanel');
         for (let i = 0, length = elems.length; i < length; i++) {
             const parent = elems[i].parentNode;
-            parent.removeChild(elems[i]);
+            elems[i].remove();
             parent.classList.remove('withMultiSelect');
         }
     }
