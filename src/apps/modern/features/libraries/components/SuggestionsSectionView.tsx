@@ -6,13 +6,12 @@ import React, { type FC } from 'react';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
 import { useGetSuggestionSectionsWithItems } from 'hooks/useFetchItems';
-import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
 import type { ParentId } from 'types/library';
-import type { Section, SectionType } from 'types/sections';
+import type { SectionType } from 'types/sections';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 import { useMovieRecommendations } from '../hooks/api/useMovieRecommendations';
@@ -52,14 +51,6 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     if (!sectionsWithItems?.length && !movieRecommendationsItems?.length) {
         return <NoItemsMessage />;
     }
-
-    const getRouteUrl = (section: Section) => {
-        return appRouter.getRouteUrl('list', {
-            serverId: window.ApiClient.serverId(),
-            itemTypes: section.itemTypes,
-            parentId: parentId
-        });
-    };
 
     const getRecommendationTittle = (recommendation: RecommendationDto) => {
         let title = '';
@@ -104,8 +95,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                 <SectionContainer
                     key={section.type}
                     sectionHeaderProps={{
-                        title: globalize.translate(section.name),
-                        url: getRouteUrl(section)
+                        title: globalize.translate(section.name)
                     }}
                     itemsContainerProps={{
                         queryKey: ['SuggestionSectionWithItems']
