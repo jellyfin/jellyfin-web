@@ -50,6 +50,7 @@ function onEditLibrary() {
     }, () => {
         isCreating = false;
         loading.hide();
+        toast(globalize.translate('ErrorDefault'));
     });
     return false;
 }
