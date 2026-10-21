@@ -170,6 +170,16 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
 }
 
 export function resetSrc(elem) {
+    // Leave native PiP before clearing the source so Safari can release its player.
+    if (elem.webkitPresentationMode === 'picture-in-picture'
+        && typeof elem.webkitSetPresentationMode === 'function') {
+        try {
+            elem.webkitSetPresentationMode('inline');
+        } catch (error) {
+            console.error('Error leaving picture-in-picture before resetting media:', error);
+        }
+    }
+
     elem.src = '';
     elem.innerHTML = '';
     elem.removeAttribute('src');
