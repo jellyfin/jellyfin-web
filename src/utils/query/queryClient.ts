@@ -2,6 +2,8 @@ import { QueryCache, QueryClient } from '@tanstack/react-query';
 import type { PersistedClient, Persister } from '@tanstack/react-query-persist-client';
 import { get, set, del } from 'idb-keyval';
 
+import { getRequestErrorStatus } from '../requestErrorStatus';
+
 // TODO: Move this file to lib/query
 
 /** HTTP status code for unauthorized requests. */
@@ -22,9 +24,7 @@ const queryCache = new QueryCache({
     onError: (error, { queryKey }) => {
         if (!queryClient) return;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const requestError = error as any;
-        const status = requestError?.response?.status || requestError?.status || requestError?.statusCode;
+        const status = getRequestErrorStatus(error);
         if (status === HTTP_UNAUTHORIZED) {
             try {
                 // If a query fails due to authorization, cancel it and remove it from the cache to prevent showing
@@ -49,9 +49,7 @@ queryClient = new QueryClient({
             networkMode: 'always', // network connection is not required if running on localhost
             staleTime: MAX_STALENESS,
             retry: (failureCount, error) => {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const requestError = error as any;
-                const status = requestError?.response?.status || requestError?.status || requestError?.statusCode;
+                const status = getRequestErrorStatus(error);
                 // Don't retry if unauthorized
                 if (status === HTTP_UNAUTHORIZED) return false;
                 return failureCount < MAX_RETRIES;
