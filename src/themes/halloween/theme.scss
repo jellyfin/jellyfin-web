@@ -188,7 +188,7 @@ div.imagePlaceHolder > #image {
 }
 
 .mdl-slider-background-lower {
-	background: linear-gradient(135deg, #4114e5 0%, #6f53d3 100%);
+	background: linear-gradient(135deg, #2f1c4b 0%, #8753d3 100%);
 }
 
 .mdl-slider::-moz-range-thumb {
@@ -335,4 +335,18 @@ div.imagePlaceHolder > #image {
 	overflow-x: visible;
 	overflow-y: visible;
 	white-space: nowrap;
+}
+
+div.headerUserButtonRound,
+.imagePlaceHolder > #image {
+	border: 4px ridge rgba(239, 140, 14, 0.6);
+}
+
+button.headerUserButtonRound,
+div.headerUserButtonRound {
+	border-radius: 0%;
+}
+
+.subtitleappearance-preview {
+	background: linear-gradient(140deg,#a67be4,#1b052d) !important;
 }
