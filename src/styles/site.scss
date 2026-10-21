@@ -142,6 +142,8 @@ form {
     margin-right: auto;
     width: 94%;
     overflow-wrap: anywhere;
+
+    /* Fallback for older browsers (e.g. TVs) without overflow-wrap: anywhere */
     word-break: break-word;
 
     @media all and (min-width: 50em) {
