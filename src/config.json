@@ -11,6 +11,10 @@
       "id": "blueradiance",
       "color": "#011432"
     }, {
+      "name": "Catppuccin - Latte",
+      "id": "catppuccin-latte",
+      "color": "#eff1f5"
+    }, {
       "name": "Catppuccin - Frappe",
       "id": "catppuccin-frappe",
       "color": "#303446"
