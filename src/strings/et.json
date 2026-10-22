@@ -1772,7 +1772,7 @@
     "MediaSegmentAction.Skip": "Jäta vahele",
     "MediaSegmentType.Commercial": "Reklaam",
     "MediaSegmentAction.AskToSkip": "Küsi vahele jätmiseks",
-    "MediaSegmentType.Intro": "Algustiitrite",
+    "MediaSegmentType.Intro": "Sissejuhatus",
     "MediaSegmentSkipPrompt": "Jäta vahele {0}",
     "MediaSegmentType.Preview": "Eelvaate",
     "MediaSegmentType.Outro": "Lõputiitrite",

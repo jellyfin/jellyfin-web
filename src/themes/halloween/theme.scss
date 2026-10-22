@@ -246,7 +246,9 @@ div.imagePlaceHolder > #image {
 }
 
 .countIndicator, .fullSyncIndicator, .mediaSourceIndicator, .playedIndicator {
-	color: #ffd299;
+	color: #261803;
+	background: #feb915 !important;
+	border: 2px ridge #ff8401;
 }
 
 .starIcon {
@@ -262,7 +264,7 @@ div.imagePlaceHolder > #image {
 }
 
 .libraryDocument .skinHeader {
-  background: linear-gradient(180deg, rgb(59, 22, 60) 0%, rgb(180, 106, 27) 60%, rgba(224, 133, 17, 0.62) 80%, rgba(153, 104, 52, 0.4) 95%, rgba(40, 40, 40, 0.05) 100%) !important;
+	background: linear-gradient(180deg,#3b163c,#b46a1b 60%,rgba(224,133,17,.62) 80%,rgba(255, 160, 59, 0.4) 95%,rgba(40,40,40,.05)) !important;
 }
 
 .skinHeader {
@@ -349,4 +351,13 @@ div.headerUserButtonRound {
 
 .subtitleappearance-preview {
 	background: linear-gradient(140deg,#a67be4,#1b052d) !important;
+}
+
+.fab, .raised, a[data-role="button"] {
+	background: #FEE0C940 !important;
+	color: #201e1c !important;
+}
+
+.fab:hover, .raised:hover, a[data-role="button"]:hover {
+	background: #FF8400 !important;
 }
