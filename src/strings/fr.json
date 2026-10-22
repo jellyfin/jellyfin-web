@@ -1210,6 +1210,8 @@
     "TonemappingAlgorithmHelp": "Le mappage tonal peut être affiné. Si vous n'êtes pas familier avec ces réglages, il est conseillé de choisir les valeurs recommandées. L'algorithme de mappage recommandé est 'BT.2390'.",
     "LabelTonemappingAlgorithm": "Sélectionner l'algorithme de mappage tonal à utiliser",
     "AllowTonemappingHelp": "Le mappage tonal est capable de convertir une gamme dynamique HDR en SDR tout en maintenant les détails et les couleurs d'image si importants au rendu de la scène originale. Pour le moment, ne fonctionne qu'avec les vidéos HDR10 10bits, HLG, DoVi et requiert l'environnement d'exécution GPGPU correspondant.",
+    "EnableHdrTranscoding": "Conserver le HDR lors du transcodage",
+    "EnableHdrTranscodingHelp": "Transmet le HDR10 au flux transcodé (HEVC Main10, BT.2020/PQ 10 bits) lorsque l'appareil indique qu'il peut afficher le HDR. Désactivé, le HDR transcodé est ramené en SDR par le mappage tonal.",
     "EnableTonemapping": "Activer le mappage tonal",
     "LabelOpenclDeviceHelp": "Ce dispositif OpenCL est utilisé pour le mappage tonal. La partie à gauche du point est le numéro de plate-forme et la partie à droite est le numéro du dispositif sur la plate-forme. La valeur par défaut est 0,0. Le fichier de l'application FFmpeg contenant l'accélération matérielle OpenCL est nécessaire.",
     "LabelOpenclDevice": "Dispositif OpenCL",
