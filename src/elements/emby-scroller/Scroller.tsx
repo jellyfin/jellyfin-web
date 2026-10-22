@@ -26,7 +26,7 @@ export interface ScrollerProps {
 const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
     className,
     isHorizontalEnabled = true,
-    isMouseWheelEnabled = false,
+    isMouseWheelEnabled = true,
     isCenterFocusEnabled = false,
     isScrollButtonsEnabled = true,
     isSkipFocusWhenVisibleEnabled = false,

@@ -1,6 +1,7 @@
 import AppBar, { type AppBarProps } from '@mui/material/AppBar';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import React, { useLayoutEffect, useRef, useState, type FC, type PropsWithChildren } from 'react';
+import ResizeObserver from 'resize-observer-polyfill';
 
 /** The default height of an AppBar. */
 const DEFAULT_APP_BAR_HEIGHT = 64;
