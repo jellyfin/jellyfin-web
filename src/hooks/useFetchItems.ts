@@ -23,6 +23,7 @@ import datetime from 'scripts/datetime';
 import { type JellyfinApiContext, useApi } from './useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
 import { getProgramSections, getSuggestionSections } from 'utils/sections';
+import { VIDEO_PERSON_KINDS } from 'apps/modern/features/libraries/constants/personKinds';
 
 import type { LibraryViewSettings, ParentId } from 'types/library';
 import { type Section, type SectionType, SectionApiMethod } from 'types/sections';
@@ -260,6 +261,25 @@ const fetchGetItemsViewByType = async (
                 );
                 break;
             }
+            case LibraryTab.Persons: {
+                response = await getPersonApi(api).getPersons(
+                    {
+                        userId: user.Id,
+                        parentId: parentId ?? undefined,
+                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        fields: [ItemFields.PrimaryImageAspectRatio],
+                        filters: libraryViewSettings?.Filters?.Status,
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
+                        personTypes: libraryViewSettings?.Filters?.PersonKinds?.length ? libraryViewSettings.Filters.PersonKinds : VIDEO_PERSON_KINDS,
+                        startIndex: libraryViewSettings.StartIndex
+                    },
+                    {
+                        signal: options?.signal
+                    }
+                );
+                break;
+            }
             case LibraryTab.Studios:
                 response = await getStudioApi(api).getStudios(
                     {
@@ -401,6 +421,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,
                 LibraryTab.Authors,
+                LibraryTab.Persons,
                 LibraryTab.Playlists,
                 LibraryTab.Songs,
                 LibraryTab.Books,

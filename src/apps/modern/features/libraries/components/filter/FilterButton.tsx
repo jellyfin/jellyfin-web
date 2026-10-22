@@ -22,6 +22,7 @@ import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
 import FiltersOfficialRatings from './FiltersOfficialRatings';
 import FiltersEpisodesStatus from './FiltersEpisodesStatus';
+import FiltersPersonKinds from './FiltersPersonKinds';
 import FiltersSeriesStatus from './FiltersSeriesStatus';
 import FiltersStatus from './FiltersStatus';
 import FiltersStudios from './FiltersStudios';
@@ -170,6 +171,10 @@ const FilterButton: FC<FilterButtonProps> = ({
             || viewType === LibraryTab.Series
             || viewType === LibraryTab.Episodes
             || viewType === LibraryTab.Mixed;
+    };
+
+    const isFiltersPersonKindsEnabled = () => {
+        return viewType === LibraryTab.Persons;
     };
 
     return (
@@ -501,6 +506,27 @@ const FilterButton: FC<FilterButtonProps> = ({
                         <AccordionDetails>
                             <FiltersSubtitleLanguages
                                 options={filters.SubtitleLanguages}
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
+                {isFiltersPersonKindsEnabled() && (
+                    <Accordion
+                        expanded={expanded === 'filtersPersonKinds'}
+                        onChange={handleChange('filtersPersonKinds')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersPersonKinds-content'
+                            id='filtersPersonKinds-header'
+                        >
+                            <Typography>
+                                {globalize.translate('Credits')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersPersonKinds
                                 libraryViewSettings={libraryViewSettings}
                                 setLibraryViewSettings={setLibraryViewSettings}
                             />
