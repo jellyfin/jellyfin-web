@@ -112,6 +112,7 @@
 - [shindouj](https://github.com/shindouj)
 - [TheDreadPirate](https://github.com/thedreaddpirate)
 - [excelsior](https://github.com/excelsior-dev)
+- [bymoxb](https://github.com/bymoxb)
 
 ## Emby Contributors
 
