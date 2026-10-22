@@ -325,7 +325,7 @@ export default function (view, params) {
                 isRestored: false
             }
         };
-        view?.dispatchEvent(new CustomEvent('backdropshow', event));
+        view?.dispatchEvent(new CustomEvent('viewitemsgroupchange', event));
     });
     view.addEventListener('viewhide', function () {
         libraryMenu.setTransparentMenu(false);

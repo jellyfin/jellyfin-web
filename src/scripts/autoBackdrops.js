@@ -76,7 +76,7 @@ async function showSplashScreen() {
     }
 }
 
-pageClassOn('backdropshow', 'page', function (event) {
+pageClassOn('viewitemsgroupchange', 'page', function (event) {
     const page = this;
 
     if (!page.classList.contains('selfBackdropPage')) {

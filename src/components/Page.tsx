@@ -79,8 +79,8 @@ const Page: FC<PropsWithChildren<PageProps>> = ({
                 }
             }
         };
-        // backdropshow - update backdrops
-        element.current?.dispatchEvent(new CustomEvent('backdropshow', event));
+        // viewitemsgroupchange - update backdrops
+        element.current?.dispatchEvent(new CustomEvent('viewitemsgroupchange', event));
     }, [ homeTabIndex, libraryId ]);
 
     useEffect(() => {
