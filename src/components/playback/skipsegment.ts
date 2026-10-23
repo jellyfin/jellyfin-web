@@ -19,24 +19,30 @@ interface ShowOptions {
     focus?: boolean;
 }
 
-const DEFAULT_HIDE_TIMEOUT_MS = 8000;
+const DEFAULT_HIDE_TIMEOUT_SECONDS = 8;
 const HIDE_TIMEOUT_CSS_VAR = '--skip-hide-duration';
 
 /**
- * The button hides on its own after eight seconds. Themes and custom CSS can
- * override that with `--skip-hide-duration` on `:root` (for example `15s`).
+ * The button hides on its own after the configured delay. A stored preference
+ * wins, then `--skip-hide-duration` on `:root` for themes and custom CSS, and
+ * eight seconds otherwise.
  */
 function getHideTimeoutMs() {
+    const seconds = userSettings.skipPromptHideSeconds();
+    if (seconds > 0) {
+        return seconds * 1000;
+    }
+
     const value = getComputedStyle(document.documentElement).getPropertyValue(HIDE_TIMEOUT_CSS_VAR).trim();
     const match = /^(\d+(?:\.\d+)?)(ms|s)$/.exec(value);
 
     if (!match) {
-        return DEFAULT_HIDE_TIMEOUT_MS;
+        return DEFAULT_HIDE_TIMEOUT_SECONDS * 1000;
     }
 
     const duration = Number(match[1]) * (match[2] === 's' ? 1000 : 1);
 
-    return duration > 0 ? duration : DEFAULT_HIDE_TIMEOUT_MS;
+    return duration > 0 ? duration : DEFAULT_HIDE_TIMEOUT_SECONDS * 1000;
 }
 
 function onHideComplete(this: HTMLButtonElement) {
@@ -101,6 +107,11 @@ class SkipSegment extends PlaybackSubscriber {
     }
 
     showSkipButton(options: ShowOptions) {
+        const hideSeconds = userSettings.skipPromptHideSeconds();
+        if (hideSeconds > 0) {
+            document.documentElement.style.setProperty(HIDE_TIMEOUT_CSS_VAR, `${hideSeconds}s`);
+        }
+
         const elem = this.skipElement;
         if (elem) {
             this.clearHideTimeout();
@@ -162,6 +173,10 @@ class SkipSegment extends PlaybackSubscriber {
     onOsdChanged(_e: Event, isOpen: boolean) {
         this.osdShown = isOpen;
 
+        if (!userSettings.skipPromptFollowControls()) {
+            return;
+        }
+
         if (this.currentSegment) {
             if (isOpen) {
                 this.showSkipButton({
@@ -193,7 +208,7 @@ class SkipSegment extends PlaybackSubscriber {
 
             this.showSkipButton({
                 animate: true,
-                keep: this.osdShown,
+                keep: userSettings.skipPromptFollowControls() && this.osdShown,
                 focus: layoutManager.tv
             });
         }

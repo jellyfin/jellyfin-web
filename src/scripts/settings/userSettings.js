@@ -419,6 +419,33 @@ export class UserSettings {
     }
 
     /**
+     * Get or set whether the skip prompt stays visible while the player controls are open.
+     * @param {boolean} [val] - Flag to keep the skip prompt with the controls or undefined.
+     * @return {boolean} Whether the skip prompt follows the controls.
+     */
+    skipPromptFollowControls(val) {
+        if (val !== undefined) {
+            return this.set('skipPromptFollowControls', val.toString());
+        }
+
+        return this.get('skipPromptFollowControls') !== 'false';
+    }
+
+    /**
+     * Get or set how long the skip prompt stays on screen, in seconds.
+     * Zero means the preference is unset; the player then falls back to eight seconds.
+     * @param {number|string} [val] - Hide delay in seconds or undefined.
+     * @return {number} Hide delay in seconds.
+     */
+    skipPromptHideSeconds(val) {
+        if (val !== undefined) {
+            return this.set('skipPromptHideSeconds', val.toString());
+        }
+
+        return parseInt(this.get('skipPromptHideSeconds') || '0', 10);
+    }
+
+    /**
      * Get or set theme for Dashboard.
      * @param {string|undefined} [val] - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
@@ -743,6 +770,8 @@ export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
+export const skipPromptFollowControls = currentSettings.skipPromptFollowControls.bind(currentSettings);
+export const skipPromptHideSeconds = currentSettings.skipPromptHideSeconds.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
 export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);
