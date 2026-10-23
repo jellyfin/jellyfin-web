@@ -85,9 +85,10 @@ function populateMediaSegments(container, userSettings) {
     const updateSkipPromptVisibility = () => {
         const isAskToSkip = Array.from(container.querySelectorAll('.segmentTypeAction'))
             .some(select => select.value === MediaSegmentAction.AskToSkip);
-        skipPromptSettings.classList.toggle('hide', !isAskToSkip);
+        // The select fires change from the action sheet without bubbling.
+        skipPromptSettings?.classList.toggle('hide', !isAskToSkip);
     };
-    container.onchange = updateSkipPromptVisibility;
+    container.addEventListener('change', updateSkipPromptVisibility, true);
 
     Object.entries(selectedValues)
         .forEach(([id, value]) => {
