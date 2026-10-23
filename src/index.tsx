@@ -48,6 +48,8 @@ import '@/styles/dashboard.scss';
 import '@/styles/detailtable.scss';
 import '@/styles/librarybrowser.scss';
 
+let root: ReturnType<typeof createRoot> | undefined;
+
 async function init() {
     // Log current version to console to help out with issue triage and debugging
     console.info(
@@ -228,7 +230,7 @@ async function renderApp() {
 
     loading.show();
 
-    const root = createRoot(container);
+    root = createRoot(container);
     root.render(
         <RootApp />
     );
@@ -236,4 +238,41 @@ async function renderApp() {
 
 init().catch(error => {
     console.error('Fatal error during initialization', error);
+
+    loading.hide();
+    root?.unmount();
+    root = undefined;
+
+    const container = document.getElementById('reactRoot') ?? document.body;
+    container.innerHTML = '';
+
+    const errorPage = document.createElement('main');
+    errorPage.className = 'page mainAnimatedPage standalonePage';
+    errorPage.dataset.role = 'page';
+    errorPage.setAttribute('role', 'alert');
+
+    const errorContent = document.createElement('div');
+    errorContent.className = 'padded-left padded-right';
+
+    const title = document.createElement('h1');
+    title.textContent = 'Jellyfin Web failed to start';
+
+    const description = document.createElement('p');
+    description.textContent = 'The application could not finish starting. Reload the page to try again.';
+
+    const errorDetails = document.createElement('pre');
+    errorDetails.textContent = error instanceof Error ? `${error.name}: ${error.message || error.toString()}` : String(error);
+
+    const reloadButton = document.createElement('button');
+    reloadButton.type = 'button';
+    reloadButton.className = 'emby-button raised';
+    reloadButton.textContent = 'Reload';
+    reloadButton.addEventListener('click', () => window.location.reload());
+
+    errorContent.appendChild(title);
+    errorContent.appendChild(description);
+    errorContent.appendChild(errorDetails);
+    errorContent.appendChild(reloadButton);
+    errorPage.appendChild(errorContent);
+    container.appendChild(errorPage);
 });
