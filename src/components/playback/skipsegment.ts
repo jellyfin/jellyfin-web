@@ -19,6 +19,26 @@ interface ShowOptions {
     focus?: boolean;
 }
 
+const DEFAULT_HIDE_TIMEOUT_MS = 8000;
+const HIDE_TIMEOUT_CSS_VAR = '--skip-hide-duration';
+
+/**
+ * The button hides on its own after eight seconds. Themes and custom CSS can
+ * override that with `--skip-hide-duration` on `:root` (for example `15s`).
+ */
+function getHideTimeoutMs() {
+    const value = getComputedStyle(document.documentElement).getPropertyValue(HIDE_TIMEOUT_CSS_VAR).trim();
+    const match = /^(\d+(?:\.\d+)?)(ms|s)$/.exec(value);
+
+    if (!match) {
+        return DEFAULT_HIDE_TIMEOUT_MS;
+    }
+
+    const duration = Number(match[1]) * (match[2] === 's' ? 1000 : 1);
+
+    return duration > 0 ? duration : DEFAULT_HIDE_TIMEOUT_MS;
+}
+
 function onHideComplete(this: HTMLButtonElement) {
     if (this) {
         // Handle focus after the hide transition completes
@@ -38,11 +58,13 @@ class SkipSegment extends PlaybackSubscriber {
     private skipElement: HTMLButtonElement | null;
     private currentSegment: MediaSegmentDto | null | undefined;
     private hideTimeout: ReturnType<typeof setTimeout> | null | undefined;
+    private osdShown: boolean;
 
     constructor(playbackManager: PlaybackManager) {
         super(playbackManager);
 
         this.skipElement = null;
+        this.osdShown = false;
         this.onOsdChanged = this.onOsdChanged.bind(this);
     }
 
@@ -104,7 +126,10 @@ class SkipSegment extends PlaybackSubscriber {
                 elem.classList.remove('skip-button-hidden');
 
                 if (!options.keep) {
-                    this.hideTimeout = setTimeout(this.hideSkipButton.bind(this), 8000);
+                    this.hideTimeout = setTimeout(() => {
+                        this.hideTimeout = null;
+                        this.hideSkipButton();
+                    }, getHideTimeoutMs());
                 }
             });
         }
@@ -135,6 +160,8 @@ class SkipSegment extends PlaybackSubscriber {
     }
 
     onOsdChanged(_e: Event, isOpen: boolean) {
+        this.osdShown = isOpen;
+
         if (this.currentSegment) {
             if (isOpen) {
                 this.showSkipButton({
@@ -166,6 +193,7 @@ class SkipSegment extends PlaybackSubscriber {
 
             this.showSkipButton({
                 animate: true,
+                keep: this.osdShown,
                 focus: layoutManager.tv
             });
         }
