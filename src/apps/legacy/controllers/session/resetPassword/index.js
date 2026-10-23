@@ -1,4 +1,5 @@
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
 
 function processForgotPasswordResult(result) {
@@ -25,9 +26,10 @@ function processForgotPasswordResult(result) {
 
 export default function (view) {
     function onSubmit(e) {
-        ApiClient.ajax({
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.ajax({
             type: 'POST',
-            url: ApiClient.getUrl('Users/ForgotPassword/Pin'),
+            url: apiClient.getUrl('Users/ForgotPassword/Pin'),
             dataType: 'json',
             data: JSON.stringify({
                 Pin: view.querySelector('#txtPin').value
@@ -42,4 +44,3 @@ export default function (view) {
 
     view.querySelector('#txtPin').focus();
 }
-

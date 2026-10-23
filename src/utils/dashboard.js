@@ -121,9 +121,7 @@ export function getPluginUrl(name) {
 }
 
 export function getConfigurationResourceUrl(name) {
-    return ApiClient.getUrl('web/ConfigurationPage', {
-        name: name
-    });
+    return ServerConnections.currentApiClient().getUrl('web/ConfigurationPage', { name });
 }
 
 /**

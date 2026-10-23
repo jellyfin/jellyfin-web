@@ -7,6 +7,7 @@ import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from 'scripts/settings/userSettings';
 
 import 'elements/emby-button/emby-button';
@@ -44,8 +45,9 @@ export default function (view, params, tabContent) {
 
     function getPromise() {
         loading.show();
+        const apiClient = new ServerConnections().getApiClient();
         const query = getQuery();
-        return ApiClient.getGenres(ApiClient.getCurrentUserId(), query);
+        return apiClient.getGenres(apiClient.getCurrentUserId(), query);
     }
 
     function enableScrollX() {
@@ -68,6 +70,7 @@ export default function (view, params, tabContent) {
             limit = 10;
         }
 
+        const apiClient = new ServerConnections().getApiClient();
         const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
         const query = {
             SortBy: 'Random',
@@ -82,7 +85,7 @@ export default function (view, params, tabContent) {
             EnableTotalRecordCount: false,
             ParentId: params.topParentId
         };
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then(function (result) {
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
             if (viewStyle == 'Thumb') {
                 cardBuilder.buildCards(result.Items, {
                     itemsContainer: elem,
@@ -215,4 +218,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent, promise);
     };
 }
-
