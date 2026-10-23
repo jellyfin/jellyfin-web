@@ -23,17 +23,18 @@ class MediaSegmentManager extends PlaybackSubscriber {
     private mediaSegmentTypeActions: Record<Partial<MediaSegmentType>, MediaSegmentAction> | undefined;
     private mediaSegments: MediaSegmentDto[] = [];
     private activeItemId: string | null = null;
+    private playbackGeneration = 0;
 
-    private async fetchMediaSegments(api: Api, itemId: string, includeSegmentTypes: MediaSegmentType[]) {
+    private async fetchMediaSegments(api: Api, itemId: string, includeSegmentTypes: MediaSegmentType[], playbackGeneration: number) {
         try {
             const { data: mediaSegments } = await getMediaSegmentApi(api)
                 .getItemSegments({ itemId, includeSegmentTypes });
-            if (itemId === this.activeItemId) {
+            if (playbackGeneration === this.playbackGeneration && itemId === this.activeItemId) {
                 this.mediaSegments = mediaSegments.Items || [];
             }
         } catch (err) {
             console.error('[MediaSegmentManager] failed to fetch segments', err);
-            if (itemId === this.activeItemId) {
+            if (playbackGeneration === this.playbackGeneration && itemId === this.activeItemId) {
                 this.mediaSegments = [];
             }
         }
@@ -86,6 +87,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
     }
 
     onPlayerPlaybackStart(_e: Event, state: PlayerState) {
+        this.playbackGeneration++;
         this.isLastSegmentIgnored = false;
         this.lastSegmentIndex = 0;
         this.lastTime = -1;
@@ -127,7 +129,7 @@ class MediaSegmentManager extends PlaybackSubscriber {
         void this.fetchMediaSegments(
             api,
             itemId,
-            Object.keys(this.mediaSegmentTypeActions).map(t => t as keyof typeof MediaSegmentType));
+            Object.keys(this.mediaSegmentTypeActions).map(t => t as keyof typeof MediaSegmentType), this.playbackGeneration);
     }
 
     onPlayerTimeUpdate() {
