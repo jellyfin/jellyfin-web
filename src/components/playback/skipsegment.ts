@@ -149,8 +149,10 @@ class SkipSegment extends PlaybackSubscriber {
     }
 
     onPromptSkip(e: Event, segment: MediaSegmentDto) {
-        if (this.player && segment.EndTicks != null
-            && segment.EndTicks >= this.playbackManager.currentItem(this.player).RunTimeTicks
+        const currentItem = this.player ? this.playbackManager.currentItem(this.player) : null;
+        if (currentItem && segment.EndTicks != null
+            && currentItem.RunTimeTicks != null
+            && segment.EndTicks >= currentItem.RunTimeTicks
             && this.playbackManager.getNextItem()
             && userSettings.enableNextVideoInfoOverlay()
         ) {
@@ -169,6 +171,12 @@ class SkipSegment extends PlaybackSubscriber {
                 focus: layoutManager.tv
             });
         }
+    }
+
+    onPlayerPlaybackStart() {
+        this.currentSegment = null;
+        this.clearHideTimeout();
+        this.hideSkipButton();
     }
 
     onPlayerTimeUpdate() {
