@@ -81,11 +81,21 @@ function populateMediaSegments(container, userSettings) {
 
     container.innerHTML = segmentSettings;
 
+    const skipPromptSettings = container.parentNode.querySelector('.skipPromptSettings');
+    const updateSkipPromptVisibility = () => {
+        const isAskToSkip = Array.from(container.querySelectorAll('.segmentTypeAction'))
+            .some(select => select.value === MediaSegmentAction.AskToSkip);
+        skipPromptSettings.classList.toggle('hide', !isAskToSkip);
+    };
+    container.onchange = updateSkipPromptVisibility;
+
     Object.entries(selectedValues)
         .forEach(([id, value]) => {
             const field = container.querySelector(`#${id}`);
             if (field) field.value = value;
         });
+
+    updateSkipPromptVisibility();
 }
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {

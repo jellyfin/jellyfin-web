@@ -164,18 +164,20 @@
         <h3 class="sectionTitle">${HeaderMediaSegmentActions}</h3>
         <div class="mediaSegmentActionContainer"></div>
 
-        <div class="checkboxContainer checkboxContainer-withDescription">
-            <label>
-                <input type="checkbox" is="emby-checkbox" class="chkSkipPromptFollowControls" />
-                <span>${LabelSkipPromptFollowControls}</span>
-            </label>
-            <div class="fieldDescription checkboxFieldDescription">${SkipPromptFollowControlsHelp}</div>
-        </div>
+        <div class="skipPromptSettings">
+            <div class="checkboxContainer checkboxContainer-withDescription">
+                <label>
+                    <input type="checkbox" is="emby-checkbox" class="chkSkipPromptFollowControls" />
+                    <span>${LabelSkipPromptFollowControls}</span>
+                </label>
+                <div class="fieldDescription checkboxFieldDescription">${SkipPromptFollowControlsHelp}</div>
+            </div>
 
-        <div class="inputContainer inputContainer-withDescription">
-            <input is="emby-input" type="number" id="txtSkipPromptHideSeconds" pattern="[0-9]*" required="required" min="1" max="60" step="1"
-                label="${LabelSkipPromptHideSeconds}" aria-label="${LabelSkipPromptHideSeconds}" />
-            <div class="fieldDescription">${SkipPromptHideSecondsHelp}</div>
+            <div class="inputContainer inputContainer-withDescription">
+                <input is="emby-input" type="number" id="txtSkipPromptHideSeconds" pattern="[0-9]*" min="1" max="60" step="1"
+                    label="${LabelSkipPromptHideSeconds}" aria-label="${LabelSkipPromptHideSeconds}" />
+                <div class="fieldDescription">${SkipPromptHideSecondsHelp}</div>
+            </div>
         </div>
     </div>
 
