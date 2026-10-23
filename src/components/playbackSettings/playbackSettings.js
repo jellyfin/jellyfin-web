@@ -342,7 +342,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
     userSettingsInstance.skipPromptFollowControls(context.querySelector('.chkSkipPromptFollowControls').checked);
-    const skipPromptHideSeconds = parseInt(context.querySelector('#txtSkipPromptHideSeconds').value, 10);
+    const skipPromptHideSeconds = Number.parseInt(context.querySelector('#txtSkipPromptHideSeconds').value, 10);
     userSettingsInstance.skipPromptHideSeconds(Math.min(60, Math.max(1, skipPromptHideSeconds || 8)));
 
     const segmentTypeActions = context.querySelectorAll('.segmentTypeAction') || [];

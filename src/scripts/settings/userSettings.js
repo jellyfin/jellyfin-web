@@ -442,7 +442,7 @@ export class UserSettings {
             return this.set('skipPromptHideSeconds', val.toString());
         }
 
-        return parseInt(this.get('skipPromptHideSeconds') || '0', 10);
+        return Number.parseInt(this.get('skipPromptHideSeconds') || '0', 10);
     }
 
     /**
