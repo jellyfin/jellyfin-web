@@ -37,7 +37,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
 
     const getRouteUrl = (section: Section) => {
         return appRouter.getRouteUrl('list', {
-            serverId: window.ApiClient.serverId(),
+            serverId: __legacyApiClient__?.serverId(),
             itemTypes: section.itemTypes,
             isAiring: section.parametersOptions?.isAiring,
             isMovie: section.parametersOptions?.isMovie,
