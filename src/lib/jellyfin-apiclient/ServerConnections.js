@@ -95,6 +95,7 @@ class ServerConnections extends ConnectionManager {
             window.ApiClient = apiClient;
             // Calling getApi will ensure apiClient._sdk is initialized.
             this.getApi(apiClient.serverId());
+            Events.trigger(this, 'localapiclientset', [apiClient]);
         }
     }
 
