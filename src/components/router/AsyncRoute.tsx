@@ -22,6 +22,8 @@ const importRoute = (page: string, type: AppType) => {
             return import(/* webpackChunkName: "[request]" */ `../../apps/modern/routes/${page}`);
         case AppType.Legacy:
             return import(/* webpackChunkName: "[request]" */ `../../apps/legacy/routes/${page}`);
+        case AppType.Wizard:
+            return import(/* webpackChunkName: "[request]" */ `../../apps/wizard/routes/${page}`);
     }
 };
 
