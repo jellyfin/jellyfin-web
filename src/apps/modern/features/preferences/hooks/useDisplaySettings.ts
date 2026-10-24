@@ -89,6 +89,7 @@ async function loadDisplaySettings({
         dateTimeLocale: settings.dateTimeLocale() || 'auto',
         disableCustomCss: Boolean(settings.disableCustomCss()),
         displayMissingEpisodes: user?.Configuration?.DisplayMissingEpisodes ?? false,
+        useOriginalTitles: Boolean(settings.shouldUseOriginalTitles()),
         enableBlurHash: Boolean(settings.enableBlurhash()),
         enableFasterAnimation: Boolean(settings.enableFastFadein()),
         enableItemDetailsBanner: Boolean(settings.detailsBanner()),
@@ -151,6 +152,7 @@ async function saveDisplaySettings({
     userSettings.backdropScreensaverInterval(newDisplaySettings.backdropScreensaverInterval);
     userSettings.slideshowInterval(newDisplaySettings.slideshowInterval);
     userSettings.theme(newDisplaySettings.theme);
+    userSettings.shouldUseOriginalTitles(newDisplaySettings.useOriginalTitles);
 
     layoutManager.setLayout(normalizeValue(newDisplaySettings.layout));
 
