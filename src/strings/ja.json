@@ -956,7 +956,7 @@
     "LabelMaxParentalRating": "最大許容ペアレンタル評価",
     "LabelKodiMetadataEnablePathSubstitutionHelp": "サーバーのパス置き換え設定を使って、画像パスの置き換えを有効にします。",
     "ButtonActivate": "有効にする",
-    "Authorize": "認承",
+    "Authorize": "認証",
     "KnownProxiesHelp": "Jellyfin インスタンスへ接続する際に利用する、プロキシーの IP アドレスまたはホスト名のリスト。複数の場合はコンマで区切ります。'X-Forwarded-For' ヘッダを適切に使用するために必要です。保存後に再起動が必要です。",
     "Image": "画像",
     "Other": "その他",
