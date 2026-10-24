@@ -194,6 +194,7 @@ const Profile = ({ userDto }: ProfileProps) => {
         (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked = !!userDto.Policy?.EnableAudioPlaybackTranscoding;
         (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked = !!userDto.Policy?.EnableVideoPlaybackTranscoding;
         (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked = !!userDto.Policy?.EnablePlaybackRemuxing;
+        (page.querySelector('.chkForcePlaybackRemuxing') as HTMLInputElement).checked = !!userDto.Policy?.ForcePlaybackRemuxing;
         (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked = !!userDto.Policy?.ForceRemoteSourceTranscoding;
         (page.querySelector('.chkRemoteAccess') as HTMLInputElement).checked = userDto.Policy?.EnableRemoteAccess == null || userDto.Policy?.EnableRemoteAccess;
         (page.querySelector('#txtRemoteClientBitrateLimit') as HTMLInputElement).value = userDto.Policy?.RemoteClientBitrateLimit && userDto.Policy?.RemoteClientBitrateLimit > 0 ?
@@ -233,6 +234,7 @@ const Profile = ({ userDto }: ProfileProps) => {
             user.Policy.EnableAudioPlaybackTranscoding = (page.querySelector('.chkEnableAudioPlaybackTranscoding') as HTMLInputElement).checked;
             user.Policy.EnableVideoPlaybackTranscoding = (page.querySelector('.chkEnableVideoPlaybackTranscoding') as HTMLInputElement).checked;
             user.Policy.EnablePlaybackRemuxing = (page.querySelector('.chkEnableVideoPlaybackRemuxing') as HTMLInputElement).checked;
+            user.Policy.ForcePlaybackRemuxing = (page.querySelector('.chkForcePlaybackRemuxing') as HTMLInputElement).checked;
             user.Policy.EnableCollectionManagement = (page.querySelector('.chkEnableCollectionManagement') as HTMLInputElement).checked;
             user.Policy.EnableSubtitleManagement = (page.querySelector('.chkEnableSubtitleManagement') as HTMLInputElement).checked;
             user.Policy.ForceRemoteSourceTranscoding = (page.querySelector('.chkForceRemoteSourceTranscoding') as HTMLInputElement).checked;
@@ -436,12 +438,19 @@ const Profile = ({ userDto }: ProfileProps) => {
                             title='OptionAllowVideoPlaybackRemuxing'
                         />
                         <CheckBoxElement
+                            className='chkForcePlaybackRemuxing'
+                            title='OptionForcePlaybackRemuxing'
+                        />
+                        <CheckBoxElement
                             className='chkForceRemoteSourceTranscoding'
                             title='OptionForceRemoteSourceTranscoding'
                         />
                     </div>
                     <div className='fieldDescription'>
                         {globalize.translate('OptionAllowMediaPlaybackTranscodingHelp')}
+                    </div>
+                    <div className='fieldDescription'>
+                        {globalize.translate('OptionForcePlaybackRemuxingHelp')}
                     </div>
                 </div>
                 <br />
