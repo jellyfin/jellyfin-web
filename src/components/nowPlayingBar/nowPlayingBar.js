@@ -48,7 +48,7 @@ let isVisibilityAllowed = true;
 
 let isLyricPageActive = false;
 
-function getNowPlayingBarHtml() {
+export function getNowPlayingBarHtml() {
     let html = '';
 
     html += '<div class="nowPlayingBar hide nowPlayingBar-hidden">';
