@@ -748,6 +748,7 @@ function setFieldVisibilities(context, item) {
         html += '<option value="production">' + globalize.translate('Production') + '</option>';
         html += '<option value="tv">TV</option>';
         html += '<option value="alternate">' + globalize.translate('Alternate') + '</option>';
+        html += '<option value="alttwo">' + globalize.translate('AlternateTwo') + '</option>';
         html += '<option value="regional">' + globalize.translate('Regional') + '</option>';
         html += '<option value="altdvd">' + globalize.translate('AlternateDVD') + '</option>';
 
