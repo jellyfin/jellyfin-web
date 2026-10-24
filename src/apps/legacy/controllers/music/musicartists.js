@@ -71,8 +71,8 @@ export default function (view, params, tabContent, options) {
         setFilterStatus(tabContent, query);
 
         const promise = options.mode == 'albumartists' ?
-            ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query) :
-            ApiClient.getArtists(ApiClient.getCurrentUserId(), query);
+            ApiClient.getPeople(ApiClient.getCurrentUserId(), { ...query, PersonTypes: 'AlbumArtist' }) :
+            ApiClient.getPeople(ApiClient.getCurrentUserId(), { ...query, PersonTypes: 'Artist' });
         promise.then((result) => {
             function onNextPageClick() {
                 if (isLoading) {

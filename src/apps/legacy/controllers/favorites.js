@@ -221,11 +221,11 @@ function getFetchDataFn(section) {
         }
 
         if (section.types === 'MusicArtist') {
-            return apiClient.getArtists(userId, options);
+            return apiClient.getPeople(userId, { ...options, PersonTypes: 'Artist' });
         }
 
         if (section.types === 'Person') {
-            return apiClient.getPeople(userId, options);
+            return apiClient.getPeople(userId, { ...options, ExcludePersonTypes: 'Artist,AlbumArtist' });
         }
 
         options.IncludeItemTypes = section.types;
