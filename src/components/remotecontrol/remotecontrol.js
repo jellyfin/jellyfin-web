@@ -122,7 +122,10 @@ function updateNowPlayingInfo(context, state, serverId) {
                 }
             }
             if (item.Album != null) {
-                albumName = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + item.AlbumId + `&serverId=${nowPlayingServerId}">` + escapeHtml(item.Album) + '</a>';
+                // Audiobooks have no MusicAlbum parent (no AlbumId); link the
+                // book title to the audiobook item itself
+                const albumLinkId = item.Type == 'AudioBook' ? item.Id : item.AlbumId;
+                albumName = '<a class="button-link" is="emby-linkbutton" href="#/details?id=' + albumLinkId + `&serverId=${nowPlayingServerId}">` + escapeHtml(item.Album) + '</a>';
             }
             context.querySelector('.nowPlayingAlbum').innerHTML = albumName;
             context.querySelector('.nowPlayingArtist').innerHTML = artistsSeries;
