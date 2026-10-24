@@ -2,6 +2,7 @@ import browser from '../../scripts/browser';
 import dom from '../../utils/dom';
 import './emby-input.scss';
 import 'webcomponents.js/webcomponents-lite';
+import '../emby-button/paper-icon-button-light';
 
 const EmbyInputPrototype = Object.create(HTMLInputElement.prototype);
 
@@ -50,6 +51,42 @@ EmbyInputPrototype.createdCallback = function () {
     label.htmlFor = this.id;
     parentNode.insertBefore(label, this);
     this.labelElement = label;
+
+    if (this.type === 'password') {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('emby-password-input-wrapper');
+
+        const toggleBtn = document.createElement('button');
+        toggleBtn.setAttribute('type', 'button');
+        toggleBtn.setAttribute('is', 'paper-icon-button-light');
+        toggleBtn.classList.add('emby-input-iconbutton');
+        toggleBtn.setAttribute('aria-label', 'Show password');
+
+        parentNode.insertBefore(wrapper, this);
+        wrapper.appendChild(this);
+        wrapper.appendChild(toggleBtn);
+
+        const iconSpan = document.createElement('span');
+        iconSpan.classList.add('material-icons');
+        iconSpan.setAttribute('aria-hidden', 'true');
+        iconSpan.textContent = 'visibility_off';
+        toggleBtn.appendChild(iconSpan);
+
+        dom.addEventListener(toggleBtn, 'click', function () {
+            const input = wrapper.querySelector('input');
+            if (input.type === 'password') {
+                input.type = 'text';
+                iconSpan.textContent = 'visibility';
+                this.setAttribute('aria-label', 'Hide password');
+            } else {
+                input.type = 'password';
+                iconSpan.textContent = 'visibility_off';
+                this.setAttribute('aria-label', 'Show password');
+            }
+        }, {
+            passive: true
+        });
+    }
 
     dom.addEventListener(this, 'focus', function () {
         onChange.call(this);
@@ -115,4 +152,3 @@ document.registerElement('emby-input', {
     prototype: EmbyInputPrototype,
     extends: 'input'
 });
-
