@@ -14,6 +14,7 @@ export const ASYNC_ADMIN_ROUTES: AsyncRoute[] = [
     { path: 'libraries/metadata', type: AppType.Dashboard },
     { path: 'libraries/nfo', type: AppType.Dashboard },
     { path: 'livetv', type: AppType.Dashboard },
+    { path: 'livetv/guide/:provider', page: 'livetv/guide', type: AppType.Dashboard },
     { path: 'livetv/recordings', type: AppType.Dashboard },
     { path: 'logs', type: AppType.Dashboard },
     { path: 'logs/:file', page: 'logs/file', type: AppType.Dashboard },
