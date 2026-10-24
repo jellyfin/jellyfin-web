@@ -367,7 +367,7 @@ export class BookPlayer {
                         epubElem.style.opacity = '';
                         rendition.on('relocated', (locations) => {
                             this.progress = book.locations.percentageFromCfi(locations.start.cfi);
-                            Events.trigger(this, 'pause');
+                            Events.trigger(this, 'timeupdate');
                         });
 
                         this.setTheme(this.theme, this.fontSize);
