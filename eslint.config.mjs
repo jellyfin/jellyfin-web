@@ -238,6 +238,9 @@ export default tseslint.config(
                         'node_modules',
                         'src'
                     ]
+                },
+                typescript: {
+                    project: 'tsconfig.json'
                 }
             },
             polyfills: [
