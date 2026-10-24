@@ -254,10 +254,14 @@ function translateKeyFromModule(key, module) {
     return key;
 }
 
+import { getSafeLocale } from '../../utils/locale';
+
 export function translate(key) {
     let val = translateKey(key);
     for (let i = 1; i < arguments.length; i++) {
-        val = val.replaceAll('{' + (i - 1) + '}', arguments[i].toLocaleString(currentCulture));
+        const safeLocale = getSafeLocale(currentCulture);
+        const localizedArg = safeLocale ? arguments[i].toLocaleString(safeLocale) : arguments[i].toString();
+        val = val.replaceAll('{' + (i - 1) + '}', localizedArg);
     }
     return val;
 }
