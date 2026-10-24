@@ -22,6 +22,9 @@ import Button from '@mui/material/Button';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation, useSubmit } from 'react-router-dom';
 import { QUERY_KEY, useNamedConfiguration } from 'hooks/useNamedConfiguration';
 import type { EncodingOptions } from '@jellyfin/sdk/lib/generated-client/models/encoding-options';
+
+// EnableHdrTranscoding ships with the server but is not in the generated client yet.
+type HdrEncodingOptions = EncodingOptions & { EnableHdrTranscoding?: boolean };
 import { HardwareAccelerationType } from '@jellyfin/sdk/lib/generated-client/models/hardware-acceleration-type';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
@@ -471,6 +474,20 @@ export const Component = () => {
 
                             {(hardwareAccelType === 'none' || isHwaSelected) && (
                                 <>
+                                    <FormControl>
+                                        <FormControlLabel
+                                            label={globalize.translate('EnableHdrTranscoding')}
+                                            control={
+                                                <Checkbox
+                                                    name='EnableHdrTranscoding'
+                                                    checked={(config as HdrEncodingOptions).EnableHdrTranscoding}
+                                                    onChange={onCheckboxChange}
+                                                />
+                                            }
+                                        />
+                                        <FormHelperText>{globalize.translate('EnableHdrTranscodingHelp')}</FormHelperText>
+                                    </FormControl>
+
                                     {isHwaSelected && (
                                         <FormControl>
                                             <FormControlLabel
