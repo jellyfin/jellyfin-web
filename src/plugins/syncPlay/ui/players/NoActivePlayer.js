@@ -32,11 +32,13 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager._localPause = playbackManager.pause;
         playbackManager._localSeek = playbackManager.seek;
         playbackManager._localSendCommand = playbackManager.sendCommand;
+        playbackManager._localSetPlaybackRate = playbackManager.setPlaybackRate;
 
         // Override local callbacks.
         playbackManager.playPause = this.playPauseRequest;
         playbackManager.unpause = this.unpauseRequest;
         playbackManager.pause = this.pauseRequest;
+        playbackManager.setPlaybackRate = this.setPlaybackSpeedRequest;
         playbackManager.seek = this.seekRequest;
         playbackManager.sendCommand = this.sendCommandRequest;
 
@@ -90,6 +92,7 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
         playbackManager.pause = playbackManager._localPause;
         playbackManager.seek = playbackManager._localSeek;
         playbackManager.sendCommand = playbackManager._localSendCommand;
+        playbackManager.setPlaybackRate = playbackManager._localSetPlaybackRate;
 
         playbackManager._playQueueManager = playbackManager._localPlayQueueManager; // TODO: should move elsewhere?
 
@@ -133,6 +136,14 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
     pauseRequest() {
         const controller = syncPlayManager.getController();
         controller.pause();
+    }
+
+    /**
+     * Overrides PlaybackManager's setPlaybackRate method.
+     */
+    setPlaybackSpeedRequest(speed) {
+        const controller = syncPlayManager.getController();
+        controller.setPlaybackSpeed(speed);
     }
 
     /**
@@ -231,6 +242,17 @@ class NoActivePlayer extends SyncPlay.Players.GenericPlayer {
             playbackManager._localSendCommand(cmd, this.player);
         } else {
             playbackManager.sendCommand(cmd, this.player);
+        }
+    }
+
+    /**
+     * Calls original PlaybackManager's setPlaybackRate method.
+     */
+    localSetPlaybackRate(speed) {
+        if (playbackManager.syncPlayEnabled) {
+            playbackManager._localSetPlaybackRate(speed, this.player);
+        } else {
+            playbackManager.setPlaybackRate(speed, this.player);
         }
     }
 
