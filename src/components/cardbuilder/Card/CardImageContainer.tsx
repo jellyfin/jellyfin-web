@@ -36,6 +36,13 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
         { 'coveredImage-contain': coveredImage && item.Type === ItemKind.TvChannel }
     );
 
+    let countOrPlayedIndicator: React.ReactNode = null;
+    if (item.Type !== ItemKind.Folder) {
+        countOrPlayedIndicator = cardOptions.showGroupCount
+            ? indicator.getChildCountIndicator()
+            : indicator.getPlayedIndicator();
+    }
+
     return (
         <div className={cardImageClass}>
             {cardOptions.disableIndicators !== true && (
@@ -49,9 +56,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                         {indicator.getTimerIndicator()}
                         {indicator.getTypeIndicator()}
 
-                        {cardOptions.showGroupCount ?
-                            indicator.getChildCountIndicator() :
-                            indicator.getPlayedIndicator()}
+                        {countOrPlayedIndicator}
 
                         {(item.Type === ItemKind.CollectionFolder
                             || item.CollectionType) && (
@@ -60,6 +65,10 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                     </Box>
                 </Box>
             )}
+
+            {item.Type === ItemKind.Folder && item.ChildCount
+                ? indicator.getChildCountIndicator()
+                : null}
 
             <Media item={item} imgUrl={imgUrl} blurhash={blurhash} imageType={cardOptions.imageType} />
 
