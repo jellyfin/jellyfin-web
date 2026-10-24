@@ -79,7 +79,8 @@ const KeyAliases = {
     GamepadLeftThumbUp: 'ArrowUp',
     GamepadLeftThumbDown: 'ArrowDown',
     GamepadLeftThumbLeft: 'ArrowLeft',
-    GamepadLeftThumbRight: 'ArrowRight'
+    GamepadLeftThumbRight: 'ArrowRight',
+    MediaPause: 'Pause'
 };
 
 /**
