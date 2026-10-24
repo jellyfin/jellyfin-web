@@ -40,9 +40,7 @@ class QueueCore {
 
         console.debug('SyncPlay updatePlayQueue:', newPlayQueue);
 
-        const serverId = apiClient.serverInfo().Id;
-
-        this.onPlayQueueUpdate(apiClient, newPlayQueue, serverId).then((previous) => {
+        this.onPlayQueueUpdate(apiClient, newPlayQueue).then((previous) => {
             if (newPlayQueue.LastUpdate.getTime() < this.getLastUpdateTime()) {
                 console.warn('SyncPlay updatePlayQueue: trying to apply old update.', newPlayQueue);
                 throw new Error('Trying to apply old update');
@@ -112,10 +110,9 @@ class QueueCore {
      * Called when a play queue update needs to be applied.
      * @param {Object} apiClient The ApiClient.
      * @param {Object} playQueueUpdate The play queue update.
-     * @param {string} serverId The server identifier.
      * @returns {Promise} A promise that gets resolved when update is applied.
      */
-    onPlayQueueUpdate(apiClient, playQueueUpdate, serverId) {
+    onPlayQueueUpdate(apiClient, playQueueUpdate) {
         const oldPlayQueueUpdate = this.lastPlayQueueUpdate;
         const oldPlaylist = this.playlist;
 
@@ -138,26 +135,29 @@ class QueueCore {
         return Helper.getItemsForPlayback(apiClient, {
             Ids: itemIds.join(',')
         }).then((result) => {
-            return Helper.translateItemsForPlayback(apiClient, result.Items, {
-                ids: itemIds,
-                serverId: serverId
-            }).then((items) => {
-                if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
-                    throw new Error('Trying to apply old update');
+            if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
+                throw new Error('Trying to apply old update');
+            }
+
+            // The sender already expanded the queue, so map items one-to-one instead of translating them
+            // again: a local setting like next-episode autoplay would otherwise change the item count.
+            const itemsById = new Map(result.Items.map(item => [item.Id, item]));
+            const items = playQueueUpdate.Playlist.map((queueItem) => {
+                const item = itemsById.get(queueItem.ItemId);
+                if (!item) {
+                    throw new Error(`Play queue item ${queueItem.ItemId} is not available`);
                 }
 
-                for (let i = 0; i < items.length; i++) {
-                    items[i].PlaylistItemId = playQueueUpdate.Playlist[i].PlaylistItemId;
-                }
-
-                this.lastPlayQueueUpdate = playQueueUpdate;
-                this.playlist = items;
-
-                return {
-                    playQueueUpdate: oldPlayQueueUpdate,
-                    playlist: oldPlaylist
-                };
+                return { ...item, PlaylistItemId: queueItem.PlaylistItemId };
             });
+
+            this.lastPlayQueueUpdate = playQueueUpdate;
+            this.playlist = items;
+
+            return {
+                playQueueUpdate: oldPlayQueueUpdate,
+                playlist: oldPlaylist
+            };
         });
     }
 
