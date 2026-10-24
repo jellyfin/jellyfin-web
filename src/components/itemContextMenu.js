@@ -139,22 +139,22 @@ export async function getCommands(options) {
                 icon: 'library_add_check'
             });
         }
+    }
 
-        if (itemHelper.supportsAddingToCollection(item) && (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement)) {
-            commands.push({
-                name: globalize.translate('AddToCollection'),
-                id: 'addtocollection',
-                icon: 'playlist_add'
-            });
-        }
+    if (itemHelper.supportsAddingToCollection(item) && (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement)) {
+        commands.push({
+            name: globalize.translate('AddToCollection'),
+            id: 'addtocollection',
+            icon: 'playlist_add'
+        });
+    }
 
-        if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
-            commands.push({
-                name: globalize.translate('AddToPlaylist'),
-                id: 'addtoplaylist',
-                icon: 'playlist_add'
-            });
-        }
+    if (itemHelper.supportsAddingToPlaylist(item) && options.playlist !== false) {
+        commands.push({
+            name: globalize.translate('AddToPlaylist'),
+            id: 'addtoplaylist',
+            icon: 'playlist_add'
+        });
     }
 
     if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
