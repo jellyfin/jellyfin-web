@@ -3,6 +3,7 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import React, { FC, useCallback } from 'react';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
+import Check from '@mui/icons-material/Check';
 import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import Button from '@mui/material/Button';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -14,6 +15,7 @@ import Popover from '@mui/material/Popover';
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
+import { randomInt } from 'utils/number';
 import isEqual from 'lodash-es/isEqual';
 
 type SortOption = {
@@ -160,6 +162,15 @@ const getSortMenuOptions = (viewType: LibraryTab): SortOption[] => {
     return sortOptionsMapping[viewType] || [];
 };
 
+const getSelectedOptionIcon = (sortBy: ItemSortBy[], sortOrder: SortOrder) => {
+    // Random has no sort order to show
+    if (sortBy.includes(ItemSortBy.Random)) {
+        return <Check fontSize='small' />;
+    }
+
+    return sortOrder === SortOrder.Ascending ? <ArrowUpward fontSize='small' /> : <ArrowDownward fontSize='small' />;
+};
+
 interface SortButtonProps {
     viewType: LibraryTab;
     libraryViewSettings: LibraryViewSettings;
@@ -188,10 +199,14 @@ const SortButton: FC<SortButtonProps> = ({
 
     const onMenuItemClick = useCallback(
         (sortBy: ItemSortBy[]) => {
+            const isRandom = sortBy.includes(ItemSortBy.Random);
+            // Random has no sort order. Picking it again gets a new seed instead, which reshuffles
+            const randomSeed = isRandom ? randomInt(0, 2 ** 31 - 1) : undefined;
+
             setLibraryViewSettings((prevState) => {
                 let sortOrder: SortOrder = SortOrder.Ascending;
                 // If the user clicks the currently selected sort option, toggle the sort order
-                if (isEqual(prevState.SortBy, sortBy)) {
+                if (isEqual(prevState.SortBy, sortBy) && !isRandom) {
                     sortOrder = prevState.SortOrder === SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
                 }
 
@@ -199,7 +214,8 @@ const SortButton: FC<SortButtonProps> = ({
                     ...prevState,
                     StartIndex: 0,
                     SortBy: sortBy,
-                    SortOrder: sortOrder
+                    SortOrder: sortOrder,
+                    RandomSeed: randomSeed
                 };
             });
         },
@@ -243,13 +259,8 @@ const SortButton: FC<SortButtonProps> = ({
                                     {globalize.translate(option.label)}
                                 </ListItemText>
                                 <ListItemIcon sx={{ justifyContent: 'flex-end' }}>
-                                    {isEqual(libraryViewSettings.SortBy, option.value) && (
-                                        libraryViewSettings.SortOrder === SortOrder.Ascending ? (
-                                            <ArrowUpward fontSize='small' />
-                                        ) : (
-                                            <ArrowDownward fontSize='small' />
-                                        ))
-                                    }
+                                    {isEqual(libraryViewSettings.SortBy, option.value)
+                                        && getSelectedOptionIcon(option.value, libraryViewSettings.SortOrder)}
                                 </ListItemIcon>
                             </MenuItem>
                         ))}
