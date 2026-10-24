@@ -16,6 +16,8 @@ import { renderComponent } from '../../utils/reactUtils';
 import 'material-design-icons-iconfont';
 import './style.scss';
 
+const PDF_INVERT_KEY = 'pdfInvertMode';
+
 export class PdfPlayer {
     constructor() {
         this.name = 'PDF Player';
@@ -29,6 +31,7 @@ export class PdfPlayer {
         this.onDialogClosed = this.onDialogClosed.bind(this);
         this.onWindowKeyDown = this.onWindowKeyDown.bind(this);
         this.toggleFullscreen = this.toggleFullscreen.bind(this);
+        this.toggleInvert = this.toggleInvert.bind(this);
     }
 
     play(options) {
@@ -154,6 +157,12 @@ export class PdfPlayer {
         setTimeout(() => this.loadPage(this.progress + 1), 200);
     }
 
+    toggleInvert() {
+        const next = localStorage.getItem(PDF_INVERT_KEY) !== 'true';
+        localStorage.setItem(PDF_INVERT_KEY, next);
+        document.querySelector('#container')?.classList.toggle('invert-mode', next);
+    }
+
     createMediaElement(options) {
         let elem = this.mediaElement;
         if (elem) {
@@ -183,8 +192,13 @@ export class PdfPlayer {
             onExit: this.onDialogClosed,
             onPrevious: this.previous,
             onNext: this.next,
-            onToggleFullscreen: this.toggleFullscreen
+            onToggleFullscreen: this.toggleFullscreen,
+            onRotateTheme: this.toggleInvert
         }, elem.querySelector('#bookOsdMount'));
+
+        if (localStorage.getItem(PDF_INVERT_KEY) === 'true') {
+            document.querySelector('#container')?.classList.add('invert-mode');
+        }
 
         return elem;
     }
