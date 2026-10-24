@@ -61,7 +61,7 @@ function requireHlsPlayer() {
 
 function enableHlsPlayer(url, item, mediaSource, mediaType) {
     if (!htmlMediaHelper.enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType)) {
-        return Promise.reject();
+        return Promise.reject(new Error('EnableHlsPlayerError'));
     }
 
     if (url.indexOf('.m3u8') !== -1) {
@@ -79,7 +79,7 @@ function enableHlsPlayer(url, item, mediaSource, mediaType) {
                 if (contentType === 'application/vnd.apple.mpegurl' || contentType === 'application/x-mpegurl') {
                     resolve();
                 } else {
-                    reject();
+                    reject(new Error('HlsPlayerContentTypeError'));
                 }
             }, reject);
         });
