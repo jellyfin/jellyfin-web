@@ -355,3 +355,8 @@ div.headerUserButtonRound {
 .fab:hover, .raised:hover, a[data-role="button"]:hover {
 	background: #FF8400 !important;
 }
+
+.emby-button.show-focus:focus {
+	background: #de6f0b;
+	color: #ffcb87;
+}
