@@ -13,6 +13,8 @@ import appSettings from './settings/appSettings';
  */
 const KeyNames = {
     13: 'Enter',
+    // Pause (Tizen sends an invalid code on 4/5 and 'MediaPause' on newer versions)
+    19: 'Pause',
     27: 'Escape',
     37: 'ArrowLeft',
     38: 'ArrowUp',
@@ -88,7 +90,7 @@ const NavigationKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Brow
 /**
  * Keys used for media playback control.
  */
-const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause', 'MediaPause'];
+const MediaKeys = ['MediaRewind', 'MediaStop', 'MediaPlay', 'MediaFastForward', 'MediaTrackPrevious', 'MediaTrackNext', 'MediaPlayPause'];
 
 /**
  * Elements for which navigation should be constrained.
@@ -227,7 +229,6 @@ export function enable() {
             case 'MediaPlay':
                 inputManager.handleCommand('play');
                 break;
-            case 'MediaPause':
             case 'Pause':
                 inputManager.handleCommand('pause');
                 break;
