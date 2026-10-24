@@ -64,6 +64,23 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
 
             <FormControl fullWidth>
                 <FormControlLabel
+                    aria-describedby='display-settings-lib-backdrop-rating-description'
+                    control={
+                        <Checkbox
+                            checked={values.backdropParentalRatingLimit}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('BackdropParentalRatingLimit')}
+                    name='backdropParentalRatingLimit'
+                />
+                <FormHelperText id='display-settings-lib-backdrop-rating-description'>
+                    {globalize.translate('BackdropParentalRatingLimitHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
                     aria-describedby='display-settings-lib-theme-songs-description'
                     control={
                         <Checkbox
