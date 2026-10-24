@@ -1,6 +1,8 @@
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/models/recommendation-dto';
 import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
@@ -12,10 +14,52 @@ import Loading from 'components/loading/LoadingComponent';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
 import type { ParentId } from 'types/library';
-import type { Section, SectionType } from 'types/sections';
+import { type Section, SectionApiMethod, SectionType } from 'types/sections';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 import { useMovieRecommendations } from '../hooks/api/useMovieRecommendations';
+
+// A row's header opens the list page with the row's own filter and order.
+// The sort values are options from the list page's sort menu, so it can name them.
+const getListRouteOptions = (section: Section) => {
+    const isRecentlyPlayed = section.type === SectionType.RecentlyPlayedMusic
+        || section.type === SectionType.RecentlyPlayedMusicVideos;
+    const isFrequentlyPlayed = section.type === SectionType.FrequentlyPlayedMusic
+        || section.type === SectionType.FrequentlyPlayedMusicVideos;
+
+    if (section.apiMethod === SectionApiMethod.LatestMedia) {
+        return {
+            sortBy: [ItemSortBy.DateCreated, ItemSortBy.SortName].join(','),
+            sortOrder: SortOrder.Descending
+        };
+    }
+
+    if (section.apiMethod === SectionApiMethod.ResumeItems) {
+        return {
+            isResumable: true,
+            sortBy: [ItemSortBy.DatePlayed, ItemSortBy.SortName].join(','),
+            sortOrder: SortOrder.Descending
+        };
+    }
+
+    if (isRecentlyPlayed) {
+        return {
+            isPlayed: true,
+            sortBy: [ItemSortBy.DatePlayed, ItemSortBy.SortName].join(','),
+            sortOrder: SortOrder.Descending
+        };
+    }
+
+    if (isFrequentlyPlayed) {
+        return {
+            isPlayed: true,
+            sortBy: [ItemSortBy.PlayCount, ItemSortBy.SortName].join(','),
+            sortOrder: SortOrder.Descending
+        };
+    }
+
+    return {};
+};
 
 interface SuggestionsSectionViewProps {
     parentId: ParentId;
@@ -57,7 +101,8 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
         return appRouter.getRouteUrl('list', {
             serverId: window.ApiClient.serverId(),
             itemTypes: section.itemTypes,
-            parentId: parentId
+            parentId: parentId,
+            ...getListRouteOptions(section)
         });
     };
 
