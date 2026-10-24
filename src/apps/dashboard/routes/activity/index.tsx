@@ -5,7 +5,7 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { useTheme } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { type MRT_ColumnDef, type MRT_Theme, type MRT_ColumnFiltersState, type MRT_SortingState, useMaterialReactTable } from 'material-react-table';
+import { type MRT_ColumnDef, type MRT_Theme, type MRT_ColumnFiltersState, type MRT_PaginationState, type MRT_SortingState, type MRT_Updater, useMaterialReactTable } from 'material-react-table';
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
@@ -30,11 +30,18 @@ const enum ActivityView {
 }
 
 const VIEW_PARAM = 'useractivity';
+const PAGE_PARAM = 'page';
+const PAGE_SIZE_PARAM = 'pageSize';
 
 const getActivityView = (param: string | null) => {
     if (param === null) return ActivityView.All;
     if (toBoolean(param)) return ActivityView.User;
     return ActivityView.System;
+};
+
+const getPositiveInteger = (param: string | null, defaultValue: number) => {
+    const value = Number(param);
+    return Number.isInteger(value) && value > 0 ? value : defaultValue;
 };
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
@@ -51,10 +58,11 @@ export const Component = () => {
 
     const [ sorting, setSorting ] = useState<MRT_SortingState>([{ id: 'Date', desc: true }]);
 
-    const [ pagination, setPagination ] = useState({
-        pageIndex: 0,
-        pageSize: DEFAULT_PAGE_SIZE
-    });
+    // Store the pagination in the url so it is restored when navigating back to this page
+    const pagination = useMemo<MRT_PaginationState>(() => ({
+        pageIndex: getPositiveInteger(searchParams.get(PAGE_PARAM), 1) - 1,
+        pageSize: getPositiveInteger(searchParams.get(PAGE_SIZE_PARAM), DEFAULT_PAGE_SIZE)
+    }), [ searchParams ]);
 
     const {
         usersById: users,
@@ -208,6 +216,25 @@ export const Component = () => {
         }
     }, []);
 
+    const onPaginationChange = useCallback((updater: MRT_Updater<MRT_PaginationState>) => {
+        const newPagination = typeof updater === 'function' ? updater(pagination) : updater;
+        const newSearchParams = new URLSearchParams(searchParams);
+
+        if (newPagination.pageIndex > 0) {
+            newSearchParams.set(PAGE_PARAM, `${newPagination.pageIndex + 1}`);
+        } else {
+            newSearchParams.delete(PAGE_PARAM);
+        }
+
+        if (newPagination.pageSize !== DEFAULT_PAGE_SIZE) {
+            newSearchParams.set(PAGE_SIZE_PARAM, `${newPagination.pageSize}`);
+        } else {
+            newSearchParams.delete(PAGE_SIZE_PARAM);
+        }
+
+        setSearchParams(newSearchParams, { replace: true });
+    }, [ pagination, searchParams, setSearchParams ]);
+
     useEffect(() => {
         const currentViewParam = getActivityView(searchParams.get(VIEW_PARAM));
         if (currentViewParam !== activityView) {
@@ -254,7 +281,7 @@ export const Component = () => {
 
         // Server pagination
         manualPagination: true,
-        onPaginationChange: setPagination,
+        onPaginationChange,
         rowCount,
 
         // Custom toolbar contents
