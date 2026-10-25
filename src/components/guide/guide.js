@@ -999,6 +999,35 @@ function Guide(options) {
         e.stopPropagation();
     }
 
+    let programGridScrollLeftBeforeFocus = null;
+
+    function onScrollerFocusOut(e) {
+        programGridScrollLeftBeforeFocus = dom.parentWithClass(e.target, 'programCell') ? programGrid.scrollLeft : null;
+    }
+
+    function isProgramCellInView(programCell) {
+        const gridRect = programGrid.getBoundingClientRect();
+        const cellRect = programCell.getBoundingClientRect();
+        return cellRect.right > gridRect.left && cellRect.left < gridRect.right;
+    }
+
+    function restoreProgramGridScrollLeft(programCell, scrollLeft) {
+        const restore = function () {
+            if (document.activeElement !== programCell || programGrid.scrollLeft === scrollLeft) {
+                return;
+            }
+
+            programGrid.scrollLeft = scrollLeft;
+            if (!isProgramCellInView(programCell)) {
+                scrollHelper.toStart(programGrid, programCell, true, true);
+            }
+        };
+
+        restore();
+        // The browser may scroll the newly focused element after the focus event.
+        requestAnimationFrame(restore);
+    }
+
     function onScrollerFocus(e) {
         const target = e.target;
         const programCell = dom.parentWithClass(target, 'programCell');
@@ -1017,15 +1046,24 @@ function Guide(options) {
             }
         }
 
-        if (lastFocusDirection === 'left') {
+        // A guide command applies to the focus change it caused only.
+        const focusDirection = lastFocusDirection;
+        lastFocusDirection = null;
+
+        if (focusDirection === 'left') {
             if (programCell) {
                 scrollHelper.toStart(programGrid, programCell, true, true);
             }
-        } else if (lastFocusDirection === 'right') {
+        } else if (focusDirection === 'right') {
             if (programCell) {
                 scrollHelper.toCenter(programGrid, programCell, true, true);
             }
+        } else if (!focusDirection && programCell && programGridScrollLeftBeforeFocus !== null
+            && e.relatedTarget && programGrid.contains(e.relatedTarget)) {
+            // Native TV focus can scroll a long program into view, moving the guide forward in time.
+            restoreProgramGridScrollLeft(programCell, programGridScrollLeftBeforeFocus);
         }
+        programGridScrollLeftBeforeFocus = null;
 
         // Native TV focus changes can bypass the guide command handler.
         const verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
@@ -1110,6 +1148,9 @@ function Guide(options) {
     if (layoutManager.tv) {
         dom.addEventListener(guideContext.querySelector('.guideVerticalScroller'), 'focus', onScrollerFocus, {
             capture: true,
+            passive: true
+        });
+        dom.addEventListener(guideContext.querySelector('.guideVerticalScroller'), 'focusout', onScrollerFocusOut, {
             passive: true
         });
     } else if (layoutManager.desktop) {

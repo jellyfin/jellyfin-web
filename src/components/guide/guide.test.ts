@@ -88,9 +88,72 @@ describe('TV guide focus scrolling', () => {
         expect(scroller.toCenter).toHaveBeenCalledWith(cell, true);
     });
 
+    function addProgram(element: HTMLElement) {
+        const row = document.createElement('div');
+        row.className = 'channelPrograms';
+        element.querySelector('.programGrid')?.appendChild(row);
+        const cell = document.createElement('button');
+        cell.className = 'programCell';
+        row.appendChild(cell);
+        return cell;
+    }
+
+    function mockScrollLeft(element: HTMLElement) {
+        let scrollLeft = 0;
+        Object.defineProperty(element, 'scrollLeft', {
+            configurable: true,
+            get: () => scrollLeft,
+            set: (value: number) => {
+                scrollLeft = value;
+            }
+        });
+    }
+
+    it('does not reuse a previous horizontal command for later native focus changes', () => {
+        const { element, cell } = setup();
+        const nextCell = addProgram(element);
+        cell.dispatchEvent(new CustomEvent('command', { bubbles: true, cancelable: true, detail: { command: 'right' } }));
+        cell.focus();
+        nextCell.focus();
+        expect(scrollHelper.toCenter).toHaveBeenCalledTimes(1);
+    });
+
+    it('keeps the guide time position when native focus scrolls a long program into view', async () => {
+        const { element, cell } = setup();
+        const programGrid = element.querySelector('.programGrid') as HTMLElement;
+        const longProgram = addProgram(element);
+        mockScrollLeft(programGrid);
+        programGrid.getBoundingClientRect = () => ({ left: 0, right: 1000 }) as DOMRect;
+        longProgram.getBoundingClientRect = () => ({ left: -200, right: 3000 }) as DOMRect;
+        programGrid.scrollLeft = 300;
+        cell.focus();
+        longProgram.addEventListener('focus', () => {
+            programGrid.scrollLeft = 2000;
+        });
+
+        longProgram.focus();
+        await new Promise(resolve => requestAnimationFrame(resolve));
+
+        expect(programGrid.scrollLeft).toBe(300);
+        expect(scrollHelper.toStart).not.toHaveBeenCalled();
+    });
+
+    it('does not restore an old time position when focus did not come from the program grid', () => {
+        const { element, cell } = setup();
+        const programGrid = element.querySelector('.programGrid') as HTMLElement;
+        mockScrollLeft(programGrid);
+        programGrid.scrollLeft = 300;
+        cell.focus();
+        cell.blur();
+        programGrid.scrollLeft = 2000;
+        cell.focus();
+        expect(programGrid.scrollLeft).toBe(2000);
+    });
+
     it('requests native guide scrolling and does not scroll for header controls', () => {
         const { element, scroller } = setup();
         expect(scroller.getAttribute('data-allownativesmoothscroll')).toBe('true');
+        expect(element.querySelector('.programGrid')?.getAttribute('data-scroll-mode-x')).toBe('custom');
         (element.querySelector('.btnGuideViewSettings') as HTMLElement).focus();
         expect(scroller.toCenter).not.toHaveBeenCalled();
     });
