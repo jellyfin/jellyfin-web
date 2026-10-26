@@ -23,6 +23,7 @@ import { ItemStatus } from 'types/base/models/item-status';
 
 import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
+import type { CardOptions } from 'types/cardOptions';
 import type { ProgressOptions } from 'types/progressOptions';
 
 const TypeIcon = {
@@ -60,15 +61,14 @@ const enableAutoTimeProgressIndicator = (
     );
 };
 
-const enablePlayedIndicator = (item: ItemDto) => {
-    return itemHelper.canMarkPlayed(item);
-};
-
 const formatCountIndicator = (count: number) => {
     return count >= 100 ? '99+' : count.toString();
 };
 
-const useIndicator = (item: ItemDto) => {
+const useIndicator = (
+    item: ItemDto,
+    cardOptions?: CardOptions
+) => {
     const getMediaSourceIndicator = () => {
         const mediaSourceCount = item.MediaSourceCount ?? 0;
         if (mediaSourceCount > 1) {
@@ -152,9 +152,9 @@ const useIndicator = (item: ItemDto) => {
     };
 
     const getPlayedIndicator = () => {
-        if (enablePlayedIndicator(item)) {
+        if (itemHelper.canMarkPlayed(item)) {
             const userData = item.UserData;
-            if (userData?.UnplayedItemCount) {
+            if (cardOptions?.showChildCountIndicator !== false && userData?.UnplayedItemCount) {
                 return (
                     <Box className='countIndicator indicator unplayedItemCount'>
                         {formatCountIndicator(userData.UnplayedItemCount)}

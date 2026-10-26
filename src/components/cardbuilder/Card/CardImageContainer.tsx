@@ -29,7 +29,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
     blurhash,
     forceName
 }) => {
-    const indicator = useIndicator(item);
+    const indicator = useIndicator(item, cardOptions);
     const cardImageClass = classNames(
         'cardImageContainer',
         { coveredImage: coveredImage },
@@ -49,7 +49,7 @@ const CardImageContainer: FC<CardImageContainerProps> = ({
                         {indicator.getTimerIndicator()}
                         {indicator.getTypeIndicator()}
 
-                        {cardOptions.showGroupCount ?
+                        {cardOptions.showChildCountIndicator ?
                             indicator.getChildCountIndicator() :
                             indicator.getPlayedIndicator()}
 
