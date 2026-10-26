@@ -32,6 +32,8 @@ const enum ActivityView {
 const VIEW_PARAM = 'useractivity';
 const PAGE_PARAM = 'page';
 const PAGE_SIZE_PARAM = 'pageSize';
+// The api uses signed 32-bit integers for the start index and limit
+const MAX_INT32 = 2147483647;
 
 const getActivityView = (param: string | null) => {
     if (param === null) return ActivityView.All;
@@ -41,7 +43,7 @@ const getActivityView = (param: string | null) => {
 
 const getPositiveInteger = (param: string | null, defaultValue: number) => {
     const value = Number(param);
-    return Number.isInteger(value) && value > 0 ? value : defaultValue;
+    return Number.isInteger(value) && value > 0 && value <= MAX_INT32 ? value : defaultValue;
 };
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
@@ -59,10 +61,15 @@ export const Component = () => {
     const [ sorting, setSorting ] = useState<MRT_SortingState>([{ id: 'Date', desc: true }]);
 
     // Store the pagination in the url so it is restored when navigating back to this page
-    const pagination = useMemo<MRT_PaginationState>(() => ({
-        pageIndex: getPositiveInteger(searchParams.get(PAGE_PARAM), 1) - 1,
-        pageSize: getPositiveInteger(searchParams.get(PAGE_SIZE_PARAM), DEFAULT_PAGE_SIZE)
-    }), [ searchParams ]);
+    const pagination = useMemo<MRT_PaginationState>(() => {
+        const pageIndex = getPositiveInteger(searchParams.get(PAGE_PARAM), 1) - 1;
+        const pageSize = getPositiveInteger(searchParams.get(PAGE_SIZE_PARAM), DEFAULT_PAGE_SIZE);
+
+        return {
+            pageIndex: pageIndex * pageSize <= MAX_INT32 ? pageIndex : 0,
+            pageSize
+        };
+    }, [ searchParams ]);
 
     const {
         usersById: users,
