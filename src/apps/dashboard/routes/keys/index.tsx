@@ -1,4 +1,4 @@
-import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info-dto';
+import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
