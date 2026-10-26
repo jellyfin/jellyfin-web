@@ -31,7 +31,7 @@ export const Component = () => {
     const createKey = useCreateKey();
     const theme = useTheme();
 
-    const columns = useMemo<MRT_ColumnDef<AuthenticationInfoDto>[]>(() => [
+    const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(() => [
         {
             id: 'ApiKey',
             accessorKey: 'AccessToken',
