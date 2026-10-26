@@ -42,3 +42,8 @@ Introduce a new Halloween based theme.</br>
 
 ### ImproveQuickConnect
 Place the QuickConnect page content at the center of its frame. This is consistent with how other pages are rendered.</br>
+
+### Adjustable Clock
+Allow the clock to be disabled from the display settings for TV mode.</br>
+Provide several date and time formats that can be selected by clicking on the clock.</br>
+
