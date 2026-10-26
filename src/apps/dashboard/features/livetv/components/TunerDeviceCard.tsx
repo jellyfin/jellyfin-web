@@ -13,6 +13,7 @@ import globalize from 'lib/globalize';
 import { useNavigate } from 'react-router-dom';
 import ConfirmDialog from 'components/ConfirmDialog';
 import { useDeleteTuner } from '../api/useDeleteTuner';
+import { useTunerHostTypes } from '../api/useTunerHostTypes';
 
 interface TunerDeviceCardProps {
     tunerHost: TunerHostInfo;
@@ -25,6 +26,11 @@ const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
     const [ isMenuOpen, setIsMenuOpen ] = useState(false);
     const [ isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen ] = useState(false);
     const deleteTuner = useDeleteTuner();
+    const { data: tunerTypes } = useTunerHostTypes();
+
+    // Prefer the name the server reports for this tuner type; this covers plugin-provided tuners that the
+    // static getTunerName() list does not know about. getTunerName is kept as a fallback while it loads.
+    const typeName = tunerTypes?.find(type => type.Id === tunerHost.Type)?.Name;
 
     const navigateToEditPage = useCallback(() => {
         navigate(`/dashboard/livetv/tuner?id=${tunerHost.Id}`);
@@ -75,7 +81,7 @@ const TunerDeviceCard = ({ tunerHost }: TunerDeviceCardProps) => {
             />
 
             <BaseCard
-                title={tunerHost.FriendlyName || getTunerName(tunerHost.Type) || ''}
+                title={tunerHost.FriendlyName || typeName || getTunerName(tunerHost.Type) || ''}
                 text={tunerHost.Url || ''}
                 icon={<DvrIcon sx={{ fontSize: 70 }} />}
                 action={true}
