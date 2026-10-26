@@ -1498,7 +1498,7 @@
     "LabelParallelImageEncodingLimit": "画像エンコードの並行実行の制限",
     "PreferEmbeddedExtrasTitlesOverFileNames": "特典のファイル名より埋め込みタイトルを優先",
     "PreferEmbeddedExtrasTitlesOverFileNamesHelp": "特典には、親アイテムと同じ埋め込み名が設定されていることがよくあります。ここでも埋め込みタイトルを使用するには、この設定にチェックを入れてください。",
-    "Featurette": "短編",
+    "Featurette": "メイキング",
     "Short": "ショート",
     "SecondarySubtitles": "補助字幕",
     "SaveRecordingNFO": "NFO ファイルに録画の EPG メタデータを保存",
