@@ -16,7 +16,7 @@ function enableRotation() {
 }
 
 class Backdrop {
-    load(url, parent) {
+    load(url, slot) {
         const img = new Image();
         const self = this;
 
@@ -25,14 +25,13 @@ class Backdrop {
                 return;
             }
 
-            const backdropImage = document.createElement('div');
-            backdropImage.classList.add('backdropImage');
-            backdropImage.classList.add('displayingBackdropImage');
+            const backdropImage = document.getElementById(`backdropImage${slot}`);
             backdropImage.style.backgroundImage = `url('${url}')`;
             backdropImage.setAttribute('data-url', url);
+            backdropImage.classList.add('displayingBackdropImage', 'backdropImageFadeIn');
+            self.currentAnimatingElement = backdropImage;
 
-            backdropImage.classList.add('backdropImageFadeIn');
-            parent.appendChild(backdropImage);
+            document.getElementById(`backdropImage${1 - slot}`)?.classList.remove('displayingBackdropImage');
 
             if (!enableAnimation()) {
                 internalBackdrop(true);
@@ -46,6 +45,8 @@ class Backdrop {
                 if (backdropImage === self.currentAnimatingElement) {
                     self.currentAnimatingElement = null;
                 }
+
+                backdropImage?.classList.remove('backdropImageFadeIn');
             };
 
             dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
@@ -95,8 +96,12 @@ export function clearBackdrop(clearAll) {
         currentLoadingBackdrop = null;
     }
 
-    const elem = getBackdropContainer();
-    elem.innerHTML = '';
+    // Remove backdrop images from each slot element
+    document.querySelectorAll('.backdropImage').forEach(elem => {
+        elem.classList.remove('displayingBackdropImage', 'backdropImageFadeIn');
+        elem.style.backgroundImage = 'none';
+        elem.removeAttribute('data-url');
+    });
 
     if (clearAll) {
         hasExternalBackdrop = false;
@@ -134,12 +139,8 @@ export function externalBackdrop(isEnabled) {
 }
 
 let currentLoadingBackdrop;
+let currentBackdropSlot = 0;
 function setBackdropImage(url) {
-    if (currentLoadingBackdrop) {
-        currentLoadingBackdrop.destroy();
-        currentLoadingBackdrop = null;
-    }
-
     const elem = getBackdropContainer();
     const existingBackdropImage = elem.querySelector('.displayingBackdropImage');
     // If the current backdrop image is the same as the new one, do nothing
@@ -148,8 +149,9 @@ function setBackdropImage(url) {
     }
 
     const instance = new Backdrop();
-    instance.load(url, elem);
+    instance.load(url, currentBackdropSlot);
     currentLoadingBackdrop = instance;
+    currentBackdropSlot = 1 - currentBackdropSlot;
 }
 
 function getItemImageUrls(item, imageOptions) {
@@ -244,14 +246,6 @@ function onRotationInterval() {
     currentRotationIndex = newIndex;
     const currentImage = currentRotatingImages[newIndex];
     setBackdropImage(currentImage);
-
-    // Remove old images after a delay to allow fade-in animation (800ms) to complete
-    setTimeout(() => {
-        const oldImages = getBackdropContainer().querySelectorAll(`.backdropImage:not([data-url="${currentImage}"])`);
-        oldImages.forEach(img => {
-            img.remove();
-        });
-    }, 1600);
 }
 
 function clearRotation() {

@@ -66,7 +66,6 @@ const AutoTimeProgressBar: FC<AutoTimeProgressBarProps> = ({
             className={progressBarClass}
             variant='determinate'
             value={progress}
-            // eslint-disable-next-line react/jsx-no-bind
             sx={(theme) => ({
                 [`& .${linearProgressClasses.bar}`]: {
                     borderRadius: 5,

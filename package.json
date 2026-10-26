@@ -27,7 +27,7 @@
     "@vitest/coverage-v8": "3.2.7",
     "autoprefixer": "10.5.4",
     "babel-loader": "10.1.1",
-    "caniuse-lite": "1.0.30001806",
+    "caniuse-lite": "1.0.30001815",
     "clean-webpack-plugin": "4.0.0",
     "confusing-browser-globals": "1.0.11",
     "copy-webpack-plugin": "14.0.0",
@@ -86,7 +86,7 @@
     "@fontsource/noto-sans-sc": "5.3.0",
     "@fontsource/noto-sans-tc": "5.3.0",
     "@jellyfin/libass-wasm": "4.2.4",
-    "@jellyfin/sdk": "0.0.0-unstable.202609160935",
+    "@jellyfin/sdk": "0.0.0-unstable.202610230344",
     "@jellyfin/ux-web": "1.0.0",
     "@mui/icons-material": "6.5.0",
     "@mui/material": "6.5.0",
@@ -110,7 +110,7 @@
     "flv.js": "1.6.2",
     "headroom.js": "0.12.0",
     "history": "5.3.0",
-    "hls.js": "1.6.16",
+    "hls.js": "1.7.3",
     "idb-keyval": "6.3.0",
     "intersection-observer": "0.12.2",
     "jellyfin-apiclient": "1.11.0",
@@ -173,7 +173,6 @@
   },
   "engines": {
     "node": ">=24.0.0",
-    "npm": ">=11.0.0",
-    "yarn": "YARN NO LONGER USED - use npm instead."
+    "npm": ">=11.0.0"
   }
 }
