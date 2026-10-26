@@ -54,8 +54,9 @@ function onSubmit(this: HTMLElement, e: Event) {
         loading.show();
 
         if (playlistId) {
+            const moveToTop = panel.querySelector<HTMLInputElement>('#chkMoveToTop')?.checked;
             userSettings.set('playlisteditor-lastplaylistid', playlistId);
-            addToPlaylist(panel, playlistId)
+            addToPlaylist(panel, playlistId, moveToTop ? 0 : undefined)
                 .catch(err => {
                     console.error('[PlaylistEditor] Failed to add to playlist %s', playlistId, err);
                     toast(globalize.translate('PlaylistError.AddFailed'));
@@ -146,7 +147,7 @@ function updatePlaylist(dlg: DialogElement) {
         });
 }
 
-function addToPlaylist(dlg: DialogElement, id: string) {
+function addToPlaylist(dlg: DialogElement, id: string, position: number | undefined) {
     const api = ServerConnections.getApi(currentServerId);
     const apiClient = ServerConnections.getApiClient(currentServerId);
     const itemIds = dlg.querySelector<HTMLInputElement>('.fldSelectedItemIds')?.value || '';
@@ -169,6 +170,7 @@ function addToPlaylist(dlg: DialogElement, id: string) {
         .addItemToPlaylist({
             playlistId: id,
             ids: itemIds.split(','),
+            position: position,
             userId: apiClient?.getCurrentUserId()
         })
         .then(() => {
@@ -191,6 +193,7 @@ function populatePlaylists(editorOptions: PlaylistEditorOptions, panel: DialogEl
     loading.show();
 
     panel.querySelector('.newPlaylistInfo')?.classList.add('hide');
+    panel.querySelector('.moveToTopContainer')?.classList.remove('hide');
 
     const api = ServerConnections.getApi(currentServerId);
     const apiClient = ServerConnections.getApiClient(currentServerId);
@@ -277,6 +280,8 @@ function getEditorHtml(items: string[], options: PlaylistEditorOptions) {
     html += `<select is="emby-select" id="selectPlaylistToAddTo" label="${globalize.translate('LabelPlaylist')}"${autoFocus}></select>`;
     html += '</div>';
 
+    html += '<label class="checkboxContainer hide moveToTopContainer"><input type="checkbox" is="emby-checkbox" id="chkMoveToTop" /><span>' + globalize.translate('AddToPlaylistMoveToTop') + '</span></label>';
+
     html += '<div class="newPlaylistInfo">';
 
     html += '<div class="inputContainer">';
@@ -316,9 +321,11 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
         if (this.value) {
             content.querySelector('.newPlaylistInfo')?.classList.add('hide');
             content.querySelector('#txtNewPlaylistName')?.removeAttribute('required');
+            content.querySelector('.moveToTopContainer')?.classList.remove('hide');
         } else {
             content.querySelector('.newPlaylistInfo')?.classList.remove('hide');
             content.querySelector('#txtNewPlaylistName')?.setAttribute('required', 'required');
+            content.querySelector('.moveToTopContainer')?.classList.add('hide');
         }
     });
 
