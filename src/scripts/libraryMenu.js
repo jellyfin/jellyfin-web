@@ -52,10 +52,10 @@ function renderHeader() {
     html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
     html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
-	html += '<button class="clockFrameButton show-focus hide">';
-	html += '<div class="currentDateText" style="font-size: 80%"></div>';
+	html += '<button class="clockFrameButton show-focus hide" style="border:none;background: var(--jf-palette-AppBar-transparentBg);color: var(--jf-palette-text-secondary);">';
+	html += '<div class="currentDateText" style="font-size: 100%"></div>';
     html += '<div class="currentTimeText" style="font-size: 160%"></div>';
-	html += '</div>';
+	html += '</button>';
     html += '</div>';
     html += '</div>';
     html += '<div class="headerTabs sectionTabs hide">';
