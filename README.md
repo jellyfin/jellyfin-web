@@ -37,14 +37,13 @@ Fix event propagating to the UI when leaving a screensaver.</br>
 ### ImproveDisplayModeTV
 Remove margins of section Libraries which caused the screen to scroll horizontally when navigating using arrow keys.</br>
 
-### Adjustable Clock
-Allow the clock to be disabled from the display settings for TV mode.</br>
-Provide several date and time formats that can be selected by clicking on the clock.</br>
-
-
-
 ### ThemeHalloween
 Introduce a new Halloween based theme.</br>
 
 ### ImproveQuickConnect
 Place the QuickConnect page content at the center of its frame. This is consistent with how other pages are rendered.</br>
+
+### Adjustable Clock
+Allow the clock to be disabled from the display settings for TV mode.</br>
+Provide several date and time formats that can be selected by clicking on the clock.</br>
+
