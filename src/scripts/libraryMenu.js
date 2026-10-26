@@ -52,9 +52,9 @@ function renderHeader() {
     html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
     html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
-	html += '<button class="clockFrameButton emby-tab-button emby-button show-focus hide">';
-	html += '<div class="currentDateText" style="font-size: 50%"></div>';
-    html += '<div class="currentTimeText"></div>';
+	html += '<button class="clockFrameButton show-focus hide">';
+	html += '<div class="currentDateText" style="font-size: 80%"></div>';
+    html += '<div class="currentTimeText" style="font-size: 160%"></div>';
 	html += '</div>';
     html += '</div>';
     html += '</div>';
@@ -237,16 +237,15 @@ function updateClock() {
 }
 
 function clockClickHandler() {
-	
 	curClockFmt = getNextClockFormat();
-	console.log("newFmt = " + curClockFmt.dateFmt + " / " + curClockFmt.timeFmt);
-	
-	
-	
+	const x = new Date();
+	const _date = datetime.toLocaleDateString(x, curClockFmt.dateFmt); 
+	const _time = datetime.toLocaleTimeString(x, curClockFmt.timeFmt);
+	currentDateText.innerText = _date;
+	currentTimeText.innerText = _time;
 }
 
 function getNextClockFormat() {
-
 	curClockFmtIdx = (curClockFmtIdx + 1) % 5;
 	console.log("newFmt index = " + curClockFmtIdx);
 	
@@ -282,7 +281,6 @@ function getNextClockFormat() {
 	}
 	return {'dateFmt': _opts_date, 'timeFmt': _opts_time};
 }
-
 
 function showSearch() {
     inputManager.handleCommand('search');
