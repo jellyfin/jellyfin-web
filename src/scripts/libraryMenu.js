@@ -25,12 +25,15 @@ import Dashboard, { pageClassOn } from '../utils/dashboard';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
 import datetime from '../scripts/datetime';
+import { enableClock } from './settings/userSettings';
 
 import '../elements/emby-button/paper-icon-button-light';
 
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
+
+let clockIntervalID = undefined;
 
 function renderHeader() {
     let html = '';
@@ -74,7 +77,6 @@ function renderHeader() {
     lazyLoadViewMenuBarImages();
     bindMenuEvents();
     updateCastIcon();
-    updateClock();
 }
 
 function getCurrentApiClient() {
@@ -185,6 +187,8 @@ function updateUserInHeader(user) {
         }
     }
 
+	updateClock();
+  
     requiresUserRefresh = false;
 }
 
@@ -199,9 +203,12 @@ function updateHeaderUserButton(src) {
 }
 
 function updateClock() {
-    if (layoutManager.tv) {
+	if (clockIntervalID)
+		clearInterval(clockIntervalID);
+	
+    if (layoutManager.tv && enableClock()) {
         currentTimeText.classList.remove('hide');
-        setInterval(function() {
+        clockIntervalID = setInterval(function() {
             currentTimeText.innerText = datetime.getDisplayTime(new Date());
         }, 1000);
     } else {
