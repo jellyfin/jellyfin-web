@@ -1,6 +1,7 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import React, { FunctionComponent, useEffect, useRef, useCallback, useMemo } from 'react';
+import { DomError } from 'types/domError';
 import { useSearchParams } from 'react-router-dom';
 
 import Dashboard from '../../../../utils/dashboard';
@@ -77,11 +78,11 @@ const UserProfile: FunctionComponent = () => {
 
         const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
             loading.hide();
-            switch (evt.target?.error?.code) {
-                case DOMException.NOT_FOUND_ERR:
+            switch (evt.target?.error?.name) {
+                case DomError.NotFound:
                     toast(globalize.translate('FileNotFound'));
                     break;
-                case DOMException.ABORT_ERR:
+                case DomError.Abort:
                     onFileReaderAbort();
                     break;
                 default:
