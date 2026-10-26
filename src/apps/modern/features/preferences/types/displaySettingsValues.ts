@@ -5,6 +5,7 @@ export interface DisplaySettingsValues {
     disableCustomCss: boolean;
     displayMissingEpisodes: boolean;
     enableBlurHash: boolean;
+	enableClock: boolean;
     enableFasterAnimation: boolean;
     enableItemDetailsBanner: boolean;
     enableLibraryBackdrops: boolean;
