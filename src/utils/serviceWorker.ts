@@ -7,8 +7,15 @@ export async function unregisterServiceWorkers(): Promise<void> {
     const serviceWorker = navigator.serviceWorker;
 
     try {
+        const scriptURL = new URL('serviceworker.js', document.baseURI);
+        const scope = new URL('./', scriptURL).href;
         const registrations = await serviceWorker.getRegistrations();
-        await Promise.all(registrations.map(registration => registration.unregister()));
+        const legacyRegistrations = registrations.filter(registration =>
+            registration.scope === scope
+            && [registration.active, registration.waiting, registration.installing]
+                .some(worker => worker?.scriptURL === scriptURL.href)
+        );
+        await Promise.all(legacyRegistrations.map(registration => registration.unregister()));
     } catch (error) {
         console.warn('Failed to unregister service workers', error);
     }
