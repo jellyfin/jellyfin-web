@@ -1916,5 +1916,6 @@
     "LabelUseSamePublishedServerUri": "內部和外部存取使用相同的已發布伺服器 URI",
     "LibrariesLoadError": "庫加載失敗",
     "MessageNoEpisodesFound": "目前暫無劇集可供觀看。",
-    "NetworkingPageLoadError": "網路設定載入失敗"
+    "NetworkingPageLoadError": "網路設定載入失敗",
+    "Watch": "觀看"
 }
