@@ -1894,5 +1894,11 @@
     "ConfirmDeleteItemByName": "刪除“{0}”會將其從檔案系統和媒體庫中同時刪除。您確定要繼續嗎？",
     "ConfirmSplitMedia": "您確定要將媒體資源分割成多個單獨的項目嗎？",
     "ConfirmStillWatching": "你還在觀看嗎？",
-    "ContinueReading": "繼續閱讀"
+    "ContinueReading": "繼續閱讀",
+    "Creators": "創作者",
+    "DevicesLoadError": "設備載入失敗",
+    "ViewDoublePage": "雙頁視圖",
+    "ViewSinglePage": "單頁視圖",
+    "ViewLeftToRight": "從左到右",
+    "ViewRightToLeft": "從右到左"
 }
