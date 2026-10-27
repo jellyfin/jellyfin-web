@@ -1890,5 +1890,9 @@
     "Authors": "作者",
     "BrandingLoadError": "無法載入品牌設定",
     "CardSettings": "卡片設定",
-    "Disabled": "停用"
+    "Disabled": "停用",
+    "ConfirmDeleteItemByName": "刪除“{0}”會將其從檔案系統和媒體庫中同時刪除。您確定要繼續嗎？",
+    "ConfirmSplitMedia": "您確定要將媒體資源分割成多個單獨的項目嗎？",
+    "ConfirmStillWatching": "你還在觀看嗎？",
+    "ContinueReading": "繼續閱讀"
 }
