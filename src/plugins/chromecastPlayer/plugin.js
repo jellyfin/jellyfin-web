@@ -8,7 +8,7 @@ import CastSenderApi from './castSenderApi';
 import alert from '../../components/alert';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from '../../utils/events.ts';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 

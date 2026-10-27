@@ -21,8 +21,8 @@ import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import alert from '../alert';
 import { includesAny } from '../../utils/container.ts';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
-import { getItemBackdropImageUrl } from '../../utils/jellyfin-apiclient/backdropImage';
+import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
+import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 
 import { PlayerEvent } from 'apps/legacy/features/playback/constants/playerEvent';
 import { bindMediaSegmentManager } from 'apps/legacy/features/playback/utils/mediaSegmentManager';
