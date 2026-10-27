@@ -4,7 +4,7 @@
  */
 
 import Events from '../../../utils/events.ts';
-import { getItems } from '../../../utils/jellyfin-apiclient/getItems.ts';
+import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 
 /**
  * Constants

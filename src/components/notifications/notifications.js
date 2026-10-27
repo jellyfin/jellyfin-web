@@ -2,7 +2,7 @@ import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import NotificationIcon from './notificationicon.png';

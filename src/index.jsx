@@ -24,7 +24,7 @@ import { getPlugins } from './scripts/settings/webSettings';
 import taskButton from './scripts/taskbutton';
 import { pageClassOn, serverAddress } from './utils/dashboard';
 import Events from './utils/events';
-import { updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
+import { updateApiClientSdk } from 'lib/jellyfin-apiclient/utils/compat';
 import { initializeServerConnections } from './scripts/serverNotifications';
 
 import RootApp from './RootApp';
