@@ -1020,7 +1020,7 @@
     "LabelKodiMetadataUserHelp": "Išsaugoti peržiūrų informaciją NFO failuose, kad kitos aplikacijos galėtų naudotis.",
     "LabelKodiMetadataSaveImagePathsHelp": "Tai rekomenduojama, jei jūsų atvaizdo failo pavadinimas neatitinka Kodi gairių.",
     "LabelMaxAudiobookResumeHelp": "Turinys skaitysis pilnai peržiūrėtas, jei bus sustabdytas kai likęs laikas bus mažesnis už šią vertę.",
-    "LabelMaxDaysForNextUpHelp": "Nustatyti maksimalų dienų kiekį kiek TV Laida liks 'Toliau' eilėje jos neperžiūrėjus.",
+    "LabelMaxDaysForNextUpHelp": "Nustatyti didžiausią dienų skaičių, kiek laiko serialas gali likti skyriuje Toliau jo neperžiūrėjus.",
     "LabelIsForced": "Priverstinis",
     "LabelEnableLUFSScan": "Įjungti LUFS skenavimą",
     "LabelEnableLUFSScanHelp": "Klientai gali normalizuoti garso atkūrimą, kad visų takelių garsumas būtų vienodas. Dėl to bibliotekos skenavimas bus ilgesnis ir užims daugiau išteklių.",
