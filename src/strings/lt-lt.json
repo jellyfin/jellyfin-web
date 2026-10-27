@@ -1114,7 +1114,7 @@
     "LogLevel.Information": "Informacija",
     "LabelTypeMetadataDownloaders": "Metaduomenų siuntėjai {0}",
     "LabelVersion": "Versija",
-    "LabelTranscodingThreadCountHelp": "Pasirinkite maksimalų gijų skaičių, kurį norite naudoti transkoduojant. Sumažinus gijų skaičių sumažės procesoriaus naudojimas, tačiau gali būti, kad konvertavimas nebus pakankamai greitas, kad atkūrimas būtų sklandus.",
+    "LabelTranscodingThreadCountHelp": "Pasirinkite didžiausią gijų skaičių, kurį norite naudoti transkoduojant. Sumažinus gijų skaičių sumažės procesoriaus naudojimas, tačiau gali būti, kad konvertavimas nebus pakankamai greitas, kad atkūrimas būtų sklandus.",
     "LabelVideoCodec": "Vaizdo įrašo kodekas",
     "LabelTranscodes": "Transkodai",
     "LabelTypeText": "Tekstas",
