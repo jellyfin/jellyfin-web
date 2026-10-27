@@ -166,7 +166,7 @@
     "LabelMaxResumePercentageHelp": "Turinys laikomas peržiūrėtu, jei sustabdomas praėjus šiam laikui.",
     "LabelMetadataDownloadLanguage": "Pageidaujama siuntimo kalba",
     "LabelMetadataPath": "Metaduomenų kelias",
-    "LabelMetadataPathHelp": "Nurodykite pasirinktinę atsisiųstų atvaizdų ir metaduomenų vietą.",
+    "LabelMetadataPathHelp": "Nurodykite pasirinktinę atsisiųstų iliustracijų ir metaduomenų vietą.",
     "LabelMinBackdropDownloadWidth": "Minimalus fono atsiuntimo plotis",
     "LabelMinResumeDuration": "Mažiausia tęsimo trukmė",
     "LabelMinResumeDurationHelp": "Trumpiausias vaizdo įrašo ilgis sekundėmis, kuris išsaugos peržiūros vietą ir leis tęsti atkūrimą.",
