@@ -1826,7 +1826,7 @@
     "PluginsLoadError": "載入擴充功能時發生錯誤。",
     "LiveTVPageLoadError": "無法載入錄影頁面",
     "MessageRestoreInProgress": "正在恢復",
-    "MessageRestoreDisclaimer": "警告：您即將從之前的備份進行恢復。在此過程中，您的伺服器講無法使用，並且此備份以後的所有新資料都會丟失。",
+    "MessageRestoreDisclaimer": "警告：您即將從先前的備份進行還原。在此過程中，您的伺服器將無法使用，並且自備份以來創建的任何新資料都將遺失。\n\n備份檔案只能還原到建立時使用的版本。不支持將備份檔案還原到其他版本，可能會導致伺服器無法使用。",
     "MessageRestoreSuccess": "恢復成功完成",
     "SettingsPageLoadError": "無法載入設定頁面",
     "StorageType.CDRom": "CD-ROM",
