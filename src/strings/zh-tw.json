@@ -1900,5 +1900,21 @@
     "ViewDoublePage": "雙頁視圖",
     "ViewSinglePage": "單頁視圖",
     "ViewLeftToRight": "從左到右",
-    "ViewRightToLeft": "從右到左"
+    "ViewRightToLeft": "從右到左",
+    "HeaderLatestBooks": "最近新增的書籍",
+    "HeaderLatestMusicVideos": "最近新增的音樂視頻",
+    "HeaderSplitMedia": "媒體分離",
+    "HeaderTypeSimilarItemProviders": "相似項目提供者 ({0})",
+    "IndexNumber": "索引號",
+    "LabelBackupWarning": "目前有正在執行的排程任務。建議在執行備份作業前先停止這些任務或等待它們完成。",
+    "SubtitleLanguages": "字幕語言",
+    "LabelSimilarItemProvidersHelp": "啟用並按您偏好的相似項目提供者優先度排名。",
+    "LabelInternalServerUri": "內部 URI",
+    "LabelInternalServerUriHelp": "已發布用於內部存取的伺服器 URI。",
+    "LabelOriginalLanguage": "原語言",
+    "LabelSyncPlayJoinGroup": "加入群組",
+    "LabelUseSamePublishedServerUri": "內部和外部存取使用相同的已發布伺服器 URI",
+    "LibrariesLoadError": "庫加載失敗",
+    "MessageNoEpisodesFound": "目前暫無劇集可供觀看。",
+    "NetworkingPageLoadError": "網路設定載入失敗"
 }
