@@ -55,7 +55,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
 
     const getRouteUrl = (section: Section) => {
         return appRouter.getRouteUrl('list', {
-            serverId: window.ApiClient.serverId(),
+            serverId: __legacyApiClient__?.serverId(),
             itemTypes: section.itemTypes,
             parentId: parentId
         });

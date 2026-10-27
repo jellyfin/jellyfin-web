@@ -38,12 +38,12 @@ interface DialogElement extends HTMLDivElement {
 interface PlaylistEditorOptions {
     items: string[],
     id?: string,
-    serverId: string,
+    serverId?: string,
     enableAddToPlayQueue?: boolean,
     defaultValue?: string
 }
 
-let currentServerId: string;
+let currentServerId: string | undefined;
 
 function onSubmit(this: HTMLElement, e: Event) {
     const panel = dom.parentWithClass(this, 'dialog') as DialogElement | null;
