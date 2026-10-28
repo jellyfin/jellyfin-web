@@ -46,10 +46,10 @@ function renderHeader() {
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
 	html += '<div class="headerRight">';
-	html += '<button class="clockFrameButton show-focus hide" style="margin-right: 1em;border:none;background: var(--jf-palette-AppBar-transparentBg);color: var(--jf-palette-text-secondary);">';
-	html += '<div class="currentDateText" style="font-size: 1.3em"></div>';
-    html += '<div class="currentTimeText" style="font-size: 2.5em"></div>';
-	html += '</button>';
+	html += '<div class="clockFrameButton hide" style="display: flex;flex-direction: column;margin-right: 1.2em;border:none;background: var(--jf-palette-AppBar-transparentBg);color: var(--jf-palette-text-secondary);">';
+	html += '<button class="currentDateText emby-tab-button emby-button show-focus" style="padding: 0;font-weight: normal;font-size: .8em"></button>';
+    html += '<button class="currentTimeText emby-tab-button emby-button show-focus" style="padding: 0;font-weight: normal;font-size: 2em"></button>';
+	html += '</div>';
     html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
     html += '<span class="headerSelectedPlayer"></span>';
     html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
@@ -216,117 +216,130 @@ function updateClock() {
     if (layoutManager.tv && enableClock()) {
         clockFrameButton.classList.remove('hide');
 		if (!hasClockClickHandler) {
-			clockFrameButton.addEventListener('click', clockClickHandler);
+			currentTimeText.addEventListener('click', timeClickHandler);
+			currentDateText.addEventListener('click', dateClickHandler);
 			hasClockClickHandler = true;
 		}
         clockIntervalID = setInterval(function() {
 			const x = new Date();
-			const _date = datetime.toLocaleDateString(x, curClockFmt.dateFmt); 
-			const _time = datetime.toLocaleTimeString(x, curClockFmt.timeFmt);
-            currentDateText.innerText = _date;
+			const _time = datetime.toLocaleTimeString(x, curTimeFmt.timeFmt);
+			const _date = datetime.toLocaleDateString(x, curDateFmt.dateFmt); 
 			currentTimeText.innerText = _time;
+            currentDateText.innerText = _date;
         }, 1000);
     } else {
         clockFrameButton.classList.add('hide');
-		clockFrameButton.removeEventListener('click', clockClickHandler);
+		currentTimeText.removeEventListener('click', timeClickHandler);
+		currentDateText.removeEventListener('click', dateClickHandler);
 		hasClockClickHandler = false;
     }
 }
 
-function clockClickHandler() {
-	curClockFmt = getNextClockFormat();
+function timeClickHandler() {
+	curTimeFmt = getNextTimeFormat();
 	const x = new Date();
-	const _date = datetime.toLocaleDateString(x, curClockFmt.dateFmt); 
-	const _time = datetime.toLocaleTimeString(x, curClockFmt.timeFmt);
-	currentDateText.innerText = _date;
+	const _time = datetime.toLocaleTimeString(x, curTimeFmt.timeFmt);
 	currentTimeText.innerText = _time;
 }
 
-const clockFmtIdxMax = 7;
-let curClockFmtIdx = 0;
-let curClockFmt = getNextClockFormat();
+function dateClickHandler() {
+	curDateFmt = getNextDateFormat();
+	const x = new Date();
+	const _date = datetime.toLocaleDateString(x, curDateFmt.dateFmt); 
+	currentDateText.innerText = _date;
+}
 
-function getNextClockFormat() {
-	curClockFmtIdx = (curClockFmtIdx + 1) % clockFmtIdxMax;
+const timeFmtIdxMax = 4;
+const dateFmtIdxMax = 6;
+let curTimeFmtIdx = 0;
+let curDateFmtIdx = 0;
+let curTimeFmt = getNextTimeFormat();
+let curDateFmt = getNextDateFormat();
+
+function getNextTimeFormat() {
+	curTimeFmtIdx = (curTimeFmtIdx + 1) % timeFmtIdxMax;
+	
+	let _opts_time = {
+		'hour': '2-digit',
+		'minute': '2-digit',
+		'second': '2-digit'
+	};
+	
+	switch (curTimeFmtIdx) {
+		case 0:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			_opts_time['second'] = '2-digit';
+			break;
+		case 1:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			delete _opts_time['second'];
+			break;
+		case 2:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			_opts_time['second'] = '2-digit';
+			_opts_time['timeZoneName'] = 'short';
+			break;
+		case 3:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			delete _opts_time['second'];
+			_opts_time['timeZoneName'] = 'short';
+			break;
+	}
+	return {'timeFmt': _opts_time};
+}
+
+function getNextDateFormat() {
+	curDateFmtIdx = (curDateFmtIdx + 1) % dateFmtIdxMax;
 	
 	let _opts_date = {
 		'day': '2-digit',
 		'month': '2-digit',
 		'year': '2-digit'
 	};
-	let _opts_time = {
-		'hour': '2-digit',
-		'minute': '2-digit' 
-	};
 	
-	switch (curClockFmtIdx) {
+	switch (curDateFmtIdx) {
 		case 0:
 			_opts_date['day'] = '2-digit';
 			_opts_date['month'] = '2-digit';
 			_opts_date['year'] = 'numeric';
 			delete _opts_date['weekday'];
-			_opts_time['hour'] = '2-digit';
-			_opts_time['minute'] = '2-digit';
-			_opts_time['second'] = '2-digit';
 			break;
 		case 1:
 			_opts_date['day'] = '2-digit';
 			_opts_date['month'] = '2-digit';
 			_opts_date['year'] = '2-digit';
 			delete _opts_date['weekday'];
-			_opts_time['hour'] = '2-digit';
-			_opts_time['minute'] = '2-digit';
-			delete _opts_time['second'];
 			break;
 		case 2:
-			_opts_date['day'] = '2-digit';
-			_opts_date['month'] = '2-digit';
-			_opts_date['year'] = '2-digit';
-			_opts_date['timeZoneName'] = 'short';
-			delete _opts_date['weekday'];
-			_opts_time['hour'] = '2-digit';
-			_opts_time['minute'] = '2-digit';
-			delete _opts_time['second'];
+			_opts_date['day'] = 'numeric';
+			_opts_date['month'] = 'long';
+			_opts_date['year'] = 'numeric';
+			_opts_date['weekday'] = 'long';
 			break;
 		case 3:
-			_opts_date['weekday'] = 'long';
 			_opts_date['day'] = 'numeric';
-			_opts_date['month'] = 'long';
+			_opts_date['month'] = 'short';
 			_opts_date['year'] = 'numeric';
-			_opts_time['hour'] = '2-digit';
-			_opts_time['minute'] = '2-digit';
-			_opts_time['second'] = '2-digit';
+			_opts_date['weekday'] = 'short';
 			break;
 		case 4:
-			_opts_date['weekday'] = 'short';
-			_opts_date['day'] = 'numeric';
-			_opts_date['month'] = 'short';
-			_opts_date['year'] = 'numeric';
-			_opts_time['hour'] = '2-digit';
-			_opts_time['minute'] = '2-digit';
-			delete _opts_time['second'];
-			break;
-		case 5:
-			_opts_date['weekday'] = 'short';
-			_opts_date['day'] = 'numeric';
-			_opts_date['month'] = 'short';
-			_opts_date['year'] = 'numeric';
-			_opts_date['timeZoneName'] = 'short';
-			_opts_time['hour'] = '2-digit';
-			_opts_time['minute'] = '2-digit';
-			delete _opts_time['second'];
-			break;
-		case 6:
-			_opts_date['weekday'] = 'short';
 			_opts_date['day'] = 'numeric';
 			_opts_date['month'] = 'long';
 			_opts_date['year'] = 'numeric';
-			_opts_time['hour'] = '2-digit';
-			_opts_time['minute'] = '2-digit';
-			_opts_time['second'] = '2-digit';
+			_opts_date['weekday'] = 'short';
+			break;
+		case 5:
+			_opts_date['day'] = 'numeric';
+			_opts_date['month'] = 'short';
+			_opts_date['year'] = 'numeric';
+			_opts_date['weekday'] = 'long';
 			break;
 	}
-	return {'dateFmt': _opts_date, 'timeFmt': _opts_time};
+	return {'dateFmt': _opts_date};
 }
 
 function showSearch() {
