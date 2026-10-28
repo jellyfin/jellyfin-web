@@ -1,6 +1,6 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import React, { FunctionComponent, useEffect, useRef, useCallback, useMemo } from 'react';
-import { DomError } from 'types/domError';
+import { DomError } from 'constants/domError';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../../lib/globalize';
