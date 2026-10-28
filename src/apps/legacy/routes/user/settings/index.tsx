@@ -297,7 +297,7 @@ const UserSettingsPage: FC = () => {
                                     <span className='material-icons listItemIcon listItemIcon-transparent mode_edit' aria-hidden='true' />
                                     <div className='listItemBody'>
                                         <div className='listItemBodyText'>
-                                            {globalize.translate('MetadataManager')}
+                                            {globalize.translate('ManageMetadata')}
                                         </div>
                                     </div>
                                 </div>

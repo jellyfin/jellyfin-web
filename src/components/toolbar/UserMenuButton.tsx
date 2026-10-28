@@ -1,4 +1,3 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import React, { useCallback, useState } from 'react';
@@ -36,7 +35,6 @@ const UserMenuButton = () => {
                     sx={{ padding: 0 }}
                 >
                     <UserAvatar user={user} />
-                    <ArrowDropDownIcon />
                 </IconButton>
             </Tooltip>
 

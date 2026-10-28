@@ -158,7 +158,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                     <ListItemIcon>
                         <Edit />
                     </ListItemIcon>
-                    <ListItemText primary={globalize.translate('MetadataManager')} />
+                    <ListItemText primary={globalize.translate('ManageMetadata')} />
                 </MenuItem>
             ])}
 
