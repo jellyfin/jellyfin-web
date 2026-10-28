@@ -55,7 +55,7 @@ export function getDisplayName(item, options = {}) {
 }
 
 export function supportsAddingToCollection(item) {
-    const invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
+    const invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'Network', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
 
     if (item.Type === 'Recording' && item.Status !== 'Completed') {
         return false;

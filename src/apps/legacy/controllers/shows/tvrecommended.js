@@ -34,6 +34,8 @@ function getTabs() {
     }, {
         name: globalize.translate('TabNetworks')
     }, {
+        name: globalize.translate('Studios')
+    }, {
         name: globalize.translate('Episodes')
     }];
 }
@@ -49,11 +51,14 @@ function getDefaultTabIndex(folderId) {
         case LibraryTab.Genres:
             return 3;
 
-        case LibraryTab.Studios:
+        case LibraryTab.Networks:
             return 4;
 
-        case LibraryTab.Episodes:
+        case LibraryTab.Studios:
             return 5;
+
+        case LibraryTab.Episodes:
+            return 6;
 
         default:
             return 0;
@@ -261,10 +266,14 @@ export default function (view, params) {
                 break;
 
             case 4:
-                depends = 'tvstudios';
+                depends = 'tvnetworks';
                 break;
 
             case 5:
+                depends = 'tvstudios';
+                break;
+
+            case 6:
                 depends = 'episodes';
                 break;
         }

@@ -393,6 +393,16 @@ class AppRouter {
             return url;
         }
 
+        if (item.Type === 'Network') {
+            url = '#/list?networkId=' + item.Id + '&serverId=' + serverId;
+
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+
+            return url;
+        }
+
         if (item === 'tag') {
             url = `#/list?type=tag&tag=${encodeURIComponent(options.tag)}&serverId=${serverId}`;
 

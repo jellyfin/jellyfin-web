@@ -1278,6 +1278,8 @@
     "Name": "Name",
     "Native": "Native",
     "NativeSubtitleStylingHelp": "Subtitle styling will not work on some devices. However, it does not come with any performance overhead.",
+    "Network": "Network",
+    "Networks": "Networks",
     "NetworkingPageLoadError": "Failed to load networking settings",
     "Never": "Never",
     "New": "New",

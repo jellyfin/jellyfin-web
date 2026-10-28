@@ -223,20 +223,25 @@ export const LibraryRoutes: LibraryRoute[] = [
             {
                 index: 4,
                 label: 'TabNetworks',
-                view: LibraryTab.Studios
+                view: LibraryTab.Networks
             },
             {
                 index: 5,
+                label: 'Studios',
+                view: LibraryTab.Studios
+            },
+            {
+                index: 6,
                 label: 'Episodes',
                 view: LibraryTab.Episodes
             },
             {
-                index: 6,
+                index: 7,
                 label: 'Collections',
                 view: LibraryTab.Collections
             },
             {
-                index: 7,
+                index: 8,
                 label: 'Playlists',
                 view: LibraryTab.Playlists
             }
