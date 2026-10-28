@@ -46,9 +46,9 @@ function renderHeader() {
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
 	html += '<div class="headerRight">';
-	html += '<button class="clockFrameButton show-focus hide" style="border:none;background: var(--jf-palette-AppBar-transparentBg);color: var(--jf-palette-text-secondary);">';
-	html += '<div class="currentDateText" style="font-size: 1vw"></div>';
-    html += '<div class="currentTimeText" style="font-size: 2vw"></div>';
+	html += '<button class="clockFrameButton show-focus hide" style="margin-right: 1em;border:none;background: var(--jf-palette-AppBar-transparentBg);color: var(--jf-palette-text-secondary);">';
+	html += '<div class="currentDateText" style="font-size: 1.3em"></div>';
+    html += '<div class="currentTimeText" style="font-size: 2.5em"></div>';
 	html += '</button>';
     html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
     html += '<span class="headerSelectedPlayer"></span>';
