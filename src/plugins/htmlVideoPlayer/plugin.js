@@ -719,14 +719,16 @@ export class HtmlVideoPlayer {
             this.#currentBitmapSubRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, offsetValue);
         } else {
             const trackElements = this.getTextTracks();
-            // if .vtt currently rendering
-            if (trackElements?.length > 0) {
+            // if custom subtitle element currently rendering
+            // checked first: Safari exposes an empty, showing in-band captions track for native HLS
+            if (this.#currentTrackEvents || this.#currentSecondaryTrackEvents) {
+                this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, PRIMARY_TEXT_TRACK_INDEX);
+                this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, SECONDARY_TEXT_TRACK_INDEX);
+            } else if (trackElements?.length > 0) {
+                // if .vtt currently rendering
                 trackElements.forEach((trackElement, index) => {
                     this.setTextTrackSubtitleOffset(trackElement, offsetValue, index);
                 });
-            } else if (this.#currentTrackEvents || this.#currentSecondaryTrackEvents) {
-                this.#currentTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentTrackEvents, offsetValue, PRIMARY_TEXT_TRACK_INDEX);
-                this.#currentSecondaryTrackEvents && this.setTrackEventsSubtitleOffset(this.#currentSecondaryTrackEvents, offsetValue, SECONDARY_TEXT_TRACK_INDEX);
             } else {
                 this.updateCurrentTrackOffset(offsetValue);
                 console.debug('No available track, cannot apply offset: ', offsetValue);
