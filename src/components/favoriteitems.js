@@ -1,3 +1,5 @@
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
+
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
@@ -124,7 +126,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
     let promise;
 
     if (section.types === 'MusicArtist') {
-        promise = ApiClient.getPeople(userId, { ...options, PersonTypes: 'Artist' });
+        promise = ApiClient.getPeople(userId, { ...options, PersonTypes: PersonKind.Artist });
     } else {
         options.IncludeItemTypes = section.types;
         promise = ApiClient.getItems(userId, options);

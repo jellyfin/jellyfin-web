@@ -879,7 +879,6 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
         } else if (p.Type === PersonKind.Artist || p.Type === PersonKind.AlbumArtist) {
-            // artists have their own slider so we skip them here
             console.debug(`skipping artist in person slider: ${p.Name}`);
         } else {
             const isMergeableCrew = p.Id && mergeablePersonTypes.has(p.Type);
