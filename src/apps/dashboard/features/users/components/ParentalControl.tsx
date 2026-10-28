@@ -61,7 +61,7 @@ function handleSaveUser(
 }
 
 const ParentalControl = ({ userId }: ParentalControlProps) => {
-	const { __legacyApiClient__ } = useApi();
+    const { __legacyApiClient__ } = useApi();
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
     const [ maxParentalRating, setMaxParentalRating ] = useState<string>();
@@ -293,7 +293,7 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
             (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', showBlockedTagPopup);
             (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
         };
-     }, [__legacyApiClient__, setAllowedTags, setBlockedTags, loadData, userId]);
+    }, [__legacyApiClient__, setAllowedTags, setBlockedTags, loadData, userId]);
 
     useEffect(() => {
         const page = element.current;

@@ -16,6 +16,10 @@
       "color": "#202020",
       "default": true
     }, {
+      "name": "Halloween",
+      "id": "halloween",
+      "color": "#282828"
+    }, {
       "name": "Light",
       "id": "light",
       "color": "#303030"
@@ -32,6 +36,7 @@
   "menuLinks": [],
   "servers": [],
   "plugins": [
+    "autoLogoutScreensaver/plugin",
     "playAccessValidation/plugin",
     "experimentalWarnings/plugin",
     "htmlAudioPlayer/plugin",

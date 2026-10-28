@@ -1,6 +1,10 @@
+import $ from 'jquery';
 import { importModule } from '@uupaa/dynamic-import-polyfill';
+
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Dashboard from 'utils/dashboard';
+
 import './viewManager/viewContainer.scss';
-import Dashboard from '../utils/dashboard';
 
 const getMainAnimatedPages = () => {
     return document.querySelector('.mainAnimatedPages');
@@ -19,7 +23,7 @@ function setControllerClass(view, options) {
         }
 
         controllerUrl = Dashboard.getPluginUrl(controllerUrl);
-        const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
+        const apiUrl = ServerConnections.currentApiClient().getUrl('/web/' + controllerUrl);
         return importModule(apiUrl).then((ControllerFactory) => {
             options.controllerFactory = ControllerFactory;
         });
@@ -65,13 +69,13 @@ export function loadView(options) {
         }
 
         if (currentPage) {
-            if (newViewInfo.hasScript && window.$) {
+            if (newViewInfo.hasScript) {
                 mainAnimatedPages.removeChild(currentPage);
                 view = $(view).appendTo(mainAnimatedPages)[0];
             } else {
                 mainAnimatedPages.replaceChild(view, currentPage);
             }
-        } else if (newViewInfo.hasScript && window.$) {
+        } else if (newViewInfo.hasScript) {
             view = $(view).appendTo(mainAnimatedPages)[0];
         } else {
             mainAnimatedPages.appendChild(view);
@@ -107,11 +111,6 @@ export function loadView(options) {
 
                 if (!options.cancel && previousAnimatable) {
                     afterAnimate(allPages, pageIndex);
-                }
-
-                if (window.$) {
-                    $.mobile = $.mobile || {};
-                    $.mobile.activePage = view;
                 }
 
                 return view;
@@ -211,11 +210,6 @@ export function tryRestoreView(options) {
 
                 if (!options.cancel && previousAnimatable) {
                     afterAnimate(allPages, index);
-                }
-
-                if (window.$) {
-                    $.mobile = $.mobile || {};
-                    $.mobile.activePage = view;
                 }
 
                 return view;

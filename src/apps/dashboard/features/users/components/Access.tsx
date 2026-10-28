@@ -12,6 +12,7 @@ import Toast from 'apps/dashboard/components/Toast';
 import { useApi } from 'hooks/useApi';
 import accessschedule from 'components/accessSchedule/accessSchedule';
 				
+
 interface AccessProps {
     userId: string;
 }
@@ -25,7 +26,7 @@ type ItemsArr = {
 };
 
 const Access = ({ userId }: AccessProps) => {
-	const { __legacyApiClient__ } = useApi();
+    const { __legacyApiClient__ } = useApi();
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -164,20 +165,21 @@ const Access = ({ userId }: AccessProps) => {
 
 	const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
 		schedule = schedule || {};
-		accessschedule.show({schedule: schedule})
-		.then(function (updatedSchedule) {
-			const schedules = getSchedulesFromPage() || [];
+		
+			accessschedule.show({schedule: schedule})
+			.then(function (updatedSchedule) {
+				const schedules = getSchedulesFromPage() || [];
 
-			if (index == -1) {
-				index = schedules.length;
-			}
+				if (index == -1) {
+					index = schedules.length;
+				}
 
-			schedules[index] = updatedSchedule;
-			setAccessSchedules(schedules);
-		})
-		.catch(err => {
-			console.error('[accesscontrol] failed to load access schedule', err);
-		});
+				schedules[index] = updatedSchedule;
+				setAccessSchedules(schedules);
+			})
+			.catch(err => {
+				console.error('[userparentalcontrol] failed to load access schedule', err);
+			});
 	};
 
 	const getSchedulesFromPage = () => {
@@ -199,7 +201,7 @@ const Access = ({ userId }: AccessProps) => {
 	
     const loadData = useCallback(() => {
         loading.show();
-         if (!__legacyApiClient__) {
+        if (!__legacyApiClient__) {
             console.error('[userlibraryaccess] __legacyApiClient__ is not available');
             return;
         }
@@ -297,8 +299,7 @@ const Access = ({ userId }: AccessProps) => {
                 EndHour: 0
             }, -1);
         };
-		
-		(page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
+        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
 
         (page.querySelector('.chkEnableAllDevices') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
             (page.querySelector('.deviceAccessListContainer') as HTMLDivElement).classList.toggle('hide', this.checked);

@@ -4,6 +4,7 @@ import { DEFAULT_THEME_OPTIONS } from './_base/theme';
 import appletv from './appletv';
 import blueradiance from './blueradiance';
 import dark from './dark';
+import halloween from './halloween';
 import light from './light';
 import purplehaze from './purplehaze';
 import wmc from './wmc';
@@ -21,6 +22,7 @@ const DEFAULT_THEME = createTheme({
         appletv,
         blueradiance,
         dark,
+		halloween,
         light,
         purplehaze,
         wmc

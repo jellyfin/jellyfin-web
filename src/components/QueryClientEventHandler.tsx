@@ -1,3 +1,4 @@
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, type FC } from 'react';
 
@@ -8,7 +9,7 @@ import Events from 'utils/events';
 /** Component that handles mapping events to query client actions. */
 const QueryClientEventHandler: FC = () => {
     const queryClient = useQueryClient();
-    const { user } = useApi();
+    const { api, user } = useApi();
 
     const clearQueries = useCallback(() => (
         queryClient.clear()
@@ -35,6 +36,10 @@ const QueryClientEventHandler: FC = () => {
             Events.off(document, EventType.REFRESH_NEEDED, invalidateItemQueries);
         };
     }, [invalidateItemQueries]);
+
+    useEffect(() => (
+        api?.subscribe([OutboundWebSocketMessageType.UserDataChanged], invalidateItemQueries)
+    ), [api, invalidateItemQueries]);
 
     return null;
 };
