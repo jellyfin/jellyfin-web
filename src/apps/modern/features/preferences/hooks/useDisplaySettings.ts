@@ -93,6 +93,7 @@ async function loadDisplaySettings({
         enableFasterAnimation: Boolean(settings.enableFastFadein()),
         enableItemDetailsBanner: Boolean(settings.detailsBanner()),
         enableLibraryBackdrops: Boolean(settings.enableBackdrops()),
+        backdropParentalRatingLimit: Boolean(settings.backdropParentalRatingLimit()),
         enableLibraryThemeSongs: Boolean(settings.enableThemeSongs()),
         enableLibraryThemeVideos: Boolean(settings.enableThemeVideos()),
         enableRewatchingInNextUp: Boolean(settings.enableRewatchingInNextUp()),
@@ -140,6 +141,7 @@ async function saveDisplaySettings({
     userSettings.enableFastFadein(newDisplaySettings.enableFasterAnimation);
     userSettings.detailsBanner(newDisplaySettings.enableItemDetailsBanner);
     userSettings.enableBackdrops(newDisplaySettings.enableLibraryBackdrops);
+    userSettings.backdropParentalRatingLimit(newDisplaySettings.backdropParentalRatingLimit);
     userSettings.enableThemeSongs(newDisplaySettings.enableLibraryThemeSongs);
     userSettings.enableThemeVideos(newDisplaySettings.enableLibraryThemeVideos);
     userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
