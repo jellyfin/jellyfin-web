@@ -32,15 +32,10 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
         }
 
         (await libraryMenu).setTitle(user.Name);
+        (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
 
-        if (user.HasConfiguredPassword) {
-            if (!user.Policy?.IsAdministrator) {
-                (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
-            }
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
-        } else {
-            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
+        if (!user.Policy?.IsAdministrator) {
+            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
         }
 
         const canChangePassword = currentUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
