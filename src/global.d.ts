@@ -1,5 +1,6 @@
 export declare global {
     import { ApiClient, Events } from 'jellyfin-apiclient';
+    import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
     import type { DeviceProfile } from '@jellyfin/sdk/lib/generated-client/models/device-profile';
     import type { ServerDiscoveryInfo } from '@jellyfin/sdk/lib/generated-client/models/server-discovery-info';
     import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
@@ -33,7 +34,7 @@ export declare global {
     interface NativeShellDownloadItem {
         url: string;
         filename?: string;
-        item?: unknown;
+        item?: BaseItemDto;
         itemId?: string;
         serverId?: string;
         shareUrl?: string;
@@ -77,7 +78,6 @@ export declare global {
             profileBuilder: NativeShellDeviceProfileBuilder,
             appVersion: string
         ): DeviceProfile;
-        getSyncProfile?(profileBuilder: NativeShellDeviceProfileBuilder): DeviceProfile;
         init(): NativeShellAppInfo | Promise<NativeShellAppInfo>;
         screen?(): NativeShellScreen | null;
         supports(command: string): boolean;
