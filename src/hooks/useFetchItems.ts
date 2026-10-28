@@ -8,7 +8,6 @@ import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filte
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
-import { getArtistApi } from '@jellyfin/sdk/lib/utils/api/artist-api';
 import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
 import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
@@ -200,7 +199,7 @@ const fetchGetItemsViewByType = async (
         let response;
         switch (viewType) {
             case LibraryTab.AlbumArtists: {
-                response = await getArtistApi(api).getAlbumArtists(
+                response = await getPersonApi(api).getPersons(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
@@ -209,9 +208,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: libraryViewSettings.SortBy,
-                        sortOrder: [libraryViewSettings.SortOrder],
-                        includeItemTypes: itemType,
+                        personTypes: [PersonKind.AlbumArtist],
                         startIndex: libraryViewSettings.StartIndex
                     },
                     {
@@ -221,7 +218,7 @@ const fetchGetItemsViewByType = async (
                 break;
             }
             case LibraryTab.Artists: {
-                response = await getArtistApi(api).getArtists(
+                response = await getPersonApi(api).getPersons(
                     {
                         userId: user.Id,
                         parentId: parentId ?? undefined,
@@ -230,9 +227,7 @@ const fetchGetItemsViewByType = async (
                         ...getFiltersQuery(viewType, libraryViewSettings),
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        sortBy: libraryViewSettings.SortBy,
-                        sortOrder: [libraryViewSettings.SortOrder],
-                        includeItemTypes: itemType,
+                        personTypes: [PersonKind.Artist],
                         startIndex: libraryViewSettings.StartIndex
                     },
                     {
