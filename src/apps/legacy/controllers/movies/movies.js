@@ -5,6 +5,7 @@ import { AlphaPicker } from 'components/alphaPicker/alphaPicker';
 import listView from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { getFilterStatus, setFilterStatus } from 'components/filterdialog/filterIndicator';
@@ -27,11 +28,13 @@ export default function (view, params, tabContent, options) {
     function fetchData() {
         isLoading = true;
         loading.show();
-        return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
+        const apiClient = ServerConnections.currentApiClient();
+        return apiClient.getItems(apiClient.getCurrentUserId(), query);
     }
 
     function playAll() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getItem(apiClient.getCurrentUserId(), params.topParentId).then(function (item) {
             playbackManager.play({
                 items: [item]
             });
@@ -42,7 +45,8 @@ export default function (view, params, tabContent, options) {
         isLoading = true;
         loading.show();
         const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
-        return ApiClient.getItems(ApiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
+        const apiClient = ServerConnections.currentApiClient();
+        return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({
                 items: Items,
                 autoplay: true
@@ -311,7 +315,7 @@ export default function (view, params, tabContent, options) {
             const filterDialog = new FilterDialog({
                 query: query,
                 mode: 'movies',
-                serverId: ApiClient.serverId(),
+                serverId: ServerConnections.currentApiClient().serverId(),
                 hasFilters: getFilterStatus(query)
             });
             Events.on(filterDialog, 'filterchange', () => {

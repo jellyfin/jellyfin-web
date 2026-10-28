@@ -8,6 +8,7 @@ import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -34,7 +35,8 @@ function loadLatest(page, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
+    const apiClient = ServerConnections.currentApiClient();
+    apiClient.getJSON(apiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
         const allowBottomPadding = !enableScrollX();
         const container = page.querySelector('#recentlyAddedItems');
         cardBuilder.buildCards(items, {
@@ -69,7 +71,7 @@ function loadResume(page, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(userId, options).then(function (result) {
+    ServerConnections.currentApiClient().getItems(userId, options).then(function (result) {
         if (result.Items.length) {
             page.querySelector('#resumableSection').classList.remove('hide');
         } else {
@@ -158,7 +160,8 @@ function loadSuggestions(page, userId, parentId) {
         itemLimit = 6;
     }
 
-    const url = ApiClient.getUrl('Movies/Recommendations', {
+    const apiClient = ServerConnections.currentApiClient();
+    const url = apiClient.getUrl('Movies/Recommendations', {
         userId: userId,
         ParentId: parentId,
         categoryLimit: 6,
@@ -167,7 +170,7 @@ function loadSuggestions(page, userId, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb'
     });
-    ApiClient.getJSON(url).then(function (recommendations) {
+    apiClient.getJSON(url).then(function (recommendations) {
         if (!recommendations.length) {
             page.querySelector('.noItemsMessage').classList.remove('hide');
             page.querySelector('.recommendations').innerHTML = '';
@@ -221,7 +224,7 @@ function initSuggestedTab(page, tabContent) {
 
 function loadSuggestionsTab(view, params, tabContent) {
     const parentId = params.topParentId;
-    const userId = ApiClient.getCurrentUserId();
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
     loadResume(tabContent, userId, parentId);
     loadLatest(tabContent, userId, parentId);
     loadSuggestions(tabContent, userId, parentId);
@@ -384,7 +387,8 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                const apiClient = ServerConnections.currentApiClient();
+                apiClient.getItem(apiClient.getCurrentUserId(), parentId).then(function (item) {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });

@@ -1,4 +1,5 @@
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from 'components/loading/loading';
 import dom from 'utils/dom';
 import 'elements/emby-input/emby-input';
@@ -13,7 +14,8 @@ function isM3uVariant(type) {
 }
 
 function fillTypes(view, currentId) {
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then(function (types) {
+    const apiClient = ServerConnections.currentApiClient();
+    return apiClient.getJSON(apiClient.getUrl('LiveTv/TunerHosts/Types')).then(function (types) {
         const selectType = view.querySelector('.selectType');
         let html = '';
         html += types.map(function (tuner) {
@@ -35,12 +37,14 @@ function reload(view, providerId) {
     view.querySelector('.txtDevicePath').value = '';
 
     if (providerId) {
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.TunerHosts.filter(function (i) {
-                return i.Id === providerId;
-            })[0];
-            fillTunerHostInfo(view, info);
-        });
+        ServerConnections.currentApiClient()
+            .getNamedConfiguration('livetv')
+            .then(function (config) {
+                const info = config.TunerHosts.filter(function (i) {
+                    return i.Id === providerId;
+                })[0];
+                fillTunerHostInfo(view, info);
+            });
     }
 }
 
@@ -97,9 +101,10 @@ function submitForm(page) {
         info.Id = getParameterByName('id');
     }
 
-    ApiClient.ajax({
+    const apiClient = ServerConnections.currentApiClient();
+    apiClient.ajax({
         type: 'POST',
-        url: ApiClient.getUrl('LiveTv/TunerHosts'),
+        url: apiClient.getUrl('LiveTv/TunerHosts'),
         data: JSON.stringify(info),
         contentType: 'application/json'
     }).then(function () {
@@ -116,7 +121,7 @@ function submitForm(page) {
 function getDetectedDevice() {
     return import('components/tunerPicker').then(({ default: TunerPicker }) => {
         return new TunerPicker().show({
-            serverId: ApiClient.serverId()
+            serverId: ServerConnections.currentApiClient().serverId()
         });
     });
 }

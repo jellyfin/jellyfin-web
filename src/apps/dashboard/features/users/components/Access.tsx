@@ -9,8 +9,8 @@ import AccessContainer from 'components/dashboard/users/AccessContainer';
 import SectionTitleContainer from 'elements/SectionTitleContainer';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import Toast from 'apps/dashboard/components/Toast';
-import accessschedule from 'components/accessSchedule/accessSchedule';
-				
+import { useApi } from 'hooks/useApi';
+
 interface AccessProps {
     userId: string;
 }
@@ -24,6 +24,7 @@ type ItemsArr = {
 };
 
 const Access = ({ userId }: AccessProps) => {
+    const { __legacyApiClient__ } = useApi();
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -198,18 +199,23 @@ const Access = ({ userId }: AccessProps) => {
 	
     const loadData = useCallback(() => {
         loading.show();
-        const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
-        const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-            IsHidden: false
-        }));
-        const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-        const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
-        Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
-            loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
-        }).catch(err => {
-            console.error('[userlibraryaccess] failed to load data', err);
-        });
-    }, [loadUser, userId]);
+        if (!__legacyApiClient__) {
+            console.error('[userlibraryaccess] __legacyApiClient__ is not available');
+            return;
+        }
+        Promise.all([
+            userId ? __legacyApiClient__.getUser(userId) : Promise.resolve({ Configuration: {} }),
+            __legacyApiClient__.getJSON(__legacyApiClient__.getUrl('Library/MediaFolders', { IsHidden: false })),
+            __legacyApiClient__.getJSON(__legacyApiClient__.getUrl('Channels')),
+            __legacyApiClient__.getJSON(__legacyApiClient__.getUrl('Devices'))
+        ])
+            .then(([user, mediaFolders, channels, devices]) => {
+                loadUser(user, mediaFolders.Items, channels.Items, devices);
+            })
+            .catch(err => {
+                console.error('[userlibraryaccess] failed to load data', err);
+            });
+    }, [__legacyApiClient__, loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
@@ -228,11 +234,11 @@ const Access = ({ userId }: AccessProps) => {
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
-                saveUser(result);
-            }).catch(err => {
-                console.error('[userlibraryaccess] failed to fetch user', err);
-            });
+            __legacyApiClient__!.getUser(userId)
+                .then(saveUser)
+                .catch(err => {
+                    console.error('[userlibraryaccess] failed to fetch user', err);
+                });
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -267,14 +273,11 @@ const Access = ({ userId }: AccessProps) => {
             });
             user.Policy.BlockedChannels = null;
             user.Policy.BlockedMediaFolders = null;
-			
-			user.Policy.AccessSchedules = getSchedulesFromPage();
-			
-            window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                onSaveComplete();
-            }).catch(err => {
-                console.error('[userlibraryaccess] failed to update user policy', err);
-            });
+            __legacyApiClient__!.updateUserPolicy(user.Id, user.Policy)
+                .then(onSaveComplete)
+                .catch(err => {
+                    console.error('[userlibraryaccess] failed to update user policy', err);
+                });
         };
 
         const onSaveComplete = () => {
@@ -307,7 +310,7 @@ const Access = ({ userId }: AccessProps) => {
         });
 
         (page.querySelector('.userLibraryAccessForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadData]);
+    }, [__legacyApiClient__, loadData]);
 
     const removeScheduleCallback = useCallback((index: number) => {
         const newSchedules = accessSchedules.filter((_e, i) => i != index);
