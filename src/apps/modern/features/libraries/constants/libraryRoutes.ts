@@ -148,7 +148,7 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 7,
-                label: 'Credits',
+                label: 'People',
                 view: LibraryTab.Persons
             }
         ]
@@ -247,7 +247,7 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 8,
-                label: 'Credits',
+                label: 'People',
                 view: LibraryTab.Persons
             }
         ]
