@@ -19,12 +19,12 @@ import { getLocationSearch } from './url.ts';
 import { queryClient } from './query/queryClient';
 
 export function getCurrentUser() {
-    return window.ApiClient.getCurrentUser(false);
+    return ServerConnections.currentApiClient()?.getCurrentUser(false);
 }
 
 // TODO: investigate url prefix support for serverAddress function
 export async function serverAddress() {
-    const apiClient = window.ApiClient;
+    const apiClient = ServerConnections.currentApiClient();
 
     if (apiClient) {
         return Promise.resolve(apiClient.serverAddress());
@@ -88,7 +88,7 @@ export async function serverAddress() {
 }
 
 export function getCurrentUserId() {
-    const apiClient = window.ApiClient;
+    const apiClient = ServerConnections.currentApiClient();
 
     if (apiClient) {
         return apiClient.getCurrentUserId();
@@ -121,9 +121,7 @@ export function getPluginUrl(name) {
 }
 
 export function getConfigurationResourceUrl(name) {
-    return ApiClient.getUrl('web/ConfigurationPage', {
-        name: name
-    });
+    return ServerConnections.currentApiClient().getUrl('web/ConfigurationPage', { name });
 }
 
 /**

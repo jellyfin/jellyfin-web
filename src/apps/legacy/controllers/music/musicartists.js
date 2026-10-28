@@ -4,6 +4,7 @@ import imageLoader from 'components/images/imageLoader';
 import { AlphaPicker } from 'components/alphaPicker/alphaPicker';
 import listView from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from 'scripts/settings/userSettings';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
@@ -67,12 +68,13 @@ export default function (view, params, tabContent, options) {
     const reloadItems = () => {
         loading.show();
         isLoading = true;
+        const apiClient = ServerConnections.currentApiClient();
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
         const promise = options.mode == 'albumartists' ?
-            ApiClient.getAlbumArtists(ApiClient.getCurrentUserId(), query) :
-            ApiClient.getArtists(ApiClient.getCurrentUserId(), query);
+            apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query) :
+            apiClient.getArtists(apiClient.getCurrentUserId(), query);
         promise.then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
@@ -173,7 +175,7 @@ export default function (view, params, tabContent, options) {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: options.mode,
-                serverId: ApiClient.serverId()
+                serverId: ServerConnections.currentApiClient().serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
                 getQuery().StartIndex = 0;

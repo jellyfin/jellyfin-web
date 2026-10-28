@@ -214,8 +214,6 @@ export default tseslint.config(
                 'webapis': 'readonly',
                 // WebOS globals
                 'webOS': 'readonly',
-                // Jellyfin globals
-                'ApiClient': 'readonly',
                 // Build time definitions
                 __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',
