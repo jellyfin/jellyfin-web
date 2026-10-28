@@ -10,9 +10,7 @@ import AccessContainer from 'components/dashboard/users/AccessContainer';
 import SectionTitleContainer from 'elements/SectionTitleContainer';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import Toast from 'apps/dashboard/components/Toast';
-import { useApi } from 'hooks/useApi';
-import accessschedule from 'components/accessSchedule/accessSchedule';
-				
+import { useApi } from 'hooks/useApi';		
 
 interface AccessProps {
     userId: string;
