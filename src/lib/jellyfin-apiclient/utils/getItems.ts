@@ -1,31 +1,19 @@
-import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client';
-import { ApiClient } from 'jellyfin-apiclient';
-
-interface GetItemsRequest {
-    Ids?: string;
-    Limit?: number;
-}
+import type { Api } from '@jellyfin/sdk';
+import type { LibraryApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
+import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-query-result';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { chunk } from 'utils/array';
 
 const ITEMS_PER_REQUEST_LIMIT = 40;
 
-function getItemsSplit(apiClient: ApiClient, userId: string, options: GetItemsRequest) {
-    const optionsTemplate = { ...options };
-    const ids = options.Ids?.split(',') || [];
-    const results = [];
-    const limit = options.Limit ?? Infinity;
-
-    let end;
-    for (let start = 0; start < ids.length && start < limit; start = end) {
-        end = start + ITEMS_PER_REQUEST_LIMIT;
-        if (end > limit) {
-            end = limit;
-        }
-        const idsSlice = ids.slice(start, end);
-        optionsTemplate.Ids = idsSlice.join(',');
-        results.push(apiClient.getItems(userId, optionsTemplate));
-    }
-
-    return results;
+/**
+ * Fetches items directly from the server, bypassing the query cache. Playback needs current data
+ * (shuffle must produce a new order every time), and caching those requests would persist
+ * one-off random queries.
+ */
+async function fetchItems(api: Api, params: LibraryApiGetItemsRequest) {
+    const response = await getLibraryApi(api).getItems(params);
+    return response.data;
 }
 
 function mergeResults(results: BaseItemDtoQueryResult[]) {
@@ -38,15 +26,15 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 
     for (const result of results) {
         if (!result.Items) {
-            console.log('[getItems] Retrieved Items array is invalid', result.Items);
+            console.warn('[getItems] Retrieved Items array is invalid', result.Items);
             continue;
         }
         if (!result.TotalRecordCount) {
-            console.log('[getItems] Retrieved TotalRecordCount is invalid', result.TotalRecordCount);
+            console.warn('[getItems] Retrieved TotalRecordCount is invalid', result.TotalRecordCount);
             continue;
         }
         if (typeof result.StartIndex === 'undefined') {
-            console.log('[getItems] Retrieved StartIndex is invalid', result.StartIndex);
+            console.warn('[getItems] Retrieved StartIndex is invalid', result.StartIndex);
             continue;
         }
         merged.Items = merged.Items?.concat(result.Items);
@@ -57,19 +45,29 @@ function mergeResults(results: BaseItemDtoQueryResult[]) {
 }
 
 /**
- * Transparently handles the call to apiClient.getItems splitting the
+ * Transparently handles the call to the library API's getItems, splitting the
  * call into multiple ones if the URL might get too long.
- * @param apiClient The ApiClient to use
- * @param userId User id to pass to actual getItems call
- * @param options Options object to specify getItems option. This includes a possibly long Items list that will be split up.
- * @returns A promise that resolves to the merged result of all getItems calls
+ * @param api The SDK Api instance to use.
+ * @param params The getItems request parameters. This includes a possibly long `ids` array that will be split up.
+ * @returns A promise that resolves to the merged result of all getItems calls.
  */
-export function getItems(apiClient: ApiClient, userId: string, options?: GetItemsRequest) {
-    const ids = options?.Ids?.split(',');
-    if (!options || !ids || ids.length <= ITEMS_PER_REQUEST_LIMIT) {
-        return apiClient.getItems(userId, options);
-    }
-    const results = getItemsSplit(apiClient, userId, options);
+export async function getItems(api: Api, params: LibraryApiGetItemsRequest): Promise<BaseItemDtoQueryResult> {
+    let { ids = [] } = params;
+    const { limit } = params;
 
-    return Promise.all(results).then(mergeResults);
+    // Verify the number of ids is below the limit (if specified)
+    if (limit && ids.length > limit) {
+        ids = ids.slice(0, limit);
+    }
+
+    // Skip chunking and merging if the number of ids is below the limit
+    if (ids.length <= ITEMS_PER_REQUEST_LIMIT) {
+        return fetchItems(api, params);
+    }
+
+    // Split the ids into chunks and fetch items in parallel
+    const requests = chunk(ids, ITEMS_PER_REQUEST_LIMIT)
+        .map(chunkedIds => fetchItems(api, { ...params, ids: chunkedIds }));
+    const results = await Promise.all(requests);
+    return mergeResults(results);
 }
