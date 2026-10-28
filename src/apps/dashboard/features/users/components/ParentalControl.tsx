@@ -1,6 +1,7 @@
 import type { ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import escapeHTML from 'escape-html';
+import type { ApiClient } from 'jellyfin-apiclient';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import globalize from 'lib/globalize';
 import TagList from 'components/dashboard/users/TagList';
@@ -10,8 +11,8 @@ import loading from 'components/loading/loading';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import SelectElement from 'elements/SelectElement';
 import prompt from 'components/prompt/prompt';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Toast from 'apps/dashboard/components/Toast';
+import { useApi } from 'hooks/useApi';
 
 interface ParentalControlProps {
     userId: string;
@@ -33,7 +34,7 @@ function handleSaveUser(
     getBlockedTagsFromPage: () => string[],
     onSaveComplete: () => void
 ) {
-    return (user: UserDto) => {
+    return (apiClient: ApiClient, user: UserDto) => {
         const userId = user.Id;
         const userPolicy = user.Policy;
         if (!userId || !userPolicy) {
@@ -51,9 +52,8 @@ function handleSaveUser(
             .map(i => i.getAttribute('data-itemtype'));
         userPolicy.AllowedTags = getAllowedTagsFromPage();
         userPolicy.BlockedTags = getBlockedTagsFromPage();
-        ServerConnections.getCurrentApiClientAsync()
-            .then(apiClient => apiClient.updateUserPolicy(userId, userPolicy))
-            .then(() => onSaveComplete())
+        apiClient.updateUserPolicy(userId, userPolicy)
+            .then(onSaveComplete)
             .catch(err => {
                 console.error('[userparentalcontrol] failed to update user policy', err);
             });
@@ -61,6 +61,7 @@ function handleSaveUser(
 }
 
 const ParentalControl = ({ userId }: ParentalControlProps) => {
+	const { __legacyApiClient__ } = useApi();
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
     const [ maxParentalRating, setMaxParentalRating ] = useState<string>();
@@ -195,14 +196,17 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
         }
 
         loading.show();
-        const promise1 = window.ApiClient.getUser(userId);
-        const promise2 = window.ApiClient.getParentalRatings();
-        Promise.all([promise1, promise2]).then(function (responses) {
-            loadUser(responses[0], responses[1]);
-        }).catch(err => {
-            console.error('[userparentalcontrol] failed to load data', err);
-        });
-    }, [loadUser, userId]);
+        Promise.all([
+            __legacyApiClient__!.getUser(userId),
+            __legacyApiClient__!.getParentalRatings()
+        ])
+            .then(([user, ratings]) => {
+                loadUser(user, ratings);
+            })
+            .catch(err => {
+                console.error('[userparentalcontrol] failed to load data', err);
+            });
+    }, [__legacyApiClient__, loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
@@ -270,11 +274,11 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
-                saveUser(result);
-            }).catch(err => {
-                console.error('[userparentalcontrol] failed to fetch user', err);
-            });
+            __legacyApiClient__!.getUser(userId)
+                .then(user => saveUser(__legacyApiClient__!, user))
+                .catch(err => {
+                    console.error('[userparentalcontrol] failed to fetch user', err);
+                });
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -289,7 +293,7 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
             (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', showBlockedTagPopup);
             (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
         };
-    }, [setAllowedTags, setBlockedTags, loadData, userId]);
+     }, [__legacyApiClient__, setAllowedTags, setBlockedTags, loadData, userId]);
 
     useEffect(() => {
         const page = element.current;
