@@ -1,74 +1,49 @@
-<h1 align="center">Jellyfin Web</h1>
-<h3 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h3>
+Merge all branches with the most uptodate Jellyfin-web client.<br/>
+Releases 'PatchBundle' are produced from this branch.
 
----
+## Installation
 
-<p align="center">
-<img alt="Logo Banner" src="https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true"/>
+Note that as a prerequisite, you need nodejs and npm to be installed in your system.<br/>
+On ubuntu systems, you can use a command like #sudo apt install nodejs.<br/>
+
+Clone this repository<br/>
+#cd into its main directory<br/>
+#npm install<br/>
+#npm run build:development (Or production)<br/>
+#mv /usr/share/jellyfin/web /usr/share/jellyfin/web.orig<br/>
+#cp -rf dist /usr/share/jellyfin/web<br/>
 <br/>
-<br/>
-<a href="https://github.com/jellyfin/jellyfin-web">
-<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/jellyfin/jellyfin-web.svg"/>
-</a>
-<a href="https://github.com/jellyfin/jellyfin-web/releases">
-<img alt="Current Release" src="https://img.shields.io/github/release/jellyfin/jellyfin-web.svg"/>
-</a>
-<a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web/?utm_source=widget">
-<img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/svg-badge.svg" alt="Translation Status"/>
-</a>
-<br/>
-<a href="https://opencollective.com/jellyfin">
-<img alt="Donate" src="https://img.shields.io/opencollective/all/jellyfin.svg?label=backers"/>
-</a>
-<a href="https://features.jellyfin.org">
-<img alt="Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
-</a>
-<a href="https://matrix.to/#/+jellyfin:matrix.org">
-<img alt="Chat on Matrix" src="https://img.shields.io/matrix/jellyfin:matrix.org.svg?logo=matrix"/>
-</a>
-<a href="https://www.reddit.com/r/jellyfin">
-<img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fjellyfin-%23FF5700.svg"/>
-</a>
-</p>
+To test, connect jellyfin with your browser as usual  (SRV IP address:8096 by default).</br>
+Flush your browser's cache if necessary.</br>
+</br>
 
-Jellyfin Web is the frontend used for most of the clients available for end users, such as desktop browsers, Android, and iOS. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start. Translations can be improved very easily from our <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web">Weblate</a> instance. Look through the following graphic to see if your native language could use some work!
+## Patch Bundle details
 
-<a href="https://translate.jellyfin.org/engage/jellyfin/?utm_source=widget">
-<img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/multi-auto.svg" alt="Detailed Translation Status"/>
-</a>
+### RelocateAccessSchedule
+Relocate the "Access Schedule" settings into the access tab.</br>
 
-## Build Process
+### AutoLogoutScreenSaver
+Add a screen saver to automatically sign users out to keep their account safe.</br>
 
-### Dependencies
+### FixLogoScreenSaver
+Fix screensaver 'Logo' appearing behind the top toolbar and the footer frames.</br>
+Fix screensaver 'Logo' incorrectly centered.</br>
 
-- [Node.js](https://nodejs.org/en/download)
-- npm (included in Node.js)
+### ImproveScreenManager
+Fix mousewheel and middle/right click events not handled by the screensaver manager.</br>
+Fix keypress events not resetting the screensaver manager internal timer.</br>
+Fix event propagating to the UI when leaving a screensaver.</br>
 
-### Getting Started
+### ImproveDisplayModeTV
+Remove margins of section Libraries which caused the screen to scroll horizontally when navigating using arrow keys.</br>
 
-1. Clone or download this repository.
+### ThemeHalloween
+Introduce a new Halloween based theme.</br>
 
-   ```sh
-   git clone https://github.com/jellyfin/jellyfin-web.git
-   cd jellyfin-web
-   ```
+### ImproveQuickConnect
+Place the QuickConnect page content at the center of its frame. This is consistent with how other pages are rendered.</br>
 
-2. Install build dependencies in the project directory.
+### Adjustable Clock
+Allow the clock to be disabled from the display settings for TV mode.</br>
+Provide several date and time formats that can be selected by clicking on the clock.</br>
 
-   ```sh
-   npm install
-   ```
-
-3. Run the web client with webpack for local development.
-
-   ```sh
-   npm start
-   ```
-
-4. Build the client with sourcemaps available.
-
-   ```sh
-   npm run build:development
-   ```
-
-Review the [Contributing Guide](./CONTRIBUTING.md) for more information on our process and tech stack.

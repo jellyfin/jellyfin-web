@@ -11,6 +11,8 @@ import SectionTitleContainer from 'elements/SectionTitleContainer';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import Toast from 'apps/dashboard/components/Toast';
 import { useApi } from 'hooks/useApi';
+import accessschedule from 'components/accessSchedule/accessSchedule';
+				
 
 interface AccessProps {
     userId: string;
