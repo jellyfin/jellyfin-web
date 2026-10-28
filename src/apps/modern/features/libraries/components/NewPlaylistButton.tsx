@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import type { QueryKey } from '@tanstack/react-query';
 
 import globalize from 'lib/globalize';
+import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
 
 interface NewPlaylistButtonProps {
@@ -15,10 +16,12 @@ const NewPlaylistButton: FC<NewPlaylistButtonProps> = ({
     isTextVisible,
     queryKey
 }) => {
+    const { __legacyApiClient__ } = useApi();
+
     const showPlaylistEditor = useCallback(() => {
         import('components/playlisteditor/playlisteditor')
             .then(async ({ default: PlaylistEditor }) => {
-                const serverId = window.ApiClient.serverId();
+                const serverId = __legacyApiClient__?.serverId();
                 const playlistEditor = new PlaylistEditor();
                 try {
                     await playlistEditor.show({
@@ -33,7 +36,7 @@ const NewPlaylistButton: FC<NewPlaylistButtonProps> = ({
             .catch(err => {
                 console.error('[NewPlaylist] failed to load playlist editor', err);
             });
-    }, [ queryKey ]);
+    }, [__legacyApiClient__, queryKey]);
 
     return (
         <Button

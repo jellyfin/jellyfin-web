@@ -6,6 +6,8 @@ import listView from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import * as userSettings from 'scripts/settings/userSettings';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
@@ -67,7 +69,8 @@ export default function (view, params, tabContent) {
         isLoading = true;
         const query = getQuery();
         this.alphaPicker?.updateControls(query);
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -243,11 +246,11 @@ export default function (view, params, tabContent) {
         });
         tabElement.querySelector('.btnNewCollection').addEventListener('click', () => {
             import('components/collectionEditor/collectionEditor').then(({ default: CollectionEditor }) => {
-                const serverId = ApiClient.serverInfo().Id;
+                const serverId = ServerConnections.currentApiClient().serverInfo().Id;
                 const collectionEditor = new CollectionEditor();
                 collectionEditor.show({
                     items: [],
-                    serverId: serverId
+                    serverId
                 });
             });
         });
@@ -287,4 +290,3 @@ export default function (view, params, tabContent) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-

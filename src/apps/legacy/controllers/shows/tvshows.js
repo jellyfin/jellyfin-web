@@ -6,6 +6,7 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import AlphaPicker from 'components/alphaPicker/alphaPicker';
 import * as userSettings from 'scripts/settings/userSettings';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
@@ -68,10 +69,11 @@ export default function (view, params, tabContent) {
     const reloadItems = (page) => {
         loading.show();
         isLoading = true;
+        const apiClient = ServerConnections.currentApiClient();
         const query = getQuery();
         setFilterStatus(page, query);
 
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -202,7 +204,7 @@ export default function (view, params, tabContent) {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'series',
-                serverId: ApiClient.serverId()
+                serverId: ServerConnections.currentApiClient().serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
                 getQuery().StartIndex = 0;
@@ -302,4 +304,3 @@ export default function (view, params, tabContent) {
         this.alphaPicker?.updateControls(getQuery());
     };
 }
-
