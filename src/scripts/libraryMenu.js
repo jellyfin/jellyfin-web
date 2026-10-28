@@ -25,12 +25,16 @@ import Dashboard, { pageClassOn } from '../utils/dashboard';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
 import datetime from '../scripts/datetime';
+import { enableClock } from './settings/userSettings';
 
 import '../elements/emby-button/paper-icon-button-light';
 
 import 'material-design-icons-iconfont';
 import '../styles/scrollstyles.scss';
 import '../styles/flexstyles.scss';
+
+let clockIntervalID = undefined;
+let hasClockClickHandler = false;
 
 function renderHeader() {
     let html = '';
@@ -41,14 +45,18 @@ function renderHeader() {
     html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu" aria-hidden="true"></span></button>';
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
-    html += '<div class="headerRight">';
+	html += '<div class="headerRight">';
+	html += '<div class="clockFrameButton hide" style="display: flex;flex-direction: column;margin-right: 1.2em;border:none;background: var(--jf-palette-AppBar-transparentBg);color: var(--jf-palette-text-secondary);">';
+	html += '<button class="currentDateText emby-tab-button emby-button show-focus" style="padding: 0;font-weight: normal;font-size: .8em"></button>';
+    html += '<button class="currentTimeText emby-tab-button emby-button show-focus" style="padding: 0;font-weight: normal;font-size: 2em"></button>';
+	html += '</div>';
     html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
     html += '<span class="headerSelectedPlayer"></span>';
     html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
     html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
-    html += '<div class="currentTimeText hide"></div>';
+
     html += '</div>';
     html += '</div>';
     html += '<div class="headerTabs sectionTabs hide">';
@@ -68,13 +76,14 @@ function renderHeader() {
     headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
     headerSearchButton = skinHeader.querySelector('.headerSearchButton');
     headerSyncButton = skinHeader.querySelector('.headerSyncButton');
-    currentTimeText = skinHeader.querySelector('.currentTimeText');
-
+    clockFrameButton = skinHeader.querySelector('.clockFrameButton');
+	currentDateText = skinHeader.querySelector('.currentDateText');
+	currentTimeText = skinHeader.querySelector('.currentTimeText');
+	
     retranslateUi();
     lazyLoadViewMenuBarImages();
     bindMenuEvents();
     updateCastIcon();
-    updateClock();
 }
 
 function getCurrentApiClient() {
@@ -185,6 +194,8 @@ function updateUserInHeader(user) {
         }
     }
 
+	updateClock();
+  
     requiresUserRefresh = false;
 }
 
@@ -199,14 +210,136 @@ function updateHeaderUserButton(src) {
 }
 
 function updateClock() {
-    if (layoutManager.tv) {
-        currentTimeText.classList.remove('hide');
-        setInterval(function() {
-            currentTimeText.innerText = datetime.getDisplayTime(new Date());
+	if (clockIntervalID)
+		clearInterval(clockIntervalID);
+	
+    if (layoutManager.tv && enableClock()) {
+        clockFrameButton.classList.remove('hide');
+		if (!hasClockClickHandler) {
+			currentTimeText.addEventListener('click', timeClickHandler);
+			currentDateText.addEventListener('click', dateClickHandler);
+			hasClockClickHandler = true;
+		}
+        clockIntervalID = setInterval(function() {
+			const x = new Date();
+			const _time = datetime.toLocaleTimeString(x, curTimeFmt.timeFmt);
+			const _date = datetime.toLocaleDateString(x, curDateFmt.dateFmt); 
+			currentTimeText.innerText = _time;
+            currentDateText.innerText = _date;
         }, 1000);
     } else {
-        currentTimeText.classList.add('hide');
+        clockFrameButton.classList.add('hide');
+		currentTimeText.removeEventListener('click', timeClickHandler);
+		currentDateText.removeEventListener('click', dateClickHandler);
+		hasClockClickHandler = false;
     }
+}
+
+function timeClickHandler() {
+	curTimeFmt = getNextTimeFormat();
+	const x = new Date();
+	const _time = datetime.toLocaleTimeString(x, curTimeFmt.timeFmt);
+	currentTimeText.innerText = _time;
+}
+
+function dateClickHandler() {
+	curDateFmt = getNextDateFormat();
+	const x = new Date();
+	const _date = datetime.toLocaleDateString(x, curDateFmt.dateFmt); 
+	currentDateText.innerText = _date;
+}
+
+const timeFmtIdxMax = 4;
+const dateFmtIdxMax = 6;
+let curTimeFmtIdx = 0;
+let curDateFmtIdx = 0;
+let curTimeFmt = getNextTimeFormat();
+let curDateFmt = getNextDateFormat();
+
+function getNextTimeFormat() {
+	curTimeFmtIdx = (curTimeFmtIdx + 1) % timeFmtIdxMax;
+	
+	let _opts_time = {
+		'hour': '2-digit',
+		'minute': '2-digit',
+		'second': '2-digit'
+	};
+	
+	switch (curTimeFmtIdx) {
+		case 0:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			_opts_time['second'] = '2-digit';
+			break;
+		case 1:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			delete _opts_time['second'];
+			break;
+		case 2:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			_opts_time['second'] = '2-digit';
+			_opts_time['timeZoneName'] = 'short';
+			break;
+		case 3:
+			_opts_time['hour'] = '2-digit';
+			_opts_time['minute'] = '2-digit';
+			delete _opts_time['second'];
+			_opts_time['timeZoneName'] = 'short';
+			break;
+	}
+	return {'timeFmt': _opts_time};
+}
+
+function getNextDateFormat() {
+	curDateFmtIdx = (curDateFmtIdx + 1) % dateFmtIdxMax;
+	
+	let _opts_date = {
+		'day': '2-digit',
+		'month': '2-digit',
+		'year': '2-digit'
+	};
+	
+	switch (curDateFmtIdx) {
+		case 0:
+			_opts_date['day'] = '2-digit';
+			_opts_date['month'] = '2-digit';
+			_opts_date['year'] = 'numeric';
+			delete _opts_date['weekday'];
+			break;
+		case 1:
+			_opts_date['day'] = '2-digit';
+			_opts_date['month'] = '2-digit';
+			_opts_date['year'] = '2-digit';
+			delete _opts_date['weekday'];
+			break;
+		case 2:
+			_opts_date['day'] = 'numeric';
+			_opts_date['month'] = 'long';
+			_opts_date['year'] = 'numeric';
+			_opts_date['weekday'] = 'long';
+			break;
+		case 3:
+			_opts_date['day'] = 'numeric';
+			_opts_date['month'] = 'short';
+			_opts_date['year'] = 'numeric';
+			_opts_date['weekday'] = 'short';
+			break;
+		case 4:
+			_opts_date['day'] = 'numeric';
+			_opts_date['month'] = 'long';
+			_opts_date['year'] = 'numeric';
+			_opts_date['weekday'] = 'short';
+			break;
+		case 5:
+			_opts_date['day'] = 'numeric';
+			_opts_date['month'] = 'short';
+			_opts_date['year'] = 'numeric';
+			_opts_date['weekday'] = 'long';
+			break;
+	}
+	return {'dateFmt': _opts_date};
 }
 
 function showSearch() {
@@ -698,7 +831,10 @@ let headerCastButton;
 let headerSearchButton;
 let headerAudioPlayerButton;
 let headerSyncButton;
+let clockFrameButton;
+let currentDateText;
 let currentTimeText;
+
 const enableLibraryNavDrawer = layoutManager.desktop;
 const enableLibraryNavDrawerHome = !layoutManager.tv;
 const skinHeader = document.querySelector('.skinHeader');

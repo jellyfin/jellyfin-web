@@ -314,6 +314,19 @@ export class UserSettings {
         return toBoolean(this.get('enableBackdrops', false), false);
     }
 
+   /**
+     * Get or set 'Clock' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'Clock' or undefined.
+     * @return {boolean} 'Clock' state.
+     */
+    enableClock(val) {
+        if (val !== undefined) {
+            return this.set('enableClock', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableClock', false), false);
+    }
+	
     /**
      * Get or set 'disableCustomCss' state.
      * @param {boolean|undefined} [val] - Flag to enable 'disableCustomCss' or undefined.
@@ -729,6 +742,7 @@ export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(cu
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
+export const enableClock = currentSettings.enableClock.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);
