@@ -39,7 +39,7 @@ import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
-import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
