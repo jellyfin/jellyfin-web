@@ -1,4 +1,5 @@
 import { SyncPlayUserAccessType } from '@jellyfin/sdk/lib/generated-client/models/sync-play-user-access-type';
+import type { ApiClient } from 'jellyfin-apiclient';
 import GroupAdd from '@mui/icons-material/GroupAdd';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import PersonOff from '@mui/icons-material/PersonOff';
@@ -13,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import SyncPlayGroupListItem from 'apps/modern/features/syncPlay/components/SyncPlayGroupListItem';
 import { useCreateSyncPlayGroup } from 'apps/modern/features/syncPlay/hooks/api/useCreateSyncPlayGroup';
@@ -23,6 +24,7 @@ import { useSyncPlayGroups } from 'apps/modern/features/syncPlay/hooks/api/useSy
 import { useSyncPlay } from 'apps/modern/features/syncPlay/hooks/useSyncPlay';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 export const ID = 'app-sync-play-menu';
 
@@ -35,7 +37,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
     open,
     onMenuClose
 }) => {
-    const { __legacyApiClient__, user } = useApi();
+    const { serverId, user } = useApi();
     const {
         isActive: isSyncPlayEnabled,
         currentGroup,
@@ -46,6 +48,12 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
     const createSyncPlayGroup = useCreateSyncPlayGroup();
     const joinSyncPlayGroup = useJoinSyncPlayGroup();
     const leaveSyncPlayGroup = useLeaveSyncPlayGroup();
+
+    // TODO: SyncPlay uses an internal instance of the ApiClient that needs migrated to the SDK (or removed)
+    const [ apiClient, setApiClient ] = useState<ApiClient | undefined>();
+    useEffect(() => {
+        setApiClient(serverId ? ServerConnections.getApiClient(serverId) : undefined);
+    }, [serverId]);
 
     const onGroupAddClick = useCallback(() => {
         createSyncPlayGroup.mutate({
@@ -79,7 +87,7 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
         // TODO: Rewrite settings UI
         const SyncPlaySettingsEditor = (await import('../../../../../plugins/syncPlay/ui/settings/SettingsEditor')).default;
         new SyncPlaySettingsEditor(
-            __legacyApiClient__,
+            ServerConnections.getApiClient(serverId),
             syncPlay.Manager.getTimeSyncCore(),
             {
                 groupInfo: currentGroup
@@ -92,21 +100,21 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
             });
 
         onMenuClose();
-    }, [ __legacyApiClient__, currentGroup, onMenuClose, syncPlay ]);
+    }, [ serverId, currentGroup, onMenuClose, syncPlay ]);
 
     const onStartGroupPlaybackClick = useCallback(() => {
-        if (__legacyApiClient__) {
-            syncPlay?.Manager.resumeGroupPlayback(__legacyApiClient__);
+        if (apiClient) {
+            syncPlay?.Manager.resumeGroupPlayback(apiClient);
             onMenuClose();
         }
-    }, [ __legacyApiClient__, onMenuClose, syncPlay ]);
+    }, [ apiClient, onMenuClose, syncPlay ]);
 
     const onStopGroupPlaybackClick = useCallback(() => {
-        if (__legacyApiClient__) {
-            syncPlay?.Manager.haltGroupPlayback(__legacyApiClient__);
+        if (apiClient) {
+            syncPlay?.Manager.haltGroupPlayback(apiClient);
             onMenuClose();
         }
-    }, [ __legacyApiClient__, onMenuClose, syncPlay ]);
+    }, [ apiClient, onMenuClose, syncPlay ]);
 
     const menuItems = [];
     if (isSyncPlayEnabled) {

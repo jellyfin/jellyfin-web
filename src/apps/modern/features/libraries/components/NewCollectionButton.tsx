@@ -16,12 +16,11 @@ const NewCollectionButton: FC<NewCollectionButtonProps> = ({
     isTextVisible,
     queryKey
 }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
 
     const showCollectionEditor = useCallback(() => {
         import('components/collectionEditor/collectionEditor')
             .then(async ({ default: CollectionEditor }) => {
-                const serverId = __legacyApiClient__?.serverId();
                 const collectionEditor = new CollectionEditor();
                 try {
                     await collectionEditor.show({
@@ -36,7 +35,7 @@ const NewCollectionButton: FC<NewCollectionButtonProps> = ({
             .catch(err => {
                 console.error('[NewCollection] failed to load collection editor', err);
             });
-    }, [__legacyApiClient__, queryKey]);
+    }, [ queryKey, serverId ]);
 
     return (
         <Button

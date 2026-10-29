@@ -1,4 +1,5 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
 
@@ -22,7 +23,7 @@ const getLastSeenText = (lastActivityDate?: string | null) => {
 };
 
 const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
-    const { __legacyApiClient__ } = useApi();
+    const { api } = useApi();
 
     let cssClass = 'card squareCard scalableCard squareCard-scalable';
     if (user.Policy?.IsDisabled) {
@@ -30,12 +31,12 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
     }
 
     let imgUrl;
-
-    if (user.PrimaryImageTag && user.Id) {
-        imgUrl = __legacyApiClient__?.getUserImageUrl(user.Id, {
-            width: 300,
-            tag: user.PrimaryImageTag,
-            type: 'Primary'
+    // TODO: The PrimaryImageTag check should be done in the SDK
+    // refs: https://github.com/jellyfin/jellyfin-sdk-typescript/pull/1111
+    if (api && user.PrimaryImageTag) {
+        const dpr = window?.devicePixelRatio || 1;
+        imgUrl = getImageApi(api).getUserImageUrl(user, {
+            width: Math.round(300 * dpr)
         });
     }
 
