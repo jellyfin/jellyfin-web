@@ -1488,6 +1488,7 @@ function renderChildren(page, item) {
             childrenItemsContainer.classList.remove('padded-right');
         }
         childrenItemsContainer.innerHTML = html;
+        listView.initOverviewToggles(childrenItemsContainer);
         imageLoader.lazyChildren(childrenItemsContainer);
         if (item.Type == 'BoxSet') {
             const collectionItemTypes = [{
