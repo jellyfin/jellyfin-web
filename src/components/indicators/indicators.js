@@ -1,5 +1,7 @@
 import datetime from '../../scripts/datetime';
+import globalize from '../../lib/globalize';
 import itemHelper from '../itemHelper';
+import { UNAIRED_TYPES } from './constants';
 import '../../elements/emby-progressbar/emby-progressbar';
 import './indicators.scss';
 import 'material-design-icons-iconfont';
@@ -149,19 +151,25 @@ export function getTypeIndicator(item) {
     return icon ? '<div class="indicator videoIndicator"><span class="material-icons indicatorIcon ' + icon + '" aria-hidden="true"></span></div>' : '';
 }
 
+export function getUnreleasedIndicatorLabel(item) {
+    return UNAIRED_TYPES.includes(item.Type) ?
+        'Unaired' :
+        'Unreleased';
+}
+
 export function getMissingIndicator(item) {
-    if (item.Type === 'Episode' && item.LocationType === 'Virtual') {
+    if (item.LocationType === 'Virtual') {
         if (item.PremiereDate) {
             try {
                 const premiereDate = datetime.parseISO8601Date(item.PremiereDate).getTime();
                 if (premiereDate > new Date().getTime()) {
-                    return '<div class="unairedIndicator">Unaired</div>';
+                    return '<div class="unairedIndicator">' + globalize.translate(getUnreleasedIndicatorLabel(item)) + '</div>';
                 }
             } catch (err) {
                 console.error(err);
             }
         }
-        return '<div class="missingIndicator">Missing</div>';
+        return '<div class="missingIndicator">' + globalize.translate('Missing') + '</div>';
     }
 
     return '';

@@ -14,12 +14,15 @@ import PhotoIcon from '@mui/icons-material/Photo';
 import classNames from 'classnames';
 
 import datetime from 'scripts/datetime';
+import globalize from 'lib/globalize';
 import itemHelper from 'components/itemHelper';
 import AutoTimeProgressBar from 'elements/emby-progressbar/AutoTimeProgressBar';
 
 import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import { ItemStatus } from 'types/base/models/item-status';
+
+import { UNAIRED_TYPES } from './constants';
 
 import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -78,24 +81,27 @@ const useIndicator = (item: ItemDto) => {
         return null;
     };
 
+    const getUnreleasedLabel = () => {
+        return item.Type && UNAIRED_TYPES.includes(item.Type) ?
+            'Unaired' :
+            'Unreleased';
+    };
+
     const getMissingIndicator = () => {
-        if (
-            item.Type === ItemKind.Episode
-            && item.LocationType === LocationType.Virtual
-        ) {
+        if (item.LocationType === LocationType.Virtual) {
             if (item.PremiereDate) {
                 try {
                     const premiereDate = datetime
                         .parseISO8601Date(item.PremiereDate)
                         .getTime();
                     if (premiereDate > new Date().getTime()) {
-                        return <Box className='unairedIndicator'>Unaired</Box>;
+                        return <Box className='unairedIndicator'>{globalize.translate(getUnreleasedLabel())}</Box>;
                     }
                 } catch (err) {
                     console.error(err);
                 }
             }
-            return <Box className='missingIndicator'>Missing</Box>;
+            return <Box className='missingIndicator'>{globalize.translate('Missing')}</Box>;
         }
 
         return null;
