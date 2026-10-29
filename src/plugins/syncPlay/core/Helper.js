@@ -3,8 +3,17 @@
  * @module components/syncPlay/core/Helper
  */
 
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
+import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
+import { toItemsRequest } from 'lib/jellyfin-apiclient/utils/legacyItemsQuery';
+
 import Events from '../../../utils/events.ts';
-import { getItems } from '../../../utils/jellyfin-apiclient/getItems.ts';
 
 /**
  * Constants
@@ -73,34 +82,41 @@ export function stringToGuid(input) {
     return input.replace(/([0-z]{8})([0-z]{4})([0-z]{4})([0-z]{4})([0-z]{12})/, '$1-$2-$3-$4-$5');
 }
 
+/**
+ * Gets the items to play.
+ * @param {import('jellyfin-apiclient').ApiClient} apiClient The legacy ApiClient for the server.
+ * @param {import('@jellyfin/sdk/lib/generated-client/api/library-api').LibraryApiGetItemsRequest} query The getItems request parameters.
+ */
 export function getItemsForPlayback(apiClient, query) {
-    if (query.Ids && query.Ids.split(',').length === 1) {
-        const itemId = query.Ids.split(',');
-
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+    if (query.ids?.length === 1) {
+        return apiClient.getItem(apiClient.getCurrentUserId(), query.ids[0]).then(function (item) {
             return {
                 Items: [item]
             };
         });
     } else {
-        query.Limit = query.Limit || 300;
-        query.Fields = ['Chapters', 'Trickplay'];
-        query.ExcludeLocationTypes = 'Virtual';
-        query.EnableTotalRecordCount = false;
-        query.CollapseBoxSetItems = false;
-
-        return getItems(apiClient, apiClient.getCurrentUserId(), query);
+        return getItems(ServerConnections.getApi(apiClient.serverId()), {
+            ...query,
+            userId: apiClient.getCurrentUserId(),
+            limit: query.limit || 300,
+            fields: [ItemFields.Chapters, ItemFields.Trickplay],
+            excludeLocationTypes: [LocationType.Virtual],
+            enableTotalRecordCount: false,
+            collapseBoxSetItems: false
+        });
     }
 }
 
-function mergePlaybackQueries(obj1, obj2) {
-    const query = Object.assign(obj1, obj2);
+/**
+ * Merges SDK-shaped playback query parameters with the (legacy-shaped) `queryOptions` passed to play/queue.
+ * TODO: Remove the legacy conversion with the legacy query inputs.
+ */
+function mergePlaybackQueries(params, legacyQueryOptions) {
+    const query = { ...params, ...toItemsRequest(legacyQueryOptions) };
 
-    const filters = query.Filters ? query.Filters.split(',') : [];
-    if (filters.indexOf('IsNotFolder') === -1) {
-        filters.push('IsNotFolder');
+    if (!query.filters?.includes(ItemFilter.IsNotFolder)) {
+        query.filters = [...(query.filters || []), ItemFilter.IsNotFolder];
     }
-    query.Filters = filters.join(',');
     return query;
 }
 
@@ -119,29 +135,29 @@ export function translateItemsForPlayback(apiClient, items, options) {
 
     if (firstItem.Type === 'Program') {
         promise = getItemsForPlayback(apiClient, {
-            Ids: firstItem.ChannelId
+            ids: firstItem.ChannelId ? [firstItem.ChannelId] : undefined
         });
     } else if (firstItem.Type === 'Playlist') {
         promise = getItemsForPlayback(apiClient, {
-            ParentId: firstItem.Id,
-            SortBy: options.shuffle ? 'Random' : null
+            parentId: firstItem.Id,
+            sortBy: options.shuffle ? [ItemSortBy.Random] : undefined
         });
     } else if (firstItem.Type === 'MusicArtist') {
         promise = getItemsForPlayback(apiClient, {
-            ArtistIds: firstItem.Id,
-            Filters: 'IsNotFolder',
-            Recursive: true,
-            SortBy: options.shuffle ? 'Random' : 'SortName',
-            MediaTypes: 'Audio'
+            artistIds: [firstItem.Id],
+            filters: [ItemFilter.IsNotFolder],
+            recursive: true,
+            sortBy: [options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName],
+            mediaTypes: [MediaType.Audio]
         });
     } else if (firstItem.MediaType === 'Photo') {
         promise = getItemsForPlayback(apiClient, {
-            ParentId: firstItem.ParentId,
-            Filters: 'IsNotFolder',
+            parentId: firstItem.ParentId,
+            filters: [ItemFilter.IsNotFolder],
             // Setting this to true may cause some incorrect sorting.
-            Recursive: false,
-            SortBy: options.shuffle ? 'Random' : 'SortName',
-            MediaTypes: 'Photo,Video'
+            recursive: false,
+            sortBy: [options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName],
+            mediaTypes: [MediaType.Photo, MediaType.Video]
         }).then(function (result) {
             let index = result.Items.map(function (i) {
                 return i.Id;
@@ -157,36 +173,36 @@ export function translateItemsForPlayback(apiClient, items, options) {
         });
     } else if (firstItem.Type === 'PhotoAlbum') {
         promise = getItemsForPlayback(apiClient, {
-            ParentId: firstItem.Id,
-            Filters: 'IsNotFolder',
+            parentId: firstItem.Id,
+            filters: [ItemFilter.IsNotFolder],
             // Setting this to true may cause some incorrect sorting.
-            Recursive: false,
-            SortBy: options.shuffle ? 'Random' : 'SortName',
-            MediaTypes: 'Photo,Video',
-            Limit: 1000
+            recursive: false,
+            sortBy: [options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName],
+            mediaTypes: [MediaType.Photo, MediaType.Video],
+            limit: 1000
         });
     } else if (firstItem.Type === 'MusicGenre') {
         promise = getItemsForPlayback(apiClient, {
-            GenreIds: firstItem.Id,
-            Filters: 'IsNotFolder',
-            Recursive: true,
-            SortBy: options.shuffle ? 'Random' : 'SortName',
-            MediaTypes: 'Audio'
+            genreIds: [firstItem.Id],
+            filters: [ItemFilter.IsNotFolder],
+            recursive: true,
+            sortBy: [options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName],
+            mediaTypes: [MediaType.Audio]
         });
     } else if (firstItem.IsFolder) {
-        let sortBy = null;
+        let sortBy;
         if (options.shuffle) {
-            sortBy = 'Random';
+            sortBy = [ItemSortBy.Random];
         } else if (firstItem.Type === 'BoxSet') {
-            sortBy = 'SortName';
+            sortBy = [ItemSortBy.SortName];
         }
         promise = getItemsForPlayback(apiClient, mergePlaybackQueries({
-            ParentId: firstItem.Id,
-            Filters: 'IsNotFolder',
-            Recursive: true,
+            parentId: firstItem.Id,
+            filters: [ItemFilter.IsNotFolder],
+            recursive: true,
             // These are pre-sorted.
-            SortBy: sortBy,
-            MediaTypes: 'Audio,Video'
+            sortBy,
+            mediaTypes: [MediaType.Audio, MediaType.Video]
         }, queryOptions));
     } else if (firstItem.Type === 'Episode' && items.length === 1) {
         promise = new Promise(function (resolve, reject) {

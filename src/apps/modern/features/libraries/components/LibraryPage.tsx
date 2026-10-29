@@ -5,6 +5,7 @@ import React, { type FC } from 'react';
 import viewsByKind from 'apps/modern/features/libraries/constants/views';
 import Page from 'components/Page';
 import useCurrentTab from 'hooks/useCurrentTab';
+import { useUserViews } from 'hooks/api/useUserViews';
 
 import PageTabContent from './PageTabContent';
 
@@ -41,14 +42,22 @@ const PAGE_BACKDROPS: Partial<Record<CollectionType, BaseItemKind[]>> = {
 const LibraryPage: FC<LibraryPageProps> = ({
     type
 }) => {
-    const { libraryId, activeTab } = useCurrentTab();
+    const { activeTab, libraryId, collectionType } = useCurrentTab();
     const currentTab = viewsByKind[type][activeTab];
+    const { data: userViews } = useUserViews();
+    const libraryName = userViews?.Items?.find(view => {
+        if (libraryId) return view.Id === libraryId;
+        if (collectionType) return view.CollectionType === collectionType;
+        return false;
+    })?.Name;
 
     return (
         <Page
+            key={libraryId}
             id={PAGE_IDS[type]}
             className={'mainAnimatedPage libraryPage pageWithAbsoluteTabs withTabs'}
             backDropType={PAGE_BACKDROPS[type]}
+            title={libraryName || undefined}
         >
             <PageTabContent
                 key={`${currentTab.viewType}-${libraryId}`}

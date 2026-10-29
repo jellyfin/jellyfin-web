@@ -1,9 +1,14 @@
+import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
-import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 
 import NotificationIcon from './notificationicon.png';
 
@@ -150,17 +155,18 @@ function onLibraryChanged(data, apiClient) {
         newItems.length = 12;
     }
 
-    getItems(apiClient, apiClient.getCurrentUserId(), {
+    const api = ServerConnections.getApi(apiClient.serverId());
 
-        Recursive: true,
-        Limit: 3,
-        Filters: 'IsNotFolder',
-        SortBy: 'DateCreated',
-        SortOrder: 'Descending',
-        Ids: newItems.join(','),
-        MediaTypes: 'Audio,Video',
-        EnableTotalRecordCount: false
-
+    getItems(api, {
+        userId: apiClient.getCurrentUserId(),
+        recursive: true,
+        limit: 3,
+        filters: [ItemFilter.IsNotFolder],
+        sortBy: [ItemSortBy.DateCreated],
+        sortOrder: [SortOrder.Descending],
+        ids: newItems,
+        mediaTypes: [MediaType.Audio, MediaType.Video],
+        enableTotalRecordCount: false
     }).then(function (result) {
         const items = result.Items;
 

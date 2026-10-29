@@ -48,7 +48,7 @@ const ItemsView: FC = () => {
         `(min-width: ${t.breakpoints.values.sm}px) and (min-height: 610px)`
     ].join(', '));
 
-    const { __legacyApiClient__, user } = useApi();
+    const { serverId, user } = useApi();
 
     // The query key for all items for the current user.
     // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
@@ -113,7 +113,7 @@ const ItemsView: FC = () => {
             overlayText: !libraryViewSettings.ShowTitle,
             imageType: libraryViewSettings.ImageType,
             queryKey: allViewsQueryKey,
-            serverId: __legacyApiClient__?.serverId()
+            serverId
         };
 
         if (
@@ -146,13 +146,13 @@ const ItemsView: FC = () => {
 
         return cardOptions;
     }, [
-        __legacyApiClient__,
         libraryViewSettings.ShowTitle,
         libraryViewSettings.ImageType,
         libraryViewSettings.ShowYear,
         libraryViewSettings.CardLayout,
         collectionType,
         allViewsQueryKey,
+        serverId,
         viewType
     ]);
 

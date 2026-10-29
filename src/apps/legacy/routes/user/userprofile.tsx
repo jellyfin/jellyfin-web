@@ -1,13 +1,13 @@
-import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
-import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import React, { FunctionComponent, useEffect, useRef, useCallback, useMemo } from 'react';
+import { DomError } from 'constants/domError';
 import { useSearchParams } from 'react-router-dom';
 
-import Dashboard from '../../../../utils/dashboard';
 import globalize from '../../../../lib/globalize';
 import { appHost } from '../../../../components/apphost';
 import confirm from '../../../../components/confirm/confirm';
 import toast from '../../../../components/toast/toast';
+import { useApi } from 'hooks/useApi';
 import { useUser } from 'hooks/api/useUser';
 import loading from 'components/loading/loading';
 import { queryClient } from 'utils/query/queryClient';
@@ -16,7 +16,10 @@ import Page from 'components/Page';
 import Loading from 'components/loading/LoadingComponent';
 import Button from 'elements/emby-button/Button';
 
+const USER_IMAGE_PLACEHOLDER = 'assets/img/avatar.png';
+
 const UserProfile: FunctionComponent = () => {
+    const { api, user: currentUser } = useApi();
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId') || undefined;
     const { data: user, isPending: isUserPending } = useUser({ userId });
@@ -38,32 +41,27 @@ const UserProfile: FunctionComponent = () => {
 
         void libraryMenu.then(menu => menu.setTitle(user.Name));
 
-        let imageUrl = 'assets/img/avatar.png';
-        if (user.PrimaryImageTag) {
-            imageUrl = window.ApiClient.getUserImageUrl(user.Id, {
-                tag: user.PrimaryImageTag,
-                type: 'Primary'
-            });
+        let imageUrl = USER_IMAGE_PLACEHOLDER;
+        // TODO: The PrimaryImageTag check should be done in the SDK
+        // refs: https://github.com/jellyfin/jellyfin-sdk-typescript/pull/1111
+        if (api && user.PrimaryImageTag) {
+            imageUrl = getImageApi(api).getUserImageUrl(user) ?? USER_IMAGE_PLACEHOLDER;
         }
         const userImage = (page.querySelector('#image') as HTMLDivElement);
         userImage.style.backgroundImage = 'url(' + imageUrl + ')';
 
-        Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
-            if (!user.Policy) {
-                throw new Error('Unexpected null user.Policy');
-            }
+        if (!user.Policy) {
+            throw new Error('Unexpected null user.Policy');
+        }
 
-            if (user.PrimaryImageTag) {
-                (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
-                (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
-            } else if (appHost.supports('fileinput') && (loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
-                (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
-                (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
-            }
-        }).catch(err => {
-            console.error('[userprofile] failed to get current user', err);
-        });
-    }, [user, libraryMenu]);
+        if (user.PrimaryImageTag) {
+            (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.add('hide');
+            (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.remove('hide');
+        } else if (appHost.supports('fileinput') && (currentUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess)) {
+            (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
+            (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
+        }
+    }, [api, currentUser, libraryMenu, user]);
 
     useEffect(() => {
         const page = element.current;
@@ -77,11 +75,11 @@ const UserProfile: FunctionComponent = () => {
 
         const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
             loading.hide();
-            switch (evt.target?.error?.code) {
-                case DOMException.NOT_FOUND_ERR:
+            switch (evt.target?.error?.name) {
+                case DomError.NotFound:
                     toast(globalize.translate('FileNotFound'));
                     break;
-                case DOMException.ABORT_ERR:
+                case DomError.Abort:
                     onFileReaderAbort();
                     break;
                 default:
@@ -113,14 +111,18 @@ const UserProfile: FunctionComponent = () => {
                 }
 
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
-                    loading.hide();
-                    void queryClient.invalidateQueries({
-                        queryKey: ['User']
+                getImageApi(api!).postUserImage({ userId, body: file })
+                    .then(() => {
+                        void queryClient.invalidateQueries({
+                            queryKey: ['User']
+                        });
+                    })
+                    .catch(err => {
+                        console.error('[userprofile] failed to upload image', err);
+                    })
+                    .finally(() => {
+                        loading.hide();
                     });
-                }).catch(err => {
-                    console.error('[userprofile] failed to upload image', err);
-                });
             };
 
             reader.readAsDataURL(file);
@@ -137,14 +139,18 @@ const UserProfile: FunctionComponent = () => {
                 globalize.translate('DeleteImage')
             ).then(function () {
                 loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
-                    loading.hide();
-                    void queryClient.invalidateQueries({
-                        queryKey: ['User']
+                getImageApi(api!).deleteUserImage({ userId })
+                    .then(() => {
+                        void queryClient.invalidateQueries({
+                            queryKey: ['User']
+                        });
+                    })
+                    .catch(err => {
+                        console.error('[userprofile] failed to delete image', err);
+                    })
+                    .finally(() => {
+                        loading.hide();
                     });
-                }).catch(err => {
-                    console.error('[userprofile] failed to delete image', err);
-                });
             }).catch(() => {
                 // confirm dialog closed
             });
@@ -169,7 +175,7 @@ const UserProfile: FunctionComponent = () => {
             (page.querySelector('#btnAddImage') as HTMLButtonElement).removeEventListener('click', addImageClick);
             (page.querySelector('#uploadImage') as HTMLInputElement).removeEventListener('change', onUploadImage);
         };
-    }, [reloadUser, user, userId]);
+    }, [api, reloadUser, user, userId]);
 
     if (isUserPending || !user) {
         return <Loading />;

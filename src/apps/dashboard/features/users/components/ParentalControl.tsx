@@ -1,6 +1,9 @@
+import type { Api } from '@jellyfin/sdk/lib/api';
 import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
 import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
+import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 
@@ -13,8 +16,8 @@ import loading from 'components/loading/loading';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import SelectElement from 'elements/SelectElement';
 import prompt from 'components/prompt/prompt';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Toast from 'apps/dashboard/components/Toast';
+import { useApi } from 'hooks/useApi';
 
 interface ParentalControlProps {
     userId: string;
@@ -37,7 +40,7 @@ function handleSaveUser(
     getBlockedTagsFromPage: () => string[],
     onSaveComplete: () => void
 ) {
-    return (user: UserDto) => {
+    return (api: Api, user: UserDto) => {
         const userId = user.Id;
         const userPolicy = user.Policy;
         if (!userId || !userPolicy) {
@@ -56,9 +59,8 @@ function handleSaveUser(
         userPolicy.AccessSchedules = getSchedulesFromPage();
         userPolicy.AllowedTags = getAllowedTagsFromPage();
         userPolicy.BlockedTags = getBlockedTagsFromPage();
-        ServerConnections.getCurrentApiClientAsync()
-            .then(apiClient => apiClient.updateUserPolicy(userId, userPolicy))
-            .then(() => onSaveComplete())
+        getUserApi(api).updateUserPolicy({ userId, userPolicy })
+            .then(onSaveComplete)
             .catch(err => {
                 console.error('[userparentalcontrol] failed to update user policy', err);
             });
@@ -66,6 +68,7 @@ function handleSaveUser(
 }
 
 const ParentalControl = ({ userId }: ParentalControlProps) => {
+    const { api } = useApi();
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
     const [ maxParentalRating, setMaxParentalRating ] = useState<string>();
@@ -201,20 +204,27 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
     }, [libraryMenu, setAllowedTags, setBlockedTags, loadUnratedItems]);
 
     const loadData = useCallback(() => {
+        if (!api) {
+            console.error('[userparentalcontrol.loadData] missing api');
+            return;
+        }
         if (!userId) {
             console.error('[userparentalcontrol.loadData] missing user id');
             return;
         }
 
         loading.show();
-        const promise1 = window.ApiClient.getUser(userId);
-        const promise2 = window.ApiClient.getParentalRatings();
-        Promise.all([promise1, promise2]).then(function (responses) {
-            loadUser(responses[0], responses[1]);
-        }).catch(err => {
-            console.error('[userparentalcontrol] failed to load data', err);
-        });
-    }, [loadUser, userId]);
+        Promise.all([
+            getUserApi(api).getUserById({ userId }),
+            getLocalizationApi(api).getParentalRatings()
+        ])
+            .then(([user, ratings]) => {
+                loadUser(user.data, ratings.data);
+            })
+            .catch(err => {
+                console.error('[userparentalcontrol] failed to load data', err);
+            });
+    }, [api, loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
@@ -308,17 +318,21 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
         const saveUser = handleSaveUser(page, parentalRatingsRef, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
 
         const onSubmit = (e: Event) => {
+            if (!api) {
+                console.error('[userparentalcontrol.onSubmit] missing api');
+                return;
+            }
             if (!userId) {
                 console.error('[userparentalcontrol.onSubmit] missing user id');
                 return;
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
-                saveUser(result);
-            }).catch(err => {
-                console.error('[userparentalcontrol] failed to fetch user', err);
-            });
+            getUserApi(api).getUserById({ userId })
+                .then(user => saveUser(api, user.data))
+                .catch(err => {
+                    console.error('[userparentalcontrol] failed to fetch user', err);
+                });
             e.preventDefault();
             e.stopPropagation();
             return false;
@@ -345,7 +359,7 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
             (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', showBlockedTagPopup);
             (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
         };
-    }, [setAllowedTags, setBlockedTags, loadData, userId]);
+    }, [api, setAllowedTags, setBlockedTags, loadData, userId]);
 
     useEffect(() => {
         const page = element.current;
