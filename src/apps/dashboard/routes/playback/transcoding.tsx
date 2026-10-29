@@ -16,6 +16,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import DirectoryBrowser from 'components/directorybrowser/directorybrowser';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import SearchIcon from '@mui/icons-material/Search';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -58,6 +59,8 @@ export const Component = () => {
     const submit = useSubmit();
     const isSubmitting = navigation.state === 'submitting';
     const [ isAlertOpen, setIsAlertOpen ] = useState(false);
+    const [ isLoadingRecommendation, setIsLoadingRecommendation ] = useState(false);
+    const [ isRecommendationFound, setIsRecommendationFound ] = useState<boolean | null>(null);
 
     useEffect(() => {
         if (initialConfig && config == null) {
@@ -97,6 +100,32 @@ export const Component = () => {
             }
         }
     }, [ config ]);
+
+    const onUseRecommendedSettings = useCallback(() => {
+        const api = ServerConnections.getApi();
+        if (!api) return;
+
+        setIsLoadingRecommendation(true);
+        setIsRecommendationFound(null);
+
+        // The server leaves the saved settings alone, they are only filled in here
+        api.axiosInstance.get<EncodingOptions>(`${api.basePath}/System/Configuration/Encoding/Recommended`, {
+            headers: { Authorization: api.authorizationHeader }
+        }).then(({ data }) => {
+            setConfig(current => ({
+                ...current,
+                HardwareAccelerationType: data.HardwareAccelerationType,
+                HardwareDecodingCodecs: data.HardwareDecodingCodecs,
+                EnableHardwareEncoding: data.EnableHardwareEncoding,
+                EnableVideoToolboxTonemapping: data.EnableVideoToolboxTonemapping
+            }));
+            setIsRecommendationFound(true);
+        }).catch(() => {
+            setIsRecommendationFound(false);
+        }).finally(() => {
+            setIsLoadingRecommendation(false);
+        });
+    }, []);
 
     const onAlertClose = useCallback(() => {
         setIsAlertOpen(false);
@@ -180,6 +209,29 @@ export const Component = () => {
                             {!isSubmitting && actionData?.isSaved && (
                                 <Alert severity='success'>
                                     {globalize.translate('SettingsSaved')}
+                                </Alert>
+                            )}
+
+                            <Button
+                                sx={{ alignSelf: 'flex-start' }}
+                                startIcon={<AutoFixHighIcon />}
+                                variant='outlined'
+                                onClick={onUseRecommendedSettings}
+                                loading={isLoadingRecommendation}
+                                loadingPosition='start'
+                            >
+                                {globalize.translate('ButtonUseRecommendedSettings')}
+                            </Button>
+
+                            {isRecommendationFound === true && (
+                                <Alert severity='info'>
+                                    {globalize.translate('RecommendedHardwareAccelerationApplied')}
+                                </Alert>
+                            )}
+
+                            {isRecommendationFound === false && (
+                                <Alert severity='warning'>
+                                    {globalize.translate('RecommendedHardwareAccelerationNotFound')}
                                 </Alert>
                             )}
 
