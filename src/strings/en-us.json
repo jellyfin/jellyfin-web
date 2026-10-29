@@ -1631,6 +1631,7 @@
     "StorageType.Unknown": "Unknown",
     "StreamCountExceedsLimit": "The number of streams exceeds the limit",
     "StreamingLoadError": "Failed to load streaming page settings",
+    "StreamsInUse": "Streams in use on this channel",
     "Studio": "Studio",
     "Studios": "Studios",
     "Subtitle": "Subtitle",
