@@ -12,6 +12,7 @@ declare namespace browser {
     export let edgeChromium: boolean;
     export let firefox: boolean;
     export let safari: boolean;
+    export let webkit: boolean;
     export let osx: boolean;
     export let ipad: boolean;
     export let ps4: boolean;
@@ -25,6 +26,7 @@ declare namespace browser {
     export let vidaa: boolean;
     export let web0s: boolean;
     export let titanos: boolean;
+    export let webkitGtk: boolean;
     export let edgeUwp: boolean;
     export let web0sVersion: number | undefined;
     export let tizenVersion: number | undefined;
