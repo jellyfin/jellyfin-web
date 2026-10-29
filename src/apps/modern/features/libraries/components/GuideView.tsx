@@ -16,16 +16,16 @@ import 'styles/scrollstyles.scss';
 import 'styles/flexstyles.scss';
 
 const GuideView: FC = () => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const guideInstance = useRef<Guide | null>();
     const tvGuideContainerRef = useRef<HTMLDivElement>(null);
 
     const initGuide = useCallback((element: HTMLDivElement) => {
         guideInstance.current = new Guide({
             element,
-            serverId: __legacyApiClient__?.serverId()
+            serverId
         });
-    }, [__legacyApiClient__]);
+    }, [ serverId ]);
 
     useEffect(() => {
         const element = tvGuideContainerRef.current;
