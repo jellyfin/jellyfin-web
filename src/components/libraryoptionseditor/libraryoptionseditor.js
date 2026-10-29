@@ -8,7 +8,9 @@ import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collec
 import escapeHtml from 'escape-html';
 
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import dom from '../../utils/dom';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
@@ -17,7 +19,7 @@ import './style.scss';
 import template from './libraryoptionseditor.template.html';
 
 function populateLanguages(parent) {
-    return ApiClient.getCultures().then(languages => {
+    return ServerConnections.currentApiClient().getCultures().then(languages => {
         populateLanguagesIntoSelect(parent.querySelector('#selectLanguage'), languages);
         populateLanguagesIntoList(parent.querySelector('.subtitleDownloadLanguages'), languages);
     });
@@ -41,7 +43,7 @@ function populateLanguagesIntoList(element, languages) {
 }
 
 function populateCountries(select) {
-    return ApiClient.getCountries().then(allCountries => {
+    return ServerConnections.currentApiClient().getCountries().then(allCountries => {
         let html = '';
         html += "<option value=''></option>";
         for (const culture of allCountries) {
@@ -392,7 +394,8 @@ function renderSimilarItemProviders(page, availableOptions, libraryOptions) {
 
 function populateMetadataSettings(parent, contentType) {
     const isNewLibrary = parent.classList.contains('newlibrary');
-    return ApiClient.getJSON(ApiClient.getUrl('Libraries/AvailableOptions', {
+    const apiClient = ServerConnections.currentApiClient();
+    return apiClient.getJSON(apiClient.getUrl('Libraries/AvailableOptions', {
         LibraryContentType: contentType,
         IsNewLibrary: isNewLibrary
     })).then(availableOptions => {

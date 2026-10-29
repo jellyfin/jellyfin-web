@@ -96,7 +96,7 @@ export default tseslint.config(
             'no-void': ['error', { 'allowAsStatement': true }],
             'one-var': ['error', 'never'],
             'prefer-const': ['error', { 'destructuring': 'all' }],
-            'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
+            'prefer-promise-reject-errors': ['error', { 'allowEmptyReject': true }],
             '@typescript-eslint/prefer-for-of': 'error',
             'radix': 'error',
             'yoda': 'error',
@@ -104,7 +104,7 @@ export default tseslint.config(
             'sonarjs/fixme-tag': 'warn',
             'sonarjs/todo-tag': 'off',
             'sonarjs/deprecation': 'off',
-            'sonarjs/no-alphabetical-sort': 'warn',
+            'sonarjs/no-alphabetical-sort': 'error',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
@@ -214,8 +214,6 @@ export default tseslint.config(
                 'webapis': 'readonly',
                 // WebOS globals
                 'webOS': 'readonly',
-                // Jellyfin globals
-                'ApiClient': 'readonly',
                 // Build time definitions
                 __COMMIT_SHA__: 'readonly',
                 __JF_BUILD_VERSION__: 'readonly',
@@ -382,7 +380,7 @@ export default tseslint.config(
             'react/jsx-no-useless-fragment': 'error',
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',
-            'react-hooks/exhaustive-deps': 'warn'
+            'react-hooks/exhaustive-deps': 'error'
         }
     },
 

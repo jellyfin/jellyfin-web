@@ -7,6 +7,7 @@ import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -14,16 +15,17 @@ import 'styles/scrollstyles.scss';
 
 function getUpcomingPromise(context, params) {
     loading.show();
+    const apiClient = ServerConnections.currentApiClient();
     const query = {
         Limit: 48,
         Fields: 'AirTime',
-        UserId: ApiClient.getCurrentUserId(),
+        UserId: apiClient.getCurrentUserId(),
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
     query.ParentId = params.topParentId;
-    return ApiClient.getJSON(ApiClient.getUrl('Shows/Upcoming', query));
+    return apiClient.getJSON(apiClient.getUrl('Shows/Upcoming', query));
 }
 
 function loadUpcoming(context, params, promise) {
@@ -137,4 +139,3 @@ export default function (view, params, tabContent) {
         loadUpcoming(tabContent, params, upcomingPromise);
     };
 }
-

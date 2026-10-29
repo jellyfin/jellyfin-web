@@ -7,6 +7,11 @@ import Button from 'elements/emby-button/Button';
 import AccessContainer from 'components/dashboard/users/AccessContainer';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import Toast from 'apps/dashboard/components/Toast';
+import { useApi } from 'hooks/useApi';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getChannelApi } from '@jellyfin/sdk/lib/utils/api/channel-api';
+import { getDeviceApi } from '@jellyfin/sdk/lib/utils/api/device-api';
 
 interface AccessProps {
     userId: string;
@@ -21,6 +26,7 @@ type ItemsArr = {
 };
 
 const Access = ({ userId }: AccessProps) => {
+    const { api } = useApi();
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
@@ -139,22 +145,32 @@ const Access = ({ userId }: AccessProps) => {
         loadMediaFolders(user, mediaFolders);
         loadDevices(user, devices);
         loading.hide();
-    }, [loadChannels, loadDevices, loadMediaFolders]);
+    }, [libraryMenu, loadChannels, loadDevices, loadMediaFolders]);
 
     const loadData = useCallback(() => {
         loading.show();
-        const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
-        const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-            IsHidden: false
-        }));
-        const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-        const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
-        Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
-            loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
-        }).catch(err => {
-            console.error('[userlibraryaccess] failed to load data', err);
-        });
-    }, [loadUser, userId]);
+        if (!api) {
+            console.error('[userlibraryaccess] api is not available');
+            return;
+        }
+        Promise.all([
+            userId ? getUserApi(api).getUserById({ userId }) : Promise.resolve({ data: { Configuration: {} } }),
+            getLibraryApi(api).getMediaFolders({ isHidden: false }),
+            getChannelApi(api).getChannels(),
+            getDeviceApi(api).getDevices()
+        ])
+            .then(([user, mediaFolders, channels, devices]) => {
+                loadUser(
+                    user.data,
+                    mediaFolders.data.Items ?? [],
+                    channels.data.Items ?? [],
+                    devices.data.Items ?? []
+                );
+            })
+            .catch(err => {
+                console.error('[userlibraryaccess] failed to load data', err);
+            });
+    }, [api, loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
@@ -167,23 +183,32 @@ const Access = ({ userId }: AccessProps) => {
         loadData();
 
         const onSubmit = (e: Event) => {
+            if (!api) {
+                console.error('[userlibraryaccess] missing api');
+                return;
+            }
+
             if (!userId) {
                 console.error('[userlibraryaccess] missing user id');
                 return;
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
-                saveUser(result);
-            }).catch(err => {
-                console.error('[userlibraryaccess] failed to fetch user', err);
-            });
+            getUserApi(api).getUserById({ userId })
+                .then(u => saveUser(u.data))
+                .catch(err => {
+                    console.error('[userlibraryaccess] failed to fetch user', err);
+                });
             e.preventDefault();
             e.stopPropagation();
             return false;
         };
 
         const saveUser = (user: UserDto) => {
+            if (!api) {
+                throw new Error('Missing api instance');
+            }
+
             if (!user.Id) {
                 throw new Error('Unexpected null user.Id');
             }
@@ -212,11 +237,15 @@ const Access = ({ userId }: AccessProps) => {
             });
             user.Policy.BlockedChannels = null;
             user.Policy.BlockedMediaFolders = null;
-            window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                onSaveComplete();
-            }).catch(err => {
-                console.error('[userlibraryaccess] failed to update user policy', err);
-            });
+            getUserApi(api)
+                .updateUserPolicy({
+                    userId: user.Id,
+                    userPolicy: user.Policy
+                })
+                .then(onSaveComplete)
+                .catch(err => {
+                    console.error('[userlibraryaccess] failed to update user policy', err);
+                });
         };
 
         const onSaveComplete = () => {
@@ -237,7 +266,7 @@ const Access = ({ userId }: AccessProps) => {
         });
 
         (page.querySelector('.userLibraryAccessForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadData]);
+    }, [api, userId, loadData]);
 
     return (
         <div ref={element}>

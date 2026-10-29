@@ -19,7 +19,7 @@ export default class ChannelMapper {
             const providerId = options.providerId;
             ServerConnections.getApiClient(options.serverId).ajax({
                 type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ChannelMappings'),
+                url: ServerConnections.currentApiClient().getUrl('LiveTv/ChannelMappings'),
                 data: JSON.stringify({
                     providerId: providerId,
                     tunerChannelId: channelId,

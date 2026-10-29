@@ -122,6 +122,8 @@ function requireHlsPlayer() {
     return import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
+        // deprecated with no viable replacement
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         hls.DefaultConfig.liveBackBufferLength = 90;
         return hls;
     });
@@ -2357,17 +2359,9 @@ export class HtmlVideoPlayer {
         }
 
         if (mediaElement.getVideoPlaybackQuality) {
-            const playbackQuality = mediaElement.getVideoPlaybackQuality();
-            const droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
-            const corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
-
-            const qualityInfos = [];
-            qualityInfos.push(droppedVideoFrames);
-            qualityInfos.push(corruptedVideoFrames);
-
             videoCategory.stats.push({
                 label: globalize.translate('LabelPlaybackQuality'),
-                value: qualityInfos.join(' / ')
+                value: mediaElement.getVideoPlaybackQuality().droppedVideoFrames
             });
         }
 

@@ -2,6 +2,10 @@ import $ from 'jquery';
 
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../listview/listview.scss';
@@ -10,8 +14,6 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import '../../styles/flexstyles.scss';
 import './style.scss';
-import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {
@@ -53,7 +55,7 @@ function refreshTunerDevices(page, providerInfo, devices) {
 export default function (page, providerId, options) {
     function reload() {
         loading.show();
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
+        ServerConnections.currentApiClient().getNamedConfiguration('livetv').then(function (config) {
             const info = config.ListingProviders.filter(function (i) {
                 return i.Id === providerId;
             })[0] || {};
@@ -83,7 +85,8 @@ export default function (page, providerId, options) {
     }
 
     function setCountry(info) {
-        ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then(function (result) {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getJSON(apiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then(function (result) {
             let i;
             let length;
             const countryList = [];
@@ -126,6 +129,8 @@ export default function (page, providerId, options) {
 
     function submitLoginForm() {
         loading.show();
+
+        const apiClient = ServerConnections.currentApiClient();
         const info = {
             Type: 'SchedulesDirect',
             Username: page.querySelector('.txtUser').value,
@@ -138,9 +143,9 @@ export default function (page, providerId, options) {
             info.Id = id;
         }
 
-        ApiClient.ajax({
+        apiClient.ajax({
             type: 'POST',
-            url: ApiClient.getUrl('LiveTv/ListingProviders', {
+            url: apiClient.getUrl('LiveTv/ListingProviders', {
                 ValidateLogin: true
             }),
             data: JSON.stringify(info),
@@ -168,8 +173,9 @@ export default function (page, providerId, options) {
         }
 
         loading.show();
+        const apiClient = ServerConnections.currentApiClient();
         const id = providerId;
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
+        apiClient.getNamedConfiguration('livetv').then(function (config) {
             const info = config.ListingProviders.filter(function (i) {
                 return i.Id === id;
             })[0];
@@ -182,9 +188,9 @@ export default function (page, providerId, options) {
             }).map(function (i) {
                 return i.getAttribute('data-id');
             });
-            ApiClient.ajax({
+            apiClient.ajax({
                 type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ListingProviders', {
+                url: apiClient.getUrl('LiveTv/ListingProviders', {
                     ValidateListings: true
                 }),
                 data: JSON.stringify(info),
@@ -213,9 +219,10 @@ export default function (page, providerId, options) {
         }
 
         loading.show();
-        ApiClient.ajax({
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.ajax({
             type: 'GET',
-            url: ApiClient.getUrl('LiveTv/ListingProviders/Lineups', {
+            url: apiClient.getUrl('LiveTv/ListingProviders/Lineups', {
                 Id: providerId,
                 Location: value,
                 Country: page.querySelector('#selectCountry').value

@@ -28,7 +28,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     sectionType,
     isMovieRecommendationEnabled = false
 }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const { isLoading, data: sectionsWithItems } =
         useGetSuggestionSectionsWithItems(parentId, sectionType);
 
@@ -55,7 +55,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
 
     const getRouteUrl = (section: Section) => {
         return appRouter.getRouteUrl('list', {
-            serverId: window.ApiClient.serverId(),
+            serverId,
             itemTypes: section.itemTypes,
             parentId: parentId
         });
@@ -118,7 +118,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                         centerText: true,
                         cardLayout: false,
                         overlayText: false,
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}
@@ -143,7 +143,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                         showTitle: true,
                         centerText: true,
                         cardLayout: false,
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}
