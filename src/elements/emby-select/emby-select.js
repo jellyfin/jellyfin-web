@@ -13,7 +13,7 @@ function enableNativeMenu() {
     }
 
     // Doesn't seem to work at all
-    if (browser.tizen || browser.orsay || browser.web0s) {
+    if (browser.tizen || browser.web0s) {
         return false;
     }
 
@@ -136,4 +136,3 @@ document.registerElement('emby-select', {
     prototype: EmbySelectPrototype,
     extends: 'select'
 });
-
