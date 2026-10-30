@@ -53,9 +53,9 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
             }
         };
 
-        const callback = () => {
+        const callback = (...args) => {
             clearAll();
-            resolve(arguments);
+            resolve(args);
         };
 
         const rejectCallback = (event) => {
