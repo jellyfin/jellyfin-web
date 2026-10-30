@@ -2,6 +2,7 @@ import type { Api } from '@jellyfin/sdk';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import type { AxiosRequestConfig } from 'axios';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
@@ -12,7 +13,6 @@ import { SEARCH_SECTIONS_SORT_ORDER } from '../constants/sectionSortOrder';
 import type { Section } from '../types';
 import { getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
 import { getSearchShapeForType } from '../utils/searchLimit';
-import { fetchArtists } from './fetchArtists';
 import { fetchItemsByType } from './fetchItemsByType';
 import { fetchLiveTv } from './fetchLiveTv';
 import { fetchPeople } from './fetchPeople';
@@ -88,8 +88,8 @@ const getItemTypeSpec = (type: BaseItemKind): SearchSectionSpec => ({
 const ARTISTS_SPEC: SearchSectionSpec = {
     id: 'Artists',
     shape: CardShape.SquareOverflow,
-    fetch: async (api, userId, { parentId, searchTerm, limit }, options) => {
-        const result = await fetchArtists(api, userId, { parentId, searchTerm, limit }, options);
+    fetch: async (api, userId, { searchTerm, limit }, options) => {
+        const result = await fetchPeople(api, userId, { searchTerm, limit, personTypes: [ PersonKind.Artist, PersonKind.AlbumArtist ] }, options);
         return toSections('Artists', result.Items, { coverImage: true });
     }
 };
@@ -98,7 +98,7 @@ const PEOPLE_SPEC: SearchSectionSpec = {
     id: 'People',
     shape: CardShape.PortraitOverflow,
     fetch: async (api, userId, { searchTerm, limit }, options) => {
-        const result = await fetchPeople(api, userId, { searchTerm, limit }, options);
+        const result = await fetchPeople(api, userId, { searchTerm, limit, excludePersonTypes: [ PersonKind.Artist, PersonKind.AlbumArtist ] }, options);
         return toSections('People', result.Items, { coverImage: true });
     }
 };

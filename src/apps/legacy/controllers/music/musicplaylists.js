@@ -2,6 +2,7 @@ import * as userSettings from 'scripts/settings/userSettings';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
 import loading from 'components/loading/loading';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 export default function (view, params, tabContent) {
     function getPageData() {
@@ -36,8 +37,9 @@ export default function (view, params, tabContent) {
 
     function getPromise() {
         loading.show();
+        const apiClient = ServerConnections.currentApiClient();
         const query = getQuery();
-        return ApiClient.getItems(ApiClient.getCurrentUserId(), query);
+        return apiClient.getItems(apiClient.getCurrentUserId(), query);
     }
 
     function reloadItems(context, promise) {
@@ -82,4 +84,3 @@ export default function (view, params, tabContent) {
         reloadItems(tabContent, promise);
     };
 }
-

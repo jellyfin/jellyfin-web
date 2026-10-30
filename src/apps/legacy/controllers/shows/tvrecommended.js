@@ -7,6 +7,7 @@ import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -87,7 +88,7 @@ function initSuggestedTab(page, tabContent) {
 
 function loadSuggestionsTab(view, params, tabContent) {
     const parentId = params.topParentId;
-    const userId = ApiClient.getCurrentUserId();
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
     console.debug('loadSuggestionsTab');
     loadResume(tabContent, userId, parentId);
     loadLatest(tabContent, userId, parentId);
@@ -110,7 +111,7 @@ function loadResume(view, userId, parentId) {
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
-    ApiClient.getItems(userId, options).then(function (result) {
+    ServerConnections.currentApiClient().getItems(userId, options).then(function (result) {
         if (result.Items.length) {
             view.querySelector('#resumableSection').classList.remove('hide');
         } else {
@@ -148,7 +149,7 @@ function loadLatest(view, userId, parentId) {
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Thumb'
     };
-    ApiClient.getLatestItems(options).then(function (items) {
+    ServerConnections.currentApiClient().getLatestItems(options).then(function (items) {
         const section = view.querySelector('#latestItemsSection');
         const allowBottomPadding = !enableScrollX();
         const container = section.querySelector('#latestEpisodesItems');
@@ -188,7 +189,7 @@ function loadNextUp(view, userId, parentId) {
         EnableTotalRecordCount: false
     };
     query.ParentId = libraryMenu.getTopParentId();
-    ApiClient.getNextUpEpisodes(query).then(function (result) {
+    ServerConnections.currentApiClient().getNextUpEpisodes(query).then(function (result) {
         if (result.Items.length) {
             view.querySelector('.noNextUpItems').classList.add('hide');
         } else {
@@ -326,7 +327,7 @@ export default function (view, params) {
     }
 
     function onUserDataChanged({ Data }) {
-        if (Data?.UserId == ApiClient.getCurrentUserId()) {
+        if (Data?.UserId == ServerConnections.currentApiClient().getCurrentUserId()) {
             renderedTabs = [];
         }
     }
@@ -355,12 +356,13 @@ export default function (view, params) {
     const tabControllers = [];
     let renderedTabs = [];
     view.addEventListener('viewshow', function () {
+        const apiClient = new ServerConnections().getApiClient();
         initTabs();
         if (!view.getAttribute('data-title')) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                apiClient.getItem(apiClient.getCurrentUserId(), parentId).then(function (item) {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });
@@ -371,7 +373,7 @@ export default function (view, params) {
         }
 
         Events.on(playbackManager, 'playbackstop', onPlaybackStop);
-        self._unsubscribeUserData = ApiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], onUserDataChanged);
+        self._unsubscribeUserData = apiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], onUserDataChanged);
         inputManager.on(window, onInputCommand);
     });
     view.addEventListener('viewbeforehide', function () {
@@ -388,4 +390,3 @@ export default function (view, params) {
         });
     });
 }
-

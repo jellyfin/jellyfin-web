@@ -216,15 +216,6 @@
     flex-shrink: 0;
 }
 
-@media all and (max-width: 50em) {
-    .newTvProgram,
-    .liveTvProgram,
-    .premiereTvProgram,
-    .guideHdIcon {
-        display: none;
-    }
-}
-
 .channelPrograms + .channelPrograms,
 .guide-channelHeaderCell + .guide-channelHeaderCell {
     margin-top: -1px;
@@ -271,6 +262,15 @@
     contain: strict;
     flex-grow: 1;
     margin: 0 !important;
+
+    @media all and (max-width: 50em) {
+        .newTvProgram,
+        .liveTvProgram,
+        .premiereTvProgram,
+        .guideHdIcon {
+            display: none;
+        }
+    }
 }
 
 .guideProgramName {
