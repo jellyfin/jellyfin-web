@@ -242,7 +242,7 @@ export class PdfPlayer {
         this.loadPage(this.progress + 2);
         this.progress = this.progress + 1;
 
-        Events.trigger(this, 'pause');
+        Events.trigger(this, 'timeupdate');
     }
 
     previous() {
@@ -250,7 +250,7 @@ export class PdfPlayer {
         this.loadPage(this.progress);
         this.progress = this.progress - 1;
 
-        Events.trigger(this, 'pause');
+        Events.trigger(this, 'timeupdate');
     }
 
     loadPage(number) {
