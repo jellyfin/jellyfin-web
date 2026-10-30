@@ -125,6 +125,8 @@ function loadForm(context, user, userSettings) {
 
     context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
     context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
+    context.querySelector('#chkCommunityRatings').checked = userSettings.enableCardCommunityRatings();
+    context.querySelector('#chkCriticRatings').checked = userSettings.enableCardCriticRatings();
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
     context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
@@ -160,6 +162,8 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
 
     userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
     userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
+    userSettingsInstance.enableCardCommunityRatings(context.querySelector('#chkCommunityRatings').checked);
+    userSettingsInstance.enableCardCriticRatings(context.querySelector('#chkCriticRatings').checked);
     userSettingsInstance.theme(context.querySelector('#selectTheme').value);
     userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
     userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);

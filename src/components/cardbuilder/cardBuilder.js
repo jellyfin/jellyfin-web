@@ -11,6 +11,7 @@ import escapeHtml from 'escape-html';
 import { ItemAction } from 'constants/itemAction';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
+import * as userSettings from 'scripts/settings/userSettings';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -894,6 +895,15 @@ function buildCard(index, item, apiClient, options) {
 
     if (options.disableIndicators !== true) {
         let indicatorsHtml = '';
+
+        if (userSettings.enableCardCommunityRatings() && item.CommunityRating) {
+            indicatorsHtml += '<div class="ratingIndicator communityRatingIndicator"><span class="material-icons starIcon star indicatorIcon" aria-hidden="true"></span>' + item.CommunityRating.toFixed(1) + '</div>';
+        }
+
+        if (userSettings.enableCardCriticRatings() && item.CriticRating) {
+            const criticRatingIcon = item.CriticRating >= 60 ? 'mediaInfoCriticRatingFresh' : 'mediaInfoCriticRatingRotten';
+            indicatorsHtml += '<div class="ratingIndicator criticRatingIndicator ' + criticRatingIcon + '">' + item.CriticRating + '</div>';
+        }
 
         if (options.missingIndicator !== false) {
             indicatorsHtml += indicators.getMissingIndicator(item);
