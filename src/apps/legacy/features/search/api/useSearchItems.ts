@@ -1,7 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from '../../../../../hooks/useApi';
 import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
@@ -103,6 +103,8 @@ export const useSearchItems = (
             && !!isVideosEnabled
             && !!isLiveTvEnabled
             && !!isProgramsEnabled
-        )
+        ),
+        // Keep showing the previous results while a new search term is loading
+        placeholderData: keepPreviousData
     });
 };
