@@ -217,7 +217,7 @@ export function tryRestoreView(options) {
         }
     }
 
-    return Promise.reject();
+    return Promise.reject(new Error('TryRestoreViewError'));
 }
 
 function triggerDestroy(view) {
