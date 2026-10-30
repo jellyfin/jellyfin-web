@@ -1,3 +1,5 @@
+import { getSafeLocale } from './locale';
+
 function toLocaleStringSupportsOptions() {
     return !!(typeof Intl === 'object' && Intl && typeof Intl.NumberFormat === 'function');
 }
@@ -21,7 +23,8 @@ export function randomInt(min: number, max: number): number {
  */
 export function toDecimalString(value: number, locale: string): string {
     if (toLocaleStringSupportsOptions()) {
-        return value.toLocaleString(locale);
+        const safeLocale = getSafeLocale(locale);
+        return safeLocale ? value.toLocaleString(safeLocale) : value.toString();
     }
 
     return value.toString();
@@ -39,10 +42,13 @@ export function toPercentString(value: number | null | undefined, locale: string
     }
 
     if (toLocaleStringSupportsOptions()) {
-        return value.toLocaleString(locale, {
-            style: 'percent',
-            maximumFractionDigits: 0
-        });
+        const safeLocale = getSafeLocale(locale);
+        if (safeLocale) {
+            return value.toLocaleString(safeLocale, {
+                style: 'percent',
+                maximumFractionDigits: 0
+            });
+        }
     }
 
     return `${Math.round(value * 100)}%`;
