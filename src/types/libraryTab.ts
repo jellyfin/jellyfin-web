@@ -3,6 +3,7 @@ export enum LibraryTab {
     AlbumArtists = 'albumartists',
     Artists = 'artists',
     Authors = 'authors',
+    Persons = 'persons',
     Channels = 'channels',
     Collections = 'collections',
     Episodes = 'episodes',

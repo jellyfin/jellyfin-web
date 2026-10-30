@@ -69,6 +69,12 @@ const playlistsTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.Playlist]
 };
 
+const personsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Persons,
+    collectionType: CollectionType.Tvshows,
+    isBtnSortEnabled: false
+};
+
 const tvShowsViews: Record<number, LibraryTabContent> = {
     0: seriesTabContent,
     1: suggestionsTabContent,
@@ -77,7 +83,8 @@ const tvShowsViews: Record<number, LibraryTabContent> = {
     4: studiosTabContent,
     5: episodesTabContent,
     6: collectionsTabContent,
-    7: playlistsTabContent
+    7: playlistsTabContent,
+    8: personsTabContent
 };
 
 export default tvShowsViews;
