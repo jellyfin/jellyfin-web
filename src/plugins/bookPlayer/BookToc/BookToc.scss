@@ -23,13 +23,13 @@
     overflow-y: auto;
 }
 
-ul {
+.bookToc ul {
     list-style: none;
     font-size: 1.1rem;
     margin: 0;
 }
 
-li {
+.bookTocList li {
     padding: 0.6rem 0 0 2rem;
     font-weight: bold;
 
@@ -38,11 +38,11 @@ li {
     }
 }
 
-a {
+.bookTocList a {
     color: var(--book-theme-color);
     text-decoration: none;
 }
 
-a:hover {
+.bookTocList a:hover {
     color: #00a4dc;
 }

@@ -19,7 +19,9 @@ const BookToc: FC<BookTocProps> = ({ rendition, onClose }) => {
 
     const onClickChapter = useCallback((chapter: NavItem) => (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
-        void rendition()?.display(rendition().book.spine.get(chapter.href).href);
+
+        // remove parent directory reference from href to fix certain books
+        void rendition().display(chapter.href.startsWith('../') ? chapter.href.slice(3) : chapter.href);
         setActive(false);
     }, [rendition]);
 
