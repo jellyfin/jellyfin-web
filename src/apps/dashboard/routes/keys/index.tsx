@@ -1,4 +1,4 @@
-import type { AuthenticationInfoDto } from '@jellyfin/sdk/lib/generated-client/models/authentication-info-dto';
+import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -31,7 +31,7 @@ export const Component = () => {
     const createKey = useCreateKey();
     const theme = useTheme();
 
-    const columns = useMemo<MRT_ColumnDef<AuthenticationInfoDto>[]>(() => [
+    const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(() => [
         {
             id: 'ApiKey',
             accessorKey: 'AccessToken',
