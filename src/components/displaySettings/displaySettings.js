@@ -111,6 +111,12 @@ function loadForm(context, user, userSettings) {
     } else {
         context.querySelector('.fldDateTimeLocale').classList.add('hide');
     }
+	
+	if (layoutManager.tv) {
+		context.querySelector('.chkClockContainer').classList.remove('hide');
+	} else {
+		context.querySelector('.chkClockContainer').classList.add('hide');
+	}
 
     fillThemes(context.querySelector('#selectTheme'), userSettings.theme());
     fillThemes(context.querySelector('#selectDashboardTheme'), userSettings.dashboardTheme());
@@ -128,6 +134,7 @@ function loadForm(context, user, userSettings) {
     context.querySelector('#chkFadein').checked = userSettings.enableFastFadein();
     context.querySelector('#chkBlurhash').checked = userSettings.enableBlurhash();
     context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
+	context.querySelector('#chkClock').checked = userSettings.enableClock();
     context.querySelector('#chkDetailsBanner').checked = userSettings.detailsBanner();
 
     context.querySelector('#chkDisableCustomCss').checked = userSettings.disableCustomCss();
@@ -176,6 +183,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     userSettingsInstance.enableFastFadein(context.querySelector('#chkFadein').checked);
     userSettingsInstance.enableBlurhash(context.querySelector('#chkBlurhash').checked);
     userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
+	userSettingsInstance.enableClock(context.querySelector('#chkClock').checked);
     userSettingsInstance.detailsBanner(context.querySelector('#chkDetailsBanner').checked);
 
     userSettingsInstance.disableCustomCss(context.querySelector('#chkDisableCustomCss').checked);
