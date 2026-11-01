@@ -356,7 +356,7 @@ export default function (view, params) {
     const tabControllers = [];
     let renderedTabs = [];
     view.addEventListener('viewshow', function () {
-        const apiClient = new ServerConnections().getApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         initTabs();
         if (!view.getAttribute('data-title')) {
             const parentId = params.topParentId;
