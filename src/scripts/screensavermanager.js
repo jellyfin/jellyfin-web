@@ -70,7 +70,7 @@ function ScreenSaverManager() {
         }
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
-			// Following is a handler for mousewheel events
+			// Mousewheel events should also trigger an exit.
 			window.addEventListener('wheel', hide, true);
         }
         if (screensaver.hideOnKey !== false) {
@@ -88,7 +88,7 @@ function ScreenSaverManager() {
 		// e.g: users click unexpectedly hitting a button under the screensaver overlay.
 		event.stopPropagation();
 		// Now that we block events propagation, 
-		// we make a call to notify() which keeps the input manager counter uptodate.
+		// we also make a call to notify() which keeps the input manager counter uptodate.
 		inputManager.notify();
 		
 		console.debug('Hiding screensaver ' + activeScreenSaver.name);
