@@ -29,7 +29,7 @@ Add a screen saver to automatically sign users out to keep their account safe.</
 Fix screensaver 'Logo' appearing behind the top toolbar and the footer frames.</br>
 Fix screensaver 'Logo' incorrectly centered.</br>
 
-### ImproveScreenSaverManager
+### FixScreenSaverManager
 Fix mousewheel and middle/right click events not handled by the screensaver manager.</br>
 Fix keypress events not resetting the screensaver manager internal timer.</br>
 Fix event propagating to the UI when leaving a screensaver.</br>
