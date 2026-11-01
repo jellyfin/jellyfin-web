@@ -1,9 +1,5 @@
-import type { Api } from '@jellyfin/sdk/lib/api';
-import type { AccessSchedule, ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { ParentalRating, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import { UnratedItem } from '@jellyfin/sdk/lib/generated-client/models/unrated-item';
-import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
-import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api';
-import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import globalize from 'lib/globalize';

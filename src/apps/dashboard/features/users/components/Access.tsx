@@ -4,6 +4,7 @@ import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dyna
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
 import AccessScheduleList from 'components/dashboard/users/AccessScheduleList';
+import accessschedule from 'components/accessSchedule/accessSchedule';
 import Button from 'elements/emby-button/Button';
 import AccessContainer from 'components/dashboard/users/AccessContainer';
 import SectionTitleContainer from 'elements/SectionTitleContainer';
@@ -163,7 +164,7 @@ const Access = ({ userId }: AccessProps) => {
         setAccessSchedules(user.Policy?.AccessSchedules || []);
 		
         loading.hide();
-    }, [libraryMenu, loadChannels, loadDevices, loadMediaFolders]);
+    }, [loadChannels, loadDevices, loadMediaFolders]);
 
 	const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
 		schedule = schedule || {};
@@ -214,12 +215,7 @@ const Access = ({ userId }: AccessProps) => {
             getDeviceApi(api).getDevices()
         ])
             .then(([user, mediaFolders, channels, devices]) => {
-                loadUser(
-                    user.data,
-                    mediaFolders.data.Items ?? [],
-                    channels.data.Items ?? [],
-                    devices.data.Items ?? []
-                );
+                loadUser(user, mediaFolders.Items, channels.Items, devices.Items);
             })
             .catch(err => {
                 console.error('[userlibraryaccess] failed to load data', err);
@@ -291,11 +287,9 @@ const Access = ({ userId }: AccessProps) => {
             });
             user.Policy.BlockedChannels = null;
             user.Policy.BlockedMediaFolders = null;
-            getUserApi(api)
-                .updateUserPolicy({
-                    userId: user.Id,
-                    userPolicy: user.Policy
-                })
+			user.Policy.AccessSchedules = getSchedulesFromPage();
+			
+            __legacyApiClient__!.updateUserPolicy(user.Id, user.Policy)
                 .then(onSaveComplete)
                 .catch(err => {
                     console.error('[userlibraryaccess] failed to update user policy', err);
