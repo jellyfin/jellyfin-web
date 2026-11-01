@@ -6,9 +6,7 @@ import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api
 import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-
 import globalize from 'lib/globalize';
-import AccessScheduleList from 'components/dashboard/users/AccessScheduleList';
 import TagList from 'components/dashboard/users/TagList';
 import Button from 'elements/emby-button/Button';
 import SectionTitleContainer from 'elements/SectionTitleContainer';
@@ -35,7 +33,6 @@ type UnratedNamedItem = NamedItem & {
 function handleSaveUser(
     page: HTMLDivElement,
     parentalRatingsRef: React.MutableRefObject<ParentalRating[]>,
-    getSchedulesFromPage: () => AccessSchedule[],
     getAllowedTagsFromPage: () => string[],
     getBlockedTagsFromPage: () => string[],
     onSaveComplete: () => void
@@ -56,7 +53,6 @@ function handleSaveUser(
         userPolicy.BlockUnratedItems = Array.prototype.filter
             .call(page.querySelectorAll('.chkUnratedItem'), i => i.checked)
             .map(i => i.getAttribute('data-itemtype'));
-        userPolicy.AccessSchedules = getSchedulesFromPage();
         userPolicy.AllowedTags = getAllowedTagsFromPage();
         userPolicy.BlockedTags = getBlockedTagsFromPage();
         getUserApi(api).updateUserPolicy({ userId, userPolicy })
@@ -72,7 +68,6 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
     const [ parentalRatings, setParentalRatings ] = useState<ParentalRating[]>([]);
     const [ unratedItems, setUnratedItems ] = useState<UnratedNamedItem[]>([]);
     const [ maxParentalRating, setMaxParentalRating ] = useState<string>();
-    const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const [ allowedTags, setAllowedTags ] = useState<string[]>([]);
     const [ blockedTags, setBlockedTags ] = useState<string[]>([]);
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
@@ -194,12 +189,6 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
 
         setMaxParentalRating(ratingIndex);
 
-        if (user.Policy?.IsAdministrator) {
-            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
-        } else {
-            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
-        }
-        setAccessSchedules(user.Policy?.AccessSchedules || []);
         loading.hide();
     }, [libraryMenu, setAllowedTags, setBlockedTags, loadUnratedItems]);
 
@@ -235,38 +224,6 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
         }
 
         loadData();
-
-        const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
-            schedule = schedule || {};
-            import('components/accessSchedule/accessSchedule').then(({ default: accessschedule }) => {
-                accessschedule.show({
-                    schedule: schedule
-                }).then(function (updatedSchedule) {
-                    const schedules = getSchedulesFromPage();
-
-                    if (index == -1) {
-                        index = schedules.length;
-                    }
-
-                    schedules[index] = updatedSchedule;
-                    setAccessSchedules(schedules);
-                }).catch(() => {
-                    // access schedule closed
-                });
-            }).catch(err => {
-                console.error('[userparentalcontrol] failed to load access schedule', err);
-            });
-        };
-
-        const getSchedulesFromPage = () => {
-            return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
-                return {
-                    DayOfWeek: elem.getAttribute('data-day'),
-                    StartHour: elem.getAttribute('data-start'),
-                    EndHour: elem.getAttribute('data-end')
-                };
-            }) as AccessSchedule[];
-        };
 
         const getAllowedTagsFromPage = () => {
             return Array.prototype.map.call(page.querySelectorAll('.allowedTag'), function (elem) {
@@ -315,7 +272,7 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
             setIsSettingsSavedToastOpen(true);
         };
 
-        const saveUser = handleSaveUser(page, parentalRatingsRef, getSchedulesFromPage, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
+        const saveUser = handleSaveUser(page, parentalRatingsRef, getAllowedTagsFromPage, getBlockedTagsFromPage, onSaveComplete);
 
         const onSubmit = (e: Event) => {
             if (!api) {
@@ -338,23 +295,11 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
             return false;
         };
 
-        // The following is still hacky and should migrate to pure react implementation for callbacks in the future
-        const accessSchedulesPopupCallback = function () {
-            showSchedulePopup({
-                Id: 0,
-                UserId: '',
-                DayOfWeek: DynamicDayOfWeek.Sunday,
-                StartHour: 0,
-                EndHour: 0
-            }, -1);
-        };
-        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
         (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).addEventListener('click', showAllowedTagPopup);
         (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).addEventListener('click', showBlockedTagPopup);
         (page.querySelector('.userParentalControlForm') as HTMLFormElement).addEventListener('submit', onSubmit);
 
         return () => {
-            (page.querySelector('#btnAddSchedule') as HTMLButtonElement).removeEventListener('click', accessSchedulesPopupCallback);
             (page.querySelector('#btnAddAllowedTag') as HTMLButtonElement).removeEventListener('click', showAllowedTagPopup);
             (page.querySelector('#btnAddBlockedTag') as HTMLButtonElement).removeEventListener('click', showBlockedTagPopup);
             (page.querySelector('.userParentalControlForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
@@ -392,11 +337,6 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
         const newTags = blockedTags.filter(t => t !== tag);
         setBlockedTags(newTags);
     }, [blockedTags, setBlockedTags]);
-
-    const removeScheduleCallback = useCallback((index: number) => {
-        const newSchedules = accessSchedules.filter((_e, i) => i != index);
-        setAccessSchedules(newSchedules);
-    }, [accessSchedules, setAccessSchedules]);
 
     return (
         <div ref={element}>
@@ -480,29 +420,6 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
                                 tag={tag}
                                 tagType='blockedTag'
                                 removeTagCallback={removeBlockedTagsTagsCallback}
-                            />;
-                        })}
-                    </div>
-                </div>
-                <div className='accessScheduleSection verticalSection' style={{ marginBottom: '2em' }}>
-                    <SectionTitleContainer
-                        title={globalize.translate('HeaderAccessSchedule')}
-                        isBtnVisible={true}
-                        btnId='btnAddSchedule'
-                        btnClassName='fab submit sectionTitleButton'
-                        btnTitle='Add'
-                        btnIcon='add'
-                    />
-                    <p>{globalize.translate('HeaderAccessScheduleHelp')}</p>
-                    <div className='accessScheduleList paperList'>
-                        {accessSchedules.map((accessSchedule, index) => {
-                            return <AccessScheduleList
-                                key={`${accessSchedule.DayOfWeek}${accessSchedule.StartHour}${accessSchedule.EndHour}`}
-                                index={index}
-                                DayOfWeek={accessSchedule.DayOfWeek}
-                                StartHour={accessSchedule.StartHour}
-                                EndHour={accessSchedule.EndHour}
-                                removeScheduleCallback={removeScheduleCallback}
                             />;
                         })}
                     </div>
