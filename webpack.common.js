@@ -192,6 +192,7 @@ const config = {
             },
             {
                 test: /\.(js|jsx|mjs)$/,
+                dependency: { not: ['url'] },
                 include: [
                     path.resolve(__dirname, 'node_modules/@jellyfin/libass-wasm'),
                     path.resolve(__dirname, 'node_modules/@jellyfin/sdk'),
