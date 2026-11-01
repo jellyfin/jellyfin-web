@@ -7,7 +7,6 @@ import { QUERY_OPTIONS } from '../constants/queryOptions';
 import { isMovies, isTVShows } from '../utils/search';
 import { PersonApiGetPersonsRequest } from '@jellyfin/sdk/lib/generated-client/api/person-api';
 import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
-import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 
 const fetchPeople = async (
     api: Api,
@@ -29,7 +28,8 @@ const fetchPeople = async (
 export const usePeopleSearch = (
     parentId?: string,
     collectionType?: CollectionType,
-    searchTerm?: string
+    searchTerm?: string,
+    params?: PersonApiGetPersonsRequest
 ) => {
     const { api, user } = useApi();
     const userId = user?.Id;
@@ -37,17 +37,13 @@ export const usePeopleSearch = (
     const isPeopleEnabled = (!collectionType || isMovies(collectionType) || isTVShows(collectionType));
 
     return useQuery({
-        queryKey: ['Search', 'People', collectionType, parentId, searchTerm],
+        queryKey: ['Search', 'People', collectionType, parentId, searchTerm, params],
         queryFn: ({ signal }) => fetchPeople(
             api!,
             userId!,
             {
                 searchTerm,
-                // TODO remove this exclusion when artists are migrated to the persons endpoint
-                excludePersonTypes: [
-                    PersonKind.Artist,
-                    PersonKind.AlbumArtist
-                ]
+                ...params
             },
             { signal }
         ),

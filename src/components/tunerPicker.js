@@ -2,10 +2,12 @@ import dialogHelper from './dialogHelper/dialogHelper';
 import dom from '../utils/dom';
 import layoutManager from './layoutManager';
 import globalize from '../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from './loading/loading';
 import browser from '../scripts/browser';
 import focusManager from './focusManager';
 import scrollHelper from '../scripts/scrollHelper';
+
 import 'material-design-icons-iconfont';
 import './formdialog.scss';
 import '../elements/emby-button/emby-button';
@@ -110,7 +112,8 @@ function renderDevices(view, devices) {
 function discoverDevices(view) {
     loading.show();
     view.querySelector('.loadingContent').classList.remove('hide');
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discover', {
+    const apiClient = ServerConnections.currentApiClient();
+    return apiClient.getJSON(apiClient.getUrl('LiveTv/Tuners/Discover', {
         NewDevicesOnly: true
     })).then(function (devices) {
         currentDevices = devices;

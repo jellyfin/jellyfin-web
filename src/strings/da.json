@@ -1863,7 +1863,7 @@
     "ViewAllPlugins": "Vis alle plugins",
     "LabelAvailable": "Tilgængelig",
     "LabelBundled": "Inkluderet",
-    "ButtonAddProvider": "Tilføj meverandør",
+    "ButtonAddProvider": "Tilføj udbyder",
     "ButtonAddTunerDevice": "Tilføj tuner-enhed",
     "LabelSlideshowInterval": "Billede Slideshow Interval",
     "LabelSlideshowIntervalHelp": "Mængden af tid i sekunder hvert billede er vist slideshows.",

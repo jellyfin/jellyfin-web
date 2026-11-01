@@ -1,3 +1,5 @@
+import { isYesterday } from 'date-fns';
+
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
@@ -5,6 +7,7 @@ import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -12,16 +15,17 @@ import 'styles/scrollstyles.scss';
 
 function getUpcomingPromise(context, params) {
     loading.show();
+    const apiClient = ServerConnections.currentApiClient();
     const query = {
         Limit: 48,
         Fields: 'AirTime',
-        UserId: ApiClient.getCurrentUserId(),
+        UserId: apiClient.getCurrentUserId(),
         ImageTypeLimit: 1,
         EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
         EnableTotalRecordCount: false
     };
     query.ParentId = params.topParentId;
-    return ApiClient.getJSON(ApiClient.getUrl('Shows/Upcoming', query));
+    return apiClient.getJSON(apiClient.getUrl('Shows/Upcoming', query));
 }
 
 function loadUpcoming(context, params, promise) {
@@ -55,7 +59,7 @@ function renderUpcoming(elem, items) {
         if (item.PremiereDate) {
             try {
                 const premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
+                dateText = isYesterday(premiereDate) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric'
@@ -135,4 +139,3 @@ export default function (view, params, tabContent) {
         loadUpcoming(tabContent, params, upcomingPromise);
     };
 }
-

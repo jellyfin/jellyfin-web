@@ -25,6 +25,7 @@ import Dashboard, { pageClassOn } from '../utils/dashboard';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
 import datetime from '../scripts/datetime';
+import { enableClock } from './settings/userSettings';
 
 import '../elements/emby-button/paper-icon-button-light';
 
@@ -41,14 +42,21 @@ function renderHeader() {
     html += '<button type="button" is="paper-icon-button-light" class="headerButton mainDrawerButton barsMenuButton headerButtonLeft hide"><span class="material-icons menu" aria-hidden="true"></span></button>';
     html += '<h3 class="pageTitle" aria-hidden="true"></h3>';
     html += '</div>';
-    html += '<div class="headerRight">';
+	html += '<div class="headerRight">';
+	html += '<div class="clockFrameButton hide" style="display: flex;flex-direction: column;margin-right: 1.2em;padding-right: .4em;padding-left: .4em;border: none;background: var(--jf-palette-AppBar-transparentBg);color: var(--jf-palette-text-secondary);">';
+	html += '<button class="currentDateButton currentDateText emby-tab-button emby-button show-focus" style="padding: 0;font-weight: normal;font-size: .8em"></button>';
+    html += '<button class="currentTimeButton emby-tab-button emby-button show-focus" style="line-height: 1;padding: 0;font-weight: normal;">';
+	html += '<span class="currentTimeText" style="font-size: 2em;padding-right: .1em;padding-left: 0;"></span>'; 
+	html += '<span class="currentNoteText" style="font-size: .8em;padding-right: 0;padding-left: .1em;"></span>';
+	html += '</button>';
+	html += '</div>';
     html += '<button is="paper-icon-button-light" class="headerSyncButton syncButton headerButton headerButtonRight hide"><span class="material-icons groups" aria-hidden="true"></span></button>';
     html += '<span class="headerSelectedPlayer"></span>';
     html += '<button is="paper-icon-button-light" class="headerAudioPlayerButton audioPlayerButton headerButton headerButtonRight hide"><span class="material-icons music_note" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerCastButton castButton headerButton headerButtonRight hide"><span class="material-icons cast" aria-hidden="true"></span></button>';
     html += '<button type="button" is="paper-icon-button-light" class="headerButton headerButtonRight headerSearchButton hide"><span class="material-icons search" aria-hidden="true"></span></button>';
     html += '<button is="paper-icon-button-light" class="headerButton headerButtonRight headerUserButton hide"><span class="material-icons person" aria-hidden="true"></span></button>';
-    html += '<div class="currentTimeText hide"></div>';
+
     html += '</div>';
     html += '</div>';
     html += '<div class="headerTabs sectionTabs hide">';
@@ -68,13 +76,17 @@ function renderHeader() {
     headerAudioPlayerButton = skinHeader.querySelector('.headerAudioPlayerButton');
     headerSearchButton = skinHeader.querySelector('.headerSearchButton');
     headerSyncButton = skinHeader.querySelector('.headerSyncButton');
-    currentTimeText = skinHeader.querySelector('.currentTimeText');
-
+    clockFrameButton = skinHeader.querySelector('.clockFrameButton');
+	currentDateText = skinHeader.querySelector('.currentDateText');
+	currentTimeText = skinHeader.querySelector('.currentTimeText');
+	currentDateButton = skinHeader.querySelector('.currentDateButton');
+	currentTimeButton = skinHeader.querySelector('.currentTimeButton');
+	currentNoteText = skinHeader.querySelector('.currentNoteText');
+	
     retranslateUi();
     lazyLoadViewMenuBarImages();
     bindMenuEvents();
     updateCastIcon();
-    updateClock();
 }
 
 function getCurrentApiClient() {
@@ -185,6 +197,8 @@ function updateUserInHeader(user) {
         }
     }
 
+	updateClock();
+  
     requiresUserRefresh = false;
 }
 
@@ -199,14 +213,146 @@ function updateHeaderUserButton(src) {
 }
 
 function updateClock() {
-    if (layoutManager.tv) {
-        currentTimeText.classList.remove('hide');
-        setInterval(function() {
-            currentTimeText.innerText = datetime.getDisplayTime(new Date());
+	if (clockIntervalID)
+		clearInterval(clockIntervalID);
+	
+    if (layoutManager.tv && enableClock()) {
+        clockFrameButton.classList.remove('hide');
+		if (!hasClockClickHandler) {
+			currentTimeButton.addEventListener('click', timeRefresh);
+			currentDateButton.addEventListener('click', dateRefresh);
+			clockFrameButton.addEventListener('dblclick', clockReset);
+			hasClockClickHandler = true;
+		}
+		
+		dateRefresh();
+		timeRefresh();
+		
+        clockIntervalID = setInterval(function() {
+			const x = new Date();
+			let _timestr = datetime.toLocaleTimeString(x, timeFmt.Current.fmt).split(" ");
+			currentTimeText.innerText = _timestr[0]?_timestr[0]:"";
+			
+			// Refresh the date, AM/PM and TZ only once every new hour.
+			if (!x.getMinutes() && !x.getSeconds()) {
+				currentDateText.innerText = datetime.toLocaleDateString(x, dateFmt.Current.fmt);
+				currentNoteText.innerText = (_timestr[1]?_timestr[1]:"") + (_timestr[2]?" "+_timestr[2]:"");
+			}
         }, 1000);
     } else {
-        currentTimeText.classList.add('hide');
+        clockFrameButton.classList.add('hide');
+		currentTimeButton.removeEventListener('click', timeRefresh);
+		currentDateButton.removeEventListener('click', dateRefresh);
+		clockFrameButton.removeEventListener('dblclick', clockReset);
+		hasClockClickHandler = false;
     }
+}
+
+function dateRefresh() {
+	dateFmt.Current = getNextDateFormat();
+	const x = new Date();
+	if (dateFmt.Hidden)
+		currentDateButton.classList.add('hide');
+	else
+		currentDateButton.classList.remove('hide');
+	currentDateText.innerText = datetime.toLocaleDateString(x, dateFmt.Current.fmt);
+}
+
+function timeRefresh(ev) {
+
+	timeFmt.Current = getNextTimeFormat();
+	const x = new Date();
+	let _timestr = datetime.toLocaleTimeString(x, timeFmt.Current.fmt).split(" ");
+	currentTimeText.innerText = _timestr[0]?_timestr[0]:"";
+	currentNoteText.innerText = (_timestr[1]?_timestr[1]:"") + (_timestr[2]?" "+_timestr[2]:"");
+}
+
+function clockReset(ev) {	
+	dateFmt.Hidden = !dateFmt.Hidden;
+	dateRefresh();
+}
+
+let clockIntervalID = undefined;
+let hasClockClickHandler = false;
+let timeFmt = {'Idx': {'Max': 4, 'Current': 0}, 'Hidden': false, 'Current': {}};
+let dateFmt = {'Idx': {'Max': 6, 'Current': 0}, 'Hidden': false, 'Current': {}};
+
+function getNextTimeFormat() {
+	timeFmt.Idx.Current = (timeFmt.Idx.Current + 1) % timeFmt.Idx.Max;
+	
+	let _fmt_time = {
+		'hour': '2-digit',
+		'minute': '2-digit',
+		'second': '2-digit',
+		'timeZoneName': undefined
+	};
+	switch (timeFmt.Idx.Current) {
+		case 0:
+			delete _fmt_time['second'];
+			break;
+		case 1:
+			// This case contains the default time format.
+			delete _fmt_time['second'];
+			_fmt_time['timeZoneName'] = 'short';
+			break;
+		case 2:
+			break;
+		case 3:
+			_fmt_time['timeZoneName'] = 'short';
+			break;
+	}
+	return {'fmt': _fmt_time};
+}
+
+function getNextDateFormat() {
+	dateFmt.Idx.Current = (dateFmt.Idx.Current + 1) % dateFmt.Idx.Max;
+	
+	let _fmt_date = {
+		'day': '2-digit',
+		'month': '2-digit',
+		'year': '2-digit'
+	};
+	
+	switch (dateFmt.Idx.Current) {
+		case 0:
+			_fmt_date['day'] = '2-digit';
+			_fmt_date['month'] = '2-digit';
+			_fmt_date['year'] = 'numeric';
+			delete _fmt_date['weekday'];
+			break;
+		case 1:
+			// That case contains the default date format.
+			_fmt_date['day'] = '2-digit';
+			_fmt_date['month'] = '2-digit';
+			_fmt_date['year'] = '2-digit';
+			delete _fmt_date['weekday'];
+			break;
+		case 2:
+			_fmt_date['day'] = 'numeric';
+			_fmt_date['month'] = 'long';
+			_fmt_date['year'] = 'numeric';
+			_fmt_date['weekday'] = 'long';
+			break;
+		case 3:
+			_fmt_date['day'] = 'numeric';
+			_fmt_date['month'] = 'short';
+			_fmt_date['year'] = 'numeric';
+			_fmt_date['weekday'] = 'short';
+			break;
+		case 4:
+			_fmt_date['day'] = 'numeric';
+			_fmt_date['month'] = 'long';
+			_fmt_date['year'] = 'numeric';
+			_fmt_date['weekday'] = 'short';
+			break;
+		case 5:
+			_fmt_date['day'] = 'numeric';
+			_fmt_date['month'] = 'short';
+			_fmt_date['year'] = 'numeric';
+			_fmt_date['weekday'] = 'long';
+			break;
+	}
+	return {'fmt': _fmt_date};
 }
 
 function showSearch() {
@@ -698,7 +844,13 @@ let headerCastButton;
 let headerSearchButton;
 let headerAudioPlayerButton;
 let headerSyncButton;
+let clockFrameButton;
+let currentDateText;
+let currentDateButton;
 let currentTimeText;
+let currentTimeButton;
+let currentNoteText;
+
 const enableLibraryNavDrawer = layoutManager.desktop;
 const enableLibraryNavDrawerHome = !layoutManager.tv;
 const skinHeader = document.querySelector('.skinHeader');
