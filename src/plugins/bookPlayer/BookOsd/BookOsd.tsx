@@ -56,6 +56,7 @@ const BookOsd: FC<BookOsdProps> = ({
     const [layout, setLayout] = useState(settings.pagesPerView === 2);
     const [fullscreen, setFullscreen] = useState(false);
     const [visible, setVisible] = useState(true);
+    const [showPercentage, setShowPercentage] = useState(false);
     const [position, setPosition] = useState(-1);
     const [duration, setDuration] = useState(100);
 
@@ -120,6 +121,7 @@ const BookOsd: FC<BookOsdProps> = ({
         const onStateChange = (_e: Event, _newState: PlayerState) => {
             // special case to handle EPUB progress as percentage value
             if (_newState.NowPlayingItem?.Path?.endsWith('.epub')) {
+                setShowPercentage(true);
                 setPosition(Math.floor(player.current?.currentTime() / 10));
                 setDuration(100);
             } else {
@@ -151,13 +153,13 @@ const BookOsd: FC<BookOsdProps> = ({
             </div>
 
             <div className='bookOsdRow bookOsdProgressRow' style={{ ...(!visible && { opacity: 0, pointerEvents: 'none' }) }}>
-                <span className='bookOsdProgressText'>{position + 1}</span>
+                <span className='bookOsdProgressText'>{showPercentage ? Math.min(100, position + 1) : position + 1}{showPercentage && '%'}</span>
                 <LinearProgress
                     variant='determinate'
-                    value={position !== 0 ? position / (duration - 1) * 100 : 0}
+                    value={position !== 0 ? Math.min(100, position / (duration - 1) * 100) : 0}
                     style={{ flex: 1 }}
                 />
-                <span className='bookOsdProgressText'>{duration}</span>
+                <span className='bookOsdProgressText'>{duration}{showPercentage && '%'}</span>
             </div>
 
             <div className='bookOsdRow' style={{ paddingBottom: 'env(safe-area-inset-bottom)', ...(!visible && { opacity: 0, pointerEvents: 'none' }) }}>
