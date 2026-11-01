@@ -70,7 +70,7 @@ function ScreenSaverManager() {
         }
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
-			// Following is a handler for mousewheel events
+			// Mousewheel events should also force an exit.
 			window.addEventListener('wheel', hide, true);
         }
         if (screensaver.hideOnKey !== false) {
