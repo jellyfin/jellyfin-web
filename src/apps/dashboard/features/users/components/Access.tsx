@@ -1,12 +1,19 @@
-import type { BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { AccessSchedule, BaseItemDto, DeviceInfoDto, UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-
+import { DynamicDayOfWeek } from '@jellyfin/sdk/lib/generated-client/models/dynamic-day-of-week';
 import loading from 'components/loading/loading';
 import globalize from 'lib/globalize';
+import AccessScheduleList from 'components/dashboard/users/AccessScheduleList';
 import Button from 'elements/emby-button/Button';
 import AccessContainer from 'components/dashboard/users/AccessContainer';
+import SectionTitleContainer from 'elements/SectionTitleContainer';
 import CheckBoxElement from 'elements/CheckBoxElement';
 import Toast from 'apps/dashboard/components/Toast';
+import { useApi } from 'hooks/useApi';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getChannelApi } from '@jellyfin/sdk/lib/utils/api/channel-api';
+import { getDeviceApi } from '@jellyfin/sdk/lib/utils/api/device-api';
 
 interface AccessProps {
     userId: string;
@@ -21,10 +28,12 @@ type ItemsArr = {
 };
 
 const Access = ({ userId }: AccessProps) => {
+    const { api } = useApi();
     const [ isSettingsSavedToastOpen, setIsSettingsSavedToastOpen ] = useState(false);
     const [channelsItems, setChannelsItems] = useState<ItemsArr[]>([]);
     const [mediaFoldersItems, setMediaFoldersItems] = useState<ItemsArr[]>([]);
     const [devicesItems, setDevicesItems] = useState<ItemsArr[]>([]);
+	const [ accessSchedules, setAccessSchedules ] = useState<AccessSchedule[]>([]);
     const libraryMenu = useMemo(async () => ((await import('scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
@@ -134,27 +143,88 @@ const Access = ({ userId }: AccessProps) => {
     }, []);
 
     const loadUser = useCallback((user: UserDto, mediaFolders: BaseItemDto[], channels: BaseItemDto[], devices: DeviceInfoDto[]) => {
+		const page = element.current;
+		
+		if (!page) {
+            console.error('[userlibraryaccess] Unexpected null page reference');
+            return;
+        }
+		
         void libraryMenu.then(menu => menu.setTitle(user.Name));
         loadChannels(user, channels);
         loadMediaFolders(user, mediaFolders);
         loadDevices(user, devices);
+		
+		if (user.Policy?.IsAdministrator) {
+            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.add('hide');
+        } else {
+            (page.querySelector('.accessScheduleSection') as HTMLDivElement).classList.remove('hide');
+        }
+        setAccessSchedules(user.Policy?.AccessSchedules || []);
+		
         loading.hide();
-    }, [loadChannels, loadDevices, loadMediaFolders]);
+    }, [libraryMenu, loadChannels, loadDevices, loadMediaFolders]);
 
+	const showSchedulePopup = (schedule: AccessSchedule, index: number) => {
+		schedule = schedule || {};
+		
+			accessschedule.show({schedule: schedule})
+			.then(function (updatedSchedule) {
+				const schedules = getSchedulesFromPage() || [];
+
+				if (index == -1) {
+					index = schedules.length;
+				}
+
+				schedules[index] = updatedSchedule;
+				setAccessSchedules(schedules);
+			})
+			.catch(err => {
+				console.error('[userparentalcontrol] failed to load access schedule', err);
+			});
+	};
+
+	const getSchedulesFromPage = () => {
+		const page = element.current;
+		
+		if (!page) {
+            console.error('[userlibraryaccess] Unexpected null page reference');
+            return;
+        }
+		
+		return Array.prototype.map.call(page.querySelectorAll('.liSchedule'), function (elem) {
+			return {
+				DayOfWeek: elem.dataset.day,
+				StartHour: elem.dataset.start,
+				EndHour: elem.dataset.end
+			};
+		}) as AccessSchedule[];
+	};
+	
     const loadData = useCallback(() => {
         loading.show();
-        const promise1 = userId ? window.ApiClient.getUser(userId) : Promise.resolve({ Configuration: {} });
-        const promise2 = window.ApiClient.getJSON(window.ApiClient.getUrl('Library/MediaFolders', {
-            IsHidden: false
-        }));
-        const promise3 = window.ApiClient.getJSON(window.ApiClient.getUrl('Channels'));
-        const promise4 = window.ApiClient.getJSON(window.ApiClient.getUrl('Devices'));
-        Promise.all([promise1, promise2, promise3, promise4]).then(function (responses) {
-            loadUser(responses[0], responses[1].Items, responses[2].Items, responses[3].Items);
-        }).catch(err => {
-            console.error('[userlibraryaccess] failed to load data', err);
-        });
-    }, [loadUser, userId]);
+        if (!api) {
+            console.error('[userlibraryaccess] api is not available');
+            return;
+        }
+        Promise.all([
+            userId ? getUserApi(api).getUserById({ userId }) : Promise.resolve({ data: { Configuration: {} } }),
+            getLibraryApi(api).getMediaFolders({ isHidden: false }),
+            getChannelApi(api).getChannels(),
+            getDeviceApi(api).getDevices()
+        ])
+            .then(([user, mediaFolders, channels, devices]) => {
+                loadUser(
+                    user.data,
+                    mediaFolders.data.Items ?? [],
+                    channels.data.Items ?? [],
+                    devices.data.Items ?? []
+                );
+            })
+            .catch(err => {
+                console.error('[userlibraryaccess] failed to load data', err);
+            });
+    }, [api, loadUser, userId]);
 
     useEffect(() => {
         const page = element.current;
@@ -167,23 +237,32 @@ const Access = ({ userId }: AccessProps) => {
         loadData();
 
         const onSubmit = (e: Event) => {
+            if (!api) {
+                console.error('[userlibraryaccess] missing api');
+                return;
+            }
+
             if (!userId) {
                 console.error('[userlibraryaccess] missing user id');
                 return;
             }
 
             loading.show();
-            window.ApiClient.getUser(userId).then(function (result) {
-                saveUser(result);
-            }).catch(err => {
-                console.error('[userlibraryaccess] failed to fetch user', err);
-            });
+            getUserApi(api).getUserById({ userId })
+                .then(u => saveUser(u.data))
+                .catch(err => {
+                    console.error('[userlibraryaccess] failed to fetch user', err);
+                });
             e.preventDefault();
             e.stopPropagation();
             return false;
         };
 
         const saveUser = (user: UserDto) => {
+            if (!api) {
+                throw new Error('Missing api instance');
+            }
+
             if (!user.Id) {
                 throw new Error('Unexpected null user.Id');
             }
@@ -212,17 +291,33 @@ const Access = ({ userId }: AccessProps) => {
             });
             user.Policy.BlockedChannels = null;
             user.Policy.BlockedMediaFolders = null;
-            window.ApiClient.updateUserPolicy(user.Id, user.Policy).then(function () {
-                onSaveComplete();
-            }).catch(err => {
-                console.error('[userlibraryaccess] failed to update user policy', err);
-            });
+            getUserApi(api)
+                .updateUserPolicy({
+                    userId: user.Id,
+                    userPolicy: user.Policy
+                })
+                .then(onSaveComplete)
+                .catch(err => {
+                    console.error('[userlibraryaccess] failed to update user policy', err);
+                });
         };
 
         const onSaveComplete = () => {
             loading.hide();
             setIsSettingsSavedToastOpen(true);
         };
+		
+		// The following is still hacky and should migrate to pure react implementation for callbacks in the future
+        const accessSchedulesPopupCallback = function () {
+            showSchedulePopup({
+                Id: 0,
+                UserId: '',
+                DayOfWeek: DynamicDayOfWeek.Sunday,
+                StartHour: 0,
+                EndHour: 0
+            }, -1);
+        };
+        (page.querySelector('#btnAddSchedule') as HTMLButtonElement).addEventListener('click', accessSchedulesPopupCallback);
 
         (page.querySelector('.chkEnableAllDevices') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
             (page.querySelector('.deviceAccessListContainer') as HTMLDivElement).classList.toggle('hide', this.checked);
@@ -237,8 +332,13 @@ const Access = ({ userId }: AccessProps) => {
         });
 
         (page.querySelector('.userLibraryAccessForm') as HTMLFormElement).addEventListener('submit', onSubmit);
-    }, [loadData]);
+    }, [api, userId, loadData]);
 
+    const removeScheduleCallback = useCallback((index: number) => {
+        const newSchedules = accessSchedules.filter((_e, i) => i != index);
+        setAccessSchedules(newSchedules);
+    }, [accessSchedules, setAccessSchedules]);
+	
     return (
         <div ref={element}>
             <Toast
@@ -316,6 +416,31 @@ const Access = ({ userId }: AccessProps) => {
                         />
                     ))}
                 </AccessContainer>
+				
+				<div className='accessScheduleSection verticalSection' style={{ marginBottom: '2em' }}>
+                    <SectionTitleContainer
+                        title={globalize.translate('HeaderAccessSchedule')}
+                        isBtnVisible={true}
+                        btnId='btnAddSchedule'
+                        btnClassName='fab submit sectionTitleButton'
+                        btnTitle='Add'
+                        btnIcon='add'
+                    />
+                    <p>{globalize.translate('HeaderAccessScheduleHelp')}</p>
+                    <div className='accessScheduleList paperList'>
+                        {accessSchedules.map((accessSchedule, index) => {
+                            return <AccessScheduleList
+                                key={`${accessSchedule.DayOfWeek}${accessSchedule.StartHour}${accessSchedule.EndHour}`}
+                                index={index}
+                                DayOfWeek={accessSchedule.DayOfWeek}
+                                StartHour={accessSchedule.StartHour}
+                                EndHour={accessSchedule.EndHour}
+                                removeScheduleCallback={removeScheduleCallback}
+                            />;
+                        })}
+                    </div>
+                </div>
+				
                 <br />
                 <div>
                     <Button

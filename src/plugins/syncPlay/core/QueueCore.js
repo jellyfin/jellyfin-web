@@ -110,7 +110,7 @@ class QueueCore {
 
     /**
      * Called when a play queue update needs to be applied.
-     * @param {Object} apiClient The ApiClient.
+     * @param {import('jellyfin-apiclient').ApiClient} apiClient The ApiClient.
      * @param {Object} playQueueUpdate The play queue update.
      * @param {string} serverId The server identifier.
      * @returns {Promise} A promise that gets resolved when update is applied.
@@ -119,9 +119,9 @@ class QueueCore {
         const oldPlayQueueUpdate = this.lastPlayQueueUpdate;
         const oldPlaylist = this.playlist;
 
-        const itemIds = playQueueUpdate.Playlist.map(queueItem => queueItem.ItemId);
+        const ids = playQueueUpdate.Playlist.map(queueItem => queueItem.ItemId);
 
-        if (!itemIds.length) {
+        if (!ids.length) {
             if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
                 return Promise.reject(new Error('Trying to apply old update'));
             }
@@ -136,11 +136,11 @@ class QueueCore {
         }
 
         return Helper.getItemsForPlayback(apiClient, {
-            Ids: itemIds.join(',')
+            ids
         }).then((result) => {
             return Helper.translateItemsForPlayback(apiClient, result.Items, {
-                ids: itemIds,
-                serverId: serverId
+                ids,
+                serverId
             }).then((items) => {
                 if (this.lastPlayQueueUpdate && playQueueUpdate.LastUpdate.getTime() <= this.getLastUpdateTime()) {
                     throw new Error('Trying to apply old update');

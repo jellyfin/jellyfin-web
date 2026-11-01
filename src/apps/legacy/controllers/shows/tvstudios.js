@@ -1,5 +1,6 @@
 import loading from 'components/loading/loading';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 function getQuery(params) {
     const key = getSavedQueryKey(params);
@@ -27,9 +28,10 @@ function getSavedQueryKey(params) {
 }
 
 function getPromise(context, params) {
+    const apiClient = ServerConnections.currentApiClient();
     const query = getQuery(params);
     loading.show();
-    return ApiClient.getStudios(ApiClient.getCurrentUserId(), query);
+    return apiClient.getStudios(apiClient.getCurrentUserId(), query);
 }
 
 function reloadItems(context, params, promise) {
