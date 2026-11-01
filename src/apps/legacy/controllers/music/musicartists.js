@@ -8,6 +8,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from 'scripts/settings/userSettings';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -73,8 +74,8 @@ export default function (view, params, tabContent, options) {
         setFilterStatus(tabContent, query);
 
         const promise = options.mode == 'albumartists' ?
-            apiClient.getAlbumArtists(apiClient.getCurrentUserId(), query) :
-            apiClient.getArtists(apiClient.getCurrentUserId(), query);
+            apiClient.getPeople(apiClient.getCurrentUserId(), { ...query, PersonTypes: PersonKind.AlbumArtist }) :
+            apiClient.getPeople(apiClient.getCurrentUserId(), { ...query, PersonTypes: PersonKind.Artist });
         promise.then((result) => {
             function onNextPageClick() {
                 if (isLoading) {

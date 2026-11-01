@@ -54,6 +54,8 @@ function requireHlsPlayer() {
     return import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
+        // deprecated with no viable replacement
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         hls.DefaultConfig.liveBackBufferLength = 90;
         return hls;
     });

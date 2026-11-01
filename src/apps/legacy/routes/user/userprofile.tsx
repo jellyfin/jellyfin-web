@@ -1,5 +1,6 @@
-import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import React, { FunctionComponent, useEffect, useRef, useCallback, useMemo } from 'react';
+import { DomError } from 'constants/domError';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../../lib/globalize';
@@ -15,8 +16,10 @@ import Page from 'components/Page';
 import Loading from 'components/loading/LoadingComponent';
 import Button from 'elements/emby-button/Button';
 
+const USER_IMAGE_PLACEHOLDER = 'assets/img/avatar.png';
+
 const UserProfile: FunctionComponent = () => {
-    const { __legacyApiClient__, user: currentUser } = useApi();
+    const { api, user: currentUser } = useApi();
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId') || undefined;
     const { data: user, isPending: isUserPending } = useUser({ userId });
@@ -38,12 +41,11 @@ const UserProfile: FunctionComponent = () => {
 
         void libraryMenu.then(menu => menu.setTitle(user.Name));
 
-        let imageUrl = 'assets/img/avatar.png';
-        if (__legacyApiClient__ && user.PrimaryImageTag) {
-            imageUrl = __legacyApiClient__.getUserImageUrl(user.Id, {
-                tag: user.PrimaryImageTag,
-                type: 'Primary'
-            });
+        let imageUrl = USER_IMAGE_PLACEHOLDER;
+        // TODO: The PrimaryImageTag check should be done in the SDK
+        // refs: https://github.com/jellyfin/jellyfin-sdk-typescript/pull/1111
+        if (api && user.PrimaryImageTag) {
+            imageUrl = getImageApi(api).getUserImageUrl(user) ?? USER_IMAGE_PLACEHOLDER;
         }
         const userImage = (page.querySelector('#image') as HTMLDivElement);
         userImage.style.backgroundImage = 'url(' + imageUrl + ')';
@@ -59,7 +61,7 @@ const UserProfile: FunctionComponent = () => {
             (page.querySelector('#btnDeleteImage') as HTMLButtonElement).classList.add('hide');
             (page.querySelector('#btnAddImage') as HTMLButtonElement).classList.remove('hide');
         }
-    }, [__legacyApiClient__, currentUser, libraryMenu, user]);
+    }, [api, currentUser, libraryMenu, user]);
 
     useEffect(() => {
         const page = element.current;
@@ -73,11 +75,11 @@ const UserProfile: FunctionComponent = () => {
 
         const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
             loading.hide();
-            switch (evt.target?.error?.code) {
-                case DOMException.NOT_FOUND_ERR:
+            switch (evt.target?.error?.name) {
+                case DomError.NotFound:
                     toast(globalize.translate('FileNotFound'));
                     break;
-                case DOMException.ABORT_ERR:
+                case DomError.Abort:
                     onFileReaderAbort();
                     break;
                 default:
@@ -109,7 +111,7 @@ const UserProfile: FunctionComponent = () => {
                 }
 
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                __legacyApiClient__!.uploadUserImage(userId, ImageType.Primary, file)
+                getImageApi(api!).postUserImage({ userId, body: file })
                     .then(() => {
                         void queryClient.invalidateQueries({
                             queryKey: ['User']
@@ -137,7 +139,7 @@ const UserProfile: FunctionComponent = () => {
                 globalize.translate('DeleteImage')
             ).then(function () {
                 loading.show();
-                __legacyApiClient__!.deleteUserImage(userId, ImageType.Primary)
+                getImageApi(api!).deleteUserImage({ userId })
                     .then(() => {
                         void queryClient.invalidateQueries({
                             queryKey: ['User']
@@ -173,7 +175,7 @@ const UserProfile: FunctionComponent = () => {
             (page.querySelector('#btnAddImage') as HTMLButtonElement).removeEventListener('click', addImageClick);
             (page.querySelector('#uploadImage') as HTMLInputElement).removeEventListener('change', onUploadImage);
         };
-    }, [__legacyApiClient__, reloadUser, user, userId]);
+    }, [api, reloadUser, user, userId]);
 
     if (isUserPending || !user) {
         return <Loading />;

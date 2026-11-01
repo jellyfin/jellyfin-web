@@ -86,7 +86,7 @@ function getPromise(apiClient, params) {
     }
 
     if (params.musicartist) {
-        return apiClient.getArtist(params.musicartist, apiClient.getCurrentUserId());
+        return apiClient.getPerson(params.musicartist, apiClient.getCurrentUserId());
     }
 
     throw new Error('Invalid request');
@@ -879,8 +879,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
         } else if (p.Type === PersonKind.Artist || p.Type === PersonKind.AlbumArtist) {
-            // TODO remove this exclusion when artists are migrated to the persons endpoint
-            return;
+            console.debug(`skipping artist in person slider: ${p.Name}`);
         } else {
             const isMergeableCrew = p.Id && mergeablePersonTypes.has(p.Type);
             const existingIndex = isMergeableCrew ? crewByPersonId.get(p.Id) : undefined;
@@ -1393,6 +1392,8 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
+                // we only care that both lists match so the exact sort order is of no consequence
+                // eslint-disable-next-line sonarjs/no-alphabetical-sort
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
                     showArtist = true;
                     break;

@@ -16,12 +16,11 @@ const NewPlaylistButton: FC<NewPlaylistButtonProps> = ({
     isTextVisible,
     queryKey
 }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
 
     const showPlaylistEditor = useCallback(() => {
         import('components/playlisteditor/playlisteditor')
             .then(async ({ default: PlaylistEditor }) => {
-                const serverId = __legacyApiClient__?.serverId();
                 const playlistEditor = new PlaylistEditor();
                 try {
                     await playlistEditor.show({
@@ -36,7 +35,7 @@ const NewPlaylistButton: FC<NewPlaylistButtonProps> = ({
             .catch(err => {
                 console.error('[NewPlaylist] failed to load playlist editor', err);
             });
-    }, [__legacyApiClient__, queryKey]);
+    }, [ queryKey, serverId ]);
 
     return (
         <Button
