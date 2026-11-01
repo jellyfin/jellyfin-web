@@ -84,11 +84,11 @@ function ScreenSaverManager() {
         }
 
 		// We first stop the event from being spread to the UI
-		// which could be a problem in some cases 
-		// i.e: user unexpectedly clicking a button under the screensaver overlay.
+		// which might lead to problems in some cases 
+		// e.g: users click unexpectedly hitting a button under the screensaver overlay.
 		event.stopPropagation();
-		// Since we block events propagation, 
-		// we must do a call to notify() in order to keep the manager internal counter uptodate.
+		// Now that we block events propagation, 
+		// we make a call to notify() which keeps the input manager counter uptodate.
 		inputManager.notify();
 		
 		console.debug('Hiding screensaver ' + activeScreenSaver.name);
