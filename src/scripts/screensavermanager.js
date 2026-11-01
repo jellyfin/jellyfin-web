@@ -82,8 +82,7 @@ function ScreenSaverManager() {
 		if (!activeScreenSaver) {
             throw new Error('There is no active screensaver.');
         }
-		activeScreenSaver = null;
-		
+
 		// We first stop the event from being spread to the UI
 		// which could be a problem in some cases 
 		// i.e: user unexpectedly clicking a button under the screensaver overlay.
@@ -109,6 +108,8 @@ function ScreenSaverManager() {
 		activeScreenSaver.hide().then(() => {
 			document.body.classList.remove('screensaver-noScroll');
 		});
+		
+		activeScreenSaver = null;
     }
 
     this.isShowing = () => {
