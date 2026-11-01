@@ -253,7 +253,7 @@ dom.addEventListener(document, 'click', notify, {
 });
 
 // We add two handlers for middle/right click and mousewheel events
-// since they too should postpone screensavers launch.
+// since they too should delay a screensaver launch.
 
 dom.addEventListener(document, 'mouseup', notify, {
     passive: true
