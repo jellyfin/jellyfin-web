@@ -28,7 +28,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     itemType,
     genre
 }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const getParametersOptions = () => {
         return {
             sortBy: [ItemSortBy.Random],
@@ -77,7 +77,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
             showParentTitle: collectionType === CollectionType.Music,
             showYear: collectionType !== CollectionType.Music,
-            serverId: __legacyApiClient__?.serverId()
+            serverId
         }}
     />;
 };
