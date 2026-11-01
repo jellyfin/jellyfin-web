@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import { importModule } from '@uupaa/dynamic-import-polyfill';
 
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
 
 import './viewManager/viewContainer.scss';
@@ -22,7 +23,7 @@ function setControllerClass(view, options) {
         }
 
         controllerUrl = Dashboard.getPluginUrl(controllerUrl);
-        const apiUrl = ApiClient.getUrl('/web/' + controllerUrl);
+        const apiUrl = ServerConnections.currentApiClient().getUrl('/web/' + controllerUrl);
         return importModule(apiUrl).then((ControllerFactory) => {
             options.controllerFactory = ControllerFactory;
         });

@@ -2,13 +2,15 @@ import $ from 'jquery';
 
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
+import dom from 'utils/dom';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
-import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
-import dom from 'utils/dom';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {
@@ -80,12 +82,13 @@ export default function (page, providerId, options) {
             return getListingProvider();
         }
 
-        return ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/Default'));
+        const apiClient = ServerConnections.currentApiClient();
+        return apiClient.getJSON(apiClient.getUrl('LiveTv/ListingProviders/Default'));
     }
 
     function reload() {
         loading.show();
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
+        ServerConnections.currentApiClient().getNamedConfiguration('livetv').then(function (config) {
             getListingProvider(config, providerId).then(function (info) {
                 page.querySelector('.txtPath').value = info.Path || '';
                 page.querySelector('.txtKids').value = (info.KidsCategories || []).join('|');
@@ -120,8 +123,9 @@ export default function (page, providerId, options) {
 
     function submitListingsForm() {
         loading.show();
+        const apiClient = ServerConnections.currentApiClient();
         const id = providerId;
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
+        apiClient.getNamedConfiguration('livetv').then(function (config) {
             const info = config.ListingProviders.filter(function (provider) {
                 return provider.Id === id;
             })[0] || {};
@@ -139,9 +143,9 @@ export default function (page, providerId, options) {
             }).map(function (tuner) {
                 return tuner.getAttribute('data-id');
             });
-            ApiClient.ajax({
+            apiClient.ajax({
                 type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ListingProviders', {
+                url: apiClient.getUrl('LiveTv/ListingProviders', {
                     ValidateListings: true
                 }),
                 data: JSON.stringify(info),

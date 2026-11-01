@@ -9,6 +9,8 @@ import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -42,7 +44,7 @@ function onEditLibrary() {
     }
     let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
-    ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
+    ServerConnections.currentApiClient().updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
         hasChanges = true;
         isCreating = false;
         loading.hide();
@@ -63,7 +65,7 @@ function addMediaLocation(page, path) {
     const isPathInLibrary = virtualFolder.Locations.some(p => path === p);
     if (isPathInLibrary) return;
 
-    ApiClient.addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
+    ServerConnections.currentApiClient().addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
     }, () => {
@@ -73,7 +75,7 @@ function addMediaLocation(page, path) {
 
 function updateMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
-    ApiClient.updateMediaPath(virtualFolder.Name, {
+    ServerConnections.currentApiClient().updateMediaPath(virtualFolder.Name, {
         Path: path
     }).then(() => {
         hasChanges = true;
@@ -94,7 +96,7 @@ function onRemoveClick(btnRemovePath, location) {
         primary: 'delete'
     }).then(() => {
         const refreshAfterChange = currentOptions.refresh;
-        ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
+        ServerConnections.currentApiClient().removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
             hasChanges = true;
             refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
         }, () => {
@@ -141,7 +143,7 @@ function getFolderHtml(pathInfo, index) {
 }
 
 function refreshLibraryFromServer(page) {
-    ApiClient.getVirtualFolders().then(result => {
+    ServerConnections.currentApiClient().getVirtualFolders().then(result => {
         const library = result.filter(f => {
             return f.Name === currentOptions.library.Name;
         })[0];

@@ -20,7 +20,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
     sectionType,
     isUpcomingRecordingsEnabled = false
 }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const { isLoading, data: sectionsWithItems, refetch } = useGetProgramsSectionsWithItems(sectionType);
     const {
         isLoading: isUpcomingRecordingsLoading,
@@ -37,7 +37,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
 
     const getRouteUrl = (section: Section) => {
         return appRouter.getRouteUrl('list', {
-            serverId: window.ApiClient.serverId(),
+            serverId,
             itemTypes: section.itemTypes,
             isAiring: section.parametersOptions?.isAiring,
             isMovie: section.parametersOptions?.isMovie,
@@ -65,7 +65,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                     cardOptions={{
                         ...section.cardOptions,
                         queryKey: ['ProgramSectionWithItems'],
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}
@@ -98,7 +98,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
                         allowBottomPadding: false,
                         overlayText: false,
                         showChannelLogo: true,
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}
