@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from '../../../../../hooks/useApi';
 import { addSection, getCardOptionsFromType, getItemTypesFromCollectionType, getTitleFromType, isLivetv, isMovies, isMusic, isTVShows, sortSections } from '../utils/search';
-import { useArtistsSearch } from './useArtistsSearch';
 import { usePeopleSearch } from './usePeopleSearch';
 import { useStudiosSearch } from './useStudiosSearch';
 import { useVideoSearch } from './useVideoSearch';
@@ -14,14 +13,15 @@ import { useLiveTvSearch } from './useLiveTvSearch';
 import { fetchItemsByType } from './fetchItemsByType';
 import { useProgramsSearch } from './useProgramsSearch';
 import { LIVETV_CARD_OPTIONS } from '../constants/liveTvCardOptions';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 
 export const useSearchItems = (
     parentId?: string,
     collectionType?: CollectionType,
     searchTerm?: string
 ) => {
-    const { data: artists, isPending: isArtistsPending } = useArtistsSearch(parentId, collectionType, searchTerm);
-    const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm);
+    const { data: artists, isPending: isArtistsPending } = usePeopleSearch(parentId, collectionType, searchTerm, { personTypes: [PersonKind.Artist, PersonKind.AlbumArtist] });
+    const { data: people, isPending: isPeoplePending } = usePeopleSearch(parentId, collectionType, searchTerm, { excludePersonTypes: [PersonKind.Artist, PersonKind.AlbumArtist] });
     const { data: studios, isPending: isStudiosPending } = useStudiosSearch(parentId, collectionType, searchTerm);
     const { data: videos, isPending: isVideosPending } = useVideoSearch(parentId, collectionType, searchTerm);
     const { data: programs, isPending: isProgramsPending } = useProgramsSearch(parentId, collectionType, searchTerm);

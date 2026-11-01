@@ -61,25 +61,29 @@ const defaultComicsPlayerSettings = {
 export class UserSettings {
     /**
      * Bind UserSettings instance to user.
-     * @param {string|undefined} userId - User identifier.
-     * @param {import('jellyfin-apiclient').ApiClient} apiClient - ApiClient instance.
+     * @param {string|undefined} userId - User ID.
+     * @param {import('jellyfin-apiclient').ApiClient|string|undefined} apiClientOrId - ApiClient instance or Server ID.
      */
-    setUserInfo(userId, apiClient) {
+    setUserInfo(userId, apiClientOrId) {
         if (this.saveTimeout) {
             clearTimeout(this.saveTimeout);
         }
 
+        // Resolve the ApiClient and Server ID from the input
+        const apiClient = typeof apiClientOrId === 'string' ? ServerConnections.getApi(apiClientOrId) : apiClientOrId;
+        const serverId = typeof apiClientOrId === 'string' ? apiClientOrId : apiClient?.serverId();
+
         this.currentUserId = userId;
         this.currentApiClient = apiClient;
 
-        if (!userId) {
+        if (!userId || !apiClient) {
             this.displayPrefs = null;
             return Promise.resolve();
         }
 
         const self = this;
 
-        const api = ServerConnections.getApi(apiClient.serverId());
+        const api = ServerConnections.getApi(serverId);
         return queryClient
             .fetchQuery(getDisplayPreferencesQuery(
                 api,
@@ -314,6 +318,19 @@ export class UserSettings {
         return toBoolean(this.get('enableBackdrops', false), false);
     }
 
+   /**
+     * Get or set 'Clock' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'Clock' or undefined.
+     * @return {boolean} 'Clock' state.
+     */
+    enableClock(val) {
+        if (val !== undefined) {
+            return this.set('enableClock', val.toString(), false);
+        }
+
+        return toBoolean(this.get('enableClock', false), false);
+    }
+	
     /**
      * Get or set 'disableCustomCss' state.
      * @param {boolean|undefined} [val] - Flag to enable 'disableCustomCss' or undefined.
@@ -729,6 +746,7 @@ export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(cu
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
 export const enableCinemaMode = currentSettings.enableCinemaMode.bind(currentSettings);
+export const enableClock = currentSettings.enableClock.bind(currentSettings);
 export const selectAudioNormalization = currentSettings.selectAudioNormalization.bind(currentSettings);
 export const enableNextVideoInfoOverlay = currentSettings.enableNextVideoInfoOverlay.bind(currentSettings);
 export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime.bind(currentSettings);

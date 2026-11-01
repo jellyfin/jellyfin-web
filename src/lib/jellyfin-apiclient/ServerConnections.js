@@ -6,7 +6,7 @@ import { setUserInfo } from 'scripts/settings/userSettings';
 import { detectBitrate } from 'utils/bitrateTest';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
-import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
+import { createApiClient } from 'lib/jellyfin-apiclient/utils/createApiClient';
 
 import ConnectionManager from './connectionManager';
 

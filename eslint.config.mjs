@@ -96,7 +96,7 @@ export default tseslint.config(
             'no-void': ['error', { 'allowAsStatement': true }],
             'one-var': ['error', 'never'],
             'prefer-const': ['error', { 'destructuring': 'all' }],
-            'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
+            'prefer-promise-reject-errors': ['error', { 'allowEmptyReject': true }],
             '@typescript-eslint/prefer-for-of': 'error',
             'radix': 'error',
             'yoda': 'error',
@@ -104,7 +104,7 @@ export default tseslint.config(
             'sonarjs/fixme-tag': 'warn',
             'sonarjs/todo-tag': 'off',
             'sonarjs/deprecation': 'off',
-            'sonarjs/no-alphabetical-sort': 'warn',
+            'sonarjs/no-alphabetical-sort': 'error',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
@@ -207,29 +207,20 @@ export default tseslint.config(
             },
             globals: {
                 ...globals.browser,
+                // Chromecast globals
+                'chrome': 'readonly',
                 // Tizen globals
-                'tizen': false,
-                'webapis': false,
+                'tizen': 'readonly',
+                'webapis': 'readonly',
                 // WebOS globals
-                'webOS': false,
-                // Dependency globals
-                '$': false,
-                'jQuery': false,
-                // Jellyfin globals
-                'ApiClient': true,
-                'Events': true,
-                'chrome': true,
-                'Emby': false,
-                'Hls': true,
-                'LibraryMenu': true,
-                'Windows': false,
+                'webOS': 'readonly',
                 // Build time definitions
-                __COMMIT_SHA__: false,
-                __JF_BUILD_VERSION__: false,
-                __PACKAGE_JSON_NAME__: false,
-                __PACKAGE_JSON_VERSION__: false,
-                __USE_SYSTEM_FONTS__: false,
-                __WEBPACK_SERVE__: false
+                __COMMIT_SHA__: 'readonly',
+                __JF_BUILD_VERSION__: 'readonly',
+                __PACKAGE_JSON_NAME__: 'readonly',
+                __PACKAGE_JSON_VERSION__: 'readonly',
+                __USE_SYSTEM_FONTS__: 'readonly',
+                __WEBPACK_SERVE__: 'readonly'
             }
         },
         settings: {
@@ -389,7 +380,7 @@ export default tseslint.config(
             'react/jsx-no-useless-fragment': 'error',
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',
-            'react-hooks/exhaustive-deps': 'warn'
+            'react-hooks/exhaustive-deps': 'error'
         }
     },
 

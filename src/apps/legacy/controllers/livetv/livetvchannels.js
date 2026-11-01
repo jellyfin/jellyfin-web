@@ -1,5 +1,6 @@
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import libraryBrowser from 'scripts/libraryBrowser';
 import loading from 'components/loading/loading';
 import * as userSettings from 'scripts/settings/userSettings';
@@ -105,7 +106,7 @@ export default function (view, params, tabContent) {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'livetvchannels',
-                serverId: ApiClient.serverId()
+                serverId: ServerConnections.currentApiClient().serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
                 reloadItems(context);
@@ -120,7 +121,7 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(context, query);
 
-        const apiClient = ApiClient;
+        const apiClient = ServerConnections.currentApiClient();
         query.UserId = apiClient.getCurrentUserId();
         return apiClient.getLiveTvChannels(query).then(function (result) {
             renderChannels(context, result);

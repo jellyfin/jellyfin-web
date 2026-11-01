@@ -273,19 +273,6 @@ export function getDisplayTime(date) {
     return time;
 }
 
-export function isRelativeDay(date, offsetInDays) {
-    if (!date) {
-        throw new Error('date cannot be null');
-    }
-
-    const yesterday = new Date();
-    const day = yesterday.getDate() + offsetInDays;
-
-    yesterday.setDate(day); // automatically adjusts month/year appropriately
-
-    return date.getFullYear() === yesterday.getFullYear() && date.getMonth() === yesterday.getMonth() && date.getDate() === day;
-}
-
 export default {
     parseISO8601Date: parseISO8601Date,
     getDisplayRunningTime: getDisplayRunningTime,
@@ -293,7 +280,6 @@ export default {
     toLocaleDateString: toLocaleDateString,
     toLocaleString: toLocaleString,
     getDisplayTime: getDisplayTime,
-    isRelativeDay: isRelativeDay,
     toLocaleTimeString: toLocaleTimeString,
     supportsLocalization: function () {
         return toLocaleTimeStringSupportsLocales;

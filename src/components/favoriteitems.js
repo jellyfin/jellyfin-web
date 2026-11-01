@@ -1,6 +1,9 @@
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
+
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getParameterByName } from 'utils/url';
 
 import cardBuilder from './cardbuilder/cardBuilder';
@@ -121,13 +124,13 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
         }
     }
 
+    const apiClient = ServerConnections.currentApiClient();
     let promise;
-
     if (section.types === 'MusicArtist') {
-        promise = ApiClient.getArtists(userId, options);
+        promise = apiClient.getPeople(userId, { ...options, PersonTypes: PersonKind.Artist });
     } else {
         options.IncludeItemTypes = section.types;
-        promise = ApiClient.getItems(userId, options);
+        promise = apiClient.getItems(userId, options);
     }
 
     return promise.then(function (result) {
@@ -137,7 +140,7 @@ function loadSection(elem, userId, topParentId, section, isSingleSection) {
             html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
             if (!layoutManager.tv && options.Limit && result.Items.length >= options.Limit) {
-                html += '<a is="emby-linkbutton" href="' + ('#/list?serverId=' + ApiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                html += '<a is="emby-linkbutton" href="' + ('#/list?serverId=' + apiClient.serverId() + '&type=' + section.types + '&IsFavorite=true') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate(section.name);
                 html += '</h2>';
