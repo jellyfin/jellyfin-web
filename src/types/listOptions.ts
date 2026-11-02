@@ -40,6 +40,8 @@ export interface ListOptions extends TextLineOpts {
     }[];
     enablePlayedButton?: boolean;
     enableRatingButton?: boolean;
+    /** Opt-in: shows the 1-10 personal rating picker. Off by default to keep list rows compact. */
+    enableUserRatingButton?: boolean;
     smallIcon?: boolean;
     sortBy?: ItemSortBy;
 }

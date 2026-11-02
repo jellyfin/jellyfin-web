@@ -1070,6 +1070,32 @@ div.itemDetailGalleryLink.defaultCardBackground {
     height: 1em;
 }
 
+/* Star, then a fixed slot holding either a placeholder or the rating. Both are
+   always present, so the button is the same width unrated, at 9 and at 10. */
+.btnMyRating .detailButton-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2em;
+}
+
+.btnMyRatingValue {
+    /* Always two tabular digits wide with the text centred, so the group is the
+       same width at every value and a single digit sits where 10 does rather
+       than hugging the star. */
+    width: 1.2em;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.btnMyRating.is-rated .btnMyRatingIcon,
+.btnMyRating.is-rated .btnMyRatingValue {
+    color: var(--jf-palette-primary-main, #00a4dc);
+}
+
 .detailImageProgressContainer {
     bottom: 0;
     margin-top: -0.4vw;

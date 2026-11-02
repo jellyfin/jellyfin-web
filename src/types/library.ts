@@ -47,6 +47,8 @@ export interface Filters {
     Years?: number[];
     AudioLanguages?: string[];
     SubtitleLanguages?: string[];
+    /** Minimum personal rating (0-10) of the requesting user. */
+    MinUserRating?: number;
 }
 
 export enum ViewMode {
