@@ -895,6 +895,7 @@
     "ShowYear": "Voir l'année",
     "Shows": "Séries",
     "Shuffle": "Lecture aléatoire",
+    "SigningOut": "Déconnexion...",
     "SimultaneousConnectionLimitHelp": "Le nombre maximal de flux simultanés autorisés. Une valeur nulle n'impose aucune limite.",
     "SkipEpisodesAlreadyInMyLibrary": "Ne pas enregistrer les épisodes déjà présents dans ma médiathèque",
     "SkipEpisodesAlreadyInMyLibraryHelp": "Les épisodes seront comparés en utilisant le numéro de saison et le numéro d'épisode, s'ils sont disponibles.",
