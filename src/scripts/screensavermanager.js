@@ -83,13 +83,9 @@ function ScreenSaverManager() {
             throw new Error('There is no active screensaver.');
         }
 
-		// We first stop the event from being spread to the UI
-		// which could lead to problems in some cases 
-		// e.g: users click unexpectedly hitting a button under the screensaver overlay.
-		event.stopPropagation();
-		// Now that events do not propagate
-		// we must make a call to notify() which keeps the manager internal counter uptodate.
-		inputManager.notify();
+		// No default action should be used by the user agent as the event will propagate down
+		// and may cause unexpected interactions with the UI.
+        event.preventDefault();
 		
 		// console.debug('Hiding screensaver ' + activeScreenSaver.name);
 		
