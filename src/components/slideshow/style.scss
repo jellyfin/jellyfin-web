@@ -160,3 +160,35 @@
     max-width: none !important;
     max-height: none !important;
 }
+
+:root {
+  --initial-scale: 1.0
+  --initial-translate: 0%
+
+  --zoom-scale-1: 1.0
+  --translate-x1: 0%
+  --translate-y1: 0%
+
+  --zoom-scale-2: 1.0
+  --translate-x2: 0%
+  --translate-y2: 0%
+
+  --animation-duration: 10s
+}
+
+@keyframes slideshowAnimationZoom {
+    0%   { transform: translateX(var(--translate-x1)) translateY(var(--translate-y1)); scale: var(--zoom-scale-1); }
+    100% { transform: translateX(var(--translate-x2)) translateY(var(--translate-y2)); scale: var(--zoom-scale-2); }
+}
+
+.slideshowAnimateZoom .swiper-slide-visible > .swiper-zoom-container > .swiper-slide-img {
+    animation-name: slideshowAnimationZoom;
+    animation-duration: var(--animation-duration);
+    animation-timing-function: cubic-bezier(0, 0, 0.9, 1.0);
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: alternate;
+    animation-fill-mode: both;
+    animation-play-state: running;
+    z-index: 10;
+}

@@ -144,6 +144,8 @@ export default function (options) {
     let hideTimeout;
     /** Last coordinates of the mouse pointer. */
     let lastMouseMoveData;
+    /** CSS Animation name */
+    const slideshowAnimationName = 'slideshowAnimateZoom';
 
     /**
      * Creates the HTML markup for the dialog and the OSD.
@@ -162,6 +164,7 @@ export default function (options) {
         });
 
         dialog.classList.add('slideshowDialog');
+
         if (slideshowOptions.animateSlideshow === true && slideshowOptions.screenSaver === true) {
             dialog.classList.add('slideshowScreensaver');
         }
@@ -289,6 +292,10 @@ export default function (options) {
         const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
         if (btnSlideshowPause) {
             btnSlideshowPause.classList.replace('play_arrow', 'pause');
+
+            if (currentOptions.animateSlideshow === true && currentOptions.screenSaver === false) {
+                dialog.classList.add(slideshowAnimationName);
+            }
         }
     }
 
@@ -299,6 +306,40 @@ export default function (options) {
         const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
         if (btnSlideshowPause) {
             btnSlideshowPause.classList.replace('pause', 'play_arrow');
+
+            if (currentOptions.animateSlideshow === true && currentOptions.screenSaver === false) {
+                dialog.classList.remove(slideshowAnimationName);
+            }
+        }
+    }
+
+    function getRandomTranslate(scale) {
+        return Math.floor(scale * getRandom(-5, 5));
+    }
+    function getRandom(min, max) {
+        return (Math.random() * (max - min)) + min;
+    }
+    /**
+     * Handles each slide change.
+     */
+    function onSlideChange() {
+        if (currentOptions.animateSlideshow === true && currentOptions.screenSaver === false) {
+            dialog.classList.remove(slideshowAnimationName);
+
+            const r = document.querySelector(':root');
+
+            r.style.setProperty('--animation-duration', `${currentOptions.autoplay.delay}ms`);
+            const scale1 = getRandom(1.0, 2.1);
+            const scale2 = getRandom(1.0, 2.1);
+            r.style.setProperty('--zoom-scale-1', scale1);
+            r.style.setProperty('--translate-x1', `${getRandomTranslate(scale1)}%`);
+            r.style.setProperty('--translate-y1', `${getRandomTranslate(scale1)}%`);
+
+            r.style.setProperty('--zoom-scale-2', scale2);
+            r.style.setProperty('--translate-x2', `${getRandomTranslate(scale2)}%`);
+            r.style.setProperty('--translate-y2', `${getRandomTranslate(scale2)}%`);
+
+            dialog.classList.add(slideshowAnimationName);
         }
     }
 
@@ -388,6 +429,7 @@ export default function (options) {
 
             swiperInstance.on('autoplayStart', onAutoplayStart);
             swiperInstance.on('autoplayStop', onAutoplayStop);
+            swiperInstance.on('slideChange', onSlideChange);
 
             if (useFakeZoomImage) {
                 swiperInstance.on('zoomChange', onZoomChange);
