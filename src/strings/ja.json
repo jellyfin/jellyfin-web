@@ -1302,7 +1302,7 @@
     "HeaderContinueReading": "読書を再開",
     "LabelLocalCustomCss": "このクライアントにのみ適用するカスタム CSS コードです。サーバー側のカスタム CSS を無効にすることをお勧めします。",
     "LabelHardwareEncoding": "ハードウェア エンコード",
-    "LabelDisableCustomCss": "サーバーが提供するテーマ・ブランディング目的のカスタム CSS コードを無効にする。",
+    "LabelDisableCustomCss": "サーバーが提供するテーマ・ブランディング用のカスタム CSS コードを無効にする。",
     "DisableCustomCss": "サーバー提供のカスタム CSS コードを無効に",
     "ErrorPlayerNotFound": "要求したメディア用のプレーヤーがありません。",
     "AgeValue": "({0} 歳 )",
