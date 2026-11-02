@@ -6,9 +6,9 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
 
+import { useItems } from 'apps/modern/features/libraries/hooks/api/useItems';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
-import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from 'components/common/SectionContainer';
@@ -48,7 +48,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         };
     };
 
-    const { isLoading, data: itemsResult } = useGetItems(getParametersOptions());
+    const { isLoading, data: itemsResult } = useItems(getParametersOptions());
 
     const getRouteUrl = (item: ItemDto) => {
         return appRouter.getRouteUrl(item, {
