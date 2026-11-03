@@ -500,7 +500,7 @@
     "LabelNumberOfGuideDaysHelp": "下载更多天数的节目单，可提前查看节目安排并设置录制计划，但下载时间会随频道数量增加而变长。如果选择自动，系统将根据频道数量自动调整下载天数。",
     "LabelOriginalAspectRatio": "原始长宽比",
     "LabelOriginalTitle": "原标题",
-    "LabelOverview": "备注",
+    "LabelOverview": "简介",
     "LabelParentNumber": "父编号",
     "LabelParentalRating": "家长分级",
     "LabelPassword": "密码",
