@@ -54,7 +54,11 @@ const config = {
         ],
         alias: {
             // Keep in sync with tsconfig.json.
-            '@': path.resolve(__dirname, 'src')
+            '@': path.resolve(__dirname, 'src'),
+            // core-js replaces the native JSON.parse with a much slower JavaScript parser in browsers
+            // without native Symbol support (e.g. webOS 3.x) to add JSON.parse source text access,
+            // which is not used
+            [path.resolve(__dirname, 'node_modules/core-js/modules/es.json.parse.js')]: false
         }
     },
     plugins: [
