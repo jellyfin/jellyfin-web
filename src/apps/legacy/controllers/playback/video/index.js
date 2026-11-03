@@ -1877,7 +1877,7 @@ export default function (view) {
         const player = currentPlayer;
 
         if (player) {
-            const newPercent = parseFloat(this.value);
+            const newPercent = Number.parseFloat(this.value);
 
             if (enableProgressByTimeOfDay) {
                 let seekAirTimeTicks = newPercent / 100 * (programEndDateMs - programStartDateMs) * 1e4;

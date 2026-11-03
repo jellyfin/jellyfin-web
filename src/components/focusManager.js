@@ -249,10 +249,10 @@ function nav(activeElement, direction, container, focusableElements) {
     const rect = getOffset(activeElement);
 
     // Get elements and work out x/y points
-    const point1x = parseFloat(rect.left) || 0;
-    const point1y = parseFloat(rect.top) || 0;
-    const point2x = parseFloat(point1x + rect.width - 1) || point1x;
-    const point2y = parseFloat(point1y + rect.height - 1) || point1y;
+    const point1x = Number.parseFloat(rect.left) || 0;
+    const point1y = Number.parseFloat(rect.top) || 0;
+    const point2x = Number.parseFloat(point1x + rect.width - 1) || point1x;
+    const point2y = Number.parseFloat(point1y + rect.height - 1) || point1y;
 
     const sourceMidX = rect.left + (rect.width / 2);
     const sourceMidY = rect.top + (rect.height / 2);
