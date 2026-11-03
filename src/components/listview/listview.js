@@ -6,7 +6,7 @@
 
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
-import markdownIt from 'markdown-it';
+import { getMarkdown } from 'utils/markdown';
 
 import { ItemAction } from 'constants/itemAction';
 
@@ -196,8 +196,7 @@ export function getListViewHtml(options) {
         const item = items[i];
 
         const safeOverviewHtml = item.Overview ?
-            // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview)) :
+            DOMPurify.sanitize(getMarkdown().render(item.Overview)) :
             '';
 
         let html = '';
