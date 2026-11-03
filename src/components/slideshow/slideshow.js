@@ -144,8 +144,11 @@ export default function (options) {
     let hideTimeout;
     /** Last coordinates of the mouse pointer. */
     let lastMouseMoveData;
-    /** CSS Animation name */
-    const slideshowAnimationName = 'slideshowAnimateZoom';
+    /** CSS Animation class names */
+    const slideshowAnimateZoom = 'slideshowAnimateZoom';
+    const slideshowAnimateScroll = 'slideshowAnimateScroll';
+    let slideshowAnimationName = slideshowAnimateZoom;
+    let slideshowActive = false;
 
     /**
      * Creates the HTML markup for the dialog and the OSD.
@@ -292,9 +295,9 @@ export default function (options) {
         const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
         if (btnSlideshowPause) {
             btnSlideshowPause.classList.replace('play_arrow', 'pause');
-
+            slideshowActive = true;
             if (currentOptions.animateSlideshow === true && currentOptions.screenSaver === false) {
-                dialog.classList.add(slideshowAnimationName);
+                setSlideshowAnimation();
             }
         }
     }
@@ -306,7 +309,7 @@ export default function (options) {
         const btnSlideshowPause = dialog.querySelector('.btnSlideshowPause .material-icons');
         if (btnSlideshowPause) {
             btnSlideshowPause.classList.replace('pause', 'play_arrow');
-
+            slideshowActive = false;
             if (currentOptions.animateSlideshow === true && currentOptions.screenSaver === false) {
                 dialog.classList.remove(slideshowAnimationName);
             }
@@ -316,30 +319,71 @@ export default function (options) {
     function getRandomTranslate(scale) {
         return Math.floor(scale * getRandom(-5, 5));
     }
+
     function getRandom(min, max) {
+        // eslint-disable-next-line sonarjs/pseudo-random
         return (Math.random() * (max - min)) + min;
     }
+
+    /**
+     * Handles slideshow animation
+     */
+    function setSlideshowAnimation() {
+        dialog.classList.remove(slideshowAnimationName);
+
+        const r = document.querySelector(':root');
+        const activeSlide = swiperInstance.activeIndex;
+        const slideImage = document.querySelector(`div[data-swiper-slide-index="${activeSlide}"] .swiper-slide-img`);
+        if (slideImage == null) {
+            return;
+        }
+        const imageAspectRatio = slideImage.width / slideImage.height;
+        const viewAspectRatio = document.documentElement.clientWidth / document.documentElement.clientHeight;
+        const diffAspectRatio = Math.abs(imageAspectRatio - viewAspectRatio);
+        r.style.setProperty('--animation-duration', `${currentOptions.autoplay.delay}ms`);
+
+        if ((imageAspectRatio > 1 & viewAspectRatio < 1 & diffAspectRatio > 0.7)
+           || (imageAspectRatio < 1 & viewAspectRatio > 1 & diffAspectRatio > 0.7)
+           || (imageAspectRatio > 1 & viewAspectRatio > 1 & diffAspectRatio > 0.5)
+           || (imageAspectRatio < 1 & viewAspectRatio < 1 & diffAspectRatio > 0.5)) {
+            slideshowAnimationName = slideshowAnimateScroll;
+            const scaleUp = imageAspectRatio > viewAspectRatio ? imageAspectRatio / viewAspectRatio : viewAspectRatio / imageAspectRatio;
+            const scaleUp1 = getRandom(1.4, Math.min(scaleUp, 3.0));
+            const randomizeDirection1 = getRandom(0, 99) > 49 ? 1 : -1;
+            const largePan = Math.floor(getRandom(17, 23));
+            r.style.setProperty('--zoom-scale-1', scaleUp1 + getRandom(-0.3, 0.3));
+            r.style.setProperty('--zoom-scale-2', scaleUp1 + getRandom(-0.3, 0.3));
+            if (imageAspectRatio >= 1) {
+                r.style.setProperty('--translate-x1', `${randomizeDirection1 * largePan}%`);
+                r.style.setProperty('--translate-y1', `${getRandomTranslate(1)}%`);
+                r.style.setProperty('--translate-x2', `${-1 * randomizeDirection1 * largePan}%`);
+                r.style.setProperty('--translate-y2', `${getRandomTranslate(1)}%`);
+            } else {
+                r.style.setProperty('--translate-x1', `${getRandomTranslate(1)}%`);
+                r.style.setProperty('--translate-y1', `${randomizeDirection1 * largePan}%`);
+                r.style.setProperty('--translate-x2', `${getRandomTranslate(1)}%`);
+                r.style.setProperty('--translate-y2', `${-1 * randomizeDirection1 * largePan}%`);
+            }
+        } else {
+            slideshowAnimationName = slideshowAnimateZoom;
+            const scale1 = getRandom(1.0, 2.2);
+            const scale2 = getRandom(1.0, 2.2);
+            r.style.setProperty('--zoom-scale-1', scale1);
+            r.style.setProperty('--translate-x1', `${getRandomTranslate(scale1)}%`);
+            r.style.setProperty('--translate-y1', `${getRandomTranslate(scale1)}%`);
+            r.style.setProperty('--zoom-scale-2', scale2);
+            r.style.setProperty('--translate-x2', `${getRandomTranslate(scale2)}%`);
+            r.style.setProperty('--translate-y2', `${getRandomTranslate(scale2)}%`);
+        }
+        dialog.classList.add(slideshowAnimationName);
+    }
+
     /**
      * Handles each slide change.
      */
     function onSlideChange() {
-        if (currentOptions.animateSlideshow === true && currentOptions.screenSaver === false) {
-            dialog.classList.remove(slideshowAnimationName);
-
-            const r = document.querySelector(':root');
-
-            r.style.setProperty('--animation-duration', `${currentOptions.autoplay.delay}ms`);
-            const scale1 = getRandom(1.0, 2.1);
-            const scale2 = getRandom(1.0, 2.1);
-            r.style.setProperty('--zoom-scale-1', scale1);
-            r.style.setProperty('--translate-x1', `${getRandomTranslate(scale1)}%`);
-            r.style.setProperty('--translate-y1', `${getRandomTranslate(scale1)}%`);
-
-            r.style.setProperty('--zoom-scale-2', scale2);
-            r.style.setProperty('--translate-x2', `${getRandomTranslate(scale2)}%`);
-            r.style.setProperty('--translate-y2', `${getRandomTranslate(scale2)}%`);
-
-            dialog.classList.add(slideshowAnimationName);
+        if (slideshowActive === true && currentOptions.animateSlideshow === true && currentOptions.screenSaver === false) {
+            setSlideshowAnimation();
         }
     }
 

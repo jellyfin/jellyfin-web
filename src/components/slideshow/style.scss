@@ -192,3 +192,22 @@
     animation-play-state: running;
     z-index: 10;
 }
+
+@keyframes slideshowAnimationScroll {
+    0%   { transform: translateX(var(--initial-translate)) translateY(var(--initial-translate)); scale: var(--initial-scale); }
+    10%   { transform: translateX(var(--translate-x1)) translateY(var(--translate-y1)); scale: var(--zoom-scale-1); }
+    90% { transform: translateX(var(--translate-x2)) translateY(var(--translate-y2)); scale: var(--zoom-scale-2); }
+    100%   { transform: translateX(var(--initial-translate)) translateY(var(--initial-translate)); scale: var(--initial-scale); }
+}
+
+.slideshowAnimateScroll .swiper-slide-visible > .swiper-zoom-container > .swiper-slide-img {
+    animation-name: slideshowAnimationScroll;
+    animation-duration: var(--animation-duration);
+    animation-timing-function: cubic-bezier(0, 0, 0.9, 1.0);
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+    animation-direction: alternate;
+    animation-fill-mode: both;
+    animation-play-state: running;
+    z-index: 10;
+}
