@@ -339,21 +339,21 @@ export default function (options) {
         }
         const imageAspectRatio = slideImage.width / slideImage.height;
         const viewAspectRatio = document.documentElement.clientWidth / document.documentElement.clientHeight;
-        const diffAspectRatio = Math.abs(imageAspectRatio - viewAspectRatio);
+        const diffAspectRatio = (imageAspectRatio - viewAspectRatio);
         r.style.setProperty('--animation-duration', `${currentOptions.autoplay.delay}ms`);
 
-        if ((imageAspectRatio > 1 & viewAspectRatio < 1 & diffAspectRatio > 0.7)
-           || (imageAspectRatio < 1 & viewAspectRatio > 1 & diffAspectRatio > 0.7)
-           || (imageAspectRatio > 1 & viewAspectRatio > 1 & diffAspectRatio > 0.5)
-           || (imageAspectRatio < 1 & viewAspectRatio < 1 & diffAspectRatio > 0.5)) {
+        if ((imageAspectRatio > 1 & viewAspectRatio < 1 & diffAspectRatio < -0.7 || diffAspectRatio > 0.7) //LP
+           || (imageAspectRatio < 1 & viewAspectRatio > 1 & diffAspectRatio < -0.7 || diffAspectRatio > 0.7) //PL
+           || (imageAspectRatio > 1 & viewAspectRatio > 1 & diffAspectRatio < -1.15 || diffAspectRatio > 2.0) //LL
+           || (imageAspectRatio < 1 & viewAspectRatio < 1 & diffAspectRatio < -1.15 || diffAspectRatio > 2.0)) { //PP
             slideshowAnimationName = slideshowAnimateScroll;
             const scaleUp = imageAspectRatio > viewAspectRatio ? imageAspectRatio / viewAspectRatio : viewAspectRatio / imageAspectRatio;
-            const scaleUp1 = getRandom(1.4, Math.min(scaleUp, 3.0));
+            const scaleUp1 = getRandom(1.4, Math.max(scaleUp, 3.0));
             const randomizeDirection1 = getRandom(0, 99) > 49 ? 1 : -1;
             const largePan = Math.floor(getRandom(17, 23));
             r.style.setProperty('--zoom-scale-1', scaleUp1 + getRandom(-0.3, 0.3));
             r.style.setProperty('--zoom-scale-2', scaleUp1 + getRandom(-0.3, 0.3));
-            if (imageAspectRatio >= 1) {
+            if (imageAspectRatio > 1 & viewAspectRatio < 1 || imageAspectRatio > 1 & viewAspectRatio > 1 & diffAspectRatio > 2.0) { //LP || LL
                 r.style.setProperty('--translate-x1', `${randomizeDirection1 * largePan}%`);
                 r.style.setProperty('--translate-y1', `${getRandomTranslate(1)}%`);
                 r.style.setProperty('--translate-x2', `${-1 * randomizeDirection1 * largePan}%`);
