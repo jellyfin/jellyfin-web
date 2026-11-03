@@ -963,7 +963,7 @@
     "ConfirmDeleteItems": "删除这些项目会将它们从文件系统和媒体库中删除。您确定要继续吗（删除播放列表与合集不会删除文件）？",
     "ConfirmEndPlayerSession": "您想关闭 {0} 上的 Jellyfin 吗？",
     "ValueSeconds": "{0} 秒",
-    "Features": "功能",
+    "Features": "附加内容",
     "Genre": "类型",
     "Guide": "指南",
     "HeaderCancelRecording": "取消录制",
