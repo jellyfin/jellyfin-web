@@ -26,8 +26,8 @@ const AutoTimeProgressBar: FC<AutoTimeProgressBarProps> = ({
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const onAutoTimeProgress = useCallback(() => {
-        const start = parseInt(starTtime.toString(), 10);
-        const end = parseInt(endTtime.toString(), 10);
+        const start = Number.parseInt(starTtime.toString(), 10);
+        const end = Number.parseInt(endTtime.toString(), 10);
 
         const now = new Date().getTime();
         const total = end - start;

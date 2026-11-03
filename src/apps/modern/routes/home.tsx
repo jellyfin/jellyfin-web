@@ -29,7 +29,7 @@ type ControllerProps = {
 
 const Home = () => {
     const [ searchParams ] = useSearchParams();
-    const initialTabIndex = parseInt(searchParams.get('tab') ?? '0', 10);
+    const initialTabIndex = Number.parseInt(searchParams.get('tab') ?? '0', 10);
 
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
     const mainTabsManager = useMemo(() => import('../../../components/maintabsmanager'), []);
@@ -101,7 +101,7 @@ const Home = () => {
     }, [ getTabController ]);
 
     const onTabChange = useCallback((e: { detail: { selectedTabIndex: string; previousIndex: number | null }; }) => {
-        const newIndex = parseInt(e.detail.selectedTabIndex, 10);
+        const newIndex = Number.parseInt(e.detail.selectedTabIndex, 10);
         const previousIndex = e.detail.previousIndex;
 
         const previousTabController = previousIndex == null ? null : tabControllers[previousIndex];

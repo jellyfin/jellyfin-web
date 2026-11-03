@@ -1709,7 +1709,7 @@ export class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
-                player.currentTime(parseInt(ticks / 10000, 10));
+                player.currentTime(Number.parseInt(ticks / 10000, 10));
                 return;
             }
 
@@ -1733,7 +1733,7 @@ export class PlaybackManager {
                 const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
                 if (ticks) {
-                    ticks = parseInt(ticks, 10);
+                    ticks = Number.parseInt(ticks, 10);
                 }
 
                 const maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
@@ -4038,7 +4038,7 @@ export class PlaybackManager {
 
         percent /= 100;
         ticks *= percent;
-        this.seek(parseInt(ticks, 10), player);
+        this.seek(Number.parseInt(ticks, 10), player);
     }
 
     seekMs(ms, player = this._currentPlayer) {
@@ -4425,13 +4425,13 @@ export class PlaybackManager {
                 this.setBrightness(cmd.Arguments.Brightness, player);
                 break;
             case 'SetAudioStreamIndex':
-                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10), player);
+                this.setAudioStreamIndex(Number.parseInt(cmd.Arguments.Index, 10), player);
                 break;
             case 'SetSubtitleStreamIndex':
-                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10), player);
+                this.setSubtitleStreamIndex(Number.parseInt(cmd.Arguments.Index, 10), player);
                 break;
             case 'SetMaxStreamingBitrate':
-                this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate, 10), player);
+                this.setMaxStreamingBitrate(Number.parseInt(cmd.Arguments.Bitrate, 10), player);
                 break;
             case 'ToggleFullscreen':
                 this.toggleFullscreen(player);

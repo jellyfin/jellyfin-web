@@ -84,7 +84,7 @@ class AppSettings {
             // return a huge number so that it always direct plays
             return 150000000;
         } else {
-            return parseInt(this.get(key) || '0', 10) || 1500000;
+            return Number.parseInt(this.get(key) || '0', 10) || 1500000;
         }
     }
 
@@ -94,7 +94,7 @@ class AppSettings {
         }
 
         const defaultValue = 320000;
-        return parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString(), 10) || defaultValue;
+        return Number.parseInt(this.get('maxStaticMusicBitrate') || defaultValue.toString(), 10) || defaultValue;
     }
 
     maxChromecastBitrate(val) {
@@ -103,7 +103,7 @@ class AppSettings {
         }
 
         val = this.get('chromecastBitrate1');
-        return val ? parseInt(val, 10) : null;
+        return val ? Number.parseInt(val, 10) : null;
     }
 
     /**
@@ -116,7 +116,7 @@ class AppSettings {
             return this.set('maxVideoWidth', val.toString());
         }
 
-        return parseInt(this.get('maxVideoWidth') || '0', 10) || 0;
+        return Number.parseInt(this.get('maxVideoWidth') || '0', 10) || 0;
     }
 
     /**

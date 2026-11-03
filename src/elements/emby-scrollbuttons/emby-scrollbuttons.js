@@ -90,7 +90,7 @@ function getStyleValue(style, name) {
         return 0;
     }
 
-    value = parseInt(value, 10);
+    value = Number.parseInt(value, 10);
     if (isNaN(value)) {
         return 0;
     }

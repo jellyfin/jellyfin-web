@@ -101,11 +101,11 @@ function processGeneralCommand(cmd, apiClient) {
             break;
         case 'SetAudioStreamIndex':
             notifyApp();
-            playbackManager.setAudioStreamIndex(parseInt(cmd.Arguments.Index, 10));
+            playbackManager.setAudioStreamIndex(Number.parseInt(cmd.Arguments.Index, 10));
             break;
         case 'SetSubtitleStreamIndex':
             notifyApp();
-            playbackManager.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index, 10));
+            playbackManager.setSubtitleStreamIndex(Number.parseInt(cmd.Arguments.Index, 10));
             break;
         case 'ToggleFullscreen':
             inputManager.handleCommand('togglefullscreen');

@@ -84,9 +84,9 @@ function iOSversion() {
             const matches = RegExp(test).exec(navigator.appVersion);
             if (matches) {
                 return [
-                    parseInt(matches[1], 10),
-                    parseInt(matches[2] || 0, 10),
-                    parseInt(matches[3] || 0, 10)
+                    Number.parseInt(matches[1], 10),
+                    Number.parseInt(matches[2] || 0, 10),
+                    Number.parseInt(matches[3] || 0, 10)
                 ];
             }
         }
@@ -228,7 +228,7 @@ const uaMatch = function (ua) {
 
     version = version || match[2] || '0';
 
-    let versionMajor = parseInt(version.split('.')[0], 10);
+    let versionMajor = Number.parseInt(version.split('.')[0], 10);
 
     if (isNaN(versionMajor)) {
         versionMajor = 0;
@@ -300,7 +300,7 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
         delete browser.safari;
     } else if (browser.tizen) {
         const v = RegExp(/Tizen (\d+).(\d+)/).exec(userAgent);
-        browser.tizenVersion = parseInt(v[1], 10) + parseInt(v[2], 10) / 10;
+        browser.tizenVersion = Number.parseInt(v[1], 10) + Number.parseInt(v[2], 10) / 10;
 
         // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
         delete browser.chrome;

@@ -31,7 +31,7 @@ class TabbedView {
 
         const self = this;
 
-        let currentTabIndex = parseInt(params.tab || this.getDefaultTabIndex(params.parentId), 10);
+        let currentTabIndex = Number.parseInt(params.tab || this.getDefaultTabIndex(params.parentId), 10);
         this.initialTabIndex = currentTabIndex;
 
         function validateTabLoad(index) {
@@ -61,7 +61,7 @@ class TabbedView {
         }
 
         function onTabChange(e) {
-            const newIndex = parseInt(e.detail.selectedTabIndex, 10);
+            const newIndex = Number.parseInt(e.detail.selectedTabIndex, 10);
             const previousIndex = e.detail.previousIndex;
 
             const previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];

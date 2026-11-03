@@ -14,7 +14,7 @@ function calculateOffset(textarea) {
     let offset = 0;
 
     for (const prop of props) {
-        offset += parseInt(style[prop], 10);
+        offset += Number.parseInt(style[prop], 10);
     }
     return offset;
 }

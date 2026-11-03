@@ -406,7 +406,7 @@ function resetRefreshInterval(itemsContainer, intervalMs) {
     clearRefreshInterval(itemsContainer);
 
     if (!intervalMs) {
-        intervalMs = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0', 10);
+        intervalMs = Number.parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0', 10);
     }
 
     if (intervalMs) {

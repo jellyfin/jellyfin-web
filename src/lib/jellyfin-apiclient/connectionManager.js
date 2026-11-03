@@ -408,7 +408,7 @@ export default class ConnectionManager {
                 if (parts.length > 1) {
                     const portString = parts[parts.length - 1];
 
-                    if (!isNaN(parseInt(portString, 10))) {
+                    if (!isNaN(Number.parseInt(portString, 10))) {
                         address += `:${portString}`;
                     }
                 }

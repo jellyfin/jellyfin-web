@@ -1542,7 +1542,7 @@ export class HtmlVideoPlayer {
             if (!this.#mediaElement) return;
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-            const subtitleVerticalPosition = parseInt(subtitleAppearance.verticalPosition, 10);
+            const subtitleVerticalPosition = Number.parseInt(subtitleAppearance.verticalPosition, 10);
 
             if (!this.#videoSubtitlesElem && !this.isSecondaryTrack(targetTextTrackIndex)) {
                 let subtitlesContainer = document.querySelector('.videoSubtitles');
@@ -1665,7 +1665,7 @@ export class HtmlVideoPlayer {
             console.debug(`downloaded ${data.TrackEvents.length} track events`);
 
             const subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
-            const cueLine = parseInt(subtitleAppearance.verticalPosition, 10);
+            const cueLine = Number.parseInt(subtitleAppearance.verticalPosition, 10);
 
             // add some cues to show the text
             // in safari, the cues need to be added before setting the track mode to showing

@@ -276,9 +276,9 @@ function showActionSheet(context, imageCard) {
     const apiClient = ServerConnections.getApiClient(serverId);
 
     const type = imageCard.getAttribute('data-imagetype');
-    const index = parseInt(imageCard.getAttribute('data-index'), 10);
-    const providerCount = parseInt(imageCard.getAttribute('data-providers'), 10);
-    const numImages = parseInt(imageCard.getAttribute('data-numimages'), 10);
+    const index = Number.parseInt(imageCard.getAttribute('data-index'), 10);
+    const providerCount = Number.parseInt(imageCard.getAttribute('data-providers'), 10);
+    const numImages = Number.parseInt(imageCard.getAttribute('data-numimages'), 10);
 
     import('../actionSheet/actionSheet').then(({ default: actionSheet }) => {
         const commands = [];
@@ -383,7 +383,7 @@ function initEditor(context, options) {
     addListeners(context, 'btnDeleteImage', 'click', function () {
         const type = this.getAttribute('data-imagetype');
         let index = this.getAttribute('data-index');
-        index = index === 'null' ? null : parseInt(index, 10);
+        index = index === 'null' ? null : Number.parseInt(index, 10);
         const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
         deleteImage(context, currentItem.Id, type, index, apiClient, true);
     });

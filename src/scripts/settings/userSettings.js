@@ -406,7 +406,7 @@ export class UserSettings {
             return this.set('skipBackLength', val.toString());
         }
 
-        return parseInt(this.get('skipBackLength') || '10000', 10);
+        return Number.parseInt(this.get('skipBackLength') || '10000', 10);
     }
 
     /**
@@ -419,7 +419,7 @@ export class UserSettings {
             return this.set('skipForwardLength', val.toString());
         }
 
-        return parseInt(this.get('skipForwardLength') || '30000', 10);
+        return Number.parseInt(this.get('skipForwardLength') || '30000', 10);
     }
 
     /**
@@ -484,7 +484,7 @@ export class UserSettings {
             return this.set('backdropScreensaverInterval', val.toString(), false);
         }
 
-        return parseInt(this.get('backdropScreensaverInterval', false), 10) || 5;
+        return Number.parseInt(this.get('backdropScreensaverInterval', false), 10) || 5;
     }
 
     /**
@@ -497,7 +497,7 @@ export class UserSettings {
             return this.set('slideshowInterval', val.toString(), false);
         }
 
-        return parseInt(this.get('slideshowInterval', false), 10) || 5;
+        return Number.parseInt(this.get('slideshowInterval', false), 10) || 5;
     }
 
     /**
@@ -510,7 +510,7 @@ export class UserSettings {
             return this.set('screensaverTime', val.toString(), false);
         }
 
-        return parseInt(this.get('screensaverTime', false), 10) || 180;
+        return Number.parseInt(this.get('screensaverTime', false), 10) || 180;
     }
 
     /**
@@ -523,7 +523,7 @@ export class UserSettings {
             return this.set('libraryPageSize', val.toString(), false);
         }
 
-        const libraryPageSize = parseInt(this.get('libraryPageSize', false), 10);
+        const libraryPageSize = Number.parseInt(this.get('libraryPageSize', false), 10);
         if (libraryPageSize === 0) {
             // Explicitly return 0 to avoid returning 100 because 0 is falsy.
             return 0;
@@ -542,7 +542,7 @@ export class UserSettings {
             return this.set('maxDaysForNextUp', val.toString(), false);
         }
 
-        const maxDaysForNextUp = parseInt(this.get('maxDaysForNextUp', false), 10);
+        const maxDaysForNextUp = Number.parseInt(this.get('maxDaysForNextUp', false), 10);
         if (maxDaysForNextUp === 0) {
             // Explicitly return 0 to avoid returning 100 because 0 is falsy.
             return 0;

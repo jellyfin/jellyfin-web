@@ -269,7 +269,7 @@ export class PdfPlayer {
         for (const page of pages) {
             if (!this.pages[page] || this.cacheWidth !== window.innerWidth || this.cacheHeight !== window.innerHeight) {
                 this.pages[page] = document.createElement('canvas');
-                this.renderPage(this.pages[page], parseInt(page.slice(4), 10));
+                this.renderPage(this.pages[page], Number.parseInt(page.slice(4), 10));
 
                 this.pages[page].id = 'canvas';
             }

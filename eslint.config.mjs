@@ -69,7 +69,14 @@ export default tseslint.config(
             'no-nested-ternary': 'error',
             'no-redeclare': 'off',
             '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: false }],
-            'no-restricted-globals': ['error'].concat(restrictedGlobals),
+            'no-restricted-globals': [
+                'error',
+                ...restrictedGlobals,
+                {
+                    name: 'parseInt',
+                    message: 'Use Number.parseInt() instead.'
+                }
+            ],
             'no-restricted-properties': [
                 'error',
                 {

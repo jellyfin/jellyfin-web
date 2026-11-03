@@ -23,7 +23,7 @@ const getMaxBandwidth = () => {
             max /= 8;
             max *= 1000000;
             max *= 0.7;
-            return parseInt(max, 10);
+            return Number.parseInt(max, 10);
         }
     }
 

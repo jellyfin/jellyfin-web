@@ -23,7 +23,7 @@ export function parseISO8601Date(s, toLocal) {
     // parse strings, leading zeros into proper ints
     const a = [1, 2, 3, 4, 5, 6, 10, 11];
     for (const i in a) {
-        d[a[i]] = parseInt(d[a[i]], 10);
+        d[a[i]] = Number.parseInt(d[a[i]], 10);
     }
     d[7] = parseFloat(d[7]);
 

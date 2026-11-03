@@ -79,7 +79,7 @@ const Scroller: FC<PropsWithChildren<ScrollerProps>> = ({
             return 0;
         }
 
-        if (isNaN(parseInt(value, 10))) {
+        if (isNaN(Number.parseInt(value, 10))) {
             return 0;
         }
 

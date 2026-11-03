@@ -1068,7 +1068,7 @@ export default function (view) {
                 title: globalize.translate('Audio'),
                 positionTo: positionTo
             }).then(function (id) {
-                const index = parseInt(id, 10);
+                const index = Number.parseInt(id, 10);
 
                 if (index !== currentIndex) {
                     playbackManager.setAudioStreamIndex(index, player);
@@ -1115,7 +1115,7 @@ export default function (view) {
             positionTo
         }).then(function (id) {
             if (id) {
-                const index = parseInt(id, 10);
+                const index = Number.parseInt(id, 10);
                 if (index !== currentIndex) {
                     playbackManager.setSecondarySubtitleStreamIndex(index, player);
                 }
@@ -1192,7 +1192,7 @@ export default function (view) {
                         console.error(e);
                     }
                 } else {
-                    const index = parseInt(id, 10);
+                    const index = Number.parseInt(id, 10);
 
                     if (index !== currentIndex) {
                         playbackManager.setSubtitleStreamIndex(index, player);
@@ -1293,7 +1293,7 @@ export default function (view) {
         }
 
         if (key.startsWith('Digit') || key.startsWith('Numpad')) {
-            const num = parseInt(key.replace('Digit', '').replace('Numpad', ''), 10);
+            const num = Number.parseInt(key.replace('Digit', '').replace('Numpad', ''), 10);
             if (!isNaN(num) && num >= 0 && num <= 9) {
                 playbackManager.seekPercent(num * 10, currentPlayer);
                 return;
@@ -1926,7 +1926,7 @@ export default function (view) {
                 ms /= 100;
                 ms *= value;
                 ms += programStartDateMs;
-                return '<h1 class="sliderBubbleText">' + getDisplayTimeWithoutAmPm(new Date(parseInt(ms, 10)), true) + '</h1>';
+                return '<h1 class="sliderBubbleText">' + getDisplayTimeWithoutAmPm(new Date(Number.parseInt(ms, 10)), true) + '</h1>';
             }
 
             return '--:--';

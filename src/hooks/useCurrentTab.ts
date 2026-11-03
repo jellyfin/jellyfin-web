@@ -11,7 +11,7 @@ const useCurrentTab = () => {
     const settingsKey = collectionType === 'livetv' ? 'livetv' : libraryId;
     const activeTab: number =
         searchParamsTab !== null ?
-            parseInt(searchParamsTab, 10) :
+            Number.parseInt(searchParamsTab, 10) :
             getDefaultViewIndex(location.pathname, settingsKey);
 
     return {

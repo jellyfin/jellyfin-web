@@ -199,7 +199,7 @@ function getItemInfoFromCard(card) {
         StartDate: card.getAttribute('data-startdate'),
         EndDate: card.getAttribute('data-enddate'),
         UserData: {
-            PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0', 10)
+            PlaybackPositionTicks: Number.parseInt(card.getAttribute('data-positionticks') || '0', 10)
         }
     };
 }
@@ -259,7 +259,7 @@ function executeAction(card, target, action) {
             break;
         case ItemAction.Play:
         case ItemAction.Resume: {
-            const startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0', 10);
+            const startPositionTicks = Number.parseInt(card.getAttribute('data-positionticks') || '0', 10);
             const sortValues = userSettings.getSortValuesLegacy(sortParentId, 'SortName');
 
             if (playbackManager.canPlay(item)) {

@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     config.PreferredMetadataLanguage = data.Language.toString();
     config.MetadataCountryCode = data.Country.toString();
-    config.DummyChapterDuration = parseInt(data.DummyChapterDuration.toString(), 10);
+    config.DummyChapterDuration = Number.parseInt(data.DummyChapterDuration.toString(), 10);
     config.ChapterImageResolution = data.ChapterImageResolution.toString() as ImageResolution;
 
     await getSystemApi(api)

@@ -51,7 +51,7 @@ function searchForIdentificationResults(page) {
 
         if (value) {
             if (identifyField[i].type === 'number') {
-                value = parseInt(value, 10);
+                value = Number.parseInt(value, 10);
             }
 
             lookupInfo[identifyField[i].getAttribute('data-lookup')] = value;
@@ -122,7 +122,7 @@ function showIdentificationSearchResults(page, results) {
     elem.innerHTML = html;
 
     function onSearchImageClick() {
-        const index = parseInt(this.getAttribute('data-index'), 10);
+        const index = Number.parseInt(this.getAttribute('data-index'), 10);
 
         const currentResult = results[index];
 
