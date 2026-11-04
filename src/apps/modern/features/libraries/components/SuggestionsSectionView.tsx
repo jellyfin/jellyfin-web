@@ -3,9 +3,9 @@ import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/model
 import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
 import React, { type FC } from 'react';
 
+import { useGetSuggestionSectionsWithItems } from 'apps/modern/features/libraries/hooks/api/useSections';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
-import { useGetSuggestionSectionsWithItems } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';

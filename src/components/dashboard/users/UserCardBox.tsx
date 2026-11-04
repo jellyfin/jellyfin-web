@@ -31,9 +31,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
     }
 
     let imgUrl;
-    // TODO: The PrimaryImageTag check should be done in the SDK
-    // refs: https://github.com/jellyfin/jellyfin-sdk-typescript/pull/1111
-    if (api && user.PrimaryImageTag) {
+    if (api) {
         const dpr = window?.devicePixelRatio || 1;
         imgUrl = getImageApi(api).getUserImageUrl(user, {
             width: Math.round(300 * dpr)
