@@ -57,7 +57,7 @@ function ScreenSaverManager() {
         }
 
         console.debug('Showing screensaver ' + screensaver.name);
-
+        document.activeElement.blur();
         document.body.classList.add('screensaver-noScroll');
 
         screensaver.show();
@@ -71,7 +71,7 @@ function ScreenSaverManager() {
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
 			// Mousewheel events should also trigger an exit.
-			window.addEventListener('wheel', hide, {capture:true, passive:false});
+			window.addEventListener('wheel', hide, true);
         }
         if (screensaver.hideOnKey !== false) {
             window.addEventListener('keydown', hide, true);
@@ -82,10 +82,6 @@ function ScreenSaverManager() {
 		if (!activeScreenSaver) {
             throw new Error('There is no active screensaver.');
         }
-
-		// No default action should be used by the user agent as the event will propagate down
-		// and may cause unexpected interactions with the UI.
-        event.preventDefault();
 		
 		console.debug('Hiding screensaver ' + activeScreenSaver.name);
 		
