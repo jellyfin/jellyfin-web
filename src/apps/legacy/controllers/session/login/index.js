@@ -1,7 +1,6 @@
 import createDOMPurify from 'dompurify';
 import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
-import markdownIt from 'markdown-it';
 
 import { getBrandingOptionsQuery } from '@/apps/dashboard/features/branding/api/useBrandingOptions';
 import { AppFeature } from 'constants/appFeature';
@@ -11,6 +10,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { appHost } from 'components/apphost';
 import appSettings from 'scripts/settings/appSettings';
 import dom from 'utils/dom';
+import { getMarkdown } from 'utils/markdown';
 import loading from 'components/loading/loading';
 import layoutManager from 'components/layoutManager';
 import libraryMenu from 'scripts/libraryMenu';
@@ -323,8 +323,7 @@ export default function (view, params) {
         queryClient.query(getBrandingOptionsQuery(api)).then(options => {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
-            // eslint-disable-next-line sonarjs/disabled-auto-escaping
-            loginDisclaimer.innerHTML = domPurify.sanitize(markdownIt({ html: true }).render(options.LoginDisclaimer || ''));
+            loginDisclaimer.innerHTML = domPurify.sanitize(getMarkdown().render(options.LoginDisclaimer || ''));
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';

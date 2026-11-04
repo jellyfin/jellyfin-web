@@ -5,7 +5,6 @@ import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
-import markdownIt from 'markdown-it';
 import isEqual from 'lodash-es/isEqual';
 
 import { appHost } from 'components/apphost';
@@ -33,6 +32,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'utils/dom';
+import { getMarkdown } from 'utils/markdown';
 import { renderComponent } from 'utils/reactUtils';
 import { download } from 'scripts/fileDownloader';
 import libraryMenu from 'scripts/libraryMenu';
@@ -929,8 +929,7 @@ function renderOverview(page, item) {
     const overviewElements = page.querySelectorAll('.overview');
 
     if (overviewElements.length > 0) {
-        // eslint-disable-next-line sonarjs/disabled-auto-escaping
-        const overview = DOMPurify.sanitize(markdownIt({ html: true }).render(item.Overview || ''));
+        const overview = DOMPurify.sanitize(getMarkdown().render(item.Overview || ''));
 
         if (overview) {
             for (const overviewElemnt of overviewElements) {
