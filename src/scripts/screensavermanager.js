@@ -71,7 +71,7 @@ function ScreenSaverManager() {
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
 			// Mousewheel events should also trigger an exit.
-			window.addEventListener('wheel', hide, true);
+			window.addEventListener('wheel', hide, {capture:true, passive:false});
         }
         if (screensaver.hideOnKey !== false) {
             window.addEventListener('keydown', hide, true);
