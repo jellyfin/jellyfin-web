@@ -37,6 +37,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     config.UICulture = formData.get('UICulture')?.toString();
     config.CachePath = formData.get('CachePath')?.toString();
     config.MetadataPath = formData.get('MetadataPath')?.toString();
+    config.CollectionsPath = formData.get('CollectionsPath')?.toString();
     config.QuickConnectAvailable = formData.get('QuickConnectAvailable')?.toString() === 'on';
     config.LibraryScanFanoutConcurrency = parseInt(formData.get('LibraryScanFanoutConcurrency')?.toString() || '0', 10);
     config.ParallelImageEncodingLimit = parseInt(formData.get('ParallelImageEncodingLimit')?.toString() || '0', 10);
@@ -73,6 +74,7 @@ export const Component = () => {
     const isSubmitting = navigation.state === 'submitting';
     const [ cachePath, setCachePath ] = useState<string | null | undefined>('');
     const [ metadataPath, setMetadataPath ] = useState<string | null | undefined>('');
+    const [ collectionsPath, setCollectionsPath ] = useState<string | null | undefined>('');
 
     const onCachePathChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setCachePath(event.target.value);
@@ -80,6 +82,10 @@ export const Component = () => {
 
     const onMetadataPathChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setMetadataPath(event.target.value);
+    }, []);
+
+    const onCollectionsPathChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setCollectionsPath(event.target.value);
     }, []);
 
     const showCachePathPicker = useCallback(() => {
@@ -117,10 +123,29 @@ export const Component = () => {
         });
     }, [metadataPath]);
 
+    const showCollectionsPathPicker = useCallback(() => {
+        const picker = new DirectoryBrowser();
+
+        picker.show({
+            path: collectionsPath,
+            callback: function (path: string) {
+                if (path) {
+                    setCollectionsPath(path);
+                }
+
+                picker.close();
+            },
+            validateWriteable: true,
+            header: globalize.translate('HeaderSelectCollectionsPath'),
+            instruction: globalize.translate('HeaderSelectCollectionsPathHelp')
+        });
+    }, [collectionsPath]);
+
     useEffect(() => {
         if (!isConfigPending && !isConfigError) {
             setCachePath(config.CachePath);
             setMetadataPath(config.MetadataPath);
+            setCollectionsPath(config.CollectionsPath);
         }
     }, [config, isConfigPending, isConfigError]);
 
@@ -209,6 +234,25 @@ export const Component = () => {
                                         endAdornment: (
                                             <InputAdornment position='end'>
                                                 <IconButton edge='end' onClick={showMetadataPathPicker}>
+                                                    <SearchIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        )
+                                    }
+                                }}
+                            />
+
+                            <TextField
+                                name={'CollectionsPath'}
+                                label={globalize.translate('LabelCollectionsPath')}
+                                helperText={globalize.translate('LabelCollectionsPathHelp')}
+                                value={collectionsPath}
+                                onChange={onCollectionsPathChange}
+                                slotProps={{
+                                    input: {
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton edge='end' onClick={showCollectionsPathPicker}>
                                                     <SearchIcon />
                                                 </IconButton>
                                             </InputAdornment>
