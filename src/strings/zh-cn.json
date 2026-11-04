@@ -1194,7 +1194,7 @@
     "ButtonPlayer": "播放器",
     "ClearQueue": "清空队列",
     "StopPlayback": "停止播放",
-    "Writers": "作者",
+    "Writers": "编剧",
     "ViewAlbumArtist": "查看专辑艺术家",
     "HeaderSelectFallbackFontPath": "选择备用字体路径",
     "HeaderSelectFallbackFontPathHelp": "浏览或输入一个包含备用字体文件的路径用于渲染 ASS/SSA 字幕。",
