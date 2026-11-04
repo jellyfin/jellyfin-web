@@ -1,5 +1,6 @@
 import React, { type FC } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client/models/user-dto';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import Avatar, { type AvatarProps } from '@mui/material/Avatar';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 
@@ -15,17 +16,14 @@ const UserAvatar: FC<UserAvatarProps> = ({
     size
 }) => {
     const { api } = useApi();
+    const imageUrl = api ? getImageApi(api).getUserImageUrl(user) : undefined;
 
     return user ? (
         <Avatar
             alt={user.Name ?? undefined}
-            src={
-                api && user.Id && user.PrimaryImageTag ?
-                    `${api.basePath}/Users/${user.Id}/Images/Primary?tag=${user.PrimaryImageTag}` :
-                    undefined
-            }
+            src={imageUrl}
             sx={(theme) => ({
-                bgcolor: api && user.Id && user.PrimaryImageTag ?
+                bgcolor: imageUrl ?
                     theme.vars.palette.background.paper :
                     theme.vars.palette.primary.dark,
                 color: 'inherit',
