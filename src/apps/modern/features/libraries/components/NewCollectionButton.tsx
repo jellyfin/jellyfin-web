@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import type { QueryKey } from '@tanstack/react-query';
 
 import globalize from 'lib/globalize';
+import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
 
 interface NewCollectionButtonProps {
@@ -15,15 +16,16 @@ const NewCollectionButton: FC<NewCollectionButtonProps> = ({
     isTextVisible,
     queryKey
 }) => {
+    const { serverId } = useApi();
+
     const showCollectionEditor = useCallback(() => {
         import('components/collectionEditor/collectionEditor')
             .then(async ({ default: CollectionEditor }) => {
-                const serverId = window.ApiClient.serverId();
                 const collectionEditor = new CollectionEditor();
                 try {
                     await collectionEditor.show({
                         items: [],
-                        serverId: serverId
+                        serverId
                     });
                     void queryClient.invalidateQueries({ queryKey });
                 } catch {
@@ -33,7 +35,7 @@ const NewCollectionButton: FC<NewCollectionButtonProps> = ({
             .catch(err => {
                 console.error('[NewCollection] failed to load collection editor', err);
             });
-    }, [ queryKey ]);
+    }, [ queryKey, serverId ]);
 
     return (
         <Button

@@ -43,7 +43,7 @@ const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     entry: {
-        'main.jellyfin': './index.jsx',
+        'main.jellyfin': './index.tsx',
         ...THEMES_BY_ID
     },
     resolve: {
@@ -51,7 +51,11 @@ const config = {
         modules: [
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
-        ]
+        ],
+        alias: {
+            // Keep in sync with tsconfig.json.
+            '@': path.resolve(__dirname, 'src')
+        }
     },
     plugins: [
         new DefinePlugin({
@@ -276,7 +280,8 @@ const config = {
                     {
                         loader: 'ts-loader',
                         options: {
-                            transpileOnly: true
+                            transpileOnly: true,
+                            compilerOptions: { sourceMap: DEV_MODE }
                         }
                     }
                 ]
@@ -287,7 +292,8 @@ const config = {
                 use: [{
                     loader: 'ts-loader',
                     options: {
-                        transpileOnly: true
+                        transpileOnly: true,
+                        compilerOptions: { sourceMap: DEV_MODE }
                     }
                 }]
             },

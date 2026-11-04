@@ -2,6 +2,7 @@ import React, { type FC, useEffect, useState } from 'react';
 
 import { useUserTheme } from 'hooks/useUserTheme';
 import { getDefaultTheme } from 'scripts/settings/webSettings';
+import themeManager from 'scripts/themeManager';
 
 interface ThemeCssProps {
     dashboard?: boolean
@@ -19,7 +20,10 @@ const ThemeCss: FC<ThemeCssProps> = ({
 
     useEffect(() => {
         const id = dashboard ? dashboardTheme : theme;
-        if (id) setThemeUrl(getThemeUrl(id));
+        if (id) {
+            setThemeUrl(getThemeUrl(id));
+            void themeManager.setTheme(id);
+        }
     }, [dashboard, dashboardTheme, theme]);
 
     return (

@@ -3,6 +3,8 @@ import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../listview/listview.scss';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -22,13 +24,14 @@ function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
 
     loading.show();
 
+    const apiClient = ServerConnections.currentApiClient();
     const promises = [];
 
     if (path) {
-        promises.push(ApiClient.getDirectoryContents(path, fileOptions));
-        promises.push(ApiClient.getParentPath(path));
+        promises.push(apiClient.getDirectoryContents(path, fileOptions));
+        promises.push(apiClient.getParentPath(path));
     } else {
-        promises.push(ApiClient.getDrives());
+        promises.push(apiClient.getDrives());
     }
 
     Promise.all(promises).then(
@@ -182,7 +185,7 @@ function initEditor(content, options, fileOptions) {
     content.querySelector('form').addEventListener('submit', function(e) {
         if (options.callback) {
             const path = this.querySelector('#txtDirectoryPickerPath').value;
-            validatePath(path, options.validateWriteable, ApiClient)
+            validatePath(path, options.validateWriteable, ServerConnections.currentApiClient())
                 .then(options.callback(path))
                 .catch(() => { /* no-op */ });
         }
@@ -196,7 +199,8 @@ function getDefaultPath(options) {
     if (options.path) {
         return Promise.resolve(options.path);
     } else {
-        return ApiClient.getJSON(ApiClient.getUrl('Environment/DefaultDirectoryBrowser')).then(
+        const apiClient = ServerConnections.currentApiClient();
+        return apiClient.getJSON(apiClient.getUrl('Environment/DefaultDirectoryBrowser')).then(
             result => {
                 return result.Path || '';
             }, () => {

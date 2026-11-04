@@ -27,21 +27,27 @@ const Image: FC<ImageProps> = ({
     containImage
 }) => {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isTransitionComplete, setIsTransitionComplete] = useState(false);
     const [isLoadStarted, setIsLoadStarted] = useState(false);
+
+    const fadeinDuration = userSettings.enableFastFadein() ? '0.1s' : '0.5s';
+    const transitionDuration = isLoaded ? fadeinDuration : 'none';
+
     const handleLoad = useCallback(() => {
         setIsLoaded(true);
+    }, []);
+
+    const handleTransitionEnd = useCallback(() => {
+        setIsTransitionComplete(true);
     }, []);
 
     const handleLoadStarted = useCallback(() => {
         setIsLoadStarted(true);
     }, []);
 
-    const fadeinDuration = userSettings.enableFastFadein() ? '0.1s' : '0.5s';
-    const transitionDuration = isLoaded ? fadeinDuration : 'none';
-
     return (
         <div>
-            {!isLoaded && isLoadStarted && blurhash && userSettings.enableBlurhash() && (
+            {!isTransitionComplete && isLoadStarted && blurhash && userSettings.enableBlurhash() && (
                 <BlurhashCanvas
                     hash={blurhash}
                     width= {20}
@@ -64,6 +70,7 @@ const Image: FC<ImageProps> = ({
                     transition: transitionDuration
                 }}
                 onLoad={handleLoad}
+                onTransitionEnd={handleTransitionEnd}
                 beforeLoad={handleLoadStarted}
             />
 

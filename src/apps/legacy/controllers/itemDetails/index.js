@@ -39,7 +39,7 @@ import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
-import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
+import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -86,7 +86,7 @@ function getPromise(apiClient, params) {
     }
 
     if (params.musicartist) {
-        return apiClient.getArtist(params.musicartist, apiClient.getCurrentUserId());
+        return apiClient.getPerson(params.musicartist, apiClient.getCurrentUserId());
     }
 
     throw new Error('Invalid request');
@@ -256,7 +256,7 @@ function renderVideoSelections(page, mediaSources) {
             titleParts.push(v.Codec.toUpperCase());
         }
 
-        return '<option value="' + v.Index + '" ' + selected + '>' + (v.DisplayTitle || titleParts.join(' ')) + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle || titleParts.join(' '))}</option>`;
     }).join('');
     select.setAttribute('disabled', 'disabled');
 
@@ -279,7 +279,7 @@ function renderAudioSelections(page, mediaSources) {
     const selectedId = mediaSource.DefaultAudioStreamIndex;
     select.innerHTML = tracks.map(function (v) {
         const selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle)}</option>`;
     }).join('');
 
     if (tracks.length > 1) {
@@ -309,7 +309,7 @@ function renderSubtitleSelections(page, mediaSources) {
     let selected = selectedId === -1 ? ' selected' : '';
     select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
         selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle)}</option>`;
     }).join('');
 
     if (tracks.length > 0) {
@@ -729,12 +729,22 @@ function renderLinks(page, item) {
     const links = [];
 
     if (!layoutManager.tv && item.HomePageUrl) {
-        links.push(`<a is="emby-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        try {
+            const parsedUrl = new URL(item.HomePageUrl);
+            links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        } catch {
+            console.error('[renderLinks] Failed to parse home page URL', item.HomePageUrl);
+        }
     }
 
     if (item.ExternalUrls) {
         for (const url of item.ExternalUrls) {
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            try {
+                const parsedUrl = new URL(url.Url);
+                links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            } catch {
+                console.error('[renderLinks] Failed to parse external URL', url.Url);
+            }
         }
     }
 
@@ -869,8 +879,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
         } else if (p.Type === PersonKind.Artist || p.Type === PersonKind.AlbumArtist) {
-            // TODO remove this exclusion when artists are migrated to the persons endpoint
-            return;
+            console.debug(`skipping artist in person slider: ${p.Name}`);
         } else {
             const isMergeableCrew = p.Id && mergeablePersonTypes.has(p.Type);
             const existingIndex = isMergeableCrew ? crewByPersonId.get(p.Id) : undefined;
@@ -1383,6 +1392,8 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
+                // we only care that both lists match so the exact sort order is of no consequence
+                // eslint-disable-next-line sonarjs/no-alphabetical-sort
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
                     showArtist = true;
                     break;
