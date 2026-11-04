@@ -87,19 +87,13 @@ function ScreenSaverManager() {
 		// and may cause unexpected interactions with the UI.
         event.preventDefault();
 		
-		// console.debug('Hiding screensaver ' + activeScreenSaver.name);
+		console.debug('Hiding screensaver ' + activeScreenSaver.name);
 		
-		if (activeScreenSaver.hideOnClick !== false) {
-			window.removeEventListener('click', hide, true);
-			window.removeEventListener('mouseup', hide, true);
-		}
-		if (activeScreenSaver.hideOnMouse !== false) {
-			window.removeEventListener('mousemove', hide, true);
-			window.removeEventListener('wheel', hide, true);
-		}
-		if (activeScreenSaver.hideOnKey !== false) {
-			window.removeEventListener('keydown', hide, true);
-		}
+		window.removeEventListener('click', hide, true);
+		window.removeEventListener('mouseup', hide, true);
+		window.removeEventListener('mousemove', hide, true);
+		window.removeEventListener('wheel', hide, true);
+		window.removeEventListener('keydown', hide, true);
 		
 		activeScreenSaver.hide().then(() => {
 			document.body.classList.remove('screensaver-noScroll');
