@@ -1880,7 +1880,7 @@
     "Authors": "Autors",
     "Watch": "Visualitza",
     "Unwatch": "No vist",
-    "ResetFilters": "Restableix els filtres",
+    "ResetFilters": "Elimina els filtres",
     "LabelExternalServerUriHelp": "URI del servidor publicat per a ús extern.",
     "LabelExternalServerUri": "URI extern",
     "NetworkingPageLoadError": "No s'han pogut carregar els paràmetres de xarxa",

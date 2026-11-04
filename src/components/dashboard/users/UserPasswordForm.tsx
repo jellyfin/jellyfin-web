@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../lib/globalize';
@@ -15,7 +16,7 @@ type UserPasswordFormProps = {
 };
 
 const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) => {
-    const { __legacyApiClient__, user: currentUser } = useApi();
+    const { api, user: currentUser } = useApi();
     const element = useRef<HTMLDivElement>(null);
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
 
@@ -79,6 +80,10 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
         };
 
         const savePassword = () => {
+            if (!api) {
+                console.error('[UserPasswordForm.savePassword] missing api');
+                return;
+            }
             if (!user.Id) {
                 console.error('[UserPasswordForm.savePassword] missing user id');
                 return;
@@ -93,7 +98,10 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
                 currentPassword = '';
             }
 
-            __legacyApiClient__!.updateUserPassword(user.Id, currentPassword, newPassword).then(function () {
+            getUserApi(api).updateUserPassword({
+                userId: user.Id,
+                updateUserPassword: { CurrentPw: currentPassword, NewPw: newPassword }
+            }).then(function () {
                 loading.hide();
                 toast(globalize.translate('PasswordSaved'));
 
@@ -113,8 +121,11 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
             const msg = globalize.translate('PasswordResetConfirmation');
             confirm(msg, globalize.translate('ResetPassword')).then(function () {
                 loading.show();
-                if (user.Id) {
-                    __legacyApiClient__!.resetUserPassword(user.Id).then(function () {
+                if (api && user.Id) {
+                    getUserApi(api).updateUserPassword({
+                        userId: user.Id,
+                        updateUserPassword: { ResetPassword: true }
+                    }).then(function () {
                         loading.hide();
                         Dashboard.alert({
                             message: globalize.translate('PasswordResetComplete'),
@@ -139,7 +150,7 @@ const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) =>
             (page.querySelector('.updatePasswordForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
             (page.querySelector('#btnResetPassword') as HTMLButtonElement).removeEventListener('click', resetPassword);
         };
-    }, [__legacyApiClient__, loadUser, user]);
+    }, [api, loadUser, user]);
 
     return (
         <div ref={element}>

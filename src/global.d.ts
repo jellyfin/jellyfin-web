@@ -105,6 +105,8 @@ export declare global {
     interface Window {
         ApiClient: ApiClient;
         Events: Events;
+        TaskButton: typeof import('./scripts/taskbutton').default;
+        appMode?: string;
         NativeShell?: NativeShell;
         Loading: {
             show();
