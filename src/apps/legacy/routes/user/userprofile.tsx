@@ -42,9 +42,7 @@ const UserProfile: FunctionComponent = () => {
         void libraryMenu.then(menu => menu.setTitle(user.Name));
 
         let imageUrl = USER_IMAGE_PLACEHOLDER;
-        // TODO: The PrimaryImageTag check should be done in the SDK
-        // refs: https://github.com/jellyfin/jellyfin-sdk-typescript/pull/1111
-        if (api && user.PrimaryImageTag) {
+        if (api) {
             imageUrl = getImageApi(api).getUserImageUrl(user) ?? USER_IMAGE_PLACEHOLDER;
         }
         const userImage = (page.querySelector('#image') as HTMLDivElement);

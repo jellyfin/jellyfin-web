@@ -1,5 +1,7 @@
 import React, { type FC } from 'react';
 
+import { useGetProgramsSectionsWithItems } from 'apps/modern/features/libraries/hooks/api/useSections';
+import { useGetTimers } from 'apps/modern/features/libraries/hooks/api/useTimers';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import NoItemsMessage from 'components/common/NoItemsMessage';
 import SectionContainer from 'components/common/SectionContainer';
@@ -7,7 +9,6 @@ import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import { ItemAction } from 'constants/itemAction';
 import { useApi } from 'hooks/useApi';
-import { useGetProgramsSectionsWithItems, useGetTimers } from 'hooks/useFetchItems';
 import globalize from 'lib/globalize';
 import type { Section, SectionType } from 'types/sections';
 

@@ -45,7 +45,7 @@ export default function (view, params, tabContent) {
 
     function getPromise() {
         loading.show();
-        const apiClient = new ServerConnections().getApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         const query = getQuery();
         return apiClient.getGenres(apiClient.getCurrentUserId(), query);
     }
@@ -70,7 +70,7 @@ export default function (view, params, tabContent) {
             limit = 10;
         }
 
-        const apiClient = new ServerConnections().getApiClient();
+        const apiClient = ServerConnections.currentApiClient();
         const enableImageTypes = viewStyle == 'Thumb' || viewStyle == 'ThumbCard' ? 'Primary,Backdrop,Thumb' : 'Primary';
         const query = {
             SortBy: 'Random',
