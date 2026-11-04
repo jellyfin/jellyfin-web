@@ -10,6 +10,7 @@ import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
+import { bindVolumeWheel } from '../playback/volumeWheel';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
@@ -793,6 +794,8 @@ export default function () {
             ticks *= value;
             return datetime.getDisplayRunningTime(ticks);
         };
+
+        bindVolumeWheel(context.querySelector('.nowPlayingVolumeSlider'));
 
         context.querySelector('.nowPlayingVolumeSlider').addEventListener('input', (e) => {
             playbackManager.setVolume(e.target.value, currentPlayer);
