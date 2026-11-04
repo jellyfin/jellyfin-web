@@ -30,7 +30,7 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
                     {globalize.translate('LabelScheduledTaskLastRan', lastRan, timeTaken)}
 
                     {lastResultStatus == 'Failed' && <Typography display='inline' color='error'>{` (${globalize.translate('LabelFailed')})`}</Typography>}
-                    {lastResultStatus == 'Cancelled' && <Typography display='inline' color='blue'>{` (${globalize.translate('LabelCancelled')})`}</Typography>}
+                    {lastResultStatus == 'Cancelled' && <Typography display='inline' color='warning'>{` (${globalize.translate('LabelCancelled')})`}</Typography>}
                     {lastResultStatus == 'Aborted' && <Typography display='inline' color='error'>{` (${globalize.translate('LabelAbortedByServerShutdown')})`}</Typography>}
                 </Typography>
             );
