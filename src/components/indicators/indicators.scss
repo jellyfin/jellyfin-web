@@ -72,6 +72,27 @@
     font-size: 88%;
 }
 
+.childCountIndicator {
+    position: absolute;
+    top: 0.225em;
+    z-index: 1;
+    display: inline-flex;
+    width: auto;
+    height: 1.6em;
+    line-height: 1.6em;
+    min-width: 0;
+    padding: 0 0.5em;
+    white-space: nowrap;
+
+    [dir="ltr"] & {
+        left: 0.225em;
+    }
+
+    [dir="rtl"] & {
+        right: 0.225em;
+    }
+}
+
 .playedIndicator {
     border-radius: 100em;
     display: flex;

@@ -140,10 +140,10 @@ const useIndicator = (item: ItemDto) => {
     const getChildCountIndicator = () => {
         const childCount = item.ChildCount ?? 0;
 
-        if (childCount > 1) {
+        if (childCount > 0) {
             return (
                 <Box className='countIndicator indicator childCountIndicator'>
-                    {formatCountIndicator(childCount)}
+                    {childCount}
                 </Box>
             );
         }
