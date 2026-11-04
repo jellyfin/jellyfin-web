@@ -1,9 +1,14 @@
+export type LazyLoaderCallback = (entry: IntersectionObserverEntry, observer: IntersectionObserver) => void;
+
+export interface LazyLoaderOptions {
+    callback: LazyLoaderCallback;
+}
 
 export class LazyLoader {
-    options: { callback: (entry: IntersectionObserverEntry, observer: IntersectionObserver) => void } | null;
+    options: LazyLoaderOptions | null;
     observer: IntersectionObserver | null = null;
 
-    constructor(options: { callback: (entry: IntersectionObserverEntry, observer: IntersectionObserver) => void }) {
+    constructor(options: LazyLoaderOptions) {
         this.options = options;
     }
 
@@ -55,7 +60,7 @@ export class LazyLoader {
 function unveilElements(
     elements: ArrayLike<Element>,
     root: Element,
-    callback: (entry: IntersectionObserverEntry, observer: IntersectionObserver) => void
+    callback: LazyLoaderCallback
 ) {
     if (!elements.length) {
         return;
@@ -68,7 +73,7 @@ function unveilElements(
 
 export function lazyChildren(
     elem: Element,
-    callback: (entry: IntersectionObserverEntry, observer: IntersectionObserver) => void
+    callback: LazyLoaderCallback
 ) {
     unveilElements(elem.getElementsByClassName('lazy'), elem, callback);
 }
