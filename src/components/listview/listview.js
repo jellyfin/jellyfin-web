@@ -6,9 +6,9 @@
 
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
-import { getMarkdown } from 'utils/markdown';
 
 import { ItemAction } from 'constants/itemAction';
+import { getMarkdown } from 'utils/markdown';
 
 import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 import itemHelper from '../itemHelper';

@@ -5,7 +5,6 @@ import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
-import { getMarkdown } from 'utils/markdown';
 import isEqual from 'lodash-es/isEqual';
 
 import { appHost } from 'components/apphost';
@@ -33,6 +32,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from 'scripts/browser';
 import datetime from 'scripts/datetime';
 import dom from 'utils/dom';
+import { getMarkdown } from 'utils/markdown';
 import { renderComponent } from 'utils/reactUtils';
 import { download } from 'scripts/fileDownloader';
 import libraryMenu from 'scripts/libraryMenu';
