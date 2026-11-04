@@ -56,7 +56,7 @@ function ScreenSaverManager() {
             throw new Error('An existing screensaver is already active.');
         }
 
-        // console.debug('Showing screensaver ' + screensaver.name);
+        console.debug('Showing screensaver ' + screensaver.name);
 
         document.body.classList.add('screensaver-noScroll');
 
