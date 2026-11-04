@@ -447,7 +447,7 @@ function getSpeakerCount() {
 }
 
 function getPhysicalAudioChannels(options, videoTestElement) {
-    const allowedAudioChannels = parseInt(userSettings.allowedAudioChannels(), 10);
+    const allowedAudioChannels = Number.parseInt(userSettings.allowedAudioChannels(), 10);
 
     if (allowedAudioChannels > 0) {
         return allowedAudioChannels;
@@ -1021,7 +1021,7 @@ export default function (options) {
     const globalAudioCodecProfileConditions = [];
     const globalVideoAudioCodecProfileConditions = [];
 
-    if (parseInt(userSettings.allowedAudioChannels(), 10) > 0) {
+    if (Number.parseInt(userSettings.allowedAudioChannels(), 10) > 0) {
         globalAudioCodecProfileConditions.push({
             Condition: 'LessThanEqual',
             Property: 'AudioChannels',

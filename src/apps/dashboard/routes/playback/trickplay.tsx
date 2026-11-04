@@ -40,13 +40,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     options.EnableKeyFrameOnlyExtraction = data.KeyFrameOnlyExtraction?.toString() === 'on';
     options.ScanBehavior = data.ScanBehavior.toString() as TrickplayScanBehavior;
     options.ProcessPriority = data.ProcessPriority.toString() as ProcessPriorityClass;
-    options.Interval = parseInt(data.ImageInterval.toString() || '10000', 10);
+    options.Interval = Number.parseInt(data.ImageInterval.toString() || '10000', 10);
     options.WidthResolutions = data.WidthResolutions.toString().replace(' ', '').split(',').map(Number);
-    options.TileWidth = parseInt(data.TileWidth.toString() || '10', 10);
-    options.TileHeight = parseInt(data.TileHeight.toString() || '10', 10);
-    options.Qscale = parseInt(data.Qscale.toString() || '4', 10);
-    options.JpegQuality = parseInt(data.JpegQuality.toString() || '90', 10);
-    options.ProcessThreads = parseInt(data.TrickplayThreads.toString() || '1', 10);
+    options.TileWidth = Number.parseInt(data.TileWidth.toString() || '10', 10);
+    options.TileHeight = Number.parseInt(data.TileHeight.toString() || '10', 10);
+    options.Qscale = Number.parseInt(data.Qscale.toString() || '4', 10);
+    options.JpegQuality = Number.parseInt(data.JpegQuality.toString() || '90', 10);
+    options.ProcessThreads = Number.parseInt(data.TrickplayThreads.toString() || '1', 10);
 
     await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });

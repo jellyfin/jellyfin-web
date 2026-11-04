@@ -99,7 +99,7 @@ function getTextStyles(settings, preview) {
     }
 
     if (!preview) {
-        const pos = parseInt(settings.verticalPosition, 10);
+        const pos = Number.parseInt(settings.verticalPosition, 10);
         const lineHeight = 1.35; // FIXME: It is better to read this value from element
         if (pos < 0) {
             const margin = Math.abs(pos + 1) * lineHeight;
@@ -119,7 +119,7 @@ function getWindowStyles(settings, preview) {
     const list = [];
 
     if (!preview) {
-        const pos = parseInt(settings.verticalPosition, 10);
+        const pos = Number.parseInt(settings.verticalPosition, 10);
         if (pos < 0) {
             list.push({ name: 'top', value: '' });
             list.push({ name: 'bottom', value: '0' });

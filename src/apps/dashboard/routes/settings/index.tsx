@@ -38,8 +38,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     config.CachePath = formData.get('CachePath')?.toString();
     config.MetadataPath = formData.get('MetadataPath')?.toString();
     config.QuickConnectAvailable = formData.get('QuickConnectAvailable')?.toString() === 'on';
-    config.LibraryScanFanoutConcurrency = parseInt(formData.get('LibraryScanFanoutConcurrency')?.toString() || '0', 10);
-    config.ParallelImageEncodingLimit = parseInt(formData.get('ParallelImageEncodingLimit')?.toString() || '0', 10);
+    config.LibraryScanFanoutConcurrency = Number.parseInt(formData.get('LibraryScanFanoutConcurrency')?.toString() || '0', 10);
+    config.ParallelImageEncodingLimit = Number.parseInt(formData.get('ParallelImageEncodingLimit')?.toString() || '0', 10);
 
     await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });

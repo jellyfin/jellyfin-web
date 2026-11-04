@@ -47,7 +47,7 @@ function handleSaveUser(
             throw new Error('Unexpected null user id or policy');
         }
 
-        const parentalRatingIndex = parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
+        const parentalRatingIndex = Number.parseInt((page.querySelector('#selectMaxParentalRating') as HTMLSelectElement).value, 10);
         const parentalRating = parentalRatingsRef.current[parentalRatingIndex] as ParentalRating;
         const score = parentalRating?.RatingScore?.score;
         const subScore = parentalRating?.RatingScore?.subScore;

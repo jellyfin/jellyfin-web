@@ -46,11 +46,11 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
         }
 
         if (trigger.Type == TaskTriggerInfoType.DailyTrigger || trigger.Type == TaskTriggerInfoType.WeeklyTrigger) {
-            trigger.TimeOfDayTicks = parseInt(data.TimeOfDay.toString(), 10);
+            trigger.TimeOfDayTicks = Number.parseInt(data.TimeOfDay.toString(), 10);
         }
 
         if (trigger.Type == TaskTriggerInfoType.IntervalTrigger) {
-            trigger.IntervalTicks = parseInt(data.Interval.toString(), 10);
+            trigger.IntervalTicks = Number.parseInt(data.Interval.toString(), 10);
         }
 
         if (data.TimeLimit.toString()) {

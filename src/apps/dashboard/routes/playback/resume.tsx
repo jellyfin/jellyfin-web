@@ -28,11 +28,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const maxAudiobookResume = formData.get('MaxAudiobookResume')?.toString();
     const minResumeDuration = formData.get('MinResumeDuration')?.toString();
 
-    if (minResumePercentage) config.MinResumePct = parseInt(minResumePercentage, 10);
-    if (maxResumePercentage) config.MaxResumePct = parseInt(maxResumePercentage, 10);
-    if (minAudiobookResume) config.MinAudiobookResume = parseInt(minAudiobookResume, 10);
-    if (maxAudiobookResume) config.MaxAudiobookResume = parseInt(maxAudiobookResume, 10);
-    if (minResumeDuration) config.MinResumeDurationSeconds = parseInt(minResumeDuration, 10);
+    if (minResumePercentage) config.MinResumePct = Number.parseInt(minResumePercentage, 10);
+    if (maxResumePercentage) config.MaxResumePct = Number.parseInt(maxResumePercentage, 10);
+    if (minAudiobookResume) config.MinAudiobookResume = Number.parseInt(minAudiobookResume, 10);
+    if (maxAudiobookResume) config.MaxAudiobookResume = Number.parseInt(maxAudiobookResume, 10);
+    if (minResumeDuration) config.MinResumeDurationSeconds = Number.parseInt(minResumeDuration, 10);
 
     await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });

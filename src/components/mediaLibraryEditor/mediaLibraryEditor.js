@@ -109,7 +109,7 @@ function onListItemClick(e) {
     const listItem = dom.parentWithClass(e.target, 'listItem');
 
     if (listItem) {
-        const index = parseInt(listItem.getAttribute('data-index'), 10);
+        const index = Number.parseInt(listItem.getAttribute('data-index'), 10);
         const pathInfos = currentOptions.library.LibraryOptions?.PathInfos || [];
         const pathInfo = index == null ? {} : pathInfos[index] || {};
         const originalPath = pathInfo.Path || (index == null ? null : currentOptions.library.Locations[index]);

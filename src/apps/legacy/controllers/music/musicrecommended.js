@@ -252,11 +252,11 @@ export default function (view, params) {
     }
 
     function onBeforeTabChange(e) {
-        preLoadTab(view, parseInt(e.detail.selectedTabIndex, 10));
+        preLoadTab(view, Number.parseInt(e.detail.selectedTabIndex, 10));
     }
 
     function onTabChange(e) {
-        loadTab(view, parseInt(e.detail.selectedTabIndex, 10));
+        loadTab(view, Number.parseInt(e.detail.selectedTabIndex, 10));
     }
 
     function getTabContainers() {
@@ -361,7 +361,7 @@ export default function (view, params) {
         }
     }
 
-    let currentTabIndex = parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
+    let currentTabIndex = Number.parseInt(params.tab || getDefaultTabIndex(params.topParentId), 10);
     const suggestionsTabIndex = 1;
 
     this.initTab = function () {

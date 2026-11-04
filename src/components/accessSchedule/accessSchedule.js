@@ -16,7 +16,7 @@ function getDisplayTime(hours) {
     const pct = hours % 1;
 
     if (pct) {
-        minutes = parseInt(60 * pct, 10);
+        minutes = Number.parseInt(60 * pct, 10);
     }
 
     return datetime.getDisplayTime(new Date(2000, 1, 1, hours, minutes, 0, 0));

@@ -71,7 +71,7 @@ export const Component = () => {
         setPrePaddingMinutes(e.target.value);
         setConfig({
             ...config,
-            PrePaddingSeconds: parseInt(e.target.value, 10) * 60
+            PrePaddingSeconds: Number.parseInt(e.target.value, 10) * 60
         });
     }, [ config ]);
 
@@ -79,7 +79,7 @@ export const Component = () => {
         setPostPaddingMinutes(e.target.value);
         setConfig({
             ...config,
-            PostPaddingSeconds: parseInt(e.target.value, 10) * 60
+            PostPaddingSeconds: Number.parseInt(e.target.value, 10) * 60
         });
     }, [ config ]);
 

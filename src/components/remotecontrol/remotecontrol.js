@@ -53,7 +53,7 @@ function showAudioMenu(context, player, button) {
             items: menuItems,
             positionTo: button,
             callback: function (id) {
-                playbackManager.setAudioStreamIndex(parseInt(id, 10), player);
+                playbackManager.setAudioStreamIndex(Number.parseInt(id, 10), player);
             }
         });
     });
@@ -85,7 +85,7 @@ function showSubtitleMenu(context, player, button) {
             items: menuItems,
             positionTo: button,
             callback: function (id) {
-                playbackManager.setSubtitleStreamIndex(parseInt(id, 10), player);
+                playbackManager.setSubtitleStreamIndex(Number.parseInt(id, 10), player);
             }
         });
     });

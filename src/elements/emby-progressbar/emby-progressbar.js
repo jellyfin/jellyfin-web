@@ -2,8 +2,8 @@
 const ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
 function onAutoTimeProgress() {
-    const start = parseInt(this.getAttribute('data-starttime'), 10);
-    const end = parseInt(this.getAttribute('data-endtime'), 10);
+    const start = Number.parseInt(this.getAttribute('data-starttime'), 10);
+    const end = Number.parseInt(this.getAttribute('data-endtime'), 10);
 
     const now = new Date().getTime();
     const total = end - start;

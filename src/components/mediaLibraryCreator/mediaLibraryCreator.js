@@ -179,7 +179,7 @@ async function addMediaLocation(page, path) {
 
 function onRemoveClick(e) {
     const button = dom.parentWithClass(e.target, 'btnRemovePath');
-    const index = parseInt(button.getAttribute('data-index'), 10);
+    const index = Number.parseInt(button.getAttribute('data-index'), 10);
     const location = pathInfos[index].Path;
     const locationLower = location.toLowerCase();
     pathInfos = pathInfos.filter(p => {

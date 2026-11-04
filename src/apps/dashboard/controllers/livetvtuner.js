@@ -82,7 +82,7 @@ function submitForm(page) {
         FriendlyName: page.querySelector('.txtFriendlyName').value || null,
         DeviceId: page.querySelector('.fldDeviceId').value || null,
         TunerCount: page.querySelector('.txtTunerCount').value || 0,
-        FallbackMaxStreamingBitrate: parseInt(1e6 * parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'), 10),
+        FallbackMaxStreamingBitrate: Number.parseInt(1e6 * parseFloat(page.querySelector('.txtFallbackMaxStreamingBitrate').value || '30'), 10),
         ImportFavoritesOnly: page.querySelector('.chkFavorite').checked,
         AllowHWTranscoding: page.querySelector('.chkTranscode').checked,
         AllowFmp4TranscodingContainer: page.querySelector('.chkFmp4Container').checked,

@@ -147,9 +147,9 @@ export const getDefaultColorIndex = (str?: string | null): number => {
         const character = String(str.slice(charIndex, charIndex + 1).charCodeAt(0));
         let sum = 0;
         for (let i = 0; i < character.length; i++) {
-            sum += parseInt(character.charAt(i), 10);
+            sum += Number.parseInt(character.charAt(i), 10);
         }
-        const index = parseInt(String(sum).slice(-1), 10);
+        const index = Number.parseInt(String(sum).slice(-1), 10);
 
         return (index % numRandomColors) + 1;
     } else {

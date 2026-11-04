@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
     const responseTime = formData.get('SlowResponseTime');
     if (responseTime) {
-        config.SlowResponseThresholdMs = parseInt(responseTime.toString(), 10);
+        config.SlowResponseThresholdMs = Number.parseInt(responseTime.toString(), 10);
     }
 
     await getSystemApi(api)
@@ -69,7 +69,7 @@ export const Component = () => {
     const onResponseTimeChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
         setConfiguration({
             ...configuration,
-            SlowResponseThresholdMs: parseInt(event.target.value, 10)
+            SlowResponseThresholdMs: Number.parseInt(event.target.value, 10)
         });
     }, [configuration]);
 

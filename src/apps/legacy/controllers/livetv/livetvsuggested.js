@@ -214,17 +214,17 @@ export default function (view, params) {
     }
 
     function onBeforeTabChange(evt) {
-        preLoadTab(view, parseInt(evt.detail.selectedTabIndex, 10));
+        preLoadTab(view, Number.parseInt(evt.detail.selectedTabIndex, 10));
     }
 
     function onTabChange(evt) {
-        const previousTabController = tabControllers[parseInt(evt.detail.previousIndex, 10)];
+        const previousTabController = tabControllers[Number.parseInt(evt.detail.previousIndex, 10)];
 
         if (previousTabController?.onHide) {
             previousTabController.onHide();
         }
 
-        loadTab(view, parseInt(evt.detail.selectedTabIndex, 10));
+        loadTab(view, Number.parseInt(evt.detail.selectedTabIndex, 10));
     }
 
     function getTabContainers() {
@@ -331,7 +331,7 @@ export default function (view, params) {
 
     let isViewRestored;
     const self = this;
-    let currentTabIndex = parseInt(params.tab || getDefaultTabIndex('livetv'), 10);
+    let currentTabIndex = Number.parseInt(params.tab || getDefaultTabIndex('livetv'), 10);
     let initialTabIndex = currentTabIndex;
     let lastFullRender = 0;
     [].forEach.call(view.querySelectorAll('.sectionTitleTextButton-programs'), function (link) {

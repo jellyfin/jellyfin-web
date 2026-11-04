@@ -671,7 +671,7 @@ describe('getDefaultBackgroundClass', () => {
     test('no randomization string provided', () => {
         for (let i = 0; i < 100; i++) {
             const bgClass = getDefaultBackgroundClass();
-            const colorIndex = parseInt(bgClass.slice(bgClass.length - 1), 10);
+            const colorIndex = Number.parseInt(bgClass.slice(bgClass.length - 1), 10);
             expect(colorIndex).toBeGreaterThanOrEqual(1);
             expect(colorIndex).toBeLessThanOrEqual(5);
             expect(bgClass).toEqual(`defaultCardBackground defaultCardBackground${colorIndex}`);
