@@ -57,14 +57,18 @@ function getLabel(select) {
     return elem;
 }
 
-function onFocus() {
+function onFocus(e) {
+	if (e.defaultPrevented) return;
+	
     const label = getLabel(this);
     if (label) {
         label.classList.add('selectLabelFocused');
     }
 }
 
-function onBlur() {
+function onBlur(e) {
+	if (e.defaultPrevented) return;
+	
     const label = getLabel(this);
     if (label) {
         label.classList.remove('selectLabelFocused');
