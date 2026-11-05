@@ -52,8 +52,7 @@ EmbyInputPrototype.createdCallback = function () {
     this.labelElement = label;
 
     dom.addEventListener(this, 'focus', function (e) {
-		if (e.defaultPrevented) 
-            return;
+		if (e.defaultPrevented) return;
 		
         onChange.call(this);
 
