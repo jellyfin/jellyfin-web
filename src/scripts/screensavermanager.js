@@ -88,7 +88,7 @@ function ScreenSaverManager() {
 		window.removeEventListener('click', hide, true);
 		window.removeEventListener('mouseup', hide, true);
 		window.removeEventListener('mousemove', hide, true);
-		window.removeEventListener('wheel', hide, true);
+		window.removeEventListener('wheel', hide, { capture: true, passive: false });
 		window.removeEventListener('keydown', hide, true);
 		
 		activeScreenSaver.hide().then(() => {
