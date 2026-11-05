@@ -10,6 +10,7 @@ import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { useQuery } from '@tanstack/react-query';
+import { VIDEO_PERSON_KINDS } from 'apps/modern/features/libraries/constants/personKinds';
 
 import { type JellyfinApiContext, useApi } from 'hooks/useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
@@ -80,6 +81,25 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: [PersonKind.Author],
+                        startIndex: libraryViewSettings.StartIndex
+                    },
+                    {
+                        signal: options?.signal
+                    }
+                );
+                break;
+            }
+            case LibraryTab.Persons: {
+                response = await getPersonApi(api).getPersons(
+                    {
+                        userId: user.Id,
+                        parentId: parentId ?? undefined,
+                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+                        fields: [ItemFields.PrimaryImageAspectRatio],
+                        filters: libraryViewSettings?.Filters?.Status,
+                        ...getLimitQuery(),
+                        ...getAlphaPickerQuery(libraryViewSettings),
+                        personTypes: libraryViewSettings?.Filters?.PersonKinds?.length ? libraryViewSettings.Filters.PersonKinds : VIDEO_PERSON_KINDS,
                         startIndex: libraryViewSettings.StartIndex
                     },
                     {
@@ -229,6 +249,7 @@ export const useGetItemsViewByType = (
                 LibraryTab.AlbumArtists,
                 LibraryTab.Artists,
                 LibraryTab.Authors,
+                LibraryTab.Persons,
                 LibraryTab.Playlists,
                 LibraryTab.Songs,
                 LibraryTab.Books,

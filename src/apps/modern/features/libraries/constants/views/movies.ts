@@ -61,6 +61,12 @@ const studiosTabContent: LibraryTabContent = {
     isBtnSortEnabled: false
 };
 
+const personsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Persons,
+    collectionType: CollectionType.Movies,
+    isBtnSortEnabled: false
+};
+
 const moviesViews: Record<number, LibraryTabContent> = {
     0: moviesTabContent,
     1: suggestionsTabContent,
@@ -68,7 +74,8 @@ const moviesViews: Record<number, LibraryTabContent> = {
     3: collectionsTabContent,
     4: genresTabContent,
     5: studiosTabContent,
-    6: playlistsTabContent
+    6: playlistsTabContent,
+    7: personsTabContent
 };
 
 export default moviesViews;
