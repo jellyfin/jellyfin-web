@@ -300,6 +300,7 @@ export function getListViewHtml(options) {
             }
 
             let indicatorsHtml = '';
+
             indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
 
             if (indicatorsHtml) {
