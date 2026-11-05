@@ -1945,5 +1945,7 @@
     "HlsAudioSeekStrategy": "在 HLS 流中跳转播放时所使用的策略。",
     "LabelHlsAudioSeekStrategy": "音频跳转策略",
     "MessageForgotPasswordRedirect": "你已被重定向到外部服务提供商进行密码重置。",
-    "MessageItemMetadataLocked": "此项目的元数据已被锁定。请先解锁，然后再使用刮削功能。"
+    "MessageItemMetadataLocked": "此项目的元数据已被锁定。请先解锁，然后再使用刮削功能。",
+    "ManageMetadata": "管理元数据",
+    "ManageServer": "管理服务器"
 }
