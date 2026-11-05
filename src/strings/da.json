@@ -1945,5 +1945,7 @@
     "MessageForgotPasswordRedirect": "Du er blevet viderestillet til en ekstern udbyder for at nulstille din adgangskode.",
     "HlsAudioSeekStrategy": "Strategien, der skal bruges ved spolning i HLS-streams.",
     "LabelHlsAudioSeekStrategy": "Strategi for lydspoling.",
-    "MessageItemMetadataLocked": "Dette elements metadata er låst. Lås dem op, før du bruger funktionen Identificér."
+    "MessageItemMetadataLocked": "Dette elements metadata er låst. Lås dem op, før du bruger funktionen Identificér.",
+    "ManageMetadata": "Administrér metadata",
+    "ManageServer": "Administrér server"
 }
