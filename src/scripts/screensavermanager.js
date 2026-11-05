@@ -9,13 +9,14 @@ import * as userSettings from './settings/userSettings';
 
 import './screensavermanager.scss';
 
+let lastFunctionalEvent = 0;
+const WheelEvOpts = { capture: true, passive: false };
+
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed
     // time units used Millisecond
     return userSettings.screensaverTime() * 1000;
 }
-
-let lastFunctionalEvent = 0;
 
 function getFunctionalEventIdleTime() {
     return new Date().getTime() - lastFunctionalEvent;
@@ -70,7 +71,7 @@ function ScreenSaverManager() {
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
 			// Mousewheel events should also trigger an exit.
-			window.addEventListener('wheel', hide, { capture: true, passive: false });
+			window.addEventListener('wheel', hide, WheelEvOpts);
         }
         if (screensaver.hideOnKey !== false) {
             window.addEventListener('keydown', hide, true);
@@ -89,7 +90,7 @@ function ScreenSaverManager() {
 		window.removeEventListener('click', hide, true);
 		window.removeEventListener('mouseup', hide, true);
 		window.removeEventListener('mousemove', hide, true);
-		window.removeEventListener('wheel', hide, { capture: true, passive: false });
+		window.removeEventListener('wheel', hide, WheelEvOpts);
 		window.removeEventListener('keydown', hide, true);
 		
 		activeScreenSaver.hide().then(() => {
