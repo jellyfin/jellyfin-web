@@ -1,4 +1,55 @@
-function isTv(userAgent) {
+/** Browser keys set (to `true`) from the first matching user agent pattern. `opr` is renamed to `opera`. */
+type BrowserName = 'edg' | 'edga' | 'edgios' | 'edge' | 'titanos' | 'opera' | 'chrome' | 'safari' | 'firefox' | 'mozilla';
+
+/** Platform keys set (to `true`) from the first matching user agent pattern. */
+type PlatformName = 'ipad' | 'iphone' | 'windows' | 'android' | 'titanos';
+
+/**
+ * Result of the browser detection.
+ *
+ * Optional properties are ABSENT from the object unless stated otherwise. Properties typed `| undefined` are always
+ * present, but may hold `undefined` (only `edgeUwp` can also be `false`, for Edge user agents).
+ */
+export interface Browser extends Partial<Record<BrowserName | PlatformName, true>> {
+    /** Only set when a browser pattern matched. */
+    version?: string;
+    /** Only set when a browser pattern matched. */
+    versionMajor?: number;
+    edgeChromium: true | undefined;
+    osx: boolean;
+    /** Never set: there is no ipod platform pattern (iPod user agents report iphone). */
+    ipod?: never;
+    ps4: boolean;
+    xboxOne: boolean;
+    animate: boolean;
+    hisense: boolean;
+    tizen: boolean;
+    vega: boolean;
+    vidaa: boolean;
+    web0s: boolean;
+    tv: boolean;
+    /** Absent for TitanOS. */
+    operaTv?: boolean;
+    edgeUwp: boolean | undefined;
+    /** Only set on mobile user agents (absent for Vega). */
+    mobile?: true;
+    /** Only set for web0s; the key is present but undefined when the version is unknown. */
+    web0sVersion?: number;
+    /** Only set for tizen (when web0s is false). */
+    tizenVersion?: number;
+    /** Only set when web0s, tizen, titanos and vega are all false. */
+    orsay?: boolean;
+    /** Only set for mobile or tv. */
+    slow?: true;
+    touch?: true;
+    keyboard: boolean;
+    supportsCssAnimation: typeof supportsCssAnimation;
+    iOS: true | undefined;
+    /** Only set for iOS. An empty array when the version cannot be parsed, a number (major + minor / 10) otherwise. */
+    iOSVersion?: number | [];
+}
+
+function isTv(userAgent: string) {
     // This is going to be really difficult to get right
 
     // The OculusBrowsers userAgent also has the samsungbrowser defined but is not a tv.
@@ -21,12 +72,12 @@ function isTv(userAgent) {
     return isWeb0s(userAgent);
 }
 
-function isWeb0s(userAgent) {
+function isWeb0s(userAgent: string) {
     return userAgent.includes('netcast')
         || userAgent.includes('web0s');
 }
 
-function isMobile(userAgent) {
+function isMobile(userAgent: string) {
     const terms = [
         'mobi',
         'ipad',
@@ -48,7 +99,7 @@ function isMobile(userAgent) {
     return false;
 }
 
-function hasKeyboard(browser) {
+function hasKeyboard(browser: Browser) {
     if (browser.touch) {
         return true;
     }
@@ -71,7 +122,7 @@ function hasKeyboard(browser) {
     return !!browser.tv;
 }
 
-function iOSversion() {
+function iOSversion(): [number, number, number] | [] {
     // MacIntel: Apple iPad Pro 11 iOS 13.1
     if (/iP(hone|od|ad)|MacIntel/.test(navigator.platform)) {
         const tests = [
@@ -85,8 +136,8 @@ function iOSversion() {
             if (matches) {
                 return [
                     parseInt(matches[1], 10),
-                    parseInt(matches[2] || 0, 10),
-                    parseInt(matches[3] || 0, 10)
+                    parseInt(matches[2] || '0', 10),
+                    parseInt(matches[3] || '0', 10)
                 ];
             }
         }
@@ -94,8 +145,14 @@ function iOSversion() {
     return [];
 }
 
-function web0sVersion(browser) {
+// TODO: Split into smaller steps; kept as a single function so the TypeScript conversion stays a pure typing change.
+// eslint-disable-next-line sonarjs/cognitive-complexity
+function web0sVersion(browser: Browser): number | undefined {
     // Detect webOS version by web engine version
+
+    // TODO: versionMajor is absent when no browser pattern matched, so it can be undefined here. Every comparison below
+    // is then false and the function logs an error; that behavior is intentionally preserved.
+    const versionMajor = browser.versionMajor as number;
 
     if (browser.chrome) {
         const userAgent = navigator.userAgent.toLowerCase();
@@ -111,33 +168,33 @@ function web0sVersion(browser) {
 
         // The next is only valid for the app
 
-        if (browser.versionMajor >= 120) {
+        if (versionMajor >= 120) {
             return 25;
-        } else if (browser.versionMajor >= 108) {
+        } else if (versionMajor >= 108) {
             return 24;
-        } else if (browser.versionMajor >= 94) {
+        } else if (versionMajor >= 94) {
             return 23;
-        } else if (browser.versionMajor >= 87) {
+        } else if (versionMajor >= 87) {
             return 22;
-        } else if (browser.versionMajor >= 79) {
+        } else if (versionMajor >= 79) {
             return 6;
-        } else if (browser.versionMajor >= 68) {
+        } else if (versionMajor >= 68) {
             return 5;
-        } else if (browser.versionMajor >= 53) {
+        } else if (versionMajor >= 53) {
             return 4;
-        } else if (browser.versionMajor >= 38) {
+        } else if (versionMajor >= 38) {
             return 3;
-        } else if (browser.versionMajor >= 34) {
+        } else if (versionMajor >= 34) {
             // webOS 2 browser
             return 2;
-        } else if (browser.versionMajor >= 26) {
+        } else if (versionMajor >= 26) {
             // webOS 1 browser
             return 1;
         }
-    } else if (browser.versionMajor >= 538) {
+    } else if (versionMajor >= 538) {
         // webOS 2 app
         return 2;
-    } else if (browser.versionMajor >= 537) {
+    } else if (versionMajor >= 537) {
         // webOS 1 app
         return 1;
     }
@@ -147,9 +204,9 @@ function web0sVersion(browser) {
     return undefined;
 }
 
-let _supportsCssAnimation;
-let _supportsCssAnimationWithPrefix;
-function supportsCssAnimation(allowPrefix) {
+let _supportsCssAnimation: boolean | undefined;
+let _supportsCssAnimationWithPrefix: boolean | undefined;
+function supportsCssAnimation(allowPrefix?: boolean): boolean {
     // TODO: Assess if this is still needed, as all of our targets should natively support CSS animations.
     if (allowPrefix && (_supportsCssAnimationWithPrefix === true || _supportsCssAnimationWithPrefix === false)) {
         return _supportsCssAnimationWithPrefix;
@@ -169,7 +226,8 @@ function supportsCssAnimation(allowPrefix) {
 
     if (animation === false && allowPrefix) {
         for (const domPrefix of domPrefixes) {
-            if (elm.style[domPrefix + 'AnimationName'] !== undefined) {
+            // Vendor prefixed properties are not part of the CSSStyleDeclaration type
+            if ((elm.style as unknown as Record<string, unknown>)[domPrefix + 'AnimationName'] !== undefined) {
                 animation = true;
                 break;
             }
@@ -185,7 +243,7 @@ function supportsCssAnimation(allowPrefix) {
     }
 }
 
-const uaMatch = function (ua) {
+const uaMatch = function (ua: string) {
     // Motorola Edge device UA triggers false positive for Edge browser
     ua = ua.replace(/(motorola edge)/, '').trim();
 
@@ -204,14 +262,15 @@ const uaMatch = function (ua) {
 
     const versionMatch = /(version)[ /]([\w.]+)/.exec(ua);
 
-    let platformMatch = /(ipad)/.exec(ua)
+    let platformMatch: RegExpExecArray | string[] = /(ipad)/.exec(ua)
         || /(iphone)/.exec(ua)
         || /(windows)/.exec(ua)
         || /(android)/.exec(ua)
         || /(titanos)/.exec(ua)
         || [];
 
-    let browser = match[1] || '';
+    // The match groups are the alternation names of the patterns above
+    let browser = (match[1] || '') as BrowserName | 'opr' | '';
 
     if (browser === 'edge') {
         platformMatch = [''];
@@ -221,7 +280,7 @@ const uaMatch = function (ua) {
         browser = 'opera';
     }
 
-    let version;
+    let version: string | undefined;
     if (versionMatch && versionMatch.length > 2) {
         version = versionMatch[2];
     }
@@ -237,16 +296,20 @@ const uaMatch = function (ua) {
     return {
         browser,
         version,
-        platform: platformMatch[0] || '',
+        // The match groups are the alternation names of the platform patterns above
+        platform: (platformMatch[0] || '') as PlatformName | '',
         versionMajor
     };
 };
 
-export const detectBrowser = (userAgent = navigator.userAgent) => {
+// TODO: Split into smaller steps; kept as a single function so the TypeScript conversion stays a pure typing change.
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export const detectBrowser = (userAgent = navigator.userAgent): Browser => {
     const normalizedUA = userAgent.toLowerCase();
 
     const matched = uaMatch(normalizedUA);
-    const browser = {};
+    // The result is populated incrementally below; every non-optional property is assigned before it is returned
+    const browser = {} as Browser;
 
     if (matched.browser) {
         browser[matched.browser] = true;
@@ -300,7 +363,9 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
         delete browser.safari;
     } else if (browser.tizen) {
         const v = RegExp(/Tizen (\d+).(\d+)/).exec(userAgent);
-        browser.tizenVersion = parseInt(v[1], 10) + parseInt(v[2], 10) / 10;
+        // TODO: Known crash, intentionally preserved: v is null (so this throws a TypeError) when the user agent has no
+        // case-sensitive 'Tizen X.Y' but tizen was detected via a lowercase user agent or window.tizen.
+        browser.tizenVersion = parseInt(v![1], 10) + parseInt(v![2], 10) / 10;
 
         // UserAgent string contains 'Chrome' and 'Safari', but we only want 'tizen' to be true
         delete browser.chrome;
@@ -333,11 +398,9 @@ export const detectBrowser = (userAgent = navigator.userAgent) => {
     browser.iOS = browser.ipad || browser.iphone || browser.ipod;
 
     if (browser.iOS) {
-        browser.iOSVersion = iOSversion();
-
-        if (browser.iOSVersion && browser.iOSVersion.length >= 2) {
-            browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
-        }
+        // iOSversion() returns either an empty array or [major, minor, patch]
+        const iOSVersion = iOSversion();
+        browser.iOSVersion = iOSVersion.length === 0 ? iOSVersion : iOSVersion[0] + (iOSVersion[1] / 10);
     }
 
     return browser;
