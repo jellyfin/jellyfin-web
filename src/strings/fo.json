@@ -1945,5 +1945,7 @@
     "LabelVppTonemappingBrightness": "Bjartleikahækkan undir VPP-tónaavmyndan",
     "LabelVppTonemappingBrightnessHelp": "Hækka bjartleikan undir VPP-tónaavmyndan. Tilmælda virðið er 16.",
     "LabelVppTonemappingContrast": "Mótsetningahækkan undir VPP-tónaavmyndan",
-    "LabelVppTonemappingContrastHelp": "Hækka litmótsetningar undir VPP-tónaavmyndan. Tilmælda virðið er 1."
+    "LabelVppTonemappingContrastHelp": "Hækka litmótsetningar undir VPP-tónaavmyndan. Tilmælda virðið er 1.",
+    "ManageMetadata": "Umsit metadátur",
+    "ManageServer": "Umsit ambætara"
 }
