@@ -13,7 +13,7 @@ function enabled() {
     return userSettings.enableBackdrops();
 }
 
-function getBackdropItemIds(apiClient, userId, types, parentId) {
+export function getBackdropItemIds(apiClient, userId, types, parentId) {
     const key = `backdrops2_${userId + (types || '') + (parentId || '')}`;
     let data = cache[key];
 
@@ -31,7 +31,7 @@ function getBackdropItemIds(apiClient, userId, types, parentId) {
         ImageTypes: 'Backdrop',
         ParentId: parentId,
         EnableTotalRecordCount: false,
-        MaxOfficialRating: parentId ? '' : 'PG-13'
+        MaxOfficialRating: !parentId && userSettings.backdropParentalRatingLimit() ? 'PG-13' : ''
     };
     return apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
         const images = result.Items.map(function (i) {
