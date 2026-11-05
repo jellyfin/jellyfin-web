@@ -376,6 +376,8 @@ EmbySliderPrototype.attachedCallback = function () {
 
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
+		if (e.defaultPrevented) return;
+		
         if (!this.dragging) {
             const fraction = mapClientToFraction(this, e.clientX);
             const percent = fraction * 100;
@@ -393,7 +395,9 @@ EmbySliderPrototype.attachedCallback = function () {
     });
 
     /* eslint-disable-next-line compat/compat */
-    dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
+    dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function (e) {
+		if (e.defaultPrevented) return;
+		
         sliderBubble.classList.add('hide');
         hasHideBubbleClass = true;
     }, {
@@ -403,6 +407,8 @@ EmbySliderPrototype.attachedCallback = function () {
     // HACK: iPhone/iPad do not change input by touch
     if (browser.iOS) {
         dom.addEventListener(this, 'touchstart', function (e) {
+			if (e.defaultPrevented) return;
+			
             if (e.targetTouches.length !== 1) {
                 return;
             }
@@ -425,6 +431,8 @@ EmbySliderPrototype.attachedCallback = function () {
         });
 
         dom.addEventListener(this, 'touchmove', function (e) {
+			if (e.defaultPrevented) return;
+			
             if (!this.touched || e.targetTouches.length !== 1) {
                 return;
             }
@@ -440,7 +448,9 @@ EmbySliderPrototype.attachedCallback = function () {
             passive: true
         });
 
-        dom.addEventListener(this, 'touchend', function () {
+        dom.addEventListener(this, 'touchend', function (e) {
+			if (e.defaultPrevented) return;
+			
             const range = this;
 
             setTimeout(function () {
@@ -530,6 +540,8 @@ function stepKeyboard(elem, delta) {
      * Handle KeyDown event
      */
 function onKeyDown(e) {
+	if (e.defaultPrevented) return;
+	
     switch (keyboardnavigation.getKeyName(e)) {
         case 'ArrowLeft':
         case 'Left':
