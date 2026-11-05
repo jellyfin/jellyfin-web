@@ -104,6 +104,9 @@ function createPlaylist(dlg: DialogElement) {
             }
         })
         .then(result => {
+            // Preselect the new playlist the next time items are added to a playlist
+            if (result.data.Id) userSettings.set('playlisteditor-lastplaylistid', result.data.Id);
+
             dlg.submitted = true;
             dialogHelper.close(dlg);
 
