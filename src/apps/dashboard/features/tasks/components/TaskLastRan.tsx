@@ -14,7 +14,7 @@ const TaskLastRan: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
             const startTime = parseISO(task.LastExecutionResult.StartTimeUtc);
 
             return [
-                formatDistanceToNow(endTime, { locale: dateFnsLocale, addSuffix: true }),
+                formatDistanceToNow(startTime, { locale: dateFnsLocale, addSuffix: true }),
                 formatDistance(startTime, endTime, { locale: dateFnsLocale })
             ];
         }
