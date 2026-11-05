@@ -122,6 +122,16 @@ class PlayQueueManager {
         if (playlistIndex < 0) {
             this.setPlaylistState(null);
         } else {
+            const currentIndex = this.getCurrentPlaylistIndex();
+            const playlistLength = this._playlist.length;
+
+            if (this._repeatMode === 'RepeatAll'
+                && currentIndex === playlistLength - 1
+                && playlistIndex === 0
+                && playlistLength > 1) {
+                this._reshuffleForRepeat();
+            }
+
             this.setPlaylistState(this._playlist[playlistIndex].PlaylistItemId);
         }
     }
@@ -235,8 +245,7 @@ class PlayQueueManager {
 
     getNextItemInfo() {
         let newIndex;
-        const playlist = this.getPlaylist();
-        const playlistLength = playlist.length;
+        const playlistLength = this._playlist.length;
 
         switch (this.getRepeatMode()) {
             case 'RepeatOne':
@@ -253,11 +262,11 @@ class PlayQueueManager {
                 break;
         }
 
-        if (newIndex < 0 || newIndex >= playlistLength) {
+        if (newIndex < 0 || newIndex >= this._playlist.length) {
             return null;
         }
 
-        const item = playlist[newIndex];
+        const item = this._playlist[newIndex];
 
         if (!item) {
             return null;
@@ -267,6 +276,32 @@ class PlayQueueManager {
             item: item,
             index: newIndex
         };
+    }
+
+    _reshuffleForRepeat() {
+        if (this._shuffleMode !== 'Shuffle' || this._sortedPlaylist.length === 0) {
+            return;
+        }
+
+        const lastPlayedItem = this.getCurrentItem();
+
+        this._playlist = [];
+        for (const item of this._sortedPlaylist) {
+            this._playlist.push(item);
+        }
+
+        for (let i = this._playlist.length - 1; i > 0; i--) {
+            const j = randomInt(0, i - 1);
+            const temp = this._playlist[i];
+            this._playlist[i] = this._playlist[j];
+            this._playlist[j] = temp;
+        }
+
+        if (lastPlayedItem && this._playlist.length > 1 && this._playlist[0].PlaylistItemId === lastPlayedItem.PlaylistItemId) {
+            const temp = this._playlist[0];
+            this._playlist[0] = this._playlist[1];
+            this._playlist[1] = temp;
+        }
     }
 }
 
