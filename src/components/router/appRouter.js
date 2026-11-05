@@ -297,6 +297,22 @@ class AppRouter {
                 urlForList += '&IsNews=true';
             }
 
+            if (options.isPlayed) {
+                urlForList += '&IsPlayed=true';
+            }
+
+            if (options.isResumable) {
+                urlForList += '&IsResumable=true';
+            }
+
+            if (options.sortBy) {
+                urlForList += '&SortBy=' + options.sortBy;
+            }
+
+            if (options.sortOrder) {
+                urlForList += '&SortOrder=' + options.sortOrder;
+            }
+
             if (options.parentId) {
                 urlForList += '&parentId=' + options.parentId;
             }
