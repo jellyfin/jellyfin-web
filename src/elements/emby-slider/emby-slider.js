@@ -340,7 +340,9 @@ EmbySliderPrototype.attachedCallback = function () {
     this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
 
     dom.addEventListener(this, 'input', function (e) {
-		if (e.defaultPrevented) return;
+		if (e.defaultPrevented) {
+            return;
+        }
 		
         this.dragging = true;
 
@@ -360,7 +362,9 @@ EmbySliderPrototype.attachedCallback = function () {
     });
 
     dom.addEventListener(this, 'change', function (e) {
-		if (e.defaultPrevented) return;
+		if (e.defaultPrevented) {
+            return;
+        }
 		
         this.dragging = false;
 
@@ -376,7 +380,9 @@ EmbySliderPrototype.attachedCallback = function () {
 
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
-		if (e.defaultPrevented) return;
+		if (e.defaultPrevented) {
+            return;
+        }
 		
         if (!this.dragging) {
             const fraction = mapClientToFraction(this, e.clientX);
@@ -396,7 +402,9 @@ EmbySliderPrototype.attachedCallback = function () {
 
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function (e) {
-		if (e.defaultPrevented) return;
+		if (e.defaultPrevented) {
+            return;
+        }
 		
         sliderBubble.classList.add('hide');
         hasHideBubbleClass = true;
@@ -407,7 +415,9 @@ EmbySliderPrototype.attachedCallback = function () {
     // HACK: iPhone/iPad do not change input by touch
     if (browser.iOS) {
         dom.addEventListener(this, 'touchstart', function (e) {
-			if (e.defaultPrevented) return;
+			if (e.defaultPrevented) {
+                return;
+            }
 			
             if (e.targetTouches.length !== 1) {
                 return;
@@ -431,7 +441,9 @@ EmbySliderPrototype.attachedCallback = function () {
         });
 
         dom.addEventListener(this, 'touchmove', function (e) {
-			if (e.defaultPrevented) return;
+			if (e.defaultPrevented) {
+                return;
+            }
 			
             if (!this.touched || e.targetTouches.length !== 1) {
                 return;
@@ -449,7 +461,9 @@ EmbySliderPrototype.attachedCallback = function () {
         });
 
         dom.addEventListener(this, 'touchend', function (e) {
-			if (e.defaultPrevented) return;
+			if (e.defaultPrevented) {
+                return;
+            }
 			
             const range = this;
 
@@ -540,7 +554,9 @@ function stepKeyboard(elem, delta) {
      * Handle KeyDown event
      */
 function onKeyDown(e) {
-	if (e.defaultPrevented) return;
+	if (e.defaultPrevented) {
+        return;
+    }
 	
     switch (keyboardnavigation.getKeyName(e)) {
         case 'ArrowLeft':
