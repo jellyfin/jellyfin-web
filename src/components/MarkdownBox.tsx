@@ -1,8 +1,7 @@
 import Box from '@mui/material/Box/Box';
-import DOMPurify from 'dompurify';
 import React, { type FC } from 'react';
 
-import { getMarkdown } from 'utils/markdown';
+import { markdownToHtml } from 'utils/markdown';
 
 interface MarkdownBoxProps {
     markdown?: string | null
@@ -17,7 +16,7 @@ const MarkdownBox: FC<MarkdownBoxProps> = ({
     <Box
         dangerouslySetInnerHTML={
             markdown ?
-                { __html: DOMPurify.sanitize(getMarkdown().render(markdown)) } :
+                { __html: markdownToHtml(markdown) } :
                 undefined
         }
         sx={{

@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { getMarkdown } from './markdown';
+import { markdownToHtml } from './markdown';
 
-describe('getMarkdown()', () => {
-    it('Should return the same instance on every call', () => {
-        expect(getMarkdown()).toBe(getMarkdown());
+describe('markdownToHtml()', () => {
+    it('Should convert markdown to HTML', () => {
+        expect(markdownToHtml('**bold**')).toBe('<p><strong>bold</strong></p>\n');
     });
 
     it('Should keep HTML from the markdown source', () => {
-        expect(getMarkdown().render('<b>bold</b> text'))
+        expect(markdownToHtml('<b>bold</b> text'))
             .toBe('<p><b>bold</b> text</p>\n');
     });
 });

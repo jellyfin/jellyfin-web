@@ -4,11 +4,10 @@
  * @module components/listview/listview
  */
 
-import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
 
 import { ItemAction } from 'constants/itemAction';
-import { getMarkdown } from 'utils/markdown';
+import { markdownToHtml } from 'utils/markdown';
 
 import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 import itemHelper from '../itemHelper';
@@ -196,7 +195,7 @@ export function getListViewHtml(options) {
         const item = items[i];
 
         const safeOverviewHtml = item.Overview ?
-            DOMPurify.sanitize(getMarkdown().render(item.Overview)) :
+            markdownToHtml(item.Overview) :
             '';
 
         let html = '';

@@ -10,7 +10,7 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { appHost } from 'components/apphost';
 import appSettings from 'scripts/settings/appSettings';
 import dom from 'utils/dom';
-import { getMarkdown } from 'utils/markdown';
+import { markdownToHtml } from 'utils/markdown';
 import loading from 'components/loading/loading';
 import layoutManager from 'components/layoutManager';
 import libraryMenu from 'scripts/libraryMenu';
@@ -323,7 +323,7 @@ export default function (view, params) {
         queryClient.query(getBrandingOptionsQuery(api)).then(options => {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
-            loginDisclaimer.innerHTML = domPurify.sanitize(getMarkdown().render(options.LoginDisclaimer || ''));
+            loginDisclaimer.innerHTML = markdownToHtml(options.LoginDisclaimer || '', { domPurify });
 
             for (const elem of loginDisclaimer.querySelectorAll('a')) {
                 elem.rel = 'noopener noreferrer';
