@@ -1,17 +1,50 @@
 /**
  * Module that translates events from a player to SyncPlay events.
- * @module components/syncPlay/core/players/GenericPlayer
+ * @module plugins/syncPlay/core/players/GenericPlayer
  */
 
-import Events from '../../../../utils/events.ts';
+import type { GroupRepeatMode, GroupShuffleMode } from '@jellyfin/sdk/lib/generated-client';
+
+import type { PlaybackStopInfo, PlayerState } from 'types/playbackStopInfo';
+import type { PlayOptions } from 'types/playOptions';
+import Events, { type Event } from 'utils/events';
+
+import type Manager from '../Manager';
+import type PlaybackCore from '../PlaybackCore';
+import type QueueCore from '../QueueCore';
+
+/** The data passed to the player wrapper on playback progress. */
+interface TimeUpdateData {
+    currentTime: Date;
+    currentPosition: number;
+}
+
+/** The data passed to the player wrapper to start or queue playback. */
+interface PlayOrQueueOptions extends PlayOptions {
+    /** The IDs of the items in the play queue */
+    ids?: string[];
+    /** The ID of the server the items belong to */
+    serverId?: string;
+}
 
 /**
  * Class that translates events from a player to SyncPlay events.
  */
 class GenericPlayer {
-    static type = 'generic';
+    // NOTE: Widened to string so that subclasses can override the type.
+    static readonly type: string = 'generic';
 
-    constructor(player, syncPlayManager) {
+    player: unknown;
+    manager: Manager;
+    playbackCore: PlaybackCore;
+    queueCore: QueueCore;
+    bound: boolean;
+    // FIXME: This is never assigned by the wrapper, so it is always undefined at runtime.
+    declare currentPlayer: unknown;
+    /** Gets current playback position, in milliseconds. Only defined by players that support it. */
+    declare currentTimeAsync?: () => Promise<number>;
+
+    constructor(player: unknown, syncPlayManager: Manager) {
         this.player = player;
         this.manager = syncPlayManager;
         this.playbackCore = syncPlayManager.getPlaybackCore();
@@ -34,7 +67,7 @@ class GenericPlayer {
     /**
      * Binds to the player's events. Overriden.
      */
-    localBindToPlayer() {
+    localBindToPlayer(): void {
         throw new Error('Override this method!');
     }
 
@@ -53,14 +86,14 @@ class GenericPlayer {
     /**
      * Removes the bindings from the player's events. Overriden.
      */
-    localUnbindFromPlayer() {
+    localUnbindFromPlayer(): void {
         throw new Error('Override this method!');
     }
 
     /**
      * Called when playback starts.
      */
-    onPlaybackStart(player, state) {
+    onPlaybackStart(player: unknown, state: PlayerState) {
         this.playbackCore.onPlaybackStart(player, state);
         Events.trigger(this, 'playbackstart', [player, state]);
     }
@@ -68,7 +101,7 @@ class GenericPlayer {
     /**
      * Called when playback stops.
      */
-    onPlaybackStop(stopInfo) {
+    onPlaybackStop(stopInfo: PlaybackStopInfo) {
         this.playbackCore.onPlaybackStop(stopInfo);
         Events.trigger(this, 'playbackstop', [stopInfo]);
     }
@@ -91,10 +124,10 @@ class GenericPlayer {
 
     /**
      * Called on playback progress.
-     * @param {Object} event The time update event.
-     * @param {Object} timeUpdateData The time update data.
+     * @param event The time update event.
+     * @param timeUpdateData The time update data.
      */
-    onTimeUpdate(event, timeUpdateData) {
+    onTimeUpdate(event: Event, timeUpdateData: TimeUpdateData) {
         this.playbackCore.onTimeUpdate(event, timeUpdateData);
         Events.trigger(this, 'timeupdate', [event, timeUpdateData]);
     }
@@ -124,7 +157,7 @@ class GenericPlayer {
 
     /**
      * Gets player status.
-     * @returns {boolean} Whether the player has some media loaded.
+     * @returns Whether the player has some media loaded.
      */
     isPlaybackActive() {
         return false;
@@ -132,7 +165,7 @@ class GenericPlayer {
 
     /**
      * Gets playback status.
-     * @returns {boolean} Whether the playback is unpaused.
+     * @returns Whether the playback is unpaused.
      */
     isPlaying() {
         return false;
@@ -140,7 +173,7 @@ class GenericPlayer {
 
     /**
      * Gets playback position.
-     * @returns {number} The player position, in milliseconds.
+     * @returns The player position, in milliseconds.
      */
     currentTime() {
         return 0;
@@ -148,7 +181,7 @@ class GenericPlayer {
 
     /**
      * Checks if player has playback rate support.
-     * @returns {boolean} _true _ if playback rate is supported, false otherwise.
+     * @returns _true _ if playback rate is supported, false otherwise.
      */
     hasPlaybackRate() {
         return false;
@@ -156,16 +189,16 @@ class GenericPlayer {
 
     /**
      * Sets the playback rate, if supported.
-     * @param {number} value The playback rate.
+     * @param value The playback rate.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setPlaybackRate(value) {
+    setPlaybackRate(value: number) {
         // Do nothing.
     }
 
     /**
      * Gets the playback rate.
-     * @returns {number} The playback rate.
+     * @returns The playback rate.
      */
     getPlaybackRate() {
         return 1.0;
@@ -173,7 +206,7 @@ class GenericPlayer {
 
     /**
      * Checks if player is remotely self-managed.
-     * @returns {boolean} _true_ if the player is remotely self-managed, _false_ otherwise.
+     * @returns _true_ if the player is remotely self-managed, _false_ otherwise.
      */
     isRemote() {
         return false;
@@ -183,133 +216,133 @@ class GenericPlayer {
      * Unpauses the player.
      */
     localUnpause() {
-        // Override
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Pauses the player.
      */
     localPause() {
-        // Override
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Seeks the player to the specified position.
-     * @param {number} positionTicks The new position.
+     * @param positionTicks The new position.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSeek(positionTicks) {
-        // Override
+    localSeek(positionTicks: number) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Stops the player.
      */
     localStop() {
-        // Override
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Sends a command to the player.
-     * @param {Object} command The command.
+     * @param command The command.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSendCommand(command) {
-        // Override
+    localSendCommand(command: unknown) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Starts playback.
-     * @param {Object} options Playback data.
+     * @param options Playback data.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localPlay(options) {
-        // Override
+    localPlay(options: PlayOrQueueOptions) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Sets playing item from playlist.
-     * @param {string} playlistItemId The item to play.
+     * @param playlistItemId The item to play.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSetCurrentPlaylistItem(playlistItemId) {
-        // Override
+    localSetCurrentPlaylistItem(playlistItemId: string) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Removes items from playlist.
-     * @param {Array} playlistItemIds The items to remove.
+     * @param playlistItemIds The items to remove.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localRemoveFromPlaylist(playlistItemIds) {
-        // Override
+    localRemoveFromPlaylist(playlistItemIds: string[]) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Moves an item in the playlist.
-     * @param {string} playlistItemId The item to move.
-     * @param {number} newIndex The new position.
+     * @param playlistItemId The item to move.
+     * @param newIndex The new position.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localMovePlaylistItem(playlistItemId, newIndex) {
-        // Override
+    localMovePlaylistItem(playlistItemId: string, newIndex: number) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Queues in the playlist.
-     * @param {Object} options Queue data.
+     * @param options Queue data.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localQueue(options) {
-        // Override
+    localQueue(options: PlayOrQueueOptions) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Queues after the playing item in the playlist.
-     * @param {Object} options Queue data.
+     * @param options Queue data.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localQueueNext(options) {
-        // Override
+    localQueueNext(options: PlayOrQueueOptions) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Picks next item in playlist.
      */
     localNextItem() {
-        // Override
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Picks previous item in playlist.
      */
     localPreviousItem() {
-        // Override
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Sets repeat mode.
-     * @param {string} value The repeat mode.
+     * @param value The repeat mode.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSetRepeatMode(value) {
-        // Override
+    localSetRepeatMode(value: GroupRepeatMode) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Sets shuffle mode.
-     * @param {string} value The shuffle mode.
+     * @param value The shuffle mode.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    localSetQueueShuffleMode(value) {
-        // Override
+    localSetQueueShuffleMode(value: GroupShuffleMode) {
+        // Do nothing by default; override in subclasses.
     }
 
     /**
      * Toggles shuffle mode.
      */
     localToggleQueueShuffleMode() {
-        // Override
+        // Do nothing by default; override in subclasses.
     }
 }
 
