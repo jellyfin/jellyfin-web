@@ -52,7 +52,9 @@ EmbyInputPrototype.createdCallback = function () {
     this.labelElement = label;
 
     dom.addEventListener(this, 'focus', function (e) {
-		if (e.defaultPrevented) return;
+		if (e.defaultPrevented) {
+            return;
+        }
 		
         onChange.call(this);
 
@@ -68,7 +70,9 @@ EmbyInputPrototype.createdCallback = function () {
     });
 
     dom.addEventListener(this, 'blur', function (e) {
-		if (e.defaultPrevented) return;
+		if (e.defaultPrevented) {
+            return;
+        }
 		
         onChange.call(this);
         label.classList.remove('inputLabelFocused');
@@ -94,7 +98,9 @@ EmbyInputPrototype.createdCallback = function () {
 };
 
 function onChange(e) {
-	if (e && e.defaultPrevented) return;
+	if (e && e.defaultPrevented) {
+        return;
+    }
 	
     const label = this.labelElement;
     if (this.value) {
