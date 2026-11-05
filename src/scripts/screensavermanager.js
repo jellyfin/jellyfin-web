@@ -81,7 +81,9 @@ function ScreenSaverManager() {
 		if (!activeScreenSaver) {
             throw new Error('There is no active screensaver.');
         }
-		
+
+        event.preventDefault();
+        
 		console.debug('Hiding screensaver ' + activeScreenSaver.name);
 		
 		window.removeEventListener('click', hide, true);
