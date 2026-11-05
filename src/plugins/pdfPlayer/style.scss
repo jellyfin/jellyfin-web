@@ -21,4 +21,8 @@
         display: block;
         margin: auto;
     }
+
+    .invert-mode {
+        filter: invert(1);
+    }
 }
