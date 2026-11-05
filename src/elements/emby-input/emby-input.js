@@ -94,7 +94,7 @@ EmbyInputPrototype.createdCallback = function () {
 };
 
 function onChange(e) {
-	if (e.defaultPrevented) return;
+	if (e && e.defaultPrevented) return;
 	
     const label = this.labelElement;
     if (this.value) {
