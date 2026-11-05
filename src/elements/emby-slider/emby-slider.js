@@ -339,7 +339,9 @@ EmbySliderPrototype.attachedCallback = function () {
 
     this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
 
-    dom.addEventListener(this, 'input', function () {
+    dom.addEventListener(this, 'input', function (e) {
+		if (e.defaultPrevented) return;
+		
         this.dragging = true;
 
         if (this.dataset.sliderKeepProgress !== 'true') {
@@ -357,7 +359,9 @@ EmbySliderPrototype.attachedCallback = function () {
         passive: true
     });
 
-    dom.addEventListener(this, 'change', function () {
+    dom.addEventListener(this, 'change', function (e) {
+		if (e.defaultPrevented) return;
+		
         this.dragging = false;
 
         if (this.dataset.sliderKeepProgress === 'true') {
