@@ -610,7 +610,7 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.PremiereDate) {
         try {
-            const birthday = datetime.parseISO8601Date(item.PremiereDate, true);
+            const birthday = datetime.parseISO8601Date(item.PremiereDate, false);
             const durationSinceBorn = intervalToDuration({ start: birthday, end: Date.now() });
             itemBirthday.classList.remove('hide');
             if (item.EndDate) {
@@ -630,10 +630,10 @@ function reloadFromItem(instance, page, params, item, user) {
 
     if (item.Type == 'Person' && item.EndDate) {
         try {
-            const deathday = datetime.parseISO8601Date(item.EndDate, true);
+            const deathday = datetime.parseISO8601Date(item.EndDate, false);
             itemDeathDate.classList.remove('hide');
             if (item.PremiereDate) {
-                const birthday = datetime.parseISO8601Date(item.PremiereDate, true);
+                const birthday = datetime.parseISO8601Date(item.PremiereDate, false);
                 const durationSinceBorn = intervalToDuration({ start: birthday, end: deathday });
 
                 itemDeathDate.innerHTML = `${globalize.translate('DeathDateValue', deathday.toLocaleDateString())} ${globalize.translate('AgeValue', durationSinceBorn.years)}`;
