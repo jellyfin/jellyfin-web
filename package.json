@@ -97,7 +97,7 @@
     "@tanstack/react-query-devtools": "5.104.5",
     "@tanstack/react-query-persist-client": "5.104.5",
     "abortcontroller-polyfill": "1.7.8",
-    "axios": "1.20.0",
+    "axios": "1.21.0",
     "blurhash": "2.0.5",
     "classlist.js": "https://github.com/eligrey/classList.js/archive/1.2.20180112.tar.gz",
     "classnames": "2.5.1",
