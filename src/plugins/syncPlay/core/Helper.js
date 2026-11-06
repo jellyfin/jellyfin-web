@@ -12,6 +12,7 @@ import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type'
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 import { toItemsRequest } from 'lib/jellyfin-apiclient/utils/legacyItemsQuery';
+import * as userSettings from 'scripts/settings/userSettings';
 
 import Events from '../../../utils/events.ts';
 
@@ -95,15 +96,23 @@ export function getItemsForPlayback(apiClient, query) {
             };
         });
     } else {
-        return getItems(ServerConnections.getApi(apiClient.serverId()), {
+        const request = {
             ...query,
             userId: apiClient.getCurrentUserId(),
-            limit: query.limit || 300,
             fields: [ItemFields.Chapters, ItemFields.Trickplay],
             excludeLocationTypes: [LocationType.Virtual],
             enableTotalRecordCount: false,
             collapseBoxSetItems: false
-        });
+        };
+
+        const playlistLimit = query.limit || userSettings.defaultPlaylistSize();
+        if (playlistLimit > 0) {
+            request.limit = playlistLimit;
+        } else {
+            delete request.limit;
+        }
+
+        return getItems(ServerConnections.getApi(apiClient.serverId()), request);
     }
 }
 
