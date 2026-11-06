@@ -3,9 +3,9 @@
  * @module plugins/syncPlay/core/timeSync/TimeSync
  */
 
-import Events from '@/utils/events';
+import type { ApiClient } from 'jellyfin-apiclient';
 
-import type SyncPlayManager from '../Manager';
+import Events from '@/utils/events';
 
 /**
  * Time estimation.
@@ -14,6 +14,13 @@ const NumberOfTrackedMeasurements = 8;
 const PollingIntervalGreedy = 1000; // milliseconds
 const PollingIntervalLowProfile = 60000; // milliseconds
 const GreedyPingCount = 3;
+
+/**
+ * The part of the SyncPlay manager that time sync implementations rely on.
+ */
+export interface TimeSyncManager {
+    getApiClient(): ApiClient;
+}
 
 /**
  * The timestamps of a single ping exchange with the remote entity.
@@ -40,10 +47,10 @@ class Measurement {
 
     /**
      * Creates a new measurement.
-     * @param {Date} requestSent Client's timestamp of the request transmission
-     * @param {Date} requestReceived Remote's timestamp of the request reception
-     * @param {Date} responseSent Remote's timestamp of the response transmission
-     * @param {Date} responseReceived Client's timestamp of the response reception
+     * @param requestSent Client's timestamp of the request transmission.
+     * @param requestReceived Remote's timestamp of the request reception.
+     * @param responseSent Remote's timestamp of the response transmission.
+     * @param responseReceived Client's timestamp of the response reception.
      */
     constructor(requestSent: Date, requestReceived: Date, responseSent: Date, responseReceived: Date) {
         this.requestSent = requestSent.getTime();
@@ -54,7 +61,7 @@ class Measurement {
 
     /**
      * Time offset from remote entity, in milliseconds.
-     * @returns {number} The time offset.
+     * @returns The time offset.
      */
     getOffset(): number {
         return ((this.requestReceived - this.requestSent) + (this.responseSent - this.responseReceived)) / 2;
@@ -62,7 +69,7 @@ class Measurement {
 
     /**
      * Get round-trip delay, in milliseconds.
-     * @returns {number} The round-trip delay.
+     * @returns The round-trip delay.
      */
     getDelay(): number {
         return (this.responseReceived - this.requestSent) - (this.responseSent - this.requestReceived);
@@ -70,7 +77,7 @@ class Measurement {
 
     /**
      * Get ping time, in milliseconds.
-     * @returns {number} The ping time.
+     * @returns The ping time.
      */
     getPing(): number {
         return Math.round(this.getDelay() / 2);
@@ -85,7 +92,7 @@ class Measurement {
  * `(null, number, number)` on success, `(error, null, null)` on failure.
  */
 abstract class TimeSync {
-    protected readonly manager: SyncPlayManager;
+    protected readonly manager: TimeSyncManager;
     private pingStop = true;
     private pollingInterval = PollingIntervalGreedy;
     private poller: ReturnType<typeof setTimeout> | null = null;
@@ -97,15 +104,15 @@ abstract class TimeSync {
 
     /**
      * Creates a new time sync instance.
-     * @param {SyncPlayManager} syncPlayManager The SyncPlay manager.
+     * @param syncPlayManager The SyncPlay manager.
      */
-    constructor(syncPlayManager: SyncPlayManager) {
+    constructor(syncPlayManager: TimeSyncManager) {
         this.manager = syncPlayManager;
     }
 
     /**
      * Gets status of time sync.
-     * @returns {boolean} _true_ if a measurement has been done, _false_ otherwise.
+     * @returns _true_ if a measurement has been done, _false_ otherwise.
      */
     isReady(): boolean {
         return !!this.measurement;
@@ -113,7 +120,7 @@ abstract class TimeSync {
 
     /**
      * Gets time offset with remote entity, in milliseconds.
-     * @returns {number} The time offset.
+     * @returns The time offset.
      */
     getTimeOffset(): number {
         return this.measurement ? this.measurement.getOffset() : 0;
@@ -121,7 +128,7 @@ abstract class TimeSync {
 
     /**
      * Gets ping time to remote entity, in milliseconds.
-     * @returns {number} The ping time.
+     * @returns The ping time.
      */
     getPing(): number {
         return this.measurement ? this.measurement.getPing() : 0;
@@ -129,7 +136,7 @@ abstract class TimeSync {
 
     /**
      * Updates time offset between remote entity and local entity.
-     * @param {Measurement} measurement The new measurement.
+     * @param measurement The new measurement.
      */
     private updateTimeOffset(measurement: Measurement): void {
         this.measurements.push(measurement);
@@ -145,7 +152,7 @@ abstract class TimeSync {
 
     /**
      * Makes a ping request to the remote entity. Triggers time offset update.
-     * @returns {Promise<PingResult>} Resolves with the ping timestamps on request success.
+     * @returns Resolves with the ping timestamps on request success.
      */
     protected abstract requestPing(): Promise<PingResult>;
 
@@ -166,7 +173,7 @@ abstract class TimeSync {
 
     /**
      * Handles a successful ping request.
-     * @param {PingResult} result The ping result.
+     * @param result The ping result.
      */
     private onPingResponseCallback(result: PingResult): void {
         const { requestSent, requestReceived, responseSent, responseReceived } = result;
@@ -185,7 +192,7 @@ abstract class TimeSync {
 
     /**
      * Handles a failed ping request.
-     * @param {unknown} error The error.
+     * @param error The error.
      */
     private onPingRequestErrorCallback(error: unknown): void {
         console.error(error);
@@ -231,8 +238,8 @@ abstract class TimeSync {
 
     /**
      * Converts remote time to local time.
-     * @param {Date} remote The time to convert.
-     * @returns {Date} Local time.
+     * @param remote The time to convert.
+     * @returns Local time.
      */
     remoteDateToLocal(remote: Date): Date {
         // remote - local = offset
@@ -241,8 +248,8 @@ abstract class TimeSync {
 
     /**
      * Converts local time to remote time.
-     * @param {Date} local The time to convert.
-     * @returns {Date} Remote time.
+     * @param local The time to convert.
+     * @returns Remote time.
      */
     localDateToRemote(local: Date): Date {
         // remote - local = offset
