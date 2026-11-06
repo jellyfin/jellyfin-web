@@ -1,14 +1,31 @@
-import { randomInt } from '../../utils/number.ts';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import type { GroupRepeatMode } from '@jellyfin/sdk/lib/generated-client/models/group-repeat-mode';
+import type { GroupShuffleMode } from '@jellyfin/sdk/lib/generated-client/models/group-shuffle-mode';
+
+import { randomInt } from '@/utils/number';
+
+export type RemoveFromPlaylistResult =
+    | { result: 'empty' }
+    | { result: 'removed'; isCurrentIndex: boolean };
+
+export type MovePlaylistItemResult =
+    | { result: 'noop' }
+    | { result: 'moved'; playlistItemId: string; newIndex: number };
+
+export interface NextItemInfo {
+    item: BaseItemDto;
+    index: number;
+}
 
 let currentId = 0;
-function addUniquePlaylistItemId(item) {
+function addUniquePlaylistItemId(item: BaseItemDto) {
     if (!item.PlaylistItemId) {
         item.PlaylistItemId = 'playlistItem' + currentId;
         currentId++;
     }
 }
 
-function findPlaylistIndex(playlistItemId, list) {
+function findPlaylistIndex(playlistItemId: string | null | undefined, list: BaseItemDto[]) {
     for (let i = 0, length = list.length; i < length; i++) {
         if (list[i].PlaylistItemId === playlistItemId) {
             return i;
@@ -19,6 +36,12 @@ function findPlaylistIndex(playlistItemId, list) {
 }
 
 class PlayQueueManager {
+    private _sortedPlaylist: BaseItemDto[];
+    private _playlist: BaseItemDto[];
+    private _repeatMode: GroupRepeatMode;
+    private _shuffleMode: GroupShuffleMode;
+    private _currentPlaylistItemId?: string | null;
+
     constructor() {
         this._sortedPlaylist = [];
         this._playlist = [];
@@ -30,7 +53,7 @@ class PlayQueueManager {
         return this._playlist.slice(0);
     }
 
-    setPlaylist(items) {
+    setPlaylist(items: BaseItemDto[]) {
         items = items.slice(0);
 
         for (let i = 0, length = items.length; i < length; i++) {
@@ -42,7 +65,7 @@ class PlayQueueManager {
         this._repeatMode = 'RepeatNone';
     }
 
-    queue(items) {
+    queue(items: BaseItemDto[]) {
         for (let i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
 
@@ -84,7 +107,7 @@ class PlayQueueManager {
         }
     }
 
-    queueNext(items) {
+    queueNext(items: BaseItemDto[]) {
         for (let i = 0, length = items.length; i < length; i++) {
             addUniquePlaylistItemId(items[i]);
         }
@@ -114,11 +137,11 @@ class PlayQueueManager {
         return this._currentPlaylistItemId;
     }
 
-    setPlaylistState(playlistItemId) {
+    setPlaylistState(playlistItemId: string | null | undefined) {
         this._currentPlaylistItemId = playlistItemId;
     }
 
-    setPlaylistIndex(playlistIndex) {
+    setPlaylistIndex(playlistIndex: number) {
         if (playlistIndex < 0) {
             this.setPlaylistState(null);
         } else {
@@ -126,22 +149,25 @@ class PlayQueueManager {
         }
     }
 
-    removeFromPlaylist(playlistItemIds) {
+    removeFromPlaylist(playlistItemIds: string[]): RemoveFromPlaylistResult {
         if (this._playlist.length <= playlistItemIds.length) {
             return {
                 result: 'empty'
             };
         }
 
+        // Widened so the nullable playlist item ids below can be looked up
+        const ids: ReadonlyArray<string | null | undefined> = playlistItemIds;
+
         const currentPlaylistItemId = this.getCurrentPlaylistItemId();
-        const isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
+        const isCurrentIndex = ids.indexOf(currentPlaylistItemId) !== -1;
 
         this._sortedPlaylist = this._sortedPlaylist.filter(function (item) {
-            return !playlistItemIds.includes(item.PlaylistItemId);
+            return !ids.includes(item.PlaylistItemId);
         });
 
         this._playlist = this._playlist.filter(function (item) {
-            return !playlistItemIds.includes(item.PlaylistItemId);
+            return !ids.includes(item.PlaylistItemId);
         });
 
         return {
@@ -150,10 +176,10 @@ class PlayQueueManager {
         };
     }
 
-    movePlaylistItem(playlistItemId, newIndex) {
+    movePlaylistItem(playlistItemId: string, newIndex: number): MovePlaylistItemResult {
         const playlist = this.getPlaylist();
 
-        let oldIndex;
+        let oldIndex: number | undefined;
         for (let i = 0, length = playlist.length; i < length; i++) {
             if (playlist[i].PlaylistItemId === playlistItemId) {
                 oldIndex = i;
@@ -171,7 +197,8 @@ class PlayQueueManager {
             throw new Error('newIndex out of bounds');
         }
 
-        moveInArray(playlist, oldIndex, newIndex);
+        // NOTE: oldIndex is undefined when the item is not found, which splice treats as 0
+        moveInArray(playlist, oldIndex ?? 0, newIndex);
 
         this._playlist = playlist;
 
@@ -190,8 +217,8 @@ class PlayQueueManager {
         this._shuffleMode = 'Sorted';
     }
 
-    setRepeatMode(value) {
-        const repeatModes = ['RepeatOne', 'RepeatAll', 'RepeatNone'];
+    setRepeatMode(value: GroupRepeatMode) {
+        const repeatModes: GroupRepeatMode[] = ['RepeatOne', 'RepeatAll', 'RepeatNone'];
         if (repeatModes.includes(value)) {
             this._repeatMode = value;
         } else {
@@ -203,7 +230,7 @@ class PlayQueueManager {
         return this._repeatMode;
     }
 
-    setShuffleMode(value) {
+    setShuffleMode(value: GroupShuffleMode) {
         switch (value) {
             case 'Shuffle':
                 this.shufflePlaylist();
@@ -233,8 +260,8 @@ class PlayQueueManager {
         return this._shuffleMode;
     }
 
-    getNextItemInfo() {
-        let newIndex;
+    getNextItemInfo(): NextItemInfo | null {
+        let newIndex: number;
         const playlist = this.getPlaylist();
         const playlistLength = playlist.length;
 
@@ -270,15 +297,12 @@ class PlayQueueManager {
     }
 }
 
-function arrayInsertAt(destArray, pos, arrayToInsert) {
-    let args = [];
-    args.push(pos); // where to insert
-    args.push(0); // nothing to remove
-    args = args.concat(arrayToInsert); // add on array to insert
-    destArray.splice.apply(destArray, args); // splice it in
+function arrayInsertAt<T>(destArray: T[], pos: number, arrayToInsert: T[]) {
+    // insert at pos, removing nothing
+    destArray.splice(pos, 0, ...arrayToInsert);
 }
 
-function moveInArray(array, from, to) {
+function moveInArray<T>(array: T[], from: number, to: number) {
     array.splice(to, 0, array.splice(from, 1)[0]);
 }
 
