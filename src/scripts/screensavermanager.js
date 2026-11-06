@@ -93,12 +93,12 @@ function ScreenSaverManager() {
         window.removeEventListener('mousemove', hide, true);
         window.removeEventListener('wheel', hide, WheelEvOpts);
         window.removeEventListener('keydown', hide, true);
-		
-		activeScreenSaver.hide().then(() => {
-			document.body.classList.remove('screensaver-noScroll');
-		});
-		
-		activeScreenSaver = null;
+        
+        activeScreenSaver.hide().then(() => {
+            document.body.classList.remove('screensaver-noScroll');
+        });
+
+        activeScreenSaver = null;
     }
 
     this.isShowing = () => {
@@ -160,7 +160,7 @@ function ScreenSaverManager() {
         if (playbackManager.isPlayingVideo() && !playbackManager.paused()) {
             return;
         }
-        
+
         this.show();
     };
 
