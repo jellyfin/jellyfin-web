@@ -1456,7 +1456,7 @@ export default function (view) {
     }
 
     function onWheel(e) {
-	    if (e.defaultPrevented) return;
+        if (e.defaultPrevented) return;
         if (getOpenedDialog()) return;
         if (e.deltaY < 0) {
             playbackManager.volumeUp(currentPlayer);
