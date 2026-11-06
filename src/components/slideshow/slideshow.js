@@ -319,7 +319,7 @@ export default function (options) {
 
                         // Swiper set 'transition-duration: 300ms' for auto zoom
                         // and 'transition-duration: 0s' for touch zoom
-                        const transitionDuration = parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
+                        const transitionDuration = Number.parseFloat(imageEl.style.transitionDuration.replace(/[a-z]/i, ''));
 
                         if (transitionDuration > 0) {
                             imageEl.addEventListener(transitionEndEventName, callback);

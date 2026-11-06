@@ -25,7 +25,7 @@ export function parseISO8601Date(s, toLocal) {
     for (const i in a) {
         d[a[i]] = parseInt(d[a[i]], 10);
     }
-    d[7] = parseFloat(d[7]);
+    d[7] = Number.parseFloat(d[7]);
 
     // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
     // note that month is 0-11, not 1-12

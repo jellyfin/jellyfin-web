@@ -47,7 +47,7 @@ function submitSchedule(context, options) {
         EndHour: context.querySelector('#selectEnd').value
     };
 
-    if (parseFloat(updatedSchedule.StartHour) >= parseFloat(updatedSchedule.EndHour)) {
+    if (Number.parseFloat(updatedSchedule.StartHour) >= Number.parseFloat(updatedSchedule.EndHour)) {
         alert(globalize.translate('ErrorStartHourGreaterThanEnd'));
         return;
     }

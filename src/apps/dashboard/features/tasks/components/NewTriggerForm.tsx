@@ -54,7 +54,7 @@ const NewTriggerForm: FunctionComponent<IProps> = ({ open, title, onClose, onAdd
         }
 
         if (data.TimeLimit.toString()) {
-            trigger.MaxRuntimeTicks = parseFloat(data.TimeLimit.toString()) * 36e9;
+            trigger.MaxRuntimeTicks = Number.parseFloat(data.TimeLimit.toString()) * 36e9;
         }
 
         if (onAdd) {

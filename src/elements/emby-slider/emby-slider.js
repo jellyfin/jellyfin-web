@@ -51,7 +51,7 @@ function normalizeSliderStep(range, step) {
         return step;
     }
 
-    step = parseFloat(range.step);
+    step = Number.parseFloat(range.step);
 
     if (step > 0) {
         return step;
@@ -104,13 +104,13 @@ function mapFractionToValue(range, fraction) {
         value = Math.round(value / step) * step;
     }
 
-    const min = parseFloat(range.min);
+    const min = Number.parseFloat(range.min);
 
     value += min;
 
     if (decimals != null) {
         decimals = Math.max(decimals, decimalCount(min));
-        value = parseFloat(value.toFixed(decimals));
+        value = Number.parseFloat(value.toFixed(decimals));
     }
 
     return Math.min(Math.max(value, range.min), range.max);
@@ -138,7 +138,7 @@ function mapValueToFraction(range, value) {
  */
 function snapValue(range, value) {
     if (range.step !== 'any') {
-        const min = parseFloat(range.min);
+        const min = Number.parseFloat(range.min);
         const step = normalizeSliderStep(range);
         const decimals = Math.max(decimalCount(min), decimalCount(step));
 
@@ -146,7 +146,7 @@ function snapValue(range, value) {
         value = Math.round(value / step) * step;
         value += min;
 
-        value = parseFloat(value.toFixed(decimals));
+        value = Number.parseFloat(value.toFixed(decimals));
     }
 
     return value;
@@ -159,7 +159,7 @@ function snapValue(range, value) {
      */
 function updateValues(isValueSet) {
     if (!!isValueSet && !supportsValueAutoSnap) {
-        const value = snapValue(this, parseFloat(this.value)).toString();
+        const value = snapValue(this, Number.parseFloat(this.value)).toString();
 
         // eslint-disable-next-line sonarjs/different-types-comparison
         if (this.value !== value) {
@@ -347,7 +347,7 @@ EmbySliderPrototype.attachedCallback = function () {
         }
 
         const percent = mapValueToFraction(this, this.value) * 100;
-        updateBubble(this, percent, parseFloat(this.value), sliderBubble);
+        updateBubble(this, percent, Number.parseFloat(this.value), sliderBubble);
 
         if (hasHideBubbleClass) {
             sliderBubble.classList.remove('hide');
@@ -513,7 +513,7 @@ function finishKeyboardDragging(elem) {
 function stepKeyboard(elem, delta) {
     startKeyboardDragging(elem);
 
-    elem.value = parseFloat(elem.value) + delta;
+    elem.value = Number.parseFloat(elem.value) + delta;
 
     const event = new Event('input', {
         bubbles: true,

@@ -44,12 +44,12 @@ function showViewSettings(instance) {
 function updateProgramCellOnScroll(cell, scrollPct) {
     let left = cell.posLeft;
     if (!left) {
-        left = parseFloat(cell.style.left.replace('%', ''));
+        left = Number.parseFloat(cell.style.left.replace('%', ''));
         cell.posLeft = left;
     }
     let width = cell.posWidth;
     if (!width) {
-        width = parseFloat(cell.style.width.replace('%', ''));
+        width = Number.parseFloat(cell.style.width.replace('%', ''));
         cell.posWidth = width;
     }
 
@@ -745,9 +745,9 @@ function Guide(options) {
 
             while (programCell) {
                 let left = (programCell.style.left || '').replace('%', '');
-                left = left ? parseFloat(left) : 0;
+                left = left ? Number.parseFloat(left) : 0;
                 let width = (programCell.style.width || '').replace('%', '');
-                width = width ? parseFloat(width) : 0;
+                width = width ? Number.parseFloat(width) : 0;
 
                 if (left >= pct || (left + width) >= pct) {
                     break;
@@ -897,10 +897,10 @@ function Guide(options) {
 
         for (const elem of elements) {
             let left = (elem.style.left || '').replace('%', '');
-            left = left ? parseFloat(left) : 0;
+            left = left ? Number.parseFloat(left) : 0;
 
             let width = (elem.style.width || '').replace('%', '');
-            width = width ? parseFloat(width) : 0;
+            width = width ? Number.parseFloat(width) : 0;
 
             if ((left + width) >= currentScrollXPct) {
                 list.push(elem);
