@@ -339,7 +339,7 @@ EmbySliderPrototype.attachedCallback = function () {
 
     this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
 
-    dom.addEventListener(this, 'input', function (e) {
+    dom.addEventListener(this, 'input', function () {
         this.dragging = true;
 
         if (this.dataset.sliderKeepProgress !== 'true') {
@@ -357,7 +357,7 @@ EmbySliderPrototype.attachedCallback = function () {
         passive: true
     });
 
-    dom.addEventListener(this, 'change', function (e) {
+    dom.addEventListener(this, 'change', function () {
         this.dragging = false;
 
         if (this.dataset.sliderKeepProgress === 'true') {
@@ -389,11 +389,7 @@ EmbySliderPrototype.attachedCallback = function () {
     });
 
     /* eslint-disable-next-line compat/compat */
-    dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function (e) {
-		if (e.defaultPrevented) {
-            return;
-        }
-		
+    dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
         sliderBubble.classList.add('hide');
         hasHideBubbleClass = true;
     }, {
