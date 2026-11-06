@@ -80,7 +80,7 @@ const useIndicator = (item: ItemDto) => {
 
     const getMissingIndicator = () => {
         if (
-            item.Type === ItemKind.Episode
+            (item.Type === ItemKind.Episode || item.Type === ItemKind.Movie)
             && item.LocationType === LocationType.Virtual
         ) {
             if (item.PremiereDate) {
