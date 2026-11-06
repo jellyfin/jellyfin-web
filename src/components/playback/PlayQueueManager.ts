@@ -3,6 +3,7 @@ import type { GroupRepeatMode } from '@jellyfin/sdk/lib/generated-client/models/
 import type { GroupShuffleMode } from '@jellyfin/sdk/lib/generated-client/models/group-shuffle-mode';
 
 import { randomInt } from '@/utils/number';
+import type { Nullable } from '@/types/nullable';
 
 export type RemoveFromPlaylistResult =
     | { result: 'empty' }
@@ -25,7 +26,7 @@ function addUniquePlaylistItemId(item: BaseItemDto) {
     }
 }
 
-function findPlaylistIndex(playlistItemId: string | null | undefined, list: BaseItemDto[]) {
+function findPlaylistIndex(playlistItemId: Nullable<string>, list: BaseItemDto[]) {
     for (let i = 0, length = list.length; i < length; i++) {
         if (list[i].PlaylistItemId === playlistItemId) {
             return i;
@@ -40,7 +41,7 @@ class PlayQueueManager {
     private _playlist: BaseItemDto[];
     private _repeatMode: GroupRepeatMode;
     private _shuffleMode: GroupShuffleMode;
-    private _currentPlaylistItemId?: string | null;
+    private _currentPlaylistItemId?: Nullable<string>;
 
     constructor() {
         this._sortedPlaylist = [];
@@ -137,7 +138,7 @@ class PlayQueueManager {
         return this._currentPlaylistItemId;
     }
 
-    setPlaylistState(playlistItemId: string | null | undefined) {
+    setPlaylistState(playlistItemId: Nullable<string>) {
         this._currentPlaylistItemId = playlistItemId;
     }
 
@@ -157,7 +158,7 @@ class PlayQueueManager {
         }
 
         // Widened so the nullable playlist item ids below can be looked up
-        const ids: ReadonlyArray<string | null | undefined> = playlistItemIds;
+        const ids: ReadonlyArray<Nullable<string>> = playlistItemIds;
 
         const currentPlaylistItemId = this.getCurrentPlaylistItemId();
         const isCurrentIndex = ids.indexOf(currentPlaylistItemId) !== -1;
@@ -260,7 +261,7 @@ class PlayQueueManager {
         return this._shuffleMode;
     }
 
-    getNextItemInfo(): NextItemInfo | null {
+    getNextItemInfo(): Nullable<NextItemInfo> {
         let newIndex: number;
         const playlist = this.getPlaylist();
         const playlistLength = playlist.length;

@@ -5,7 +5,8 @@
 
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
 
-import type { MovePlaylistItemResult, NextItemInfo } from '@/components/playback/playqueuemanager';
+import type { MovePlaylistItemResult, NextItemInfo } from '@/components/playback/PlayQueueManager';
+import type { Nullable } from '@/types/nullable';
 import type SyncPlayManager from '@/plugins/syncPlay/core/Manager';
 import type QueueCore from '@/plugins/syncPlay/core/QueueCore';
 
@@ -78,7 +79,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getCurrentItem(): BaseItemDto | null {
+    getCurrentItem(): Nullable<BaseItemDto> {
         const index = this.getCurrentPlaylistIndex();
         if (index >= 0) {
             const playlist = this.getPlaylist();
@@ -91,7 +92,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getCurrentPlaylistItemId(): string | null {
+    getCurrentPlaylistItemId(): Nullable<string> {
         return this.queueCore.getCurrentPlaylistItemId();
     }
 
@@ -171,7 +172,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getNextItemInfo(): NextItemInfo | null {
+    getNextItemInfo(): Nullable<NextItemInfo> {
         const playlist = this.getPlaylist();
         let newIndex: number;
 
