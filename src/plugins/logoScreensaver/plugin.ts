@@ -1,7 +1,9 @@
 import icon from '@jellyfin/ux-web/icon-transparent.png';
 
-import { ScreensaverPlugin } from 'types/plugin';
-import { randomInt } from 'utils/number';
+import { ScreensaverPlugin } from '@/types/plugin';
+import { randomInt } from '@/utils/number';
+
+import type { Nullable } from '@/types/nullable';
 
 function bounceInLeft(elem: Element, iterations: number) {
     const keyframes = [
@@ -114,7 +116,7 @@ class LogoScreensaver extends ScreensaverPlugin {
     id = 'logoscreensaver';
     supportsAnonymous = true;
 
-    private interval?: ReturnType<typeof setInterval> | null;
+    private interval?: Nullable<ReturnType<typeof setInterval>>;
 
     private stopInterval() {
         if (this.interval) {

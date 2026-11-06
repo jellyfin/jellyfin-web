@@ -1,14 +1,15 @@
-import type Slideshow from 'components/slideshow/slideshow';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import * as userSettings from 'scripts/settings/userSettings';
-import { ScreensaverPlugin } from 'types/plugin';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import * as userSettings from '@/scripts/settings/userSettings';
+import { ScreensaverPlugin } from '@/types/plugin';
+import type Slideshow from '@/components/slideshow/slideshow';
+import type { Nullable } from '@/types/nullable';
 
 class BackdropScreensaver extends ScreensaverPlugin {
     name = 'BackdropScreensaver';
     id = 'backdropscreensaver';
     supportsAnonymous = false;
 
-    private currentSlideshow?: Slideshow | null;
+    private currentSlideshow?: Nullable<Slideshow>;
 
     show() {
         const query = {
