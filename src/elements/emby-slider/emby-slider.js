@@ -340,10 +340,6 @@ EmbySliderPrototype.attachedCallback = function () {
     this.markerContainerElement = containerElement.querySelector('.sliderMarkerContainer');
 
     dom.addEventListener(this, 'input', function (e) {
-		if (e.defaultPrevented) {
-            return;
-        }
-		
         this.dragging = true;
 
         if (this.dataset.sliderKeepProgress !== 'true') {
@@ -362,10 +358,6 @@ EmbySliderPrototype.attachedCallback = function () {
     });
 
     dom.addEventListener(this, 'change', function (e) {
-		if (e.defaultPrevented) {
-            return;
-        }
-		
         this.dragging = false;
 
         if (this.dataset.sliderKeepProgress === 'true') {
@@ -380,10 +372,6 @@ EmbySliderPrototype.attachedCallback = function () {
 
     /* eslint-disable-next-line compat/compat */
     dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
-		if (e.defaultPrevented) {
-            return;
-        }
-		
         if (!this.dragging) {
             const fraction = mapClientToFraction(this, e.clientX);
             const percent = fraction * 100;
