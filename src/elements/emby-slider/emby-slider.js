@@ -440,8 +440,8 @@ EmbySliderPrototype.attachedCallback = function () {
             passive: true
         });
 
-        dom.addEventListener(this, 'touchend', function (e) {
-			if (e.defaultPrevented) {
+        dom.addEventListener(this, 'touchend', function () {
+			if (!this.touched) {
                 return;
             }
 			
