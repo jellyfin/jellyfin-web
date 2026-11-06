@@ -3,11 +3,21 @@ import { describe, expect, it, vi } from 'vitest';
 
 import enUs from 'strings/en-us.json';
 
-import type { TranscodeTestAdvice, TranscodeTestCheckKind, TranscodeTestCheckResult, TranscodeTestOutcome, TranscodeTestStressResult } from '../api/useTranscodeTest';
+import type {
+    TranscodeTestAdvice,
+    TranscodeTestCheckKind,
+    TranscodeTestCheckResult,
+    TranscodeTestEndReason,
+    TranscodeTestOutcome,
+    TranscodeTestStreamResult,
+    TranscodeTestStressPhase,
+    TranscodeTestStressResult
+} from '../api/useTranscodeTest';
 import {
     STRESS_TEST_ITEM_TYPES,
     checkAdvice,
     checkDetail,
+    collapseHint,
     checkError,
     checkKindLabel,
     checkName,
@@ -17,11 +27,19 @@ import {
     formatFps,
     formatNumber,
     formatSpeed,
+    gpuMemoryBanner,
+    limitSummary,
+    nvencRefusedBanner,
     outcomeLabel,
     singleStreamSpeed,
+    stallBanner,
     startErrorMessage,
+    streamFps,
     stressRunningHelp,
-    stressTargetLabel
+    stressStatusKey,
+    stressStatusLabel,
+    stressTargetLabel,
+    type StressStatusKey
 } from './transcodeTest';
 
 const strings: Record<string, string | undefined> = enUs;
@@ -142,6 +160,32 @@ describe('checkDetail for a format the hardware lacks', () => {
     });
 });
 
+// Every status the chip can show; the compiler keeps this list complete.
+const STATUS_KEYS: Record<StressStatusKey, true> = {
+    Starting: true,
+    WarmingUp: true,
+    KeepingUp: true,
+    FallingBehind: true,
+    LimitReached: true,
+    MaxStreams: true,
+    NvencSessionRefused: true,
+    GpuMemoryFull: true,
+    CouldNotStart: true,
+    Cancelled: true,
+    Error: true
+};
+
+describe('stress test status strings', () => {
+    it.each(Object.keys(STATUS_KEYS) as StressStatusKey[])('has a label for %s', key => {
+        expect(() => stressStatusLabel(key)).not.toThrow();
+    });
+
+    it('names the endings as results, not as errors', () => {
+        expect(strings.StressTestStatusLimitReached).toBe('Limit found');
+        expect(strings.StressTestStatusMaxStreams).toBe('Reached maximum');
+    });
+});
+
 describe('checkDetail after decoding started', () => {
     it('says the pipeline failed after the decoded frames', () => {
         expect(checkDetail(check({ Kind: 'Decode', Outcome: 'Failed', EnabledInSettings: true, FailedAfterDecoding: true, FramesDecoded: 30 })))
@@ -225,6 +269,211 @@ describe('singleStreamSpeed', () => {
 
     it('says nothing before it is known', () => {
         expect(singleStreamSpeed(stress({}))).toBe('');
+    });
+});
+
+const END_REASONS: TranscodeTestEndReason[] = ['None', 'LimitReached', 'MaxStreams', 'StreamFailed', 'StreamStalled', 'Cancelled', 'Error', 'GpuMemoryFull', 'NvencSessionRefused'];
+const PHASES: TranscodeTestStressPhase[] = ['Starting', 'WarmingUp', 'KeepingUp', 'FallingBehind'];
+const FFMPEG_LINE = 'OpenEncodeSessionEx failed: incompatible client key (21)';
+
+// Every ending × could-not-start × with and without ffmpeg's error.
+const combinations = END_REASONS.flatMap(EndReason => [ false, true ].flatMap(
+    CouldNotStartStream => [ undefined, FFMPEG_LINE ].map(error => ({ EndReason, CouldNotStartStream, Error: error }))
+));
+
+const finished = (overrides: Partial<TranscodeTestStressResult>) => ({
+    Phase: 'Finished', MaxStableStreams: 8, FailedStreamId: 9, SourceFps: 23.976, StartTimeoutSeconds: 30, ...overrides
+}) as TranscodeTestStressResult;
+
+// What the page shows for every ending that isn't a capacity result. An older server never sends GpuMemoryFull or NvencSessionRefused.
+const KEYS_BEFORE: Record<TranscodeTestEndReason, string> = {
+    None: 'Error',
+    LimitReached: 'LimitReached',
+    MaxStreams: 'MaxStreams',
+    StreamFailed: 'Error',
+    StreamStalled: 'Error',
+    Cancelled: 'Cancelled',
+    Error: 'Error',
+    GpuMemoryFull: 'GpuMemoryFull',
+    NvencSessionRefused: 'NvencSessionRefused'
+};
+
+describe('stressStatusKey', () => {
+    it.each(combinations)('$EndReason, could not start $CouldNotStartStream', c => {
+        const key = stressStatusKey(finished(c));
+        const capacity = (c.EndReason === 'StreamStalled' || c.EndReason === 'StreamFailed') && c.CouldNotStartStream;
+
+        expect(key).toBe(capacity ? 'CouldNotStart' : KEYS_BEFORE[c.EndReason]);
+        expect(strings[`StressTestStatus${key}`]).toBeDefined();
+    });
+
+    it.each(PHASES)('shows the phase %s while running', Phase => {
+        expect(stressStatusKey(finished({ Phase, EndReason: 'None' }))).toBe(Phase);
+    });
+});
+
+describe('stallBanner', () => {
+    const stalls = combinations.filter(c => c.EndReason === 'StreamStalled');
+
+    it.each(stalls)('could not start $CouldNotStartStream, error $Error', c => {
+        const { severity, message } = stallBanner(finished(c));
+
+        expect(severity).toBe(c.CouldNotStartStream ? 'warning' : 'error');
+        if (c.CouldNotStartStream) {
+            expect(message).toContain('8 streams kept up with real time');
+            expect(message).toContain('stream 9 started and produced no frames in 30 s');
+            expect(message).not.toContain('stopped because');
+        } else {
+            expect(message).toContain('stopped because stream 9 produced no frames');
+        }
+        if (c.Error) {
+            expect(message).toContain(`ffmpeg's error: ${FFMPEG_LINE}`);
+        } else {
+            expect(message).toContain('ffmpeg printed no error.');
+        }
+    });
+
+    it('never blames NVIDIA for a stream that never started', () => {
+        const { message } = stallBanner(finished({ EndReason: 'StreamStalled', CouldNotStartStream: true, MaxStableStreams: 4, FailedStreamId: 5 }));
+
+        expect(message).not.toMatch(/NVIDIA|session/i);
+        expect(message).toBe(`${strings.StressTestStartedNoFrames?.replace('{0}', '4 streams').replace('{1}', '5').replace('{2}', '30')} ${strings.StressTestFfmpegNoError}`);
+        expect(message).toContain('stream 5 started and produced no frames in 30 s');
+        expect(message).not.toContain('could not start');
+    });
+
+    it.each([ undefined, FFMPEG_LINE ])('warns for an early exit of the newest stream as for a stall, but says it could not start, error %s', error => {
+        const exit = stallBanner(finished({ EndReason: 'StreamFailed', CouldNotStartStream: true, MaxStableStreams: 4, FailedStreamId: 5, Error: error }));
+        const stall = stallBanner(finished({ EndReason: 'StreamStalled', CouldNotStartStream: true, MaxStableStreams: 4, FailedStreamId: 5, Error: error }));
+        expect(exit.severity).toBe('warning');
+        expect(stall.severity).toBe('warning');
+        expect(exit.message).toContain('the server could not start stream 5');
+        expect(stall.message).toContain('stream 5 started and produced no frames in 30 s');
+    });
+
+    it('points at the storage when ffmpeg was waiting on reading the file', () => {
+        const { severity, message } = stallBanner(finished({ EndReason: 'StreamStalled', CouldNotStartStream: true, MaxStableStreams: 4, FailedStreamId: 5, WaitingOnInput: true }));
+
+        expect(severity).toBe('warning');
+        expect(message).toContain('stream 5 started and produced no frames in 30 s');
+        expect(message).toBe(`${strings.StressTestStartedNoFrames?.replace('{0}', '4 streams').replace('{1}', '5').replace('{2}', '30')} ${strings.StressTestFfmpegNoError} ${strings.StressTestWaitingOnInput}`);
+        expect(message).toContain('Slow or shared storage, not the GPU, may be the limit.');
+    });
+
+    it.each([ false, undefined ])('gives no storage hint when ffmpeg was not waiting on the file (%s)', waiting => {
+        const { message } = stallBanner(finished({ EndReason: 'StreamStalled', CouldNotStartStream: true, WaitingOnInput: waiting }));
+
+        expect(message).not.toContain('storage');
+    });
+
+    it('treats a result from an older server, without the new fields, as an error', () => {
+        const { severity, message } = stallBanner(finished({ EndReason: 'StreamStalled' }));
+
+        expect(severity).toBe('error');
+        expect(message).toBe(`${strings.StressTestStalled?.replace('{0}', '9')} ${strings.StressTestFfmpegNoError}`);
+    });
+});
+
+describe('streamFps', () => {
+    const stream = (Status: TranscodeTestStreamResult['Status']): TranscodeTestStreamResult => ({ Id: 5, Status });
+
+    it('says a stream that ended without a frame did not start', () => {
+        expect(streamFps(stream('NotStarted'), undefined)).toBe('Did not start');
+    });
+
+    it.each([ 'Running', 'Stopped', 'Failed' ] as const)('shows a dash for a %s stream without a reading', status => {
+        expect(streamFps(stream(status), undefined)).toBe('—');
+    });
+
+    it('shows the reading when there is one', () => {
+        expect(streamFps(stream('Stopped'), 23.96)).toBe('23.96');
+    });
+});
+
+describe('gpuMemoryBanner', () => {
+    const CUDA_LINE = 'cuvidCreateDecoder(&ctx->cudecoder, &cuinfo) failed -> CUDA_ERROR_OUT_OF_MEMORY: out of memory';
+
+    it.each([ undefined, CUDA_LINE ])('error %s', error => {
+        const { severity, message } = gpuMemoryBanner(finished({ EndReason: 'GpuMemoryFull', MaxStableStreams: 15, FailedStreamId: 16, Error: error }));
+        expect(severity).toBe('warning');
+        expect(message).toContain('15 streams kept up with real time');
+        expect(message).toContain('ran out of memory on stream 16');
+        expect(message).not.toMatch(/session/i);
+        expect(message.includes(`ffmpeg's error: ${CUDA_LINE}`)).toBe(error !== undefined);
+    });
+
+    it('names one stream in the singular', () => {
+        expect(gpuMemoryBanner(finished({ EndReason: 'GpuMemoryFull', MaxStableStreams: 1, FailedStreamId: 2 })).message)
+            .toContain(strings.StressTestStreamCountOne);
+    });
+});
+
+describe('nvencRefusedBanner', () => {
+    const REFUSAL_LINES = [
+        'OpenEncodeSessionEx failed: out of memory (10)',
+        'OpenEncodeSessionEx failed: incompatible client key (21)',
+        'The requested feature is not supported for this licensed system'
+    ];
+
+    it.each([ undefined, ...REFUSAL_LINES ])('preserves diagnostic %s without assigning a cause', error => {
+        const { severity, message } = nvencRefusedBanner(finished({ EndReason: 'NvencSessionRefused', MaxStableStreams: 6, FailedStreamId: 7, Error: error }));
+
+        expect(severity).toBe('warning');
+        expect(message).toContain('6 streams kept up with real time');
+        expect(message).toContain('NVENC refused stream 7');
+        expect(message).toContain('This does not identify the cause');
+        expect(message).not.toMatch(/driver limit|GPU memory|from 3|12 on recent|not what the GPU can do/i);
+        expect(message.includes(`ffmpeg's error: ${error}`)).toBe(error !== undefined);
+    });
+
+    it('adds the hedged hint only for code 21', () => {
+        const hint = strings.StressTestNvencCode21;
+        expect(nvencRefusedBanner(finished({ EndReason: 'NvencSessionRefused', Error: REFUSAL_LINES[1] })).message).toContain(hint);
+        expect(nvencRefusedBanner(finished({ EndReason: 'NvencSessionRefused', Error: REFUSAL_LINES[0] })).message).not.toContain(hint);
+        expect(nvencRefusedBanner(finished({ EndReason: 'NvencSessionRefused' })).message).not.toContain(hint);
+    });
+
+    it('does not infer a numerical cap from a historical running-stream count', () => {
+        const { message } = nvencRefusedBanner(finished({ EndReason: 'NvencSessionRefused', MaxStableStreams: 6, FailedStreamId: 7 }));
+
+        expect(message).not.toContain('Consumer NVIDIA GPUs');
+        expect(stressStatusLabel(stressStatusKey(finished({ EndReason: 'NvencSessionRefused' })))).toBe('Session refused');
+    });
+});
+
+describe('limitSummary', () => {
+    it('says how many streams were running when one fell behind', () => {
+        expect(limitSummary(finished({ EndReason: 'LimitReached', MaxStableStreams: 4, StreamsAtEnd: 5, PeakStreams: 5, FailedStreamId: 5, FailedStreamFps: 20 })))
+            .toBe('Stress test finished: 4 streams kept up with real time. With 5 streams running, stream 5 fell to 20.0 fps.');
+    });
+
+    it('uses the most streams that ran for a result from an older server', () => {
+        expect(limitSummary(finished({ EndReason: 'LimitReached', MaxStableStreams: 1, PeakStreams: 2, FailedStreamId: 2, FailedStreamFps: 23.96 })))
+            .toBe('Stress test finished: 1 stream kept up with real time. With 2 streams running, stream 2 fell to 23.96 fps.');
+    });
+
+    it('names no failed stream when the test ended without one falling behind', () => {
+        expect(limitSummary(finished({ EndReason: 'LimitReached', MaxStableStreams: 3, StreamsAtEnd: 4, FailedStreamId: undefined, FailedStreamFps: undefined })))
+            .toBe('Stress test finished: 3 streams kept up with real time.');
+    });
+
+    it('names no failed stream when the test stopped at its time limit', () => {
+        const summary = limitSummary(finished({ EndReason: 'LimitReached', TimeLimitReached: true, MaxStableStreams: 6, StreamsAtEnd: 7, FailedStreamId: undefined, FailedStreamFps: undefined }));
+
+        expect(summary).toBe('Stress test finished: 6 streams kept up with real time. The test stopped at its time limit while streams kept dipping below real time.');
+        expect(summary).not.toContain('fell to');
+    });
+});
+
+describe('collapseHint', () => {
+    it('says the streams collapsed together and keeps the kept-up count', () => {
+        expect(collapseHint(finished({ EndReason: 'LimitReached', MaxStableStreams: 8, StreamsAtEnd: 9, FailedStreamId: 2, FailedStreamFps: 0, Collapsed: true })))
+            .toBe('All streams slowed down sharply at once, rather than one falling a little behind. That usually means the GPU ran out of memory or the driver stalled, not that it was slightly too slow; 8 streams is still the safe result.');
+    });
+
+    it('is not shown for a normal limit or another ending', () => {
+        expect(collapseHint(finished({ EndReason: 'LimitReached', MaxStableStreams: 4, StreamsAtEnd: 5, FailedStreamId: 5, FailedStreamFps: 22.7 }))).toBeUndefined();
+        expect(collapseHint(finished({ EndReason: 'Cancelled', MaxStableStreams: 4, Collapsed: true }))).toBeUndefined();
     });
 });
 

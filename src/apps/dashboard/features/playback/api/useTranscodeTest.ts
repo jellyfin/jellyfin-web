@@ -11,7 +11,7 @@ export type TranscodeTestOutcome = 'Passed' | 'Failed' | 'Software' | 'NotSuppor
 export type TranscodeTestCheckKind = 'Decode' | 'Encode' | 'Tonemap';
 export type TranscodeTestAdvice = 'None' | 'TurnOn' | 'TurnOff';
 export type TranscodeTestStressPhase = 'Starting' | 'WarmingUp' | 'KeepingUp' | 'FallingBehind' | 'Finished';
-export type TranscodeTestEndReason = 'None' | 'LimitReached' | 'MaxStreams' | 'StreamFailed' | 'StreamStalled' | 'NvencSessionLimit' | 'Cancelled' | 'Error';
+export type TranscodeTestEndReason = 'None' | 'LimitReached' | 'MaxStreams' | 'StreamFailed' | 'StreamStalled' | 'Cancelled' | 'Error' | 'GpuMemoryFull' | 'NvencSessionRefused';
 
 /** Why a stress test ended, as the Jellyfin hardware survey names it. */
 export type TranscodeTestSurveyFailureReason = 'Performance' | 'FailedTimeout' | 'FailedNvencLimit';
@@ -42,13 +42,16 @@ export interface TranscodeTestCheckResult {
     ReferencePassed?: boolean
 }
 
+/** A stream's status; NotStarted when it ended without producing a frame. */
+export type TranscodeTestStreamStatus = 'Running' | 'Stopped' | 'Failed' | 'NotStarted';
+
 export interface TranscodeTestStreamResult {
     Id: number
     Fps?: number
     FinalFps?: number
     MedianFps?: number
     OutputMbps?: number
-    Status: string
+    Status: TranscodeTestStreamStatus
 }
 
 export interface TranscodeTestMediaInfo {
@@ -88,17 +91,21 @@ export interface TranscodeTestStressResult {
     RampSeconds: number
     SettleSeconds: number
     FailSeconds: number
+    StartTimeoutSeconds: number
     ThresholdFps: number
     FpsRatio: number
     SourceFps: number
     SingleStreamFps?: number
     SingleStreamSpeed?: number
     SurveyFailureReason?: TranscodeTestSurveyFailureReason | null
+    CouldNotStartStream?: boolean
+    WaitingOnInput?: boolean
     FailedStreamId?: number
     FailedStreamFps?: number
     StreamsAtEnd?: number
     TimeLimitReached?: boolean
     PeakCombinedFps: number
+    Collapsed?: boolean
     AverageOutputMbps?: number
     Error?: string
     Input?: TranscodeTestMediaInfo
