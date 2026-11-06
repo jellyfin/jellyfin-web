@@ -439,9 +439,7 @@ EmbySliderPrototype.attachedCallback = function () {
         });
 
         dom.addEventListener(this, 'touchend', function () {
-			if (!this.touched) {
-                return;
-            }
+		    if (!this.touched) return;
 			
             const range = this;
 
