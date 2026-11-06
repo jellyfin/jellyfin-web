@@ -17,7 +17,7 @@ export default function (view) {
 
     function onKeyDown(e) {
         if (e.defaultPrevented) return;
-        
+
         if (e.keyCode === 32 && e.target.tagName !== 'BUTTON') {
             playbackManager.playPause(currentPlayer);
             e.preventDefault();
