@@ -51,7 +51,7 @@ EmbyInputPrototype.createdCallback = function () {
     parentNode.insertBefore(label, this);
     this.labelElement = label;
 
-    dom.addEventListener(this, 'focus', function (e) {
+    dom.addEventListener(this, 'focus', function () {
         onChange.call(this);
 
         // For Samsung orsay devices
@@ -65,7 +65,7 @@ EmbyInputPrototype.createdCallback = function () {
         passive: true
     });
 
-    dom.addEventListener(this, 'blur', function (e) {
+    dom.addEventListener(this, 'blur', function () {
         onChange.call(this);
         label.classList.remove('inputLabelFocused');
         label.classList.add('inputLabelUnfocused');
@@ -89,11 +89,7 @@ EmbyInputPrototype.createdCallback = function () {
     }
 };
 
-function onChange(e) {
-	if (e && e.defaultPrevented) {
-        return;
-    }
-	
+function onChange() {
     const label = this.labelElement;
     if (this.value) {
         label.classList.remove('inputLabel-float');
