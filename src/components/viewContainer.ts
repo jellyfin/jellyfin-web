@@ -3,6 +3,8 @@ import { importModule } from '@uupaa/dynamic-import-polyfill';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getPluginUrl } from 'utils/plugin';
+
+import type { Nullable } from '@/types/nullable';
 import type { BeforeChangeHandler, LoadViewOptions, ViewOptions } from 'types/viewManager';
 
 import './viewManager/viewContainer.scss';
@@ -38,8 +40,8 @@ function setControllerClass(view: HTMLElement, options: ViewOptions) {
     return Promise.resolve();
 }
 
-function createViewElement(newView: HTMLElement | string | null) {
-    let view: HTMLElement | null;
+function createViewElement(newView: Nullable<HTMLElement | string>) {
+    let view: Nullable<HTMLElement>;
 
     if (typeof newView == 'string') {
         view = document.createElement('div');
@@ -133,7 +135,7 @@ export function loadView(options: LoadViewOptions) {
         });
 }
 
-function parseHtml(html: string, hasScript: boolean) {
+function parseHtml(html: string, hasScript: boolean): Nullable<HTMLElement> {
     if (hasScript) {
         html = html
             .replace(/<!--<script/g, '<script')
