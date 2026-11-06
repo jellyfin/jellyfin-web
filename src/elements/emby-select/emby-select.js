@@ -72,9 +72,7 @@ function onBlur() {
 }
 
 function onMouseDown(e) {
-	if (e.defaultPrevented) {
-        return;
-    }
+    if (e.defaultPrevented) return;
 	
     // e.button=0 for primary (left) mouse button click
     if (!e.button && !enableNativeMenu()) {
@@ -84,9 +82,7 @@ function onMouseDown(e) {
 }
 
 function onKeyDown(e) {
-	if (e.defaultPrevented) {
-        return;
-    }
+    if (e.defaultPrevented) return;
 	
     // Xbox controller for UWP WebView2 uses keycode 195 to select.
     if ((e.keyCode === 13 || e.keyCode === 195) && !enableNativeMenu()) {
