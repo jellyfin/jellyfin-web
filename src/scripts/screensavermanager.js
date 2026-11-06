@@ -58,7 +58,7 @@ function ScreenSaverManager() {
         }
 
         console.debug('Showing screensaver ' + screensaver.name);
-        
+
         document.body.classList.add('screensaver-noScroll');
 
         screensaver.show();
@@ -66,13 +66,13 @@ function ScreenSaverManager() {
 
         if (screensaver.hideOnClick !== false) {
             window.addEventListener('click', hide, true);
-			// Following is a handler for middle/right click events
-			window.addEventListener('mouseup', hide, true);
+            // Following is a handler for middle/right click events
+            window.addEventListener('mouseup', hide, true);
         }
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
-			// Mousewheel events should also trigger an exit.
-			window.addEventListener('wheel', hide, WheelEvOpts);
+            // Mousewheel events should also trigger an exit.
+            window.addEventListener('wheel', hide, WheelEvOpts);
         }
         if (screensaver.hideOnKey !== false) {
             window.addEventListener('keydown', hide, true);
@@ -80,19 +80,19 @@ function ScreenSaverManager() {
     }
 
     function hide(event) {
-		if (!activeScreenSaver) {
+            if (!activeScreenSaver) {
             throw new Error('There is no active screensaver.');
         }
 
         event.preventDefault();
-        
-		console.debug('Hiding screensaver ' + activeScreenSaver.name);
-		
-		window.removeEventListener('click', hide, true);
-		window.removeEventListener('mouseup', hide, true);
-		window.removeEventListener('mousemove', hide, true);
-		window.removeEventListener('wheel', hide, WheelEvOpts);
-		window.removeEventListener('keydown', hide, true);
+
+        console.debug('Hiding screensaver ' + activeScreenSaver.name);
+
+        window.removeEventListener('click', hide, true);
+        window.removeEventListener('mouseup', hide, true);
+        window.removeEventListener('mousemove', hide, true);
+        window.removeEventListener('wheel', hide, WheelEvOpts);
+        window.removeEventListener('keydown', hide, true);
 		
 		activeScreenSaver.hide().then(() => {
 			document.body.classList.remove('screensaver-noScroll');
