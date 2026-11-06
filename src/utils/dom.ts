@@ -2,6 +2,8 @@
  * Useful DOM utilities.
  */
 
+import type { Nullable } from '@/types/nullable';
+
 /**
  * Returns parent of element with specified attribute value.
  * @param elem - Element whose parent need to find.
@@ -9,12 +11,12 @@
  * @param [value] - Attribute value.
  * @returns Parent with specified attribute value.
  */
-export function parentWithAttribute<T extends Element = HTMLElement>(elem: Element, name: string, value?: string): T | null {
-    let current: Element | null = elem;
+export function parentWithAttribute<T extends Element = HTMLElement>(elem: Element, name: string, value?: string): Nullable<T> {
+    let current: Nullable<Element> = elem;
 
     while ((value ? current.getAttribute(name) !== value : !current.getAttribute(name))) {
         // The parent may be a Document, which has no getAttribute
-        current = current.parentNode as Element | null;
+        current = current.parentNode as Nullable<Element>;
 
         if (!current?.getAttribute) {
             return null;
@@ -30,17 +32,17 @@ export function parentWithAttribute<T extends Element = HTMLElement>(elem: Eleme
  * @param tagNames - Tag name or array of tag names.
  * @returns Parent with one of specified tag names.
  */
-export function parentWithTag<T extends Element = HTMLElement>(elem: Element, tagNames: string | string[]): T | null {
+export function parentWithTag<T extends Element = HTMLElement>(elem: Element, tagNames: string | string[]): Nullable<T> {
     // accept both string and array passed in
     if (!Array.isArray(tagNames)) {
         tagNames = [tagNames];
     }
 
-    let current: Element | null = elem;
+    let current: Nullable<Element> = elem;
 
     // The parent may be a Document, which has no tagName
     while (tagNames.indexOf(current.tagName || '') === -1) {
-        current = current.parentNode as Element | null;
+        current = current.parentNode as Nullable<Element>;
 
         if (!current) {
             return null;
@@ -71,17 +73,17 @@ function containsAnyClass(classList: DOMTokenList, classNames: string[]): boolea
  * @param classNames - Class name or array of class names.
  * @returns Parent with one of specified class names.
  */
-export function parentWithClass<T extends Element = HTMLElement>(elem: Element, classNames: string | string[]): T | null {
+export function parentWithClass<T extends Element = HTMLElement>(elem: Element, classNames: string | string[]): Nullable<T> {
     // accept both string and array passed in
     if (!Array.isArray(classNames)) {
         classNames = [classNames];
     }
 
-    let current: Element | null = elem;
+    let current: Nullable<Element> = elem;
 
     // The parent may be a Document, which has no classList
     while (!current.classList || !containsAnyClass(current.classList, classNames)) {
-        current = current.parentNode as Element | null;
+        current = current.parentNode as Nullable<Element>;
 
         if (!current) {
             return null;
@@ -160,7 +162,7 @@ export interface WindowSize {
 /**
  * Cached window size.
  */
-let windowSize: WindowSize | null = null;
+let windowSize: Nullable<WindowSize> = null;
 
 /**
  * Flag of event listener bound.
