@@ -2,6 +2,7 @@ import { appHost } from 'components/apphost';
 import viewContainer from 'components/viewContainer';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { getPluginUrl } from 'utils/plugin';
 
 import toast from '../components/toast/toast';
 import loading from '../components/loading/loading';
@@ -114,10 +115,6 @@ export function logout() {
             navigate('login');
         }
     });
-}
-
-export function getPluginUrl(name) {
-    return 'configurationpage?name=' + encodeURIComponent(name);
 }
 
 export function getConfigurationResourceUrl(name) {
