@@ -450,6 +450,9 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
         query.AutoOpenLiveStream = false;
     }
 
+    if (options.videoStreamIndex != null) {
+        query.VideoStreamIndex = options.videoStreamIndex;
+    }
     if (options.audioStreamIndex != null) {
         query.AudioStreamIndex = options.audioStreamIndex;
     }
@@ -558,6 +561,9 @@ function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, me
     if (options.maxBitrate) {
         query.MaxStreamingBitrate = options.maxBitrate;
     }
+    if (options.videoStreamIndex != null) {
+        query.VideoStreamIndex = options.videoStreamIndex;
+    }
     if (options.audioStreamIndex != null) {
         query.AudioStreamIndex = options.audioStreamIndex;
     }
@@ -661,6 +667,7 @@ function truncatePlayOptions(playOptions) {
         aspectRatio: playOptions.aspectRatio,
         fullscreen: playOptions.fullscreen,
         mediaSourceId: playOptions.mediaSourceId,
+        videoStreamIndex: playOptions.videoStreamIndex,
         audioStreamIndex: playOptions.audioStreamIndex,
         subtitleStreamIndex: playOptions.subtitleStreamIndex,
         startPositionTicks: playOptions.startPositionTicks
@@ -2523,6 +2530,7 @@ export class PlaybackManager {
                     items,
                     startPositionTicks: options.startPosition || 0,
                     mediaSourceId,
+                    videoStreamIndex: options.videoStreamIndex,
                     audioStreamIndex: options.audioStreamIndex,
                     subtitleStreamIndex: options.subtitleStreamIndex,
                     startIndex: options.startIndex
@@ -2720,6 +2728,7 @@ export class PlaybackManager {
 
                 const mediaStreams = versionSource?.MediaStreams || sourceItem?.MediaStreams || [];
 
+                const videoStreamIndex = playOptions.videoStreamIndex;
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
                 const options = {
@@ -2727,6 +2736,7 @@ export class PlaybackManager {
                     maxBitrate,
                     startPosition,
                     isPlayback: null,
+                    videoStreamIndex,
                     audioStreamIndex,
                     subtitleStreamIndex,
                     startIndex: playOptions.startIndex,
