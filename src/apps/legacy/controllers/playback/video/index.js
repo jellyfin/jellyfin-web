@@ -1231,9 +1231,8 @@ export default function (view) {
     let clickedElement;
 
     function onClickCapture(e) {
-		if (e.defaultPrevented) {
-			return;
-		}
+        if (e.defaultPrevented) return;
+        
         // Firefox/Edge emits `click` even if `preventDefault` was used on `keydown`
         // Ignore 'click' if another element was originally clicked
         if (!e.target.contains(clickedElement)) {
@@ -1244,9 +1243,7 @@ export default function (view) {
     }
 
     function onKeyDown(e) {
-		if (e.defaultPrevented) {
-			return;
-		}	
+	    if (e.defaultPrevented) return;	
         clickedElement = e.target;
 
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
@@ -1459,9 +1456,7 @@ export default function (view) {
     }
 
     function onWheel(e) {
-		if (e.defaultPrevented) {
-			return;
-		}
+	    if (e.defaultPrevented) return;
         if (getOpenedDialog()) return;
         if (e.deltaY < 0) {
             playbackManager.volumeUp(currentPlayer);
