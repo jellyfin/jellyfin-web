@@ -400,7 +400,7 @@ EmbySliderPrototype.attachedCallback = function () {
     if (browser.iOS) {
         dom.addEventListener(this, 'touchstart', function (e) {
             if (e.defaultPrevented) return;
-			
+
             if (e.targetTouches.length !== 1) {
                 return;
             }
@@ -440,7 +440,7 @@ EmbySliderPrototype.attachedCallback = function () {
 
         dom.addEventListener(this, 'touchend', function () {
             if (!this.touched) return;
-			
+
             const range = this;
 
             setTimeout(function () {
@@ -531,7 +531,7 @@ function stepKeyboard(elem, delta) {
      */
 function onKeyDown(e) {
     if (e.defaultPrevented) return;
-	
+
     switch (keyboardnavigation.getKeyName(e)) {
         case 'ArrowLeft':
         case 'Left':
