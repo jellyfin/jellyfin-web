@@ -110,7 +110,7 @@ export async function renew(key: string, owner: string): Promise<boolean> {
         const store = tx.objectStore('leases');
         const request = store.get(key) as IDBRequest<OfflineResumeLease | undefined>;
         request.onsuccess = () => {
-            if (!request.result || request.result.owner !== owner) {
+            if (request.result?.owner !== owner) {
                 fail('This download was resumed in another tab. This tab will stop without overwriting it.');
                 return;
             }
@@ -162,7 +162,7 @@ export async function append(record: OfflineResumeRecord, bytes: Uint8Array, own
             const request = tx.objectStore('records').get(record.key) as IDBRequest<OfflineResumeRecord | undefined>;
             request.onsuccess = () => {
                 const current = request.result;
-                if (!current || current.offset !== record.offset || current.etag !== record.etag) {
+                if (current?.offset !== record.offset || current?.etag !== record.etag) {
                     fail('The partial download changed. Resume it from its current tab.');
                     return;
                 }

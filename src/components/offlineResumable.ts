@@ -25,13 +25,15 @@ export interface OfflineMediaItem {
     Name?: string | null;
 }
 
+export type OfflineJobStatus = 'Queued' | 'Preparing' | 'Ready' | 'Failed';
+
 export interface OfflineDownloadJob {
     Id: string;
     Quality: OfflineQuality;
     AudioStreamIndex?: number | null;
     SubtitleStreamIndex?: number | null;
     SubtitleMode: OfflineSubtitleMode;
-    Status: 'Queued' | 'Preparing' | 'Ready' | 'Failed' | string;
+    Status: OfflineJobStatus;
     BytesProduced?: number;
     Size?: number;
     ETag?: string;

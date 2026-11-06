@@ -111,7 +111,8 @@ export async function chooseOfflineTracks(
                 name: track.DisplayTitle || track.Language || `Audio ${track.Index}`
             }))
         ];
-        const picked = String(await actionsheet.show({ title: 'Choose offline audio', items: choices }) || '');
+        const rawAudioChoice: unknown = await actionsheet.show({ title: 'Choose offline audio', items: choices });
+        const picked = typeof rawAudioChoice === 'string' ? rawAudioChoice : '';
         if (!choices.some(choice => choice.id === picked)) return null;
         if (picked !== 'default') selection.audioStreamIndex = Number(picked);
     } else if (audio.length === 1) {
@@ -125,7 +126,8 @@ export async function chooseOfflineTracks(
         if (track.CanBurn) choices.push({ id: `burn:${track.Index}`, name: `${label} - burned in (always visible)` });
     }
     if (choices.length > 1) {
-        const picked = String(await actionsheet.show({ title: 'Choose offline subtitles', items: choices }) || '');
+        const rawSubtitleChoice: unknown = await actionsheet.show({ title: 'Choose offline subtitles', items: choices });
+        const picked = typeof rawSubtitleChoice === 'string' ? rawSubtitleChoice : '';
         if (!choices.some(choice => choice.id === picked)) return null;
         if (picked !== 'none') {
             const [mode, index] = picked.split(':');
@@ -138,9 +140,9 @@ export async function chooseOfflineTracks(
 
 export function makeOfflineFilename(name: string | null | undefined, quality: string): string {
     if (!isOfflineQuality(quality)) throw new Error('Unknown quality.');
-    const forbidden = '<>:"/\\|?*';
+    const forbidden = String.raw`<>:"/\|?*`;
     let stem = Array.from(String(name || 'video').slice(0, 120), (character) => {
-        const code = character.charCodeAt(0);
+        const code = character.codePointAt(0) ?? 0;
         return code < 32 || code === 127 || forbidden.includes(character) ? '_' : character;
     }).join('');
     while (stem.endsWith('.') || stem.endsWith(' ')) stem = stem.slice(0, -1);
