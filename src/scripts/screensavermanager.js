@@ -58,6 +58,7 @@ function ScreenSaverManager() {
         }
 
         console.debug('Showing screensaver ' + screensaver.name);
+        
         document.body.classList.add('screensaver-noScroll');
 
         screensaver.show();
