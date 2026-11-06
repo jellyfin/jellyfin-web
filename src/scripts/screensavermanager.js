@@ -160,6 +160,7 @@ function ScreenSaverManager() {
         if (playbackManager.isPlayingVideo() && !playbackManager.paused()) {
             return;
         }
+        
         this.show();
     };
 
