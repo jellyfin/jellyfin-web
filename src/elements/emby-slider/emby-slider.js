@@ -425,10 +425,6 @@ EmbySliderPrototype.attachedCallback = function () {
         });
 
         dom.addEventListener(this, 'touchmove', function (e) {
-			if (e.defaultPrevented) {
-                return;
-            }
-			
             if (!this.touched || e.targetTouches.length !== 1) {
                 return;
             }
@@ -444,10 +440,8 @@ EmbySliderPrototype.attachedCallback = function () {
             passive: true
         });
 
-        dom.addEventListener(this, 'touchend', function (e) {
-			if (e.defaultPrevented) {
-                return;
-            }
+        dom.addEventListener(this, 'touchend', function () {
+			if (!this.touched) return;
 			
             const range = this;
 
