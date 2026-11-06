@@ -19,6 +19,7 @@ import { toItemsRequest } from '@/lib/jellyfin-apiclient/utils/legacyItemsQuery'
 import type { PlayOptions } from '@/types/playOptions';
 
 import Events, { type Event as EmitterEvent } from '@/utils/events';
+import type { Nullable } from '@/types/nullable';
 
 /**
  * Constants
@@ -169,7 +170,7 @@ export function translateItemsForPlayback(
     }
 
     const firstItem = items[0];
-    let promise: Promise<BaseItemDtoQueryResult | null> | undefined;
+    let promise: Promise<Nullable<BaseItemDtoQueryResult>> | undefined;
 
     const queryOptions = options.queryOptions || {};
 
@@ -245,7 +246,7 @@ export function translateItemsForPlayback(
             mediaTypes: [MediaType.Audio, MediaType.Video]
         }, queryOptions));
     } else if (firstItem.Type === 'Episode' && items.length === 1) {
-        promise = new Promise<BaseItemDtoQueryResult | null>(function (resolve, reject) {
+        promise = new Promise<Nullable<BaseItemDtoQueryResult>>(function (resolve, reject) {
             void apiClient.getCurrentUser().then(function (user) {
                 if (!user.Configuration!.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
                     resolve(null);
