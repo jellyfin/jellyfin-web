@@ -4,7 +4,6 @@
     "not": [
         "./dist/libraries/pdf.worker.js",
         "./dist/libraries/worker-bundle.js",
-        "./dist/libbitsub.*.js",
-        "./dist/serviceworker.js"
+        "./dist/libbitsub.*.js"
     ]
 }
