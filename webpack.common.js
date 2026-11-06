@@ -76,8 +76,7 @@ const config = {
             // Append file hashes to bundle urls for cache busting
             hash: true,
             chunks: [
-                'main.jellyfin',
-                'serviceworker'
+                'main.jellyfin'
             ]
         }),
         new CopyPlugin({
@@ -123,9 +122,7 @@ const config = {
         })
     ],
     output: {
-        filename: pathData => (
-            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
-        ),
+        filename: '[name].bundle.js',
         chunkFilename: '[name].[contenthash].chunk.js',
         assetModuleFilename: pathData => {
             if (pathData.filename === 'manifest.json') {
