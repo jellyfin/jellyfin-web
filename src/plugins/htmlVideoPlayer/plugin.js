@@ -3,7 +3,7 @@ import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
 import { useCustomSubtitles } from 'apps/legacy/features/playback/utils/subtitleStyles';
-import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleappearancehelper';
+import subtitleAppearanceHelper from 'components/subtitlesettings/subtitleAppearanceHelper';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
