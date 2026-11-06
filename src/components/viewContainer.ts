@@ -1,7 +1,7 @@
 import $ from 'jquery';
-import { importModule } from '@uupaa/dynamic-import-polyfill';
 
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { importModule } from 'utils/importModule';
 import { getPluginUrl } from 'utils/plugin';
 
 import type { Nullable } from '@/types/nullable';
@@ -32,9 +32,14 @@ function setControllerClass(view: HTMLElement, options: ViewOptions) {
 
         controllerUrl = getPluginUrl(controllerUrl);
         const apiUrl = api.getUri('/web/' + controllerUrl);
-        return importModule(apiUrl).then((ControllerFactory) => {
-            options.controllerFactory = ControllerFactory;
-        });
+        return importModule(apiUrl)
+            .then((ControllerFactory) => {
+                options.controllerFactory = ControllerFactory;
+            })
+            .catch((err) => {
+                // Still show the view without its controller, as a broken controller previously did
+                console.error('[viewContainer] failed to load the view controller', err);
+            });
     }
 
     return Promise.resolve();
