@@ -7,6 +7,20 @@ interface SubtitleAppearanceSettings {
     subtitleStyling: SubtitleStylingOption
 }
 
+interface PrefixedFullscreenElement {
+    webkitRequestFullscreen?: unknown
+    mozRequestFullScreen?: unknown
+    msRequestFullscreen?: unknown
+}
+
+function supportsElementFullscreen() {
+    const element = document.documentElement as HTMLElement & PrefixedFullscreenElement;
+    return !!(element.requestFullscreen
+        || element.webkitRequestFullscreen
+        || element.mozRequestFullScreen
+        || element.msRequestFullscreen);
+}
+
 export function useCustomSubtitles(userSettings: UserSettings) {
     const subtitleAppearance = userSettings.getSubtitleAppearanceSettings() as SubtitleAppearanceSettings;
     switch (subtitleAppearance.subtitleStyling) {
@@ -36,7 +50,7 @@ export function useCustomSubtitles(userSettings: UserSettings) {
             }
 
             // iOS/macOS global caption settings are causing huge font-size and margins
-            if (browser.safari) return true;
+            if (browser.safari && supportsElementFullscreen()) return true;
 
             return false;
     }
