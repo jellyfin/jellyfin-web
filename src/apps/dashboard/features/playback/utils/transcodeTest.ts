@@ -201,6 +201,26 @@ export const stressRunningHelp = (stress: TranscodeTestStressResult) => globaliz
     stress.SettleSeconds
 );
 
+/**
+ * A frame rate as a multiple of real time, such as "1.25×", or a dash when it can't be worked out. A reading under the
+ * threshold is rounded down, so a stream that fell behind never shows as "1.00×".
+ */
+export const formatSpeed = (fps: number | null | undefined, sourceFps: number | null | undefined, thresholdFps?: number) => {
+    if (fps == null || !sourceFps) {
+        return '—';
+    }
+    const speed = fps / sourceFps;
+    return `${formatNumber(thresholdFps != null && fps < thresholdFps ? Math.floor((speed * 100) + 1e-6) / 100 : speed, 2)}×`;
+};
+
+/** How fast one stream ran alone, in words, or an empty string before it is known. */
+export const singleStreamSpeed = (stress: TranscodeTestStressResult) => {
+    if (stress.SingleStreamFps == null || !stress.SourceFps) {
+        return '';
+    }
+    return globalize.translate('StressTestSingleStream', formatNumber(stress.SingleStreamFps, 1), formatSpeed(stress.SingleStreamFps, stress.SourceFps, stress.ThresholdFps));
+};
+
 /** A stress test target in the picker, such as "1080p H.264 8 Mbps". */
 export const stressTargetLabel = (resolution: string, codec: string, bitrate: number) => (
     globalize.translate('StressTestTarget', resolution, codecName(codec), globalize.translate('TranscodingTestValueMbps', bitrate / 1_000_000))

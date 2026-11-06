@@ -19,7 +19,17 @@ import Typography from '@mui/material/Typography';
 import globalize from 'lib/globalize';
 import type { TranscodeTestRequest, TranscodeTestStatus, TranscodeTestStressResult } from '../api/useTranscodeTest';
 import { useTestMediaSearch } from '../api/useTestMediaSearch';
-import { describeInput, describeOutput, describePipeline, formatFps, formatNumber, stressRunningHelp, stressTargetLabel } from '../utils/transcodeTest';
+import {
+    describeInput,
+    describeOutput,
+    describePipeline,
+    formatFps,
+    formatNumber,
+    formatSpeed,
+    singleStreamSpeed,
+    stressRunningHelp,
+    stressTargetLabel
+} from '../utils/transcodeTest';
 import TestConsole from './TestConsole';
 
 interface Target {
@@ -77,6 +87,7 @@ const STATUS_COLORS = {
     FallingBehind: 'warning',
     LimitReached: 'success',
     MaxStreams: 'success',
+    NvencSessionLimit: 'warning',
     Cancelled: 'default',
     Error: 'error'
 } as const;
@@ -88,6 +99,7 @@ const STATUS_LABEL_KEYS: Record<keyof typeof STATUS_COLORS, string> = {
     FallingBehind: 'StressTestStatusFallingBehind',
     LimitReached: 'StressTestStatusLimitReached',
     MaxStreams: 'StressTestStatusMaxStreams',
+    NvencSessionLimit: 'StressTestStatusNvencSessionLimit',
     Cancelled: 'StressTestStatusCancelled',
     Error: 'StressTestStatusError'
 };
@@ -99,6 +111,7 @@ const statusKey = (stress: TranscodeTestStressResult): keyof typeof STATUS_COLOR
     switch (stress.EndReason) {
         case 'LimitReached':
         case 'MaxStreams':
+        case 'NvencSessionLimit':
         case 'Cancelled':
             return stress.EndReason;
         default:
@@ -107,20 +120,29 @@ const statusKey = (stress: TranscodeTestStressResult): keyof typeof STATUS_COLOR
 };
 
 const ResultBanner: FC<{ stress: TranscodeTestStressResult, state: TranscodeTestStatus['State'] }> = ({ stress, state }) => {
+    const single = singleStreamSpeed(stress);
     const average = stress.AverageOutputMbps != null ? ` ${globalize.translate('StressTestAverageOutput', formatNumber(stress.AverageOutputMbps, 1))}` : '';
+    const details = (single ? ' ' + single : '') + average;
     switch (stress.EndReason) {
         case 'LimitReached':
             return (
                 <Alert severity='success'>
                     {limitSummary(stress)}
-                    {average}
+                    {details}
                 </Alert>
             );
         case 'MaxStreams':
             return (
                 <Alert severity='success'>
                     {globalize.translate('StressTestFinishedMaxStreams', stress.MaxStreams)}
-                    {average}
+                    {details}
+                </Alert>
+            );
+        case 'NvencSessionLimit':
+            return (
+                <Alert severity='warning'>
+                    {globalize.translate('StressTestFinishedNvencLimit', streamCount(stress.MaxStableStreams), stress.FailedStreamId ?? '')}
+                    {details}
                 </Alert>
             );
         case 'Cancelled':
@@ -351,6 +373,7 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
                                     <TableRow>
                                         <TableCell>{globalize.translate('HeaderStressTestStream')}</TableCell>
                                         <TableCell align='right'>{globalize.translate(isRunning ? 'HeaderTranscodingTestFps' : 'HeaderStressTestFinalFps')}</TableCell>
+                                        <TableCell align='right'>{globalize.translate('HeaderStressTestSpeed')}</TableCell>
                                         <TableCell align='right'>{globalize.translate('HeaderStressTestOutputMbps')}</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -363,6 +386,9 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
                                                 <TableCell>{s.Id}</TableCell>
                                                 <TableCell align='right' sx={behind ? { color: 'error.main' } : undefined}>
                                                     {fps != null ? formatFps(fps) : '—'}
+                                                </TableCell>
+                                                <TableCell align='right' sx={behind ? { color: 'error.main' } : undefined}>
+                                                    {formatSpeed(fps, stress.SourceFps, stress.ThresholdFps)}
                                                 </TableCell>
                                                 <TableCell align='right'>{s.OutputMbps != null ? formatNumber(s.OutputMbps, 1) : '—'}</TableCell>
                                             </TableRow>
