@@ -1,3 +1,5 @@
+import type { Nullable } from '@/types/nullable';
+
 export type LazyLoaderCallback = (entry: IntersectionObserverEntry, observer: IntersectionObserver) => void;
 
 export interface LazyLoaderOptions {
@@ -5,8 +7,8 @@ export interface LazyLoaderOptions {
 }
 
 export class LazyLoader {
-    options: LazyLoaderOptions | null;
-    observer: IntersectionObserver | null = null;
+    options: Nullable<LazyLoaderOptions>;
+    observer: Nullable<IntersectionObserver> = null;
 
     constructor(options: LazyLoaderOptions) {
         this.options = options;

@@ -1,5 +1,6 @@
 import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
 import { PlayMethod } from '@jellyfin/sdk/lib/generated-client/models/play-method';
+import type { Nullable } from '@/types/nullable';
 
 export type DisplayPlayMethod =
     | 'Remux'
@@ -9,7 +10,7 @@ export type DisplayPlayMethod =
 
 export function getDisplayPlayMethod(
     session: SessionInfoDto
-): DisplayPlayMethod | null {
+): Nullable<DisplayPlayMethod> {
     if (!session.NowPlayingItem) {
         return null;
     }
