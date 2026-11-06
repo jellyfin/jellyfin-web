@@ -9,7 +9,6 @@ import * as userSettings from './settings/userSettings';
 
 import './screensavermanager.scss';
 
-let lastFunctionalEvent = 0;
 const WheelEvOpts = { capture: true, passive: false };
 
 function getMinIdleTime() {
@@ -18,6 +17,7 @@ function getMinIdleTime() {
     return userSettings.screensaverTime() * 1000;
 }
 
+let lastFunctionalEvent = 0;
 function getFunctionalEventIdleTime() {
     return new Date().getTime() - lastFunctionalEvent;
 }
