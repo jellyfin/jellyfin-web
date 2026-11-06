@@ -153,6 +153,11 @@
             <select is="emby-select" class="selectChromecastVersion" label="${LabelChromecastVersion}"></select>
         </div>
 
+        <div class="inputContainer inputContainer-withDescription">
+            <input is="emby-input" type="number" id="txtDefaultPlaylistSize" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelDefaultPlaylistSize}" />
+            <div class="fieldDescription">${LabelDefaultPlaylistSizeHelp}</div>
+        </div>
+
         <div class="selectContainer">
             <select is="emby-select" class="selectSkipForwardLength" label="${LabelSkipForwardLength}"></select>
         </div>

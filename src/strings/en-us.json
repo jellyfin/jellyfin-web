@@ -714,6 +714,8 @@
     "LabelDateTimeLocale": "Date time locale",
     "LabelDay": "Day of week",
     "LabelDeathDate": "Death date",
+    "LabelDefaultPlaylistSize": "Default playlist size",
+    "LabelDefaultPlaylistSizeHelp": "Set the maximum number of items added to a playlist. Setting a value of 0 removes the limit.",
     "LabelDefaultScreen": "Default screen",
     "LabelDeinterlaceMethod": "Deinterlacing method",
     "LabelDelimiterWhitelist": "Delimiter Whitelist",

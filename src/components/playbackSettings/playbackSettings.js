@@ -23,6 +23,7 @@ import template from './playbackSettings.template.html';
 
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-checkbox/emby-checkbox';
+import '../../elements/emby-input/emby-input';
 
 function fillSkipLengths(select) {
     const options = [5, 10, 15, 20, 25, 30];
@@ -288,6 +289,8 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const selectMaxVideoWidth = context.querySelector('.selectMaxVideoWidth');
     selectMaxVideoWidth.value = appSettings.maxVideoWidth();
 
+    context.querySelector('#txtDefaultPlaylistSize').value = userSettings.defaultPlaylistSize();
+
     const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
     fillSkipLengths(selectSkipForwardLength);
     selectSkipForwardLength.value = userSettings.skipForwardLength();
@@ -336,6 +339,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
+    userSettingsInstance.defaultPlaylistSize(context.querySelector('#txtDefaultPlaylistSize').value);
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
 
