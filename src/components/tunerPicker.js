@@ -178,7 +178,7 @@ function TunerPicker() {
                 return Promise.resolve(deviceResult);
             }
 
-            return Promise.reject();
+            return Promise.reject(new Error('TunerPickerError'));
         });
     };
 }
