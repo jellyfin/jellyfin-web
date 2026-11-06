@@ -1,3 +1,4 @@
+import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
@@ -26,15 +27,10 @@ function processForgotPasswordResult(result) {
 
 export default function (view) {
     function onSubmit(e) {
-        const apiClient = ServerConnections.currentApiClient();
-        apiClient.ajax({
-            type: 'POST',
-            url: apiClient.getUrl('Users/ForgotPassword/Pin'),
-            dataType: 'json',
-            data: JSON.stringify({
-                Pin: view.querySelector('#txtPin').value
-            }),
-            contentType: 'application/json'
+        const api = ServerConnections.getApi();
+        const Pin = view.querySelector('#txtPin').value;
+        getAuthenticationApi(api).forgotPasswordPin({
+            forgotPasswordPinDto: { Pin }
         }).then(processForgotPasswordResult);
         e.preventDefault();
         return false;
