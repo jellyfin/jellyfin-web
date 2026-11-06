@@ -1,14 +1,15 @@
-import { PluginType } from 'constants/pluginType';
+import type Slideshow from 'components/slideshow/slideshow';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import * as userSettings from 'scripts/settings/userSettings';
+import { ScreensaverPlugin } from 'types/plugin';
 
-class BackdropScreensaver {
-    constructor() {
-        this.name = 'BackdropScreensaver';
-        this.type = PluginType.Screensaver;
-        this.id = 'backdropscreensaver';
-        this.supportsAnonymous = false;
-    }
+class BackdropScreensaver extends ScreensaverPlugin {
+    name = 'BackdropScreensaver';
+    id = 'backdropscreensaver';
+    supportsAnonymous = false;
+
+    private currentSlideshow?: Slideshow | null;
+
     show() {
         const query = {
             ImageTypes: 'Backdrop',
@@ -22,9 +23,9 @@ class BackdropScreensaver {
             Limit: 200
         };
 
-        const apiClient = ServerConnections.currentApiClient();
-        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
-            if (result.Items.length) {
+        const apiClient = ServerConnections.currentApiClient()!;
+        void apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
+            if (result.Items!.length) {
                 import('../../components/slideshow/slideshow').then(({ default: Slideshow }) => {
                     const newSlideShow = new Slideshow({
                         showTitle: true,
