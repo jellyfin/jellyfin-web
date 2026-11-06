@@ -399,9 +399,7 @@ EmbySliderPrototype.attachedCallback = function () {
     // HACK: iPhone/iPad do not change input by touch
     if (browser.iOS) {
         dom.addEventListener(this, 'touchstart', function (e) {
-			if (e.defaultPrevented) {
-                return;
-            }
+		    if (e.defaultPrevented) return;
 			
             if (e.targetTouches.length !== 1) {
                 return;
@@ -534,9 +532,7 @@ function stepKeyboard(elem, delta) {
      * Handle KeyDown event
      */
 function onKeyDown(e) {
-	if (e.defaultPrevented) {
-        return;
-    }
+    if (e.defaultPrevented) return;
 	
     switch (keyboardnavigation.getKeyName(e)) {
         case 'ArrowLeft':
