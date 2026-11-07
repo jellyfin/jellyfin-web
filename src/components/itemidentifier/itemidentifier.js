@@ -217,7 +217,9 @@ function getSearchResultHtml(result, index) {
     html += '<div class="cardContent searchImage">';
 
     if (result.ImageUrl) {
-        html += `<div class="cardImageContainer coveredImage" style="background-image:url('${result.ImageUrl}');"></div>`;
+        html += '<div class="cardImageContainer coveredImage">'
+            + `<img class="coveredImage-img" src="${result.ImageUrl}" referrerpolicy="no-referrer" alt="${escapeHtml(result.Name)}" />`
+            + '</div>';
     } else {
         html += `<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">${escapeHtml(result.Name)}</div></div>`;
     }
