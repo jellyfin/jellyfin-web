@@ -58,6 +58,28 @@ const defaultComicsPlayerSettings = {
     pagesPerView: 1
 };
 
+const DEFAULT_PLAYLIST_SIZE = 300;
+
+/**
+ * Returns a non-negative integer playlist size.
+ * Missing or invalid values fall back to the default.
+ * @param {number|string|null|undefined} val - Raw playlist size.
+ * @return {number} Playlist size. 0 means no limit.
+ */
+function normalizePlaylistSize(val) {
+    if (val === null || val === undefined || val === '') {
+        return DEFAULT_PLAYLIST_SIZE;
+    }
+
+    const text = String(val).trim();
+    // Whole digits only: 0 is unlimited, and anything else must be a positive integer.
+    if (!/^\d+$/.test(text)) {
+        return DEFAULT_PLAYLIST_SIZE;
+    }
+
+    return Number.parseInt(text, 10);
+}
+
 export class UserSettings {
     /**
      * Bind UserSettings instance to user.
@@ -423,6 +445,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the default playlist size.
+     * @param {number|string|undefined} [val] - Playlist size. 0 means no limit.
+     * @return {number} Playlist size. 0 means no limit.
+     */
+    defaultPlaylistSize(val) {
+        if (val !== undefined) {
+            return this.set('defaultPlaylistSize', normalizePlaylistSize(val).toString());
+        }
+
+        return normalizePlaylistSize(this.get('defaultPlaylistSize'));
+    }
+
+    /**
      * Get or set theme for Dashboard.
      * @param {string|undefined} [val] - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
@@ -747,6 +782,7 @@ export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
+export const defaultPlaylistSize = currentSettings.defaultPlaylistSize.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
 export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);

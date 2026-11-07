@@ -157,10 +157,11 @@ function getItemsForPlayback(serverId, query) {
             collapseBoxSetItems: false
         };
 
-        if (query.limit === UNLIMITED_ITEMS) {
-            delete request.limit;
+        const playlistLimit = query.limit || userSettings.defaultPlaylistSize();
+        if (playlistLimit > 0) {
+            request.limit = playlistLimit;
         } else {
-            request.limit = query.limit || 300;
+            delete request.limit;
         }
 
         return getItems(ServerConnections.getApi(serverId), request);
