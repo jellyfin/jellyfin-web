@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 
 import ListItemLink from 'components/ListItemLink';
 import globalize from 'lib/globalize';
-import Dashboard from 'utils/dashboard';
+import { getPluginUrl } from 'utils/plugin';
 import { useConfigurationPages } from 'apps/dashboard/features/plugins/api/useConfigurationPages';
 
 const PluginDrawerSection = () => {
@@ -36,7 +36,7 @@ const PluginDrawerSection = () => {
                     '/configurationpage',
                     '/dashboard/plugins/repositories'
                 ]}
-                excludePaths={pagesInfo?.map(p => `/${Dashboard.getPluginUrl(p.Name)}`)}
+                excludePaths={pagesInfo?.map(p => `/${getPluginUrl(p.Name ?? '')}`)}
             >
                 <ListItemIcon>
                     <Extension />
@@ -47,7 +47,7 @@ const PluginDrawerSection = () => {
             {pagesInfo?.map(pageInfo => (
                 <ListItemLink
                     key={pageInfo.PluginId}
-                    to={`/${Dashboard.getPluginUrl(pageInfo.Name)}`}
+                    to={`/${getPluginUrl(pageInfo.Name ?? '')}`}
                 >
                     <ListItemIcon>
                         <Icon>{pageInfo.MenuIcon ?? 'folder'}</Icon>

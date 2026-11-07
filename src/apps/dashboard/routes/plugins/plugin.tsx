@@ -35,7 +35,7 @@ import Image from 'components/Image';
 import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
-import { getPluginUrl } from 'utils/dashboard';
+import { getPluginUrl } from 'utils/plugin';
 
 interface AlertMessage {
     severity?: 'success' | 'info' | 'warning' | 'error'
