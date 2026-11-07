@@ -10,6 +10,7 @@ describe('Browser', () => {
         expect(browser.titanos).toBe(true);
         expect(browser.operaTv).toBeFalsy();
         expect(browser.safari).toBeFalsy();
+        expect(browser.webkitGtk).toBeFalsy();
         expect(browser.tv).toBe(true);
 
         // JVC example
@@ -17,6 +18,7 @@ describe('Browser', () => {
         expect(browser.titanos).toBe(true);
         expect(browser.operaTv).toBeFalsy();
         expect(browser.safari).toBeFalsy();
+        expect(browser.webkitGtk).toBeFalsy();
         expect(browser.tv).toBe(true);
     });
 
@@ -26,6 +28,7 @@ describe('Browser', () => {
         expect(browser.vega).toBe(true);
         expect(browser.chrome).toBeFalsy();
         expect(browser.safari).toBeFalsy();
+        expect(browser.webkitGtk).toBeFalsy();
         expect(browser.mobile).toBeFalsy();
         expect(browser.tv).toBe(true);
     });
@@ -52,5 +55,37 @@ describe('Browser', () => {
         expect(browser.mobile).toBe(true);
         expect(browser.tizen).toBeFalsy();
         expect(browser.tv).toBeFalsy();
+    });
+
+    it('should identify Safari browsers', () => {
+        let browser = detectBrowser('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15');
+        expect(browser.safari).toBe(true);
+        expect(browser.webkit).toBe(true);
+        expect(browser.osx).toBe(true);
+        expect(browser.versionMajor).toBe(17);
+        expect(browser.version).toBe('17.2.1');
+        expect(browser.webkitGtk).toBeFalsy();
+
+        browser = detectBrowser('Mozilla/5.0 (iPhone; CPU iPhone OS 17_2_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1');
+        expect(browser.safari).toBe(true);
+        expect(browser.webkit).toBe(true);
+        expect(browser.iphone).toBe(true);
+        expect(browser.mobile).toBe(true);
+        expect(browser.versionMajor).toBe(17);
+        expect(browser.webkitGtk).toBeFalsy();
+    });
+
+    it('should identify WebKitGTK browsers', () => {
+        let browser = detectBrowser('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Epiphany/45.0 Safari/605.1.15');
+        expect(browser.webkitGtk).toBe(true);
+        expect(browser.webkit).toBe(true);
+        expect(browser.safari).toBeFalsy();
+        expect(browser.versionMajor).toBe(17);
+
+        browser = detectBrowser('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15');
+        expect(browser.webkitGtk).toBe(true);
+        expect(browser.webkit).toBe(true);
+        expect(browser.safari).toBeFalsy();
+        expect(browser.versionMajor).toBe(60);
     });
 });
