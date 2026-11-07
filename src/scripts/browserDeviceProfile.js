@@ -1060,9 +1060,9 @@ export default function (options) {
         });
     }
 
-    if (browser.web0s) {
+    if (browser.web0sVersion < 23) {
         const flacConditions = [
-            // webOS doesn't seem to support FLAC with more than 2 channels
+            // legacy webOS doesn't seem to support FLAC with more than 2 channels
             {
                 Condition: 'LessThanEqual',
                 Property: 'AudioChannels',
@@ -1070,6 +1070,12 @@ export default function (options) {
                 IsRequired: false
             }
         ];
+
+        profile.CodecProfiles.push({
+            Type: 'VideoAudio',
+            Codec: 'flac',
+            Conditions: flacConditions
+        });
 
         profile.CodecProfiles.push({
             Type: 'VideoAudio',
