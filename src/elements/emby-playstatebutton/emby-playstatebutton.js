@@ -1,6 +1,7 @@
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import toast from '../../components/toast/toast';
 import EmbyButtonPrototype from '../../elements/emby-button/emby-button';
 
 function onClick() {
@@ -8,17 +9,39 @@ function onClick() {
     const id = button.getAttribute('data-id');
     const serverId = button.getAttribute('data-serverid');
     const apiClient = ServerConnections.getApiClient(serverId);
+    const userId = apiClient.getCurrentUserId();
+    const wasPlayed = button.classList.contains('playstatebutton-played');
 
-    if (!button.classList.contains('playstatebutton-played')) {
-        apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());
-        setState(button, true);
-    } else {
-        apiClient.markUnplayed(apiClient.getCurrentUserId(), id, new Date());
-        setState(button, false);
-    }
+    // Show the expected state right away, but block further clicks and
+    // ignore websocket updates until the server confirms the change.
+    button.disabled = true;
+    button._pendingRequest = true;
+    setState(button, !wasPlayed);
+
+    const request = wasPlayed ?
+        apiClient.markUnplayed(userId, id, new Date()) :
+        apiClient.markPlayed(userId, id, new Date());
+
+    request
+        .then(userData => {
+            setState(button, userData.Played);
+        })
+        .catch(err => {
+            console.error('[emby-playstatebutton] failed to update played state', err);
+            setState(button, wasPlayed);
+            toast(globalize.translate('ErrorDefault'));
+        })
+        .finally(() => {
+            button._pendingRequest = false;
+            button.disabled = false;
+        });
 }
 
 function onUserDataChanged({ Data }, button) {
+    if (button._pendingRequest) {
+        return;
+    }
+
     const itemId = button.dataset.id;
     const userData = (Data?.UserDataList ?? []).find(u => u.ItemId === itemId);
     if (userData) {
