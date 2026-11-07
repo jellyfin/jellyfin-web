@@ -9,7 +9,7 @@ import TouchHelper from 'scripts/touchHelper';
 import loading from '../../components/loading/loading';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
-import TableOfContents from './tableOfContents';
+import BookToc from './BookToc/BookToc';
 import BookOsd from './BookOsd/BookOsd';
 import { translateHtml } from '../../lib/globalize';
 import * as userSettings from '../../scripts/settings/userSettings';
@@ -68,6 +68,7 @@ export class BookPlayer {
 
     stop() {
         this.unbindEvents();
+        this.tocElement?.();
         this.unmountBookOsd();
         screenSaverManager.unblock();
 
@@ -78,17 +79,11 @@ export class BookPlayer {
         Events.trigger(this, 'stopped', [stopInfo]);
 
         const elem = this.mediaElement;
-        const tocElement = this.tocElement;
         const rendition = this.rendition;
 
         if (elem) {
             dialogHelper.close(elem);
             this.mediaElement = null;
-        }
-
-        if (tocElement) {
-            tocElement.destroy();
-            this.tocElement = null;
         }
 
         if (rendition) {
@@ -161,13 +156,7 @@ export class BookPlayer {
                 break;
             case 'Escape':
                 e.preventDefault();
-                if (this.tocElement) {
-                    // Close table of contents on ESC if it is open
-                    this.tocElement.destroy();
-                } else {
-                    // Otherwise stop the entire book player
-                    this.stop();
-                }
+                if (!this.tocElement) this.stop();
                 break;
         }
     }
@@ -216,9 +205,15 @@ export class BookPlayer {
     }
 
     openTableOfContents() {
-        if (this.loaded) {
-            this.tocElement = new TableOfContents(this);
-        }
+        if (!this.loaded) return;
+
+        this.tocElement = renderComponent(BookToc, {
+            rendition: () => this.rendition,
+            onClose: () => {
+                this.tocElement();
+                this.tocElement = null;
+            }
+        }, document.querySelector('#bookTocMount'));
     }
 
     setTheme(theme, fontSize) {
@@ -235,6 +230,9 @@ export class BookPlayer {
         if (fontSize !== undefined) {
             active['a, p, div, li, span'] = { 'font-size': `${fontSize} !important` };
         }
+
+        document.documentElement.style.setProperty('--book-theme-color', active.body.color);
+        document.documentElement.style.setProperty('--book-theme-background', active.body.background);
 
         this.rendition.themes.register('default', active);
         this.rendition.themes.update('default');
