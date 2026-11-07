@@ -77,7 +77,7 @@ function normalizePlaylistSize(val) {
         return DEFAULT_PLAYLIST_SIZE;
     }
 
-    return parseInt(text, 10);
+    return Number.parseInt(text, 10);
 }
 
 export class UserSettings {
