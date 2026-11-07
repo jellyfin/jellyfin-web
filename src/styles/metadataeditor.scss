@@ -63,17 +63,17 @@
 
         [dir="ltr"] & {
             left: 0;
-            border-right: 1px solid #555;
+            border-right: 1px solid #202020;
         }
 
         [dir="rtl"] & {
             right: 0;
-            border-left: 1px solid #555;
+            border-left: 1px solid #202020;
         }
     }
 
     .editPageInnerContent {
-        width: 68.5%;
+        width: 70%;
 
         [dir="ltr"] & {
             float: right;
@@ -91,6 +91,6 @@
     }
 
     .editPageInnerContent {
-        width: 73.5%;
+        width: 75%;
     }
 }
