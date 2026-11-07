@@ -1,19 +1,25 @@
 /**
  * Module that offers some utility functions.
- * @module components/syncPlay/core/Helper
+ * @module plugins/syncPlay/core/Helper
  */
 
+import type { LibraryApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import type { BaseItemDtoQueryResult } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-query-result';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+import type { ApiClient } from 'jellyfin-apiclient';
 
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
-import { toItemsRequest } from 'lib/jellyfin-apiclient/utils/legacyItemsQuery';
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+import { getItems } from '@/lib/jellyfin-apiclient/utils/getItems';
+import { toItemsRequest } from '@/lib/jellyfin-apiclient/utils/legacyItemsQuery';
+import type { PlayOptions } from '@/types/playOptions';
 
-import Events from '../../../utils/events.ts';
+import Events, { type Event as EmitterEvent } from '@/utils/events';
+import type { Nullable } from '@/types/nullable';
 
 /**
  * Constants
@@ -23,16 +29,27 @@ export const WaitForPlayerEventTimeout = 500; // milliseconds
 export const TicksPerMillisecond = 10000.0;
 
 /**
- * Waits for an event to be triggered on an object. An optional timeout can specified after which the promise is rejected.
- * @param {Object} emitter Object on which to listen for events.
- * @param {string} eventType Event name to listen for.
- * @param {number} timeout Time before rejecting promise if event does not trigger, in milliseconds.
- * @param {Array} rejectEventTypes Event names to listen for and abort the waiting.
- * @returns {Promise} A promise that resolves when the event is triggered.
+ * Waits for an event to be triggered on an object. An optional timeout can be specified after which the promise is rejected.
+ * @param emitter Object on which to listen for events.
+ * @param eventType Event name to listen for.
+ * @param timeout Optional; time before rejecting the promise if the event does not trigger, in milliseconds.
+ * @param rejectEventTypes Optional; event names to listen for that abort the waiting.
+ * @returns A promise that resolves with the arguments of this call when the event is triggered. It rejects with an
+ * Error on timeout, or with the event type when one of the reject events is triggered.
  */
-export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) {
+export function waitForEventOnce(
+    emitter: object,
+    eventType: string,
+    timeout?: number,
+    rejectEventTypes?: string[]
+): Promise<IArguments> {
+    // NOTE: The arrow functions below always referenced the arguments of waitForEventOnce itself.
+    // They are captured here because TS does not allow `arguments` in arrow functions when targeting ES5.
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments;
+
     return new Promise((resolve, reject) => {
-        let rejectTimeout;
+        let rejectTimeout: ReturnType<typeof setTimeout> | undefined;
         if (timeout) {
             rejectTimeout = setTimeout(() => {
                 reject(new Error('Timed out.'));
@@ -55,10 +72,10 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
 
         const callback = () => {
             clearAll();
-            resolve(arguments);
+            resolve(args);
         };
 
-        const rejectCallback = (event) => {
+        const rejectCallback = (event: EmitterEvent) => {
             clearAll();
             reject(event.type);
         };
@@ -75,19 +92,23 @@ export function waitForEventOnce(emitter, eventType, timeout, rejectEventTypes) 
 
 /**
  * Converts a given string to a Guid string.
- * @param {string} input The input string.
- * @returns {string} The Guid string.
+ * @param input The input string.
+ * @returns The Guid string.
  */
-export function stringToGuid(input) {
+export function stringToGuid(input: string): string {
     return input.replace(/([0-z]{8})([0-z]{4})([0-z]{4})([0-z]{4})([0-z]{12})/, '$1-$2-$3-$4-$5');
 }
 
 /**
  * Gets the items to play.
- * @param {import('jellyfin-apiclient').ApiClient} apiClient The legacy ApiClient for the server.
- * @param {import('@jellyfin/sdk/lib/generated-client/api/library-api').LibraryApiGetItemsRequest} query The getItems request parameters.
+ * @param apiClient The legacy ApiClient for the server.
+ * @param query The getItems request parameters.
+ * @returns A promise that resolves to the items to play. It rejects when no Api instance is available for the server.
  */
-export function getItemsForPlayback(apiClient, query) {
+export function getItemsForPlayback(
+    apiClient: ApiClient,
+    query: LibraryApiGetItemsRequest
+): Promise<BaseItemDtoQueryResult> {
     if (query.ids?.length === 1) {
         return apiClient.getItem(apiClient.getCurrentUserId(), query.ids[0]).then(function (item) {
             return {
@@ -95,7 +116,10 @@ export function getItemsForPlayback(apiClient, query) {
             };
         });
     } else {
-        return getItems(ServerConnections.getApi(apiClient.serverId()), {
+        const api = ServerConnections.getApi(apiClient.serverId());
+        if (!api) return Promise.reject(new Error('No Api instance available'));
+
+        return getItems(api, {
             ...query,
             userId: apiClient.getCurrentUserId(),
             limit: query.limit || 300,
@@ -111,7 +135,10 @@ export function getItemsForPlayback(apiClient, query) {
  * Merges SDK-shaped playback query parameters with the (legacy-shaped) `queryOptions` passed to play/queue.
  * TODO: Remove the legacy conversion with the legacy query inputs.
  */
-function mergePlaybackQueries(params, legacyQueryOptions) {
+function mergePlaybackQueries(
+    params: LibraryApiGetItemsRequest,
+    legacyQueryOptions: Record<string, unknown>
+): LibraryApiGetItemsRequest {
     const query = { ...params, ...toItemsRequest(legacyQueryOptions) };
 
     if (!query.filters?.includes(ItemFilter.IsNotFolder)) {
@@ -120,16 +147,30 @@ function mergePlaybackQueries(params, legacyQueryOptions) {
     return query;
 }
 
-export function translateItemsForPlayback(apiClient, items, options) {
-    if (items.length > 1 && options?.ids) {
+/**
+ * Translates the requested items into the list of items to play, e.g. by expanding playlists, folders, artists and
+ * genres into their contents, or by adding the following episodes when next episode autoplay is enabled.
+ * @param apiClient The legacy ApiClient for the server.
+ * @param items The requested items. They are sorted in place to match the order of `options.ids`.
+ * @param options The play/queue options. `startIndex` is updated for photo playback.
+ * @returns A promise that resolves to the items to play.
+ */
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export function translateItemsForPlayback(
+    apiClient: ApiClient,
+    items: BaseItemDto[],
+    options: PlayOptions
+): Promise<BaseItemDto[] | undefined> {
+    const ids = options?.ids;
+    if (items.length > 1 && ids) {
         // Use the original request id array for sorting the result in the proper order.
         items.sort(function (a, b) {
-            return options.ids.indexOf(a.Id) - options.ids.indexOf(b.Id);
+            return ids.indexOf(a.Id!) - ids.indexOf(b.Id!);
         });
     }
 
     const firstItem = items[0];
-    let promise;
+    let promise: Promise<Nullable<BaseItemDtoQueryResult>> | undefined;
 
     const queryOptions = options.queryOptions || {};
 
@@ -144,7 +185,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
         });
     } else if (firstItem.Type === 'MusicArtist') {
         promise = getItemsForPlayback(apiClient, {
-            artistIds: [firstItem.Id],
+            artistIds: [firstItem.Id!],
             filters: [ItemFilter.IsNotFolder],
             recursive: true,
             sortBy: [options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName],
@@ -152,14 +193,14 @@ export function translateItemsForPlayback(apiClient, items, options) {
         });
     } else if (firstItem.MediaType === 'Photo') {
         promise = getItemsForPlayback(apiClient, {
-            parentId: firstItem.ParentId,
+            parentId: firstItem.ParentId!,
             filters: [ItemFilter.IsNotFolder],
             // Setting this to true may cause some incorrect sorting.
             recursive: false,
             sortBy: [options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName],
             mediaTypes: [MediaType.Photo, MediaType.Video]
         }).then(function (result) {
-            let index = result.Items.map(function (i) {
+            let index = result.Items!.map(function (i) {
                 return i.Id;
             }).indexOf(firstItem.Id);
 
@@ -183,14 +224,14 @@ export function translateItemsForPlayback(apiClient, items, options) {
         });
     } else if (firstItem.Type === 'MusicGenre') {
         promise = getItemsForPlayback(apiClient, {
-            genreIds: [firstItem.Id],
+            genreIds: [firstItem.Id!],
             filters: [ItemFilter.IsNotFolder],
             recursive: true,
             sortBy: [options.shuffle ? ItemSortBy.Random : ItemSortBy.SortName],
             mediaTypes: [MediaType.Audio]
         });
     } else if (firstItem.IsFolder) {
-        let sortBy;
+        let sortBy: ItemSortBy[] | undefined;
         if (options.shuffle) {
             sortBy = [ItemSortBy.Random];
         } else if (firstItem.Type === 'BoxSet') {
@@ -205,9 +246,9 @@ export function translateItemsForPlayback(apiClient, items, options) {
             mediaTypes: [MediaType.Audio, MediaType.Video]
         }, queryOptions));
     } else if (firstItem.Type === 'Episode' && items.length === 1) {
-        promise = new Promise(function (resolve, reject) {
-            apiClient.getCurrentUser().then(function (user) {
-                if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
+        promise = new Promise<Nullable<BaseItemDtoQueryResult>>(function (resolve, reject) {
+            void apiClient.getCurrentUser().then(function (user) {
+                if (!user.Configuration!.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
                     resolve(null);
                     return;
                 }
@@ -219,7 +260,7 @@ export function translateItemsForPlayback(apiClient, items, options) {
                     Fields: ['Chapters', 'Trickplay']
                 }).then(function (episodesResult) {
                     let foundItem = false;
-                    episodesResult.Items = episodesResult.Items.filter(function (e) {
+                    episodesResult.Items = episodesResult.Items!.filter(function (e) {
                         if (foundItem) {
                             return true;
                         }
