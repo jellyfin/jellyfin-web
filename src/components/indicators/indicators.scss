@@ -56,8 +56,13 @@
 }
 
 .indicatorIcon {
-    width: auto;
-    height: auto;
+    font-size: 1.6em;
+}
+
+// MUI's runtime SvgIcon styles can land before or after this sheet, and WebKit draws an auto-sized svg at 0x0 (jellyfin/jellyfin#18501)
+svg.indicatorIcon {
+    width: 1em;
+    height: 1em;
     font-size: 1.6em;
 }
 
