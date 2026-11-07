@@ -1,8 +1,20 @@
-import { QueryCache, QueryClient } from '@tanstack/react-query';
+import { defaultShouldDehydrateQuery, type Query, QueryCache, QueryClient } from '@tanstack/react-query';
 import type { PersistedClient, Persister } from '@tanstack/react-query-persist-client';
 import { get, set, del } from 'idb-keyval';
 
 // TODO: Move this file to lib/query
+
+/** Custom metadata supported by queries. */
+export interface QueryMeta extends Record<string, unknown> {
+    /** Set to false to exclude a query from the persisted cache, e.g. if its key or data contains secrets. */
+    persist?: boolean
+}
+
+declare module '@tanstack/react-query' {
+    interface Register {
+        queryMeta: QueryMeta
+    }
+}
 
 /** HTTP status code for unauthorized requests. */
 const HTTP_UNAUTHORIZED = 401;
@@ -59,6 +71,11 @@ queryClient = new QueryClient({
         }
     }
 });
+
+/** Determines if a query should be persisted. Queries opt out with `meta: { persist: false }`. */
+export const shouldDehydrateQuery = (query: Query) => (
+    query.meta?.persist !== false && defaultShouldDehydrateQuery(query)
+);
 
 /** Create an IndexedDB persister for react-query-persist-client. Uses idb-keyval for simplicity. */
 const createIDBPersister = (idbValidKey: IDBValidKey = 'query-cache') => ({
