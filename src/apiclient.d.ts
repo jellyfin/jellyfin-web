@@ -231,6 +231,7 @@ declare module 'jellyfin-apiclient' {
         markNotificationsRead(userId: string, idList: string[], isRead: boolean): Promise<void>;
         markPlayed(userId: string, itemId: string, date: Date): Promise<UserItemDataDto>;
         markUnplayed(userId: string, itemId: string, date: Date): Promise<UserItemDataDto>;
+        onAuthenticated(instance: ApiClient, result: AuthenticationResult): Promise<void>;
         openWebSocket(): void;
         quickConnect(secret: string): Promise<AuthenticationResult>;
         refreshItem(itemId: string, options?: any): Promise<void>;
