@@ -16,6 +16,9 @@ import Events from 'utils/events';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 
+const REFRESH_DELAY_MS = 10000;
+const USER_DATA_REFRESH_DELAY_MS = 1000;
+
 function onClick(e) {
     const itemsContainer = this;
     const multiSelect = itemsContainer.multiSelect;
@@ -155,7 +158,7 @@ function onUserDataChanged({ Data }, itemsContainer) {
     if (eventsToMonitor.indexOf('markfavorite') !== -1
             || eventsToMonitor.indexOf('markplayed') !== -1
     ) {
-        itemsContainer.notifyRefreshNeeded();
+        itemsContainer.notifyRefreshNeeded(false, USER_DATA_REFRESH_DELAY_MS);
     }
 }
 
@@ -373,7 +376,7 @@ ItemsContainerPrototype.refreshItems = function () {
     return this.fetchData().then(onDataFetched.bind(this));
 };
 
-ItemsContainerPrototype.notifyRefreshNeeded = function (isInForeground) {
+ItemsContainerPrototype.notifyRefreshNeeded = function (isInForeground, delayMs = REFRESH_DELAY_MS) {
     if (this.paused) {
         this.needsRefresh = true;
         return;
@@ -387,7 +390,7 @@ ItemsContainerPrototype.notifyRefreshNeeded = function (isInForeground) {
     if (isInForeground === true) {
         this.refreshItems();
     } else {
-        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), 10000);
+        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), delayMs);
     }
 };
 
