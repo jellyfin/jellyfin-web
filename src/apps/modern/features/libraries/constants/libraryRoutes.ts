@@ -165,31 +165,36 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 2,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            },
+            {
+                index: 3,
                 label: 'HeaderAlbumArtists',
                 view: LibraryTab.AlbumArtists
             },
             {
-                index: 3,
+                index: 4,
                 label: 'Artists',
                 view: LibraryTab.Artists
             },
             {
-                index: 4,
+                index: 5,
                 label: 'Playlists',
                 view: LibraryTab.Playlists
             },
             {
-                index: 5,
+                index: 6,
                 label: 'Songs',
                 view: LibraryTab.Songs
             },
             {
-                index: 6,
+                index: 7,
                 label: 'Genres',
                 view: LibraryTab.Genres
             },
             {
-                index: 7,
+                index: 8,
                 label: 'Collections',
                 view: LibraryTab.Collections
             }
@@ -212,31 +217,36 @@ export const LibraryRoutes: LibraryRoute[] = [
             },
             {
                 index: 2,
+                label: 'Favorites',
+                view: LibraryTab.Favorites
+            },
+            {
+                index: 3,
                 label: 'TabUpcoming',
                 view: LibraryTab.Upcoming
             },
             {
-                index: 3,
+                index: 4,
                 label: 'Genres',
                 view: LibraryTab.Genres
             },
             {
-                index: 4,
+                index: 5,
                 label: 'TabNetworks',
                 view: LibraryTab.Studios
             },
             {
-                index: 5,
+                index: 6,
                 label: 'Episodes',
                 view: LibraryTab.Episodes
             },
             {
-                index: 6,
+                index: 7,
                 label: 'Collections',
                 view: LibraryTab.Collections
             },
             {
-                index: 7,
+                index: 8,
                 label: 'Playlists',
                 view: LibraryTab.Playlists
             }
