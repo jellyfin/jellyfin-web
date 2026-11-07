@@ -270,7 +270,8 @@ export const LoginPage = () => {
         >
             <Box
                 className='padded-left padded-right padded-bottom-page'
-                sx={{ maxWidth: '50rem', mx: 'auto', my: 'auto', width: '100%' }}
+                // border-box keeps the padded-* gutters inside the full width instead of overflowing on small screens
+                sx={{ maxWidth: '50rem', mx: 'auto', my: 'auto', width: '100%', boxSizing: 'border-box' }}
             >
                 <Stack spacing={3} alignItems='center'>
                     <Typography variant='h1' textAlign='center'>
