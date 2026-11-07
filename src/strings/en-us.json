@@ -323,6 +323,8 @@
     "EnableRewatchingNextUp": "Enable Rewatching in Next Up",
     "EnableRewatchingNextUpHelp": "Enable showing already watched episodes in 'Next Up' sections.",
     "EnableQuickConnect": "Enable Quick Connect on this server",
+    "EnableSlideshowAnimation": "Slideshow animations",
+    "EnableSlideshowAnimationHelp": "Enable animations on slideshows. A slow sideways scroll on Backdrop Screensaver.",
     "EnableSmoothScroll": "Enable smooth scroll",
     "EnableStreamLooping": "Auto-loop live streams",
     "EnableStreamLoopingHelp": "Enable this if live streams only contain a few seconds of data and need to be continuously requested. Enabling this when not needed may cause problems.",
