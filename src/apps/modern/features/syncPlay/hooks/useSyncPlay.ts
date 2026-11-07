@@ -8,6 +8,7 @@ import Events, { type Event } from 'utils/events';
 
 interface SyncPlayInstance {
     Manager: {
+        expectGroupJoin: (request: Promise<unknown>) => void
         getGroupInfo: () => GroupInfoDto | null | undefined
         getTimeSyncCore: () => object
         isPlaybackActive: () => boolean
