@@ -1,7 +1,9 @@
+/// <reference types="chrome" />
+
 class CastSenderApi {
-    load() {
+    load(): Promise<void> {
         if (window.appMode === 'cordova' || window.appMode === 'android') {
-            window.chrome = window.chrome || {};
+            window.chrome = window.chrome || ({} as typeof chrome);
             return Promise.resolve();
         } else {
             let ccLoaded = false;
@@ -19,7 +21,7 @@ class CastSenderApi {
                 };
 
                 fileref.setAttribute('src', 'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js');
-                document.querySelector('head').appendChild(fileref);
+                document.head.appendChild(fileref);
             });
         }
     }
