@@ -18,9 +18,10 @@
 
             const _Headers = window.Headers;
 
-            window.Headers = function (init) {
+            // A plain function returning an object works with `new`, but isn't a full `Headers` constructor type
+            window.Headers = function (init?: HeadersInit) {
                 return init ? new _Headers(init) : new _Headers();
-            };
+            } as unknown as typeof Headers;
         }
     }
 }(window));

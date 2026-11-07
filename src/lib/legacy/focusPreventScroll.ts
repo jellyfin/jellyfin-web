@@ -1,6 +1,11 @@
 // Polyfill to add support for preventScroll by focus function
 
-if (HTMLElement.prototype.nativeFocus === undefined) {
+/** `HTMLElement` with the native `focus` saved by this polyfill */
+interface NativeFocusElement extends HTMLElement {
+    nativeFocus?: HTMLElement['focus'];
+}
+
+if ((HTMLElement.prototype as NativeFocusElement).nativeFocus === undefined) {
     (function () {
         let supportsPreventScrollOption = false;
         try {
@@ -24,9 +29,9 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
         }
 
         if (!supportsPreventScrollOption) {
-            HTMLElement.prototype.nativeFocus = HTMLElement.prototype.focus;
+            (HTMLElement.prototype as NativeFocusElement).nativeFocus = HTMLElement.prototype.focus;
 
-            HTMLElement.prototype.focus = function(options) {
+            HTMLElement.prototype.focus = function(this: Required<NativeFocusElement>, options) {
                 const scrollX = window.scrollX;
                 const scrollY = window.scrollY;
 
@@ -40,3 +45,5 @@ if (HTMLElement.prototype.nativeFocus === undefined) {
         }
     })();
 }
+
+export {};

@@ -5,6 +5,27 @@
  * - 'key' property.
  */
 
+/** Init options accepted by the `KeyboardEvent` constructor shim (includes legacy `char`/`keyLocation`) */
+interface LegacyKeyboardEventInit extends KeyboardEventInit {
+    char?: string;
+    keyLocation?: number;
+}
+
+/** Plain `Event` with the keyboard properties set by the constructor shim */
+interface LegacyKeyboardEvent extends Event {
+    view: Window | null;
+    keyCode: number;
+    charCode: number;
+    char: string;
+    which: number;
+    location: number;
+    ctrlKey: boolean;
+    altKey: boolean;
+    shiftKey: boolean;
+    metaKey: boolean;
+    repeat: boolean;
+}
+
 (function (window) {
     'use strict';
 
@@ -16,17 +37,22 @@
         // are read-only.
         const KeyboardEventOriginal = window.Event;
 
-        const KeyboardEvent = function (eventName, options) {
+        // NOTE: Must not be named `KeyboardEvent`: `transpileOnly` emits it as a function-scoped `var`
+        // that would shadow the global `KeyboardEvent` used below.
+        const KeyboardEventShim = function (eventName: string, options?: LegacyKeyboardEventInit) {
             options = options || {};
 
-            const event = new Event(eventName, { bubbles: !!options.bubbles, cancelable: !!options.cancelable });
+            const event = new Event(eventName, { bubbles: !!options.bubbles, cancelable: !!options.cancelable }) as LegacyKeyboardEvent;
 
             event.view = options.view || document.defaultView;
 
             // Don't populate 'key' and 'code' with dummy values
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             event.keyCode = options.keyCode || 0;
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             event.charCode = options.charCode || 0;
             event.char = options.char || '';
+            // eslint-disable-next-line @typescript-eslint/no-deprecated
             event.which = options.which || 0;
 
             event.location = options.location || options.keyLocation || 0;
@@ -41,15 +67,16 @@
             return event;
         };
 
-        KeyboardEvent.prototype = KeyboardEventOriginal.prototype;
-        window.KeyboardEvent = KeyboardEvent;
+        KeyboardEventShim.prototype = KeyboardEventOriginal.prototype;
+        // The shim returns a plain `Event`, so it isn't a full `KeyboardEvent` constructor type
+        window.KeyboardEvent = KeyboardEventShim as unknown as typeof window.KeyboardEvent;
     }
 
     if (!('code' in KeyboardEvent.prototype)) {
         /**
          * Key code mapping.
          */
-        const KeyCodes = {
+        const KeyCodes: Record<number, string> = {
             13: 'Enter',
             19: 'Pause',
             27: 'Escape',
@@ -85,7 +112,8 @@
         }
 
         Object.defineProperty(KeyboardEvent.prototype, 'code', {
-            get: function () {
+            get: function (this: KeyboardEvent) {
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
                 return KeyCodes[this.keyCode] || '';
             },
             enumerable: true,
@@ -97,7 +125,7 @@
         /**
          * Key mapping.
          */
-        const Keys = {
+        const Keys: Record<number, string | string[]> = {
             13: 'Enter',
             19: 'Pause',
             27: 'Escape',
@@ -145,7 +173,8 @@
         }
 
         Object.defineProperty(KeyboardEvent.prototype, 'key', {
-            get: function () {
+            get: function (this: KeyboardEvent) {
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
                 const key = Keys[this.keyCode] || '';
                 return Array.isArray(key) ? key[+this.shiftKey] : key;
             },
@@ -154,3 +183,5 @@
         });
     }
 }(window));
+
+export {};
