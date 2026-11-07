@@ -6,6 +6,8 @@ import './emby-radio.scss';
 const EmbyRadioPrototype = Object.create(HTMLInputElement.prototype);
 
 function onKeyDown(e) {
+    if (e.defaultPrevented) return;
+
     // Don't submit form on enter
     // Real (non-emulator) Tizen does nothing on Space
     if (e.keyCode === 13 || (e.keyCode === 32 && browser.tizen)) {

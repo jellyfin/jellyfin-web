@@ -251,6 +251,15 @@ export function handleCommand(commandName, options) {
 dom.addEventListener(document, 'click', notify, {
     passive: true
 });
+dom.addEventListener(document, 'mouseup', notify, {
+    passive: true
+});
+dom.addEventListener(document, 'wheel', notify, {
+    passive: true
+});
+dom.addEventListener(document, 'keydown', notify, {
+    passive: true
+});
 
 export default {
     handleCommand: handleCommand,
