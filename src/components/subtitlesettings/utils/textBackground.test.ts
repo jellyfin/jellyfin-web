@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
+
 import { hexToRgba, parseTextBackground } from './textBackground';
 
 describe('hexToRgba', () => {
-    it('return fully transparant color for zero opacity', () => {
+    it('returns fully transparent color for zero opacity', () => {
         expect(hexToRgba('#000000', 0)).toBe('rgba(0, 0, 0, 0)');
     });
 
-    it('convert opacity from a percentage to a decimal', () => {
+    it('converts opacity from a percentage to a decimal', () => {
         expect(hexToRgba('#000000', 80)).toBe('rgba(0, 0, 0, 0.8)');
         expect(hexToRgba('#000000', 7)).toBe('rgba(0, 0, 0, 0.07)');
     });
@@ -28,7 +29,7 @@ describe('parseTextBackground', () => {
         expect(parseTextBackground()).toEqual({ hex: '#000000', opacity: 0 });
     });
 
-    it('returns a transparent backgroud for legacy transparent value', () => {
+    it('returns a transparent background for legacy transparent value', () => {
         expect(parseTextBackground('transparent')).toEqual({ hex: '#000000', opacity: 0 });
     });
 
@@ -37,11 +38,11 @@ describe('parseTextBackground', () => {
         expect(parseTextBackground('rgba(0, 0, 0, 6.9.3)')).toEqual({ hex: '#000000', opacity: 0 });
     });
 
-    it('parse rgba values', () => {
+    it('parses rgba values', () => {
         expect(parseTextBackground('rgba(255, 128, 0, 0.8)')).toEqual({ hex: '#ff8000', opacity: 80 });
     });
 
-    it('parse rgba values without spaces', () => {
+    it('parses rgba values without spaces', () => {
         expect(parseTextBackground('rgba(255,128,0,0.8)')).toEqual({ hex: '#ff8000', opacity: 80 });
     });
 

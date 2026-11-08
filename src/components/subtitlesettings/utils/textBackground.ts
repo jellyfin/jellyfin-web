@@ -13,8 +13,8 @@ function channelToHex(channel: string): string {
 
 /**
  * Converts hex color and opacity to rgba color.
- * @param hex - The color in #rrggbb format.
- * @param opacity - The opacity from 0 to 100.
+ * @param hex The color in #rrggbb format.
+ * @param opacity The opacity from 0 to 100.
  * @returns The color as rgba string.
  */
 export function hexToRgba(hex: string, opacity: number): string {
@@ -28,8 +28,8 @@ export function hexToRgba(hex: string, opacity: number): string {
 
 /**
  * Parse a stored text background value into hex color and opacity.
- * Values that cannot be parsed (including legacy "transparent") will now fall back to transparent bg.
- * @param value - The stored text background value.
+ * Values that cannot be parsed falls back to transparent bg.
+ * @param value The stored text background value.
  * @returns An object containing the hex color and opacity.
  */
 export function parseTextBackground(value?: string): TextBackground {

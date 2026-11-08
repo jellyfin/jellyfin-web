@@ -62,7 +62,6 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
             context.querySelector('.fldBurnIn').classList.remove('hide');
         }
 
-        const textbackground = parseTextBackground(appearanceSettings.textBackground);
         const selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
 
         settingsHelper.populateLanguages(selectSubtitleLanguage, allCultures);
@@ -77,9 +76,10 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
         context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
-        context.querySelector('#inputTextBackground').value = textbackground.hex;
-        context.querySelector('#selectTextBackground').value = textbackground.hex;
-        context.querySelector('#sliderTextBackgroundOpacity').value = textbackground.opacity;
+        const textBackground = parseTextBackground(appearanceSettings.textBackground);
+        context.querySelector('#inputTextBackground').value = textBackground.hex;
+        context.querySelector('#selectTextBackground').value = textBackground.hex;
+        context.querySelector('#sliderTextBackgroundOpacity').value = textBackground.opacity;
         context.querySelector('#selectTextColor').value = appearanceSettings.textColor || '#ffffff';
         context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
         context.querySelector('#selectFont').value = appearanceSettings.font || '';
