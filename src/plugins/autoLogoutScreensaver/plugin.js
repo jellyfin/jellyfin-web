@@ -66,14 +66,13 @@ class AutoLogoutScreensaver {
                 document.body.appendChild(elem);
             }
 
-            // Retrieve some palette related properties of the theme in use.
+            // For background and text, we apply the colors of the theme in use.
             const ref = document.getElementsByClassName('backgroundContainer')[0];
             const computedStyles = window.getComputedStyle(ref);
-            const fgcolor = computedStyles.getPropertyValue('--jf-palette-text-primary');
-            const bgcolor = computedStyles.getPropertyValue('--jf-palette-background-default');
-            // and apply them
-            elem.style.backgroundColor = bgcolor;
-            elem.style.color = fgcolor;
+            if (computedStyles) {
+                elem.style.color = computedStyles.getPropertyValue('--jf-palette-text-primary');
+                elem.style.backgroundColor = computedStyles.getPropertyValue('--jf-palette-background-default');
+            }
 
             const elem2 = document.createElement('div');
             elem2.classList.add('autoLogoutText');
