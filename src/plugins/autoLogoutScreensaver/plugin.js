@@ -23,7 +23,7 @@ class AutoLogoutScreensaver {
         const keyframes = [
             { opacity: '1', offset: 0 },
             { opacity: '0', offset: 1 }];
-        const timing = { duration: 900, iterations: iterations };
+        const timing = { duration: 1000, iterations: iterations };
         return elem.animate(keyframes, timing);
     }
 
@@ -38,10 +38,11 @@ class AutoLogoutScreensaver {
         this._msg_counter_.innerHTML = this._counter_;
         if (!this._counter_) {
             this.stopInterval();
+            const elem = document.querySelector('.autoLogoutScreenSaver');
+            if (elem) this.fadeOut(elem, 1);
             Dashboard.logout();
 
             setTimeout(() => {
-                const elem = document.querySelector('.autoLogoutScreenSaver');
                 if (elem) elem.remove();
                 document.body.classList.remove('screensaver-noScroll');
             }, 1000);
