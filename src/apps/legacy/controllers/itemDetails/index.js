@@ -42,6 +42,8 @@ import Events from 'utils/events';
 import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
+import { getExternalLinksHtml } from './externalLinks';
+
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
 import 'elements/emby-button/emby-button';
@@ -726,36 +728,18 @@ function showRecordingFields(instance, page, item, user) {
 function renderLinks(page, item) {
     const externalLinksElem = page.querySelector('.itemExternalLinks');
 
-    const links = [];
-
-    if (!layoutManager.tv && item.HomePageUrl) {
-        try {
-            const parsedUrl = new URL(item.HomePageUrl);
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
-        } catch {
-            console.error('[renderLinks] Failed to parse home page URL', item.HomePageUrl);
-        }
+    // TV apps cannot open external websites, so skip the links entirely
+    if (layoutManager.tv) {
+        externalLinksElem.innerHTML = '';
+        externalLinksElem.classList.add('hide');
+        return;
     }
 
-    if (item.ExternalUrls) {
-        for (const url of item.ExternalUrls) {
-            try {
-                const parsedUrl = new URL(url.Url);
-                links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${escapeHtml(url.Name)}</a>`);
-            } catch {
-                console.error('[renderLinks] Failed to parse external URL', url.Url);
-            }
-        }
-    }
+    const links = getExternalLinksHtml(item);
 
-    const html = [];
+    externalLinksElem.innerHTML = links.join(', ');
+
     if (links.length) {
-        html.push(links.join(', '));
-    }
-
-    externalLinksElem.innerHTML = html.join(', ');
-
-    if (html.length) {
         externalLinksElem.classList.remove('hide');
     } else {
         externalLinksElem.classList.add('hide');
