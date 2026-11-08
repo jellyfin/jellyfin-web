@@ -60,7 +60,7 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
         dateTimeLocale,
         language,
         libraryPageSize
-    }), [
+    } satisfies UserSettings), [
         customCss,
         disableCustomCss,
         theme,
