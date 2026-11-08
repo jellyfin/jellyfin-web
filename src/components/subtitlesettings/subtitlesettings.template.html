@@ -127,8 +127,29 @@
             </select>
         </div>
 
-        <div class="inputContainer hide">
-            <input is="emby-input" id="inputTextBackground" label="${LabelTextBackgroundColor}" type="text" />
+        <div class="selectContainer">
+            <input is="emby-input" id="inputTextBackground" label="${LabelTextBackgroundColor}" type="color" />
+        </div>
+
+        <div class="selectContainer hide">
+            <select is="emby-select" id="selectTextBackground" label="${LabelTextBackgroundColor}">
+                <option value="#ffffff">${SubtitleWhite}</option>
+                <option value="#d3d3d3">${SubtitleLightGray}</option>
+                <option value="#808080">${SubtitleGray}</option>
+                <option value="#ffff00">${SubtitleYellow}</option>
+                <option value="#008000">${SubtitleGreen}</option>
+                <option value="#00ffff">${SubtitleCyan}</option>
+                <option value="#0000ff">${SubtitleBlue}</option>
+                <option value="#ff00ff">${SubtitleMagenta}</option>
+                <option value="#ff0000">${SubtitleRed}</option>
+                <option value="#000000">${SubtitleBlack}</option>
+            </select>
+        </div>
+
+        <div class="sliderContainer-settings">
+            <div class="sliderContainer">
+                <input is="emby-slider" id="sliderTextBackgroundOpacity" label="${LabelTextBackgroundOpacity}" type="range" min="0" max="100" step="5" />
+            </div>
         </div>
 
         <div class="selectContainer">
