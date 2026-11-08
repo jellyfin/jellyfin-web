@@ -4,6 +4,7 @@ import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
 
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from 'utils/query/queryClient';
 
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
@@ -667,17 +668,23 @@ function executeCommand(item, id, options) {
             case 'cancelseriestimer':
                 deleteSeriesTimer(apiClient, item, resolve, id);
                 break;
-            case 'clearresumeposition':
+            case 'clearresumeposition': {
+                const userId = apiClient.getCurrentUserId();
                 getUserDataApi(api).updateItemUserData({
                     itemId,
-                    userId: apiClient.getCurrentUserId(),
+                    userId,
                     updateUserItemDataDto: { PlaybackPositionTicks: 0 }
-                }).then(getResolveFunction(resolve, id, true), (err) => {
+                }).then(() => {
+                    // The resume rows are served from the query cache, so make their refresh refetch
+                    void queryClient.invalidateQueries({ queryKey: ['User', userId, 'ResumeItems'] });
+                    getResolveFunction(resolve, id, true)();
+                }, (err) => {
                     console.error('[itemContextMenu] failed to clear the resume position', err);
                     toast(globalize.translate('ErrorDefault'));
                     getResolveFunction(resolve, id)();
                 });
                 break;
+            }
             default:
                 reject();
                 break;
