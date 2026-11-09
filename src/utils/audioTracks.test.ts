@@ -23,9 +23,9 @@ describe('findAudioTrackPosition', () => {
     });
 
     it('matches ISO 639-2/B codes against 639-2/T codes', () => {
-        const tracks = [{ language: 'fre' }, { language: 'hrv' }];
+        const tracks = [{ language: 'hrv' }, { language: 'fre' }];
 
-        expect(findAudioTrackPosition(tracks, streams, 1)).toBe(0);
+        expect(findAudioTrackPosition(tracks, streams, 1)).toBe(1);
     });
 
     it('falls back to the position when the languages do not tell the tracks apart', () => {
