@@ -1947,5 +1947,5 @@
     "MessageForgotPasswordRedirect": "تم إعادة توجيهك إلى جهة خارجية لإعادة تعيين كلمة العبور.",
     "MessageItemMetadataLocked": "البيانات الوصفية لهذا العنصر مقفلة. ألغِ قفلها قبل استخدام ميزة التعريف.",
     "ManageMetadata": "إدارة البيانات الوصفية",
-    "ManageServer": "إدارة الخادم"
+    "ManageServer": "إدارة السيرفر"
 }
