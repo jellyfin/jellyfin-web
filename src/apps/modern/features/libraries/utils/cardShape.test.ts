@@ -44,10 +44,16 @@ describe('Utils: cardShape', () => {
             [LibraryTab.Studios, undefined],
             [LibraryTab.Favorites, CollectionType.Boxsets],
             [LibraryTab.Favorites, CollectionType.Books],
-            [LibraryTab.Favorites, undefined],
-            [LibraryTab.Favorites, CollectionType.Unknown]
-        ])('Should return undefined for %s in %s', (viewType, collectionType) => {
-            expect(getLibraryTabShape(viewType, collectionType)).toBeUndefined();
-        });
+            [LibraryTab.Favorites, CollectionType.Tvshows],
+            [LibraryTab.Favorites, CollectionType.Unknown],
+            [LibraryTab.Favorites, undefined]
+        ])(
+            'Should return undefined for %s in %s',
+            (viewType, collectionType) => {
+                expect(
+                    getLibraryTabShape(viewType, collectionType)
+                ).toBeUndefined();
+            }
+        );
     });
 });
