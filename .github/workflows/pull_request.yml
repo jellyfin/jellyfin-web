@@ -61,6 +61,6 @@ jobs:
         run: npm ci --no-audit
     
       - name: Run eslint
-        uses: CatChen/eslint-suggestion-action@7a3743d33a65c7b3020a243cc4a6ce67d6819249 # v4.1.38
+        uses: CatChen/eslint-suggestion-action@cfd076d9300032d3fd53d312c7909b899c300114 # v4.1.39
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
