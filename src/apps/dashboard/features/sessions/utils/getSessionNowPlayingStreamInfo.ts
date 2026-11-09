@@ -1,12 +1,12 @@
 import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
-import playmethodhelper from 'components/playback/playmethodhelper';
+import playMethodHelper from 'components/playback/playMethodHelper';
 import globalize from 'lib/globalize';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const getSessionNowPlayingStreamInfo = (session: SessionInfoDto): string => {
     let text = '';
     let showTranscodingInfo = false;
-    const displayPlayMethod = playmethodhelper.getDisplayPlayMethod(session);
+    const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
     if (displayPlayMethod === 'DirectPlay') {
         text += globalize.translate('DirectPlaying');
