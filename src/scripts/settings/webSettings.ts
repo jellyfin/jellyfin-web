@@ -28,7 +28,7 @@ const DEFAULT_CONFIG: WebConfig & Required<Pick<WebConfig, 'themes' | 'plugins'>
 let data: WebConfig | undefined;
 
 async function getConfig(): Promise<WebConfig> {
-    if (data) return Promise.resolve(data);
+    if (data) return data;
     try {
         const response = await fetchLocal('config.json', {
             cache: 'no-store'
