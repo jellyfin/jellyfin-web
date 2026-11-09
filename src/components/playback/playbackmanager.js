@@ -157,11 +157,11 @@ function getItemsForPlayback(serverId, query) {
             collapseBoxSetItems: false
         };
 
-        const playlistLimit = query.limit || userSettings.defaultPlaylistSize();
-        if (playlistLimit > 0) {
-            request.limit = playlistLimit;
-        } else {
+        if (query.limit === UNLIMITED_ITEMS || userSettings.defaultPlaylistSize() === 0)
+        {
             delete request.limit;
+        } else {
+            request.limit = query.limit || userSettings.defaultPlaylistSize() || 300;
         }
 
         return getItems(ServerConnections.getApi(serverId), request);
