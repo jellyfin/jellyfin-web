@@ -44,8 +44,6 @@ function initPermissionRequest() {
 
 initPermissionRequest();
 
-let serviceWorkerRegistration;
-
 function closeAfter(notification, timeoutMs) {
     setTimeout(function () {
         if (notification.close) {
@@ -54,22 +52,6 @@ function closeAfter(notification, timeoutMs) {
             notification.cancel();
         }
     }, timeoutMs);
-}
-
-function resetRegistration() {
-    /* eslint-disable-next-line compat/compat */
-    const serviceWorker = navigator.serviceWorker;
-    if (serviceWorker) {
-        serviceWorker.ready.then(function (registration) {
-            serviceWorkerRegistration = registration;
-        });
-    }
-}
-
-resetRegistration();
-
-function showPersistentNotification(title, options) {
-    serviceWorkerRegistration.showNotification(title, options);
 }
 
 function showNonPersistentNotification(title, options, timeoutMs) {
@@ -100,13 +82,6 @@ function showNotification(options, timeoutMs, apiClient) {
     options.data.serverId = apiClient.serverInfo().Id;
     options.icon = options.icon || NotificationIcon;
     options.badge = options.badge || NotificationIcon;
-
-    resetRegistration();
-
-    if (serviceWorkerRegistration) {
-        showPersistentNotification(title, options);
-        return;
-    }
 
     showNonPersistentNotification(title, options, timeoutMs);
 }

@@ -236,6 +236,9 @@ export default tseslint.config(
                         'node_modules',
                         'src'
                     ]
+                },
+                typescript: {
+                    project: 'tsconfig.json'
                 }
             },
             polyfills: [
@@ -381,16 +384,6 @@ export default tseslint.config(
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',
             'react-hooks/exhaustive-deps': 'error'
-        }
-    },
-
-    // Service worker
-    {
-        files: [ 'src/serviceworker.js' ],
-        languageOptions: {
-            globals: {
-                ...globals.serviceworker
-            }
         }
     },
 

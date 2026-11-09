@@ -1945,5 +1945,7 @@
     "HlsAudioSeekStrategy": "Strategin att använda under sökning i HLS strömmar.",
     "LabelHlsAudioSeekStrategy": "Spolningsstrategi för ljud.",
     "MessageForgotPasswordRedirect": "Du har omdirigerats till en extern leverantör för lösenordsåterställning.",
-    "MessageItemMetadataLocked": "Objektets metadata är låsta. Lås upp dem innan du använder funktionen Identifiera."
+    "MessageItemMetadataLocked": "Objektets metadata är låsta. Lås upp dem innan du använder funktionen Identifiera.",
+    "ManageMetadata": "Hantera Metadata",
+    "ManageServer": "Hantera Server"
 }
