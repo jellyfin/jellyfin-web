@@ -44,7 +44,13 @@ export default function (view, params, tabContent, options) {
     function shuffle() {
         isLoading = true;
         loading.show();
-        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: userSettings.defaultPlaylistSize() || 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
+        // 0 means no limit
+        // Setting limit to null will omit the limit parameter from the request
+        let playlistLimit = userSettings.defaultPlaylistSize();
+        if (playlistLimit === 0) {
+            playlistLimit = null;
+        }
+        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: playlistLimit, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
         const apiClient = ServerConnections.currentApiClient();
         return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({
