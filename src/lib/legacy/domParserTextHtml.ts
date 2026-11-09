@@ -24,13 +24,15 @@
         }
     } catch { /* noop */ }
 
-    DOMParserPrototype.parseFromString = function (markup, type) {
+    DOMParserPrototype.parseFromString = function (this: DOMParser, markup: string, type: DOMParserSupportedType) {
         if (/^\s*text\/html\s*(?:;|$)/i.test(type)) {
             const doc = document.implementation.createHTMLDocument('');
             doc.documentElement.innerHTML = markup;
             return doc;
         } else {
-            return realParseFromString.apply(this, arguments);
+            // Forward the original arguments (including their count) to the native implementation
+            // eslint-disable-next-line prefer-rest-params
+            return realParseFromString.apply(this, arguments as unknown as Parameters<typeof realParseFromString>);
         }
     };
 }(DOMParser));

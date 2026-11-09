@@ -34,8 +34,9 @@
             configurable: true,
             enumerable: true,
             writable: true,
-            value: function append() {
-                const argArr = Array.prototype.slice.call(arguments);
+            value: function append(this: Node) {
+                // eslint-disable-next-line prefer-rest-params
+                const argArr: unknown[] = Array.prototype.slice.call(arguments);
                 const docFrag = document.createDocumentFragment();
 
                 argArr.forEach(function (argItem) {
@@ -59,8 +60,9 @@
             configurable: true,
             enumerable: true,
             writable: true,
-            value: function prepend() {
-                const argArr = Array.prototype.slice.call(arguments);
+            value: function prepend(this: Node) {
+                // eslint-disable-next-line prefer-rest-params
+                const argArr: unknown[] = Array.prototype.slice.call(arguments);
                 const docFrag = document.createDocumentFragment();
 
                 argArr.forEach(function (argItem) {
