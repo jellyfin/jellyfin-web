@@ -1,7 +1,46 @@
 import { dehydrate, QueryClient } from '@tanstack/react-query';
+import { AxiosError, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
 import { describe, expect, it } from 'vitest';
 
-import { shouldDehydrateQuery } from './queryClient';
+import { queryClient, shouldDehydrateQuery } from './queryClient';
+
+const config = {} as InternalAxiosRequestConfig;
+const unauthorizedError = () => new AxiosError(
+    'Request failed with status code 401',
+    AxiosError.ERR_BAD_REQUEST,
+    config,
+    undefined,
+    { status: 401, config } as AxiosResponse
+);
+
+describe('queryClient', () => {
+    it('replaces the data of a query that fails with 401, so no unauthorized data is shown', async () => {
+        const error = unauthorizedError();
+
+        await expect(queryClient.query({
+            queryKey: [ 'cleared' ],
+            queryFn: () => Promise.reject(error),
+            retry: false
+        })).rejects.toBe(error);
+
+        expect(queryClient.getQueryData([ 'cleared' ])).toBeNull();
+        expect(queryClient.getQueryState([ 'cleared' ])?.error).toBeNull();
+    });
+
+    it('keeps the error of a query that opts out, e.g. when 401 is an answer before signing in', async () => {
+        const error = unauthorizedError();
+
+        await expect(queryClient.query({
+            queryKey: [ 'kept' ],
+            queryFn: () => Promise.reject(error),
+            retry: false,
+            meta: { clearOnUnauthorized: false }
+        })).rejects.toBe(error);
+
+        expect(queryClient.getQueryData([ 'kept' ])).toBeUndefined();
+        expect(queryClient.getQueryState([ 'kept' ])?.error).toBe(error);
+    });
+});
 
 describe('shouldDehydrateQuery', () => {
     it('excludes queries that opt out of persistence', async () => {

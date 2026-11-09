@@ -7,6 +7,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { ApiContext } from 'hooks/useApi';
 
+import { getUserAvatarBackgroundClass } from 'utils/userAvatar';
+
 import UserAvatar from './UserAvatar';
 
 vi.mock('lib/jellyfin-apiclient', () => ({
@@ -110,5 +112,30 @@ describe('UserAvatar', () => {
         );
 
         expect(screen.queryByRole('img')).not.toBeInTheDocument();
+    });
+
+    describe('fallback color', () => {
+        const getAvatar = (container: HTMLElement) => container.querySelector('.MuiAvatar-root');
+        const getFallback = (container: HTMLElement) => container.querySelector('.defaultCardBackground');
+
+        it('tells users without a picture apart with the card backgrounds of the theme', () => {
+            // The ids pick different theme colors, so households without photos still get distinct avatars
+            const { container: aliceContainer } = renderWithContext(<UserAvatar user={{ Id: 'user-id', Name: 'alice' }} />);
+            const { container: bobContainer } = renderWithContext(<UserAvatar user={{ Id: 'bob', Name: 'bob' }} />);
+
+            expect(getFallback(aliceContainer)).toHaveClass(getUserAvatarBackgroundClass({ Id: 'user-id' }));
+            expect(getFallback(bobContainer)).toHaveClass(getUserAvatarBackgroundClass({ Id: 'bob' }));
+            expect(getFallback(aliceContainer)?.className).not.toBe(getFallback(bobContainer)?.className);
+            // The icon takes the color of the text, like the icons of the other cards without an image
+            expect(getAvatar(aliceContainer)).toHaveStyle({ color: 'var(--mui-palette-text-primary)' });
+            expect(screen.queryByRole('img')).not.toBeInTheDocument();
+        });
+
+        it('is not applied when the user has a picture', () => {
+            const { container } = renderWithContext(<UserAvatar user={USER} />);
+
+            expect(getFallback(container)).not.toBeInTheDocument();
+            expect(getAvatar(container)).toHaveStyle({ backgroundColor: 'var(--mui-palette-background-paper)' });
+        });
     });
 });

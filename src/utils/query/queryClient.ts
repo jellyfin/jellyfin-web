@@ -8,6 +8,11 @@ import { get, set, del } from 'idb-keyval';
 export interface QueryMeta extends Record<string, unknown> {
     /** Set to false to exclude a query from the persisted cache, e.g. if its key or data contains secrets. */
     persist?: boolean
+    /**
+     * Set to false to keep the error of a query that fails with 401 instead of replacing its data, e.g. for a
+     * query made before signing in, where 401 is an answer rather than an expired session.
+     */
+    clearOnUnauthorized?: boolean
 }
 
 declare module '@tanstack/react-query' {
@@ -31,8 +36,8 @@ export let queryClient: QueryClient;
 
 /** Query cache for handling query errors and side effects. */
 const queryCache = new QueryCache({
-    onError: (error, { queryKey }) => {
-        if (!queryClient) return;
+    onError: (error, { queryKey, meta }) => {
+        if (!queryClient || meta?.clearOnUnauthorized === false) return;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const requestError = error as any;

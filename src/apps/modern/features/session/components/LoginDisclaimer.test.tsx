@@ -1,11 +1,18 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { render, screen } from '@testing-library/react';
 import React, { type ReactNode } from 'react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import LoginDisclaimer from './LoginDisclaimer';
 
+vi.mock('lib/globalize', () => ({
+    default: {
+        translate: (key: string) => `translated:${key}`
+    }
+}));
+
 const theme = createTheme({ cssVariables: true });
+const NEW_WINDOW_HINT = 'translated:OpensInNewWindow';
 
 const renderWithTheme = (ui: ReactNode) => render(
     <ThemeProvider theme={theme}>{ui}</ThemeProvider>
@@ -27,6 +34,28 @@ describe('LoginDisclaimer', () => {
 
         expect(screen.getByRole('heading', { name: 'Welcome' })).toBeInTheDocument();
         expect(screen.getByText('behave').tagName).toBe('STRONG');
+    });
+
+    it('shifts headings down a level so the page keeps its own h1', () => {
+        const { container } = renderWithTheme(
+            <LoginDisclaimer
+                markdown={'# One\n\n## Two\n\n##### Five\n\n###### Six\n\n<h3 id="raw" class="fancy">Raw <a href="https://example.com">link</a></h3>'}
+            />
+        );
+
+        expect(screen.getByRole('heading', { name: 'One' })).toHaveProperty('tagName', 'H2');
+        expect(screen.getByRole('heading', { name: 'Two' })).toHaveProperty('tagName', 'H3');
+        expect(screen.getByRole('heading', { name: 'Five' })).toHaveProperty('tagName', 'H6');
+        // There is no level below six
+        expect(screen.getByRole('heading', { name: 'Six' })).toHaveProperty('tagName', 'H6');
+        expect(container.querySelector('h1')).toBeNull();
+
+        // Raw html headings are shifted too, keeping their sanitized attributes and content
+        const raw = screen.getByRole('heading', { name: /^Raw link/ });
+        expect(raw).toHaveProperty('tagName', 'H4');
+        expect(raw).toHaveAttribute('id', 'user-content-raw');
+        expect(raw).toHaveClass('fancy');
+        expect(screen.getByRole('link', { name: /^link/ })).toHaveAttribute('target', '_blank');
     });
 
     it('removes scripts and event handlers', () => {
@@ -83,7 +112,7 @@ describe('LoginDisclaimer', () => {
             <LoginDisclaimer markdown={'<a id="NativeShell" name="appHost" href="/help">Help</a>'} />
         );
 
-        const link = screen.getByRole('link', { name: 'Help' });
+        const link = screen.getByRole('link', { name: /^Help/ });
         expect(link).toHaveAttribute('id', 'user-content-NativeShell');
         expect(link).toHaveAttribute('name', 'user-content-appHost');
         expect(container.querySelector('#NativeShell')).toBeNull();
@@ -91,14 +120,42 @@ describe('LoginDisclaimer', () => {
         expect('appHost' in window).toBe(false);
     });
 
-    it('opens links in a new window', () => {
-        renderWithTheme(<LoginDisclaimer markdown='[Terms](https://example.com/terms) <a href="/help">Help</a>' />);
+    it('opens links in a new window and says so to assistive technology', () => {
+        const { container } = renderWithTheme(
+            <LoginDisclaimer
+                markdown={'[Terms](https://example.com/terms) <a href="/help">Help</a> <a id="anchor">Anchor</a> '
+                    + '<a href="#anchor">Top</a> <a href="mailto:admin@example.com">Mail</a>'}
+            />
+        );
 
         for (const name of [ 'Terms', 'Help' ]) {
-            const link = screen.getByRole('link', { name });
+            // The hint is part of the accessible name, separated from the link text
+            const link = screen.getByRole('link', { name: `${name} ${NEW_WINDOW_HINT}` });
             expect(link).toHaveAttribute('target', '_blank');
             expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+            // The hint is hidden visually, as a tiny box rather than one as large as the container
+            expect(link.querySelector('span')).toHaveStyle({
+                position: 'absolute',
+                clipPath: 'inset(50%)',
+                width: '1px',
+                height: '1px',
+                margin: '-1px'
+            });
+            // The hint is not a stray text node, and not a forbidden inline style
+            expect(link.querySelector('span')).not.toHaveAttribute('style');
         }
-        expect(screen.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', 'https://example.com/terms');
+        expect(screen.getByRole('link', { name: /^Terms/ })).toHaveAttribute('href', 'https://example.com/terms');
+
+        // Links within the page and links handed to another application stay as they are
+        for (const name of [ 'Top', 'Mail' ]) {
+            const link = screen.getByRole('link', { name });
+            expect(link).toHaveTextContent(new RegExp(`^${name}$`));
+            expect(link).not.toHaveAttribute('target');
+        }
+
+        // An anchor without a destination does not open anything
+        const anchor = container.querySelector('#user-content-anchor');
+        expect(anchor).toHaveTextContent(/^Anchor$/);
+        expect(anchor).not.toHaveAttribute('target');
     });
 });
