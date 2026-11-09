@@ -1,11 +1,12 @@
 import type { MediaStream } from '@jellyfin/sdk/lib/generated-client';
+import { iso6392BTo1, iso6392TTo1 } from 'iso-639-2';
+
+const ISO_639_2_TO_1 = { ...iso6392BTo1, ...iso6392TTo1 };
 
 function toLanguage(code: string | null | undefined): string | undefined {
-    try {
-        return code ? new Intl.Locale(code).language : undefined;
-    } catch {
-        return undefined;
-    }
+    const language = code?.toLowerCase().split('-')[0];
+
+    return language ? ISO_639_2_TO_1[language] ?? language : undefined;
 }
 
 /**
