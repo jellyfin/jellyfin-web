@@ -604,7 +604,7 @@
     "LiveBroadcasts": "Trasmissioni in diretta",
     "LiveTV": "Diretta TV",
     "ManageRecording": "Gestisci registrazione",
-    "MapChannels": "Mappa Canali",
+    "MapChannels": "Mappa canali",
     "MarkPlayed": "Segna come visto",
     "MarkUnplayed": "Segna come non visto",
     "MaxParentalRatingHelp": "I contenuti con classificazione più elevata saranno nascosti a questo utente.",
@@ -1945,5 +1945,7 @@
     "MessageForgotPasswordRedirect": "Sei stato reindirizzato a un fornitore esterno per il ripristino della password.",
     "Screenplay": "Sceneggiatura",
     "LabelBitmapSubtitleAspectMode": "Modalità di aspetto dei sottotitoli bitmap",
-    "MessageItemMetadataLocked": "I metadati di questo oggetto sono bloccati. Sbloccali prima di usare la funzione identifica."
+    "MessageItemMetadataLocked": "I metadati di questo oggetto sono bloccati. Sbloccali prima di usare la funzione identifica.",
+    "ManageServer": "Gestisci server",
+    "ManageMetadata": "Gestisci metadati"
 }
