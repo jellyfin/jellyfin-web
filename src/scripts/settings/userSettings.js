@@ -67,18 +67,14 @@ const DEFAULT_PLAYLIST_SIZE = 300;
  * @return {number} Playlist size. 0 means no limit.
  */
 function normalizePlaylistSize(val) {
-    if (val === null || val === undefined || val === '') {
-        return DEFAULT_PLAYLIST_SIZE;
-    }
+    // Handle null, undefined, and empty string gracefully.
+    const text = String(val ?? '').trim();
 
-    const text = String(val).trim();
     // Whole digits only: 0 is unlimited, and anything else must be a positive integer.
-    if (!/^\d+$/.test(text)) {
-        return DEFAULT_PLAYLIST_SIZE;
-    }
-
-    return Number.parseInt(text, 10);
+    return /^\d+$/.test(text) ? Number.parseInt(text, 10) : DEFAULT_PLAYLIST_SIZE;
 }
+
+
 
 export class UserSettings {
     /**
