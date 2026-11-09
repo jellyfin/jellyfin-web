@@ -238,6 +238,12 @@ function updateAlphaPickerState(instance) {
 }
 
 function getItems(instance, params, item, sortBy, startIndex, limit) {
+    // 0 means no limit
+    // Setting limit to null will omit the limit parameter from the request
+    if (limit === 0) {
+        limit = null;
+    }
+
     const apiClient = ServerConnections.getApiClient(params.serverId);
 
     instance.queryRecursive = false;
@@ -759,7 +765,7 @@ class ItemsView {
                     autoplay: true
                 });
             } else {
-                getItems(self, self.params, currentItem, null, 0, userSettings.defaultPlaylistSize() || 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, userSettings.defaultPlaylistSize()).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
@@ -776,7 +782,7 @@ class ItemsView {
                     items: [currentItem]
                 });
             } else {
-                getItems(self, self.params, currentItem, null, 0, userSettings.defaultPlaylistSize() || 300).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, userSettings.defaultPlaylistSize()).then(function (result) {
                     playbackManager.queue({
                         items: result.Items
                     });
@@ -790,7 +796,7 @@ class ItemsView {
             if (currentItem && !self.hasFilters) {
                 playbackManager.shuffle(currentItem);
             } else {
-                getItems(self, self.params, currentItem, 'Random', 0, userSettings.defaultPlaylistSize() || 300).then(function (result) {
+                getItems(self, self.params, currentItem, 'Random', 0, userSettings.defaultPlaylistSize()).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
