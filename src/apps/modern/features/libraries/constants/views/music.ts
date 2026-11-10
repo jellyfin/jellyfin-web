@@ -68,6 +68,13 @@ const collectionsTabContent: LibraryTabContent = {
     noItemsMessage: 'MessageNoCollectionsAvailable'
 };
 
+const personsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Persons,
+    collectionType: CollectionType.Music,
+    itemType: [BaseItemKind.Audio, BaseItemKind.MusicAlbum],
+    isBtnSortEnabled: false
+};
+
 const musicViews: Record<number, LibraryTabContent> = {
     0: albumsTabContent,
     1: suggestionsTabContent,
@@ -76,7 +83,8 @@ const musicViews: Record<number, LibraryTabContent> = {
     4: playlistsTabContent,
     5: songsTabContent,
     6: genresTabContent,
-    7: collectionsTabContent
+    7: collectionsTabContent,
+    8: personsTabContent
 };
 
 export default musicViews;
