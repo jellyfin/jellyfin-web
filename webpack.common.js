@@ -367,13 +367,6 @@ const config = {
             {
                 test: /\.(mp3)$/i,
                 type: 'asset/resource'
-            },
-            {
-                test: require.resolve('jquery'),
-                loader: 'expose-loader',
-                options: {
-                    exposes: ['$', 'jQuery']
-                }
             }
         ]
     }
