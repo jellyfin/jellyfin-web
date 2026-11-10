@@ -15,6 +15,7 @@ import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
 import layoutManager from '../layoutManager';
+import browser from '../../scripts/browser';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import datetime from '../../scripts/datetime';
@@ -184,8 +185,8 @@ export function getListViewHtml(options) {
     const isLargeStyle = options.imageSize === 'large';
     const enableOverview = options.enableOverview;
 
-    const clickEntireItem = layoutManager.tv;
-    const outerTagName = clickEntireItem ? 'button' : 'div';
+    const clickEntireItem = layoutManager.tv && !browser.web0s;
+    const outerTagName = clickEntireItem? 'button' : 'div';
     const enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
 
     let outerHtml = '';
@@ -264,7 +265,7 @@ export function getListViewHtml(options) {
             html += '<div class="listItem-content">';
         }
 
-        if (!clickEntireItem && options.dragHandle) {
+        if (!clickEntireItem && !browser.web0s && options.dragHandle) {
             html += '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle" aria-hidden="true"></span>';
         }
 
