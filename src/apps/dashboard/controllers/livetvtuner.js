@@ -1,4 +1,8 @@
+import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
+
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from 'components/loading/loading';
 import dom from 'utils/dom';
 import 'elements/emby-input/emby-input';
@@ -12,35 +16,41 @@ function isM3uVariant(type) {
     return ['nextpvr'].indexOf(type || '') !== -1;
 }
 
-function fillTypes(view, currentId) {
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/TunerHosts/Types')).then(function (types) {
-        const selectType = view.querySelector('.selectType');
-        let html = '';
-        html += types.map(function (tuner) {
-            return '<option value="' + tuner.Id + '">' + tuner.Name + '</option>';
-        }).join('');
-        html += '<option value="other">';
-        html += globalize.translate('TabOther');
-        html += '</option>';
-        selectType.innerHTML = html;
-        selectType.disabled = currentId != null;
-        selectType.value = '';
-        onTypeChange.call(selectType);
-    });
+async function fillTypes(view, currentId) {
+    const api = ServerConnections.getApi();
+    if (!api) throw new Error('No API instance available');
+
+    const { data: types } = await getLiveTvApi(api).getTunerHostTypes();
+    const selectType = view.querySelector('.selectType');
+    let html = '';
+    html += types.map(function (tuner) {
+        return '<option value="' + tuner.Id + '">' + tuner.Name + '</option>';
+    }).join('');
+    html += '<option value="other">';
+    html += globalize.translate('TabOther');
+    html += '</option>';
+    selectType.innerHTML = html;
+    selectType.disabled = currentId != null;
+    selectType.value = '';
+    onTypeChange.call(selectType);
 }
 
-function reload(view, providerId) {
+async function reload(view, providerId) {
     view.querySelector('.txtDevicePath').value = '';
     view.querySelector('.chkFavorite').checked = false;
     view.querySelector('.txtDevicePath').value = '';
 
-    if (providerId) {
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
+    const api = ServerConnections.getApi();
+
+    if (api && providerId) {
+        const config = await getSystemApi(api).getNamedConfiguration({ key: 'livetv' });
+
+        if (config) {
             const info = config.TunerHosts.filter(function (i) {
                 return i.Id === providerId;
             })[0];
             fillTunerHostInfo(view, info);
-        });
+        }
     }
 }
 
@@ -97,11 +107,10 @@ function submitForm(page) {
         info.Id = getParameterByName('id');
     }
 
-    ApiClient.ajax({
-        type: 'POST',
-        url: ApiClient.getUrl('LiveTv/TunerHosts'),
-        data: JSON.stringify(info),
-        contentType: 'application/json'
+    const api = ServerConnections.getApi();
+    if (!api) throw new Error('No API instance available');
+    getLiveTvApi(api).addTunerHost({
+        tunerHost: info
     }).then(function () {
         Dashboard.processServerConfigurationUpdateResult();
         Dashboard.navigate('dashboard/livetv');
@@ -116,7 +125,7 @@ function submitForm(page) {
 function getDetectedDevice() {
     return import('components/tunerPicker').then(({ default: TunerPicker }) => {
         return new TunerPicker().show({
-            serverId: ApiClient.serverId()
+            serverId: ServerConnections.currentApiClient().serverId()
         });
     });
 }

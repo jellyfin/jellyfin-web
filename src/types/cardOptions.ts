@@ -7,8 +7,8 @@ import type { QueryKey } from '@tanstack/react-query';
 
 import type { CardShape } from 'components/cardbuilder/utils/shape';
 import type { ItemAction } from 'constants/itemAction';
+import type { Nullable } from '@/types/nullable';
 
-import type { NullableString } from './base/common/shared/types';
 import type { ItemDto } from './base/models/item-dto';
 import type { ParentId } from './library';
 
@@ -79,7 +79,7 @@ export interface CardOptions {
     widths?: any;
     showChannelLogo?: boolean;
     showLogo?: boolean;
-    serverId?: NullableString;
+    serverId?: Nullable<string>;
     collectionId?: string | null;
     playlistId?: string | null;
     defaultCardImageIcon?: string;

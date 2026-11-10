@@ -61,25 +61,29 @@ const defaultComicsPlayerSettings = {
 export class UserSettings {
     /**
      * Bind UserSettings instance to user.
-     * @param {string|undefined} userId - User identifier.
-     * @param {import('jellyfin-apiclient').ApiClient} apiClient - ApiClient instance.
+     * @param {string|undefined} userId - User ID.
+     * @param {import('jellyfin-apiclient').ApiClient|string|undefined} apiClientOrId - ApiClient instance or Server ID.
      */
-    setUserInfo(userId, apiClient) {
+    setUserInfo(userId, apiClientOrId) {
         if (this.saveTimeout) {
             clearTimeout(this.saveTimeout);
         }
 
+        // Resolve the ApiClient and Server ID from the input
+        const apiClient = typeof apiClientOrId === 'string' ? ServerConnections.getApi(apiClientOrId) : apiClientOrId;
+        const serverId = typeof apiClientOrId === 'string' ? apiClientOrId : apiClient?.serverId();
+
         this.currentUserId = userId;
         this.currentApiClient = apiClient;
 
-        if (!userId) {
+        if (!userId || !apiClient) {
             this.displayPrefs = null;
             return Promise.resolve();
         }
 
         const self = this;
 
-        const api = ServerConnections.getApi(apiClient.serverId());
+        const api = ServerConnections.getApi(serverId);
         return queryClient
             .fetchQuery(getDisplayPreferencesQuery(
                 api,
