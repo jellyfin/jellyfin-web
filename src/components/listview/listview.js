@@ -186,7 +186,7 @@ export function getListViewHtml(options) {
     const enableOverview = options.enableOverview;
 
     const clickEntireItem = layoutManager.tv && !browser.web0s;
-    const outerTagName = clickEntireItem? 'button' : 'div';
+    const outerTagName = clickEntireItem ? 'button' : 'div';
     const enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
 
     let outerHtml = '';
