@@ -1041,7 +1041,7 @@
     "LabelStreamType": "Vrsta streama",
     "LabelRequireHttpsHelp": "Ako je označeno, poslužitelj će automatski preusmjeriti sve zahtjeve preko HTTP-a na HTTPS. Ovo nema učinka ako server ne sluša na HTTPS.",
     "LabelSelectFolderGroups": "Automatski grupiraj sadržaj iz sljedećih mapa u prikaze kao što su 'Filmovi', 'Glazba' i 'TV'",
-    "Poster": "Poster",
+    "Poster": "Plakat",
     "LabelTonemappingDesatHelp": "Primijeni desaturaciju za istaknute dijelove koji prelaze ovu razinu svjetline. Preporučena vrijednosti je 0 (deaktiviajj.",
     "Lyricist": "Tekstopisac",
     "OptionAutomaticallyGroupSeries": "Automatski spojite serije koje su raspoređene u više mapa",
@@ -1945,5 +1945,7 @@
     "Screenplay": "Scenarij",
     "HlsAudioSeekStrategy": "Strategija koja se koristi pri premotavanju u HLS tokovima.",
     "LabelHlsAudioSeekStrategy": "Strategija premotavanja zvuka.",
-    "MessageForgotPasswordRedirect": "Preusmjereni ste vanjskom pružatelju usluge radi ponovnog postavljanja lozinke."
+    "MessageForgotPasswordRedirect": "Preusmjereni ste vanjskom pružatelju usluge radi ponovnog postavljanja lozinke.",
+    "ManageServer": "Upravljaj poslužiteljom",
+    "ManageMetadata": "Upravljaj metapodacima"
 }

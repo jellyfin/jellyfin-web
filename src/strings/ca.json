@@ -858,7 +858,7 @@
     "Season": "Temporada",
     "SearchResults": "Resultats de la cerca",
     "Schedule": "Programa",
-    "ScanLibrary": "Escaneja la mediateca",
+    "ScanLibrary": "S'està escanejant la mediateca",
     "ScanForNewAndUpdatedFiles": "Cerca de fitxers nous i actualitzats",
     "SaveSubtitlesIntoMediaFoldersHelp": "L'emmagatzematge dels subtítols amb els fitxers de vídeo permetrà gestionar-los amb més facilitat.",
     "SaveSubtitlesIntoMediaFolders": "Desa els subtítols en els directoris de continguts multimèdia",
@@ -1880,7 +1880,7 @@
     "Authors": "Autors",
     "Watch": "Visualitza",
     "Unwatch": "No vist",
-    "ResetFilters": "Restableix els filtres",
+    "ResetFilters": "Elimina els filtres",
     "LabelExternalServerUriHelp": "URI del servidor publicat per a ús extern.",
     "LabelExternalServerUri": "URI extern",
     "NetworkingPageLoadError": "No s'han pogut carregar els paràmetres de xarxa",
@@ -1945,5 +1945,7 @@
     "HlsAudioSeekStrategy": "L'estratègia a seguir quan se cerca en fluxos HLS.",
     "LabelHlsAudioSeekStrategy": "Estratègia de cerca d'àudio.",
     "MessageForgotPasswordRedirect": "Se us ha redirigit a un proveïdor extern per a restablir la contrasenya.",
-    "MessageItemMetadataLocked": "Les metadades d'aquest element estan blocades. Desbloqueu-les abans de fer servir la funció d'identificació."
+    "MessageItemMetadataLocked": "Les metadades d'aquest element estan blocades. Desbloqueu-les abans de fer servir la funció d'identificació.",
+    "ManageServer": "Administració del servidor",
+    "ManageMetadata": "Administració de metadades"
 }

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import eventsUtils from './events';
+import eventsUtils, { type Callback } from './events';
 
 describe('Utils: events', () => {
     describe('Method: on', () => {
@@ -37,7 +37,7 @@ describe('Utils: events', () => {
 
     describe('Method: off', () => {
         let obj: object;
-        let initialCallback: ReturnType<typeof vi.fn>;
+        let initialCallback: Callback;
         beforeEach(() => {
             initialCallback = vi.fn();
             obj = {

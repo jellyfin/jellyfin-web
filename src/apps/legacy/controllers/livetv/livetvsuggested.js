@@ -5,6 +5,7 @@ import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
@@ -36,7 +37,7 @@ function loadRecommendedPrograms(page) {
         limit *= 2;
     }
 
-    ApiClient.getLiveTvRecommendedPrograms({
+    ServerConnections.currentApiClient().getLiveTvRecommendedPrograms({
         userId: Dashboard.getCurrentUserId(),
         IsAiring: true,
         limit: limit,
@@ -60,7 +61,8 @@ function loadRecommendedPrograms(page) {
 function reload(page, enableFullRender) {
     if (enableFullRender) {
         loadRecommendedPrograms(page);
-        ApiClient.getLiveTvPrograms({
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getLiveTvPrograms({
             userId: Dashboard.getCurrentUserId(),
             HasAired: false,
             limit: getLimit(),
@@ -75,7 +77,7 @@ function reload(page, enableFullRender) {
         }).then(function (result) {
             renderItems(page, result.Items, 'upcomingEpisodeItems');
         });
-        ApiClient.getLiveTvPrograms({
+        apiClient.getLiveTvPrograms({
             userId: Dashboard.getCurrentUserId(),
             HasAired: false,
             limit: getLimit(),
@@ -90,7 +92,7 @@ function reload(page, enableFullRender) {
                 showParentTitle: false
             });
         });
-        ApiClient.getLiveTvPrograms({
+        apiClient.getLiveTvPrograms({
             userId: Dashboard.getCurrentUserId(),
             HasAired: false,
             limit: getLimit(),
@@ -101,7 +103,7 @@ function reload(page, enableFullRender) {
         }).then(function (result) {
             renderItems(page, result.Items, 'upcomingSportsItems');
         });
-        ApiClient.getLiveTvPrograms({
+        apiClient.getLiveTvPrograms({
             userId: Dashboard.getCurrentUserId(),
             HasAired: false,
             limit: getLimit(),
@@ -112,7 +114,7 @@ function reload(page, enableFullRender) {
         }).then(function (result) {
             renderItems(page, result.Items, 'upcomingKidsItems');
         });
-        ApiClient.getLiveTvPrograms({
+        apiClient.getLiveTvPrograms({
             userId: Dashboard.getCurrentUserId(),
             HasAired: false,
             limit: getLimit(),
@@ -336,7 +338,7 @@ export default function (view, params) {
         const href = link.getAttribute('href');
 
         if (href) {
-            link.href = href + '&serverId=' + ApiClient.serverId();
+            link.href = href + '&serverId=' + ServerConnections.currentApiClient().serverId();
         }
     });
 
