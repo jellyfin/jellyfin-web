@@ -542,14 +542,10 @@ function getOptimalMediaSource(apiClient, item, versions) {
     });
 }
 
-function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, mediaSource, options) {
-    const postData = {
-        DeviceProfile: deviceProfile,
-        OpenToken: mediaSource.OpenToken
-    };
-
+async function getLiveStream(player, item, playSessionId, deviceProfile, mediaSource, options) {
     const query = {
-        UserId: apiClient.getCurrentUserId(),
+        DeviceProfile: deviceProfile,
+        OpenToken: mediaSource.OpenToken,
         StartTimeTicks: options.startPosition || 0,
         ItemId: item.Id,
         PlaySessionId: playSessionId
@@ -572,14 +568,10 @@ function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, me
         query.EnableDirectStream = false;
     }
 
-    return apiClient.ajax({
-        url: apiClient.getUrl('LiveStreams/Open', query),
-        type: 'POST',
-        data: JSON.stringify(postData),
-        contentType: 'application/json',
-        dataType: 'json'
+    const api = ServerConnections.getApi(item.ServerId);
+    const { data } = await getMediaInfoApi(api).openLiveStream({ openLiveStreamDto: query });
 
-    });
+    return data;
 }
 
 function isHostReachable(mediaSource, apiClient) {
@@ -3049,7 +3041,7 @@ export class PlaybackManager {
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
 
-                                return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
+                                return getLiveStream(player, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
                                     return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
                                         openLiveStreamResult.MediaSource.enableDirectPlay = result;
                                         openLiveStreamResult.MediaSource.hasAlternateVersions = mediaSource.hasAlternateVersions;
