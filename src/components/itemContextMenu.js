@@ -4,6 +4,7 @@ import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
+import layoutManager from './layoutManager';
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
 import dom from '../utils/dom';
@@ -141,7 +142,7 @@ export async function getCommands(options) {
         }
     }
 
-    if (!browser.tv || browser.web0s) {
+    if (!layoutManager.tv || browser.web0s) {
         if (itemHelper.supportsAddingToCollection(item) && (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement)) {
             commands.push({
                 name: globalize.translate('AddToCollection'),
