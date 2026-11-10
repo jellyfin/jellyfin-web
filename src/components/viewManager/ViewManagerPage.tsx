@@ -7,6 +7,14 @@ import type { RestoreViewFailResponse } from 'types/viewManager';
 
 import viewManager from './viewManager';
 import { AppType } from 'constants/appType';
+import {
+    importDashboardController,
+    importDashboardView,
+    importLegacyController,
+    importLegacyView,
+    importWizardController,
+    importWizardView
+} from 'utils/moduleLoaders';
 
 export interface ViewManagerPageProps {
     appType?: AppType
@@ -41,20 +49,20 @@ const importController = (
     switch (appType) {
         case AppType.Dashboard:
             return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/controllers/${view}`)
+                importDashboardController(controller),
+                importDashboardView(view)
                     .then(html => globalize.translateHtml(html))
             ]);
         case AppType.Wizard:
             return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../apps/wizard/controllers/${view}`)
+                importWizardController(controller),
+                importWizardView(view)
                     .then(html => globalize.translateHtml(html))
             ]);
         default:
             return Promise.all([
-                import(/* webpackChunkName: "[request]" */ `../../apps/legacy/controllers/${controller}`),
-                import(/* webpackChunkName: "[request]" */ `../../apps/legacy/controllers/${view}`)
+                importLegacyController(controller),
+                importLegacyView(view)
                     .then(html => globalize.translateHtml(html))
             ]);
     }
