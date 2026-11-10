@@ -427,7 +427,7 @@ function loadForm(context, user, userSettings, apiClient) {
                 includeHidden: true
             }
         ));
-    const promise2 = getUserViewApi(api).getGroupingOptions({ userId: user.Id });
+    const promise2 = getUserViewApi(api).getGroupingOptions({ userId: user.Id }).then(({ data }) => data);
 
     Promise.all([promise1, promise2]).then(responses => {
         renderViewOrder(context, user, responses[0]);
