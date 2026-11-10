@@ -1,4 +1,9 @@
 import escapeHtml from 'escape-html';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
+import { getItemUpdateApi } from '@jellyfin/sdk/lib/utils/api/item-update-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
 import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
@@ -22,8 +27,6 @@ import './style.scss';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 
 let currentContext;
 let metadataEditorInfo;
@@ -39,35 +42,24 @@ function closeDialog() {
     }
 }
 
-function submitUpdatedItem(form, item) {
-    function afterContentTypeUpdated() {
-        toast(globalize.translate('MessageItemSaved'));
+async function submitUpdatedItem(form, baseItemDto) {
+    const api = ServerConnections.getApi(currentItem.ServerId);
+    await getItemUpdateApi(api).updateItem({
+        itemId: baseItemDto.Id,
+        baseItemDto
+    });
 
-        loading.hide();
-        closeDialog();
+    const newContentType = form.querySelector('#selectContentType').value || '';
+    if ((metadataEditorInfo.ContentType || '') !== newContentType) {
+        await getItemUpdateApi(api).updateItemContentType({
+            itemId: baseItemDto.Id,
+            contentType: newContentType
+        });
     }
 
-    const apiClient = getApiClient();
-
-    apiClient.updateItem(item).then(function () {
-        const newContentType = form.querySelector('#selectContentType').value || '';
-
-        if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-            apiClient.ajax({
-
-                url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
-                    ContentType: newContentType
-                }),
-
-                type: 'POST'
-
-            }).then(function () {
-                afterContentTypeUpdated();
-            });
-        } else {
-            afterContentTypeUpdated();
-        }
-    });
+    toast(globalize.translate('MessageItemSaved'));
+    loading.hide();
+    closeDialog();
 }
 
 function getSelectedAirDays(form) {
@@ -292,10 +284,6 @@ function onEditorClick(e) {
     }
 }
 
-function getApiClient() {
-    return ServerConnections.getApiClient(currentItem.ServerId);
-}
-
 function bindAll(elems, eventName, fn) {
     for (let i = 0, length = elems.length; i < length; i++) {
         elems[i].addEventListener(eventName, fn);
@@ -352,9 +340,11 @@ function init(context) {
     });
 
     context.querySelector('.btnMore').addEventListener('click', function (e) {
-        getApiClient().getCurrentUser().then(function (user) {
-            showMoreMenu(context, e.target, user);
-        });
+        ServerConnections.getApiClient(currentItem.ServerId)
+            .getCurrentUser()
+            .then(function (user) {
+                showMoreMenu(context, e.target, user);
+            });
     });
 
     context.querySelector('.btnHeaderSave').addEventListener('click', function () {
@@ -399,24 +389,24 @@ function init(context) {
     });
 }
 
-function getItem(itemId, serverId) {
-    const apiClient = ServerConnections.getApiClient(serverId);
+async function getItem(itemId, serverId) {
+    const api = ServerConnections.getApi(serverId);
 
     if (itemId) {
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
+        return (await getLibraryApi(api).getItem({ itemId })).data;
     }
 
-    return apiClient.getRootFolder(apiClient.getCurrentUserId());
+    return (await getLibraryApi(api).getRootFolder()).data;
 }
 
-function getEditorConfig(itemId, serverId) {
-    const apiClient = ServerConnections.getApiClient(serverId);
+async function getEditorConfig(itemId, serverId) {
+    const api = ServerConnections.getApi(serverId);
 
     if (itemId) {
-        return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
+        return (await getItemUpdateApi(api).getMetadataEditorInfo({ itemId })).data;
     }
 
-    return Promise.resolve({});
+    return {};
 }
 
 function populateCountries(select, allCountries) {
@@ -1162,4 +1152,3 @@ export default {
         });
     }
 };
-

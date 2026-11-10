@@ -1,5 +1,5 @@
-
 import escapeHtml from 'escape-html';
+import { getUserViewApi } from '@jellyfin/sdk/lib/utils/api/user-view-api';
 
 import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -418,15 +418,16 @@ function loadForm(context, user, userSettings, apiClient) {
 
     updateHomeSectionValues(context, userSettings);
 
+    const api = ServerConnections.getApi(apiClient.serverId());
     const promise1 = queryClient
         .fetchQuery(getUserViewsQuery(
-            ServerConnections.getApi(apiClient.serverId()),
+            api,
             {
                 userId: user.Id,
                 includeHidden: true
             }
         ));
-    const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
+    const promise2 = getUserViewApi(api).getGroupingOptions({ userId: user.Id });
 
     Promise.all([promise1, promise2]).then(responses => {
         renderViewOrder(context, user, responses[0]);
