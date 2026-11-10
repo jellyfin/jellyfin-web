@@ -1791,10 +1791,10 @@
     "Regional": "Regional",
     "SearchForLyrics": "Cauta versuri",
     "ViewLyrics": "Vizualizați versurile",
-    "RenderPgsSubtitle": "Redare experimentală a subtitrărilor PGS",
+    "RenderPgsSubtitle": "Redare experimentală a subtitrărilor PGS și VobSub",
     "LabelTrickplayAccelEncodingHelp": "În prezent, această opțiune este disponibilă doar pe QSV, VA-API, VideoToolbox și RKMPP; nu are efect asupra altor metode de accelerare hardware.",
     "SaveLyricsIntoMediaFolders": "Salvează versurile în folderele media",
-    "RenderPgsSubtitleHelp": "Determină dacă clientul ar trebui să redea subtitrările PGS în locul subtitrărilor încorporate. Aceasta poate evita transcodarea pe server, în schimbul performanței de redare pe client.",
+    "RenderPgsSubtitleHelp": "Stabilește dacă clientul trebuie să redea subtitrările PGS și VobSub în loc să folosească subtitrări încorporate în imagine. Astfel se poate evita transcodarea pe server, cu prețul performanței de redare pe client.",
     "SelectPreferredTranscodeVideoAudioCodecHelp": "Selectează codec-ul audio preferat pentru transcodare pentru conținutul video. Dacă codec-ul preferat nu este suportat, serverul va utiliza următorul codec disponibil.",
     "MetadataNfoLoadError": "Nu s-au putut încărca setările metadata NFO",
     "MessageSplitVersionsError": "A apărut o eroare în timpul divizării versiunilor",
@@ -1837,7 +1837,7 @@
     "LabelRestore": "Restaurează",
     "StorageType.Fixed": "Fixat",
     "StorageType.Removable": "Îndepărtabil",
-    "MessageRestoreDisclaimer": "AVERTISMENT: Ești pe cale să restaurezi dintr-o copie de rezervă anterioară. Serverul tău va fi neutilizabil pe durata acestui proces și orice dată nou creată după copia de rezervă se va pierde.",
+    "MessageRestoreDisclaimer": "AVERTISMENT: Ești pe cale să restaurezi o copie de rezervă anterioară. Serverul tău va deveni inutilizabil pe durata procesului, iar toate datele noi create după copia de rezervă se vor pierde.\n\nCopiile de rezervă trebuie restaurate numai pe aceeași versiune în care au fost create. Restaurarea unei copii de rezervă pe o versiune diferită nu este acceptată și poate face serverul inutilizabil.",
     "MessageRestoreInProgress": "Restaurare în progres",
     "MessageRestoreSuccess": "Restaurarea sa completat cu succes",
     "MessageWaitingForServer": "Așteaptă după server...",
@@ -1944,5 +1944,6 @@
     "Screenplay": "Scenariul",
     "HlsAudioSeekStrategy": "Strategia utilizată la căutarea în fluxuri HLS.",
     "LabelHlsAudioSeekStrategy": "Strategia de căutare audio.",
-    "LabelUsernameAllowedCharactersHelp": "Numele de utilizator poate conține litere, cifre, spații și următoarele caractere: - _ ' . @ +. Nu poate începe sau termina cu un spațiu."
+    "LabelUsernameAllowedCharactersHelp": "Numele de utilizator poate conține litere, cifre, spații și următoarele caractere: - _ ' . @ +. Nu poate începe sau termina cu un spațiu.",
+    "MessageItemMetadataLocked": "Metadatele acestui element sunt blocate. Deblocați-le înainte de a utiliza funcția Identifică."
 }

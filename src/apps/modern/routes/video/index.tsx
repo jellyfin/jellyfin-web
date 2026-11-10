@@ -70,7 +70,7 @@ const VideoPage: FC = () => {
                                 <RemotePlayButton />
                             </>
                         }
-                        className='padded-left padded-right'
+                        className='videoOsd-appBar'
                     >
                         <Typography>{videoTitle}</Typography>
                     </AppToolbar>

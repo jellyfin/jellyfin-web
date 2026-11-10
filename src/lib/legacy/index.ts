@@ -15,5 +15,6 @@ import './elementAppendPrepend';
 import './focusPreventScroll';
 import './htmlMediaElement';
 import './keyboardEvent';
+import './mediaQueryList';
 import './patchHeaders';
 import './vendorStyles';

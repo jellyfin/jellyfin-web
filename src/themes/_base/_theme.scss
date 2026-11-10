@@ -457,6 +457,11 @@ a[data-role="button"],
 .playedIndicator {
     background: var(--jf-palette-primary-main, $primary-main);
     color: var(--jf-palette-primary-contrastText, $primary-contrastText);
+
+    // Safari is failing to render the SVG fill color with "currentColor" here
+    & > svg {
+        fill: var(--jf-palette-primary-contrastText, $primary-contrastText);
+    }
 }
 
 .mainDrawer,

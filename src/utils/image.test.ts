@@ -89,7 +89,7 @@ describe('getLibraryIcon()', () => {
 
     it('Should return the correct icon for nonstandard types', () => {
         expect(getLibraryIcon(undefined))
-            .toBe('quiz');
+            .toBe('ondemand_video');
         expect(getLibraryIcon('channels'))
             .toBe('videocam');
     });

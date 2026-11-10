@@ -1,17 +1,29 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
+import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
+
+import { getLatestMediaQuery } from '@/apps/legacy/features/libraries/api/useLatestMedia';
+import { getItemsQuery } from '@/apps/modern/features/libraries/hooks/api/useItems';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getSquareShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import * as mainTabsManager from 'components/maintabsmanager';
+import { getItemQuery } from '@/hooks/useItem';
 import browser from 'scripts/browser';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
+import { queryClient } from '@/utils/query/queryClient';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-tabs/emby-tabs';
@@ -42,125 +54,122 @@ function enableScrollX() {
     return !layoutManager.desktop;
 }
 
-function loadLatest(page, parentId) {
+async function loadLatest(page, parentId) {
     loading.show();
-    const userId = ApiClient.getCurrentUserId();
-    const options = {
-        IncludeItemTypes: 'Audio',
-        Limit: enableScrollX() ? 3 * itemsPerRow() : 2 * itemsPerRow(),
-        Fields: 'PrimaryImageAspectRatio',
-        ParentId: parentId,
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-        EnableTotalRecordCount: false
-    };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-        const elem = page.querySelector('#recentlyAddedSongs');
-        elem.innerHTML = cardBuilder.getCardsHtml({
-            items: items,
-            showUnplayedIndicator: false,
-            showLatestItemsPopup: false,
-            shape: getSquareShape(enableScrollX()),
-            showTitle: true,
-            showParentTitle: true,
-            lazy: true,
-            centerText: true,
-            overlayPlayButton: true,
-            allowBottomPadding: !enableScrollX(),
-            cardLayout: false,
-            coverImage: true
-        });
-        imageLoader.lazyChildren(elem);
-        loading.hide();
+    const api = ServerConnections.getApi();
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
 
-        import('components/autoFocuser').then(({ default: autoFocuser }) => {
-            autoFocuser.autoFocus(page);
-        });
+    const items = await queryClient.query(getLatestMediaQuery(api, {
+        userId,
+        parentId,
+        includeItemTypes: [BaseItemKind.Audio],
+        limit: enableScrollX() ? 3 * itemsPerRow() : 2 * itemsPerRow(),
+        fields: [ItemFields.PrimaryImageAspectRatio],
+        imageTypeLimit: 1,
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Thumb],
+        enableTotalRecordCount: false
+    }));
+
+    const elem = page.querySelector('#recentlyAddedSongs');
+    elem.innerHTML = cardBuilder.getCardsHtml({
+        items: items,
+        showUnplayedIndicator: false,
+        showLatestItemsPopup: false,
+        shape: getSquareShape(enableScrollX()),
+        showTitle: true,
+        showParentTitle: true,
+        lazy: true,
+        centerText: true,
+        overlayPlayButton: true,
+        allowBottomPadding: !enableScrollX(),
+        cardLayout: false,
+        coverImage: true
     });
+    imageLoader.lazyChildren(elem);
+    loading.hide();
+
+    const autoFocuser = await (await import('components/autoFocuser')).default;
+    autoFocuser.autoFocus(page);
 }
 
-function loadRecentlyPlayed(page, parentId) {
-    const options = {
-        SortBy: 'DatePlayed',
-        SortOrder: 'Descending',
-        IncludeItemTypes: 'Audio',
-        Limit: itemsPerRow(),
-        Recursive: true,
-        Fields: 'PrimaryImageAspectRatio',
-        Filters: 'IsPlayed',
-        ParentId: parentId,
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-        EnableTotalRecordCount: false
-    };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-        const elem = page.querySelector('#recentlyPlayed');
+async function loadRecentlyPlayed(page, parentId) {
+    const api = ServerConnections.getApi();
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
 
-        if (result.Items.length) {
-            elem.classList.remove('hide');
-        } else {
-            elem.classList.add('hide');
-        }
+    const items = await queryClient.query(getItemsQuery(api, {
+        userId,
+        parentId,
+        sortBy: [ItemSortBy.DatePlayed],
+        sortOrder: [SortOrder.Descending],
+        includeItemTypes: [BaseItemKind.Audio],
+        limit: itemsPerRow(),
+        recursive: true,
+        fields: [ItemFields.PrimaryImageAspectRatio],
+        filters: [ItemFilter.IsPlayed],
+        imageTypeLimit: 1,
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Thumb],
+        enableTotalRecordCount: false
+    }));
 
-        const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.innerHTML = cardBuilder.getCardsHtml({
-            items: result.Items,
-            showUnplayedIndicator: false,
-            shape: getSquareShape(enableScrollX()),
-            showTitle: true,
-            showParentTitle: true,
-            action: 'instantmix',
-            lazy: true,
-            centerText: true,
-            overlayMoreButton: true,
-            allowBottomPadding: !enableScrollX(),
-            cardLayout: false,
-            coverImage: true
-        });
-        imageLoader.lazyChildren(itemsContainer);
+    const elem = page.querySelector('#recentlyPlayed');
+    elem.classList.toggle('hide', !items.length);
+
+    const itemsContainer = elem.querySelector('.itemsContainer');
+    itemsContainer.innerHTML = cardBuilder.getCardsHtml({
+        items,
+        showUnplayedIndicator: false,
+        shape: getSquareShape(enableScrollX()),
+        showTitle: true,
+        showParentTitle: true,
+        action: 'instantmix',
+        lazy: true,
+        centerText: true,
+        overlayMoreButton: true,
+        allowBottomPadding: !enableScrollX(),
+        cardLayout: false,
+        coverImage: true
     });
+    imageLoader.lazyChildren(itemsContainer);
 }
 
-function loadFrequentlyPlayed(page, parentId) {
-    const options = {
-        SortBy: 'PlayCount',
-        SortOrder: 'Descending',
-        IncludeItemTypes: 'Audio',
-        Limit: itemsPerRow(),
-        Recursive: true,
-        Fields: 'PrimaryImageAspectRatio',
-        Filters: 'IsPlayed',
-        ParentId: parentId,
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-        EnableTotalRecordCount: false
-    };
-    ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
-        const elem = page.querySelector('#topPlayed');
+async function loadFrequentlyPlayed(page, parentId) {
+    const api = ServerConnections.getApi();
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
 
-        if (result.Items.length) {
-            elem.classList.remove('hide');
-        } else {
-            elem.classList.add('hide');
-        }
+    const items = await queryClient.query(getItemsQuery(api, {
+        userId,
+        parentId,
+        sortBy: [ItemSortBy.PlayCount],
+        sortOrder: [SortOrder.Descending],
+        includeItemTypes: [BaseItemKind.Audio],
+        limit: itemsPerRow(),
+        recursive: true,
+        fields: [ItemFields.PrimaryImageAspectRatio],
+        filters: [ItemFilter.IsPlayed],
+        imageTypeLimit: 1,
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Thumb],
+        enableTotalRecordCount: false
+    }));
 
-        const itemsContainer = elem.querySelector('.itemsContainer');
-        itemsContainer.innerHTML = cardBuilder.getCardsHtml({
-            items: result.Items,
-            showUnplayedIndicator: false,
-            shape: getSquareShape(enableScrollX()),
-            showTitle: true,
-            showParentTitle: true,
-            action: 'instantmix',
-            lazy: true,
-            centerText: true,
-            overlayMoreButton: true,
-            allowBottomPadding: !enableScrollX(),
-            cardLayout: false,
-            coverImage: true
-        });
-        imageLoader.lazyChildren(itemsContainer);
+    const elem = page.querySelector('#topPlayed');
+    elem.classList.toggle('hide', !items.length);
+
+    const itemsContainer = elem.querySelector('.itemsContainer');
+    itemsContainer.innerHTML = cardBuilder.getCardsHtml({
+        items,
+        showUnplayedIndicator: false,
+        shape: getSquareShape(enableScrollX()),
+        showTitle: true,
+        showParentTitle: true,
+        action: 'instantmix',
+        lazy: true,
+        centerText: true,
+        overlayMoreButton: true,
+        allowBottomPadding: !enableScrollX(),
+        cardLayout: false,
+        coverImage: true
     });
+    imageLoader.lazyChildren(itemsContainer);
 }
 
 function loadSuggestionsTab(page, tabContent, parentId) {
@@ -170,7 +179,12 @@ function loadSuggestionsTab(page, tabContent, parentId) {
     loadFrequentlyPlayed(tabContent, parentId);
 
     import('components/favoriteitems').then(({ default: favoriteItems }) => {
-        favoriteItems.render(tabContent, ApiClient.getCurrentUserId(), parentId, ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']);
+        favoriteItems.render(
+            tabContent,
+            ServerConnections.currentApiClient().getCurrentUserId(),
+            parentId,
+            ['favoriteArtists', 'favoriteAlbums', 'favoriteSongs']
+        );
     });
 }
 
@@ -376,7 +390,9 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                const api = ServerConnections.getApi();
+                const userId = ServerConnections.currentApiClient().getCurrentUserId();
+                queryClient.query(getItemQuery(api, parentId, userId)).then(item => {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });

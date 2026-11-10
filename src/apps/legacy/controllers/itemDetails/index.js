@@ -2,6 +2,9 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';
+import { getVideoApi } from '@jellyfin/sdk/lib/utils/api/video-api';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -39,8 +42,7 @@ import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
-import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
-import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -86,7 +88,7 @@ function getPromise(apiClient, params) {
     }
 
     if (params.musicartist) {
-        return apiClient.getArtist(params.musicartist, apiClient.getCurrentUserId());
+        return apiClient.getPerson(params.musicartist, apiClient.getCurrentUserId());
     }
 
     throw new Error('Invalid request');
@@ -214,7 +216,7 @@ function renderTrackSelections(page, instance, item, forceReload) {
 
     const currentValue = select.value;
 
-    const selectedId = mediaSources[0].Id;
+    const selectedId = mediaSources.some(m => m.Id === currentValue) ? currentValue : mediaSources[0].Id;
     select.innerHTML = mediaSources.map(function (v) {
         const selected = v.Id === selectedId ? ' selected' : '';
         return '<option value="' + v.Id + '"' + selected + '>' + escapeHtml(v.Name) + '</option>';
@@ -256,7 +258,7 @@ function renderVideoSelections(page, mediaSources) {
             titleParts.push(v.Codec.toUpperCase());
         }
 
-        return '<option value="' + v.Index + '" ' + selected + '>' + (v.DisplayTitle || titleParts.join(' ')) + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle || titleParts.join(' '))}</option>`;
     }).join('');
     select.setAttribute('disabled', 'disabled');
 
@@ -279,7 +281,7 @@ function renderAudioSelections(page, mediaSources) {
     const selectedId = mediaSource.DefaultAudioStreamIndex;
     select.innerHTML = tracks.map(function (v) {
         const selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle)}</option>`;
     }).join('');
 
     if (tracks.length > 1) {
@@ -309,7 +311,7 @@ function renderSubtitleSelections(page, mediaSources) {
     let selected = selectedId === -1 ? ' selected' : '';
     select.innerHTML = '<option value="-1">' + globalize.translate('Off') + '</option>' + tracks.map(function (v) {
         selected = v.Index === selectedId ? ' selected' : '';
-        return '<option value="' + v.Index + '" ' + selected + '>' + v.DisplayTitle + '</option>';
+        return `<option value="${v.Index}" ${selected}>${escapeHtml(v.DisplayTitle)}</option>`;
     }).join('');
 
     if (tracks.length > 0) {
@@ -349,7 +351,7 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnShuffle', enableShuffle);
         canPlay = true;
 
-        const isResumable = item.UserData && item.UserData.PlaybackPositionTicks > 0;
+        const isResumable = (item.UserData?.PlaybackPositionTicks || 0) > 0;
         hideAll(page, 'btnReplay', isResumable);
 
         for (const btnPlay of page.querySelectorAll('.btnPlay')) {
@@ -729,12 +731,22 @@ function renderLinks(page, item) {
     const links = [];
 
     if (!layoutManager.tv && item.HomePageUrl) {
-        links.push(`<a is="emby-linkbutton" class="button-link" href="${item.HomePageUrl}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        try {
+            const parsedUrl = new URL(item.HomePageUrl);
+            links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${globalize.translate('ButtonWebsite')}</a>`);
+        } catch {
+            console.error('[renderLinks] Failed to parse home page URL', item.HomePageUrl);
+        }
     }
 
     if (item.ExternalUrls) {
         for (const url of item.ExternalUrls) {
-            links.push(`<a is="emby-linkbutton" class="button-link" href="${url.Url}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            try {
+                const parsedUrl = new URL(url.Url);
+                links.push(`<a is="emby-linkbutton" class="button-link" href="${parsedUrl.href}" target="_blank">${escapeHtml(url.Name)}</a>`);
+            } catch {
+                console.error('[renderLinks] Failed to parse external URL', url.Url);
+            }
         }
     }
 
@@ -869,8 +881,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
         } else if (p.Type === PersonKind.Artist || p.Type === PersonKind.AlbumArtist) {
-            // TODO remove this exclusion when artists are migrated to the persons endpoint
-            return;
+            console.debug(`skipping artist in person slider: ${p.Name}`);
         } else {
             const isMergeableCrew = p.Id && mergeablePersonTypes.has(p.Type);
             const existingIndex = isMergeableCrew ? crewByPersonId.get(p.Id) : undefined;
@@ -1031,7 +1042,7 @@ function renderDetails(page, instance, item, apiClient, context) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
-    renderLyricsContainer(page, item, apiClient);
+    renderLyricsContainer(page, item);
 
     // Don't allow redirection to other websites from the TV layout
     if (!layoutManager.tv && appHost.supports(AppFeature.ExternalLinks)) {
@@ -1046,7 +1057,8 @@ function enableScrollX() {
     return browser.mobile && window.screen.availWidth <= 1000;
 }
 
-function renderLyricsContainer(view, item, apiClient) {
+function renderLyricsContainer(view, item) {
+    const api = ServerConnections.getApi(item.ServerId);
     const lyricContainer = view.querySelector('.lyricsContainer');
     if (lyricContainer && item.HasLyrics) {
         if (item.Type !== 'Audio') {
@@ -1054,11 +1066,9 @@ function renderLyricsContainer(view, item, apiClient) {
             return;
         }
         //get lyrics
-        apiClient.ajax({
-            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
-            type: 'GET',
-            dataType: 'json'
-        }).then((response) => {
+        getLyricApi(api).getLyrics({
+            itemId: item.Id
+        }).then(({ data: response }) => {
             if (!response.Lyrics) {
                 lyricContainer.classList.add('hide');
                 return;
@@ -1383,6 +1393,8 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
+                // we only care that both lists match so the exact sort order is of no consequence
+                // eslint-disable-next-line sonarjs/no-alphabetical-sort
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
                     showArtist = true;
                     break;
@@ -1830,7 +1842,8 @@ function getVideosHtml(items) {
         action: 'play',
         overlayText: false,
         centerText: true,
-        showRuntime: true
+        showRuntime: true,
+        overlayMoreButton: true
     });
 }
 
@@ -1931,14 +1944,13 @@ export default function (view, params) {
         });
     }
 
-    function splitVersions(instance, page, apiClient, pageParams) {
+    function splitVersions(instance, page, pageParams) {
+        const { id: itemId, serverId } = pageParams;
+        const api = ServerConnections.getApi(serverId);
         confirm(globalize.translate('ConfirmSplitMedia'), globalize.translate('HeaderSplitMedia'))
             .then(() => {
                 loading.show();
-                return apiClient.ajax({
-                    type: 'DELETE',
-                    url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-                });
+                return getVideoApi(api).deleteAlternateSources({ itemId });
             })
             .then(() => {
                 reload(instance, page, pageParams);
@@ -1982,7 +1994,7 @@ export default function (view, params) {
             return;
         }
 
-        playItem(item, item.UserData && mode === ItemAction.Resume ? item.UserData.PlaybackPositionTicks : 0);
+        playItem(item, mode === ItemAction.Resume ? (item.UserData?.PlaybackPositionTicks || 0) : 0);
     }
 
     function onPlayClick() {
@@ -2082,8 +2094,9 @@ export default function (view, params) {
 
         if (!currentItem || Data?.UserId != apiClient.getCurrentUserId()) return;
 
-        const key = currentItem.UserData.Key;
-        const userData = (Data?.UserDataList ?? []).find(u => u.Key == key);
+        // Match by item id: alternate versions share the same user data key, so a key match
+        // would apply another version's progress to the displayed item.
+        const userData = (Data?.UserDataList ?? []).find(u => u.ItemId == currentItem.Id);
 
         if (userData) {
             currentItem.UserData = userData;
@@ -2110,14 +2123,13 @@ export default function (view, params) {
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
-            splitVersions(self, view, apiClient, params);
+            splitVersions(self, view, params);
         });
         bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
         view.querySelector('.selectSource').addEventListener('change', function () {
             renderVideoSelections(view, self._currentPlaybackMediaSources);
             renderAudioSelections(view, self._currentPlaybackMediaSources);
             renderSubtitleSelections(view, self._currentPlaybackMediaSources);
-            updateMiscInfo();
             refreshSelectedVersion();
         });
         view.addEventListener('viewshow', function (e) {
@@ -2130,6 +2142,7 @@ export default function (view, params) {
                     libraryMenu.setTitle('');
                     renderTrackSelections(page, self, currentItem, true);
                     renderBackdrop(page, currentItem);
+                    refreshSelectedVersion();
                 }
             } else {
                 reload(self, page, params);
@@ -2159,18 +2172,6 @@ export default function (view, params) {
         });
     }
 
-    function updateMiscInfo() {
-        const selectedMediaSource = getSelectedMediaSource(view, self._currentPlaybackMediaSources);
-        renderMiscInfo(view, {
-            // patch currentItem (primary item) with details from the selected MediaSource:
-            ...currentItem,
-            ...selectedMediaSource
-        });
-    }
-
-    // When the user picks an alternate version, fetch that Video item's own DTO
-    // and refresh the play/user-data buttons so resume position, watched state, and
-    // stack-part count reflect the selected version rather than the primary's.
     function refreshSelectedVersion() {
         const selectedId = view.querySelector('.selectSource').value;
         if (!selectedId || !currentItem || selectedId === currentItem.Id) {
@@ -2186,24 +2187,22 @@ export default function (view, params) {
             return;
         }
 
-        getLibraryApi(api).getItem({
-            userId: apiClient?.getCurrentUserId(),
-            itemId: selectedId
-        }).then(function ({ data: altItem }) {
+        Promise.all([
+            getLibraryApi(api).getItem({
+                userId: apiClient?.getCurrentUserId(),
+                itemId: selectedId
+            }),
+            apiClient.getCurrentUser()
+        ]).then(function ([{ data: versionItem }, user]) {
             if (view.querySelector('.selectSource').value !== selectedId) {
                 return;
             }
-            // Keep primary's shared metadata (overview, cast, etc.) and override the
-            // fields that are intrinsic to the playback target (UserData, runtime, parts).
-            const merged = {
-                ...currentItem,
-                UserData: altItem.UserData,
-                RunTimeTicks: altItem.RunTimeTicks,
-                PartCount: altItem.PartCount,
-                MediaStreams: altItem.MediaStreams
-            };
-            reloadPlayButtons(view, merged);
-            reloadUserDataButtons(view, merged);
+
+            currentItem = versionItem;
+            reloadFromItem(self, view, params, versionItem, user);
+            renderVideoSelections(view, self._currentPlaybackMediaSources);
+            renderAudioSelections(view, self._currentPlaybackMediaSources);
+            renderSubtitleSelections(view, self._currentPlaybackMediaSources);
         }).catch(function (err) {
             console.error('failed to load alternate version item', err);
         });

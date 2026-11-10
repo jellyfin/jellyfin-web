@@ -1944,5 +1944,6 @@
     "LabelHlsAudioSeekStrategy": "Estratégia de posicionamento no áudio.",
     "LabelUsernameAllowedCharactersHelp": "Os nomes de utilizador podem conter letras, números, espaços e os seguintes carateres: - _ ' . @ +. Não podem começar nem terminar com um espaço.",
     "AudioLanguages": "Idiomas de áudio",
-    "SubtitleLanguages": "Idiomas das legendas"
+    "SubtitleLanguages": "Idiomas das legendas",
+    "MessageItemMetadataLocked": "Os metadados deste item estão bloqueados. Desbloqueie-os antes de utilizar a funcionalidade de identificação."
 }

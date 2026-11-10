@@ -1,5 +1,6 @@
 import { MutableRefObject, useLayoutEffect, useRef, useState } from 'react';
 import useResizeObserver from '@react-hook/resize-observer';
+import ResizeObserver from 'resize-observer-polyfill';
 
 interface Size {
     width: number;
@@ -19,7 +20,11 @@ export default function useElementSize<
         target.current && setSize(target.current.getBoundingClientRect());
     }, [target]);
 
-    useResizeObserver(target, (entry) => setSize(entry.contentRect));
+    useResizeObserver(
+        target,
+        (entry) => setSize(entry.contentRect),
+        { polyfill: ResizeObserver }
+    );
 
     return [target, size];
 }

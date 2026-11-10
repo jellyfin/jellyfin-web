@@ -2,7 +2,6 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import React, { FC, useCallback } from 'react';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import FilterAlt from '@mui/icons-material/FilterAlt';
-import Clear from '@mui/icons-material/Clear';
 
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
@@ -15,7 +14,9 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import { useGetQueryFilters, useGetQueryFiltersLegacy, useGetStudios } from 'hooks/useFetchItems';
+import { useGetQueryFilters } from 'apps/modern/features/libraries/hooks/api/useQueryFilters';
+import { useGetQueryFiltersLegacy } from 'apps/modern/features/libraries/hooks/api/useQueryFiltersLegacy';
+import { useGetStudios } from 'apps/modern/features/libraries/hooks/api/useStudios';
 import globalize from 'lib/globalize';
 
 import FiltersAudioLanguages from './FiltersAudioLanguages';
@@ -23,6 +24,7 @@ import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
 import FiltersOfficialRatings from './FiltersOfficialRatings';
 import FiltersEpisodesStatus from './FiltersEpisodesStatus';
+import FiltersPersonKinds from './FiltersPersonKinds';
 import FiltersSeriesStatus from './FiltersSeriesStatus';
 import FiltersStatus from './FiltersStatus';
 import FiltersStudios from './FiltersStudios';
@@ -115,16 +117,6 @@ const FilterButton: FC<FilterButtonProps> = ({
         setAnchorEl(event.currentTarget);
     }, []);
 
-    const handleResetFiltersClick = useCallback(() => {
-        if (hasFilters) {
-            setLibraryViewSettings((prevState) => ({
-                ...prevState,
-                StartIndex: 0,
-                Filters: {}
-            }));
-        }
-    }, [hasFilters, setLibraryViewSettings]);
-
     const handleClose = useCallback(() => {
         setAnchorEl(null);
     }, []);
@@ -181,6 +173,10 @@ const FilterButton: FC<FilterButtonProps> = ({
             || viewType === LibraryTab.Series
             || viewType === LibraryTab.Episodes
             || viewType === LibraryTab.Mixed;
+    };
+
+    const isFiltersPersonKindsEnabled = () => {
+        return viewType === LibraryTab.Persons;
     };
 
     return (
@@ -518,19 +514,27 @@ const FilterButton: FC<FilterButtonProps> = ({
                         </AccordionDetails>
                     </Accordion>
                 )}
-                <Button
-                    disabled={!hasFilters}
-                    title={globalize.translate('ResetFilters')}
-                    aria-describedby={id}
-                    onClick={handleResetFiltersClick}
-                    fullWidth={true}
-                    startIcon={<Clear />}
-                    sx={{
-                        justifyContent: 'right'
-                    }}
-                >
-                    {globalize.translate('ResetFilters')}
-                </Button>
+                {isFiltersPersonKindsEnabled() && (
+                    <Accordion
+                        expanded={expanded === 'filtersPersonKinds'}
+                        onChange={handleChange('filtersPersonKinds')}
+                    >
+                        <AccordionSummary
+                            aria-controls='filtersPersonKinds-content'
+                            id='filtersPersonKinds-header'
+                        >
+                            <Typography>
+                                {globalize.translate('Credits')}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <FiltersPersonKinds
+                                libraryViewSettings={libraryViewSettings}
+                                setLibraryViewSettings={setLibraryViewSettings}
+                            />
+                        </AccordionDetails>
+                    </Accordion>
+                )}
             </Popover>
         </>
     );

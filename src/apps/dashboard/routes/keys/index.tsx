@@ -1,4 +1,4 @@
-import type { AuthenticationInfo } from '@jellyfin/sdk/lib/generated-client/models/authentication-info';
+import type { AuthenticationInfoDto } from '@jellyfin/sdk/lib/generated-client/models/authentication-info-dto';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -31,7 +31,7 @@ export const Component = () => {
     const createKey = useCreateKey();
     const theme = useTheme();
 
-    const columns = useMemo<MRT_ColumnDef<AuthenticationInfo>[]>(() => [
+    const columns = useMemo<MRT_ColumnDef<AuthenticationInfoDto>[]>(() => [
         {
             id: 'ApiKey',
             accessorKey: 'AccessToken',
@@ -94,7 +94,6 @@ export const Component = () => {
                     <Tooltip title={globalize.translate('ButtonRevoke')}>
                         <IconButton
                             color='error'
-                            // eslint-disable-next-line react/jsx-no-bind
                             onClick={() => row.original?.AccessToken && onRevokeKey(row.original.AccessToken)}
                         >
                             <DeleteIcon />

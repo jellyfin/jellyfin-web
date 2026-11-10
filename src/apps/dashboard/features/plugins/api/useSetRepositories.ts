@@ -16,6 +16,12 @@ export const useSetRepositories = () => {
             void queryClient.invalidateQueries({
                 queryKey: [ QueryKey.Repositories ]
             });
+            void queryClient.invalidateQueries({
+                queryKey: [ QueryKey.Plugins ]
+            });
+            void queryClient.invalidateQueries({
+                queryKey: [ QueryKey.Packages ]
+            });
         }
     });
 };

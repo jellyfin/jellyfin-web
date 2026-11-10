@@ -1944,5 +1944,6 @@
     "LabelBitmapSubtitleAspectMode": "Bitmap azpitituluen aspektu-modua",
     "MessageForgotPasswordRedirect": "Pasahitza berrezartzeko kanpoko hornitzaile batera birbideratu zaituzte.",
     "NoCastTargets": "Ez dago cast helbururik eskuragarri",
-    "LabelUsernameAllowedCharactersHelp": "Erabiltzaile-izenek letrak, zenbakiak, hutsuneak eta karaktere hauek izan ditzakete: - _ ' . @ +. Ezin dira hutsune batekin hasi edo amaitu."
+    "LabelUsernameAllowedCharactersHelp": "Erabiltzaile-izenek letrak, zenbakiak, hutsuneak eta karaktere hauek izan ditzakete: - _ ' . @ +. Ezin dira hutsune batekin hasi edo amaitu.",
+    "MessageItemMetadataLocked": "Elementu honen metadatuak blokeatuta daude. Desblokeatu “Identifikatu” funtzioa erabili aurretik."
 }

@@ -1,5 +1,6 @@
 import isEmpty from 'lodash-es/isEmpty';
 
+import { EventType } from 'constants/eventType';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import Events from 'utils/events';
 import { updateLocale } from 'utils/dateFnsLocale';
@@ -13,12 +14,26 @@ export const FALLBACK_CULTURE = 'en-us';
 const RTL_LANGS = ['ar', 'fa', 'ur', 'he'];
 
 const allTranslations = {};
+/**
+ * The current application locale/language.
+ * @type {string|undefined}
+ */
 let currentCulture;
 let currentDateTimeCulture;
 let isRTL = false;
 
 export function getCurrentLocale() {
     return currentCulture;
+}
+
+export function getLanguages() {
+    const culture = currentCulture || FALLBACK_CULTURE;
+
+    const [ baseLang ] = culture.split('-');
+    if (baseLang && baseLang !== culture) {
+        return [ culture, baseLang ];
+    }
+    return [ culture ];
 }
 
 export function getCurrentDateTimeLocale() {
@@ -76,6 +91,7 @@ export function getIsElementRTL(element) {
 }
 
 export function updateCurrentCulture() {
+    const lastCulture = currentCulture;
     let culture;
     try {
         culture = userSettings.language();
@@ -87,7 +103,10 @@ export function updateCurrentCulture() {
 
     currentCulture = normalizeLocaleName(culture);
 
-    document.documentElement.setAttribute('lang', currentCulture);
+    if (lastCulture !== currentCulture) {
+        document.documentElement.setAttribute('lang', currentCulture);
+        Events.trigger(document, EventType.LANGUAGE_CHANGE, [ currentCulture ]);
+    }
 
     let dateTimeCulture;
     try {
@@ -299,4 +318,3 @@ export default {
     getIsRTL,
     getIsElementRTL
 };
-
