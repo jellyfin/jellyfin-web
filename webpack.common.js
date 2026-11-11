@@ -20,6 +20,7 @@ const Assets = [
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
+const TS_CONFIG = path.resolve(__dirname, 'tsconfig.app.json');
 let COMMIT_SHA = '';
 try {
     COMMIT_SHA = require('child_process')
@@ -53,7 +54,7 @@ const config = {
             path.resolve(__dirname, 'node_modules')
         ],
         alias: {
-            // Keep in sync with tsconfig.json.
+            // Keep in sync with tsconfig.app.json.
             '@': path.resolve(__dirname, 'src')
         }
     },
@@ -108,7 +109,7 @@ const config = {
         }),
         new ForkTsCheckerWebpackPlugin({
             typescript: {
-                configFile: path.resolve(__dirname, 'tsconfig.json')
+                configFile: TS_CONFIG
             }
         }),
         new MiniCssExtractPlugin({
@@ -277,6 +278,7 @@ const config = {
                     {
                         loader: 'ts-loader',
                         options: {
+                            configFile: TS_CONFIG,
                             transpileOnly: true,
                             compilerOptions: { sourceMap: DEV_MODE }
                         }
@@ -289,6 +291,7 @@ const config = {
                 use: [{
                     loader: 'ts-loader',
                     options: {
+                        configFile: TS_CONFIG,
                         transpileOnly: true,
                         compilerOptions: { sourceMap: DEV_MODE }
                     }
