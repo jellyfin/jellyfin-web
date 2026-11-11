@@ -610,7 +610,13 @@ export default function (options) {
 
     if (supportsMp2VideoAudio) {
         videoAudioCodecs.push('mp2');
-        mkvAudioCodecs.push('mp2');
+
+        // Chromium & Firefox do not support MP2 in MKV.
+        // Allow it only on selected TV OS such as Tizen.
+        if (browser.tizen) {
+            mkvAudioCodecs.push('mp2');
+        }
+
         hlsInTsVideoAudioCodecs.push('mp2');
         hlsInFmp4VideoAudioCodecs.push('mp2');
     }
