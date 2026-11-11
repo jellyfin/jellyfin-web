@@ -14,8 +14,8 @@ import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 import itemHelper from '../itemHelper';
 import mediaInfo from '../mediainfo/mediainfo';
 import indicators from '../indicators/indicators';
-import layoutManager from '../layoutManager';
 import browser from '../../scripts/browser';
+import layoutManager from '../layoutManager';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import datetime from '../../scripts/datetime';
@@ -185,7 +185,7 @@ export function getListViewHtml(options) {
     const isLargeStyle = options.imageSize === 'large';
     const enableOverview = options.enableOverview;
 
-    const clickEntireItem = layoutManager.tv && !browser.web0s;
+    const clickEntireItem = layoutManager.tv && !options.playlistId && !options.collectionId;
     const outerTagName = clickEntireItem ? 'button' : 'div';
     const enableSideMediaInfo = options.enableSideMediaInfo != null ? options.enableSideMediaInfo : true;
 
@@ -265,7 +265,7 @@ export function getListViewHtml(options) {
             html += '<div class="listItem-content">';
         }
 
-        if (!clickEntireItem && !browser.web0s && options.dragHandle) {
+        if (!browser.tv && options.dragHandle) {
             html += '<span class="listViewDragHandle material-icons listItemIcon listItemIcon-transparent drag_handle" aria-hidden="true"></span>';
         }
 
