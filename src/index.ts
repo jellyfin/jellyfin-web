@@ -1,4 +1,7 @@
-// Import legacy browser polyfills
+// Load the polyfills before anything else. This file must stay free of JSX: TypeScript hoists the
+// synthetic `react/jsx-runtime` import above every other import of a module that uses JSX, and
+// React 18 calls `Symbol.for` as soon as it loads, which throws in browsers without a native Symbol
+// (Chrome < 38) when core-js has not run yet.
 import '@/lib/legacy';
 
 import React from 'react';
@@ -222,9 +225,7 @@ async function renderApp() {
     loading.show();
 
     root = createRoot(container);
-    root.render(
-        <RootApp />
-    );
+    root.render(React.createElement(RootApp));
 }
 
 init().catch(error => {
