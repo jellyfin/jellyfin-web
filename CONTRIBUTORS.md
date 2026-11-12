@@ -112,6 +112,7 @@
 - [shindouj](https://github.com/shindouj)
 - [TheDreadPirate](https://github.com/thedreaddpirate)
 - [bymoxb](https://github.com/bymoxb)
+- [7hr08ik](https://github.com/7hr08ik)
 
 ## Emby Contributors
 
