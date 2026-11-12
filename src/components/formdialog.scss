@@ -71,6 +71,11 @@
     flex-wrap: wrap;
 }
 
+.formDialogFooter-justifyEnd {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .layout-tv .formDialogFooter {
     position: relative;
     align-items: center;

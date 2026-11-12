@@ -1,9 +1,9 @@
-﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Event {
     type: string;
 }
 
-type Callback = (e: Event, ...args: any[]) => void;
+export type Callback = (e: Event, ...args: any[]) => void;
 
 function getCallbacks(obj: any, type: string): Callback[] {
     if (!obj) {

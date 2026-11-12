@@ -1,6 +1,8 @@
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import imageLoader from 'components/images/imageLoader';
 import loading from 'components/loading/loading';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import 'elements/emby-button/paper-icon-button-light';
 import 'elements/emby-button/emby-button';
 
@@ -43,7 +45,7 @@ export default function (view, params, tabContent) {
     const self = this;
 
     self.preRender = function () {
-        timersPromise = ApiClient.getLiveTvSeriesTimers(query);
+        timersPromise = ServerConnections.currentApiClient().getLiveTvSeriesTimers(query);
     };
 
     self.renderTab = function () {
