@@ -1,5 +1,7 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -13,6 +15,7 @@ import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
 import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
+import { getPlaylistResumePoint } from '../utils/playlistResume';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
 
@@ -65,6 +68,14 @@ export async function getCommands(options) {
                 icon: 'play_arrow'
             });
         }
+    }
+
+    if (canPlay && item.Type === BaseItemKind.Playlist) {
+        commands.push({
+            name: globalize.translate('ButtonResume'),
+            id: 'continue',
+            icon: 'skip_next'
+        });
     }
 
     if (playbackManager.getCurrentPlayer() !== null) {
@@ -386,6 +397,33 @@ function getResolveFunction(resolve, commandId, changed, deleted, itemId) {
     };
 }
 
+async function continuePlaylist(apiClient, item) {
+    const { data } = await getPlaylistApi(ServerConnections.getApi(item.ServerId)).getPlaylistItems({
+        playlistId: item.Id,
+        userId: apiClient.getCurrentUserId(),
+        fields: [
+            ItemFields.PrimaryImageAspectRatio,
+            ItemFields.MediaSourceCount,
+            ItemFields.Chapters,
+            ItemFields.Trickplay
+        ],
+        enableUserData: true
+    });
+    const items = data.Items || [];
+
+    if (!items.length) {
+        return;
+    }
+
+    const { index, startPositionTicks } = getPlaylistResumePoint(items);
+
+    return playbackManager.play({
+        items,
+        startIndex: index,
+        startPositionTicks
+    });
+}
+
 function executeCommand(item, id, options) {
     const itemId = item.Id;
     const serverId = item.ServerId;
@@ -552,6 +590,9 @@ function executeCommand(item, id, options) {
             case 'resume':
                 play(item, true);
                 getResolveFunction(resolve, id)();
+                break;
+            case 'continue':
+                continuePlaylist(apiClient, item).then(getResolveFunction(resolve, id), getResolveFunction(resolve, id));
                 break;
             case 'queue':
                 play(item, false, true);
