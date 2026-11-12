@@ -57,6 +57,7 @@ const LibraryPage: FC<LibraryPageProps> = ({
             id={PAGE_IDS[type]}
             className={'mainAnimatedPage libraryPage pageWithAbsoluteTabs withTabs'}
             backDropType={PAGE_BACKDROPS[type]}
+            libraryId={`${libraryId}`}
             title={libraryName || undefined}
         >
             <PageTabContent

@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import globalize from '../../../lib/globalize';
-import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
 import Page from '../../../components/Page';
 import { EventType } from 'constants/eventType';
@@ -118,7 +117,6 @@ const Home = () => {
 
     const onResume = useCallback(async () => {
         void setTitle();
-        clearBackdrop();
 
         const currentTabController = tabController.current;
 
@@ -173,6 +171,7 @@ const Home = () => {
                     BaseItemKind.Series,
                     BaseItemKind.Book
                 ]}
+                homeTabIndex={`${searchParams.get('tab')}`}
             >
                 <div className='tabContent pageTabContent' id='homeTab' data-index='0'>
                     <div className='sections'></div>
