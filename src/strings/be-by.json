@@ -1613,7 +1613,7 @@
     "LabelSelectPreferredTranscodeVideoCodec": "Пераважны кодэк для перакадавання відэа",
     "LabelSelectPreferredTranscodeVideoAudioCodec": "Прыярытэтны аўдыякодэк перакадзіравання пры прайграванні відэа",
     "PlaybackError.FATAL_HLS_ERROR": "У патоку HLS была выяўленая фатальная памылка.",
-    "PlaybackError.MEDIA_NOT_SUPPORTED": "Прайграванне не ўдалося, бо медыяфайл не падтрымліваецца гэтым кліентам.",
+    "PlaybackError.MEDIA_NOT_SUPPORTED": "Прайграванне не ўдалося, бо гэты кліент не падтрымлівае дадзенае медыя.",
     "PlaylistError.CreateFailed": "Памылка стварэння плэйліста",
     "PlaylistPublic": "Дазволіць публічны доступ",
     "LimitSupportedVideoResolutionHelp": "Выкарыстоўвайце \"Максімальнае дазволенае раздзяленне перакадзіравання відэа\" ў якасці максімальнага падтрымоўванага раздзялення відэа.",
