@@ -258,6 +258,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             Limit: limit,
             Fields: 'PrimaryImageAspectRatio,DateCreated,MediaSourceCount,Chapters,Trickplay',
             UserId: apiClient.getCurrentUserId(),
+            ParentId: params.parentId,
             ImageTypeLimit: 1,
             EnableImageTypes: 'Primary,Backdrop,Thumb',
             EnableTotalRecordCount: false,
