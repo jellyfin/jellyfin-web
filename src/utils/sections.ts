@@ -69,7 +69,7 @@ export const getSuggestionSections = (): Section[] => {
         {
             name: 'HeaderLatestBooks',
             apiMethod: SectionApiMethod.LatestMedia,
-            itemTypes: 'Book',
+            itemTypes: 'AudioBook,Book',
             type: SectionType.LatestBooks,
             parametersOptions: {
                 includeItemTypes: [BaseItemKind.AudioBook, BaseItemKind.Book]
@@ -214,7 +214,7 @@ export const getSuggestionSections = (): Section[] => {
         {
             name: 'HeaderLatestMusicVideos',
             apiMethod: SectionApiMethod.LatestMedia,
-            itemTypes: 'Video',
+            itemTypes: 'MusicVideo',
             type: SectionType.LatestMusicVideos,
             parametersOptions: {
                 includeItemTypes: [BaseItemKind.MusicVideo]
@@ -229,7 +229,7 @@ export const getSuggestionSections = (): Section[] => {
         },
         {
             name: 'HeaderRecentlyPlayed',
-            itemTypes: 'Video',
+            itemTypes: 'MusicVideo',
             type: SectionType.RecentlyPlayedMusicVideos,
             parametersOptions: {
                 sortBy: [ItemSortBy.DatePlayed],
@@ -247,7 +247,7 @@ export const getSuggestionSections = (): Section[] => {
         },
         {
             name: 'HeaderFrequentlyPlayed',
-            itemTypes: 'Video',
+            itemTypes: 'MusicVideo',
             type: SectionType.FrequentlyPlayedMusicVideos,
             parametersOptions: {
                 sortBy: [ItemSortBy.PlayCount],
