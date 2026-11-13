@@ -55,4 +55,12 @@ describe('getItemsForPlayback', () => {
 
         expect(requestedLimit()).toBe(50);
     });
+
+    it('does not cut id lists below the legacy limit', async () => {
+        maxQueueItemsMock.mockReturnValue(10);
+
+        await getItemsForPlayback(apiClient, { ids: ['a', 'b'] });
+
+        expect(requestedLimit()).toBe(300);
+    });
 });

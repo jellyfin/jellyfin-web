@@ -21,6 +21,7 @@ import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import alert from '../alert';
 import { includesAny } from '../../utils/container.ts';
+import { resolveQueueLimit } from '../../utils/queueLimit';
 import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 import { toItemsRequest } from 'lib/jellyfin-apiclient/utils/legacyItemsQuery';
@@ -157,8 +158,11 @@ function getItemsForPlayback(serverId, query) {
             collapseBoxSetItems: false
         };
 
-        // An explicit limit wins; otherwise use the user's queue size, where 0 means no limit
-        const limit = query.limit === UNLIMITED_ITEMS ? undefined : query.limit || userSettings.maxQueueItems();
+        let limit;
+        if (query.limit !== UNLIMITED_ITEMS) {
+            limit = resolveQueueLimit(query.limit, query.ids?.length ?? 0, userSettings.maxQueueItems());
+        }
+
         if (limit) {
             request.limit = limit;
         } else {
