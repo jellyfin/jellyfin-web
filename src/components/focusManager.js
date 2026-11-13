@@ -239,7 +239,7 @@ function nav(activeElement, direction, container, focusableElements) {
 
     container = container || (activeElement ? getFocusContainer(activeElement, direction) : getDefaultScope());
 
-    if (!activeElement || activeElement == document.body) {
+    if (!activeElement || activeElement == document.body || !isFocusable(activeElement)) {
         autoFocus(container, true, false);
         return;
     }
