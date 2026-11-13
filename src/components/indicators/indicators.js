@@ -70,15 +70,17 @@ export function getProgressBarHtml(item, options) {
     return '';
 }
 
-export function enablePlayedIndicator(item) {
-    return itemHelper.canMarkPlayed(item);
-}
-
-export function getPlayedIndicatorHtml(item) {
-    if (enablePlayedIndicator(item)) {
+/**
+ * Get the played/unplayed indicator HTML for the given item.
+ * @param {import('@jellyfin/sdk/lib/generated-client/index.js').BaseItemDto} item
+ * @param {import('types/cardOptions').CardOptions=} options
+ * @returns {string}
+ */
+export function getPlayedIndicatorHtml(item, options) {
+    if (itemHelper.canMarkPlayed(item)) {
         const userData = item.UserData || {};
-        if (userData.UnplayedItemCount) {
-            return '<div class="countIndicator indicator">' + formatCountIndicator(userData.UnplayedItemCount) + '</div>';
+        if (options?.showUnplayedIndicator !== false && userData.UnplayedItemCount) {
+            return '<div class="countIndicator indicator unplayedItemCount">' + formatCountIndicator(userData.UnplayedItemCount) + '</div>';
         }
 
         if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
@@ -89,11 +91,18 @@ export function getPlayedIndicatorHtml(item) {
     return '';
 }
 
+/**
+ * Get the child count indicator HTML for the given item.
+ * @param {import('@jellyfin/sdk/lib/generated-client/index.js').BaseItemDto} item
+ * @param {object=} options
+ * @returns {string}
+ */
 export function getChildCountIndicatorHtml(item, options) {
-    const minCount = options?.minCount ? options.minCount : 0;
+    const minCount = options?.minCount ?? 0;
+    const count = item.RecursiveItemCount ?? item.ChildCount ?? 0;
 
-    if (item.ChildCount && item.ChildCount > minCount) {
-        return '<div class="countIndicator indicator">' + formatCountIndicator(item.ChildCount) + '</div>';
+    if (count > minCount) {
+        return '<div class="countIndicator indicator childCountIndicator">' + formatCountIndicator(count) + '</div>';
     }
 
     return '';
@@ -174,7 +183,6 @@ export default {
     getChildCountIndicatorHtml: getChildCountIndicatorHtml,
     enableProgressIndicator: enableProgressIndicator,
     getTimerIndicator: getTimerIndicator,
-    enablePlayedIndicator: enablePlayedIndicator,
     getSyncIndicator: getSyncIndicator,
     getTypeIndicator: getTypeIndicator,
     getMissingIndicator: getMissingIndicator

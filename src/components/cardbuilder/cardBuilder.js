@@ -40,7 +40,7 @@ import {
     resolveCardImageContainerCssClasses,
     resolveMixedShapeByAspectRatio
 } from './utils/builder';
-import { getBackdropShape, getPortraitShape, getSquareShape } from './utils/shape';
+import { CardShape, getBackdropShape, getPortraitShape, getSquareShape } from './utils/shape';
 import { getCardImageUrl } from './utils/url';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
@@ -728,9 +728,9 @@ function importRefreshIndicator() {
 /**
  * Builds the HTML markup for an individual card.
  * @param {number} index - Index of the card
- * @param {object} item - Item used to generate the card.
- * @param {object} apiClient - API client instance.
- * @param {object} options - Options used to generate the card.
+ * @param {import('@jellyfin/sdk/lib/generated-client/index.js').BaseItemDto} item - Item used to generate the card.
+ * @param {import('jellyfin-apiclient').ApiClient} apiClient - API client instance.
+ * @param {import('types/cardOptions').CardOptions} options - Options used to generate the card.
  * @returns {string} HTML markup for the generated card.
  */
 function buildCard(index, item, apiClient, options) {
@@ -742,7 +742,7 @@ function buildCard(index, item, apiClient, options) {
 
     let shape = options.shape;
 
-    if (shape === 'mixed') {
+    if (shape === CardShape.Mixed) {
         shape = resolveMixedShapeByAspectRatio(item.PrimaryImageAspectRatio);
     }
 
@@ -904,12 +904,12 @@ function buildCard(index, item, apiClient, options) {
 
         indicatorsHtml += indicators.getTypeIndicator(item);
 
-        if (options.showGroupCount) {
+        if (options.showChildCountIndicator) {
             indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
                 minCount: 1
             });
         } else {
-            indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+            indicatorsHtml += indicators.getPlayedIndicatorHtml(item, options);
         }
 
         if (item.Type === BaseItemKind.CollectionFolder || item.CollectionType) {
