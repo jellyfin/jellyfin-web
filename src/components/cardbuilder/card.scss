@@ -858,8 +858,19 @@ button::-moz-focus-inner {
     background: transparent !important;
 }
 
-.card-hoverable:focus-within,
 .card-hoverable:hover {
+    .cardOverlayContainer,
+    .cardOverlayButton-hover {
+        opacity: 1;
+    }
+}
+
+// Show the overlay for keyboard focus only. `:focus-within` also matched
+// mouse-click focus, which left the play overlay stuck on a card after it
+// was clicked (e.g. returning to a library grid via the back button). Kept
+// as a separate rule so the `:hover` rule above still applies on browsers
+// that don't support `:has()`.
+.card-hoverable:has(:focus-visible) {
     .cardOverlayContainer,
     .cardOverlayButton-hover {
         opacity: 1;
