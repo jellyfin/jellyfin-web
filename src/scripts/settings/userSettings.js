@@ -59,9 +59,10 @@ const defaultComicsPlayerSettings = {
 };
 
 const DEFAULT_MAX_QUEUE_ITEMS = 300;
+const MAX_QUEUE_ITEMS_LIMIT = 100000;
 
 /**
- * Returns a non-negative integer queue size.
+ * Returns a non-negative integer queue size, capped at MAX_QUEUE_ITEMS_LIMIT.
  * Missing or invalid values fall back to the default.
  * @param {number|string|null|undefined} val - Raw queue size.
  * @return {number} Queue size. 0 means no limit.
@@ -71,7 +72,7 @@ function normalizeMaxQueueItems(val) {
     const text = String(val ?? '').trim();
 
     // Whole digits only: 0 is unlimited, and anything else must be a positive integer.
-    return /^\d+$/.test(text) ? Number.parseInt(text, 10) : DEFAULT_MAX_QUEUE_ITEMS;
+    return /^\d+$/.test(text) ? Math.min(Number.parseInt(text, 10), MAX_QUEUE_ITEMS_LIMIT) : DEFAULT_MAX_QUEUE_ITEMS;
 }
 
 export class UserSettings {
