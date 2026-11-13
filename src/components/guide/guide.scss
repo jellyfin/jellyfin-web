@@ -346,6 +346,26 @@
     margin: 0;
 }
 
+.guideChannelStreams {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    [dir="ltr"] & {
+        margin-left: 0.75em;
+        margin-right: 0.75em;
+    }
+
+    [dir="rtl"] & {
+        margin-right: 0.75em;
+        margin-left: 0.75em;
+    }
+
+    .material-icons {
+        font-size: 1.1em;
+    }
+}
+
 .guideChannelName {
     text-overflow: ellipsis;
     overflow: hidden;
