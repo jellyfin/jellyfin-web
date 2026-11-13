@@ -46,7 +46,7 @@ export default function (view, params, tabContent, options) {
         loading.show();
         // 0 means no limit
         // Setting limit to null will omit the limit parameter from the request
-        let playlistLimit = userSettings.defaultPlaylistSize();
+        let playlistLimit = userSettings.maxQueueItems();
         if (playlistLimit === 0) {
             playlistLimit = null;
         }

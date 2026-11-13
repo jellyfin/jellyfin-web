@@ -289,7 +289,7 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const selectMaxVideoWidth = context.querySelector('.selectMaxVideoWidth');
     selectMaxVideoWidth.value = appSettings.maxVideoWidth();
 
-    context.querySelector('#txtDefaultPlaylistSize').value = userSettings.defaultPlaylistSize();
+    context.querySelector('#txtMaxQueueItems').value = userSettings.maxQueueItems();
 
     const selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
     fillSkipLengths(selectSkipForwardLength);
@@ -339,7 +339,7 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.RememberAudioSelections = context.querySelector('.chkRememberAudioSelections').checked;
     user.Configuration.RememberSubtitleSelections = context.querySelector('.chkRememberSubtitleSelections').checked;
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
-    userSettingsInstance.defaultPlaylistSize(context.querySelector('#txtDefaultPlaylistSize').value);
+    userSettingsInstance.maxQueueItems(context.querySelector('#txtMaxQueueItems').value);
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
 

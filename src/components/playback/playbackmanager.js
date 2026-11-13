@@ -157,11 +157,12 @@ function getItemsForPlayback(serverId, query) {
             collapseBoxSetItems: false
         };
 
-        if (query.limit === UNLIMITED_ITEMS || userSettings.defaultPlaylistSize() === 0)
-        {
-            delete request.limit;
+        // An explicit limit wins; otherwise use the user's queue size, where 0 means no limit
+        const limit = query.limit === UNLIMITED_ITEMS ? undefined : query.limit || userSettings.maxQueueItems();
+        if (limit) {
+            request.limit = limit;
         } else {
-            request.limit = query.limit || userSettings.defaultPlaylistSize() || 300;
+            delete request.limit;
         }
 
         return getItems(ServerConnections.getApi(serverId), request);

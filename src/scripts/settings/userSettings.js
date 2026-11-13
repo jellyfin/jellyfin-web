@@ -58,23 +58,21 @@ const defaultComicsPlayerSettings = {
     pagesPerView: 1
 };
 
-const DEFAULT_PLAYLIST_SIZE = 300;
+const DEFAULT_MAX_QUEUE_ITEMS = 300;
 
 /**
- * Returns a non-negative integer playlist size.
+ * Returns a non-negative integer queue size.
  * Missing or invalid values fall back to the default.
- * @param {number|string|null|undefined} val - Raw playlist size.
- * @return {number} Playlist size. 0 means no limit.
+ * @param {number|string|null|undefined} val - Raw queue size.
+ * @return {number} Queue size. 0 means no limit.
  */
-function normalizePlaylistSize(val) {
+function normalizeMaxQueueItems(val) {
     // Handle null, undefined, and empty string gracefully.
     const text = String(val ?? '').trim();
 
     // Whole digits only: 0 is unlimited, and anything else must be a positive integer.
-    return /^\d+$/.test(text) ? Number.parseInt(text, 10) : DEFAULT_PLAYLIST_SIZE;
+    return /^\d+$/.test(text) ? Number.parseInt(text, 10) : DEFAULT_MAX_QUEUE_ITEMS;
 }
-
-
 
 export class UserSettings {
     /**
@@ -441,16 +439,16 @@ export class UserSettings {
     }
 
     /**
-     * Get or set the default playlist size.
-     * @param {number|string|undefined} [val] - Playlist size. 0 means no limit.
-     * @return {number} Playlist size. 0 means no limit.
+     * Get or set the maximum number of items added to the play queue at once.
+     * @param {number|string|undefined} [val] - Maximum queue size. 0 means no limit.
+     * @return {number} Maximum queue size. 0 means no limit.
      */
-    defaultPlaylistSize(val) {
+    maxQueueItems(val) {
         if (val !== undefined) {
-            return this.set('defaultPlaylistSize', normalizePlaylistSize(val).toString());
+            return this.set('maxQueueItems', normalizeMaxQueueItems(val).toString());
         }
 
-        return normalizePlaylistSize(this.get('defaultPlaylistSize'));
+        return normalizeMaxQueueItems(this.get('maxQueueItems'));
     }
 
     /**
@@ -778,7 +776,7 @@ export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
-export const defaultPlaylistSize = currentSettings.defaultPlaylistSize.bind(currentSettings);
+export const maxQueueItems = currentSettings.maxQueueItems.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
 export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);

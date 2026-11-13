@@ -765,7 +765,7 @@ class ItemsView {
                     autoplay: true
                 });
             } else {
-                getItems(self, self.params, currentItem, null, 0, userSettings.defaultPlaylistSize()).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, userSettings.maxQueueItems()).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true
@@ -782,7 +782,7 @@ class ItemsView {
                     items: [currentItem]
                 });
             } else {
-                getItems(self, self.params, currentItem, null, 0, userSettings.defaultPlaylistSize()).then(function (result) {
+                getItems(self, self.params, currentItem, null, 0, userSettings.maxQueueItems()).then(function (result) {
                     playbackManager.queue({
                         items: result.Items
                     });
@@ -796,7 +796,7 @@ class ItemsView {
             if (currentItem && !self.hasFilters) {
                 playbackManager.shuffle(currentItem);
             } else {
-                getItems(self, self.params, currentItem, 'Random', 0, userSettings.defaultPlaylistSize()).then(function (result) {
+                getItems(self, self.params, currentItem, 'Random', 0, userSettings.maxQueueItems()).then(function (result) {
                     playbackManager.play({
                         items: result.Items,
                         autoplay: true

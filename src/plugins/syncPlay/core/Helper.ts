@@ -123,8 +123,8 @@ export function getItemsForPlayback(
         return getItems(api, {
             ...query,
             userId: apiClient.getCurrentUserId(),
-            // An explicit limit wins; otherwise use the default playlist size, where 0 means no limit
-            limit: query.limit || userSettings.defaultPlaylistSize() || undefined,
+            // An explicit limit wins; otherwise use the user's queue size, where 0 means no limit
+            limit: query.limit || userSettings.maxQueueItems() || undefined,
             fields: [ItemFields.Chapters, ItemFields.Trickplay],
             excludeLocationTypes: [LocationType.Virtual],
             enableTotalRecordCount: false,
