@@ -82,17 +82,6 @@ function onSubmit(e) {
     return false;
 }
 
-function onViewShow() {
-    loading.show();
-    const page = this;
-    const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Startup/User')).then(function (user) {
-        page.querySelector('#txtUsername').value = user.Name || '';
-        page.querySelector('#txtManualPassword').value = user.Password || '';
-        loading.hide();
-    });
-}
-
 export default function (view) {
     view.querySelector('.wizardUserForm').addEventListener('submit', onSubmit);
     view.addEventListener('viewshow', function () {
@@ -101,5 +90,4 @@ export default function (view) {
     view.addEventListener('viewhide', function () {
         document.querySelector('.skinHeader').classList.remove('noHomeButtonHeader');
     });
-    view.addEventListener('viewshow', onViewShow);
 }
