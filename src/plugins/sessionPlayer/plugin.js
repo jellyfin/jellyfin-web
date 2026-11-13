@@ -135,7 +135,10 @@ function updateCurrentQueue(instance, session) {
         instance.isPlaylistRendered = true;
     };
 
-    updatePlaylist(instance, current).then(finish, finish);
+    updatePlaylist(instance, current).then(() => {
+        finish();
+        Events.trigger(instance, 'playlistitemadd');
+    }, finish);
 }
 
 function processUpdatedSessions(instance, sessions, apiClient) {
