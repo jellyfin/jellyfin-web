@@ -123,7 +123,7 @@ const ItemsView: FC = () => {
         ) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Artists || viewType === LibraryTab.Authors) {
+        } else if (viewType === LibraryTab.Artists || viewType === LibraryTab.Authors || viewType === LibraryTab.Persons) {
             cardOptions.lines = 1;
             cardOptions.showYear = false;
             cardOptions.overlayPlayButton = true;
