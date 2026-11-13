@@ -93,7 +93,8 @@ export function getChildCountIndicatorHtml(item, options) {
     const minCount = options?.minCount ? options.minCount : 0;
 
     if (item.ChildCount && item.ChildCount > minCount) {
-        return '<div class="countIndicator indicator">' + formatCountIndicator(item.ChildCount) + '</div>';
+        const cssClass = options?.cssClass ? ' ' + options.cssClass : '';
+        return '<div class="countIndicator indicator' + cssClass + '">' + item.ChildCount.toString() + '</div>';
     }
 
     return '';
