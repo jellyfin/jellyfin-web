@@ -113,6 +113,28 @@ describe('PlayQueueManager', () => {
             expect(newOrder).toEqual(initialOrder);
         });
 
+        it('should reshuffle when wrapping via playback navigation (getNextItemInfo + setPlaylistState)', () => {
+            manager.setPlaylist(testItems);
+            manager.setRepeatMode('RepeatAll');
+            manager.setShuffleMode('Shuffle');
+
+            let playlist = manager.getPlaylist();
+            manager.setPlaylistState(playlist[0].PlaylistItemId, 0);
+
+            for (let i = 0; i < playlist.length - 1; i++) {
+                const next = manager.getNextItemInfo(true);
+                manager.setPlaylistState(next.item.PlaylistItemId, next.index);
+                playlist = manager.getPlaylist();
+            }
+
+            const orderBeforeWrap = manager.getPlaylist().map(item => item.Id);
+            const next = manager.getNextItemInfo(true);
+            manager.setPlaylistState(next.item.PlaylistItemId, next.index);
+            const orderAfterWrap = manager.getPlaylist().map(item => item.Id);
+
+            expect(orderAfterWrap).not.toEqual(orderBeforeWrap);
+        });
+
         it('should not place the last-played track in the first position after reshuffle', () => {
             manager.setPlaylist(testItems);
             manager.setPlaylistIndex(0);

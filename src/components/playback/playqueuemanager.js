@@ -122,16 +122,7 @@ class PlayQueueManager {
         if (playlistIndex < 0) {
             this.setPlaylistState(null);
         } else {
-            const currentIndex = this.getCurrentPlaylistIndex();
-            const playlistLength = this._playlist.length;
-
-            if (this._repeatMode === 'RepeatAll'
-                && currentIndex === playlistLength - 1
-                && playlistIndex === 0
-                && playlistLength > 1) {
-                this._reshuffleForRepeat();
-            }
-
+            this._maybeReshuffleOnWrap(this.getCurrentPlaylistIndex(), playlistIndex);
             this.setPlaylistState(this._playlist[playlistIndex].PlaylistItemId);
         }
     }
@@ -243,22 +234,26 @@ class PlayQueueManager {
         return this._shuffleMode;
     }
 
-    getNextItemInfo() {
+    getNextItemInfo(commitWrap = false) {
         let newIndex;
         const playlistLength = this._playlist.length;
+        const currentIndex = this.getCurrentPlaylistIndex();
 
         switch (this.getRepeatMode()) {
             case 'RepeatOne':
-                newIndex = this.getCurrentPlaylistIndex();
+                newIndex = currentIndex;
                 break;
             case 'RepeatAll':
-                newIndex = this.getCurrentPlaylistIndex() + 1;
+                newIndex = currentIndex + 1;
                 if (newIndex >= playlistLength) {
+                    if (commitWrap) {
+                        this._maybeReshuffleOnWrap(currentIndex, 0);
+                    }
                     newIndex = 0;
                 }
                 break;
             default:
-                newIndex = this.getCurrentPlaylistIndex() + 1;
+                newIndex = currentIndex + 1;
                 break;
         }
 
@@ -276,6 +271,17 @@ class PlayQueueManager {
             item: item,
             index: newIndex
         };
+    }
+
+    _maybeReshuffleOnWrap(currentIndex, targetIndex) {
+        const playlistLength = this._playlist.length;
+
+        if (this._repeatMode === 'RepeatAll'
+            && currentIndex === playlistLength - 1
+            && targetIndex === 0
+            && playlistLength > 1) {
+            this._reshuffleForRepeat();
+        }
     }
 
     _reshuffleForRepeat() {
