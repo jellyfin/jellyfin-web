@@ -27,6 +27,14 @@ function renderItems(page, item, user) {
         });
     }
 
+    if (item.Type === 'Person') {
+        // Person items do not have a VideoCount field.
+        sections.push({
+            name: globalize.translate('HeaderVideos'),
+            type: 'Video'
+        });
+    }
+
     if (item.MovieCount) {
         sections.push({
             name: globalize.translate('Movies'),
@@ -129,6 +137,21 @@ function renderSection(item, element, type, user) {
                 showAirTime: true,
                 showAirDateTime: true,
                 showChannelName: true
+            });
+            break;
+
+        case 'Video':
+            loadItems(element, item, type, {
+                IncludeItemTypes: 'Video',
+                Limit: 10,
+                SortBy: 'PremiereDate,ProductionYear,SortName',
+                SortOrder: 'Descending,Descending,Ascending'
+            }, {
+                shape: 'overflowBackdrop',
+                showTitle: true,
+                centerText: true,
+                overlayPlayButton: true,
+                showYear: true
             });
             break;
 
