@@ -3,5 +3,7 @@ import { AppType } from 'constants/appType';
 
 export const ASYNC_PUBLIC_ROUTES: AsyncRoute[] = [
     { path: 'forgotpassword', page: 'session/forgotPassword' },
-    { path: 'login', type: AppType.Modern }
+    { path: 'login', type: AppType.Modern },
+    { path: 'addserver', type: AppType.Modern },
+    { path: 'selectserver', type: AppType.Modern }
 ];
