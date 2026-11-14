@@ -30,6 +30,7 @@ export default class PhotoPlayer {
                             delay: userSettings.slideshowInterval() * 1000,
                             enabled: !!(options.autoplay || options.shuffle)
                         },
+                        useFasterAnimations: userSettings.enableFastFadein(),
                         user: result,
                         onClose: () => screenSaverManager.unblock()
                     });

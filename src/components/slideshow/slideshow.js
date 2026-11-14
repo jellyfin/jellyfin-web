@@ -368,7 +368,7 @@ export default function (options) {
                 slidesPerView: 1,
                 slidesPerColumn: 1,
                 initialSlide: swiperOptions.startIndex || 0,
-                speed: 240,
+                speed: swiperOptions.useFasterAnimations ? 240 : 1200,
                 navigation: {
                     nextEl: '.btnSlideshowNext',
                     prevEl: '.btnSlideshowPrevious'
