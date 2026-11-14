@@ -127,7 +127,7 @@ export function isValidDuration(duration) {
             && duration !== Number.NEGATIVE_INFINITY;
 }
 
-function setCurrentTimeIfNeeded(element, seconds) {
+export function setCurrentTimeIfNeeded(element, seconds) {
     // If it's worth skipping (1 sec or less of a difference)
     if (Math.abs((element.currentTime || 0) - seconds) >= 1) {
         element.currentTime = seconds;

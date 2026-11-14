@@ -29,6 +29,7 @@ import {
     onEndedInternal,
     saveVolume,
     seekOnPlaybackStart,
+    setCurrentTimeIfNeeded,
     onErrorInternal,
     handleHlsJsMediaError,
     getSavedVolume,
@@ -654,6 +655,16 @@ export class HtmlVideoPlayer {
             if (includeCorsCredentials) {
                 // Safari will not send cookies without this
                 elem.crossOrigin = 'use-credentials';
+            }
+
+            if (seconds) {
+                // Safari paints the frame at 0 before applying the #t= fragment, and native HLS ignores it.
+                // Seeking once metadata is loaded lands before the first frame is shown.
+                elem.addEventListener('loadedmetadata', () => {
+                    if (this.#currentSrc === val) {
+                        setCurrentTimeIfNeeded(elem, seconds);
+                    }
+                }, { once: true });
             }
 
             elem.src = val;
