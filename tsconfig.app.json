@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "downlevelIteration": true,
+    "noUncheckedSideEffectImports": false,
+    "paths": {
+      "@/*": ["./src/*"],
+      "*": ["./src/*"] // Temporary replacement for baseUrl: "./src" while we move to @/
+    }
+  },
+  "include": [
+    "src"
+  ]
+}
