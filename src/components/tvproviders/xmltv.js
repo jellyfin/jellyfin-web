@@ -1,5 +1,8 @@
 import $ from 'jquery';
+import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 
+import { ConfigurationKey } from '@/constants/configurationKey';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -69,7 +72,7 @@ function onSelectPathClick(e) {
 }
 
 export default function (page, providerId, options) {
-    function getListingProvider(config, id) {
+    async function getListingProvider(config, id) {
         if (config && id) {
             const result = config.ListingProviders.filter(function (provider) {
                 return provider.Id === id;
@@ -82,33 +85,34 @@ export default function (page, providerId, options) {
             return getListingProvider();
         }
 
-        const apiClient = ServerConnections.currentApiClient();
-        return apiClient.getJSON(apiClient.getUrl('LiveTv/ListingProviders/Default'));
+        const api = ServerConnections.getApi();
+        return (await getLiveTvApi(api).getDefaultListingProvider()).data;
     }
 
-    function reload() {
+    async function reload() {
         loading.show();
-        ServerConnections.currentApiClient().getNamedConfiguration('livetv').then(function (config) {
-            getListingProvider(config, providerId).then(function (info) {
-                page.querySelector('.txtPath').value = info.Path || '';
-                page.querySelector('.txtKids').value = (info.KidsCategories || []).join('|');
-                page.querySelector('.txtNews').value = (info.NewsCategories || []).join('|');
-                page.querySelector('.txtSports').value = (info.SportsCategories || []).join('|');
-                page.querySelector('.txtMovies').value = (info.MovieCategories || []).join('|');
-                page.querySelector('.txtMoviePrefix').value = info.MoviePrefix || '';
-                page.querySelector('.txtUserAgent').value = info.UserAgent || '';
-                page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
 
-                if (page.querySelector('.chkAllTuners').checked) {
-                    page.querySelector('.selectTunersSection').classList.add('hide');
-                } else {
-                    page.querySelector('.selectTunersSection').classList.remove('hide');
-                }
+        const api = ServerConnections.getApi();
+        const { data: config } = await getSystemApi(api).getNamedConfiguration({ key: ConfigurationKey.LiveTv });
+        const info = await getListingProvider(config, providerId);
 
-                refreshTunerDevices(page, info, config.TunerHosts);
-                loading.hide();
-            });
-        });
+        page.querySelector('.txtPath').value = info.Path || '';
+        page.querySelector('.txtKids').value = (info.KidsCategories || []).join('|');
+        page.querySelector('.txtNews').value = (info.NewsCategories || []).join('|');
+        page.querySelector('.txtSports').value = (info.SportsCategories || []).join('|');
+        page.querySelector('.txtMovies').value = (info.MovieCategories || []).join('|');
+        page.querySelector('.txtMoviePrefix').value = info.MoviePrefix || '';
+        page.querySelector('.txtUserAgent').value = info.UserAgent || '';
+        page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
+
+        if (page.querySelector('.chkAllTuners').checked) {
+            page.querySelector('.selectTunersSection').classList.add('hide');
+        } else {
+            page.querySelector('.selectTunersSection').classList.remove('hide');
+        }
+
+        refreshTunerDevices(page, info, config.TunerHosts);
+        loading.hide();
     }
 
     function getCategories(txtInput) {
@@ -121,50 +125,50 @@ export default function (page, providerId, options) {
         return [];
     }
 
-    function submitListingsForm() {
+    async function submitListingsForm() {
         loading.show();
-        const apiClient = ServerConnections.currentApiClient();
+
+        const api = ServerConnections.getApi();
+        const { data: config } = await getSystemApi(api).getNamedConfiguration({ key: ConfigurationKey.LiveTv });
+
         const id = providerId;
-        apiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.ListingProviders.filter(function (provider) {
-                return provider.Id === id;
-            })[0] || {};
-            info.Type = 'xmltv';
-            info.Path = page.querySelector('.txtPath').value;
-            info.MoviePrefix = page.querySelector('.txtMoviePrefix').value || null;
-            info.UserAgent = page.querySelector('.txtUserAgent').value || null;
-            info.MovieCategories = getCategories(page.querySelector('.txtMovies'));
-            info.KidsCategories = getCategories(page.querySelector('.txtKids'));
-            info.NewsCategories = getCategories(page.querySelector('.txtNews'));
-            info.SportsCategories = getCategories(page.querySelector('.txtSports'));
-            info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (tuner) {
-                return tuner.checked;
-            }).map(function (tuner) {
-                return tuner.getAttribute('data-id');
-            });
-            apiClient.ajax({
-                type: 'POST',
-                url: apiClient.getUrl('LiveTv/ListingProviders', {
-                    ValidateListings: true
-                }),
-                data: JSON.stringify(info),
-                contentType: 'application/json'
-            }).then(function () {
-                loading.hide();
-
-                if (options.showConfirmation !== false) {
-                    Dashboard.processServerConfigurationUpdateResult();
-                }
-
-                Events.trigger(self, 'submitted');
-            }, function () {
-                loading.hide();
-                Dashboard.alert({
-                    message: globalize.translate('ErrorAddingXmlTvFile')
-                });
-            });
+        const info = config.ListingProviders.filter(function (provider) {
+            return provider.Id === id;
+        })[0] || {};
+        info.Type = 'xmltv';
+        info.Path = page.querySelector('.txtPath').value;
+        info.MoviePrefix = page.querySelector('.txtMoviePrefix').value || null;
+        info.UserAgent = page.querySelector('.txtUserAgent').value || null;
+        info.MovieCategories = getCategories(page.querySelector('.txtMovies'));
+        info.KidsCategories = getCategories(page.querySelector('.txtKids'));
+        info.NewsCategories = getCategories(page.querySelector('.txtNews'));
+        info.SportsCategories = getCategories(page.querySelector('.txtSports'));
+        info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
+        info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (tuner) {
+            return tuner.checked;
+        }).map(function (tuner) {
+            return tuner.getAttribute('data-id');
         });
+
+        try {
+            await getLiveTvApi(api).addListingProvider({
+                validateListings: true,
+                listingsProviderInfo: info
+            });
+
+            loading.hide();
+
+            if (options.showConfirmation !== false) {
+                Dashboard.processServerConfigurationUpdateResult();
+            }
+
+            Events.trigger(self, 'submitted');
+        } catch {
+            loading.hide();
+            Dashboard.alert({
+                message: globalize.translate('ErrorAddingXmlTvFile')
+            });
+        }
     }
 
     const self = this;

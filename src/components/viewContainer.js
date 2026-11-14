@@ -23,7 +23,7 @@ function setControllerClass(view, options) {
         }
 
         controllerUrl = Dashboard.getPluginUrl(controllerUrl);
-        const apiUrl = ServerConnections.currentApiClient().getUrl('/web/' + controllerUrl);
+        const apiUrl = ServerConnections.getApi().getUri(`/web/${controllerUrl}`);
         return importModule(apiUrl).then((ControllerFactory) => {
             options.controllerFactory = ControllerFactory;
         });

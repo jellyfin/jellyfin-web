@@ -1,8 +1,10 @@
+import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
+import union from 'lodash-es/union';
+
 import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import union from 'lodash-es/union';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
@@ -60,14 +62,19 @@ function renderFilters(context, result, query) {
     });
 }
 
-function loadDynamicFilters(context, apiClient, userId, itemQuery) {
-    return apiClient.getJSON(apiClient.getUrl('Items/Filters', {
-        UserId: userId,
-        ParentId: itemQuery.ParentId,
-        IncludeItemTypes: itemQuery.IncludeItemTypes
-    })).then(function (result) {
-        renderFilters(context, result, itemQuery);
+async function loadDynamicFilters(context, serverId, userId, itemQuery) {
+    const {
+        ParentId: parentId,
+        IncludeItemTypes: includeItemTypes
+    } = itemQuery;
+    const api = ServerConnections.getApi(serverId);
+    const { data } = await getFilterApi(api).getQueryFiltersLegacy({
+        userId,
+        parentId,
+        // NOTE: The legacy apiClient used a comma-delimited string while the SDK expects an array
+        includeItemTypes: typeof includeItemTypes === 'string' ? includeItemTypes.split(',') : includeItemTypes
     });
+    renderFilters(context, data, itemQuery);
 }
 
 /**
@@ -501,7 +508,7 @@ class FilterDialog {
             if (enableDynamicFilters(this.options.mode)) {
                 dlg.classList.add('dynamicFilterDialog');
                 const apiClient = ServerConnections.getApiClient(this.options.serverId);
-                loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
+                loadDynamicFilters(dlg, this.options.serverId, apiClient.getCurrentUserId(), this.options.query);
             }
         });
     }
