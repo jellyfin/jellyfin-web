@@ -1017,6 +1017,7 @@
     "LabelTag": "Tag",
     "LabelTagline": "Tagline",
     "LabelTextBackgroundColor": "Text background color",
+    "LabelTextBackgroundOpacity": "Text background opacity",
     "LabelTextColor": "Text color",
     "LabelTextSize": "Text size",
     "LabelTextWeight": "Text weight",
