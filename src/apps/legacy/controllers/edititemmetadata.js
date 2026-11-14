@@ -1,4 +1,5 @@
 import loading from 'components/loading/loading';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getCurrentItemId, setCurrentItemId } from 'scripts/editorsidebar';
 
 function reload(context, itemId) {
@@ -6,7 +7,11 @@ function reload(context, itemId) {
 
     if (itemId) {
         import('components/metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
-            metadataEditor.embed(context.querySelector('.editPageInnerContent'), itemId, ApiClient.serverInfo().Id);
+            metadataEditor.embed(
+                context.querySelector('.editPageInnerContent'),
+                itemId,
+                ServerConnections.currentApiClient().serverInfo().Id
+            );
         });
     } else {
         context.querySelector('.editPageInnerContent').innerHTML = '';

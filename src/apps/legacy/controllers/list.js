@@ -13,6 +13,7 @@ import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-scroller/emby-scroller';
 import LibraryMenu from 'scripts/libraryMenu';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { stopMultiSelect } from 'components/multiSelect/multiSelect';
 
@@ -269,9 +270,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
         instance.queryRecursive = true;
         let method = 'getItems';
 
-        if (params.type === 'MusicArtist') {
-            method = 'getArtists';
-        } else if (params.type === 'Person') {
+        if (params.type === 'MusicArtist' || params.type === 'Person') {
             method = 'getPeople';
         }
 
@@ -281,6 +280,7 @@ function getItems(instance, params, item, sortBy, startIndex, limit) {
             Fields: 'PrimaryImageAspectRatio,SortName,Chapters,Trickplay',
             ImageTypeLimit: 1,
             IncludeItemTypes: params.type === 'MusicArtist' || params.type === 'Person' ? null : params.type,
+            PersonTypes: params.type === 'MusicArtist' ? PersonKind.Artist : null,
             Recursive: true,
             IsFavorite: params.IsFavorite === 'true' || null,
             ArtistIds: params.artistId || null,

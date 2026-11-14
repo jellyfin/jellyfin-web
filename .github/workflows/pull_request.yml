@@ -51,7 +51,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
     
       - name: Setup node environment
-        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -61,6 +61,6 @@ jobs:
         run: npm ci --no-audit
     
       - name: Run eslint
-        uses: CatChen/eslint-suggestion-action@2b07b898c0dd5a016586d22b54282199b79cd358 # v4.1.33
+        uses: CatChen/eslint-suggestion-action@cfd076d9300032d3fd53d312c7909b899c300114 # v4.1.39
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

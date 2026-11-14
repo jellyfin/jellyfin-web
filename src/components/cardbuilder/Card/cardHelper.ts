@@ -16,10 +16,10 @@ import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import { ensureArray } from 'utils/array';
 
-import type { NullableNumber, NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { CardOptions } from 'types/cardOptions';
 import type { DataAttributes } from 'types/dataAttributes';
+import type { Nullable } from '@/types/nullable';
 
 export function getCardLogoUrl(
     item: ItemDto,
@@ -69,14 +69,14 @@ interface TextAction {
 }
 
 export interface TextLine {
-    title?: NullableString | string[];
+    title?: Nullable<string> | string[];
     titleAction?: TextAction | TextAction[];
 }
 
 export function getTextActionButton(
     item: ItemDto,
-    text?: NullableString,
-    serverId?: NullableString
+    text?: Nullable<string>,
+    serverId?: Nullable<string>
 ): TextLine {
     const title = text || itemHelper.getDisplayName(item);
 
@@ -149,12 +149,12 @@ function isGenreOrStudio(itemType: ItemKind) {
 
 function isMusicGenreOrMusicArtist(
     itemType: ItemKind,
-    context: NullableString
+    context: Nullable<string>
 ) {
     return itemType === ItemKind.MusicGenre || context === 'MusicArtist';
 }
 
-function getMovieCount(itemMovieCount: NullableNumber) {
+function getMovieCount(itemMovieCount: Nullable<number>) {
     if (itemMovieCount) {
         return itemMovieCount === 1 ?
             globalize.translate('ValueOneMovie') :
@@ -162,7 +162,7 @@ function getMovieCount(itemMovieCount: NullableNumber) {
     }
 }
 
-function getSeriesCount(itemSeriesCount: NullableNumber) {
+function getSeriesCount(itemSeriesCount: Nullable<number>) {
     if (itemSeriesCount) {
         return itemSeriesCount === 1 ?
             globalize.translate('ValueOneSeries') :
@@ -170,7 +170,7 @@ function getSeriesCount(itemSeriesCount: NullableNumber) {
     }
 }
 
-function getEpisodeCount(itemEpisodeCount: NullableNumber) {
+function getEpisodeCount(itemEpisodeCount: Nullable<number>) {
     if (itemEpisodeCount) {
         return itemEpisodeCount === 1 ?
             globalize.translate('ValueOneEpisode') :
@@ -178,7 +178,7 @@ function getEpisodeCount(itemEpisodeCount: NullableNumber) {
     }
 }
 
-function getAlbumCount(itemAlbumCount: NullableNumber) {
+function getAlbumCount(itemAlbumCount: Nullable<number>) {
     if (itemAlbumCount) {
         return itemAlbumCount === 1 ?
             globalize.translate('ValueOneAlbum') :
@@ -186,7 +186,7 @@ function getAlbumCount(itemAlbumCount: NullableNumber) {
     }
 }
 
-function getSongCount(itemSongCount: NullableNumber) {
+function getSongCount(itemSongCount: Nullable<number>) {
     if (itemSongCount) {
         return itemSongCount === 1 ?
             globalize.translate('ValueOneSong') :
@@ -194,7 +194,7 @@ function getSongCount(itemSongCount: NullableNumber) {
     }
 }
 
-function getMusicVideoCount(itemMusicVideoCount: NullableNumber) {
+function getMusicVideoCount(itemMusicVideoCount: Nullable<number>) {
     if (itemMusicVideoCount) {
         return itemMusicVideoCount === 1 ?
             globalize.translate('ValueOneMusicVideo') :
@@ -202,7 +202,7 @@ function getMusicVideoCount(itemMusicVideoCount: NullableNumber) {
     }
 }
 
-function getRecursiveItemCount(itemRecursiveItemCount: NullableNumber) {
+function getRecursiveItemCount(itemRecursiveItemCount: Nullable<number>) {
     return itemRecursiveItemCount === 1 ?
         globalize.translate('ValueOneEpisode') :
         globalize.translate('ValueEpisodeCount', itemRecursiveItemCount);
@@ -210,7 +210,7 @@ function getRecursiveItemCount(itemRecursiveItemCount: NullableNumber) {
 
 function getParentTitle(
     isOuterFooter: boolean,
-    serverId: NullableString,
+    serverId: Nullable<string>,
     item: ItemDto
 ) {
     if (isOuterFooter && item.AlbumArtists?.length) {
@@ -246,7 +246,7 @@ function getParentTitle(
     }
 }
 
-function getRunTimeTicks(itemRunTimeTicks: NullableNumber) {
+function getRunTimeTicks(itemRunTimeTicks: Nullable<number>) {
     if (itemRunTimeTicks) {
         let minutes = itemRunTimeTicks / 600000000;
 
@@ -261,7 +261,7 @@ function getRunTimeTicks(itemRunTimeTicks: NullableNumber) {
 export function getItemCounts(cardOptions: CardOptions, item: ItemDto) {
     const counts: string[] = [];
 
-    const addCount = (text: NullableString) => {
+    const addCount = (text: Nullable<string>) => {
         if (text) {
             counts.push(text);
         }
@@ -342,7 +342,7 @@ function shouldShowMediaTitle(
     return showMediaTitle;
 }
 
-function shouldShowExtraType(itemExtraType: NullableString) {
+function shouldShowExtraType(itemExtraType: Nullable<string>) {
     return !!(itemExtraType && itemExtraType !== 'Unknown');
 }
 
@@ -387,7 +387,7 @@ function addOtherText(
     isOuterFooter: boolean,
     item: ItemDto,
     addTextLine: (val: TextLine) => void,
-    serverId: NullableString
+    serverId: Nullable<string>
 ) {
     if (
         shouldShowParentTitle(
@@ -526,7 +526,7 @@ function getChannelName(item: ItemDto) {
     }
 }
 
-function getRunTime(itemRunTimeTicks: NullableNumber) {
+function getRunTime(itemRunTimeTicks: Nullable<number>) {
     if (itemRunTimeTicks) {
         return datetime.getDisplayRunningTime(itemRunTimeTicks);
     } else {

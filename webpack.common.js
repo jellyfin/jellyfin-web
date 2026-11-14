@@ -43,7 +43,7 @@ const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     entry: {
-        'main.jellyfin': './index.jsx',
+        'main.jellyfin': './index.ts',
         ...THEMES_BY_ID
     },
     resolve: {
@@ -51,7 +51,11 @@ const config = {
         modules: [
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
-        ]
+        ],
+        alias: {
+            // Keep in sync with tsconfig.json.
+            '@': path.resolve(__dirname, 'src')
+        }
     },
     plugins: [
         new DefinePlugin({
@@ -72,8 +76,7 @@ const config = {
             // Append file hashes to bundle urls for cache busting
             hash: true,
             chunks: [
-                'main.jellyfin',
-                'serviceworker'
+                'main.jellyfin'
             ]
         }),
         new CopyPlugin({
@@ -119,9 +122,7 @@ const config = {
         })
     ],
     output: {
-        filename: pathData => (
-            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
-        ),
+        filename: '[name].bundle.js',
         chunkFilename: '[name].[contenthash].chunk.js',
         assetModuleFilename: pathData => {
             if (pathData.filename === 'manifest.json') {
