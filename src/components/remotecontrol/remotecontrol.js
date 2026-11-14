@@ -474,7 +474,8 @@ export default function () {
                     title: globalize.translate('ButtonRemove'),
                     id: 'remove'
                 }],
-                dragHandle: true
+                dragHandle: true,
+                artist: true
             });
 
             const itemsContainer = context.querySelector('.playlist');
