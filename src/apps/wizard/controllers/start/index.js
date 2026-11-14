@@ -1,45 +1,37 @@
 import loading from 'components/loading/loading';
+import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import dom from 'utils/dom';
 
 import 'elements/emby-button/emby-button';
 import 'elements/emby-select/emby-select';
 
-function loadPage(page, systemInfo, config, languageOptions) {
-    const serverNameElem = page.querySelector('#txtServerName');
-    serverNameElem.value = config.ServerName || systemInfo.ServerName;
+function loadPage(page, languageOptions) {
+    const browserLocale = findCulture(languageOptions, globalize.getCurrentLocale());
 
     const languageElem = page.querySelector('#selectLocalizationLanguage');
     languageElem.innerHTML = languageOptions.map(function (l) {
         return '<option value="' + l.Value + '">' + l.Name + '</option>';
     }).join('');
-    languageElem.value = config.UICulture;
+    languageElem.value = browserLocale || findCulture(languageOptions, 'en-US');
 
     loading.hide();
 }
 
 function save(page) {
-    loading.show();
-    const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Startup/Configuration')).then(function (config) {
-        config.ServerName = page.querySelector('#txtServerName').value;
-        config.UICulture = page.querySelector('#selectLocalizationLanguage').value;
-
-        apiClient.ajax({
-            type: 'POST',
-            data: JSON.stringify(config),
-            url: apiClient.getUrl('Startup/Configuration'),
-            contentType: 'application/json'
-        }).then(function () {
-            Dashboard.navigate('wizard/user');
-        });
-    });
+    userSettings.language(page.querySelector('#selectLocalizationLanguage').value);
+    Dashboard.navigate('wizard/user');
 }
 
 function onSubmit(e) {
     e.preventDefault();
     save(dom.parentWithClass(this, 'page'));
+}
+
+function findCulture(languageOptions, culture) {
+    return languageOptions.find(l => l.Value.toLowerCase() === culture)?.Value;
 }
 
 export default function (view) {
@@ -51,12 +43,8 @@ export default function (view) {
         const page = this;
         const apiClient = ServerConnections.currentApiClient();
 
-        Promise.all([
-            apiClient.getPublicSystemInfo(),
-            apiClient.getJSON(apiClient.getUrl('Startup/Configuration')),
-            apiClient.getJSON(apiClient.getUrl('Localization/Options'))
-        ]).then(([ systemInfo, config, languageOptions ]) => {
-            loadPage(page, systemInfo, config, languageOptions);
+        apiClient.getJSON(apiClient.getUrl('Localization/Options')).then(languageOptions => {
+            loadPage(page, languageOptions);
         });
     });
 
