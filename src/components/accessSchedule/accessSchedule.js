@@ -74,7 +74,7 @@ export function show(options) {
             if (dlg.submitted) {
                 resolve(options.schedule);
             } else {
-                reject();
+                reject(new Error('AccessSchedule closed without resolving'));
             }
         });
         dlg.querySelector('.btnCancel').addEventListener('click', () => {

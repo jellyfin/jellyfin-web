@@ -100,7 +100,7 @@ class SortMenu {
                     return;
                 }
 
-                reject();
+                reject(new Error('SortMenuError'));
             });
         });
     }

@@ -31,10 +31,10 @@ function textAreaCopy(text) {
         if (document.execCommand('copy')) {
             ret = Promise.resolve();
         } else {
-            ret = Promise.reject();
+            ret = Promise.reject(new Error('TextAreaCopyError'));
         }
     } catch {
-        ret = Promise.reject();
+        ret = Promise.reject(new Error('TextAreaCopyError'));
     }
 
     document.body.removeChild(textArea);

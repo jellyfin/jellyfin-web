@@ -236,7 +236,7 @@ function showEditor(itemId, serverId, options) {
                     deleted: recordingDeleted
                 });
             } else {
-                reject();
+                reject(new Error('RecordingUpdatedError'));
             }
         });
 
