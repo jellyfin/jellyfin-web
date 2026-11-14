@@ -47,6 +47,7 @@ import { isHls } from '../../utils/mediaSource.ts';
 const NATIVE_UNSUPPORTED_SUBTITLE_CODECS = ['ssa', 'ass', 'pgssub', 'dvdsub', 'vobsub'];
 const ASS_SUBTITLE_CODECS = ['ssa', 'ass'];
 const VOBSUB_SUBTITLE_CODECS = ['dvdsub', 'vobsub'];
+const VOBSUB_FILE_NAME_PATTERN = /\.(?:idx|mks|sub)$/i;
 const BITMAP_SUBTITLE_ASPECT_MODES = ['stretch', 'contain', 'cover'];
 
 /**
@@ -180,26 +181,11 @@ function getTextTrackUrl(track, item, format) {
     return url;
 }
 
-function getSubtitleFileNameHint(track) {
-    const candidates = [track?.Path];
-    for (const candidate of candidates) {
-        if (!candidate) {
-            continue;
-        }
-
-        const sanitized = candidate.split(/[?#]/)[0];
-        const fileName = sanitized.split(/[\\/]/).pop();
-        if (fileName) {
-            return fileName;
-        }
-    }
-
-    const codec = (track?.Codec || '').toLowerCase();
-    if (VOBSUB_SUBTITLE_CODECS.includes(codec)) {
-        return 'subtitle.mks';
-    }
-
-    return undefined;
+// libbitsub reads VobSub as Matroska only by an .mks file name, and as an .idx/.sub pair otherwise.
+// The server delivers every VobSub track as a Matroska subtitle file, an external .idx/.sub pair included.
+function getSubtitleFileNameHint(subUrl) {
+    const fileName = subUrl?.split(/[?#]/)[0].split(/[\\/]/).pop();
+    return fileName && VOBSUB_FILE_NAME_PATTERN.test(fileName) ? fileName : 'subtitle.mks';
 }
 
 function getBitmapSubtitleDisplaySettings() {
@@ -1495,10 +1481,8 @@ export class HtmlVideoPlayer {
      * @private
      */
     renderVobSub(videoElement, track, item, targetTextTrackIndex = PRIMARY_TEXT_TRACK_INDEX) {
-        const options = {
-            ...this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex),
-            fileName: getSubtitleFileNameHint(track)
-        };
+        const options = this.createBitmapSubtitleRendererOptions(videoElement, track, item, targetTextTrackIndex);
+        options.fileName = getSubtitleFileNameHint(options.subUrl);
         const onLoaded = options.onLoaded;
         const onError = options.onError;
         options.onLoaded = () => {
