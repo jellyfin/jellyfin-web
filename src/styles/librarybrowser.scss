@@ -1036,6 +1036,11 @@ div.itemDetailGalleryLink.defaultCardBackground {
     padding: 0.7em 0.7em !important;
 }
 
+.detailButton:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
 @media all and (min-width: 29em) {
     .detailButton {
         padding-left: 0.75em !important;
