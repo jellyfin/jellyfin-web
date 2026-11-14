@@ -7,8 +7,8 @@ import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import LinkButton from '../../../elements/emby-button/LinkButton';
-import { getDefaultBackgroundClass } from '../../cardbuilder/utils/builder';
 import { useApi } from 'hooks/useApi';
+import { getUserAvatarBackgroundClass } from 'utils/userAvatar';
 
 type IProps = {
     user?: UserDto;
@@ -48,7 +48,8 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
 
     const renderImgUrl = imgUrl ?
         <div className={imageClass} style={{ backgroundImage: `url(${imgUrl})` }} /> :
-        <div className={`${imageClass} ${getDefaultBackgroundClass(user.Name)} flex align-items-center justify-content-center`}>
+        // The color is picked by the user, so it is the same as on the login page and in the modern layout
+        <div className={`${imageClass} ${getUserAvatarBackgroundClass(user)} flex align-items-center justify-content-center`}>
             <span className='material-icons cardImageIcon person' aria-hidden='true'></span>
         </div>;
 

@@ -19,7 +19,7 @@ export const getPublicUsersQuery = (
     api?: Api
 ) => {
     return queryOptions({
-        queryKey: [ QUERY_KEY ],
+        queryKey: [ QUERY_KEY, api?.basePath ],
         queryFn: ({ signal }) => fetchUsers(api!, { signal }),
         enabled: !!api
     });

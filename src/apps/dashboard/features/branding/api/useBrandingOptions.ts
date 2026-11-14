@@ -19,7 +19,7 @@ const fetchBrandingOptions = async (
 export const getBrandingOptionsQuery = (
     api?: Api
 ) => queryOptions({
-    queryKey: [ QUERY_KEY ],
+    queryKey: [ QUERY_KEY, api?.basePath ],
     queryFn: ({ signal }) => fetchBrandingOptions(api!, { signal }),
     enabled: !!api
 });
