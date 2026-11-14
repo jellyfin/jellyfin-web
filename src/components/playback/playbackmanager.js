@@ -14,7 +14,7 @@ import datetime from '../../scripts/datetime';
 import appSettings from '../../scripts/settings/appSettings';
 import itemHelper from '../itemHelper';
 import { pluginManager } from '../pluginManager';
-import PlayQueueManager from './playqueuemanager';
+import PlayQueueManager from './PlayQueueManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import globalize from '../../lib/globalize';
 import loading from '../loading/loading';
