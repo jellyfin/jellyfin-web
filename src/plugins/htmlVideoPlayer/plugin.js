@@ -657,11 +657,12 @@ export class HtmlVideoPlayer {
                 elem.crossOrigin = 'use-credentials';
             }
 
-            if (seconds) {
-                // Safari paints the frame at 0 before applying the #t= fragment, and native HLS ignores it.
-                // Seeking once metadata is loaded lands before the first frame is shown.
+            // WebKit paints the frame at 0 before applying the #t= fragment.
+            // For static files, seeking once metadata is loaded lands before the first frame is shown.
+            // HLS is left alone: its video size is unknown at this point, and an early seek restarts transcodes.
+            if (seconds && options.playMethod !== 'Transcode' && !isHls(options.mediaSource)) {
                 elem.addEventListener('loadedmetadata', () => {
-                    if (this.#currentSrc === val) {
+                    if (this.#currentSrc === val && elem.duration >= seconds) {
                         setCurrentTimeIfNeeded(elem, seconds);
                     }
                 }, { once: true });
