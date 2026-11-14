@@ -1,4 +1,5 @@
 import type { AxiosRequestConfig } from 'axios';
+import type { LibraryApiGetItemsRequest } from '@jellyfin/sdk/lib/generated-client/api/library-api';
 import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
@@ -18,6 +19,33 @@ import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } f
 import type { LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
+
+/**
+ * Builds the getItems request used by the library views that list items directly.
+ * Shared with actions (like shuffle) that need the same filters as the visible list.
+ */
+export const getItemsViewRequest = (
+    userId: string,
+    viewType: LibraryTab,
+    parentId: ParentId,
+    itemType: BaseItemKind[],
+    libraryViewSettings: LibraryViewSettings
+): LibraryApiGetItemsRequest => ({
+    userId,
+    recursive: true,
+    imageTypeLimit: 1,
+    parentId: parentId ?? undefined,
+    enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
+    ...getFieldsQuery(viewType, libraryViewSettings),
+    ...getFiltersQuery(viewType, libraryViewSettings),
+    ...getLimitQuery(),
+    ...getAlphaPickerQuery(libraryViewSettings),
+    isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
+    sortBy: libraryViewSettings.SortBy,
+    sortOrder: [libraryViewSettings.SortOrder],
+    includeItemTypes: itemType,
+    startIndex: libraryViewSettings.StartIndex
+});
 
 const fetchGetItemsViewByType = async (
     currentApi: JellyfinApiContext,
@@ -177,22 +205,7 @@ const fetchGetItemsViewByType = async (
                 break;
             default: {
                 response = await getLibraryApi(api).getItems(
-                    {
-                        userId: user.Id,
-                        recursive: true,
-                        imageTypeLimit: 1,
-                        parentId: parentId ?? undefined,
-                        enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
-                        ...getFieldsQuery(viewType, libraryViewSettings),
-                        ...getFiltersQuery(viewType, libraryViewSettings),
-                        ...getLimitQuery(),
-                        ...getAlphaPickerQuery(libraryViewSettings),
-                        isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
-                        sortBy: libraryViewSettings.SortBy,
-                        sortOrder: [libraryViewSettings.SortOrder],
-                        includeItemTypes: itemType,
-                        startIndex: libraryViewSettings.StartIndex
-                    },
+                    getItemsViewRequest(user.Id, viewType, parentId, itemType, libraryViewSettings),
                     {
                         signal: options?.signal
                     }
