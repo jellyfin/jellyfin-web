@@ -1,10 +1,34 @@
 import DefaultConfig from '../../config.json';
-import fetchLocal from '../../utils/fetchLocal.ts';
+import fetchLocal from '../../utils/fetchLocal';
 
-let data;
+export interface WebTheme {
+    name: string
+    id: string
+    color?: string
+    default?: boolean
+}
 
-async function getConfig() {
-    if (data) return Promise.resolve(data);
+export interface WebMenuLink {
+    name: string
+    url: string
+    icon?: string
+}
+
+export interface WebConfig {
+    includeCorsCredentials?: boolean
+    multiserver?: boolean
+    themes?: WebTheme[]
+    menuLinks?: WebMenuLink[]
+    servers?: string[]
+    plugins?: string[]
+}
+
+const DEFAULT_CONFIG: WebConfig & Required<Pick<WebConfig, 'themes' | 'plugins'>> = DefaultConfig;
+
+let data: WebConfig | undefined;
+
+async function getConfig(): Promise<WebConfig> {
+    if (data) return data;
     try {
         const response = await fetchLocal('config.json', {
             cache: 'no-store'
@@ -14,17 +38,17 @@ async function getConfig() {
             throw new Error('network response was not ok');
         }
 
-        data = await response.json();
+        data = await response.json() as WebConfig;
 
         return data;
     } catch (error) {
         console.warn('failed to fetch the web config file:', error);
-        data = DefaultConfig;
+        data = DEFAULT_CONFIG;
         return data;
     }
 }
 
-export function getIncludeCorsCredentials() {
+export function getIncludeCorsCredentials(): Promise<boolean> {
     return getConfig()
         .then(config => !!config.includeCorsCredentials)
         .catch(error => {
@@ -33,7 +57,7 @@ export function getIncludeCorsCredentials() {
         });
 }
 
-export function getMultiServer() {
+export function getMultiServer(): Promise<boolean> {
     // Enable multi-server support when served by webpack
     if (__WEBPACK_SERVE__) {
         return Promise.resolve(true);
@@ -47,7 +71,7 @@ export function getMultiServer() {
     });
 }
 
-export function getServers() {
+export function getServers(): Promise<string[]> {
     return getConfig().then(config => {
         return config.servers || [];
     }).catch(error => {
@@ -56,15 +80,15 @@ export function getServers() {
     });
 }
 
-const baseDefaultTheme = {
+const baseDefaultTheme: WebTheme = {
     'name': 'Dark',
     'id': 'dark',
     'default': true
 };
 
-let internalDefaultTheme = baseDefaultTheme;
+let internalDefaultTheme: WebTheme = baseDefaultTheme;
 
-const checkDefaultTheme = (themes) => {
+const checkDefaultTheme = (themes?: WebTheme[]): void => {
     if (themes) {
         const defaultTheme = themes.find((theme) => theme.default);
 
@@ -77,24 +101,24 @@ const checkDefaultTheme = (themes) => {
     internalDefaultTheme = baseDefaultTheme;
 };
 
-export function getThemes() {
+export function getThemes(): Promise<WebTheme[]> {
     return getConfig().then(config => {
         if (!Array.isArray(config.themes)) {
             console.error('web config is invalid, missing themes:', config);
         }
-        const themes = Array.isArray(config.themes) ? config.themes : DefaultConfig.themes;
+        const themes = Array.isArray(config.themes) ? config.themes : DEFAULT_CONFIG.themes;
         checkDefaultTheme(themes);
         return themes;
     }).catch(error => {
         console.log('cannot get web config:', error);
         checkDefaultTheme();
-        return DefaultConfig.themes;
+        return DEFAULT_CONFIG.themes;
     });
 }
 
-export const getDefaultTheme = () => internalDefaultTheme;
+export const getDefaultTheme = (): WebTheme => internalDefaultTheme;
 
-export function getMenuLinks() {
+export function getMenuLinks(): Promise<WebMenuLink[]> {
     return getConfig().then(config => {
         if (!config.menuLinks) {
             console.error('web config is invalid, missing menuLinks:', config);
@@ -106,14 +130,14 @@ export function getMenuLinks() {
     });
 }
 
-export function getPlugins() {
+export function getPlugins(): Promise<string[]> {
     return getConfig().then(config => {
         if (!config.plugins) {
             console.error('web config is invalid, missing plugins:', config);
         }
-        return config.plugins || DefaultConfig.plugins;
+        return config.plugins || DEFAULT_CONFIG.plugins;
     }).catch(error => {
         console.log('cannot get web config:', error);
-        return DefaultConfig.plugins;
+        return DEFAULT_CONFIG.plugins;
     });
 }
