@@ -48,8 +48,8 @@ export default function (view, params, tabContent) {
         isLoading = true;
         loading.show();
         const query = getQuery();
-        let newQuery = { ...query, StartIndex: 0 };
-        if (type === 'Shuffle') newQuery = { ...newQuery, SortBy: 'Random', Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
+		let newQuery = { ...query, StartIndex: 0 };
+		if (type === 'Shuffle') newQuery = { ...newQuery, SortBy: 'Random', Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
         const apiClient = ServerConnections.currentApiClient();
         return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({
