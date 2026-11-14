@@ -199,6 +199,17 @@ export async function getCommands(options) {
                 icon: 'file_download'
             });
 
+            if (item.MediaType === 'Video'
+                && user.Policy.EnableContentDownloading
+                && user.Policy.EnableVideoPlaybackTranscoding
+                && user.Policy.EnableAudioPlaybackTranscoding) {
+                commands.push({
+                    name: 'Download for offline viewing',
+                    id: 'download-transcoded',
+                    icon: 'download_for_offline'
+                });
+            }
+
             commands.push({
                 name: globalize.translate('CopyStreamURL'),
                 id: 'copy-stream',
@@ -411,6 +422,14 @@ function executeCommand(item, id, options) {
                         items: [itemId],
                         serverId: serverId
                     }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                });
+                break;
+            case 'download-transcoded':
+                import('./offlineDownload').then(({ showOfflineDownload }) => {
+                    return showOfflineDownload(apiClient, item);
+                }).then(getResolveFunction(resolve, id)).catch((error) => {
+                    if (error) toast(error.message || 'Offline download failed.');
+                    getResolveFunction(resolve, id)();
                 });
                 break;
             case 'download':
