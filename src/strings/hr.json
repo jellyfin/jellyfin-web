@@ -1245,7 +1245,7 @@
     "LabelThrottleDelaySeconds": "Priguši nakon",
     "LabelThrottleDelaySecondsHelp": "Vrijeme u sekundama nakon kojega će transkoder početi s prigušivanjem. Mora biti dovoljno veliko da klijent uspije održati zdravo spremanje u međuspremnik. Radi samo ako je prigušivanje uključeno.",
     "LabelSegmentKeepSeconds": "Vrijeme zadržavanja segmenata",
-    "GoHome": "Dom",
+    "GoHome": "Na početnu",
     "LabelH265Crf": "H.265 kodiranje CRF",
     "LabelHardwareEncoding": "Strojno kodiranje",
     "LabelMoviePrefix": "Prefiks filmova",
