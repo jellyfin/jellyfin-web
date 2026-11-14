@@ -78,8 +78,7 @@
     "webpack-bundle-analyzer": "5.4.0",
     "webpack-cli": "7.2.3",
     "webpack-dev-server": "6.1.0",
-    "webpack-merge": "6.0.1",
-    "worker-loader": "3.0.8"
+    "webpack-merge": "6.0.1"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
