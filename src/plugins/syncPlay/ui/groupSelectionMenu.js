@@ -46,6 +46,7 @@ class GroupSelectionMenu {
      */
     showNewJoinGroupSelection(button, user, apiClient) {
         const policy = user.localUser ? user.localUser.Policy : {};
+        const syncPlayManager = this.SyncPlay?.Manager;
 
         apiClient.getSyncPlayGroups().then(function (response) {
             response.json().then(function (groups) {
@@ -87,13 +88,13 @@ class GroupSelectionMenu {
 
                 actionsheet.show(menuOptions).then(function (id) {
                     if (id == 'new-group') {
-                        apiClient.createSyncPlayGroup({
+                        syncPlayManager?.expectGroupJoin(apiClient.createSyncPlayGroup({
                             GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user.localUser.Name)
-                        });
+                        }));
                     } else if (id) {
-                        apiClient.joinSyncPlayGroup({
+                        syncPlayManager?.expectGroupJoin(apiClient.joinSyncPlayGroup({
                             GroupId: id
-                        });
+                        }));
                     }
                 }).catch((error) => {
                     if (error) {
