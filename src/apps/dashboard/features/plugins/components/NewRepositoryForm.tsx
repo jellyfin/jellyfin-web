@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import type { RepositoryInfo } from '@jellyfin/sdk/lib/generated-client/models/repository-info';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -16,6 +16,12 @@ type IProps = {
 };
 
 const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
+    const nameInputRef = useRef<HTMLInputElement>(null);
+
+    const onEntered = useCallback(() => {
+        nameInputRef.current?.focus();
+    }, []);
+
     const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -41,6 +47,9 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
                 paper: {
                     component: 'form',
                     onSubmit
+                },
+                transition: {
+                    onEntered
                 }
             }}
         >
@@ -50,6 +59,7 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
                 <Stack spacing={3}>
                     <TextField
                         name='Name'
+                        inputRef={nameInputRef}
                         label={globalize.translate('LabelRepositoryName')}
                         helperText={globalize.translate('LabelRepositoryNameHelp')}
                         slotProps={{
