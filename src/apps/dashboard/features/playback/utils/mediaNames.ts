@@ -1,4 +1,4 @@
-/** Display names for codecs, matching how the rest of the web client shows them. */
+/** Display names for codecs and dynamic ranges, matching how the rest of the web client shows them. */
 const CODEC_NAMES: Record<string, string> = {
     av1: 'AV1',
     h264: 'H.264',
@@ -10,3 +10,14 @@ const CODEC_NAMES: Record<string, string> = {
 };
 
 export const codecName = (codec?: string) => (codec ? CODEC_NAMES[codec.toLowerCase()] ?? codec.toUpperCase() : '');
+
+/** Names a dynamic range the way the rest of the web client does. */
+export const rangeName = (rangeType?: string) => {
+    if (!rangeType || rangeType === 'SDR' || rangeType === 'Unknown') {
+        return 'SDR';
+    }
+    if (rangeType.startsWith('DOVI')) {
+        return 'Dolby Vision';
+    }
+    return rangeType === 'HDR10Plus' ? 'HDR10+' : rangeType;
+};

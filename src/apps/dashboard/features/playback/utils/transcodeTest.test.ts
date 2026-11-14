@@ -3,17 +3,23 @@ import { describe, expect, it, vi } from 'vitest';
 
 import enUs from 'strings/en-us.json';
 
-import type { TranscodeTestAdvice, TranscodeTestCheckKind, TranscodeTestCheckResult, TranscodeTestOutcome } from '../api/useTranscodeTest';
+import type { TranscodeTestAdvice, TranscodeTestCheckKind, TranscodeTestCheckResult, TranscodeTestOutcome, TranscodeTestStressResult } from '../api/useTranscodeTest';
 import {
+    STRESS_TEST_ITEM_TYPES,
     checkAdvice,
     checkDetail,
     checkError,
     checkKindLabel,
     checkName,
     compatibilityChanges,
+    describeInput,
+    describeOutput,
+    formatFps,
     formatNumber,
     outcomeLabel,
-    startErrorMessage
+    startErrorMessage,
+    stressRunningHelp,
+    stressTargetLabel
 } from './transcodeTest';
 
 const strings: Record<string, string | undefined> = enUs;
@@ -179,6 +185,24 @@ describe('formatNumber', () => {
     });
 });
 
+describe('formatFps', () => {
+    it('shows the threshold at the source precision and readings with at least one decimal', () => {
+        expect(formatFps(23.976)).toBe('23.976');
+        expect(formatFps(23.96)).toBe('23.96');
+        expect(formatFps(24)).toBe('24.0');
+        expect(formatFps(1271.8)).toBe('1271.8');
+    });
+
+    it('uses the decimal separator of the user\'s language', () => {
+        locale.current = 'de';
+        try {
+            expect(formatFps(23.976)).toBe('23,976');
+        } finally {
+            locale.current = 'en-us';
+        }
+    });
+});
+
 const KINDS: TranscodeTestCheckKind[] = [ 'Decode', 'Encode', 'Tonemap' ];
 const OUTCOMES: TranscodeTestOutcome[] = [ 'Passed', 'Failed', 'Software', 'NotSupported', 'Skipped' ];
 const ADVICE: TranscodeTestAdvice[] = [ 'None', 'TurnOn', 'TurnOff' ];
@@ -217,6 +241,20 @@ describe('compatibilityChanges', () => {
     });
 });
 
+describe('units', () => {
+    it('describes the input and output with translated units', () => {
+        expect(describeInput({ Name: 'Movie', Width: 3840, Height: 2160, Codec: 'hevc', BitDepth: 10, VideoRangeType: 'HDR10', BitrateMbps: 58.2, Fps: 23.976 }))
+            .toBe('Movie · 3840×2160 HEVC 10-bit HDR10 · 58.2 Mbps · 23.976 fps');
+        expect(describeOutput({ Width: 1920, Height: 1080, Codec: 'h264', BitrateMbps: 8, AudioCodec: 'aac', AudioChannels: 6, Encoder: 'h264_nvenc', HardwareDecoding: true, HardwareEncoding: true, Tonemap: 'None' }))
+            .toBe('1920×1080 H.264 · 8 Mbps + AAC 6 ch');
+    });
+
+    it('names a stress test target', () => {
+        expect(stressTargetLabel('1080p', 'h264', 8_000_000)).toBe('1080p H.264 8 Mbps');
+        expect(stressTargetLabel('4K', 'hevc', 20_000_000)).toBe('4K HEVC 20 Mbps');
+    });
+});
+
 const httpError = (status: number, data: unknown) => {
     const headers = new AxiosHeaders();
     return new AxiosError('Request failed', 'ERR_BAD_REQUEST', { headers }, undefined, { status, statusText: '', headers, config: { headers }, data });
@@ -225,11 +263,14 @@ const httpError = (status: number, data: unknown) => {
 describe('startErrorMessage', () => {
     it('shows the server\'s message for a refused start', () => {
         expect(startErrorMessage(httpError(409, 'A transcoding test is already running.'))).toBe('A transcoding test is already running.');
+        expect(startErrorMessage(httpError(400, 'The stress test needs a video item.'))).toBe('The stress test needs a video item.');
     });
 
     it('shows the validation errors of a problem details response', () => {
         const problem = { title: 'One or more validation errors occurred.', status: 400, errors: { Kind: [ 'The JSON value could not be converted to TranscodeTestKind.' ] } };
         expect(startErrorMessage(httpError(400, problem))).toBe('The JSON value could not be converted to TranscodeTestKind.');
+        const range = { title: 'One or more validation errors occurred.', status: 400, errors: { MaxStreams: [ 'The field MaxStreams must be between 1 and 64.' ] } };
+        expect(startErrorMessage(httpError(400, range))).toBe('The field MaxStreams must be between 1 and 64.');
         expect(startErrorMessage(httpError(400, { title: 'Bad request' }))).toBe('Bad request');
     });
 
@@ -242,5 +283,36 @@ describe('startErrorMessage', () => {
 
     it('shortens a long message', () => {
         expect(startErrorMessage(httpError(400, 'x'.repeat(400)))).toBe(`${'x'.repeat(300)}…`);
+    });
+});
+
+describe('stressRunningHelp', () => {
+    it('says a stream is added at most every interval, once every running stream has kept up for the settle window', () => {
+        const stress = {
+            Phase: 'KeepingUp', RampSeconds: 12, SettleSeconds: 3, FailSeconds: 5, ThresholdFps: 23.976, FpsRatio: 1,
+            Input: { Name: 'Movie', Fps: 23.976 }
+        } as TranscodeTestStressResult;
+
+        expect(stressRunningHelp(stress)).toBe(
+            'Stress test is running. Each stream must keep at least 23.976 fps (100% of the movie\'s 23.976 fps). '
+            + 'A stream is added at most every 12 s, once every running stream has kept up for 3 s. '
+            + 'It stops when a stream falls behind for 5 s, or at the maximum number of streams configured above.'
+        );
+    });
+});
+
+describe('StressTestHelp', () => {
+    it('states the same rule as the running help', () => {
+        expect(strings.StressTestHelp).toContain('adds a stream at most every {0} seconds, once every running stream has kept up for {1} seconds');
+    });
+});
+
+describe('STRESS_TEST_ITEM_TYPES', () => {
+    it('includes home videos and music videos, not only movies and episodes', () => {
+        expect(STRESS_TEST_ITEM_TYPES).toEqual([ 'Movie', 'Episode', 'MusicVideo', 'Video' ]);
+    });
+
+    it('has a hint for when no video is found', () => {
+        expect(strings.StressTestNoMedia).toBeTruthy();
     });
 });

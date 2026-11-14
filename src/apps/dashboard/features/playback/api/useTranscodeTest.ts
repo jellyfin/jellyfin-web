@@ -6,13 +6,21 @@ import { queryClient } from 'utils/query/queryClient';
 export const QUERY_KEY = 'TranscodeTest';
 
 export type TranscodeTestState = 'Idle' | 'Running' | 'Completed' | 'Failed' | 'Cancelled';
-export type TranscodeTestKind = 'Compatibility';
+export type TranscodeTestKind = 'Compatibility' | 'StressTest';
 export type TranscodeTestOutcome = 'Passed' | 'Failed' | 'Software' | 'NotSupported' | 'Skipped';
 export type TranscodeTestCheckKind = 'Decode' | 'Encode' | 'Tonemap';
 export type TranscodeTestAdvice = 'None' | 'TurnOn' | 'TurnOff';
+export type TranscodeTestStressPhase = 'Starting' | 'WarmingUp' | 'KeepingUp' | 'FallingBehind' | 'Finished';
+export type TranscodeTestEndReason = 'None' | 'LimitReached' | 'MaxStreams' | 'StreamFailed' | 'StreamStalled' | 'Cancelled' | 'Error';
 
 export interface TranscodeTestRequest {
     Kind: TranscodeTestKind
+    ItemId?: string
+    MediaSourceId?: string | null
+    VideoCodec?: string
+    MaxWidth?: number
+    VideoBitrate?: number
+    MaxStreams?: number
 }
 
 export interface TranscodeTestCheckResult {
@@ -31,6 +39,68 @@ export interface TranscodeTestCheckResult {
     ReferencePassed?: boolean
 }
 
+export interface TranscodeTestStreamResult {
+    Id: number
+    Fps?: number
+    FinalFps?: number
+    MedianFps?: number
+    OutputMbps?: number
+    Status: string
+}
+
+export interface TranscodeTestMediaInfo {
+    Name: string
+    Width?: number
+    Height?: number
+    Codec?: string
+    BitDepth?: number
+    VideoRangeType?: string
+    BitrateMbps?: number
+    Fps?: number
+}
+
+export interface TranscodeTestOutputInfo {
+    Width?: number
+    Height?: number
+    Codec: string
+    BitrateMbps: number
+    AudioCodec?: string
+    AudioChannels?: number
+    Encoder: string
+    HardwareDecoding: boolean
+    HardwareEncoding: boolean
+    Tonemap: 'None' | 'Hardware' | 'Software'
+}
+
+export interface TranscodeTestStressResult {
+    Phase: TranscodeTestStressPhase
+    EndReason: TranscodeTestEndReason
+    RunningStreams: number
+    MaxStableStreams: number
+    PeakStreams: number
+    MaxStreams: number
+    NextStreamInSeconds?: number
+    BehindStreamId?: number
+    EndsInSeconds?: number
+    RampSeconds: number
+    SettleSeconds: number
+    FailSeconds: number
+    ThresholdFps: number
+    FpsRatio: number
+    FailedStreamId?: number
+    FailedStreamFps?: number
+    StreamsAtEnd?: number
+    TimeLimitReached?: boolean
+    PeakCombinedFps: number
+    AverageOutputMbps?: number
+    Error?: string
+    Input?: TranscodeTestMediaInfo
+    Output?: TranscodeTestOutputInfo
+    ShortSource?: boolean
+    RemoteSource?: boolean
+    Streams: TranscodeTestStreamResult[]
+}
+
 export interface TranscodeTestStatus {
     State: TranscodeTestState
     Kind: TranscodeTestKind
@@ -39,6 +109,7 @@ export interface TranscodeTestStatus {
     EndedAt?: string
     Log: { Seconds: number, Message: string }[]
     Checks: TranscodeTestCheckResult[]
+    Stress?: TranscodeTestStressResult
 }
 
 // This is the only place that calls the transcoding test endpoints. The TypeScript SDK has no client for them yet.
