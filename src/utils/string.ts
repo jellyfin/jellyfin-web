@@ -38,7 +38,7 @@ export function toBoolean(value: string | undefined | null, defaultValue = false
 export function toFloat(value: string | null | undefined, defaultValue = 0) {
     if (!value) return defaultValue;
 
-    const number = parseFloat(value);
+    const number = Number.parseFloat(value);
     if (isNaN(number)) return defaultValue;
 
     return number;

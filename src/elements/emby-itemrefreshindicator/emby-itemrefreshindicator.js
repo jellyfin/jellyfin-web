@@ -11,7 +11,7 @@ function onRefreshProgress(indicator, info) {
     }
 
     if (info?.ItemId === indicator.itemId) {
-        const progress = parseFloat(info.Progress);
+        const progress = Number.parseFloat(info.Progress);
 
         if (progress && progress < 100) {
             indicator.classList.remove('hide');
