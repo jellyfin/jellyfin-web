@@ -89,6 +89,7 @@ async function loadDisplaySettings({
         displayMissingEpisodes: user?.Configuration?.DisplayMissingEpisodes ?? false,
         enableBlurHash: Boolean(settings.enableBlurhash()),
         enableFasterAnimation: Boolean(settings.enableFastFadein()),
+        enableSlideshowAnimation: Boolean(settings.enableSlideshowAnimation()),
         enableItemDetailsBanner: Boolean(settings.detailsBanner()),
         enableLibraryBackdrops: Boolean(settings.enableBackdrops()),
         enableLibraryThemeSongs: Boolean(settings.enableThemeSongs()),
@@ -136,6 +137,7 @@ async function saveDisplaySettings({
     userSettings.disableCustomCss(newDisplaySettings.disableCustomCss);
     userSettings.enableBlurhash(newDisplaySettings.enableBlurHash);
     userSettings.enableFastFadein(newDisplaySettings.enableFasterAnimation);
+    userSettings.enableSlideshowAnimation(newDisplaySettings.enableSlideshowAnimation);
     userSettings.detailsBanner(newDisplaySettings.enableItemDetailsBanner);
     userSettings.enableBackdrops(newDisplaySettings.enableLibraryBackdrops);
     userSettings.enableThemeSongs(newDisplaySettings.enableLibraryThemeSongs);

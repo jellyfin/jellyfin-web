@@ -293,6 +293,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set 'Slideshow Animation' state.
+     * @param {boolean|undefined} [val] - Flag to enable 'Slideshow Animation' or undefined.
+     * @return {boolean} 'Slideshow Animation' state.
+     */
+    enableSlideshowAnimation(val) {
+        if (val !== undefined) {
+            return this.set('slideshowAnimation', val.toString(), false);
+        }
+
+        return toBoolean(this.get('slideshowAnimation', false), false);
+    }
+
+    /**
      * Get or set 'Blurhash' state.
      * @param {boolean|undefined} [val] - Flag to enable 'Blurhash' or undefined.
      * @return {boolean} 'Blurhash' state.
@@ -484,7 +497,7 @@ export class UserSettings {
             return this.set('backdropScreensaverInterval', val.toString(), false);
         }
 
-        return parseInt(this.get('backdropScreensaverInterval', false), 10) || 5;
+        return parseInt(this.get('backdropScreensaverInterval', false), 10) || 30;
     }
 
     /**
@@ -739,6 +752,7 @@ export const enableVideoRemainingTime = currentSettings.enableVideoRemainingTime
 export const enableThemeSongs = currentSettings.enableThemeSongs.bind(currentSettings);
 export const enableThemeVideos = currentSettings.enableThemeVideos.bind(currentSettings);
 export const enableFastFadein = currentSettings.enableFastFadein.bind(currentSettings);
+export const enableSlideshowAnimation = currentSettings.enableSlideshowAnimation.bind(currentSettings);
 export const enableBlurhash = currentSettings.enableBlurhash.bind(currentSettings);
 export const enableBackdrops = currentSettings.enableBackdrops.bind(currentSettings);
 export const detailsBanner = currentSettings.detailsBanner.bind(currentSettings);
