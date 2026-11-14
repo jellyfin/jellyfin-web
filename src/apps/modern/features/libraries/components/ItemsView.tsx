@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import React, { type FC, SetStateAction, useCallback, useMemo } from 'react';
 
 import { useLibrary } from 'apps/modern/features/libraries/hooks/useLibrary';
+import { getLibraryTabShape } from 'apps/modern/features/libraries/utils/cardShape';
 import { getDefaultLibraryViewSettings } from 'apps/modern/features/libraries/utils/settings';
 import Cards from 'components/cardbuilder/Card/Cards';
 import { CardShape } from 'components/cardbuilder/utils/shape';
@@ -96,7 +97,7 @@ const ItemsView: FC = () => {
             shape = CardShape.Backdrop;
             preferThumb = true;
         } else {
-            shape = CardShape.Auto;
+            shape = getLibraryTabShape(viewType, collectionType) ?? CardShape.Auto;
         }
 
         const cardOptions: CardOptions = {
