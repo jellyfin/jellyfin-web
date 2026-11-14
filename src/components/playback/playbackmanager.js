@@ -3238,7 +3238,7 @@ export class PlaybackManager {
                 return player.nextTrack();
             }
 
-            const newItemInfo = self._playQueueManager.getNextItemInfo();
+            const newItemInfo = self._playQueueManager.getNextItemInfo(true);
 
             if (newItemInfo) {
                 console.debug('playing next track');
