@@ -58,6 +58,23 @@ const defaultComicsPlayerSettings = {
     pagesPerView: 1
 };
 
+const DEFAULT_MAX_QUEUE_ITEMS = 300;
+const MAX_QUEUE_ITEMS_LIMIT = 100000;
+
+/**
+ * Returns a non-negative integer queue size, capped at MAX_QUEUE_ITEMS_LIMIT.
+ * Missing or invalid values fall back to the default.
+ * @param {number|string|null|undefined} val - Raw queue size.
+ * @return {number} Queue size. 0 means no limit.
+ */
+function normalizeMaxQueueItems(val) {
+    // Handle null, undefined, and empty string gracefully.
+    const text = String(val ?? '').trim();
+
+    // Whole digits only: 0 is unlimited, and anything else must be a positive integer.
+    return /^\d+$/.test(text) ? Math.min(Number.parseInt(text, 10), MAX_QUEUE_ITEMS_LIMIT) : DEFAULT_MAX_QUEUE_ITEMS;
+}
+
 export class UserSettings {
     /**
      * Bind UserSettings instance to user.
@@ -423,6 +440,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set the maximum number of items added to the play queue at once.
+     * @param {number|string|undefined} [val] - Maximum queue size. 0 means no limit.
+     * @return {number} Maximum queue size. 0 means no limit.
+     */
+    maxQueueItems(val) {
+        if (val !== undefined) {
+            return this.set('maxQueueItems', normalizeMaxQueueItems(val).toString());
+        }
+
+        return normalizeMaxQueueItems(this.get('maxQueueItems'));
+    }
+
+    /**
      * Get or set theme for Dashboard.
      * @param {string|undefined} [val] - Theme for Dashboard.
      * @return {string} Theme for Dashboard.
@@ -747,6 +777,7 @@ export const language = currentSettings.language.bind(currentSettings);
 export const dateTimeLocale = currentSettings.dateTimeLocale.bind(currentSettings);
 export const skipBackLength = currentSettings.skipBackLength.bind(currentSettings);
 export const skipForwardLength = currentSettings.skipForwardLength.bind(currentSettings);
+export const maxQueueItems = currentSettings.maxQueueItems.bind(currentSettings);
 export const dashboardTheme = currentSettings.dashboardTheme.bind(currentSettings);
 export const skin = currentSettings.skin.bind(currentSettings);
 export const theme = currentSettings.theme.bind(currentSettings);

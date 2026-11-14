@@ -16,7 +16,9 @@ import type { ApiClient } from 'jellyfin-apiclient';
 import { ServerConnections } from '@/lib/jellyfin-apiclient';
 import { getItems } from '@/lib/jellyfin-apiclient/utils/getItems';
 import { toItemsRequest } from '@/lib/jellyfin-apiclient/utils/legacyItemsQuery';
+import * as userSettings from '@/scripts/settings/userSettings';
 import type { PlayOptions } from '@/types/playOptions';
+import { resolveQueueLimit } from '@/utils/queueLimit';
 
 import Events, { type Event as EmitterEvent } from '@/utils/events';
 import type { Nullable } from '@/types/nullable';
@@ -122,7 +124,7 @@ export function getItemsForPlayback(
         return getItems(api, {
             ...query,
             userId: apiClient.getCurrentUserId(),
-            limit: query.limit || 300,
+            limit: resolveQueueLimit(query.limit, query.ids?.length ?? 0, userSettings.maxQueueItems()),
             fields: [ItemFields.Chapters, ItemFields.Trickplay],
             excludeLocationTypes: [LocationType.Virtual],
             enableTotalRecordCount: false,
