@@ -13,6 +13,7 @@ const EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 const EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
 
 function onAnchorClick(e) {
+    if (e.defaultPrevented) return;
     const href = this.getAttribute('href') || '';
     if (href !== '#') {
         if (this.getAttribute('target')) {

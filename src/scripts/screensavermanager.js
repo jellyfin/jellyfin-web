@@ -9,14 +9,15 @@ import * as userSettings from './settings/userSettings';
 
 import './screensavermanager.scss';
 
+const WheelEvOpts = { capture: true, passive: false };
+
 function getMinIdleTime() {
     // Returns the minimum amount of idle time required before the screen saver can be displayed
-    //time units used Millisecond
+    // time units used Millisecond
     return userSettings.screensaverTime() * 1000;
 }
 
 let lastFunctionalEvent = 0;
-
 function getFunctionalEventIdleTime() {
     return new Date().getTime() - lastFunctionalEvent;
 }
@@ -48,7 +49,7 @@ function getScreensaverPlugin(isLoggedIn) {
 }
 
 function ScreenSaverManager() {
-    let activeScreenSaver;
+    let activeScreenSaver = null;
     let blockCount = 0;
 
     function showScreenSaver(screensaver) {
@@ -65,27 +66,39 @@ function ScreenSaverManager() {
 
         if (screensaver.hideOnClick !== false) {
             window.addEventListener('click', hide, true);
+            // Following is a handler for middle/right click events
+            window.addEventListener('mouseup', hide, true);
         }
         if (screensaver.hideOnMouse !== false) {
             window.addEventListener('mousemove', hide, true);
+            // Mousewheel events should also trigger an exit.
+            window.addEventListener('wheel', hide, WheelEvOpts);
         }
         if (screensaver.hideOnKey !== false) {
             window.addEventListener('keydown', hide, true);
         }
     }
 
-    function hide() {
-        if (activeScreenSaver) {
-            console.debug('Hiding screensaver');
-            activeScreenSaver.hide().then(() => {
-                document.body.classList.remove('screensaver-noScroll');
-            });
-            activeScreenSaver = null;
+    function hide(event) {
+        if (!activeScreenSaver) {
+            throw new Error('There is no active screensaver.');
         }
 
+        event.preventDefault();
+
+        console.debug('Hiding screensaver ' + activeScreenSaver.name);
+
         window.removeEventListener('click', hide, true);
+        window.removeEventListener('mouseup', hide, true);
         window.removeEventListener('mousemove', hide, true);
+        window.removeEventListener('wheel', hide, WheelEvOpts);
         window.removeEventListener('keydown', hide, true);
+
+        activeScreenSaver.hide().then(() => {
+            document.body.classList.remove('screensaver-noScroll');
+        });
+
+        activeScreenSaver = null;
     }
 
     this.isShowing = () => {
