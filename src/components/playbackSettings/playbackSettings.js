@@ -81,11 +81,22 @@ function populateMediaSegments(container, userSettings) {
 
     container.innerHTML = segmentSettings;
 
+    const skipPromptSettings = container.parentNode.querySelector('.skipPromptSettings');
+    const updateSkipPromptVisibility = () => {
+        const isAskToSkip = Array.from(container.querySelectorAll('.segmentTypeAction'))
+            .some(select => select.value === MediaSegmentAction.AskToSkip);
+        // The select fires change from the action sheet without bubbling.
+        skipPromptSettings?.classList.toggle('hide', !isAskToSkip);
+    };
+    container.addEventListener('change', updateSkipPromptVisibility, true);
+
     Object.entries(selectedValues)
         .forEach(([id, value]) => {
             const field = container.querySelector(`#${id}`);
             if (field) field.value = value;
         });
+
+    updateSkipPromptVisibility();
 }
 
 function fillQuality(select, isInNetwork, mediatype, maxVideoWidth) {
@@ -299,6 +310,9 @@ function loadForm(context, user, userSettings, systemInfo, apiClient) {
     const mediaSegmentContainer = context.querySelector('.mediaSegmentActionContainer');
     populateMediaSegments(mediaSegmentContainer, userSettings);
 
+    context.querySelector('.chkSkipPromptFollowControls').checked = userSettings.skipPromptFollowControls();
+    context.querySelector('#txtSkipPromptHideSeconds').value = userSettings.skipPromptHideSeconds() || 8;
+
     loading.hide();
 }
 
@@ -338,6 +352,9 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.CastReceiverId = context.querySelector('.selectChromecastVersion').value;
     userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
     userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
+    userSettingsInstance.skipPromptFollowControls(context.querySelector('.chkSkipPromptFollowControls').checked);
+    const skipPromptHideSeconds = Number.parseInt(context.querySelector('#txtSkipPromptHideSeconds').value, 10);
+    userSettingsInstance.skipPromptHideSeconds(Math.min(60, Math.max(1, skipPromptHideSeconds || 8)));
 
     const segmentTypeActions = context.querySelectorAll('.segmentTypeAction') || [];
     Array.prototype.forEach.call(segmentTypeActions, actionEl => {
