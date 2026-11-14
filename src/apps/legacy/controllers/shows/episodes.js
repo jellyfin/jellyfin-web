@@ -44,27 +44,12 @@ export default function (view, params, tabContent) {
         return pageData;
     }
 
-    function playAll() {
+    function play(type) {
         isLoading = true;
         loading.show();
         const query = getQuery();
-        const newQuery = { ...query, StartIndex: 0 };
-        const apiClient = ServerConnections.currentApiClient();
-        return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
-            playbackManager.play({
-                items: Items,
-                autoplay: true
-            });
-        }).finally(() => {
-            isLoading = false;
-        });
-    }
-
-    function shuffle() {
-        isLoading = true;
-        loading.show();
-        const query = getQuery();
-        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
+		let newQuery = { ...query, StartIndex: 0 };
+		if (type === 'Shuffle') newQuery = { ...newQuery, SortBy: 'Random', Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
         const apiClient = ServerConnections.currentApiClient();
         return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({
@@ -276,8 +261,8 @@ export default function (view, params, tabContent) {
             reloadItems(tabElement);
         });
 
-        tabElement.querySelector('.btnPlayAll')?.addEventListener('click', playAll);
-        tabElement.querySelector('.btnShuffle')?.addEventListener('click', shuffle);
+        tabElement.querySelector('.btnPlayAll')?.addEventListener('click', () => {play('PlayAll');});
+        tabElement.querySelector('.btnShuffle')?.addEventListener('click', () => {play('Shuffle');});
     }
 
     initPage(tabContent);
