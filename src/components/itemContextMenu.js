@@ -1,8 +1,10 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
 
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from 'utils/query/queryClient';
 
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
@@ -120,6 +122,16 @@ export async function getCommands(options) {
             name: globalize.translate('InstantMix'),
             id: 'instantmix',
             icon: 'explore'
+        });
+    }
+
+    // A played item that was started again keeps a resume position and so stays in Continue Watching.
+    // Clearing only the position removes it from there without touching the played state or history.
+    if (item.UserData?.Played && item.UserData.PlaybackPositionTicks > 0 && !itemHelper.isLocalItem(item)) {
+        commands.push({
+            name: globalize.translate('ClearResumePosition'),
+            id: 'clearresumeposition',
+            icon: 'restart_alt'
         });
     }
 
@@ -656,6 +668,23 @@ function executeCommand(item, id, options) {
             case 'cancelseriestimer':
                 deleteSeriesTimer(apiClient, item, resolve, id);
                 break;
+            case 'clearresumeposition': {
+                const userId = apiClient.getCurrentUserId();
+                getUserDataApi(api).updateItemUserData({
+                    itemId,
+                    userId,
+                    updateUserItemDataDto: { PlaybackPositionTicks: 0 }
+                }).then(() => {
+                    // The resume rows are served from the query cache, so make their refresh refetch
+                    void queryClient.invalidateQueries({ queryKey: ['User', userId, 'ResumeItems'] });
+                    getResolveFunction(resolve, id, true)();
+                }, (err) => {
+                    console.error('[itemContextMenu] failed to clear the resume position', err);
+                    toast(globalize.translate('ErrorDefault'));
+                    getResolveFunction(resolve, id)();
+                });
+                break;
+            }
             default:
                 reject();
                 break;
