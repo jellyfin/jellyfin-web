@@ -54,6 +54,13 @@ const favoritesTabContent: LibraryTabContent = {
     itemType: [BaseItemKind.AudioBook, BaseItemKind.Book]
 };
 
+const personsTabContent: LibraryTabContent = {
+    viewType: LibraryTab.Persons,
+    collectionType: CollectionType.Books,
+    itemType: [BaseItemKind.AudioBook, BaseItemKind.Book],
+    isBtnSortEnabled: false
+};
+
 const booksViews: Record<number, LibraryTabContent> = {
     0: foldersTabContent,
     1: booksTabContent,
@@ -61,7 +68,8 @@ const booksViews: Record<number, LibraryTabContent> = {
     3: suggestionsTabContent,
     4: genresTabContent,
     5: collectionsTabContent,
-    6: favoritesTabContent
+    6: favoritesTabContent,
+    7: personsTabContent
 };
 
 export default booksViews;

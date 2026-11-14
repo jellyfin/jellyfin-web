@@ -81,6 +81,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 6,
                 label: 'Favorites',
                 view: LibraryTab.Favorites
+            },
+            {
+                index: 7,
+                label: 'People',
+                view: LibraryTab.Persons
             }
         ]
     },
@@ -197,6 +202,11 @@ export const LibraryRoutes: LibraryRoute[] = [
                 index: 7,
                 label: 'Collections',
                 view: LibraryTab.Collections
+            },
+            {
+                index: 8,
+                label: 'People',
+                view: LibraryTab.Persons
             }
         ]
     },

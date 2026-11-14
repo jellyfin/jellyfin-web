@@ -19,6 +19,7 @@ import { useGetQueryFiltersLegacy } from 'apps/modern/features/libraries/hooks/a
 import { useGetStudios } from 'apps/modern/features/libraries/hooks/api/useStudios';
 import globalize from 'lib/globalize';
 
+import { getPersonKinds } from '../../constants/personKinds';
 import FiltersAudioLanguages from './FiltersAudioLanguages';
 import FiltersFeatures from './FiltersFeatures';
 import FiltersGenres from './FiltersGenres';
@@ -529,6 +530,7 @@ const FilterButton: FC<FilterButtonProps> = ({
                         </AccordionSummary>
                         <AccordionDetails>
                             <FiltersPersonKinds
+                                availablePersonKinds={getPersonKinds(itemType)}
                                 libraryViewSettings={libraryViewSettings}
                                 setLibraryViewSettings={setLibraryViewSettings}
                             />

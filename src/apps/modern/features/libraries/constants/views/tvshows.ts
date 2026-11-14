@@ -72,6 +72,7 @@ const playlistsTabContent: LibraryTabContent = {
 const personsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Persons,
     collectionType: CollectionType.Tvshows,
+    itemType: [BaseItemKind.Series],
     isBtnSortEnabled: false
 };
 
