@@ -68,6 +68,7 @@ function addOriginalAirDateInfo(
     if (
         showOriginalAirDateInfo
         && (itemType === ItemKind.Episode
+            || itemType === ItemKind.Video
             || itemMediaType === ItemMediaKind.Photo)
         && itemPremiereDate
     ) {
@@ -308,6 +309,7 @@ function addYearInfo(
         showYearInfo
         && itemType !== ItemKind.Series
         && itemType !== ItemKind.Episode
+        && itemType !== ItemKind.Video
         && itemType !== ItemKind.Person
         && itemMediaType !== ItemMediaKind.Photo
         && itemType !== ItemKind.Program
