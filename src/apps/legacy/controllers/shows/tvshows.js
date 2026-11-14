@@ -9,6 +9,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { playbackManager } from 'components/playback/playbackmanager';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -41,6 +42,38 @@ export default function (view, params, tabContent) {
         }
 
         return pageData;
+    }
+
+    function playAll() {
+        isLoading = true;
+        loading.show();
+        const query = getQuery();
+        const newQuery = { ...query, StartIndex: 0 };
+        const apiClient = ServerConnections.currentApiClient();
+        return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
+            playbackManager.play({
+                items: Items,
+                autoplay: true
+            });
+        }).finally(() => {
+            isLoading = false;
+        });
+    }
+
+    function shuffle() {
+        isLoading = true;
+        loading.show();
+        const query = getQuery();
+        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
+        const apiClient = ServerConnections.currentApiClient();
+        return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
+            playbackManager.play({
+                items: Items,
+                autoplay: true
+            });
+        }).finally(() => {
+            isLoading = false;
+        });
     }
 
     function getQuery() {
@@ -187,6 +220,10 @@ export default function (view, params, tabContent) {
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
             userSettings.saveQuerySettings(getSavedQueryKey(), query);
+
+            tabContent.querySelector('.btnPlayAll')?.classList.toggle('hide', result.TotalRecordCount < 1);
+            tabContent.querySelector('.btnShuffle')?.classList.toggle('hide', result.TotalRecordCount < 1);
+
             loading.hide();
             isLoading = false;
 
@@ -294,6 +331,9 @@ export default function (view, params, tabContent) {
             onViewStyleChange();
             reloadItems(tabElement);
         });
+
+        tabElement.querySelector('.btnPlayAll')?.addEventListener('click', playAll);
+        tabElement.querySelector('.btnShuffle')?.addEventListener('click', shuffle);
     };
 
     initPage(tabContent);
