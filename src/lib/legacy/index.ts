@@ -1,6 +1,6 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import 'jquery';
+import './jquery';
 import 'element-closest-polyfill';
 import 'fast-text-encoding';
 import 'intersection-observer';
