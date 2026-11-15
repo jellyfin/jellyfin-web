@@ -606,6 +606,8 @@ function reloadFromItem(instance, page, params, item, user) {
         } else {
             hideAll(page, 'btnMoreCommands');
         }
+
+        hideAll(page, 'btnShare', commands.some(command => command.id === 'share'));
     });
 
     const itemBirthday = page.querySelector('#itemBirthday');
@@ -2089,6 +2091,15 @@ export default function (view, params) {
         setTrailerButtonVisibility(view, currentItem);
     }
 
+    function onShareClick() {
+        import('components/shareLinks/ShareLinkDialog').then(({ default: ShareLinkDialog }) => {
+            new ShareLinkDialog({
+                itemId: currentItem.Id,
+                serverId: currentItem.ServerId
+            }).show();
+        });
+    }
+
     function onUserDataChanged({ Data }) {
         const apiClient = getApiClient();
 
@@ -2121,6 +2132,7 @@ export default function (view, params) {
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
+        bindAll(view, '.btnShare', 'click', onShareClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
             splitVersions(self, view, params);

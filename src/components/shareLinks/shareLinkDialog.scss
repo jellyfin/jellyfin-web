@@ -1,0 +1,90 @@
+/*
+ * Sizing is left to `size: 'small'` in the dialog helper. An earlier version constrained this dialog to a
+ * 27em column, which beat `.dialog-small` but made the dialog far too cramped to use.
+ */
+
+.shareLinkBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15em;
+    padding: 0.25em 0 0.5em;
+}
+
+.shareLinkSummary {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.shareLinkDurationLabel {
+    display: block;
+    font-size: 0.85em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.6em;
+    opacity: 0.75;
+    text-transform: uppercase;
+}
+
+.shareLinkPresets {
+    display: flex;
+    gap: 0.5em;
+}
+
+.shareLinkPresets .btnPreset {
+    flex: 1 1 0;
+    margin: 0;
+    min-width: 0;
+    padding: 0.55em 0.25em;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+/* The chosen duration is echoed back in absolute terms so the user does not have to do date maths. */
+.shareLinkExpiresSummary {
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin: 0;
+    opacity: 0.85;
+}
+
+.shareLinkResult {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.shareLinkUrlRow {
+    align-items: center;
+    display: flex;
+    gap: 0.5em;
+}
+
+.shareLinkUrlRow .emby-input {
+    flex: 1 1 auto;
+    margin: 0;
+    min-width: 0;
+}
+
+.shareLinkUrlRow .btnCopyUrl {
+    flex: 0 0 auto;
+    margin: 0;
+    min-width: 0;
+}
+
+.shareLinkError {
+    color: #ff6e6e;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.shareLinkFooter {
+    display: flex;
+    gap: 0.5em;
+    justify-content: flex-end;
+}
+
+.shareLinkFooter .btnSubmit {
+    margin: 0;
+}
