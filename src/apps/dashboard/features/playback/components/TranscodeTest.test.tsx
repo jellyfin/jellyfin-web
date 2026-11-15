@@ -272,6 +272,31 @@ describe('transcoding test requests and controls', () => {
         expect(screen.getAllByRole('status').some(element => element.getAttribute('aria-live') === 'polite')).toBe(true);
     });
 
+    it.each([ 0, 3 ])('renders inconclusive stress result with %i certified streams neutrally', async count => {
+        const result = status('Completed', 'StressTest');
+        result.Stress = {
+            ...result.Stress!,
+            Phase: 'Finished',
+            EndReason: 'Inconclusive',
+            MaxStableStreams: count,
+            SingleStreamFps: count ? 60 : undefined,
+            Error: 'Measurement budget exhausted <not markup>'
+        };
+        requestMock.mockResolvedValue({ data: result });
+        setup();
+
+        const chip = await screen.findByText(enUs.StressTestStatusInconclusive);
+        expect(chip.closest('.MuiChip-root')).toHaveClass('MuiChip-colorInfo');
+        const heading = count ? enUs.StressTestAtLeastStreamCount.replace('{0}', '3 streams') : enUs.StressTestCapacityNotMeasured;
+        expect(screen.getByText(heading)).toBeVisible();
+        const message = count ? enUs.StressTestFinishedInconclusiveLowerBound.replace('{0}', '3 streams') : enUs.StressTestFinishedInconclusive;
+        expect(screen.getByText(`${message} ${result.Stress.Error}`)).toBeVisible();
+        expect(screen.queryByText('0 streams')).not.toBeInTheDocument();
+        expect(screen.queryByText(/One stream alone ran/)).not.toBeInTheDocument();
+        expect(screen.queryByText(enUs.StressTestStatusLimitReached)).not.toBeInTheDocument();
+        expect(document.querySelector('not')).not.toBeInTheDocument();
+    });
+
     it('aborts an in-flight status request when the page unmounts', async () => {
         requestMock.mockImplementation(() => new Promise(() => { /* Remain pending until unmount. */ }));
         const { unmount } = setup();

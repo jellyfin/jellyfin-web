@@ -307,6 +307,14 @@ export const limitSummary = (stress: TranscodeTestStressResult) => {
     );
 };
 
+/** An exhausted restart budget or deadline did not establish the capacity limit. */
+export const inconclusiveSummary = (stress: TranscodeTestStressResult) => {
+    const summary = stress.MaxStableStreams > 0 ?
+        globalize.translate('StressTestFinishedInconclusiveLowerBound', streamCount(stress.MaxStableStreams)) :
+        globalize.translate('StressTestFinishedInconclusive');
+    return stress.Error ? `${summary} ${stress.Error}` : summary;
+};
+
 /**
  * When the streams at the limit all slowed down sharply at once rather than one falling a little behind, a hint that
  * the GPU's memory or driver, not its speed, is the likely cause.
@@ -319,7 +327,7 @@ export const collapseHint = (stress: TranscodeTestStressResult) => (
 
 /** The stress test's status chip: the phase while it runs, then how it ended. */
 export type StressStatusKey = Exclude<TranscodeTestStressPhase, 'Finished'>
-    | 'LimitReached' | 'MaxStreams' | 'NvencSessionRefused' | 'GpuMemoryFull' | 'CouldNotStart' | 'Cancelled' | 'Error';
+    | 'LimitReached' | 'MaxStreams' | 'NvencSessionRefused' | 'GpuMemoryFull' | 'CouldNotStart' | 'Cancelled' | 'Error' | 'Inconclusive';
 
 const STRESS_STATUS_KEYS: Record<StressStatusKey, string> = {
     Starting: 'StressTestStatusStarting',
@@ -332,7 +340,8 @@ const STRESS_STATUS_KEYS: Record<StressStatusKey, string> = {
     GpuMemoryFull: 'StressTestStatusGpuMemoryFull',
     CouldNotStart: 'StressTestStatusCouldNotStart',
     Cancelled: 'StressTestStatusCancelled',
-    Error: 'StressTestStatusError'
+    Error: 'StressTestStatusError',
+    Inconclusive: 'StressTestStatusInconclusive'
 };
 
 /** The text of the stress test's status chip. */
@@ -347,6 +356,7 @@ export const stressStatusKey = (stress: TranscodeTestStressResult): StressStatus
         case 'MaxStreams':
         case 'NvencSessionRefused':
         case 'Cancelled':
+        case 'Inconclusive':
             return stress.EndReason;
         case 'GpuMemoryFull':
             return 'GpuMemoryFull';

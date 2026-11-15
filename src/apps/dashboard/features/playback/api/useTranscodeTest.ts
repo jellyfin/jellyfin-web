@@ -7,12 +7,14 @@ import { isTranscodeTestAccessError } from '../utils/transcodeTest';
 export const QUERY_KEY = 'TranscodeTest';
 
 export type TranscodeTestState = 'Idle' | 'Running' | 'Completed' | 'Failed' | 'Cancelled';
+
+const STATES: readonly string[] = [ 'Idle', 'Running', 'Completed', 'Failed', 'Cancelled' ] satisfies TranscodeTestState[];
 export type TranscodeTestKind = 'Compatibility' | 'StressTest';
 export type TranscodeTestOutcome = 'Passed' | 'Failed' | 'Software' | 'NotSupported' | 'Skipped';
 export type TranscodeTestCheckKind = 'Decode' | 'Encode' | 'Tonemap';
 export type TranscodeTestAdvice = 'None' | 'TurnOn' | 'TurnOff';
 export type TranscodeTestStressPhase = 'Starting' | 'WarmingUp' | 'KeepingUp' | 'FallingBehind' | 'Finished';
-export type TranscodeTestEndReason = 'None' | 'LimitReached' | 'MaxStreams' | 'StreamFailed' | 'StreamStalled' | 'Cancelled' | 'Error' | 'GpuMemoryFull' | 'NvencSessionRefused';
+export type TranscodeTestEndReason = 'None' | 'LimitReached' | 'MaxStreams' | 'StreamFailed' | 'StreamStalled' | 'Cancelled' | 'Error' | 'GpuMemoryFull' | 'NvencSessionRefused' | 'Inconclusive';
 
 /** Why a stress test ended, as the Jellyfin hardware survey names it. */
 export type TranscodeTestSurveyFailureReason = 'Performance' | 'FailedTimeout' | 'FailedNvencLimit';
@@ -141,6 +143,12 @@ const request = <T>(api: Api, method: 'GET' | 'POST' | 'DELETE', data?: Transcod
     })
 );
 
+/** Whether a response body is a transcoding test status, so that an unexpected 200 reply cannot enable controls. */
+export const isTranscodeTestStatus = (data: unknown): data is TranscodeTestStatus => {
+    const state = (data as { State?: unknown } | null | undefined)?.State;
+    return typeof data === 'object' && data !== null && typeof state === 'string' && STATES.includes(state);
+};
+
 export const useTranscodeTest = (awaitingStop = false) => {
     const { api } = useApi();
     const [ requestError, setRequestError ] = useState<unknown>();
@@ -149,7 +157,10 @@ export const useTranscodeTest = (awaitingStop = false) => {
         queryKey: [ QUERY_KEY ],
         queryFn: async ({ signal }) => {
             try {
-                const response = await request<TranscodeTestStatus>(api!, 'GET', undefined, signal);
+                const response = await request<unknown>(api!, 'GET', undefined, signal);
+                if (!isTranscodeTestStatus(response.data)) {
+                    throw new Error('The server did not return a transcoding test status.');
+                }
                 setRequestError(undefined);
                 return response.data;
             } catch (error) {
@@ -159,6 +170,9 @@ export const useTranscodeTest = (awaitingStop = false) => {
             }
         },
         enabled: !!api,
+        // A 401 becomes freshly cached null in the application's QueryCache. Returning to the page must fetch
+        // again rather than reuse that null as though an authenticated status had been loaded.
+        refetchOnMount: 'always',
         refetchInterval: query => (awaitingStop || query.state.data?.State === 'Running' ? 1000 : false)
     });
 

@@ -29,6 +29,7 @@ import {
     formatSpeed,
     gpuMemoryBanner,
     limitSummary,
+    inconclusiveSummary,
     nvencRefusedBanner,
     outcomeLabel,
     singleStreamSpeed,
@@ -172,7 +173,8 @@ const STATUS_KEYS: Record<StressStatusKey, true> = {
     GpuMemoryFull: true,
     CouldNotStart: true,
     Cancelled: true,
-    Error: true
+    Error: true,
+    Inconclusive: true
 };
 
 describe('stress test status strings', () => {
@@ -272,7 +274,7 @@ describe('singleStreamSpeed', () => {
     });
 });
 
-const END_REASONS: TranscodeTestEndReason[] = ['None', 'LimitReached', 'MaxStreams', 'StreamFailed', 'StreamStalled', 'Cancelled', 'Error', 'GpuMemoryFull', 'NvencSessionRefused'];
+const END_REASONS: TranscodeTestEndReason[] = ['None', 'LimitReached', 'MaxStreams', 'StreamFailed', 'StreamStalled', 'Cancelled', 'Error', 'GpuMemoryFull', 'NvencSessionRefused', 'Inconclusive'];
 const PHASES: TranscodeTestStressPhase[] = ['Starting', 'WarmingUp', 'KeepingUp', 'FallingBehind'];
 const FFMPEG_LINE = 'OpenEncodeSessionEx failed: incompatible client key (21)';
 
@@ -295,7 +297,8 @@ const KEYS_BEFORE: Record<TranscodeTestEndReason, string> = {
     Cancelled: 'Cancelled',
     Error: 'Error',
     GpuMemoryFull: 'GpuMemoryFull',
-    NvencSessionRefused: 'NvencSessionRefused'
+    NvencSessionRefused: 'NvencSessionRefused',
+    Inconclusive: 'Inconclusive'
 };
 
 describe('stressStatusKey', () => {
@@ -460,8 +463,29 @@ describe('limitSummary', () => {
     it('names no failed stream when the test stopped at its time limit', () => {
         const summary = limitSummary(finished({ EndReason: 'LimitReached', TimeLimitReached: true, MaxStableStreams: 6, StreamsAtEnd: 7, FailedStreamId: undefined, FailedStreamFps: undefined }));
 
-        expect(summary).toBe('Stress test finished: 6 streams kept up with real time. The test stopped at its time limit while streams kept dipping below real time.');
+        expect(summary).toBe('Stress test finished at its time limit: 6 streams kept up with real time. Capacity beyond that was not established.');
         expect(summary).not.toContain('fell to');
+    });
+});
+
+describe('inconclusiveSummary', () => {
+    it('does not claim zero measured capacity or a performance limit without any certified streams', () => {
+        const summary = inconclusiveSummary(finished({ EndReason: 'Inconclusive', MaxStableStreams: 0 }));
+        expect(summary).toBe(strings.StressTestFinishedInconclusive);
+        expect(summary).not.toContain('0 streams');
+        expect(summary).not.toContain('kept up');
+    });
+
+    it('presents previously certified streams as a lower bound, not the measured limit', () => {
+        const summary = inconclusiveSummary(finished({ EndReason: 'Inconclusive', MaxStableStreams: 3 }));
+        expect(summary).toBe('Stress test ended before finding a limit. At least 3 streams kept up with real time; capacity beyond that was not established.');
+        expect(stressStatusLabel(stressStatusKey(finished({ EndReason: 'Inconclusive' })))).toBe('Inconclusive');
+    });
+
+    it('retains the server reason without calling a measurement deadline an ffmpeg failure', () => {
+        const summary = inconclusiveSummary(finished({ EndReason: 'Inconclusive', MaxStableStreams: 0, Error: 'Restart budget exhausted' }));
+        expect(summary).toContain('Restart budget exhausted');
+        expect(summary).not.toContain("ffmpeg's error");
     });
 });
 

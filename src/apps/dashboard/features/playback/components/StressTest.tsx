@@ -28,6 +28,7 @@ import {
     formatNumber,
     formatSpeed,
     gpuMemoryBanner,
+    inconclusiveSummary,
     limitSummary,
     nvencRefusedBanner,
     singleStreamSpeed,
@@ -82,7 +83,8 @@ const STATUS_COLORS: Record<StressStatusKey, 'info' | 'success' | 'warning' | 'e
     GpuMemoryFull: 'warning',
     CouldNotStart: 'warning',
     Cancelled: 'default',
-    Error: 'error'
+    Error: 'error',
+    Inconclusive: 'info'
 };
 
 const ResultBanner: FC<{ stress: TranscodeTestStressResult, state: TranscodeTestStatus['State'] }> = ({ stress, state }) => {
@@ -90,6 +92,8 @@ const ResultBanner: FC<{ stress: TranscodeTestStressResult, state: TranscodeTest
     const average = stress.AverageOutputMbps != null ? ` ${globalize.translate('StressTestAverageOutput', formatNumber(stress.AverageOutputMbps, 1))}` : '';
     const details = (single ? ' ' + single : '') + average;
     switch (stress.EndReason) {
+        case 'Inconclusive':
+            return <Alert severity='info'>{inconclusiveSummary(stress)}</Alert>;
         case 'LimitReached':
             return (
                 <Alert severity='success'>
@@ -220,6 +224,11 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, isStopping, onStart, 
 
     const key = stress ? stressStatusKey(stress) : undefined;
     const shownStreams = stress && (stress.Phase === 'Finished' ? stress.MaxStableStreams : stress.RunningStreams);
+    let streamHeading = streamCount(shownStreams ?? 0);
+    if (key === 'Inconclusive') {
+        streamHeading = shownStreams ? globalize.translate('StressTestAtLeastStreamCount', streamCount(shownStreams)) :
+            globalize.translate('StressTestCapacityNotMeasured');
+    }
     const nextIn = stress?.NextStreamInSeconds;
     const collapse = stress && collapseHint(stress);
 
@@ -296,7 +305,7 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, isStopping, onStart, 
                 <Paper variant='outlined' sx={{ p: 2 }}>
                     <Stack spacing={2}>
                         <Stack direction='row' spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
-                            <Typography variant='h2' component='p'>{streamCount(shownStreams ?? 0)}</Typography>
+                            <Typography variant='h2' component='p'>{streamHeading}</Typography>
                             <Box role='status' aria-live='polite'>
                                 <Chip color={STATUS_COLORS[key]} label={stressStatusLabel(key)} />
                             </Box>
