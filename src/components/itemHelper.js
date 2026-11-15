@@ -5,8 +5,6 @@ import { RecordingStatus } from '@jellyfin/sdk/lib/generated-client/models/recor
 import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
 import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
-import { appHost } from './apphost';
-import { AppFeature } from 'constants/appFeature';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
@@ -218,28 +216,6 @@ export function canEditLyrics (user, item) {
     return user.Policy.IsAdministrator;
 }
 
-export function canShare (item, user) {
-    if (item.Type === 'Program') {
-        return false;
-    }
-    if (item.Type === 'TvChannel') {
-        return false;
-    }
-    if (item.Type === 'Timer') {
-        return false;
-    }
-    if (item.Type === 'SeriesTimer') {
-        return false;
-    }
-    if (item.Type === 'Recording' && item.Status !== 'Completed') {
-        return false;
-    }
-    if (isLocalItem(item)) {
-        return false;
-    }
-    return user.Policy.EnablePublicSharing && appHost.supports(AppFeature.Sharing);
-}
-
 /**
  * Whether the current user may create a scoped share link for this item.
  *
@@ -409,7 +385,6 @@ export default {
     canEditImages: canEditImages,
     canEditSubtitles,
     canEditLyrics,
-    canShare: canShare,
     canShareLink: canShareLink,
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,
