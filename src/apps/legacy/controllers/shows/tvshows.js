@@ -48,8 +48,8 @@ export default function (view, params, tabContent) {
         isLoading = true;
         loading.show();
         const query = getQuery();
-        let newQuery = { ...query, StartIndex: 0 };
-        if (type === 'Shuffle') newQuery = { ...newQuery, SortBy: 'Random', Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
+        let newQuery = { ...query, StartIndex: 0, Limit: 300 };
+        if (type === 'Shuffle') newQuery = { ...newQuery, SortBy: 'Random' };
         const apiClient = ServerConnections.currentApiClient();
         return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({
@@ -317,8 +317,12 @@ export default function (view, params, tabContent) {
             reloadItems(tabElement);
         });
 
-        tabElement.querySelector('.btnPlayAll')?.addEventListener('click', () => {play('PlayAll');});
-        tabElement.querySelector('.btnShuffle')?.addEventListener('click', () => {play('Shuffle');});
+        tabElement.querySelector('.btnPlayAll')?.addEventListener('click', () => {
+            play('PlayAll');
+        });
+        tabElement.querySelector('.btnShuffle')?.addEventListener('click', () => {
+            play('Shuffle');
+        });
     };
 
     initPage(tabContent);
