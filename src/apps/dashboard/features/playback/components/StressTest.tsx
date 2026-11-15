@@ -147,12 +147,13 @@ const ResultBanner: FC<{ stress: TranscodeTestStressResult, state: TranscodeTest
 interface StressTestProps {
     status?: TranscodeTestStatus
     isBusy: boolean
+    isStopping: boolean
     onStart: (request: TranscodeTestRequest) => void
     onStop: () => void
     onClear: () => void
 }
 
-const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onClear }) => {
+const StressTest: FC<StressTestProps> = ({ status, isBusy, isStopping, onStart, onStop, onClear }) => {
     const [ item, setItem ] = useState<BaseItemDto | null>(null);
     const [ searchTerm, setSearchTerm ] = useState('');
     const [ targetId, setTargetId ] = useState('1080-h264');
@@ -181,7 +182,7 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
     const isMine = status?.Kind === 'StressTest';
     const stress = isMine ? status.Stress : undefined;
     // The result is known as soon as the phase is Finished; the server may still be stopping streams.
-    const isRunning = isMine && status.State === 'Running' && stress?.Phase !== 'Finished';
+    const isRunning = isMine && status.State === 'Running';
     const target = useMemo(() => TARGETS.find(t => t.id === targetId) ?? TARGETS[1], [ targetId ]);
 
     const onRun = useCallback(() => {
@@ -275,8 +276,8 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
                     {globalize.translate('ButtonStartStressTest')}
                 </Button>
                 {isRunning && (
-                    <Button size='large' color='error' variant='outlined' onClick={onStopClick}>
-                        {globalize.translate('ButtonStopTest')}
+                    <Button size='large' color='error' variant='outlined' onClick={onStopClick} disabled={isStopping}>
+                        {globalize.translate(isStopping ? 'LabelStopping' : 'ButtonStopTest')}
                     </Button>
                 )}
                 {isMine && !isBusy && (
@@ -296,12 +297,18 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
                     <Stack spacing={2}>
                         <Stack direction='row' spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
                             <Typography variant='h2' component='p'>{streamCount(shownStreams ?? 0)}</Typography>
-                            <Chip color={STATUS_COLORS[key]} label={stressStatusLabel(key)} />
+                            <Box role='status' aria-live='polite'>
+                                <Chip color={STATUS_COLORS[key]} label={stressStatusLabel(key)} />
+                            </Box>
                         </Stack>
 
                         {stress.Phase === 'KeepingUp' && nextIn != null && (
                             <Box>
-                                <LinearProgress variant='determinate' value={Math.min(100, 100 * (1 - nextIn / stress.RampSeconds))} />
+                                <LinearProgress
+                                    aria-label={globalize.translate('StressTestNextStream', Math.ceil(nextIn))}
+                                    variant='determinate'
+                                    value={Math.min(100, 100 * (1 - nextIn / stress.RampSeconds))}
+                                />
                                 <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
                                     {globalize.translate('StressTestNextStream', Math.ceil(nextIn))}
                                 </Typography>
@@ -310,6 +317,7 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
                         {stress.Phase === 'FallingBehind' && stress.EndsInSeconds != null && (
                             <Box>
                                 <LinearProgress
+                                    aria-label={globalize.translate('StressTestFallingBehind', stress.BehindStreamId ?? '', formatFps(stress.ThresholdFps), Math.ceil(stress.EndsInSeconds))}
                                     color='warning'
                                     variant='determinate'
                                     value={Math.min(100, 100 * (1 - stress.EndsInSeconds / stress.FailSeconds))}
@@ -326,7 +334,7 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
                         )}
                         {(stress.Phase === 'WarmingUp' || stress.Phase === 'Starting') && (
                             <Box>
-                                <LinearProgress color='warning' />
+                                <LinearProgress color='warning' aria-label={globalize.translate('StressTestWarmingUp')} />
                                 <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
                                     {globalize.translate('StressTestWarmingUp')}
                                 </Typography>
@@ -358,7 +366,7 @@ const StressTest: FC<StressTestProps> = ({ status, isBusy, onStart, onStop, onCl
                         </Box>
 
                         {stress.Streams.length > 0 && (
-                            <Table size='small'>
+                            <Table size='small' aria-label={globalize.translate('HeaderStressTest')}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>{globalize.translate('HeaderStressTestStream')}</TableCell>

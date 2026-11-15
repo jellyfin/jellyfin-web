@@ -33,11 +33,13 @@ const settingLabel = (enabled?: boolean) => {
 interface CompatibilityCheckProps {
     status?: TranscodeTestStatus
     isBusy: boolean
+    isStopping: boolean
     onStart: () => void
+    onStop: () => void
     onClear: () => void
 }
 
-const CompatibilityCheck: FC<CompatibilityCheckProps> = ({ status, isBusy, onStart, onClear }) => {
+const CompatibilityCheck: FC<CompatibilityCheckProps> = ({ status, isBusy, isStopping, onStart, onStop, onClear }) => {
     const isMine = status?.Kind === 'Compatibility';
     const isRunning = isMine && status.State === 'Running';
     const checks = isMine ? status.Checks : [];
@@ -46,6 +48,7 @@ const CompatibilityCheck: FC<CompatibilityCheckProps> = ({ status, isBusy, onSta
     const tested = checks.filter(c => c.Outcome !== 'Skipped').length;
 
     const onRun = useCallback(() => onStart(), [ onStart ]);
+    const onStopClick = useCallback(() => onStop(), [ onStop ]);
     const onClearClick = useCallback(() => onClear(), [ onClear ]);
 
     return (
@@ -56,6 +59,11 @@ const CompatibilityCheck: FC<CompatibilityCheckProps> = ({ status, isBusy, onSta
                 <Button size='large' onClick={onRun} disabled={isBusy}>
                     {globalize.translate('ButtonRunCompatibilityCheck')}
                 </Button>
+                {isRunning && (
+                    <Button size='large' color='error' variant='outlined' onClick={onStopClick} disabled={isStopping}>
+                        {globalize.translate(isStopping ? 'LabelStopping' : 'ButtonStopTest')}
+                    </Button>
+                )}
                 {isMine && !isBusy && (
                     <Button size='large' variant='text' onClick={onClearClick}>
                         {globalize.translate('ButtonClearTestResults')}
@@ -65,8 +73,12 @@ const CompatibilityCheck: FC<CompatibilityCheckProps> = ({ status, isBusy, onSta
 
             {isRunning && (
                 <Stack spacing={1}>
-                    <Typography color='text.secondary'>{globalize.translate('CompatibilityCheckRunning')}</Typography>
-                    <LinearProgress />
+                    {!isStopping && (
+                        <Typography color='text.secondary' role='status' aria-live='polite'>
+                            {globalize.translate('CompatibilityCheckRunning')}
+                        </Typography>
+                    )}
+                    <LinearProgress aria-label={globalize.translate('HeaderCompatibilityCheck')} />
                 </Stack>
             )}
 
@@ -85,7 +97,7 @@ const CompatibilityCheck: FC<CompatibilityCheckProps> = ({ status, isBusy, onSta
             )}
 
             {checks.length > 0 && (
-                <Table size='small'>
+                <Table size='small' aria-label={globalize.translate('HeaderCompatibilityCheck')}>
                     <TableHead>
                         <TableRow>
                             <TableCell>{globalize.translate('HeaderTranscodingTestCheck')}</TableCell>

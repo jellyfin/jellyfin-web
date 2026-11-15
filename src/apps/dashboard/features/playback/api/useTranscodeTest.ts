@@ -1,7 +1,8 @@
 import type { Api } from '@jellyfin/sdk';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useApi } from 'hooks/useApi';
-import { queryClient } from 'utils/query/queryClient';
+import { isTranscodeTestAccessError } from '../utils/transcodeTest';
 
 export const QUERY_KEY = 'TranscodeTest';
 
@@ -140,35 +141,48 @@ const request = <T>(api: Api, method: 'GET' | 'POST' | 'DELETE', data?: Transcod
     })
 );
 
-export const useTranscodeTest = () => {
+export const useTranscodeTest = (awaitingStop = false) => {
     const { api } = useApi();
+    const [ requestError, setRequestError ] = useState<unknown>();
 
-    return useQuery({
+    const result = useQuery({
         queryKey: [ QUERY_KEY ],
-        queryFn: async ({ signal }) => (await request<TranscodeTestStatus>(api!, 'GET', undefined, signal)).data,
+        queryFn: async ({ signal }) => {
+            try {
+                const response = await request<TranscodeTestStatus>(api!, 'GET', undefined, signal);
+                setRequestError(undefined);
+                return response.data;
+            } catch (error) {
+                // Other failures show once React Query has given up retrying, as result.error.
+                if (!signal.aborted && isTranscodeTestAccessError(error)) setRequestError(error);
+                throw error;
+            }
+        },
         enabled: !!api,
-        refetchInterval: query => (query.state.data?.State === 'Running' ? 1000 : false)
+        refetchInterval: query => (awaitingStop || query.state.data?.State === 'Running' ? 1000 : false)
     });
+
+    // The application's global QueryCache clears 401 failures to null, which also resets the query's error.
+    // Retain an access failure until a successful GET so that lost access cannot look like an idle test.
+    return { ...result, error: requestError ?? result.error, isError: !!requestError || result.isError };
 };
 
 export const useStartTranscodeTest = () => {
     const { api } = useApi();
+    const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: (testRequest: TranscodeTestRequest) => request<TranscodeTestStatus>(api!, 'POST', testRequest),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({ queryKey: [ QUERY_KEY ] });
-        }
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: [ QUERY_KEY ] })
     });
 };
 
 export const useStopTranscodeTest = () => {
     const { api } = useApi();
+    const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: () => request<void>(api!, 'DELETE'),
-        onSuccess: () => {
-            void queryClient.invalidateQueries({ queryKey: [ QUERY_KEY ] });
-        }
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: [ QUERY_KEY ] })
     });
 };

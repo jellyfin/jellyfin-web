@@ -246,6 +246,10 @@ export const compatibilityChanges = (count: number) => {
 
 const MAX_SERVER_MESSAGE_LENGTH = 300;
 
+export const isTranscodeTestAccessError = (error: unknown) => (
+    isAxiosError(error) && (error.response?.status === 401 || error.response?.status === 403)
+);
+
 /**
  * The server's reason for refusing to start a test, as plain text, or undefined when it gave none. Only a 400 or 409
  * response is used: its body is either the controller's message or ASP.NET's validation problem details. Anything that
