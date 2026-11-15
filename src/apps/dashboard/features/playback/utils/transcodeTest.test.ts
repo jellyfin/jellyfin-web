@@ -490,9 +490,11 @@ describe('inconclusiveSummary', () => {
 });
 
 describe('collapseHint', () => {
-    it('says the streams collapsed together and keeps the kept-up count', () => {
-        expect(collapseHint(finished({ EndReason: 'LimitReached', MaxStableStreams: 8, StreamsAtEnd: 9, FailedStreamId: 2, FailedStreamFps: 0, Collapsed: true })))
-            .toBe('All streams slowed down sharply at once, rather than one falling a little behind. That usually means the GPU ran out of memory or the driver stalled, not that it was slightly too slow; 8 streams is still the safe result.');
+    it('reports the collapse without assigning a cause or claiming a safe maximum capacity', () => {
+        const hint = collapseHint(finished({ EndReason: 'LimitReached', MaxStableStreams: 8, StreamsAtEnd: 9, FailedStreamId: 2, FailedStreamFps: 0, Collapsed: true }));
+        expect(hint).toBe('All streams slowed down sharply at once, rather than one falling a little behind. This does not identify the cause; check GPU memory, drivers, CPU load and storage. At least 8 streams kept up with real time before the slowdown; capacity beyond that was not established.');
+        expect(hint).not.toContain('usually means');
+        expect(hint).not.toContain('safe result');
     });
 
     it('is not shown for a normal limit or another ending', () => {

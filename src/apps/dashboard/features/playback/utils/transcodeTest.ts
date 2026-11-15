@@ -316,8 +316,8 @@ export const inconclusiveSummary = (stress: TranscodeTestStressResult) => {
 };
 
 /**
- * When the streams at the limit all slowed down sharply at once rather than one falling a little behind, a hint that
- * the GPU's memory or driver, not its speed, is the likely cause.
+ * When the streams at the limit all slowed down sharply at once rather than one falling a little behind, report the
+ * observed collapse without identifying its cause or treating the verified kept-up count as a capacity guarantee.
  */
 export const collapseHint = (stress: TranscodeTestStressResult) => (
     stress.EndReason === 'LimitReached' && stress.Collapsed ?
