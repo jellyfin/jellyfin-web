@@ -240,6 +240,53 @@ export function canShare (item, user) {
     return user.Policy.EnablePublicSharing && appHost.supports(AppFeature.Sharing);
 }
 
+/**
+ * Whether the current user may create a scoped share link for this item.
+ *
+ * `user.CanShareMedia` is the server's effective answer after the server-wide
+ * policy and the user's own preference are combined, so when sharing is off the
+ * share action is hidden instead of failing on click. The server re-checks the
+ * policy on every request, so this is a UI hint only.
+ *
+ * The item context menu also uses this to decide whether "Copy Stream URL" is worth
+ * showing: that action is the same scoped link with a fixed short duration, so it is
+ * only offered when Share is not, rather than as a weaker duplicate beside it.
+ *
+ * Anything other than an explicit `true` counts as "not allowed": an older server
+ * that does not send the field, or a user object without it, must never surface an
+ * action that would fail with SharingDisabled.
+ * @param {object} item - The item to share.
+ * @param {object} [user] - The current user; when omitted only item rules apply.
+ * @returns {boolean} True when sharing is offered for this item.
+ */
+export function canShareLink (item, user) {
+    if (user && user.CanShareMedia !== true) {
+        return false;
+    }
+    if (item.Type === 'Program') {
+        return false;
+    }
+    if (item.Type === 'TvChannel') {
+        return false;
+    }
+    if (item.Type === 'Timer') {
+        return false;
+    }
+    if (item.Type === 'SeriesTimer') {
+        return false;
+    }
+    if (item.Type === 'Recording' && item.Status !== 'Completed') {
+        return false;
+    }
+    if (isLocalItem(item)) {
+        return false;
+    }
+    // Server-side share links are created on behalf of an authorized user and
+    // enforce play access themselves (403), so no Web Share API support or
+    // public-sharing policy is required from the client.
+    return true;
+}
+
 export function enableDateAddedDisplay (item) {
     return !item.IsFolder && item.MediaType && item.Type !== 'Program' && item.Type !== 'TvChannel' && item.Type !== 'Trailer';
 }
@@ -363,6 +410,7 @@ export default {
     canEditSubtitles,
     canEditLyrics,
     canShare: canShare,
+    canShareLink: canShareLink,
     enableDateAddedDisplay: enableDateAddedDisplay,
     canMarkPlayed: canMarkPlayed,
     canRate: canRate,
