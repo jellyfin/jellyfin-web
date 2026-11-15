@@ -2,6 +2,7 @@ import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Tooltip from '@mui/material/Tooltip';
 
 import globalize from 'lib/globalize';
 import Button from 'elements/emby-button/Button';
@@ -17,6 +18,7 @@ import { useChannels } from 'apps/dashboard/features/users/api/useChannels';
 import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
+import { useConfiguration } from 'hooks/useConfiguration';
 import Toast from 'apps/dashboard/components/Toast';
 
 interface ProfileProps {
@@ -25,6 +27,18 @@ interface ProfileProps {
 
 type ResetProvider = BaseItemDto & {
     checkedAttribute: string
+};
+
+type MediaSharingPolicyValue = 'Default' | 'Enabled' | 'Disabled';
+
+type MediaSharingPolicyState = {
+    MediaSharingPolicy?: MediaSharingPolicyValue
+};
+
+type ServerMediaSharingPolicyValue = 'Disabled' | 'PerUserDefaultNo' | 'PerUserDefaultYes' | 'Enabled';
+
+type ServerMediaSharingPolicyState = {
+    MediaSharingPolicy?: ServerMediaSharingPolicyValue
 };
 
 const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
@@ -54,6 +68,11 @@ const Profile = ({ userDto }: ProfileProps) => {
 
     const updateUser = useUpdateUser();
     const updateUserPolicy = useUpdateUserPolicy();
+
+    const { data: serverConfig } = useConfiguration();
+    const globalMediaSharingPolicy = (serverConfig as unknown as ServerMediaSharingPolicyState | undefined)?.MediaSharingPolicy ?? 'Disabled';
+    // 'Disabled' and 'Enabled' are hard answers server-wide and override any per-user value.
+    const isMediaSharingPolicyLocked = globalMediaSharingPolicy === 'Disabled' || globalMediaSharingPolicy === 'Enabled';
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -201,12 +220,29 @@ const Profile = ({ userDto }: ProfileProps) => {
         (page.querySelector('#txtLoginAttemptsBeforeLockout') as HTMLInputElement).value = String(userDto.Policy?.LoginAttemptsBeforeLockout) || '-1';
         (page.querySelector('#txtMaxActiveSessions') as HTMLInputElement).value = String(userDto.Policy?.MaxActiveSessions) || '0';
         (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value = String(userDto.Policy?.SyncPlayAccess);
+        (page.querySelector('#selectMediaSharingPolicy') as HTMLSelectElement).value = String((userDto.Policy as unknown as MediaSharingPolicyState | undefined)?.MediaSharingPolicy ?? 'Default');
         loading.hide();
     }, [ userDto, libraryMenu ]);
 
     useEffect(() => {
         loadUser();
     }, [ loadUser ]);
+
+    useEffect(() => {
+        const page = element.current;
+
+        if (!page) {
+            console.error('[useredit] Unexpected null page reference');
+            return;
+        }
+
+        // The server-wide policy (0 = Disabled, 3 = Enabled) overrides the per-user
+        // setting, so the per-user control is locked while either is in effect.
+        const mediaSharingPolicySelect = page.querySelector('#selectMediaSharingPolicy') as HTMLSelectElement | null;
+        if (mediaSharingPolicySelect) {
+            mediaSharingPolicySelect.disabled = isMediaSharingPolicyLocked;
+        }
+    }, [ isMediaSharingPolicyLocked ]);
 
     useEffect(() => {
         const page = element.current;
@@ -246,6 +282,7 @@ const Profile = ({ userDto }: ProfileProps) => {
             user.Policy.EnableContentDeletion = (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).checked;
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
+            (user.Policy as unknown as MediaSharingPolicyState).MediaSharingPolicy = ((page.querySelector('#selectMediaSharingPolicy') as HTMLSelectElement).value || 'Default') as MediaSharingPolicyValue;
 
             updateUser.mutate({ userId: user.Id, userDto: user }, {
                 onSuccess: () => {
@@ -312,6 +349,14 @@ const Profile = ({ userDto }: ProfileProps) => {
         content += `<option value='CreateAndJoinGroups'>${globalize.translate('LabelSyncPlayAccessCreateAndJoinGroups')}</option>`;
         content += `<option value='JoinGroups'>${globalize.translate('LabelSyncPlayAccessJoinGroups')}</option>`;
         content += `<option value='None'>${globalize.translate('LabelSyncPlayAccessNone')}</option>`;
+        return content;
+    };
+
+    const optionMediaSharingPolicy = () => {
+        let content = '';
+        content += `<option value='Default'>${globalize.translate('MediaSharingPolicyDefault')}</option>`;
+        content += `<option value='Enabled'>${globalize.translate('MediaSharingPolicyEnabled')}</option>`;
+        content += `<option value='Disabled'>${globalize.translate('MediaSharingPolicyDisabled')}</option>`;
         return content;
     };
 
@@ -474,6 +519,26 @@ const Profile = ({ userDto }: ProfileProps) => {
                         </SelectElement>
                         <div className='fieldDescription'>
                             {globalize.translate('SyncPlayAccessHelp')}
+                        </div>
+                    </div>
+                </div>
+                <div className='verticalSection'>
+                    <div className='selectContainer fldSelectMediaSharingPolicy'>
+                        <Tooltip
+                            title={isMediaSharingPolicyLocked ? globalize.translate('MediaSharingPolicyLockedHelp') : ''}
+                            placement='top'
+                        >
+                            <span>
+                                <SelectElement
+                                    id='selectMediaSharingPolicy'
+                                    label='LabelMediaSharingPolicy'
+                                >
+                                    {optionMediaSharingPolicy()}
+                                </SelectElement>
+                            </span>
+                        </Tooltip>
+                        <div className='fieldDescription'>
+                            {globalize.translate('MediaSharingPolicyUserHelp')}
                         </div>
                     </div>
                 </div>

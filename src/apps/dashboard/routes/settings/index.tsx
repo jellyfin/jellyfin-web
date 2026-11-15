@@ -26,6 +26,12 @@ import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
+type MediaSharingPolicyValue = 'Disabled' | 'PerUserDefaultNo' | 'PerUserDefaultYes' | 'Enabled';
+
+type MediaSharingPolicyState = {
+    MediaSharingPolicy?: MediaSharingPolicyValue
+};
+
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
@@ -40,6 +46,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     config.QuickConnectAvailable = formData.get('QuickConnectAvailable')?.toString() === 'on';
     config.LibraryScanFanoutConcurrency = parseInt(formData.get('LibraryScanFanoutConcurrency')?.toString() || '0', 10);
     config.ParallelImageEncodingLimit = parseInt(formData.get('ParallelImageEncodingLimit')?.toString() || '0', 10);
+    (config as unknown as MediaSharingPolicyState).MediaSharingPolicy = (formData.get('MediaSharingPolicy')?.toString() ?? 'Disabled') as MediaSharingPolicyValue;
 
     await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
@@ -230,6 +237,21 @@ export const Component = () => {
                                     label={globalize.translate('EnableQuickConnect')}
                                 />
                             </FormControl>
+
+                            <Typography variant='h2'>{globalize.translate('HeaderMediaSharing')}</Typography>
+
+                            <TextField
+                                select
+                                name='MediaSharingPolicy'
+                                label={globalize.translate('LabelMediaSharingPolicy')}
+                                helperText={globalize.translate('MediaSharingPolicyHelp')}
+                                defaultValue={String((config as unknown as MediaSharingPolicyState).MediaSharingPolicy ?? 'Disabled')}
+                            >
+                                <MenuItem value='Disabled'>{globalize.translate('MediaSharingPolicyDisabled')}</MenuItem>
+                                <MenuItem value='PerUserDefaultNo'>{globalize.translate('MediaSharingPolicyPerUserDefaultNo')}</MenuItem>
+                                <MenuItem value='PerUserDefaultYes'>{globalize.translate('MediaSharingPolicyPerUserDefaultYes')}</MenuItem>
+                                <MenuItem value='Enabled'>{globalize.translate('MediaSharingPolicyEnabled')}</MenuItem>
+                            </TextField>
 
                             <Typography variant='h2'>{globalize.translate('HeaderPerformance')}</Typography>
 
