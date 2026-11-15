@@ -1,3 +1,5 @@
+import { isYesterday } from 'date-fns';
+
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -22,7 +24,7 @@ export function groupsUpcomingEpisodes(items: ItemDto[]) {
                     item.PremiereDate,
                     true
                 );
-                dateText = datetime.isRelativeDay(premiereDate, -1) ?
+                dateText = isYesterday(premiereDate) ?
                     globalize.translate('Yesterday') :
                     datetime.toLocaleDateString(premiereDate, {
                         weekday: 'long',

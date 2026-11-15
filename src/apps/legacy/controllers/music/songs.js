@@ -6,7 +6,7 @@ import loading from 'components/loading/loading';
 import { playbackManager } from 'components/playback/playbackmanager';
 import * as userSettings from 'scripts/settings/userSettings';
 import globalize from 'lib/globalize';
-import Dashboard from 'utils/dashboard';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
@@ -56,7 +56,8 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -138,7 +139,7 @@ export default function (view, params, tabContent) {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'songs',
-                serverId: ApiClient.serverId()
+                serverId: ServerConnections.currentApiClient().serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
                 getQuery().StartIndex = 0;
@@ -149,7 +150,8 @@ export default function (view, params, tabContent) {
     };
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getItem(apiClient.getCurrentUserId(), params.topParentId).then(function (item) {
             playbackManager.shuffle(item);
         });
     }

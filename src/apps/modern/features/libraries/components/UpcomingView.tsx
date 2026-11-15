@@ -16,7 +16,7 @@ import { useUpcomingEpisodes } from '../hooks/api/useUpcomingEpisodes';
 import { groupsUpcomingEpisodes } from '../utils/upcomingEpisodes';
 
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const {
         isLoading,
         data,
@@ -85,7 +85,7 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
                         missingIndicator: false,
                         cardLayout: false,
                         queryKey: ['UpcomingEpisodes'],
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}

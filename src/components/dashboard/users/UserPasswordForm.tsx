@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useRef } from 'react';
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+
 import Dashboard from '../../../utils/dashboard';
 import globalize from '../../../lib/globalize';
 import confirm from '../../confirm/confirm';
@@ -7,12 +9,14 @@ import loading from '../../loading/loading';
 import toast from '../../toast/toast';
 import Button from '../../../elements/emby-button/Button';
 import Input from '../../../elements/emby-input/Input';
+import { useApi } from 'hooks/useApi';
 
-type IProps = {
+type UserPasswordFormProps = {
     user: UserDto
 };
 
-const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
+const UserPasswordForm: FunctionComponent<UserPasswordFormProps> = ({ user }) => {
+    const { api, user: currentUser } = useApi();
     const element = useRef<HTMLDivElement>(null);
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
 
@@ -24,25 +28,18 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
             return;
         }
 
-        const loggedInUser = await Dashboard.getCurrentUser();
-
         if (!user.Policy || !user.Configuration) {
             throw new Error('Unexpected null user policy or configuration');
         }
 
         (await libraryMenu).setTitle(user.Name);
+        (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
 
-        if (user.HasConfiguredPassword) {
-            if (!user.Policy?.IsAdministrator) {
-                (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
-            }
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.remove('hide');
-        } else {
-            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.add('hide');
-            (page.querySelector('#fldCurrentPassword') as HTMLDivElement).classList.add('hide');
+        if (!user.Policy?.IsAdministrator) {
+            (page.querySelector('#btnResetPassword') as HTMLDivElement).classList.remove('hide');
         }
 
-        const canChangePassword = loggedInUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
+        const canChangePassword = currentUser?.Policy?.IsAdministrator || user.Policy.EnableUserPreferenceAccess;
         (page.querySelector('.passwordSection') as HTMLDivElement).classList.toggle('hide', !canChangePassword);
 
         import('../../autoFocuser').then(({ default: autoFocuser }) => {
@@ -54,7 +51,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
         (page.querySelector('#txtCurrentPassword') as HTMLInputElement).value = '';
         (page.querySelector('#txtNewPassword') as HTMLInputElement).value = '';
         (page.querySelector('#txtNewPasswordConfirm') as HTMLInputElement).value = '';
-    }, [user, libraryMenu]);
+    }, [currentUser, user, libraryMenu]);
 
     useEffect(() => {
         const page = element.current;
@@ -83,6 +80,10 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
         };
 
         const savePassword = () => {
+            if (!api) {
+                console.error('[UserPasswordForm.savePassword] missing api');
+                return;
+            }
             if (!user.Id) {
                 console.error('[UserPasswordForm.savePassword] missing user id');
                 return;
@@ -97,7 +98,10 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
                 currentPassword = '';
             }
 
-            window.ApiClient.updateUserPassword(user.Id, currentPassword, newPassword).then(function () {
+            getUserApi(api).updateUserPassword({
+                userId: user.Id,
+                updateUserPassword: { CurrentPw: currentPassword, NewPw: newPassword }
+            }).then(function () {
                 loading.hide();
                 toast(globalize.translate('PasswordSaved'));
 
@@ -117,8 +121,11 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
             const msg = globalize.translate('PasswordResetConfirmation');
             confirm(msg, globalize.translate('ResetPassword')).then(function () {
                 loading.show();
-                if (user.Id) {
-                    window.ApiClient.resetUserPassword(user.Id).then(function () {
+                if (api && user.Id) {
+                    getUserApi(api).updateUserPassword({
+                        userId: user.Id,
+                        updateUserPassword: { ResetPassword: true }
+                    }).then(function () {
                         loading.hide();
                         Dashboard.alert({
                             message: globalize.translate('PasswordResetComplete'),
@@ -143,7 +150,7 @@ const UserPasswordForm: FunctionComponent<IProps> = ({ user }: IProps) => {
             (page.querySelector('.updatePasswordForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
             (page.querySelector('#btnResetPassword') as HTMLButtonElement).removeEventListener('click', resetPassword);
         };
-    }, [loadUser, user]);
+    }, [api, loadUser, user]);
 
     return (
         <div ref={element}>

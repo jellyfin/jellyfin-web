@@ -2,6 +2,9 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';
+import { getVideoApi } from '@jellyfin/sdk/lib/utils/api/video-api';
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { intervalToDuration } from 'date-fns';
 import DOMPurify from 'dompurify';
 import escapeHtml from 'escape-html';
@@ -39,8 +42,7 @@ import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
-import { getItemBackdropImageUrl } from 'utils/jellyfin-apiclient/backdropImage';
-import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-checkbox/emby-checkbox';
@@ -86,7 +88,7 @@ function getPromise(apiClient, params) {
     }
 
     if (params.musicartist) {
-        return apiClient.getArtist(params.musicartist, apiClient.getCurrentUserId());
+        return apiClient.getPerson(params.musicartist, apiClient.getCurrentUserId());
     }
 
     throw new Error('Invalid request');
@@ -879,8 +881,7 @@ function setInitialCollapsibleState(page, item, apiClient, context, user) {
         if (p.Type === PersonKind.GuestStar) {
             guestCast.push(p);
         } else if (p.Type === PersonKind.Artist || p.Type === PersonKind.AlbumArtist) {
-            // TODO remove this exclusion when artists are migrated to the persons endpoint
-            return;
+            console.debug(`skipping artist in person slider: ${p.Name}`);
         } else {
             const isMergeableCrew = p.Id && mergeablePersonTypes.has(p.Type);
             const existingIndex = isMergeableCrew ? crewByPersonId.get(p.Id) : undefined;
@@ -1041,7 +1042,7 @@ function renderDetails(page, instance, item, apiClient, context) {
     renderOverview(page, item);
     renderMiscInfo(page, item);
     reloadUserDataButtons(page, item);
-    renderLyricsContainer(page, item, apiClient);
+    renderLyricsContainer(page, item);
 
     // Don't allow redirection to other websites from the TV layout
     if (!layoutManager.tv && appHost.supports(AppFeature.ExternalLinks)) {
@@ -1056,7 +1057,8 @@ function enableScrollX() {
     return browser.mobile && window.screen.availWidth <= 1000;
 }
 
-function renderLyricsContainer(view, item, apiClient) {
+function renderLyricsContainer(view, item) {
+    const api = ServerConnections.getApi(item.ServerId);
     const lyricContainer = view.querySelector('.lyricsContainer');
     if (lyricContainer && item.HasLyrics) {
         if (item.Type !== 'Audio') {
@@ -1064,11 +1066,9 @@ function renderLyricsContainer(view, item, apiClient) {
             return;
         }
         //get lyrics
-        apiClient.ajax({
-            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
-            type: 'GET',
-            dataType: 'json'
-        }).then((response) => {
+        getLyricApi(api).getLyrics({
+            itemId: item.Id
+        }).then(({ data: response }) => {
             if (!response.Lyrics) {
                 lyricContainer.classList.add('hide');
                 return;
@@ -1393,6 +1393,8 @@ function renderChildren(page, item) {
         if (item.Type == 'MusicAlbum') {
             let showArtist = false;
             for (const track of result.Items) {
+                // we only care that both lists match so the exact sort order is of no consequence
+                // eslint-disable-next-line sonarjs/no-alphabetical-sort
                 if (!isEqual(track.ArtistItems.map(x => x.Id).sort(), track.AlbumArtists.map(x => x.Id).sort())) {
                     showArtist = true;
                     break;
@@ -1942,14 +1944,13 @@ export default function (view, params) {
         });
     }
 
-    function splitVersions(instance, page, apiClient, pageParams) {
+    function splitVersions(instance, page, pageParams) {
+        const { id: itemId, serverId } = pageParams;
+        const api = ServerConnections.getApi(serverId);
         confirm(globalize.translate('ConfirmSplitMedia'), globalize.translate('HeaderSplitMedia'))
             .then(() => {
                 loading.show();
-                return apiClient.ajax({
-                    type: 'DELETE',
-                    url: apiClient.getUrl('Videos/' + pageParams.id + '/AlternateSources')
-                });
+                return getVideoApi(api).deleteAlternateSources({ itemId });
             })
             .then(() => {
                 reload(instance, page, pageParams);
@@ -2122,7 +2123,7 @@ export default function (view, params) {
         bindAll(view, '.btnDownload', 'click', onDownloadClick);
         view.querySelector('.trackSelections').addEventListener('submit', onTrackSelectionsSubmit);
         view.querySelector('.btnSplitVersions').addEventListener('click', function () {
-            splitVersions(self, view, apiClient, params);
+            splitVersions(self, view, params);
         });
         bindAll(view, '.btnMoreCommands', 'click', onMoreCommandsClick);
         view.querySelector('.selectSource').addEventListener('change', function () {

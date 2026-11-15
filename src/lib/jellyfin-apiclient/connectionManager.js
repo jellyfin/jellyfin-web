@@ -6,12 +6,12 @@ import { compareVersions } from '@jellyfin/sdk/lib/utils/versioning';
 
 import events from 'utils/events';
 import { ajax } from 'utils/fetch';
-import { toApi, updateApiClientSdk } from 'utils/jellyfin-apiclient/compat';
-import { createApiClient } from 'utils/jellyfin-apiclient/createApiClient';
 import { equalsIgnoreCase } from 'utils/string';
 
 import { ConnectionMode } from './connectionMode';
 import { ConnectionState } from './connectionState';
+import { toApi, updateApiClientSdk } from './utils/compat';
+import { createApiClient } from './utils/createApiClient';
 import getServerAddress from './utils/getServerAddress';
 
 const DEFAULT_CONNECTION_TIMEOUT = 20000;

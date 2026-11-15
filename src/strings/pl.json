@@ -1945,5 +1945,7 @@
     "HlsAudioSeekStrategy": "Strategia do wykorzystania podczas przeszukiwania strumieni HLS.",
     "LabelHlsAudioSeekStrategy": "Strategia przeszukiwania dźwięku.",
     "MessageForgotPasswordRedirect": "Przekierowano do zewnętrznego dostawcy w celu zresetowania hasła.",
-    "MessageItemMetadataLocked": "Metadane tej pozycji są zablokowane. Odblokuj je przed użyciem funkcji identyfikacji."
+    "MessageItemMetadataLocked": "Metadane tej pozycji są zablokowane. Odblokuj je przed użyciem funkcji identyfikacji.",
+    "ManageMetadata": "Zarządzaj metadanymi",
+    "ManageServer": "Zarządzaj serwerem"
 }

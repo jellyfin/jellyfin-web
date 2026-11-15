@@ -3,6 +3,7 @@ import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { getTimersHtml } from 'scripts/livetvcomponents';
 import Dashboard from 'utils/dashboard';
 
@@ -102,14 +103,15 @@ export default function (view, params, tabContent) {
     });
 
     self.preRender = function () {
-        activeRecordingsPromise = ApiClient.getLiveTvRecordings({
+        const apiClient = ServerConnections.currentApiClient();
+        activeRecordingsPromise = apiClient.getLiveTvRecordings({
             UserId: Dashboard.getCurrentUserId(),
             IsInProgress: true,
             Fields: 'CanDelete,PrimaryImageAspectRatio',
             EnableTotalRecordCount: false,
             EnableImageTypes: 'Primary,Thumb,Backdrop'
         });
-        upcomingRecordingsPromise = ApiClient.getLiveTvTimers({
+        upcomingRecordingsPromise = apiClient.getLiveTvTimers({
             IsActive: false,
             IsScheduled: true
         });

@@ -1945,5 +1945,7 @@
     "HlsAudioSeekStrategy": "De te gebruiken strategie bij terug- of vooruitspoelen in HLS-streams.",
     "LabelHlsAudioSeekStrategy": "Geluidsspoelstrategie.",
     "MessageForgotPasswordRedirect": "Je bent doorgestuurd naar een externe aanbieder voor het wachtwoordherstel.",
-    "MessageItemMetadataLocked": "De metadata van dit item zijn vergrendeld. Ontgrendel ze alvorens de identificeerfunctie te gebruiken."
+    "MessageItemMetadataLocked": "De metadata van dit item zijn vergrendeld. Ontgrendel ze alvorens de identificeerfunctie te gebruiken.",
+    "ManageServer": "Server beheren",
+    "ManageMetadata": "Metadata beheren"
 }

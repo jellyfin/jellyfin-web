@@ -1,16 +1,20 @@
-import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
-import loading from '../loading/loading';
-import dom from '../../utils/dom';
+
+import loading from 'components/loading/loading';
+import toast from 'components/toast/toast';
+import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import dom from 'utils/dom';
+import Events from 'utils/events';
+
 import recordingHelper from './recordinghelper';
 
-import '../../elements/emby-button/emby-button';
-import '../../elements/emby-button/paper-icon-button-light';
-import './recordingfields.scss';
-import '../../styles/flexstyles.scss';
-import toast from '../toast/toast';
 import template from './recordingfields.template.html';
+
+import 'elements/emby-button/emby-button';
+import 'elements/emby-button/paper-icon-button-light';
+import './recordingfields.scss';
+import 'styles/flexstyles.scss';
 
 function loadData(parent, program) {
     if (program.IsSeries) {

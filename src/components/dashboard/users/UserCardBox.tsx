@@ -1,11 +1,14 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
+import { getImageApi } from '@jellyfin/sdk/lib/utils/api/image-api';
 import React, { FunctionComponent } from 'react';
 import { formatDistanceToNow } from 'date-fns';
+
 import { getLocaleWithSuffix } from '../../../utils/dateFnsLocale';
 import globalize from '../../../lib/globalize';
 import IconButtonElement from '../../../elements/IconButtonElement';
 import LinkButton from '../../../elements/emby-button/LinkButton';
 import { getDefaultBackgroundClass } from '../../cardbuilder/utils/builder';
+import { useApi } from 'hooks/useApi';
 
 type IProps = {
     user?: UserDto;
@@ -20,19 +23,18 @@ const getLastSeenText = (lastActivityDate?: string | null) => {
 };
 
 const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
-    let cssClass = 'card squareCard scalableCard squareCard-scalable';
+    const { api } = useApi();
 
+    let cssClass = 'card squareCard scalableCard squareCard-scalable';
     if (user.Policy?.IsDisabled) {
         cssClass += ' grayscale';
     }
 
     let imgUrl;
-
-    if (user.PrimaryImageTag && user.Id) {
-        imgUrl = window.ApiClient.getUserImageUrl(user.Id, {
-            width: 300,
-            tag: user.PrimaryImageTag,
-            type: 'Primary'
+    if (api) {
+        const dpr = window?.devicePixelRatio || 1;
+        imgUrl = getImageApi(api).getUserImageUrl(user, {
+            width: Math.round(300 * dpr)
         });
     }
 

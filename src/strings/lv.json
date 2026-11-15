@@ -1512,7 +1512,7 @@
     "Thumb": "Sīktēli",
     "ThumbCard": "Sīktēlu kartītes",
     "SaveSubtitlesIntoMediaFolders": "Saglabāt subtitrus multivides mapēs",
-    "TabAdvanced": "Papildu",
+    "TabAdvanced": "Paplašināti",
     "MessageChromecastConnectionError": "Jūsu Google Cast uztvērējs nespēj sazināties ar Jellyfin serveri. Lūdzu, pārbaudiet savienojumu un mēģiniet vēlreiz.",
     "ScanForNewAndUpdatedFiles": "Skenēt jaunos un atjauninātos failus",
     "LabelPlaybackInfo": "Atskaņošanas info",
@@ -1945,5 +1945,7 @@
     "Screenplay": "Scenārijs",
     "HlsAudioSeekStrategy": "Stratēģija, kas jāizmanto, meklējot HLS straumēs.",
     "LabelHlsAudioSeekStrategy": "Audio meklēšanas stratēģija.",
-    "MessageForgotPasswordRedirect": "Paroles atiestatīšanai jūs novirzīja pie ārēja pakalpojumu sniedzēja."
+    "MessageForgotPasswordRedirect": "Paroles atiestatīšanai jūs novirzīja pie ārēja pakalpojumu sniedzēja.",
+    "ManageMetadata": "Pārvaldīt metadatus",
+    "ManageServer": "Pārvaldīt serveri"
 }

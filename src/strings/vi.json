@@ -1945,5 +1945,7 @@
     "Novel": "Tiểu thuyết",
     "Screenplay": "Kịch bản",
     "MessageForgotPasswordRedirect": "Bạn đã được chuyển hướng đến nhà cung cấp bên ngoài để đặt lại mật khẩu.",
-    "MessageItemMetadataLocked": "Dữ liệu mô tả của mục này đã bị khóa. Hãy mở khóa trước khi sử dụng tính năng Nhận dạng."
+    "MessageItemMetadataLocked": "Dữ liệu mô tả của mục này đã bị khóa. Hãy mở khóa trước khi sử dụng tính năng Nhận dạng.",
+    "ManageServer": "Máy chủ",
+    "ManageMetadata": "Quản lý dữ liệu mô tả"
 }

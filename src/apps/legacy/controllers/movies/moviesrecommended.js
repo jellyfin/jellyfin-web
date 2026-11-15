@@ -1,19 +1,31 @@
 import escapeHtml from 'escape-html';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
+import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 
+import { getLatestMediaQuery } from '@/apps/legacy/features/libraries/api/useLatestMedia';
+import { getItemsQuery } from '@/apps/modern/features/libraries/hooks/api/useItems';
+import { getMovieRecommendationsQuery } from '@/apps/modern/features/libraries/hooks/api/useMovieRecommendations';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import layoutManager from 'components/layoutManager';
 import * as mainTabsManager from 'components/maintabsmanager';
 import { playbackManager } from 'components/playback/playbackmanager';
+import { getItemQuery } from '@/hooks/useItem';
 import dom from 'utils/dom';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import inputManager from 'scripts/inputManager';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
+import { queryClient } from '@/utils/query/queryClient';
 
 import 'elements/emby-scroller/emby-scroller';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -24,75 +36,65 @@ function enableScrollX() {
     return !layoutManager.desktop;
 }
 
-function loadLatest(page, userId, parentId) {
-    const options = {
-        IncludeItemTypes: 'Movie',
-        Limit: 18,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
-        ParentId: parentId,
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-        EnableTotalRecordCount: false
-    };
-    ApiClient.getJSON(ApiClient.getUrl('Users/' + userId + '/Items/Latest', options)).then(function (items) {
-        const allowBottomPadding = !enableScrollX();
-        const container = page.querySelector('#recentlyAddedItems');
-        cardBuilder.buildCards(items, {
-            itemsContainer: container,
-            shape: getPortraitShape(enableScrollX()),
-            scalable: true,
-            overlayPlayButton: true,
-            allowBottomPadding: allowBottomPadding,
-            showTitle: true,
-            showYear: true,
-            centerText: true
-        });
+async function loadLatest(page, userId, parentId) {
+    const api = ServerConnections.getApi();
+    const items = await queryClient.query(getLatestMediaQuery(api, {
+        userId,
+        includeItemTypes: [BaseItemKind.Movie],
+        limit: 18,
+        fields: [ItemFields.PrimaryImageAspectRatio, ItemFields.MediaSourceCount],
+        parentId,
+        imageTypeLimit: 1,
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Thumb]
+    }));
 
-        // FIXME: Wait for all sections to load
-        autoFocus(page);
+    const allowBottomPadding = !enableScrollX();
+    cardBuilder.buildCards(items, {
+        itemsContainer: page.querySelector('#recentlyAddedItems'),
+        shape: getPortraitShape(enableScrollX()),
+        scalable: true,
+        overlayPlayButton: true,
+        allowBottomPadding,
+        showTitle: true,
+        showYear: true,
+        centerText: true
     });
 }
 
-function loadResume(page, userId, parentId) {
+async function loadResume(page, userId, parentId) {
+    const api = ServerConnections.getApi();
     const screenWidth = dom.getWindowSize().innerWidth;
-    const options = {
-        SortBy: 'DatePlayed',
-        SortOrder: 'Descending',
-        IncludeItemTypes: 'Movie',
-        Filters: 'IsResumable',
-        Limit: screenWidth >= 1600 ? 5 : 3,
-        Recursive: true,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
-        CollapseBoxSetItems: false,
-        ParentId: parentId,
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-        EnableTotalRecordCount: false
-    };
-    ApiClient.getItems(userId, options).then(function (result) {
-        if (result.Items.length) {
-            page.querySelector('#resumableSection').classList.remove('hide');
-        } else {
-            page.querySelector('#resumableSection').classList.add('hide');
-        }
+    const items = (await queryClient.query(getItemsQuery(api, {
+        userId,
+        sortBy: ItemSortBy.DatePlayed,
+        sortOrder: SortOrder.Descending,
+        includeItemTypes: [BaseItemKind.Movie],
+        filters: [ItemFilter.IsResumable],
+        limit: screenWidth >= 1600 ? 5 : 3,
+        recursive: true,
+        fields: [ItemFields.PrimaryImageAspectRatio, ItemFields.MediaSourceCount],
+        collapseBoxSetItems: false,
+        parentId,
+        imageTypeLimit: 1,
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Thumb],
+        enableTotalRecordCount: false
+    }))).Items;
 
-        const allowBottomPadding = !enableScrollX();
-        const container = page.querySelector('#resumableItems');
-        cardBuilder.buildCards(result.Items, {
-            itemsContainer: container,
-            preferThumb: true,
-            shape: getBackdropShape(enableScrollX()),
-            scalable: true,
-            overlayPlayButton: true,
-            allowBottomPadding: allowBottomPadding,
-            cardLayout: false,
-            showTitle: true,
-            showYear: true,
-            centerText: true
-        });
+    page.querySelector('#resumableSection').classList.toggle('hide', !items.length);
 
-        // FIXME: Wait for all sections to load
-        autoFocus(page);
+    const allowBottomPadding = !enableScrollX();
+    const container = page.querySelector('#resumableItems');
+    cardBuilder.buildCards(items, {
+        itemsContainer: container,
+        preferThumb: true,
+        shape: getBackdropShape(enableScrollX()),
+        scalable: true,
+        overlayPlayButton: true,
+        allowBottomPadding: allowBottomPadding,
+        cardLayout: false,
+        showTitle: true,
+        showYear: true,
+        centerText: true
     });
 }
 
@@ -149,7 +151,8 @@ function getRecommendationHtml(recommendation) {
     return html;
 }
 
-function loadSuggestions(page, userId, parentId) {
+async function loadSuggestions(page, userId, parentId) {
+    const api = ServerConnections.getApi();
     const screenWidth = dom.getWindowSize().innerWidth;
     let itemLimit = 5;
     if (screenWidth >= 1600) {
@@ -158,31 +161,25 @@ function loadSuggestions(page, userId, parentId) {
         itemLimit = 6;
     }
 
-    const url = ApiClient.getUrl('Movies/Recommendations', {
-        userId: userId,
-        ParentId: parentId,
+    const recommendations = await queryClient.query(getMovieRecommendationsQuery(api, {
+        userId,
+        parentId,
         categoryLimit: 6,
-        ItemLimit: itemLimit,
-        Fields: 'PrimaryImageAspectRatio,MediaSourceCount',
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb'
-    });
-    ApiClient.getJSON(url).then(function (recommendations) {
-        if (!recommendations.length) {
-            page.querySelector('.noItemsMessage').classList.remove('hide');
-            page.querySelector('.recommendations').innerHTML = '';
-            return;
-        }
+        itemLimit,
+        fields: [ItemFields.PrimaryImageAspectRatio, ItemFields.MediaSourceCount]
+    }));
 
-        const html = recommendations.map(getRecommendationHtml).join('');
-        page.querySelector('.noItemsMessage').classList.add('hide');
-        const recs = page.querySelector('.recommendations');
-        recs.innerHTML = html;
-        imageLoader.lazyChildren(recs);
+    if (!recommendations.length) {
+        page.querySelector('.noItemsMessage').classList.remove('hide');
+        page.querySelector('.recommendations').innerHTML = '';
+        return;
+    }
 
-        // FIXME: Wait for all sections to load
-        autoFocus(page);
-    });
+    const html = recommendations.map(getRecommendationHtml).join('');
+    page.querySelector('.noItemsMessage').classList.add('hide');
+    const recs = page.querySelector('.recommendations');
+    recs.innerHTML = html;
+    imageLoader.lazyChildren(recs);
 }
 
 function autoFocus(page) {
@@ -219,12 +216,17 @@ function initSuggestedTab(page, tabContent) {
     }
 }
 
-function loadSuggestionsTab(view, params, tabContent) {
+async function loadSuggestionsTab(view, params, tabContent) {
     const parentId = params.topParentId;
-    const userId = ApiClient.getCurrentUserId();
-    loadResume(tabContent, userId, parentId);
-    loadLatest(tabContent, userId, parentId);
-    loadSuggestions(tabContent, userId, parentId);
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
+
+    await Promise.all([
+        loadResume(tabContent, userId, parentId),
+        loadLatest(tabContent, userId, parentId),
+        loadSuggestions(tabContent, userId, parentId)
+    ]);
+
+    autoFocus(tabContent);
 }
 
 function getTabs() {
@@ -384,7 +386,9 @@ export default function (view, params) {
             const parentId = params.topParentId;
 
             if (parentId) {
-                ApiClient.getItem(ApiClient.getCurrentUserId(), parentId).then(function (item) {
+                const api = ServerConnections.getApi();
+                const userId = ServerConnections.currentApiClient().getCurrentUserId();
+                queryClient.query(getItemQuery(api, parentId, userId)).then(item => {
                     view.setAttribute('data-title', item.Name);
                     libraryMenu.setTitle(item.Name);
                 });

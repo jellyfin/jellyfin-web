@@ -5,7 +5,7 @@ import listView from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import * as userSettings from 'scripts/settings/userSettings';
 import globalize from 'lib/globalize';
-import Dashboard from 'utils/dashboard';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
@@ -69,10 +69,11 @@ export default function (view, params, tabContent) {
     function reloadItems(page) {
         loading.show();
         isLoading = true;
+        const apiClient = ServerConnections.currentApiClient();
         const query = getQuery();
         setFilterStatus(page, query);
 
-        ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then(function (result) {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -174,7 +175,7 @@ export default function (view, params, tabContent) {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'episodes',
-                serverId: ApiClient.serverId()
+                serverId: ServerConnections.currentApiClient().serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
                 getQuery().StartIndex = 0;

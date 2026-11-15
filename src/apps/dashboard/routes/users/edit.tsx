@@ -23,7 +23,7 @@ export const Component = () => {
 
     const handleTabChange = useCallback((event: React.SyntheticEvent, newValue: UserTab) => {
         navigate(`/dashboard/users/${userId}/${newValue}`);
-    }, [ navigate ]);
+    }, [ userId, navigate ]);
 
     if (isPending) return <Loading />;
 

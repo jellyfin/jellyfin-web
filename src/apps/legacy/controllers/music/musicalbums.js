@@ -7,6 +7,7 @@ import listView from 'components/listview/listview';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import * as userSettings from 'scripts/settings/userSettings';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
 
@@ -14,7 +15,8 @@ import 'elements/emby-itemscontainer/emby-itemscontainer';
 
 export default function (view, params, tabContent) {
     function playAll() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getItem(apiClient.getCurrentUserId(), params.topParentId).then(function (item) {
             playbackManager.play({
                 items: [item]
             });
@@ -22,7 +24,8 @@ export default function (view, params, tabContent) {
     }
 
     function shuffle() {
-        ApiClient.getItem(ApiClient.getCurrentUserId(), params.topParentId).then(function (item) {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getItem(apiClient.getCurrentUserId(), params.topParentId).then(function (item) {
             getQuery();
             playbackManager.shuffle(item);
         });
@@ -86,7 +89,8 @@ export default function (view, params, tabContent) {
         const query = getQuery();
         setFilterStatus(tabContent, query);
 
-        ApiClient.getItems(ApiClient.getCurrentUserId(), query).then((result) => {
+        const apiClient = ServerConnections.currentApiClient();
+        apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
             function onNextPageClick() {
                 if (isLoading) {
                     return;
@@ -191,7 +195,7 @@ export default function (view, params, tabContent) {
             const filterDialog = new FilterDialog({
                 query: getQuery(),
                 mode: 'albums',
-                serverId: ApiClient.serverId()
+                serverId: ServerConnections.currentApiClient().serverId()
             });
             Events.on(filterDialog, 'filterchange', function () {
                 getQuery().StartIndex = 0;

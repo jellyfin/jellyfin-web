@@ -38,15 +38,15 @@ interface DialogElement extends HTMLDivElement {
 interface PlaylistEditorOptions {
     items: string[],
     id?: string,
-    serverId: string,
+    serverId?: string,
     enableAddToPlayQueue?: boolean,
     defaultValue?: string
 }
 
-let currentServerId: string;
+let currentServerId: string | undefined;
 
 function onSubmit(this: HTMLElement, e: Event) {
-    const panel = dom.parentWithClass(this, 'dialog') as DialogElement | null;
+    const panel = dom.parentWithClass<DialogElement>(this, 'dialog');
 
     if (panel) {
         const playlistId = panel.querySelector<HTMLSelectElement>('#selectPlaylistToAddTo')?.value;
@@ -338,7 +338,7 @@ function initEditor(content: DialogElement, options: PlaylistEditorOptions, item
             .finally(loading.hide);
     } else if (options.id) {
         content.querySelector('.fldSelectPlaylist')?.classList.add('hide');
-        const panel = dom.parentWithClass(content, 'dialog') as DialogElement | null;
+        const panel = dom.parentWithClass<DialogElement>(content, 'dialog');
         if (!panel) {
             console.error('[PlaylistEditor] could not find dialog element');
             return;

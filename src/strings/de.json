@@ -1945,5 +1945,7 @@
     "HlsAudioSeekStrategy": "Die verwendete Methode zum Vor- und Zurückspulen in HLS Streams.",
     "LabelHlsAudioSeekStrategy": "Audio Vorspul-Methode.",
     "LabelBitmapSubtitleAspectMode": "Bitmap Untertitel Seitenverhältnismodus",
-    "MessageItemMetadataLocked": "Die Metadaten des Elements sind gesperrt. Entsperre sie, bevor die Identifitätsfunktion genutzt wird."
+    "MessageItemMetadataLocked": "Die Metadaten des Elements sind gesperrt. Entsperre sie, bevor die Identifitätsfunktion genutzt wird.",
+    "ManageMetadata": "Metadaten verwalten",
+    "ManageServer": "Server verwalten"
 }
