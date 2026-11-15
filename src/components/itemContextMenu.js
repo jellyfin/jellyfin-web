@@ -224,11 +224,19 @@ export async function getCommands(options) {
                 icon: 'file_download'
             });
 
-            commands.push({
-                name: globalize.translate('CopyStreamURL'),
-                id: 'copy-stream',
-                icon: 'content_copy'
-            });
+            // Copying a stream URL used to hand out the caller's own session
+            // credential. It now mints a short-lived scoped share link instead.
+            //
+            // Share is the same action with a chosen duration, so when it is offered
+            // Copy Stream URL would be a strictly weaker duplicate. Keep it only for
+            // setups that cannot share at all, so those users lose nothing.
+            if (!browser.tv && !itemHelper.canShareLink(item, user)) {
+                commands.push({
+                    name: globalize.translate('CopyStreamURL'),
+                    id: 'copy-stream',
+                    icon: 'content_copy'
+                });
+            }
         }
     }
 
@@ -364,7 +372,7 @@ export async function getCommands(options) {
         });
     }
 
-    if (!browser.tv && options.share === true && itemHelper.canShare(item, user)) {
+    if (!browser.tv && options.share === true && itemHelper.canShareLink(item, user)) {
         commands.push({
             name: globalize.translate('Share'),
             id: 'share',
