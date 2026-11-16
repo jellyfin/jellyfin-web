@@ -69,6 +69,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     const unsubscribeRef = useRef<Array<() => void>>([]);
 
     const onClick = useCallback((e: MouseEvent) => {
+        if (e.defaultPrevented) return;
+
         const itemsContainer = itemsContainerRef.current as HTMLDivElement;
         const multiSelect = multiSelectref.current;
 

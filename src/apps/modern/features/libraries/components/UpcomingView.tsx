@@ -65,10 +65,8 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
             {groups.map((group) => (
                 <SectionContainer
                     key={group.name}
-                    isScrollerMode={false}
-                    sectionHeaderProps={{
-                        title: group.name
-                    }}
+                    variant='grid'
+                    title={group.name}
                     itemsContainerProps={{
                         className: 'vertical-wrap padded-left padded-right',
                         queryKey: ['UpcomingEpisodes']

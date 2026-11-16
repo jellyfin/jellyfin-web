@@ -53,8 +53,8 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     const getRouteUrl = (item: ItemDto) => {
         return appRouter.getRouteUrl(item, {
             context: collectionType,
-            parentId: parentId
-        });
+            parentId
+        }).substring(1);
     };
 
     if (isLoading) {
@@ -63,10 +63,8 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
 
     return <SectionContainer
         key={genre.Name}
-        sectionHeaderProps={{
-            title: genre.Name || '',
-            url: getRouteUrl(genre)
-        }}
+        title={genre.Name || ''}
+        url={getRouteUrl(genre)}
         items={itemsResult?.Items}
         cardOptions={{
             scalable: true,
