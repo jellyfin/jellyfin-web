@@ -6,6 +6,8 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
+import shell from '../scripts/shell';
+import { downloadToDirectory, pickDownloadDirectory, supportsDirectoryDownload } from '../utils/directoryDownload';
 import dom from '../utils/dom';
 import globalize from '../lib/globalize';
 import actionsheet from './actionSheet/actionSheet';
@@ -428,26 +430,50 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'downloadall': {
-                const downloadItems = items => {
-                    import('../scripts/fileDownloader').then((fileDownloader) => {
-                        const downloads = items
-                            .filter(i => i.CanDownload)
-                            .map(i => {
-                                const url = getLibraryApi(api).getDownloadUrl({ itemId: i.Id });
-                                return {
-                                    url,
-                                    item: i,
-                                    itemId: i.Id,
-                                    serverId,
-                                    title: i.Name,
-                                    filename: i.Path.replace(/^.*[\\/]/, '')
-                                };
-                            });
+                const getFolders = i => {
+                    switch (item.Type) {
+                        case BaseItemKind.Season:
+                        case BaseItemKind.Series:
+                            return [i.SeriesName, i.SeasonName].filter(Boolean);
+                        default:
+                            return [item.Name];
+                    }
+                };
 
-                        fileDownloader.download(downloads);
+                const downloadItems = (items, directory) => {
+                    const downloads = items
+                        .filter(i => i.CanDownload)
+                        .map(i => {
+                            const url = getLibraryApi(api).getDownloadUrl({ itemId: i.Id });
+                            return {
+                                url,
+                                item: i,
+                                itemId: i.Id,
+                                serverId,
+                                title: i.Name,
+                                filename: i.Path.replace(/^.*[\\/]/, ''),
+                                collectionName: item.Type === BaseItemKind.BoxSet ? item.Name : undefined,
+                                folders: getFolders(i)
+                            };
+                        });
+
+                    if (!directory) {
+                        import('../scripts/fileDownloader').then((fileDownloader) => {
+                            fileDownloader.download(downloads);
+                        });
+                        return;
+                    }
+
+                    toast(globalize.translate('MessageDownloadingToFolder', downloads.length, item.Name));
+                    downloadToDirectory(directory, downloads).then(failed => {
+                        if (failed.length) {
+                            toast(globalize.translate('MessageDownloadsFailed', failed.length, downloads.length));
+                        } else {
+                            toast(globalize.translate('MessageDownloadsComplete', item.Name));
+                        }
                     });
                 };
-                const downloadSeasons = seasons => {
+                const downloadSeasons = (seasons, directory) => {
                     Promise.all(seasons.map(seasonItem => {
                         return apiClient.getEpisodes(seasonItem.SeriesId, {
                             seasonId: seasonItem.Id,
@@ -456,27 +482,41 @@ function executeCommand(item, id, options) {
                         });
                     }
                     )).then(seasonData => {
-                        downloadItems(seasonData.map(season => season.Items).flat());
+                        downloadItems(seasonData.map(season => season.Items).flat(), directory);
                     });
                 };
 
-                switch (item.Type) {
-                    case BaseItemKind.BoxSet:
-                    case BaseItemKind.MusicAlbum:
-                        apiClient.getItems(options.user.Id, {
-                            ParentId: item.Id,
-                            Fields: 'CanDownload,Path'
-                        }).then(({ Items }) => downloadItems(Items));
-                        break;
-                    case BaseItemKind.Season:
-                        downloadSeasons([item]);
-                        break;
-                    case BaseItemKind.Series:
-                        apiClient.getSeasons(item.Id, {
-                            userId: options.user.Id,
-                            Fields: 'ItemCounts'
-                        }).then(seasons => downloadSeasons(seasons.Items));
-                }
+                // When the browser supports it, ask for a folder up front so the files can be
+                // saved into subfolders instead of all landing in the browser's download folder.
+                // The picker has to be opened while the click still counts as a user action.
+                const getDirectory = shell.canDownloadFiles() || !supportsDirectoryDownload() ?
+                    Promise.resolve(null) :
+                    pickDownloadDirectory();
+
+                getDirectory.then(directory => {
+                    switch (item.Type) {
+                        case BaseItemKind.BoxSet:
+                        case BaseItemKind.MusicAlbum:
+                            apiClient.getItems(options.user.Id, {
+                                ParentId: item.Id,
+                                Fields: 'CanDownload,Path'
+                            }).then(({ Items }) => downloadItems(Items, directory));
+                            break;
+                        case BaseItemKind.Season:
+                            downloadSeasons([item], directory);
+                            break;
+                        case BaseItemKind.Series:
+                            apiClient.getSeasons(item.Id, {
+                                userId: options.user.Id,
+                                Fields: 'ItemCounts'
+                            }).then(seasons => downloadSeasons(seasons.Items, directory));
+                    }
+                }).catch(err => {
+                    // The user closed the folder picker
+                    if (err?.name !== 'AbortError') {
+                        console.error('[itemContextMenu] failed to pick download folder', err);
+                    }
+                });
 
                 getResolveFunction(getResolveFunction(resolve, id), id)();
                 break;

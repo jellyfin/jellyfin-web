@@ -34,6 +34,8 @@ export declare global {
     interface NativeShellDownloadItem {
         url: string;
         filename?: string;
+        /** Name of the collection the item is being downloaded as part of */
+        collectionName?: string;
         item?: BaseItemDto;
         itemId?: string;
         serverId?: string;
@@ -108,6 +110,12 @@ export declare global {
         TaskButton: typeof import('./scripts/taskbutton').default;
         appMode?: string;
         NativeShell?: NativeShell;
+        /** File System Access API, currently only available in Chromium based browsers */
+        showDirectoryPicker?(options?: {
+            id?: string;
+            mode?: 'read' | 'readwrite';
+            startIn?: FileSystemHandle | string;
+        }): Promise<FileSystemDirectoryHandle>;
         Loading: {
             show();
             hide();

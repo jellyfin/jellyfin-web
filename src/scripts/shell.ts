@@ -47,6 +47,12 @@ export default {
         }
     },
     /**
+     * Returns true if the NativeShell handles file downloads
+     */
+    canDownloadFiles() {
+        return !!(window.NativeShell?.downloadFiles || window.NativeShell?.downloadFile);
+    },
+    /**
      * Download specified files with NativeShell if possible
      *
      * @returns true on success
