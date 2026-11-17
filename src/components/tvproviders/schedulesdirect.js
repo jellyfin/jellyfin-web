@@ -152,12 +152,16 @@ export default function (page, providerId, options) {
         }
 
         try {
-            const { data: result } = await getLiveTvApi(api).addListingProvider({ listingsProviderInfo: info });
+            const { data: result } = await getLiveTvApi(api).addListingProvider({
+                validateLogin: true,
+                listingsProviderInfo: info
+            });
 
             Dashboard.processServerConfigurationUpdateResult();
             providerId = result.Id;
             reload();
         } catch {
+            loading.hide();
             Dashboard.alert({
                 message: globalize.translate('ErrorSavingTvProvider')
             });
