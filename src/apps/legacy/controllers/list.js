@@ -973,10 +973,10 @@ class ItemsView {
     getFilters() {
         const basekey = this.getSettingsKey();
         return {
-            IsPlayed: userSettings.getFilter(basekey + '-filter-IsPlayed') === 'true',
+            IsPlayed: this.params.IsPlayed === 'true' || userSettings.getFilter(basekey + '-filter-IsPlayed') === 'true',
             IsUnplayed: userSettings.getFilter(basekey + '-filter-IsUnplayed') === 'true',
             IsFavorite: userSettings.getFilter(basekey + '-filter-IsFavorite') === 'true',
-            IsResumable: userSettings.getFilter(basekey + '-filter-IsResumable') === 'true',
+            IsResumable: this.params.IsResumable === 'true' || userSettings.getFilter(basekey + '-filter-IsResumable') === 'true',
             Is4K: userSettings.getFilter(basekey + '-filter-Is4K') === 'true',
             IsHD: userSettings.getFilter(basekey + '-filter-IsHD') === 'true',
             IsSD: userSettings.getFilter(basekey + '-filter-IsSD') === 'true',
@@ -994,10 +994,15 @@ class ItemsView {
 
     getSortValues() {
         const basekey = this.getSettingsKey();
-        return userSettings.getSortValuesLegacy(basekey, this.getDefaultSortBy());
+        return userSettings.getSortValuesLegacy(basekey, this.getDefaultSortBy(), this.params.SortOrder);
     }
 
     getDefaultSortBy() {
+        // A link can say which order to start in, e.g. newest first for "Recently Added"
+        if (this.params.SortBy) {
+            return this.params.SortBy;
+        }
+
         const sortNameOption = this.getNameSortOption(this.params);
 
         if (this.params.type) {
@@ -1139,14 +1144,20 @@ class ItemsView {
             if (params.type === 'Programs') {
                 filters.push('Genres');
             } else {
-                filters.push('IsUnplayed');
-                filters.push('IsPlayed');
+                // A link can require played items, and the server rejects Played with Unplayed
+                if (!params.IsPlayed) {
+                    filters.push('IsUnplayed');
+                    filters.push('IsPlayed');
+                }
 
                 if (!params.IsFavorite) {
                     filters.push('IsFavorite');
                 }
 
-                filters.push('IsResumable');
+                if (!params.IsResumable) {
+                    filters.push('IsResumable');
+                }
+
                 filters.push('VideoType');
                 filters.push('HasSubtitles');
                 filters.push('HasTrailer');
@@ -1299,6 +1310,19 @@ class ItemsView {
 
         if (params.IsFavorite) {
             values.push('IsFavorite');
+        }
+
+        if (params.IsPlayed) {
+            values.push('IsPlayed');
+        }
+
+        if (params.IsResumable) {
+            values.push('IsResumable');
+        }
+
+        // Lists that start in different orders remember their sort separately
+        if (params.SortBy) {
+            values.push(params.SortBy);
         }
 
         if (params.genreId) {
