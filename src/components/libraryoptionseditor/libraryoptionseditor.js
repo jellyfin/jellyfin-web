@@ -1,11 +1,7 @@
-
-/**
- * Module for library options editor.
- * @module components/libraryoptionseditor/libraryoptionseditor
- */
-
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import escapeHtml from 'escape-html';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api';
 
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -18,11 +14,12 @@ import '../../elements/emby-textarea/emby-textarea';
 import './style.scss';
 import template from './libraryoptionseditor.template.html';
 
-function populateLanguages(parent) {
-    return ServerConnections.currentApiClient().getCultures().then(languages => {
-        populateLanguagesIntoSelect(parent.querySelector('#selectLanguage'), languages);
-        populateLanguagesIntoList(parent.querySelector('.subtitleDownloadLanguages'), languages);
-    });
+async function populateLanguages(parent) {
+    const api = ServerConnections.getApi();
+    const { data: languages } = await getLocalizationApi(api).getCultures();
+
+    populateLanguagesIntoSelect(parent.querySelector('#selectLanguage'), languages);
+    populateLanguagesIntoList(parent.querySelector('.subtitleDownloadLanguages'), languages);
 }
 
 function populateLanguagesIntoSelect(select, languages) {
@@ -42,15 +39,16 @@ function populateLanguagesIntoList(element, languages) {
     element.innerHTML = html;
 }
 
-function populateCountries(select) {
-    return ServerConnections.currentApiClient().getCountries().then(allCountries => {
-        let html = '';
-        html += "<option value=''></option>";
-        for (const culture of allCountries) {
-            html += `<option value='${culture.TwoLetterISORegionName}'>${culture.DisplayName}</option>`;
-        }
-        select.innerHTML = html;
-    });
+async function populateCountries(select) {
+    const api = ServerConnections.getApi();
+    const { data: allCountries } = await getLocalizationApi(api).getCountries();
+
+    let html = '';
+    html += "<option value=''></option>";
+    for (const culture of allCountries) {
+        html += `<option value='${culture.TwoLetterISORegionName}'>${culture.DisplayName}</option>`;
+    }
+    select.innerHTML = html;
 }
 
 function populateRefreshInterval(select) {
@@ -392,13 +390,15 @@ function renderSimilarItemProviders(page, availableOptions, libraryOptions) {
     return true;
 }
 
-function populateMetadataSettings(parent, contentType) {
+async function populateMetadataSettings(parent, libraryContentType) {
     const isNewLibrary = parent.classList.contains('newlibrary');
-    const apiClient = ServerConnections.currentApiClient();
-    return apiClient.getJSON(apiClient.getUrl('Libraries/AvailableOptions', {
-        LibraryContentType: contentType,
-        IsNewLibrary: isNewLibrary
-    })).then(availableOptions => {
+    const api = ServerConnections.getApi();
+    try {
+        const { data: availableOptions } = await getLibraryApi(api).getLibraryOptionsInfo({
+            libraryContentType,
+            isNewLibrary
+        });
+
         currentAvailableOptions = availableOptions;
         parent.availableOptions = availableOptions;
         renderMetadataSavers(parent, availableOptions.MetadataSavers);
@@ -409,10 +409,10 @@ function populateMetadataSettings(parent, contentType) {
         renderMediaSegmentProviders(parent, availableOptions, {});
         renderImageFetchers(parent, availableOptions, {});
         renderSimilarItemProviders(parent, availableOptions, {});
-        availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleProviderSettings').classList.remove('hide') : parent.querySelector('.subtitleProviderSettings').classList.add('hide');
-    }).catch(() => {
-        return Promise.resolve();
-    });
+        parent.querySelector('.subtitleProviderSettings').classList.toggle('hide', !availableOptions.SubtitleFetchers.length);
+    } catch (e) {
+        console.warn('[populateMetadataSettings] Failed to populate metadata settings', e);
+    }
 }
 
 function adjustSortableListElement(elem) {

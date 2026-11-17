@@ -1,4 +1,6 @@
 import escapeHtml from 'escape-html';
+import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
+
 import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
@@ -14,25 +16,22 @@ import '../formdialog.scss';
 
 export default class ChannelMapper {
     constructor(options) {
-        function mapChannel(button, channelId, providerChannelId) {
+        async function mapChannel(button, channelId, providerChannelId) {
             loading.show();
             const providerId = options.providerId;
-            ServerConnections.getApiClient(options.serverId).ajax({
-                type: 'POST',
-                url: ServerConnections.currentApiClient().getUrl('LiveTv/ChannelMappings'),
-                data: JSON.stringify({
-                    providerId: providerId,
-                    tunerChannelId: channelId,
-                    providerChannelId: providerChannelId
-                }),
-                contentType: 'application/json',
-                dataType: 'json'
-            }).then(mapping => {
-                const listItem = dom.parentWithClass(button, 'listItem');
-                button.setAttribute('data-providerid', mapping.ProviderChannelId);
-                listItem.querySelector('.secondary').innerText = getMappingSecondaryName(mapping, currentMappingOptions.ProviderName);
-                loading.hide();
+            const api = ServerConnections.getApi(options.serverId);
+            const { data: mapping } = await getLiveTvApi(api).setChannelMapping({
+                setChannelMappingDto: {
+                    ProviderId: providerId,
+                    TunerChannelId: channelId,
+                    ProviderChannelId: providerChannelId
+                }
             });
+
+            const listItem = dom.parentWithClass(button, 'listItem');
+            button.setAttribute('data-providerid', mapping.ProviderChannelId);
+            listItem.querySelector('.secondary').innerText = getMappingSecondaryName(mapping, currentMappingOptions.ProviderName);
+            loading.hide();
         }
 
         function onChannelsElementClick(e) {
@@ -59,11 +58,10 @@ export default class ChannelMapper {
             }
         }
 
-        function getChannelMappingOptions(serverId, providerId) {
-            const apiClient = ServerConnections.getApiClient(serverId);
-            return apiClient.getJSON(apiClient.getUrl('LiveTv/ChannelMappingOptions', {
-                providerId: providerId
-            }));
+        async function getChannelMappingOptions(serverId, providerId) {
+            const api = ServerConnections.getApi(serverId);
+            const { data } = await getLiveTvApi(api).getChannelMappingOptions({ providerId });
+            return data;
         }
 
         function getMappingSecondaryName(mapping, providerName) {

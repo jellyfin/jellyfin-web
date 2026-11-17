@@ -1,4 +1,7 @@
 import escapeHtml from 'escape-html';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api';
+import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
 
 import { AppFeature } from 'constants/appFeature';
 import { appHost } from '../apphost';
@@ -26,52 +29,40 @@ import template from './subtitleeditor.template.html';
 let currentItem;
 let hasChanges;
 
-function downloadRemoteSubtitles(context, id) {
-    const url = 'Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + id;
-
-    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-    apiClient.ajax({
-
-        type: 'POST',
-        url: apiClient.getUrl(url)
-
-    }).then(function () {
-        hasChanges = true;
-
-        toast(globalize.translate('MessageDownloadQueued'));
-
-        focusManager.autoFocus(context);
+async function downloadRemoteSubtitles(context, subtitleId) {
+    const api = ServerConnections.getApi(currentItem.ServerId);
+    await getSubtitleApi(api).downloadRemoteSubtitles({
+        itemId: currentItem.Id,
+        subtitleId
     });
+
+    hasChanges = true;
+    toast(globalize.translate('MessageDownloadQueued'));
+    focusManager.autoFocus(context);
 }
 
-function deleteLocalSubtitle(context, index) {
+async function deleteLocalSubtitle(context, index) {
     const msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
-    confirm({
-
+    await confirm({
         title: globalize.translate('ConfirmDeletion'),
         text: msg,
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
-
-    }).then(function () {
-        loading.show();
-
-        const itemId = currentItem.Id;
-        const url = 'Videos/' + itemId + '/Subtitles/' + index;
-
-        const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-
-        apiClient.ajax({
-
-            type: 'DELETE',
-            url: apiClient.getUrl(url)
-
-        }).then(function () {
-            hasChanges = true;
-            reload(context, apiClient, itemId);
-        });
     });
+
+    loading.show();
+
+    const itemId = currentItem.Id;
+    const api = ServerConnections.getApi(currentItem.ServerId);
+    await getSubtitleApi(api).deleteSubtitle({
+        itemId,
+        index
+    });
+
+    hasChanges = true;
+    const { data: item } = await getLibraryApi(api).getItem({ itemId });
+    reload(context, item);
 }
 
 function fillSubtitleList(context, item) {
@@ -139,7 +130,7 @@ function fillSubtitleList(context, item) {
     elem.innerHTML = html;
 }
 
-function fillLanguages(context, apiClient, languages) {
+async function fillLanguages(context, serverId, languages) {
     const selectLanguage = context.querySelector('#selectLanguage');
 
     selectLanguage.innerHTML = languages.map(function (l) {
@@ -150,13 +141,12 @@ function fillLanguages(context, apiClient, languages) {
     if (lastLanguage) {
         selectLanguage.value = lastLanguage;
     } else {
-        apiClient.getCurrentUser().then(function (user) {
-            const lang = user.Configuration.SubtitleLanguagePreference;
+        const user = await ServerConnections.getApiClient(serverId).getCurrentUser();
+        const lang = user.Configuration.SubtitleLanguagePreference;
 
-            if (lang) {
-                selectLanguage.value = lang;
-            }
-        });
+        if (lang) {
+            selectLanguage.value = lang;
+        }
     }
 }
 
@@ -270,48 +260,41 @@ function renderSearchResults(context, results) {
     loading.hide();
 }
 
-function searchForSubtitles(context, language) {
+async function searchForSubtitles(context, language) {
     userSettings.set('subtitleeditor-language', language);
 
     loading.show();
 
-    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-    const url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
-
-    apiClient.getJSON(url).then(function (results) {
-        renderSearchResults(context, results);
+    const api = ServerConnections.getApi(currentItem.ServerId);
+    const { data: results } = await getSubtitleApi(api).searchRemoteSubtitles({
+        itemId: currentItem.Id,
+        language
     });
+
+    renderSearchResults(context, results);
 }
 
-function reload(context, apiClient, itemId) {
+function reload(context, item) {
     context.querySelector('.noSearchResults').classList.add('hide');
 
-    function onGetItem(item) {
-        currentItem = item;
+    currentItem = item;
 
-        fillSubtitleList(context, item);
-        let file = item.Path || '';
-        const index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
-        if (index > -1) {
-            file = file.substring(index + 1);
-        }
-
-        if (file) {
-            context.querySelector('.pathValue').innerText = file;
-            context.querySelector('.originalFile').classList.remove('hide');
-        } else {
-            context.querySelector('.pathValue').innerHTML = '';
-            context.querySelector('.originalFile').classList.add('hide');
-        }
-
-        loading.hide();
+    fillSubtitleList(context, item);
+    let file = item.Path || '';
+    const index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
+    if (index > -1) {
+        file = file.substring(index + 1);
     }
 
-    if (typeof itemId === 'string') {
-        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(onGetItem);
+    if (file) {
+        context.querySelector('.pathValue').innerText = file;
+        context.querySelector('.originalFile').classList.remove('hide');
     } else {
-        onGetItem(itemId);
+        context.querySelector('.pathValue').innerHTML = '';
+        context.querySelector('.originalFile').classList.add('hide');
     }
+
+    loading.hide();
 }
 
 function onSearchSubmit(e) {
@@ -381,101 +364,99 @@ function centerFocus(elem, horiz, on) {
     });
 }
 
-function onOpenUploadMenu(e) {
+async function onOpenUploadMenu(e) {
     const dialog = dom.parentWithClass(e.target, 'subtitleEditorDialog');
     const selectLanguage = dialog.querySelector('#selectLanguage');
-    const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
-    import('../subtitleuploader/subtitleuploader').then(({ default: subtitleUploader }) => {
-        subtitleUploader.show({
-            languages: {
-                list: selectLanguage.innerHTML,
-                value: selectLanguage.value
-            },
-            itemId: currentItem.Id,
-            serverId: currentItem.ServerId
-        }).then(function (hasChanged) {
-            if (hasChanged) {
-                hasChanges = true;
-                reload(dialog, apiClient, currentItem.Id);
-            }
-        });
+    const { default: subtitleUploader } = await import('../subtitleuploader/subtitleuploader');
+    const hasChanged = await subtitleUploader.show({
+        languages: {
+            list: selectLanguage.innerHTML,
+            value: selectLanguage.value
+        },
+        itemId: currentItem.Id,
+        serverId: currentItem.ServerId
     });
+    if (hasChanged) {
+        hasChanges = true;
+        const api = ServerConnections.getApi(currentItem.ServerId);
+        const { data: item } = await getLibraryApi(api).getItem({ itemId: currentItem.Id });
+        reload(dialog, item);
+    }
 }
 
-function showEditorInternal(itemId, serverId) {
+async function showEditorInternal(itemId, serverId) {
     hasChanges = false;
 
-    const apiClient = ServerConnections.getApiClient(serverId);
-    return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-        const dialogOptions = {
-            removeOnClose: true,
-            scrollY: false
-        };
+    const api = ServerConnections.getApi(serverId);
+    const { data: item } = await getLibraryApi(api).getItem({ itemId });
 
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
+    const dialogOptions = {
+        removeOnClose: true,
+        scrollY: false
+    };
 
-        const dlg = dialogHelper.createDialog(dialogOptions);
+    if (layoutManager.tv) {
+        dialogOptions.size = 'fullscreen';
+    } else {
+        dialogOptions.size = 'small';
+    }
 
-        dlg.classList.add('formDialog');
-        dlg.classList.add('subtitleEditorDialog');
+    const dlg = dialogHelper.createDialog(dialogOptions);
 
-        dlg.innerHTML = globalize.translateHtml(template, 'core');
+    dlg.classList.add('formDialog');
+    dlg.classList.add('subtitleEditorDialog');
 
-        dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('File');
+    dlg.innerHTML = globalize.translateHtml(template, 'core');
 
-        dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
+    dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('File');
 
-        dlg.querySelector('.btnOpenUploadMenu').addEventListener('click', onOpenUploadMenu);
+    dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 
-        const btnSubmit = dlg.querySelector('.btnSubmit');
+    dlg.querySelector('.btnOpenUploadMenu').addEventListener('click', onOpenUploadMenu);
 
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
-        } else {
-            btnSubmit.classList.add('hide');
-        }
+    const btnSubmit = dlg.querySelector('.btnSubmit');
 
-        // Don't allow redirection to other websites from the TV layout
-        if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
-            dlg.querySelector('.btnHelp').remove();
-        }
+    if (layoutManager.tv) {
+        centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+        dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
+    } else {
+        btnSubmit.classList.add('hide');
+    }
 
-        const editorContent = dlg.querySelector('.formDialogContent');
+    // Don't allow redirection to other websites from the TV layout
+    if (layoutManager.tv || !appHost.supports(AppFeature.ExternalLinks)) {
+        dlg.querySelector('.btnHelp').remove();
+    }
 
-        dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
-        dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
+    const editorContent = dlg.querySelector('.formDialogContent');
 
-        apiClient.getCultures().then(function (languages) {
-            fillLanguages(editorContent, apiClient, languages);
+    dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
+    dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
+
+    const { data: languages } = await getLocalizationApi(api).getCultures();
+    fillLanguages(editorContent, serverId, languages);
+
+    dlg.querySelector('.btnCancel').addEventListener('click', function () {
+        dialogHelper.close(dlg);
+    });
+
+    return new Promise(function (resolve, reject) {
+        dlg.addEventListener('close', function () {
+            if (layoutManager.tv) {
+                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+            }
+
+            if (hasChanges) {
+                resolve();
+            } else {
+                reject();
+            }
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
-            dialogHelper.close(dlg);
-        });
+        dialogHelper.open(dlg);
 
-        return new Promise(function (resolve, reject) {
-            dlg.addEventListener('close', function () {
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
-
-                if (hasChanges) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-
-            dialogHelper.open(dlg);
-
-            reload(editorContent, apiClient, item);
-        });
+        reload(editorContent, item);
     });
 }
 

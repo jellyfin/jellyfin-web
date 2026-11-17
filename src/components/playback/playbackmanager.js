@@ -305,12 +305,13 @@ function getAudioMaxValues(deviceProfile) {
 
 let startingPlaySession = new Date().getTime();
 function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiClient, startPosition, maxValues) {
+    const api = ServerConnections.getApi(item.ServerId);
     const url = 'Audio/' + item.Id + '/universal';
 
     startingPlaySession++;
-    return apiClient.getUrl(url, {
+    return api.getUri(url, {
         UserId: apiClient.getCurrentUserId(),
-        DeviceId: apiClient.deviceId(),
+        DeviceId: api.deviceInfo.id,
         MaxStreamingBitrate: maxValues.maxAudioBitrate || maxValues.maxBitrate,
         Container: directPlayContainers,
         TranscodingContainer: transcodingProfile.Container || null,
@@ -318,7 +319,7 @@ function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, apiCl
         AudioCodec: transcodingProfile.AudioCodec,
         MaxAudioSampleRate: maxValues.maxAudioSampleRate,
         MaxAudioBitDepth: maxValues.maxAudioBitDepth,
-        ApiKey: apiClient.accessToken(),
+        ApiKey: api.accessToken,
         PlaySessionId: startingPlaySession,
         StartTimeTicks: startPosition || 0,
         EnableRedirection: true,
@@ -542,14 +543,10 @@ function getOptimalMediaSource(apiClient, item, versions) {
     });
 }
 
-function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, mediaSource, options) {
-    const postData = {
-        DeviceProfile: deviceProfile,
-        OpenToken: mediaSource.OpenToken
-    };
-
+async function getLiveStream(player, item, playSessionId, deviceProfile, mediaSource, options) {
     const query = {
-        UserId: apiClient.getCurrentUserId(),
+        DeviceProfile: deviceProfile,
+        OpenToken: mediaSource.OpenToken,
         StartTimeTicks: options.startPosition || 0,
         ItemId: item.Id,
         PlaySessionId: playSessionId
@@ -572,14 +569,10 @@ function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, me
         query.EnableDirectStream = false;
     }
 
-    return apiClient.ajax({
-        url: apiClient.getUrl('LiveStreams/Open', query),
-        type: 'POST',
-        data: JSON.stringify(postData),
-        contentType: 'application/json',
-        dataType: 'json'
+    const api = ServerConnections.getApi(item.ServerId);
+    const { data } = await getMediaInfoApi(api).openLiveStream({ openLiveStreamDto: query });
 
-    });
+    return data;
 }
 
 function isHostReachable(mediaSource, apiClient) {
@@ -2876,6 +2869,7 @@ export class PlaybackManager {
         };
 
         function createStreamInfo(apiClient, type, item, mediaSource, startPosition, player) {
+            const api = ServerConnections.getApi(item.ServerId);
             let mediaUrl;
             let contentType;
             let transcodingOffsetTicks = 0;
@@ -2890,7 +2884,7 @@ export class PlaybackManager {
             if (mediaSource.MediaStreams && player.useFullSubtitleUrls) {
                 mediaSource.MediaStreams.forEach(stream => {
                     if (stream.DeliveryUrl?.startsWith('/')) {
-                        stream.DeliveryUrl = apiClient.getUrl(stream.DeliveryUrl);
+                        stream.DeliveryUrl = api.getUri(stream.DeliveryUrl);
                     }
                 });
             }
@@ -2910,8 +2904,8 @@ export class PlaybackManager {
                     directOptions = {
                         Static: true,
                         mediaSourceId: mediaSource.Id,
-                        deviceId: apiClient.deviceId(),
-                        ApiKey: apiClient.accessToken()
+                        deviceId: api.deviceInfo.id,
+                        ApiKey: api.accessToken
                     };
 
                     if (mediaSource.ETag) {
@@ -2923,11 +2917,11 @@ export class PlaybackManager {
                     }
 
                     const prefix = type === 'Video' ? 'Videos' : 'Audio';
-                    mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
+                    mediaUrl = api.getUri(prefix + '/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
 
                     playMethod = mediaSource.SupportsDirectPlay ? 'DirectPlay' : 'DirectStream';
                 } else if (mediaSource.SupportsTranscoding) {
-                    mediaUrl = apiClient.getUrl(mediaSource.TranscodingUrl);
+                    mediaUrl = api.getUri(mediaSource.TranscodingUrl);
 
                     if (mediaSource.TranscodingSubProtocol === 'hls') {
                         contentType = 'application/x-mpegURL';
@@ -2959,9 +2953,9 @@ export class PlaybackManager {
                 playerStartPositionTicks: playerStartPositionTicks,
                 item: item,
                 mediaSource: mediaSource,
-                textTracks: getTextTracks(apiClient, item, mediaSource),
+                textTracks: getTextTracks(item, mediaSource),
                 // TODO: Deprecate
-                tracks: getTextTracks(apiClient, item, mediaSource),
+                tracks: getTextTracks(item, mediaSource),
                 mediaType: type,
                 liveStreamId: liveStreamId,
                 playSessionId: getParam('playSessionId', mediaUrl),
@@ -2976,7 +2970,7 @@ export class PlaybackManager {
             return resultInfo;
         }
 
-        function getTextTracks(apiClient, item, mediaSource) {
+        function getTextTracks(item, mediaSource) {
             const subtitleStreams = mediaSource.MediaStreams.filter(function (s) {
                 return s.Type === 'Subtitle';
             });
@@ -2994,7 +2988,9 @@ export class PlaybackManager {
                 if (itemHelper.isLocalItem(item)) {
                     textStreamUrl = textStream.Path;
                 } else {
-                    textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
+                    textStreamUrl = !textStream.IsExternalUrl ?
+                        ServerConnections.getApi(item.ServerId).getUri(textStream.DeliveryUrl) :
+                        textStream.DeliveryUrl;
                 }
 
                 tracks.push({
@@ -3049,7 +3045,7 @@ export class PlaybackManager {
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
 
-                                return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
+                                return getLiveStream(player, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
                                     return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
                                         openLiveStreamResult.MediaSource.enableDirectPlay = result;
                                         openLiveStreamResult.MediaSource.hasAlternateVersions = mediaSource.hasAlternateVersions;
@@ -4083,9 +4079,9 @@ export class PlaybackManager {
     }
 
     getSubtitleUrl(textStream, serverId) {
-        const apiClient = ServerConnections.getApiClient(serverId);
-
-        return !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
+        return !textStream.IsExternalUrl ?
+            ServerConnections.getApi(serverId).getUri(textStream.DeliveryUrl) :
+            textStream.DeliveryUrl;
     }
 
     stop(player) {
