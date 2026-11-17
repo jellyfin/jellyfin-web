@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, type FC } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, type FC } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -39,7 +39,6 @@ const SectionHeader: FC<SectionHeaderProps> = ({
     const titleComponent = (
         <Typography
             variant='h2'
-            component='span'
             sx={{
                 display: 'inline-block',
                 // Match the padding of MUI Buttons
@@ -88,6 +87,13 @@ const SectionContainer: FC<SectionContainerProps> = ({
     const [ isBeginning, setIsBeginning ] = useState(true);
     const [ isEnd, setIsEnd ] = useState(true);
 
+    const finalCardOptions = useMemo<CardOptions>(() => {
+        // NOTE: setCardData modifies cardOptions so we create a shallow copy so the original stays a stable reference
+        const options = { ...cardOptions };
+        setCardData(items, options);
+        return options;
+    }, [ items, cardOptions ]);
+
     const nextSlide = useCallback(() => {
         // NOTE: Swiper seems to round up for partial slides so we need to subtract 1
         const slidesPerView = swiper ? Math.max(swiper.slidesPerViewDynamic() - 1, MIN_SLIDES_PER_VIEW) : 0;
@@ -104,12 +110,6 @@ const SectionContainer: FC<SectionContainerProps> = ({
         setIsBeginning(sw.isBeginning);
         setIsEnd(sw.isEnd);
     }, []);
-
-    useEffect(() => {
-        setCardData(items, cardOptions);
-        // NOTE: cardOptions is modified by setCardData so it should be excluded from the dependency array
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [items]);
 
     useEffect(() => {
         if (swiper) {
@@ -156,12 +156,12 @@ const SectionContainer: FC<SectionContainerProps> = ({
                         <Card
                             key={item.Id}
                             item={item}
-                            cardOptions={cardOptions}
+                            cardOptions={finalCardOptions}
                         />
                     ))
                 ) : (
                     <ItemsScroller
-                        cardOptions={cardOptions}
+                        cardOptions={finalCardOptions}
                         items={items}
                         onNavigationStateChange={syncNavigationState}
                         onSwiper={setSwiper}
