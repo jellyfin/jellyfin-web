@@ -13,6 +13,9 @@ import appSettings from './settings/appSettings';
  */
 const KeyNames = {
     13: 'Enter',
+    // Some TV remotes send keyCode 19 with an empty or non-standard code
+    // LG webOS 6: empty, Samsung Tizen 4/5: invalid, newer Tizen: 'MediaPause'
+    19: 'Pause',
     27: 'Escape',
     37: 'ArrowLeft',
     38: 'ArrowUp',
