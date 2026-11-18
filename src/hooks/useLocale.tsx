@@ -20,16 +20,23 @@ export function useLocale() {
     ), [ dateTimeSetting, locale ]);
 
     useEffect(() => {
+        let isStale = false;
+
         const fetchDateFnsLocale = async () => {
             try {
                 const dfLocale = await fetchLocale(normalizeLocale(dateTimeLocale));
-                setDateFnsLocale(dfLocale);
+                // Ignore responses for a locale that is no longer current
+                if (!isStale) setDateFnsLocale(dfLocale);
             } catch (err) {
                 console.warn('[useLocale] failed to fetch dateFns locale', err);
             }
         };
 
         void fetchDateFnsLocale();
+
+        return () => {
+            isStale = true;
+        };
     }, [ dateTimeLocale ]);
 
     return {

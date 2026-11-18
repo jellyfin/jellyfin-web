@@ -58,9 +58,9 @@ export const UserSettingsProvider: FC<PropsWithChildren<unknown>> = ({ children 
         theme,
         dashboardTheme,
         dateTimeLocale,
-        locale: language,
+        language,
         libraryPageSize
-    }), [
+    } satisfies UserSettings), [
         customCss,
         disableCustomCss,
         theme,
