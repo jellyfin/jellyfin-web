@@ -46,7 +46,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
             isKids: section.parametersOptions?.isKids,
             isNews: section.parametersOptions?.isNews,
             isSeries: section.parametersOptions?.isSeries
-        });
+        }).substring(1);
     };
 
     return (
@@ -54,10 +54,8 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
             {sectionsWithItems?.map(({ section, items }) => (
                 <SectionContainer
                     key={section.type}
-                    sectionHeaderProps={{
-                        title: globalize.translate(section.name),
-                        url: getRouteUrl(section)
-                    }}
+                    title={globalize.translate(section.name)}
+                    url={getRouteUrl(section)}
                     itemsContainerProps={{
                         queryKey: ['ProgramSectionWithItems'],
                         reloadItems: refetch
@@ -74,9 +72,7 @@ const ProgramsSectionView: FC<ProgramsSectionViewProps> = ({
             {upcomingRecordings?.map((group) => (
                 <SectionContainer
                     key={group.name}
-                    sectionHeaderProps={{
-                        title: group.name
-                    }}
+                    title={group.name}
                     itemsContainerProps={{
                         queryKey: ['Timers'],
                         reloadItems: refetch

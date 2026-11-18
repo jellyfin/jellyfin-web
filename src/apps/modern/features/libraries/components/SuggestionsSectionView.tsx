@@ -58,7 +58,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
             serverId,
             itemTypes: section.itemTypes,
             parentId: parentId
-        });
+        }).substring(1);
     };
 
     const getRecommendationTittle = (recommendation: RecommendationDto) => {
@@ -103,10 +103,8 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
             {sectionsWithItems?.map(({ section, items }) => (
                 <SectionContainer
                     key={section.type}
-                    sectionHeaderProps={{
-                        title: globalize.translate(section.name),
-                        url: getRouteUrl(section)
-                    }}
+                    title={globalize.translate(section.name)}
+                    url={getRouteUrl(section)}
                     itemsContainerProps={{
                         queryKey: ['SuggestionSectionWithItems']
                     }}
@@ -127,9 +125,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                 <SectionContainer
                     // eslint-disable-next-line react/no-array-index-key
                     key={`${recommendation.CategoryId}-${index}`} // use a unique id return value may have duplicate id
-                    sectionHeaderProps={{
-                        title: getRecommendationTittle(recommendation)
-                    }}
+                    title={getRecommendationTittle(recommendation)}
                     itemsContainerProps={{
                         queryKey: ['MovieRecommendations']
                     }}
