@@ -441,6 +441,7 @@ function updateLibraryMenu(user) {
     const customMenuOptions = document.querySelector('.customMenuOptions');
     if (customMenuOptions) {
         getMenuLinks().then(links => {
+            customMenuOptions.innerHTML = '';
             links.forEach(link => {
                 const option = document.createElement('a', 'emby-linkbutton');
                 option.classList.add('navMenuOption', 'lnkMediaFolder');
