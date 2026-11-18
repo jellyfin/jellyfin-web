@@ -1,143 +1,173 @@
-import React, { type FC, type PropsWithChildren } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, type FC } from 'react';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import classNames from 'classnames';
-import ItemsContainer, {
-    type ItemsContainerProps
-} from 'elements/emby-itemscontainer/ItemsContainer';
-import Scroller, { type ScrollerProps } from 'elements/emby-scroller/Scroller';
-import Cards from 'components/cardbuilder/Card/Cards';
-import Lists from 'components/listview/List/Lists';
-import type { CardOptions } from 'types/cardOptions';
-import type { ListOptions } from 'types/listOptions';
-import type { ItemDto } from 'types/base/models/item-dto';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
+import { Link as RouterLink } from 'react-router-dom';
+import { type SwiperClass } from 'swiper/react';
+
+import Card from '@/components/cardbuilder/Card/Card';
+import { setCardData } from '@/components/cardbuilder/cardBuilder';
+import ItemsScroller from '@/components/common/ItemsScroller';
+import ItemsContainer, { type ItemsContainerProps } from '@/elements/emby-itemscontainer/ItemsContainer';
+import browser from '@/scripts/browser';
+import type { CardOptions } from '@/types/cardOptions';
+import type { ItemDto } from '@/types/base/models/item-dto';
+
+/** The minimum number of items required to enable header linking */
+const MIN_ITEMS_FOR_LINKING = 5;
+/** The minimum number of slides that are shown per view */
+const MIN_SLIDES_PER_VIEW = 3;
+
+const enum SectionVariant {
+    Grid = 'grid',
+    Scroller = 'scroller'
+}
 
 interface SectionHeaderProps {
-    className?: string;
-    itemsLength?: number;
     url?: string;
     title: string;
 }
 
 const SectionHeader: FC<SectionHeaderProps> = ({
     title,
-    className,
-    itemsLength = 0,
     url
 }) => {
-    const sectionHeaderClass = classNames(
-        'sectionTitleContainer sectionTitleContainer-cards',
-        'padded-left',
-        className
+    const titleComponent = (
+        <Typography
+            variant='h2'
+            sx={{
+                display: 'inline-block',
+                // Match the padding of MUI Buttons
+                padding: url ? undefined : '6px 8px'
+            }}
+        >
+            {title}
+        </Typography>
     );
 
     return (
-        <Box className={sectionHeaderClass}>
-            {url && itemsLength > 5 ? (
-                <Link
-                    className='clearLink button-flat sectionTitleTextButton'
-                    underline='none'
-                    href={url}
-                >
-                    <Typography
-                        className='sectionTitle sectionTitle-cards'
-                        variant='h2'
-                    >
-                        {title}
-                    </Typography>
-                    <ChevronRightIcon sx={{ pt: '5px' }} />
-                </Link>
-            ) : (
-                <Typography
-                    className='sectionTitle sectionTitle-cards'
-                    variant='h2'
-                >
-                    {title}
-                </Typography>
-            )}
-        </Box>
+        url ? (
+            <Button
+                component={RouterLink}
+                to={url}
+                variant='text'
+                color='inherit'
+                endIcon={<ChevronRight />}
+            >
+                {titleComponent}
+            </Button>
+        ) : (
+            titleComponent
+        )
     );
 };
 
 interface SectionContainerProps {
-    className?: string;
+    variant?: `${SectionVariant}`;
+    title: string;
+    url?: string;
     items?: ItemDto[];
-    sectionHeaderProps?: Omit<SectionHeaderProps, 'itemsLength'>;
-    scrollerProps?: ScrollerProps;
     itemsContainerProps?: ItemsContainerProps;
-    isListMode?: boolean;
-    isScrollerMode?: boolean;
-    noPadding?: boolean;
     cardOptions?: CardOptions;
-    listOptions?: ListOptions;
 }
 
-const SectionContainer: FC<PropsWithChildren<SectionContainerProps>> = ({
-    className,
-    sectionHeaderProps,
-    scrollerProps,
-    itemsContainerProps,
-    isListMode = false,
-    isScrollerMode = true,
-    noPadding = false,
+const SectionContainer: FC<SectionContainerProps> = ({
+    variant = SectionVariant.Scroller,
+    title,
+    url,
     items = [],
     cardOptions = {},
-    listOptions = {},
-    children
+    itemsContainerProps = {}
 }) => {
-    const sectionClass = classNames('verticalSection', className);
+    const [ swiper, setSwiper ] = useState<SwiperClass>();
+    const [ isBeginning, setIsBeginning ] = useState(true);
+    const [ isEnd, setIsEnd ] = useState(true);
 
-    const renderItems = () => {
-        if (React.isValidElement(children)) {
-            return children;
+    const finalCardOptions = useMemo<CardOptions>(() => {
+        // NOTE: setCardData modifies cardOptions so we create a shallow copy so the original stays a stable reference
+        const options = { ...cardOptions };
+        setCardData(items, options);
+        return options;
+    }, [ items, cardOptions ]);
+
+    const nextSlide = useCallback(() => {
+        // NOTE: Swiper seems to round up for partial slides so we need to subtract 1
+        const slidesPerView = swiper ? Math.max(swiper.slidesPerViewDynamic() - 1, MIN_SLIDES_PER_VIEW) : 0;
+        swiper?.slideTo(swiper.activeIndex + slidesPerView);
+    }, [swiper]);
+
+    const previousSlide = useCallback(() => {
+        // NOTE: Swiper seems to round up for partial slides so we need to subtract 1
+        const slidesPerView = swiper ? Math.max(swiper.slidesPerViewDynamic() - 1, MIN_SLIDES_PER_VIEW) : 0;
+        swiper?.slideTo(swiper.activeIndex - slidesPerView);
+    }, [swiper]);
+
+    const syncNavigationState = useCallback((sw: SwiperClass) => {
+        setIsBeginning(sw.isBeginning);
+        setIsEnd(sw.isEnd);
+    }, []);
+
+    useEffect(() => {
+        if (swiper) {
+            syncNavigationState(swiper);
         }
-
-        if (isListMode && !isScrollerMode) {
-            return <Lists items={items} listOptions={listOptions} />;
-        } else {
-            return <Cards items={items} cardOptions={cardOptions} />;
-        }
-    };
-
-    const content = (
-        <ItemsContainer
-            className={classNames(
-                { scrollSlider: isScrollerMode },
-                itemsContainerProps?.className
-            )}
-            {...itemsContainerProps}
-        >
-            {renderItems()}
-        </ItemsContainer>
-    );
+    }, [swiper, syncNavigationState]);
 
     return (
-        <Box className={sectionClass}>
-            {sectionHeaderProps?.title && (
-                <SectionHeader
-                    className={classNames(
-                        { 'no-padding': noPadding },
-                        sectionHeaderProps?.className
-                    )}
-                    itemsLength={items.length}
-                    {...sectionHeaderProps}
-                />
-            )}
-            {isScrollerMode && !isListMode ? (
-                <Scroller
-                    className={classNames(
-                        { 'no-padding': noPadding },
-                        scrollerProps?.className
-                    )}
-                    {...scrollerProps}
-                >
-                    {content}
-                </Scroller>
-            ) : (
-                content
-            )}
+        <Box>
+            <Toolbar
+                variant='dense'
+                className='padded-left padded-right'
+            >
+                <Box sx={{ flexGrow: 1 }}>
+                    <SectionHeader
+                        title={title}
+                        url={items.length > MIN_ITEMS_FOR_LINKING ? url : undefined}
+                    />
+                </Box>
+                {!browser.mobile && (!isBeginning || !isEnd) && (
+                    <ButtonGroup
+                        variant='text'
+                        color='inherit'
+                    >
+                        <Button
+                            disabled={isBeginning}
+                            onClick={previousSlide}
+                        >
+                            <ChevronLeft />
+                        </Button>
+                        <Button
+                            disabled={isEnd}
+                            onClick={nextSlide}
+                        >
+                            <ChevronRight />
+                        </Button>
+                    </ButtonGroup>
+                )}
+            </Toolbar>
+
+            <ItemsContainer {...itemsContainerProps}>
+                {variant === SectionVariant.Grid ? (
+                    items.map(item => (
+                        <Card
+                            key={item.Id}
+                            item={item}
+                            cardOptions={finalCardOptions}
+                        />
+                    ))
+                ) : (
+                    <ItemsScroller
+                        cardOptions={finalCardOptions}
+                        items={items}
+                        onNavigationStateChange={syncNavigationState}
+                        onSwiper={setSwiper}
+                    />
+                )}
+            </ItemsContainer>
         </Box>
     );
 };

@@ -1,5 +1,5 @@
 import 'webcomponents.js/webcomponents-lite';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import ScrollerFactory from 'lib/scroller';
 import browser from '../../scripts/browser';
 import focusManager from '../../components/focusManager';

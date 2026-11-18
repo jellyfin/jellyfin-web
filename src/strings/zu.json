@@ -1,5 +1,4 @@
 {
-    "Sync": "Vumelanisa",
     "Songs": "Amaculo",
     "Shows": "Izinhlelo",
     "Playlists": "Izinhla Zokudlalayo",
@@ -14,7 +13,6 @@
     "HeaderMedia": "Imidiya",
     "HeaderLibraries": "Imitapo",
     "HeaderInstall": "Ukufaka",
-    "HeaderIdentification": "Ukuhlonza",
     "HeaderError": "Iphutha",
     "HeaderDevices": "Amadivayisi",
     "HeaderBranding": "Ukwenza uphawu",
@@ -80,9 +78,7 @@
     "ButtonRemove": "Khipha",
     "ButtonPlayer": "Isidlali",
     "ButtonPause": "Phumuza isikhashana",
-    "ButtonOpen": "Vula",
     "ButtonOk": "Kulungile",
-    "ButtonNetwork": "Inethiwekhi",
     "ButtonMore": "Okwengeziwe",
     "ButtonInfo": "Ulwazi",
     "ButtonFullscreen": "Isikrini esigcwele",

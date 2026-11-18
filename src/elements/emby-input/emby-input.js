@@ -1,5 +1,5 @@
 import browser from '../../scripts/browser';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import './emby-input.scss';
 import 'webcomponents.js/webcomponents-lite';
 

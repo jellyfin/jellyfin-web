@@ -1,17 +1,17 @@
 import React, { type FC, useCallback } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import { type QueryKey, useQueryClient } from '@tanstack/react-query';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import classNames from 'classnames';
-import { useToggleFavoriteMutation } from 'hooks/useFetchItems';
+import { useToggleFavoriteMutation } from 'apps/modern/features/libraries/hooks/api/useToggleFavorite';
+import { ItemAction } from 'constants/itemAction';
 import globalize from 'lib/globalize';
 
 interface FavoriteButtonProps {
     className?: string;
     isFavorite: boolean | undefined;
     itemId: string | null | undefined;
-    queryKey?: string[]
+    queryKey?: QueryKey
 }
 
 const FavoriteButton: FC<FavoriteButtonProps> = ({
@@ -45,23 +45,17 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
         }
     }, [isFavorite, itemId, queryClient, queryKey, toggleFavoriteMutation]);
 
-    const btnClass = classNames(
-        className,
-        { 'ratingbutton-withrating': isFavorite }
-    );
-
-    const iconClass = classNames(
-        { 'ratingbutton-icon-withrating': isFavorite }
-    );
-
     return (
         <IconButton
+            data-action={ItemAction.None}
+            className={className}
             title={isFavorite ? globalize.translate('Favorite') : globalize.translate('AddToFavorites')}
-            className={btnClass}
             size='small'
             onClick={onClick}
         >
-            <FavoriteIcon className={iconClass} />
+            <FavoriteIcon
+                color={isFavorite ? 'error' : undefined}
+            />
         </IconButton>
     );
 };

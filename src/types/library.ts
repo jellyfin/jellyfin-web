@@ -1,4 +1,5 @@
 import type { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
+import type { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import type { VideoType } from '@jellyfin/sdk/lib/generated-client/models/video-type';
 import type { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import type { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
@@ -42,9 +43,12 @@ export interface Filters {
     SeriesStatus?: SeriesStatus[];
     StudioIds?: string[];
     Tags?: string[];
+    PersonKinds?: PersonKind[];
     VideoBasicFilter?: VideoBasicFilter[];
     VideoTypes?: VideoType[];
     Years?: number[];
+    AudioLanguages?: string[];
+    SubtitleLanguages?: string[];
 }
 
 export enum ViewMode {
@@ -53,7 +57,7 @@ export enum ViewMode {
 }
 
 export interface LibraryViewSettings {
-    SortBy: ItemSortBy;
+    SortBy: ItemSortBy[];
     SortOrder: SortOrder;
     StartIndex: number;
     CardLayout: boolean;

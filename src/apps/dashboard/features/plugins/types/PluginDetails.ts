@@ -2,6 +2,7 @@ import type { ConfigurationPageInfo, PluginStatus, VersionInfo } from '@jellyfin
 
 export interface PluginDetails {
     canUninstall: boolean
+    category?: string
     description?: string
     id: string
     imageUrl?: string

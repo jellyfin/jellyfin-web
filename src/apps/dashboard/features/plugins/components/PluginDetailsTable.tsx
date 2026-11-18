@@ -72,6 +72,9 @@ const PluginDetailsTable: FC<PluginDetailsTableProps> = ({
                     <TableCell>
                         {
                             (isRepositoryLoading && <Skeleton />)
+                            || (pluginDetails?.status && pluginDetails?.canUninstall === false
+                                && globalize.translate('LabelBundled')
+                            )
                             || (pluginDetails?.version?.repositoryUrl && (
                                 <Link
                                     component={RouterLink}

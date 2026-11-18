@@ -2,7 +2,7 @@ import isEqual from 'lodash-es/isEqual';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import browser from '../../scripts/browser';
 import { playbackManager } from '../playback/playbackmanager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import * as userSettings from '../../scripts/settings/userSettings';
 
 import './backdrop.scss';
@@ -12,13 +12,11 @@ function enableAnimation() {
 }
 
 function enableRotation() {
-    return !browser.tv
-            // Causes high cpu usage
-            && !browser.firefox;
+    return !browser.tv;
 }
 
 class Backdrop {
-    load(url, parent, existingBackdropImage) {
+    load(url, slot) {
         const img = new Image();
         const self = this;
 
@@ -27,19 +25,15 @@ class Backdrop {
                 return;
             }
 
-            const backdropImage = document.createElement('div');
-            backdropImage.classList.add('backdropImage');
-            backdropImage.classList.add('displayingBackdropImage');
+            const backdropImage = document.getElementById(`backdropImage${slot}`);
             backdropImage.style.backgroundImage = `url('${url}')`;
             backdropImage.setAttribute('data-url', url);
+            backdropImage.classList.add('displayingBackdropImage', 'backdropImageFadeIn');
+            self.currentAnimatingElement = backdropImage;
 
-            backdropImage.classList.add('backdropImageFadeIn');
-            parent.appendChild(backdropImage);
+            document.getElementById(`backdropImage${1 - slot}`)?.classList.remove('displayingBackdropImage');
 
             if (!enableAnimation()) {
-                if (existingBackdropImage?.parentNode) {
-                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
-                }
                 internalBackdrop(true);
                 return;
             }
@@ -51,9 +45,8 @@ class Backdrop {
                 if (backdropImage === self.currentAnimatingElement) {
                     self.currentAnimatingElement = null;
                 }
-                if (existingBackdropImage?.parentNode) {
-                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
-                }
+
+                backdropImage?.classList.remove('backdropImageFadeIn');
             };
 
             dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
@@ -103,8 +96,12 @@ export function clearBackdrop(clearAll) {
         currentLoadingBackdrop = null;
     }
 
-    const elem = getBackdropContainer();
-    elem.innerHTML = '';
+    // Remove backdrop images from each slot element
+    document.querySelectorAll('.backdropImage').forEach(elem => {
+        elem.classList.remove('displayingBackdropImage', 'backdropImageFadeIn');
+        elem.style.backgroundImage = 'none';
+        elem.removeAttribute('data-url');
+    });
 
     if (clearAll) {
         hasExternalBackdrop = false;
@@ -142,25 +139,19 @@ export function externalBackdrop(isEnabled) {
 }
 
 let currentLoadingBackdrop;
+let currentBackdropSlot = 0;
 function setBackdropImage(url) {
-    if (currentLoadingBackdrop) {
-        currentLoadingBackdrop.destroy();
-        currentLoadingBackdrop = null;
-    }
-
     const elem = getBackdropContainer();
     const existingBackdropImage = elem.querySelector('.displayingBackdropImage');
-
+    // If the current backdrop image is the same as the new one, do nothing
     if (existingBackdropImage && existingBackdropImage.getAttribute('data-url') === url) {
-        if (existingBackdropImage.getAttribute('data-url') === url) {
-            return;
-        }
-        existingBackdropImage.classList.remove('displayingBackdropImage');
+        return;
     }
 
     const instance = new Backdrop();
-    instance.load(url, elem, existingBackdropImage);
+    instance.load(url, currentBackdropSlot);
     currentLoadingBackdrop = instance;
+    currentBackdropSlot = 1 - currentBackdropSlot;
 }
 
 function getItemImageUrls(item, imageOptions) {
@@ -236,7 +227,7 @@ export function setBackdropImages(images) {
     currentRotationIndex = -1;
 
     if (images.length > 1 && enableRotation()) {
-        rotationInterval = setInterval(onRotationInterval, 24000);
+        rotationInterval = setInterval(onRotationInterval, 10000);
     }
 
     onRotationInterval();
@@ -253,7 +244,8 @@ function onRotationInterval() {
     }
 
     currentRotationIndex = newIndex;
-    setBackdropImage(currentRotatingImages[newIndex]);
+    const currentImage = currentRotatingImages[newIndex];
+    setBackdropImage(currentImage);
 }
 
 function clearRotation() {

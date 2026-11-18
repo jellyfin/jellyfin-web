@@ -162,6 +162,10 @@ EmbyScrollButtonsPrototype.attachedCallback = function () {
         capture: false,
         passive: true
     });
+
+    requestAnimationFrame(() => {
+        this.scrollHandler();
+    });
 };
 
 EmbyScrollButtonsPrototype.detachedCallback = function () {

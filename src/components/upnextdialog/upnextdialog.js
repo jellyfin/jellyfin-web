@@ -1,4 +1,4 @@
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import { playbackManager } from '../playback/playbackmanager';
 import Events from '../../utils/events.ts';
 import mediaInfo from '../mediainfo/mediainfo';

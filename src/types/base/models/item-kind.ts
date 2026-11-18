@@ -3,8 +3,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 export const ItemKind = {
     ...BaseItemKind,
     Timer: 'Timer',
-    SeriesTimer: 'SeriesTimer',
-    AudioPodcast: 'AudioPodcast'
+    SeriesTimer: 'SeriesTimer'
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

@@ -1,14 +1,12 @@
-
-/**
- * Module for library options editor.
- * @module components/libraryoptionseditor/libraryoptionseditor
- */
-
-import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import escapeHtml from 'escape-html';
+import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+import { getLocalizationApi } from '@jellyfin/sdk/lib/utils/api/localization-api';
 
 import globalize from '../../lib/globalize';
-import dom from '../../scripts/dom';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import dom from '../../utils/dom';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-select/emby-select';
 import '../../elements/emby-input/emby-input';
@@ -16,11 +14,12 @@ import '../../elements/emby-textarea/emby-textarea';
 import './style.scss';
 import template from './libraryoptionseditor.template.html';
 
-function populateLanguages(parent) {
-    return ApiClient.getCultures().then(languages => {
-        populateLanguagesIntoSelect(parent.querySelector('#selectLanguage'), languages);
-        populateLanguagesIntoList(parent.querySelector('.subtitleDownloadLanguages'), languages);
-    });
+async function populateLanguages(parent) {
+    const api = ServerConnections.getApi();
+    const { data: languages } = await getLocalizationApi(api).getCultures();
+
+    populateLanguagesIntoSelect(parent.querySelector('#selectLanguage'), languages);
+    populateLanguagesIntoList(parent.querySelector('.subtitleDownloadLanguages'), languages);
 }
 
 function populateLanguagesIntoSelect(select, languages) {
@@ -40,15 +39,16 @@ function populateLanguagesIntoList(element, languages) {
     element.innerHTML = html;
 }
 
-function populateCountries(select) {
-    return ApiClient.getCountries().then(allCountries => {
-        let html = '';
-        html += "<option value=''></option>";
-        for (const culture of allCountries) {
-            html += `<option value='${culture.TwoLetterISORegionName}'>${culture.DisplayName}</option>`;
-        }
-        select.innerHTML = html;
-    });
+async function populateCountries(select) {
+    const api = ServerConnections.getApi();
+    const { data: allCountries } = await getLocalizationApi(api).getCountries();
+
+    let html = '';
+    html += "<option value=''></option>";
+    for (const culture of allCountries) {
+        html += `<option value='${culture.TwoLetterISORegionName}'>${culture.DisplayName}</option>`;
+    }
+    select.innerHTML = html;
 }
 
 function populateRefreshInterval(select) {
@@ -323,6 +323,41 @@ function getImageFetchersForTypeHtml(availableTypeOptions, libraryOptionsForType
     return html;
 }
 
+function getSimilarItemProvidersForTypeHtml(availableTypeOptions, libraryOptionsForType) {
+    let html = '';
+    let plugins = availableTypeOptions.SimilarItemProviders;
+
+    plugins = getOrderedPlugins(plugins, libraryOptionsForType.SimilarItemProviderOrder || []);
+    if (!plugins.length) return html;
+
+    html += '<div class="similarItemProvider" data-type="' + availableTypeOptions.Type + '">';
+    html += '<h3 class="checkboxListLabel">' + globalize.translate('HeaderTypeSimilarItemProviders', globalize.translate('TypeOptionPlural' + availableTypeOptions.Type)) + '</h3>';
+    html += '<div class="checkboxList paperList checkboxList-paperList">';
+
+    plugins.forEach((plugin, index) => {
+        html += '<div class="listItem similarItemProviderItem sortableOption" data-pluginname="' + escapeHtml(plugin.Name) + '">';
+        const isChecked = libraryOptionsForType.SimilarItemProviders ? libraryOptionsForType.SimilarItemProviders.includes(plugin.Name) : plugin.DefaultEnabled;
+        const checkedHtml = isChecked ? ' checked="checked"' : '';
+        html += '<label class="listItemCheckboxContainer"><input type="checkbox" is="emby-checkbox" class="chkSimilarItemProvider" data-pluginname="' + escapeHtml(plugin.Name) + '" ' + checkedHtml + '><span></span></label>';
+        html += '<div class="listItemBody">';
+        html += '<h3 class="listItemBodyText">';
+        html += escapeHtml(plugin.Name);
+        html += '</h3>';
+        html += '</div>';
+        if (index > 0) {
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Up') + '" class="btnSortableMoveUp btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_up" aria-hidden="true"></span></button>';
+        } else if (plugins.length > 1) {
+            html += '<button type="button" is="paper-icon-button-light" title="' + globalize.translate('Down') + '" class="btnSortableMoveDown btnSortable" data-pluginindex="' + index + '"><span class="material-icons keyboard_arrow_down" aria-hidden="true"></span></button>';
+        }
+        html += '</div>';
+    });
+
+    html += '</div>';
+    html += '<div class="fieldDescription">' + globalize.translate('LabelSimilarItemProvidersHelp') + '</div>';
+    html += '</div>';
+    return html;
+}
+
 function renderImageFetchers(page, availableOptions, libraryOptions) {
     let html = '';
     const elem = page.querySelector('.imageFetchers');
@@ -340,12 +375,30 @@ function renderImageFetchers(page, availableOptions, libraryOptions) {
     return true;
 }
 
-function populateMetadataSettings(parent, contentType) {
+function renderSimilarItemProviders(page, availableOptions, libraryOptions) {
+    let html = '';
+    const elem = page.querySelector('.similarItemProviders');
+    for (const availableTypeOptions of availableOptions.TypeOptions) {
+        html += getSimilarItemProvidersForTypeHtml(availableTypeOptions, getTypeOptions(libraryOptions, availableTypeOptions.Type) || {});
+    }
+    elem.innerHTML = html;
+    if (html) {
+        elem.classList.remove('hide');
+    } else {
+        elem.classList.add('hide');
+    }
+    return true;
+}
+
+async function populateMetadataSettings(parent, libraryContentType) {
     const isNewLibrary = parent.classList.contains('newlibrary');
-    return ApiClient.getJSON(ApiClient.getUrl('Libraries/AvailableOptions', {
-        LibraryContentType: contentType,
-        IsNewLibrary: isNewLibrary
-    })).then(availableOptions => {
+    const api = ServerConnections.getApi();
+    try {
+        const { data: availableOptions } = await getLibraryApi(api).getLibraryOptionsInfo({
+            libraryContentType,
+            isNewLibrary
+        });
+
         currentAvailableOptions = availableOptions;
         parent.availableOptions = availableOptions;
         renderMetadataSavers(parent, availableOptions.MetadataSavers);
@@ -355,10 +408,11 @@ function populateMetadataSettings(parent, contentType) {
         renderLyricFetchers(parent, availableOptions, {});
         renderMediaSegmentProviders(parent, availableOptions, {});
         renderImageFetchers(parent, availableOptions, {});
-        availableOptions.SubtitleFetchers.length ? parent.querySelector('.subtitleDownloadSettings').classList.remove('hide') : parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
-    }).catch(() => {
-        return Promise.resolve();
-    });
+        renderSimilarItemProviders(parent, availableOptions, {});
+        parent.querySelector('.subtitleProviderSettings').classList.toggle('hide', !availableOptions.SubtitleFetchers.length);
+    } catch (e) {
+        console.warn('[populateMetadataSettings] Failed to populate metadata settings', e);
+    }
 }
 
 function adjustSortableListElement(elem) {
@@ -432,6 +486,7 @@ function bindEvents(parent) {
     parent.querySelector('.lyricFetchers').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.mediaSegmentProviders').addEventListener('click', onSortableContainerClick);
     parent.querySelector('.imageFetchers').addEventListener('click', onImageFetchersContainerClick);
+    parent.querySelector('.similarItemProviders').addEventListener('click', onSortableContainerClick);
 
     parent.querySelector('#chkEnableEmbeddedTitles').addEventListener('change', (e) => {
         parent.querySelector('.chkEnableEmbeddedExtrasTitlesContainer').classList.toggle('hide', !e.currentTarget.checked);
@@ -505,8 +560,10 @@ export function setContentType(parent, contentType) {
 
     if (contentType === 'tvshows' || contentType === 'movies' || contentType === 'musicvideos' || contentType === 'mixed') {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.remove('hide');
+        parent.querySelector('.subtitleDownloadSettings').classList.remove('hide');
     } else {
         parent.querySelector('.fldAllowEmbeddedSubtitlesContainer').classList.add('hide');
+        parent.querySelector('.subtitleDownloadSettings').classList.add('hide');
     }
 
     if (contentType === 'music') {
@@ -605,6 +662,30 @@ function setImageFetchersIntoOptions(parent, options) {
     }
 }
 
+function setSimilarItemProvidersIntoOptions(parent, options) {
+    const sections = parent.querySelectorAll('.similarItemProvider');
+    for (const section of sections) {
+        const type = section.getAttribute('data-type');
+        let typeOptions = getTypeOptions(options, type);
+        if (!typeOptions) {
+            typeOptions = {
+                Type: type
+            };
+            options.TypeOptions.push(typeOptions);
+        }
+
+        typeOptions.SimilarItemProviders = Array.prototype.map.call(Array.prototype.filter.call(section.querySelectorAll('.chkSimilarItemProvider'), elem => {
+            return elem.checked;
+        }), elem => {
+            return elem.getAttribute('data-pluginname');
+        });
+
+        typeOptions.SimilarItemProviderOrder = Array.prototype.map.call(section.querySelectorAll('.similarItemProviderItem'), elem => {
+            return elem.getAttribute('data-pluginname');
+        });
+    }
+}
+
 function setImageOptionsIntoOptions(options) {
     const originalTypeOptions = currentLibraryOptions?.TypeOptions || [];
     for (const originalTypeOption of originalTypeOptions) {
@@ -616,7 +697,9 @@ function setImageOptionsIntoOptions(options) {
             };
             options.TypeOptions.push(typeOptions);
         }
-        originalTypeOption.ImageOptions && (typeOptions.ImageOptions = originalTypeOption.ImageOptions);
+        if (originalTypeOption.ImageOptions) {
+            typeOptions.ImageOptions = originalTypeOption.ImageOptions;
+        }
     }
 }
 
@@ -674,6 +757,7 @@ export function getLibraryOptions(parent) {
     setMediaSegmentProvidersIntoOptions(parent, options);
     setMetadataFetchersIntoOptions(parent, options);
     setImageFetchersIntoOptions(parent, options);
+    setSimilarItemProvidersIntoOptions(parent, options);
     setImageOptionsIntoOptions(options);
 
     return options;
@@ -731,6 +815,7 @@ export function setLibraryOptions(parent, options) {
     renderMetadataReaders(parent, getOrderedPlugins(parent.availableOptions.MetadataReaders, options.LocalMetadataReaderOrder || []));
     renderMetadataFetchers(parent, parent.availableOptions, options);
     renderImageFetchers(parent, parent.availableOptions, options);
+    renderSimilarItemProviders(parent, parent.availableOptions, options);
     renderSubtitleFetchers(parent, parent.availableOptions, options);
     renderLyricFetchers(parent, parent.availableOptions, options);
     renderMediaSegmentProviders(parent, parent.availableOptions, options);

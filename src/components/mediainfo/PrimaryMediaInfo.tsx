@@ -71,6 +71,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
         HasSubtitles,
         MediaType,
         RunTimeTicks,
+        PlaybackPositionTicks,
         CommunityRating,
         CriticRating
     } = item;
@@ -107,7 +108,7 @@ const PrimaryMediaInfo: FC<PrimaryMediaInfoProps> = ({
                 && MediaType === ItemMediaKind.Video
                 && RunTimeTicks
                 && !StartDate && (
-                <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} />
+                <EndsAt className={infoclass} runTimeTicks={RunTimeTicks} positionTicks={PlaybackPositionTicks} />
             )}
 
             {getMissingIndicator?.()}

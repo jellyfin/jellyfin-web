@@ -1,9 +1,12 @@
-import { playbackManager } from '../../components/playback/playbackmanager';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import serverNotifications from '../../scripts/serverNotifications';
-import { PluginType } from '../../types/plugin.ts';
-import Events from '../../utils/events.ts';
 import isEqual from 'lodash-es/isEqual';
+import { OutboundWebSocketMessageType, PeriodicListenerInterval } from '@jellyfin/sdk/lib/websocket';
+import { PlaybackOrder } from '@jellyfin/sdk/lib/generated-client/models/playback-order';
+import { RepeatMode } from '@jellyfin/sdk/lib/generated-client/models/repeat-mode';
+
+import { playbackManager } from 'components/playback/playbackmanager';
+import { PluginType } from 'constants/pluginType';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Events from 'utils/events';
 
 function getActivePlayerId() {
     const info = playbackManager.getPlayerInfo();
@@ -77,11 +80,9 @@ function sendCommandByName(instance, name, options) {
 function unsubscribeFromPlayerUpdates(instance) {
     instance.isUpdating = true;
 
-    const apiClient = getCurrentApiClient(instance);
-    apiClient.sendMessage('SessionsStop');
-    if (instance.pollInterval) {
-        clearInterval(instance.pollInterval);
-        instance.pollInterval = null;
+    if (instance._unsubscribeSessions) {
+        instance._unsubscribeSessions();
+        instance._unsubscribeSessions = null;
     }
 }
 
@@ -231,26 +232,15 @@ function getChangedEvents(oldPlayerData, newPlayerData) {
     return names;
 }
 
-function onPollIntervalFired() {
-    const instance = this;
-    const apiClient = getCurrentApiClient(instance);
-    if (!apiClient.isMessageChannelOpen()) {
-        apiClient.getSessions().then(function (sessions) {
-            processUpdatedSessions(instance, sessions, apiClient);
-        });
-    }
-}
-
 function subscribeToPlayerUpdates(instance) {
     instance.isUpdating = true;
 
     const apiClient = getCurrentApiClient(instance);
-    apiClient.sendMessage('SessionsStart', '100,800');
-    if (instance.pollInterval) {
-        clearInterval(instance.pollInterval);
-        instance.pollInterval = null;
-    }
-    instance.pollInterval = setInterval(onPollIntervalFired.bind(instance), 5000);
+    instance._unsubscribeSessions = apiClient.subscribe(
+        [OutboundWebSocketMessageType.Sessions],
+        ({ Data }) => processUpdatedSessions(instance, Data ?? [], apiClient),
+        { [OutboundWebSocketMessageType.Sessions]: new PeriodicListenerInterval(100, 800) }
+    );
 }
 
 function normalizeImages(state, apiClient) {
@@ -278,8 +268,6 @@ class SessionPlayer {
     lastPlaylistItemId;
 
     constructor() {
-        const self = this;
-
         this.name = 'Remote Control';
         this.type = PluginType.MediaPlayer;
         this.isLocalPlayer = false;
@@ -288,10 +276,6 @@ class SessionPlayer {
         this.playlist = [];
         this.isPlaylistRendered = true;
         this.isUpdatingPlaylist = false;
-
-        Events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
-            processUpdatedSessions(self, data, apiClient);
-        });
     }
 
     beginPlayerUpdates() {
@@ -553,7 +537,9 @@ class SessionPlayer {
     }
 
     getRepeatMode() {
-        // not supported?
+        let state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.RepeatMode || RepeatMode.RepeatNone;
     }
 
     setQueueShuffleMode(mode) {
@@ -563,7 +549,9 @@ class SessionPlayer {
     }
 
     getQueueShuffleMode() {
-        // not supported?
+        let state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.PlaybackOrder === PlaybackOrder.Shuffle ? 'Shuffle' : 'Sorted';
     }
 
     displayContent(options) {

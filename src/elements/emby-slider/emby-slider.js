@@ -1,7 +1,7 @@
 import isEqual from 'lodash-es/isEqual';
 
 import browser from '../../scripts/browser';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import layoutManager from '../../components/layoutManager';
 import keyboardnavigation from '../../scripts/keyboardNavigation';
 import './emby-slider.scss';

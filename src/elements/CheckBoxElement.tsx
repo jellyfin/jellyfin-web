@@ -45,7 +45,6 @@ interface CheckBoxElementProps {
     dataFilter?: string;
     itemType?: string;
     itemId?: string | null;
-    itemAppName?: string | null;
     itemCheckedAttribute?: string;
     itemName?: string | null;
     title?: string;
@@ -58,14 +57,12 @@ const CheckBoxElement: FC<CheckBoxElementProps> = ({
     dataFilter,
     itemType,
     itemId,
-    itemAppName,
     itemCheckedAttribute,
     itemName,
     title
 }) => {
-    const appName = itemAppName ? `- ${itemAppName}` : '';
     const renderContent = itemName ?
-        `<span>${escapeHTML(itemName || '')} ${appName}</span>` :
+        `<span>${escapeHTML(itemName)}</span>` :
         `<span>${globalize.translate(title)}</span>`;
 
     return (
@@ -75,13 +72,13 @@ const CheckBoxElement: FC<CheckBoxElementProps> = ({
                 labelClassName: labelClassName ?
                     `class='${labelClassName}'` :
                     '',
-                className: className,
+                className,
                 id: elementId ? `id='${elementId}'` : '',
                 dataFilter: dataFilter ? `data-filter='${dataFilter}'` : '',
                 dataItemType: itemType ? `data-itemtype='${itemType}'` : '',
-                dataId: itemId ? `data-id='${itemId}'` : '',
+                dataId: itemId ? `data-id='${escapeHTML(itemId)}'` : '',
                 checkedAttribute: itemCheckedAttribute || '',
-                renderContent: renderContent
+                renderContent
             })}
         />
     );

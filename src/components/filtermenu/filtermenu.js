@@ -1,5 +1,5 @@
 import escapeHtml from 'escape-html';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import focusManager from '../focusManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import inputManager from '../../scripts/inputManager';

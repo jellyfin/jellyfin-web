@@ -1,16 +1,16 @@
-
 /**
  * Module for media library editor.
  * @module components/mediaLibraryEditor/mediaLibraryEditor
  */
 
 import escapeHtml from 'escape-html';
-import 'jquery';
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import libraryoptionseditor from '../libraryoptionseditor/libraryoptionseditor';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../../elements/emby-button/emby-button';
 import '../listview/listview.scss';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -44,7 +44,7 @@ function onEditLibrary() {
     }
     let libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions = Object.assign(currentOptions.library.LibraryOptions || {}, libraryOptions);
-    ApiClient.updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
+    ServerConnections.currentApiClient().updateVirtualFolderOptions(currentOptions.library.ItemId, libraryOptions).then(() => {
         hasChanges = true;
         isCreating = false;
         loading.hide();
@@ -52,14 +52,20 @@ function onEditLibrary() {
     }, () => {
         isCreating = false;
         loading.hide();
+        toast(globalize.translate('ErrorDefault'));
     });
     return false;
 }
 
-function addMediaLocation(page, path, networkSharePath) {
+function addMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
     const refreshAfterChange = currentOptions.refresh;
-    ApiClient.addMediaPath(virtualFolder.Name, path, networkSharePath, refreshAfterChange).then(() => {
+
+    // If the path already exists in the library, don't add it again.
+    const isPathInLibrary = virtualFolder.Locations.some(p => path === p);
+    if (isPathInLibrary) return;
+
+    ServerConnections.currentApiClient().addMediaPath(virtualFolder.Name, path, null, refreshAfterChange).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
     }, () => {
@@ -67,11 +73,10 @@ function addMediaLocation(page, path, networkSharePath) {
     });
 }
 
-function updateMediaLocation(page, path, networkSharePath) {
+function updateMediaLocation(page, path) {
     const virtualFolder = currentOptions.library;
-    ApiClient.updateMediaPath(virtualFolder.Name, {
-        Path: path,
-        NetworkPath: networkSharePath
+    ServerConnections.currentApiClient().updateMediaPath(virtualFolder.Name, {
+        Path: path
     }).then(() => {
         hasChanges = true;
         refreshLibraryFromServer(page);
@@ -91,7 +96,7 @@ function onRemoveClick(btnRemovePath, location) {
         primary: 'delete'
     }).then(() => {
         const refreshAfterChange = currentOptions.refresh;
-        ApiClient.removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
+        ServerConnections.currentApiClient().removeMediaPath(virtualFolder.Name, location, refreshAfterChange).then(() => {
             hasChanges = true;
             refreshLibraryFromServer(dom.parentWithClass(button, 'dlg-libraryeditor'));
         }, () => {
@@ -115,7 +120,7 @@ function onListItemClick(e) {
             return;
         }
 
-        showDirectoryBrowser(dom.parentWithClass(listItem, 'dlg-libraryeditor'), originalPath, pathInfo.NetworkPath);
+        showDirectoryBrowser(dom.parentWithClass(listItem, 'dlg-libraryeditor'), originalPath);
     }
 }
 
@@ -138,7 +143,7 @@ function getFolderHtml(pathInfo, index) {
 }
 
 function refreshLibraryFromServer(page) {
-    ApiClient.getVirtualFolders().then(result => {
+    ServerConnections.currentApiClient().getVirtualFolders().then(result => {
         const library = result.filter(f => {
             return f.Name === currentOptions.library.Name;
         })[0];
@@ -174,19 +179,18 @@ function onAddButtonClick() {
     showDirectoryBrowser(dom.parentWithClass(this, 'dlg-libraryeditor'));
 }
 
-function showDirectoryBrowser(context, originalPath, networkPath) {
+function showDirectoryBrowser(context, originalPath) {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
             pathReadOnly: originalPath != null,
             path: originalPath,
-            networkSharePath: networkPath,
-            callback: function (path, networkSharePath) {
+            callback: function (path) {
                 if (path) {
                     if (originalPath) {
-                        updateMediaLocation(context, originalPath, networkSharePath);
+                        updateMediaLocation(context, originalPath);
                     } else {
-                        addMediaLocation(context, path, networkSharePath);
+                        addMediaLocation(context, path);
                     }
                 }
 
@@ -205,14 +209,15 @@ function initEditor(dlg, options) {
 }
 
 function onDialogClosed() {
-    currentDeferred.resolveWith(null, [hasChanges]);
+    closedResolver(hasChanges);
 }
 
 export class MediaLibraryEditor {
     constructor(options) {
-        const deferred = jQuery.Deferred();
+        const closedPromise = new Promise(resolve => {
+            closedResolver = resolve;
+        });
         currentOptions = options;
-        currentDeferred = deferred;
         hasChanges = false;
         const dlg = dialogHelper.createDialog({
             size: 'small',
@@ -233,11 +238,11 @@ export class MediaLibraryEditor {
             dialogHelper.close(dlg);
         });
         refreshLibraryFromServer(dlg);
-        return deferred.promise();
+        return closedPromise;
     }
 }
 
-let currentDeferred;
+let closedResolver;
 let currentOptions;
 let hasChanges = false;
 let isCreating = false;

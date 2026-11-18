@@ -1,14 +1,17 @@
-import dom from '../../scripts/dom';
+import { getFilterApi } from '@jellyfin/sdk/lib/utils/api/filter-api';
+import union from 'lodash-es/union';
+
+import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import globalize from '../../lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import union from 'lodash-es/union';
 import Events from '../../utils/events.ts';
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-collapse/emby-collapse';
 import './style.scss';
 import template from './filterdialog.template.html';
 import { stopMultiSelect } from '../../components/multiSelect/multiSelect';
+import { getFilterStatus } from 'components/filterdialog/filterIndicator';
 
 function merge(resultItems, queryItems, delimiter) {
     if (!queryItems) {
@@ -53,20 +56,25 @@ function renderFilters(context, result, query) {
         const delimeter = '|';
         return (delimeter + (query.Tags || '') + delimeter).includes(delimeter + i + delimeter);
     });
-    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years, query.Years, ','), function (i) {
+    renderOptions(context, '.yearFilters', 'chkYearFilter', merge(result.Years.map(String), query.Years, ','), function (i) {
         const delimeter = ',';
         return (delimeter + (query.Years || '') + delimeter).includes(delimeter + i + delimeter);
     });
 }
 
-function loadDynamicFilters(context, apiClient, userId, itemQuery) {
-    return apiClient.getJSON(apiClient.getUrl('Items/Filters', {
-        UserId: userId,
-        ParentId: itemQuery.ParentId,
-        IncludeItemTypes: itemQuery.IncludeItemTypes
-    })).then(function (result) {
-        renderFilters(context, result, itemQuery);
+async function loadDynamicFilters(context, serverId, userId, itemQuery) {
+    const {
+        ParentId: parentId,
+        IncludeItemTypes: includeItemTypes
+    } = itemQuery;
+    const api = ServerConnections.getApi(serverId);
+    const { data } = await getFilterApi(api).getQueryFiltersLegacy({
+        userId,
+        parentId,
+        // NOTE: The legacy apiClient used a comma-delimited string while the SDK expects an array
+        includeItemTypes: typeof includeItemTypes === 'string' ? includeItemTypes.split(',') : includeItemTypes
     });
+    renderFilters(context, data, itemQuery);
 }
 
 /**
@@ -101,8 +109,9 @@ function updateFilterControls(context, options) {
     context.querySelector('#chkThemeVideo').checked = query.HasThemeVideo === true;
     context.querySelector('#chkSpecialFeature').checked = query.HasSpecialFeature === true;
     context.querySelector('#chkSpecialEpisode').checked = query.ParentIndexNumber === 0;
-    context.querySelector('#chkMissingEpisode').checked = query.IsMissing === true;
-    context.querySelector('#chkFutureEpisode').checked = query.IsUnaired === true;
+    const isMissingChecked = query.IsMissing === true;
+    context.querySelector('#chkMissingEpisode').checked = isMissingChecked;
+    context.querySelector('#chkFutureEpisode').checked = query.IsUnaired === true || (isMissingChecked && query.IsUnaired === null);
     for (const elem of context.querySelectorAll('.chkStatus')) {
         const filters = `,${query.SeriesStatus || ''}`;
         const filterName = elem.getAttribute('data-filter');
@@ -115,7 +124,33 @@ function updateFilterControls(context, options) {
      */
 function triggerChange(instance) {
     stopMultiSelect();
+
+    const hasFilters = getFilterStatus(instance.options.query);
+    if (hasFilters) {
+        enableByClass(document, 'resetFilters');
+    } else {
+        disableByClass(document, 'resetFilters');
+    }
+
     Events.trigger(instance, 'filterchange');
+}
+
+function applyEpisodeStatusFilters(query, isMissingChecked, isUnairedChecked) {
+    query.StartIndex = 0;
+
+    if (isMissingChecked && isUnairedChecked) {
+        query.IsMissing = true;
+        query.IsUnaired = null;
+    } else if (isMissingChecked) {
+        query.IsMissing = true;
+        query.IsUnaired = false;
+    } else if (isUnairedChecked) {
+        query.IsMissing = null;
+        query.IsUnaired = true;
+    } else {
+        query.IsMissing = false;
+        query.IsUnaired = null;
+    }
 }
 
 function setVisibility(context, options) {
@@ -130,7 +165,7 @@ function setVisibility(context, options) {
         context.querySelector('.yearFilters').classList.remove('hide');
     }
 
-    if (options.mode === 'movies' || options.mode === 'episodes') {
+    if (options.mode === 'movies' || options.mode === 'series' || options.mode === 'episodes') {
         context.querySelector('.videoTypeFilters').classList.remove('hide');
     }
 
@@ -144,6 +179,22 @@ function setVisibility(context, options) {
 
     if (options.mode === 'episodes') {
         showByClass(context, 'episodeFilter');
+    }
+
+    if (!options.hasFilters) {
+        disableByClass(context, 'resetFilters');
+    }
+}
+
+function enableByClass(context, className) {
+    for (const elem of context.querySelectorAll(`.${className}`)) {
+        elem.disabled = false;
+    }
+}
+
+function disableByClass(context, className) {
+    for (const elem of context.querySelectorAll(`.${className}`)) {
+        elem.disabled = true;
     }
 }
 
@@ -254,6 +305,16 @@ class FilterDialog {
         for (const elem of context.querySelectorAll('.chkVideoTypeFilter')) {
             elem.addEventListener('change', () => this.onVideoTypeFilterChange(elem));
         }
+
+        const resetFilters = context.querySelector('.resetFilters');
+        resetFilters.addEventListener('click', () => {
+            for (const elem of context.querySelectorAll('.filterDialogContent input[type="checkbox"]:checked')) {
+                elem.checked = false;
+            }
+            this.resetQuery(query);
+            triggerChange(this);
+        });
+
         const chk3DFilter = context.querySelector('.chk3DFilter');
         chk3DFilter.addEventListener('change', () => {
             query.StartIndex = 0;
@@ -316,9 +377,9 @@ class FilterDialog {
             triggerChange(this);
         });
         const chkMissingEpisode = context.querySelector('#chkMissingEpisode');
+        const chkFutureEpisode = context.querySelector('#chkFutureEpisode');
         chkMissingEpisode.addEventListener('change', () => {
-            query.StartIndex = 0;
-            query.IsMissing = !!chkMissingEpisode.checked;
+            applyEpisodeStatusFilters(query, chkMissingEpisode.checked, chkFutureEpisode.checked);
             triggerChange(this);
         });
         const chkSpecialEpisode = context.querySelector('#chkSpecialEpisode');
@@ -327,16 +388,8 @@ class FilterDialog {
             query.ParentIndexNumber = chkSpecialEpisode.checked ? 0 : null;
             triggerChange(this);
         });
-        const chkFutureEpisode = context.querySelector('#chkFutureEpisode');
         chkFutureEpisode.addEventListener('change', () => {
-            query.StartIndex = 0;
-            if (chkFutureEpisode.checked) {
-                query.IsUnaired = true;
-                query.IsVirtualUnaired = null;
-            } else {
-                query.IsUnaired = null;
-                query.IsVirtualUnaired = false;
-            }
+            applyEpisodeStatusFilters(query, chkMissingEpisode.checked, chkFutureEpisode.checked);
             triggerChange(this);
         });
         const chkSubtitle = context.querySelector('#chkSubtitle');
@@ -416,6 +469,26 @@ class FilterDialog {
         });
     }
 
+    resetQuery(query) {
+        query.IsFavorite = null;
+        query.IsHD = null;
+        query.Is3D = null;
+        query.Is4K = null;
+        query.Filters = '';
+        query.SeriesStatus = '';
+        query.OfficialRatings = '';
+        query.Genres = '';
+        query.VideoTypes = '';
+        query.StartIndex = 0;
+        query.HasSpecialFeature = null;
+        query.HasSubtitles = null;
+        query.HasThemeSong = null;
+        query.HasThemeVideo = null;
+        query.HasTrailer = null;
+        query.Tags = null;
+        query.Years = '';
+    }
+
     show() {
         return new Promise((resolve) => {
             const dlg = dialogHelper.createDialog({
@@ -435,7 +508,7 @@ class FilterDialog {
             if (enableDynamicFilters(this.options.mode)) {
                 dlg.classList.add('dynamicFilterDialog');
                 const apiClient = ServerConnections.getApiClient(this.options.serverId);
-                loadDynamicFilters(dlg, apiClient, apiClient.getCurrentUserId(), this.options.query);
+                loadDynamicFilters(dlg, this.options.serverId, apiClient.getCurrentUserId(), this.options.query);
             }
         });
     }

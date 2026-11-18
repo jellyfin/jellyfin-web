@@ -5,7 +5,7 @@
 
 import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import globalize from '../../lib/globalize';
 import './style.scss';
 import '../../elements/emby-button/paper-icon-button-light';

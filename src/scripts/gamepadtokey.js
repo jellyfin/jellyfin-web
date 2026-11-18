@@ -50,6 +50,7 @@ const _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE = 37;
 const _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE = 39;
 const _THUMB_STICK_THRESHOLD = 0.75;
 
+let _lastGamepad = -1;
 let _leftThumbstickUpPressed = false;
 let _leftThumbstickDownPressed = false;
 let _leftThumbstickLeftPressed = false;
@@ -58,6 +59,7 @@ let _dPadUpPressed = false;
 let _dPadDownPressed = false;
 let _dPadLeftPressed = false;
 let _dPadRightPressed = false;
+let _gamepadADownEvent = null;
 let _gamepadAPressed = false;
 let _gamepadBPressed = false;
 
@@ -77,8 +79,15 @@ _ButtonPressedState.getgamepadA = function () {
 };
 
 _ButtonPressedState.setgamepadA = function (newPressedState) {
-    raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true);
+    const newPressedEvent = raiseKeyEvent(_gamepadAPressed, newPressedState, _GAMEPAD_A_KEY, _GAMEPAD_A_KEYCODE, false, true, _gamepadADownEvent);
     _gamepadAPressed = newPressedState;
+
+    if (!newPressedState) {
+        // reset on keyup
+        _gamepadADownEvent = null;
+    } else if (newPressedEvent != null) {
+        _gamepadADownEvent = newPressedEvent;
+    }
 };
 
 _ButtonPressedState.getgamepadB = function () {
@@ -162,13 +171,18 @@ _ButtonPressedState.setdPadRight = function (newPressedState) {
     _dPadRightPressed = newPressedState;
 };
 
+const keydownCounter = {};
 const times = {};
 
 function throttle(key) {
     const time = times[key] || 0;
     const now = new Date().getTime();
 
-    return (now - time) >= 200;
+    if (keydownCounter[key] === 1) {
+        return (now - time) >= 200;
+    } else {
+        return (now - time) >= 40;
+    }
 }
 
 function resetThrottle(key) {
@@ -194,6 +208,8 @@ function raiseEvent(name, key, keyCode) {
     event.key = key;
     event.keyCode = keyCode;
     (document.activeElement || document.body).dispatchEvent(event);
+
+    return event;
 }
 
 function clickElement(elem) {
@@ -204,7 +220,9 @@ function clickElement(elem) {
     elem.click();
 }
 
-function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
+function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp, oldPressedEvent) {
+    let newPressedEvent = null;
+
     // No-op if oldPressedState === newPressedState
     if (newPressedState === true) {
         // button down
@@ -213,47 +231,65 @@ function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRep
         // always fire if this is the initial down press
         if (oldPressedState === false) {
             fire = true;
-            resetThrottle(key);
+            keydownCounter[key] = 0;
         } else if (enableRepeatKeyDown) {
             fire = throttle(key);
         }
 
         if (fire && keyCode) {
-            raiseEvent('keydown', key, keyCode);
+            newPressedEvent = raiseEvent('keydown', key, keyCode);
+            keydownCounter[key]++;
+            resetThrottle(key);
         }
     } else if (newPressedState === false && oldPressedState === true) {
-        resetThrottle(key);
-
         // button up
         if (keyCode) {
-            raiseEvent('keyup', key, keyCode);
+            newPressedEvent = raiseEvent('keyup', key, keyCode);
         }
-        if (clickonKeyUp) {
+        if (clickonKeyUp && !oldPressedEvent?.defaultPrevented && !newPressedEvent?.defaultPrevented) {
             clickElement(document.activeElement || window);
         }
     }
+
+    return newPressedEvent;
 }
 
 let inputLoopTimer;
 function runInputLoop() {
     // Get the latest gamepad state.
     const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
+
+    let lastGamepad = _lastGamepad;
+    _lastGamepad = -1;
+
+    if (!gamepads[lastGamepad]) lastGamepad = -1;
+
     for (let i = 0, len = gamepads.length; i < len; i++) {
+        if (lastGamepad >= 0 && i !== lastGamepad) {
+            continue;
+        }
+
         const gamepad = gamepads[i];
+
         if (!gamepad) {
             continue;
         }
+
         // Iterate through the axes
         const axes = gamepad.axes;
         const leftStickX = axes[0];
         const leftStickY = axes[1];
         if (leftStickX > _THUMB_STICK_THRESHOLD) { // Right
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickRight(true);
         } else if (leftStickX < -_THUMB_STICK_THRESHOLD) { // Left
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickLeft(true);
         } else if (leftStickY < -_THUMB_STICK_THRESHOLD) { // Up
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickUp(true);
         } else if (leftStickY > _THUMB_STICK_THRESHOLD) { // Down
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickDown(true);
         } else {
             _ButtonPressedState.setleftThumbstickLeft(false);
@@ -266,6 +302,8 @@ function runInputLoop() {
         for (let j = 0, buttonsLen = buttons.length; j < buttonsLen; j++) {
             if (ProcessedButtons.indexOf(j) !== -1) {
                 if (buttons[j].pressed) {
+                    _lastGamepad = i;
+
                     switch (j) {
                         case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
                             _ButtonPressedState.setdPadUp(true);
@@ -328,19 +366,19 @@ function runInputLoop() {
                 }
             }
         }
+
+        if (_lastGamepad >= 0) break;
     }
-    // Schedule the next one
-    inputLoopTimer = requestAnimationFrame(runInputLoop);
 }
 
 function startInputLoop() {
     if (!inputLoopTimer) {
-        runInputLoop();
+        inputLoopTimer = setInterval(runInputLoop, 20);
     }
 }
 
 function stopInputLoop() {
-    cancelAnimationFrame(inputLoopTimer);
+    clearInterval(inputLoopTimer);
     inputLoopTimer = undefined;
 }
 

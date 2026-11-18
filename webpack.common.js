@@ -16,8 +16,7 @@ const Assets = [
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.js',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker.wasm',
     '@jellyfin/libass-wasm/dist/js/subtitles-octopus-worker-legacy.js',
-    'pdfjs-dist/build/pdf.worker.js',
-    'libpgs/dist/libpgs.worker.js'
+    'pdfjs-dist/build/pdf.worker.js'
 ];
 
 const DEV_MODE = process.env.NODE_ENV !== 'production';
@@ -44,7 +43,7 @@ const config = {
     context: path.resolve(__dirname, 'src'),
     target: 'browserslist',
     entry: {
-        'main.jellyfin': './index.jsx',
+        'main.jellyfin': './index.ts',
         ...THEMES_BY_ID
     },
     resolve: {
@@ -52,7 +51,11 @@ const config = {
         modules: [
             path.resolve(__dirname, 'src'),
             path.resolve(__dirname, 'node_modules')
-        ]
+        ],
+        alias: {
+            // Keep in sync with tsconfig.json.
+            '@': path.resolve(__dirname, 'src')
+        }
     },
     plugins: [
         new DefinePlugin({
@@ -73,8 +76,7 @@ const config = {
             // Append file hashes to bundle urls for cache busting
             hash: true,
             chunks: [
-                'main.jellyfin',
-                'serviceworker'
+                'main.jellyfin'
             ]
         }),
         new CopyPlugin({
@@ -120,9 +122,7 @@ const config = {
         })
     ],
     output: {
-        filename: pathData => (
-            pathData.chunk.name === 'serviceworker' ? '[name].js' : '[name].bundle.js'
-        ),
+        filename: '[name].bundle.js',
         chunkFilename: '[name].[contenthash].chunk.js',
         assetModuleFilename: pathData => {
             if (pathData.filename === 'manifest.json') {
@@ -210,6 +210,7 @@ const config = {
                     path.resolve(__dirname, 'node_modules/@remix-run/router'),
                     path.resolve(__dirname, 'node_modules/@tanstack/match-sorter-utils'),
                     path.resolve(__dirname, 'node_modules/@tanstack/query-core'),
+                    path.resolve(__dirname, 'node_modules/@tanstack/query-persist-client-core'),
                     path.resolve(__dirname, 'node_modules/@tanstack/react-query'),
                     path.resolve(__dirname, 'node_modules/@tanstack/react-table'),
                     path.resolve(__dirname, 'node_modules/@tanstack/react-virtual'),
@@ -224,7 +225,9 @@ const config = {
                     path.resolve(__dirname, 'node_modules/epubjs'),
                     path.resolve(__dirname, 'node_modules/flv.js'),
                     path.resolve(__dirname, 'node_modules/highlight-words'),
+                    path.resolve(__dirname, 'node_modules/idb-keyval'),
                     path.resolve(__dirname, 'node_modules/libarchive.js'),
+                    path.resolve(__dirname, 'node_modules/libbitsub'),
                     path.resolve(__dirname, 'node_modules/linkify-it'),
                     path.resolve(__dirname, 'node_modules/markdown-it'),
                     path.resolve(__dirname, 'node_modules/material-react-table'),
@@ -274,7 +277,8 @@ const config = {
                     {
                         loader: 'ts-loader',
                         options: {
-                            transpileOnly: true
+                            transpileOnly: true,
+                            compilerOptions: { sourceMap: DEV_MODE }
                         }
                     }
                 ]
@@ -285,7 +289,8 @@ const config = {
                 use: [{
                     loader: 'ts-loader',
                     options: {
-                        transpileOnly: true
+                        transpileOnly: true,
+                        compilerOptions: { sourceMap: DEV_MODE }
                     }
                 }]
             },

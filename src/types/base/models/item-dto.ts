@@ -7,7 +7,7 @@ type BaseItem = Omit<BaseItemDto, 'ChannelId' | 'EndDate' | 'Id' | 'StartDate' |
 type TimerInfo = Omit<TimerInfoDto, 'ChannelId' | 'EndDate' | 'Id' | 'StartDate' | 'Status' | 'Type' | 'Name' | 'ProgramInfo'>;
 type SeriesTimerInfo = Omit<SeriesTimerInfoDto, 'ChannelId' | 'EndDate' | 'Id' | 'StartDate' | 'Type' | 'Name'>;
 type SearchHintItem = Omit<SearchHint, 'ItemId' | 'Artists' | 'Id' | 'MediaType' | 'Name' | 'StartDate' | 'Type'>;
-type UserItem = Omit<UserItemDataDto, 'ItemId'>;
+type UserItem = Omit<UserItemDataDto, 'ItemId' | 'Key'>;
 type VirtualFolder = Omit<VirtualFolderInfo, 'CollectionType'>;
 
 export interface ItemDto extends BaseItem, TimerInfo, SeriesTimerInfo, SearchHintItem, UserItem, VirtualFolder {
@@ -16,7 +16,7 @@ export interface ItemDto extends BaseItem, TimerInfo, SeriesTimerInfo, SearchHin
     'Id'?: string | null;
     'StartDate'?: string | null;
     'Type'?: ItemKind;
-    'Status'?: ItemStatus;
+    'Status'?: ItemStatus | string | null;
     'CollectionType'?: CollectionTypeOptions | string | null;
     'Artists'?: Array<string> | null;
     'MediaType'?: ItemMediaKind;

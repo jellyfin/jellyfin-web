@@ -1,0 +1,56 @@
+import React, { FC, useCallback } from 'react';
+import Add from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
+import type { QueryKey } from '@tanstack/react-query';
+
+import globalize from 'lib/globalize';
+import { useApi } from 'hooks/useApi';
+import { queryClient } from 'utils/query/queryClient';
+
+interface NewCollectionButtonProps {
+    isTextVisible: boolean
+    queryKey: QueryKey
+}
+
+const NewCollectionButton: FC<NewCollectionButtonProps> = ({
+    isTextVisible,
+    queryKey
+}) => {
+    const { serverId } = useApi();
+
+    const showCollectionEditor = useCallback(() => {
+        import('components/collectionEditor/collectionEditor')
+            .then(async ({ default: CollectionEditor }) => {
+                const collectionEditor = new CollectionEditor();
+                try {
+                    await collectionEditor.show({
+                        items: [],
+                        serverId
+                    });
+                    void queryClient.invalidateQueries({ queryKey });
+                } catch {
+                    //closed collection editor
+                }
+            })
+            .catch(err => {
+                console.error('[NewCollection] failed to load collection editor', err);
+            });
+    }, [ queryKey, serverId ]);
+
+    return (
+        <Button
+            variant='contained'
+            size={isTextVisible ? undefined : 'small'}
+            startIcon={isTextVisible ? <Add /> : undefined}
+            onClick={showCollectionEditor}
+        >
+            {isTextVisible ? (
+                globalize.translate('NewCollection')
+            ) : (
+                <Add />
+            )}
+        </Button>
+    );
+};
+
+export default NewCollectionButton;

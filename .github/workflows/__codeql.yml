@@ -20,21 +20,21 @@ jobs:
 
     steps:
       - name: Checkout repository ⬇️
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ inputs.commit }}
           show-progress: false
 
       - name: Initialize CodeQL 🛠️
-        uses: github/codeql-action/init@181d5eefc20863364f96762470ba6f862bdef56b # v3.29.2
+        uses: github/codeql-action/init@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           queries: security-and-quality
           languages: ${{ matrix.language }}
 
       - name: Autobuild 📦
-        uses: github/codeql-action/autobuild@181d5eefc20863364f96762470ba6f862bdef56b # v3.29.2
+        uses: github/codeql-action/autobuild@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
 
       - name: Perform CodeQL Analysis 🧪
-        uses: github/codeql-action/analyze@181d5eefc20863364f96762470ba6f862bdef56b # v3.29.2
+        uses: github/codeql-action/analyze@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
         with:
           category: '/language:${{matrix.language}}'

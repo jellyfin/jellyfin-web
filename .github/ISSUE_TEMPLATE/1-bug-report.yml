@@ -18,7 +18,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Bug information  
+        ## Bug information
   - type: textarea
     id: description
     attributes:
@@ -88,6 +88,13 @@ body:
       placeholder: 10.10.2
     validations:
       required: true
+  - type: textarea
+    attributes:
+      label: Plugins
+      description: List all plugins that are installed on the server.
+      placeholder: e.g. TMDb, Playback Reporting
+    validations:
+      required: false
   - type: markdown
     attributes:
       value: |

@@ -1,4 +1,4 @@
-import dom from './dom';
+import dom from '../utils/dom';
 import focusManager from '../components/focusManager';
 
 let inputDisplayElement;

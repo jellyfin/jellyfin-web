@@ -1,11 +1,10 @@
+import { MediaType } from '@jellyfin/sdk/lib/generated-client/models/media-type';
+
 export const ItemMediaKind = {
+    ...MediaType,
     MusicArtist: 'MusicArtist',
     Playlist: 'Playlist',
     MusicGenre: 'MusicGenre',
-    Photo: 'Photo',
-    Audio: 'Audio',
-    Video: 'Video',
-    Book: 'Book',
     Recording: 'Recording'
 } as const;
 

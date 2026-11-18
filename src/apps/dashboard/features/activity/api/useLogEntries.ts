@@ -1,17 +1,17 @@
-import type { ActivityLogApiGetLogEntriesRequest } from '@jellyfin/sdk/lib/generated-client';
+import type { SystemApiGetLogEntriesRequest } from '@jellyfin/sdk/lib/generated-client/api/system-api';
 import type { AxiosRequestConfig } from 'axios';
 import type { Api } from '@jellyfin/sdk';
-import { getActivityLogApi } from '@jellyfin/sdk/lib/utils/api/activity-log-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import { useQuery } from '@tanstack/react-query';
 
 import { useApi } from 'hooks/useApi';
 
 const fetchLogEntries = async (
     api: Api,
-    requestParams?: ActivityLogApiGetLogEntriesRequest,
+    requestParams?: SystemApiGetLogEntriesRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getActivityLogApi(api).getLogEntries(requestParams, {
+    const response = await getSystemApi(api).getLogEntries(requestParams, {
         signal: options?.signal
     });
 
@@ -19,7 +19,7 @@ const fetchLogEntries = async (
 };
 
 export const useLogEntries = (
-    requestParams: ActivityLogApiGetLogEntriesRequest
+    requestParams: SystemApiGetLogEntriesRequest
 ) => {
     const { api } = useApi();
     return useQuery({
@@ -27,6 +27,7 @@ export const useLogEntries = (
         queryFn: ({ signal }) =>
             fetchLogEntries(api!, requestParams, { signal }),
         enabled: !!api,
-        refetchOnMount: false
+        refetchOnMount: false,
+        staleTime: 0 // ensure we load the latest log entries
     });
 };

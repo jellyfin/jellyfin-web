@@ -1,10 +1,16 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getVideoApi } from '@jellyfin/sdk/lib/utils/api/video-api';
+
 import { AppFeature } from 'constants/appFeature';
+import { EventType } from 'constants/eventType';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Events from 'utils/events';
+
 import browser from '../../scripts/browser';
 import { appHost } from '../apphost';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
-import dom from '../../scripts/dom';
+import dom from '../../utils/dom';
 import './multiSelect.scss';
 import alert from '../alert';
 import confirm from '../confirm/confirm';
@@ -54,7 +60,14 @@ function onItemSelectionPanelClick(e, itemSelectionPanel) {
 }
 
 function updateItemSelection(chkItemSelect, selected) {
-    const id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
+    const parentWithId = dom.parentWithAttribute(chkItemSelect, 'data-id');
+
+    // If the element doesn't have a parent with data-id, it's not a valid item
+    if (!parentWithId) {
+        return;
+    }
+
+    const id = parentWithId.getAttribute('data-id');
 
     if (selected) {
         const current = selectedItems.filter(i => {
@@ -89,6 +102,11 @@ function onSelectionChange() {
 }
 
 function showSelection(item, isChecked, addInitialCheck) {
+    // Only add selection checkbox if the item has a data-id attribute
+    if (!dom.parentWithAttribute(item, 'data-id')) {
+        return;
+    }
+
     let itemSelectionPanel = item.querySelector('.itemSelectionPanel');
 
     if (!itemSelectionPanel) {
@@ -178,12 +196,13 @@ function showMenuForSelectedItems(e) {
                 icon: 'select_all'
             });
 
-            menuItems.push({
-                name: globalize.translate('AddToCollection'),
-                id: 'addtocollection',
-                icon: 'add'
-            });
-
+            if (user.Policy.IsAdministrator || user.Policy.EnableCollectionManagement) {
+                menuItems.push({
+                    name: globalize.translate('AddToCollection'),
+                    id: 'addtocollection',
+                    icon: 'add'
+                });
+            }
             menuItems.push({
                 name: globalize.translate('AddToPlaylist'),
                 id: 'playlist',
@@ -203,7 +222,14 @@ function showMenuForSelectedItems(e) {
                 // Disabled because there is no callback for this item
             }
 
-            if (user.Policy.IsAdministrator) {
+            const includeTypes = [
+                BaseItemKind.Movie,
+                BaseItemKind.Episode,
+                BaseItemKind.MusicVideo,
+                BaseItemKind.Video
+            ];
+
+            if (user.Policy.IsAdministrator && includeTypes.includes(firstItem.Type)) {
                 menuItems.push({
                     name: globalize.translate('GroupVersions'),
                     id: 'groupvideos',
@@ -287,7 +313,7 @@ function showMenuForSelectedItems(e) {
                                 dispatchNeedsRefresh();
                                 break;
                             case 'groupvideos':
-                                combineVersions(apiClient, items);
+                                combineVersions(items);
                                 break;
                             case 'markplayed':
                                 items.forEach(itemId => {
@@ -337,10 +363,12 @@ function dispatchNeedsRefresh() {
     for (let i = 0, length = elems.length; i < length; i++) {
         elems[i].notifyRefreshNeeded(true);
     }
+
+    Events.trigger(document, EventType.REFRESH_NEEDED);
 }
 
-function combineVersions(apiClient, selection) {
-    if (selection.length < 2) {
+async function combineVersions(ids) {
+    if (ids.length < 2) {
         alert({
             text: globalize.translate('PleaseSelectTwoItems')
         });
@@ -350,16 +378,12 @@ function combineVersions(apiClient, selection) {
 
     loading.show();
 
-    apiClient.ajax({
+    const api = ServerConnections.getApi();
+    await getVideoApi(api).mergeVersions({ ids });
 
-        type: 'POST',
-        url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
-
-    }).then(() => {
-        loading.hide();
-        hideSelections();
-        dispatchNeedsRefresh();
-    });
+    loading.hide();
+    hideSelections();
+    dispatchNeedsRefresh();
 }
 
 function showSelections(initialCard, addInitialCheck) {
@@ -475,13 +499,35 @@ export default function (options) {
     }
 
     function onMouseDown(e) {
+        touchTarget = null;
+        touchStartX = e.clientX || 0;
+        touchStartY = e.clientY || 0;
+
+        const element = e.target;
+        if (!dom.parentWithClass(element, 'card')) {
+            return;
+        }
+
         if (touchStartTimeout) {
             clearTimeout(touchStartTimeout);
             touchStartTimeout = null;
         }
 
-        touchTarget = e.target;
+        touchTarget = element;
         touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+    }
+
+    function onMouseMove(e) {
+        if (!touchTarget) {
+            return;
+        }
+
+        const deltaX = Math.abs((e.clientX || 0) - (touchStartX || 0));
+        const deltaY = Math.abs((e.clientY || 0) - (touchStartY || 0));
+
+        if (deltaX >= 5 || deltaY >= 5) {
+            onMouseOut();
+        }
     }
 
     function onMouseOut() {
@@ -525,6 +571,9 @@ export default function (options) {
             dom.addEventListener(element, 'mousedown', onMouseDown, {
                 passive: true
             });
+            dom.addEventListener(element, 'mousemove', onMouseMove, {
+                passive: true
+            });
             dom.addEventListener(element, 'mouseleave', onMouseOut, {
                 passive: true
             });
@@ -558,6 +607,9 @@ export default function (options) {
             passive: true
         });
         dom.removeEventListener(element, 'mousedown', onMouseDown, {
+            passive: true
+        });
+        dom.removeEventListener(element, 'mousemove', onMouseMove, {
             passive: true
         });
         dom.removeEventListener(element, 'mouseleave', onMouseOut, {

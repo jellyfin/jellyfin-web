@@ -1,8 +1,9 @@
 import escapeHtml from 'escape-html';
-import 'jquery';
+import $ from 'jquery';
 import 'material-design-icons-iconfont';
 
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
 import { getParameterByName } from 'utils/url';
 
@@ -71,7 +72,7 @@ function getNodeInnerHtml(item) {
 }
 
 function loadChildrenOfRootNode(page, scope, callback) {
-    ApiClient.getLiveTvChannels({
+    ServerConnections.currentApiClient().getLiveTvChannels({
         limit: 0
     }).then(function (result) {
         const nodes = [];
@@ -110,7 +111,7 @@ function loadChildrenOfRootNode(page, scope, callback) {
 }
 
 function loadLiveTvChannels(service, openItems, callback) {
-    ApiClient.getLiveTvChannels({
+    ServerConnections.currentApiClient().getLiveTvChannels({
         ServiceName: service,
         AddCurrentProgram: false
     }).then(function (result) {
@@ -123,7 +124,8 @@ function loadLiveTvChannels(service, openItems, callback) {
 }
 
 function loadMediaFolders(page, scope, openItems, callback) {
-    ApiClient.getJSON(ApiClient.getUrl('Library/MediaFolders')).then(function (result) {
+    const apiClient = ServerConnections.currentApiClient();
+    apiClient.getJSON(apiClient.getUrl('Library/MediaFolders')).then(function (result) {
         const nodes = result.Items.map(function (n) {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, false);
@@ -164,7 +166,7 @@ function loadNode(page, scope, node, openItems, selectedId, currentUser, callbac
     if (itemtype != 'Season' && itemtype != 'Series') {
         query.SortBy = 'SortName';
     }
-    ApiClient.getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
+    ServerConnections.currentApiClient().getItems(Dashboard.getCurrentUserId(), query).then(function (result) {
         const nodes = result.Items.map(function (n) {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, n.Id == selectedId);
@@ -281,7 +283,7 @@ function updateEditorNode(page, item) {
     $('.editorNode', elem).remove();
     $(elem).append(getNodeInnerHtml(item));
     if (item.IsFolder) {
-        const tree = jQuery.jstree._reference('.libraryTree');
+        const tree = $.jstree._reference('.libraryTree');
         const currentNode = tree._get_node(null, false);
         tree.refresh(currentNode);
     }
@@ -310,7 +312,7 @@ $(document).on('itemsaved', '.metadataEditorPage', function (e, item) {
     Dashboard.getCurrentUser().then(function (user) {
         const id = getCurrentItemId();
         if (id) {
-            ApiClient.getAncestorItems(id, user.Id).then(function (ancestors) {
+            ServerConnections.currentApiClient().getAncestorItems(id, user.Id).then(function (ancestors) {
                 const ids = ancestors.map(function (i) {
                     return i.Id;
                 });

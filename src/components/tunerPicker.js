@@ -1,11 +1,15 @@
+import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
+
 import dialogHelper from './dialogHelper/dialogHelper';
-import dom from '../scripts/dom';
+import dom from '../utils/dom';
 import layoutManager from './layoutManager';
 import globalize from '../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import loading from './loading/loading';
 import browser from '../scripts/browser';
 import focusManager from './focusManager';
 import scrollHelper from '../scripts/scrollHelper';
+
 import 'material-design-icons-iconfont';
 import './formdialog.scss';
 import '../elements/emby-button/emby-button';
@@ -107,17 +111,17 @@ function renderDevices(view, devices) {
     }
 }
 
-function discoverDevices(view) {
+async function discoverDevices(view) {
     loading.show();
     view.querySelector('.loadingContent').classList.remove('hide');
-    return ApiClient.getJSON(ApiClient.getUrl('LiveTv/Tuners/Discover', {
-        NewDevicesOnly: true
-    })).then(function (devices) {
-        currentDevices = devices;
-        renderDevices(view, devices);
-        view.querySelector('.loadingContent').classList.add('hide');
-        loading.hide();
-    });
+
+    const api = ServerConnections.getApi();
+    const { data: devices } = await getLiveTvApi(api).discoverTuners({ newDevicesOnly: true });
+    currentDevices = devices;
+    renderDevices(view, devices);
+
+    view.querySelector('.loadingContent').classList.add('hide');
+    loading.hide();
 }
 
 function TunerPicker() {

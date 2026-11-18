@@ -14,7 +14,7 @@ import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { copy } from 'scripts/clipboard';
-import dom from 'scripts/dom';
+import dom from 'utils/dom';
 import { getReadableSize } from 'utils/file';
 
 import 'components/formdialog.scss';
@@ -133,8 +133,8 @@ function getMediaSourceHtml(user, item, version) {
             }
             attributes.push(createAttribute(globalize.translate('MediaInfoInterlaced'), (stream.IsInterlaced ? 'Yes' : 'No')));
         }
-        if ((stream.AverageFrameRate || stream.RealFrameRate) && stream.Type === 'Video') {
-            attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), (stream.AverageFrameRate || stream.RealFrameRate)));
+        if (stream.ReferenceFrameRate && stream.Type === 'Video') {
+            attributes.push(createAttribute(globalize.translate('MediaInfoFramerate'), stream.ReferenceFrameRate));
         }
         if (stream.ChannelLayout) {
             attributes.push(createAttribute(globalize.translate('MediaInfoLayout'), stream.ChannelLayout));

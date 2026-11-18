@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import useCardText from './useCardText';
 import layoutManager from 'components/layoutManager';
@@ -20,6 +20,28 @@ const shouldShowDetailsMenu = (
         && cardOptions.cardFooterAside !== 'none'
     );
 };
+
+interface CardFooterWrapperProps {
+    cardOptions: CardOptions;
+    footerClass?: string;
+    isOuterFooter: boolean;
+    logoUrl?: string;
+}
+
+/** Component that conditionally wraps the footer content based on the card options and presence of a logo. */
+const CardFooterWrapper: FC<PropsWithChildren<CardFooterWrapperProps>> = ({
+    cardOptions,
+    footerClass,
+    isOuterFooter,
+    logoUrl,
+    children
+}) => (
+    (!isOuterFooter || logoUrl || cardOptions.cardLayout) ? (
+        <Box className={footerClass}>
+            {children}
+        </Box>
+    ) : children
+);
 
 interface LogoComponentProps {
     logoUrl: string;
@@ -72,7 +94,12 @@ const CardFooterText: FC<CardFooterTextProps> = ({
     });
 
     return (
-        <Box className={footerClass}>
+        <CardFooterWrapper
+            cardOptions={cardOptions}
+            footerClass={footerClass}
+            isOuterFooter={isOuterFooter}
+            logoUrl={logoUrl}
+        >
             {logoUrl && <LogoComponent logoUrl={logoUrl} />}
             {shouldShowDetailsMenu(cardOptions, isOuterFooter) && (
                 <MoreVertIconButton className='itemAction btnCardOptions' />
@@ -81,7 +108,7 @@ const CardFooterText: FC<CardFooterTextProps> = ({
             {cardTextLines}
 
             {progressBar}
-        </Box>
+        </CardFooterWrapper>
     );
 };
 

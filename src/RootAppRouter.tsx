@@ -1,4 +1,4 @@
-
+import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import {
     RouterProvider,
@@ -8,23 +8,22 @@ import {
 } from 'react-router-dom';
 
 import { DASHBOARD_APP_PATHS, DASHBOARD_APP_ROUTES } from 'apps/dashboard/routes/routes';
-import { EXPERIMENTAL_APP_ROUTES } from 'apps/experimental/routes/routes';
-import { STABLE_APP_ROUTES } from 'apps/stable/routes/routes';
+import { APP_ROUTES as MODERN_APP_ROUTES } from 'apps/modern/routes/routes';
+import { APP_ROUTES as LEGACY_APP_ROUTES } from 'apps/legacy/routes/routes';
 import { WIZARD_APP_ROUTES } from 'apps/wizard/routes/routes';
 import AppHeader from 'components/AppHeader';
 import Backdrop from 'components/Backdrop';
+import layoutManager from 'components/layoutManager';
 import BangRedirect from 'components/router/BangRedirect';
 import { createRouterHistory } from 'components/router/routerHistory';
-import UserThemeProvider from 'themes/UserThemeProvider';
-
-const layoutMode = localStorage.getItem('layout');
-const isExperimentalLayout = layoutMode === 'experimental';
+import appTheme from 'themes';
+import { ThemeStorageManager } from 'themes/themeStorageManager';
 
 const router = createHashRouter([
     {
         element: <RootAppLayout />,
         children: [
-            ...(isExperimentalLayout ? EXPERIMENTAL_APP_ROUTES : STABLE_APP_ROUTES),
+            ...(layoutManager.modern ? MODERN_APP_ROUTES : LEGACY_APP_ROUTES),
             ...DASHBOARD_APP_ROUTES,
             ...WIZARD_APP_ROUTES,
             {
@@ -51,11 +50,15 @@ function RootAppLayout() {
         .some(path => location.pathname.startsWith(`/${path}`));
 
     return (
-        <UserThemeProvider>
+        <ThemeProvider
+            theme={appTheme}
+            defaultMode='dark'
+            storageManager={ThemeStorageManager}
+        >
             <Backdrop />
-            <AppHeader isHidden={isExperimentalLayout || isNewLayoutPath} />
+            <AppHeader isHidden={layoutManager.modern || isNewLayoutPath} />
 
             <Outlet />
-        </UserThemeProvider>
+        </ThemeProvider>
     );
 }
