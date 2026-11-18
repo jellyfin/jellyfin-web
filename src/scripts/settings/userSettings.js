@@ -1,3 +1,6 @@
+import { getDisplayPreferenceApi } from '@jellyfin/sdk/lib/utils/api/display-preference-api';
+import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
+
 import { getDisplayPreferencesQuery } from 'hooks/api/useDisplayPreferences';
 import { getUserQuery } from 'hooks/api/useUser';
 import { QUERY_KEY } from 'hooks/useUsers';
@@ -17,7 +20,14 @@ const CLIENT_ID = 'emby';
 function onSaveTimeout() {
     const self = this;
     self.saveTimeout = null;
-    self.currentApiClient.updateDisplayPreferences(DISPLAY_PREFERENCES_ID, self.displayPrefs, self.currentUserId, CLIENT_ID);
+    const api = ServerConnections.getApi(self.currentServerId);
+    getDisplayPreferenceApi(api)
+        .updateDisplayPreferences({
+            client: CLIENT_ID,
+            userId: self.currentUserId,
+            displayPreferencesId: DISPLAY_PREFERENCES_ID,
+            displayPreferencesDto: self.displayPrefs
+        });
 }
 
 function saveServerPreferences(instance) {
@@ -69,14 +79,13 @@ export class UserSettings {
             clearTimeout(this.saveTimeout);
         }
 
-        // Resolve the ApiClient and Server ID from the input
-        const apiClient = typeof apiClientOrId === 'string' ? ServerConnections.getApi(apiClientOrId) : apiClientOrId;
-        const serverId = typeof apiClientOrId === 'string' ? apiClientOrId : apiClient?.serverId();
+        // Resolve the Server ID from the input
+        const serverId = typeof apiClientOrId === 'string' ? apiClientOrId : apiClientOrId?.serverId();
 
         this.currentUserId = userId;
-        this.currentApiClient = apiClient;
+        this.currentServerId = serverId;
 
-        if (!userId || !apiClient) {
+        if (!userId || !serverId) {
             this.displayPrefs = null;
             return Promise.resolve();
         }
@@ -140,14 +149,17 @@ export class UserSettings {
 
     /**
      * Get or set user config.
-     * @param {Object|undefined} config - Configuration or undefined.
+     * @param {Object|undefined} userConfiguration - Configuration or undefined.
      * @return {Object|Promise} Configuration or Promise.
      */
-    serverConfig(config) {
-        const apiClient = this.currentApiClient;
-        if (config) {
-            return apiClient
-                .updateUserConfiguration(this.currentUserId, config)
+    serverConfig(userConfiguration) {
+        const api = ServerConnections.getApi(this.currentServerId);
+        if (userConfiguration) {
+            return getUserApi(api)
+                .updateUserConfiguration({
+                    userId: this.currentUserId,
+                    userConfiguration
+                })
                 .then(() => {
                     queryClient.invalidateQueries({
                         queryKey: [ QUERY_KEY, this.currentUserId ]
@@ -155,7 +167,6 @@ export class UserSettings {
                 });
         }
 
-        const api = ServerConnections.getApi(apiClient.serverId());
         return queryClient
             .fetchQuery(getUserQuery(api, { userId: this.currentUserId }))
             .then(user => user.Configuration);
