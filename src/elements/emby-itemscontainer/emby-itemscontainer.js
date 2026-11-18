@@ -1,3 +1,4 @@
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import 'webcomponents.js/webcomponents-lite';
 import Sortable from 'sortablejs';
@@ -13,7 +14,6 @@ import browser from 'scripts/browser';
 import inputManager from 'scripts/inputManager';
 import dom from 'utils/dom';
 import Events from 'utils/events';
-import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 

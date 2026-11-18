@@ -1,4 +1,6 @@
 import DOMPurify from 'dompurify';
+import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import debounce from 'lodash-es/debounce';
 import Screenfull from 'screenfull';
 
@@ -43,8 +45,6 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
-import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
-import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
 
 const NATIVE_UNSUPPORTED_SUBTITLE_CODECS = ['ssa', 'ass', 'pgssub', 'dvdsub', 'vobsub'];
 const ASS_SUBTITLE_CODECS = ['ssa', 'ass'];
