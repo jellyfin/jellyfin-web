@@ -77,6 +77,7 @@ const ItemCountsWidget = () => {
 
     return (
         <Box>
+            {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
             <Grid
                 container
                 spacing={2}
@@ -85,6 +86,7 @@ const ItemCountsWidget = () => {
                 }}
             >
                 {cards.map(card => (
+                    /* eslint-disable-next-line @typescript-eslint/no-deprecated */
                     <Grid
                         key={card.metrics.map(metric => metric.label).join('-')}
                         item

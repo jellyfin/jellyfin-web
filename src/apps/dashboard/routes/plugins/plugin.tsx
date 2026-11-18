@@ -325,7 +325,9 @@ const PluginPage: FC = () => {
                     </Alert>
                 ))}
 
+                {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                 <Grid container spacing={2} sx={{ marginTop: 0 }}>
+                    {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                     <Grid item xs={12} lg={8}>
                         <Stack spacing={2}>
                             <Typography variant='h1'>
@@ -342,6 +344,7 @@ const PluginPage: FC = () => {
                         </Stack>
                     </Grid>
 
+                    {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                     <Grid item lg={4} sx={{ display: { xs: 'none', lg: 'initial' } }}>
                         <Image
                             isLoading={isLoading}
@@ -351,6 +354,7 @@ const PluginPage: FC = () => {
                         />
                     </Grid>
 
+                    {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                     <Grid item xs={12} lg={8} sx={{ order: { xs: 1, lg: 'initial' } }}>
                         {!!pluginDetails?.versions.length && (
                             <>
@@ -365,6 +369,7 @@ const PluginPage: FC = () => {
                         )}
                     </Grid>
 
+                    {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                     <Grid item xs={12} lg={4}>
                         <Stack spacing={2} direction={{ xs: 'column', sm: 'row-reverse', lg: 'column' }}>
                             <Stack spacing={1} sx={{ flexBasis: '50%' }}>

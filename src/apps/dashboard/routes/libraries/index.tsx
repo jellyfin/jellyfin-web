@@ -84,8 +84,10 @@ export const Component = () => {
                         </Stack>
 
                         <Box>
+                            {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                             <Grid container spacing={2}>
                                 {virtualFolders?.map(virtualFolder => (
+                                    /* eslint-disable-next-line @typescript-eslint/no-deprecated */
                                     <Grid
                                         key={virtualFolder?.ItemId}
                                         item
