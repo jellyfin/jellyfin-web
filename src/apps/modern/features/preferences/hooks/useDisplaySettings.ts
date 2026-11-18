@@ -6,9 +6,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { appHost } from 'components/apphost';
 import layoutManager from 'components/layoutManager';
 import { AppFeature } from 'constants/appFeature';
+import { QUERY_KEY } from 'hooks/api/useUser';
 import { useApi } from 'hooks/useApi';
 import themeManager from 'scripts/themeManager';
 import { currentSettings, UserSettings } from 'scripts/settings/userSettings';
+import { queryClient } from 'utils/query/queryClient';
 
 import type { DisplaySettingsValues } from '../types/displaySettingsValues';
 import { useThemes } from 'hooks/useThemes';
@@ -158,9 +160,13 @@ async function saveDisplaySettings({
 
     if (user.Id && user.Configuration) {
         user.Configuration.DisplayMissingEpisodes = newDisplaySettings.displayMissingEpisodes;
+        const userId = user.Id;
         promises.push(getUserApi(api).updateUserConfiguration({
-            userId: user.Id,
+            userId,
             userConfiguration: user.Configuration
+        }).then(() => {
+            // Refresh the cached user so later reads see the new configuration
+            void queryClient.invalidateQueries({ queryKey: [ QUERY_KEY, userId ], exact: true });
         }));
     }
 
