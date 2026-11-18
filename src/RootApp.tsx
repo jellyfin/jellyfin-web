@@ -18,7 +18,7 @@ const RootApp = () => (
     <PersistQueryClientProvider
         client={queryClient}
         persistOptions={{
-            buster: __JF_BUILD_VERSION__,
+            buster: `${__PACKAGE_JSON_VERSION__}-${__COMMIT_SHA__}`,
             persister
         }}
     >
