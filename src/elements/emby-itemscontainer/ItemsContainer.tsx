@@ -188,9 +188,12 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         }
     }, []);
 
-    const invalidateQueries = useCallback(() => (
-        queryClient.invalidateQueries({ queryKey: queryKeyRef.current })
-    ), [queryClient]);
+    const invalidateQueries = useCallback(() => {
+        // An undefined key would match (and refetch) every query in the cache
+        if (!queryKeyRef.current) return;
+
+        return queryClient.invalidateQueries({ queryKey: queryKeyRef.current });
+    }, [queryClient]);
 
     const notifyRefreshNeeded = useCallback(
         (isInForeground: boolean) => {
