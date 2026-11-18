@@ -15,6 +15,8 @@ import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
 import Page from 'components/Page';
 import Loading from 'components/loading/LoadingComponent';
 import Button from 'elements/emby-button/Button';
+import type { Nullable } from '@/types/nullable';
+import { readFileAsBase64 } from '@/utils/file';
 
 const USER_IMAGE_PLACEHOLDER = 'assets/img/avatar.png';
 
@@ -71,9 +73,9 @@ const UserProfile: FunctionComponent = () => {
 
         reloadUser();
 
-        const onFileReaderError = (evt: ProgressEvent<FileReader>) => {
+        const onFileReaderError = (error: Nullable<DOMException>) => {
             loading.hide();
-            switch (evt.target?.error?.name) {
+            switch (error?.name) {
                 case DomError.NotFound:
                     toast(globalize.translate('FileNotFound'));
                     break;
@@ -99,31 +101,29 @@ const UserProfile: FunctionComponent = () => {
                 return false;
             }
 
-            const reader: FileReader = new FileReader();
-            reader.onerror = onFileReaderError;
-            reader.onabort = onFileReaderAbort;
-            reader.onload = () => {
-                if (!userId) {
-                    console.error('[userprofile] missing user id');
-                    return;
-                }
-
-                userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                getImageApi(api!).postUserImage({ userId, body: file })
-                    .then(() => {
-                        void queryClient.invalidateQueries({
-                            queryKey: ['User']
-                        });
-                    })
-                    .catch(err => {
-                        console.error('[userprofile] failed to upload image', err);
-                    })
-                    .finally(() => {
-                        loading.hide();
+            const uploadImage = async (body: string) => {
+                try {
+                    await getImageApi(api!).postUserImage({
+                        userId,
+                        // NOTE: TypeScript SDK thinks body should be a File but in reality it requires a Base64 string
+                        body: body as never as File
+                    }, {
+                        headers: { ['Content-Type']: file.type }
                     });
+
+                    userImage.style.backgroundImage = `url('${URL.createObjectURL(file)}')`;
+                    void queryClient.invalidateQueries({
+                        queryKey: ['User']
+                    });
+                } catch (err) {
+                    console.error('[userprofile] failed to upload image', err);
+                }
             };
 
-            reader.readAsDataURL(file);
+            readFileAsBase64(file)
+                .then(uploadImage)
+                .catch(onFileReaderError)
+                .finally(loading.hide);
         };
 
         const onDeleteImageClick = function () {
