@@ -1,4 +1,5 @@
 import escapeHtml from 'escape-html';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import $ from 'jquery';
 import 'material-design-icons-iconfont';
 
@@ -124,8 +125,8 @@ function loadLiveTvChannels(service, openItems, callback) {
 }
 
 function loadMediaFolders(page, scope, openItems, callback) {
-    const apiClient = ServerConnections.currentApiClient();
-    apiClient.getJSON(apiClient.getUrl('Library/MediaFolders')).then(function (result) {
+    const api = ServerConnections.getApi();
+    getLibraryApi(api).getMediaFolders().then(({ data: result }) => {
         const nodes = result.Items.map(function (n) {
             const state = openItems.indexOf(n.Id) == -1 ? 'closed' : 'open';
             return getNode(n, state, false);

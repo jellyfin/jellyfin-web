@@ -13,6 +13,7 @@ import browser from 'scripts/browser';
 import inputManager from 'scripts/inputManager';
 import dom from 'utils/dom';
 import Events from 'utils/events';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 
@@ -101,19 +102,17 @@ function onDrop(evt, itemsContainer) {
     }
 
     const serverId = el.getAttribute('data-serverid');
-    const apiClient = ServerConnections.getApiClient(serverId);
+    const api = ServerConnections.getApi(serverId);
 
     loading.show();
 
-    apiClient.ajax({
-        url: apiClient.getUrl('Playlists/' + playlistId + '/Items/' + itemId + '/Move/' + newIndex),
-        type: 'POST'
-    }).then(function () {
-        loading.hide();
-    }, function () {
-        loading.hide();
-        itemsContainer.refreshItems();
-    });
+    getPlaylistApi(api).moveItem({
+        playlistId,
+        itemId,
+        newIndex
+    })
+        .catch(itemsContainer.refreshItems)
+        .finally(loading.hide);
 }
 
 ItemsContainerPrototype.enableDragReordering = function (enabled) {

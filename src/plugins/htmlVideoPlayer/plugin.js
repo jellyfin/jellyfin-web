@@ -43,6 +43,8 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
+import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
 
 const NATIVE_UNSUPPORTED_SUBTITLE_CODECS = ['ssa', 'ass', 'pgssub', 'dvdsub', 'vobsub'];
 const ASS_SUBTITLE_CODECS = ['ssa', 'ass'];
@@ -1383,16 +1385,13 @@ export class HtmlVideoPlayer {
         const supportedFonts = ['application/vnd.ms-opentype', 'application/x-truetype-font', 'font/otf', 'font/ttf', 'font/woff', 'font/woff2'];
         const availableFonts = [];
         const attachments = this._currentPlayOptions.mediaSource.MediaAttachments || [];
-        const apiClient = ServerConnections.getApiClient(item);
+        const api = ServerConnections.getApi(item.ServerId);
         attachments.forEach(i => {
             // we only require font files and ignore embedded media attachments like covers as there are cases where ffmpeg fails to extract those
             if (supportedFonts.includes(i.MimeType)) {
                 // embedded font url
-                availableFonts.push(apiClient.getUrl(i.DeliveryUrl));
+                availableFonts.push(api.getUri(i.DeliveryUrl));
             }
-        });
-        const fallbackFontList = apiClient.getUrl('/FallbackFont/Fonts', {
-            ApiKey: apiClient.accessToken()
         });
         const htmlVideoPlayer = this;
         import('@jellyfin/libass-wasm').then(({ default: SubtitlesOctopus }) => {
@@ -1430,7 +1429,7 @@ export class HtmlVideoPlayer {
             };
 
             Promise.all([
-                apiClient.getNamedConfiguration('encoding'),
+                getSystemApi(api).getNamedConfiguration({ key: 'encoding' }).then(({ data }) => data),
                 // Worker in Tizen 5 doesn't resolve relative path with async request
                 resolveUrl(options.workerUrl),
                 resolveUrl(options.legacyWorkerUrl)
@@ -1439,12 +1438,12 @@ export class HtmlVideoPlayer {
                 options.legacyWorkerUrl = legacyWorkerUrl;
 
                 if (config.EnableFallbackFont) {
-                    apiClient.getJSON(fallbackFontList).then((fontFiles = []) => {
+                    getSubtitleApi(api).getFallbackFontList().then(({ data: fontFiles = [] }) => {
                         fontFiles.forEach(font => {
-                            const fontUrl = apiClient.getUrl(`/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`, {
-                                ApiKey: apiClient.accessToken()
-                            });
-                            availableFonts.push(fontUrl);
+                            availableFonts.push(api.getUri(
+                                `/FallbackFont/Fonts/${encodeURIComponent(font.Name)}`,
+                                { ApiKey: api.accessToken }
+                            ));
                         });
                         this.#currentAssRenderer = new SubtitlesOctopus(options);
                     });
