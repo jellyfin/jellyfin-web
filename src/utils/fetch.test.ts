@@ -223,7 +223,7 @@ describe('Utils: fetch', () => {
     describe('Method: ajax', () => {
         it('should throw when the request is missing', () => {
             // @ts-expect-error -- Modern code should not pass null, but legacy code might.
-            expect(() => ajax(null)).toThrowError('Request cannot be null');
+            expect(() => ajax(null)).toThrow('Request cannot be null');
         });
 
         it('should parse a requested JSON response', async () => {
