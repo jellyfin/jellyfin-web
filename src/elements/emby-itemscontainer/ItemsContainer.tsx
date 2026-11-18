@@ -198,7 +198,11 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             if (isInForeground === true) {
                 reloadItemsRef.current();
             } else {
-                timerRef.current = setTimeout(() => reloadItemsRef.current?.(), 10000);
+                if (timerRef.current) clearTimeout(timerRef.current);
+                timerRef.current = setTimeout(() => {
+                    timerRef.current = null;
+                    reloadItemsRef.current?.();
+                }, 10000);
             }
         },
         []
@@ -373,6 +377,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         return () => {
             if (timerRef.current) {
                 clearTimeout(timerRef.current);
+                timerRef.current = null;
             }
 
             destroyMultiSelect();
