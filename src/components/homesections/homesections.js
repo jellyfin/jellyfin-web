@@ -59,7 +59,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
     const api = ServerConnections.getApi(apiClient.serverId());
     const userId = user.Id || apiClient.getCurrentUserId();
     return queryClient
-        .fetchQuery(getUserViewsQuery(api, { userId }))
+        .query(getUserViewsQuery(api, { userId }))
         .then(result => result.Items || [])
         .then(function (userViews) {
             let html = '';

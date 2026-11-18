@@ -393,7 +393,7 @@ function getUserViews(apiClient, userId) {
     const api = ServerConnections.getApi(apiClient.serverId());
 
     return queryClient
-        .fetchQuery(getUserViewsQuery(api, { userId }))
+        .query(getUserViewsQuery(api, { userId }))
         .then(function (result) {
             const items = result.Items;
             const list = [];

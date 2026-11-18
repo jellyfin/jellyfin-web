@@ -249,7 +249,7 @@ class DisplaySettings {
         const apiClient = ServerConnections.getApiClient(self.options.serverId);
         const userSettings = self.options.userSettings;
 
-        const user = await queryClient.fetchQuery(getUserQuery(api, { userId }));
+        const user = await queryClient.query(getUserQuery(api, { userId }));
         await userSettings.setUserInfo(userId, apiClient);
 
         self.dataLoaded = true;

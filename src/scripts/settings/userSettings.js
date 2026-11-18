@@ -85,7 +85,7 @@ export class UserSettings {
 
         const api = ServerConnections.getApi(serverId);
         return queryClient
-            .fetchQuery(getDisplayPreferencesQuery(
+            .query(getDisplayPreferencesQuery(
                 api,
                 {
                     displayPreferencesId: DISPLAY_PREFERENCES_ID,
@@ -157,7 +157,7 @@ export class UserSettings {
 
         const api = ServerConnections.getApi(apiClient.serverId());
         return queryClient
-            .fetchQuery(getUserQuery(api, { userId: this.currentUserId }))
+            .query(getUserQuery(api, { userId: this.currentUserId }))
             .then(user => user.Configuration);
     }
 

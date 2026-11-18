@@ -420,7 +420,7 @@ function loadForm(context, user, userSettings, apiClient) {
 
     const api = ServerConnections.getApi(apiClient.serverId());
     const promise1 = queryClient
-        .fetchQuery(getUserViewsQuery(
+        .query(getUserViewsQuery(
             api,
             {
                 userId: user.Id,

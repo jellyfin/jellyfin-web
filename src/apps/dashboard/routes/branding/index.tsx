@@ -64,8 +64,10 @@ export const loader = async () => {
     const api = ServerConnections.getApi();
     if (!api) return {};
 
-    return queryClient.ensureQueryData(
-        getBrandingOptionsQuery(api));
+    return queryClient.query({
+        ...getBrandingOptionsQuery(api),
+        staleTime: 'static'
+    });
 };
 
 export const Component = () => {

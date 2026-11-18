@@ -65,7 +65,7 @@ function showBackdrop(type, parentId) {
 
 async function showSplashScreen() {
     const api = ServerConnections.getApi();
-    const brandingOptions = await queryClient.fetchQuery(getBrandingOptionsQuery(api));
+    const brandingOptions = await queryClient.query(getBrandingOptionsQuery(api));
     if (brandingOptions.SplashscreenEnabled) {
         setBackdropImages([
             api.getUri(SPLASHSCREEN_URL, { t: Date.now() })

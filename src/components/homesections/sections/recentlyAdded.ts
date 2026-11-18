@@ -59,7 +59,7 @@ function getFetchLatestItemsFn(
         };
 
         return queryClient
-            .fetchQuery(getLatestMediaQuery(api, options));
+            .query(getLatestMediaQuery(api, options));
     };
 }
 

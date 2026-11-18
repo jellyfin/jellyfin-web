@@ -83,7 +83,7 @@ async function loadThemeMedia(serverId, itemId) {
     const userId = apiClient?.getCurrentUserId();
 
     try {
-        const item = await queryClient.fetchQuery(getItemQuery(
+        const item = await queryClient.query(getItemQuery(
             api,
             itemId,
             userId
