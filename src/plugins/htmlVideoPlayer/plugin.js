@@ -481,21 +481,15 @@ export class HtmlVideoPlayer {
 
             console.debug(`prefetching hls playlist: ${hlsPlaylistUrl}`);
 
-            return ServerConnections.getApiClient(item.ServerId).ajax({
-
-                type: 'GET',
-                url: hlsPlaylistUrl
-
-            }).then(function () {
-                console.debug(`completed prefetching hls playlist: ${hlsPlaylistUrl}`);
-
-                loading.hide();
-                streamInfo.url = hlsPlaylistUrl;
-            }, function () {
-                console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
-
-                loading.hide();
-            });
+            return ServerConnections.getApi(item.ServerId).axiosInstance.get(hlsPlaylistUrl)
+                .then(() => {
+                    console.debug(`completed prefetching hls playlist: ${hlsPlaylistUrl}`);
+                    streamInfo.url = hlsPlaylistUrl;
+                })
+                .catch(() => {
+                    console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
+                })
+                .finally(loading.hide);
         } else {
             return Promise.resolve();
         }
