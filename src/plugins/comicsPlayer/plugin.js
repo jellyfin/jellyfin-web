@@ -269,11 +269,10 @@ export class ComicsPlayer {
         const downloadUrl = getLibraryApi(api).getDownloadUrl({ itemId: item.Id });
         this.archiveSource = new ArchiveSource(downloadUrl);
 
-        //eslint-disable-next-line import/no-unresolved
         import('swiper/css/bundle');
 
         return this.archiveSource.load()
-            // eslint-disable-next-line import/no-unresolved
+
             .then(() => import('swiper/bundle'))
             .then(({ Swiper }) => {
                 loading.hide();

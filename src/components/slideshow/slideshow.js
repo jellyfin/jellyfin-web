@@ -347,10 +347,8 @@ export default function (options) {
             slides = currentOptions.items;
         }
 
-        //eslint-disable-next-line import/no-unresolved
         import('swiper/css/bundle');
 
-        // eslint-disable-next-line import/no-unresolved
         import('swiper/bundle').then(({ Swiper }) => {
             swiperInstance = new Swiper(dialogElement.querySelector('.slideshowSwiperContainer'), {
                 direction: 'horizontal',
