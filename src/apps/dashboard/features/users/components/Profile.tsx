@@ -1,4 +1,4 @@
-import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto } from '@jellyfin/sdk/lib/generated-client';
+import type { BaseItemDto, NameIdPair, SyncPlayUserAccessType, UserDto, UserPolicy } from '@jellyfin/sdk/lib/generated-client';
 import escapeHTML from 'escape-html';
 import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,16 @@ import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
 import Toast from 'apps/dashboard/components/Toast';
+
+// Remove this extension once the generated UserPolicy exposes the video limit.
+type VideoStreamUserPolicy = UserPolicy & { MaxActiveVideoStreams?: number };
+
+const MAX_VIDEO_STREAM_LIMIT = 2_147_483_647;
+
+function isVideoStreamLimit(value: unknown): value is number {
+    return typeof value === 'number' && Number.isInteger(value)
+        && value >= 0 && value <= MAX_VIDEO_STREAM_LIMIT;
+}
 
 interface ProfileProps {
     userDto: UserDto;
@@ -46,16 +56,26 @@ const Profile = ({ userDto }: ProfileProps) => {
     const { data: channels, isSuccess: isChannelsSuccess } = useChannels({ supportsMediaDeletion: true });
     const { data: netConfig, isSuccess: isNetConfigSuccess } = useNetworkConfig();
 
-    const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ saveError, setSaveError ] = useState<string>();
+    const isSaving = useRef(false);
 
     const handleToastClose = useCallback(() => {
-        setIsErrorToastOpen(false);
+        setSaveError(undefined);
     }, []);
 
-    const updateUser = useUpdateUser();
+    const updateUser = useUpdateUser({ refetchOnSuccess: false });
     const updateUserPolicy = useUpdateUserPolicy();
 
     const element = useRef<HTMLDivElement>(null);
+    const videoStreamLimitInput = useRef<HTMLInputElement>(null);
+    const videoStreamLimit = (userDto.Policy as VideoStreamUserPolicy | undefined)?.MaxActiveVideoStreams;
+    const supportsVideoStreamLimit = isVideoStreamLimit(videoStreamLimit);
+
+    useEffect(() => {
+        if (supportsVideoStreamLimit && videoStreamLimitInput.current) {
+            videoStreamLimitInput.current.value = String(videoStreamLimit);
+        }
+    }, [ userDto.Id, supportsVideoStreamLimit, videoStreamLimit ]);
 
     const triggerChange = (select: HTMLInputElement) => {
         const evt = new Event('change', { bubbles: false, cancelable: true });
@@ -216,9 +236,22 @@ const Profile = ({ userDto }: ProfileProps) => {
             return;
         }
 
-        const saveUser = (user: UserDto) => {
-            if (!user.Id || !user.Policy) {
-                throw new Error('Unexpected null user id or policy');
+        const saveUser = async () => {
+            const userId = userDto.Id;
+            if (!userId || !userDto.Policy || isSaving.current) {
+                return;
+            }
+
+            const policy: VideoStreamUserPolicy = { ...userDto.Policy };
+            const user = { ...userDto, Policy: policy };
+            const input = videoStreamLimitInput.current;
+            if (input) {
+                if (!input.reportValidity() || !isVideoStreamLimit(input.valueAsNumber)) {
+                    return;
+                }
+                policy.MaxActiveVideoStreams = input.valueAsNumber;
+            } else {
+                delete policy.MaxActiveVideoStreams;
             }
 
             user.Name = (page.querySelector('#txtUserName') as HTMLInputElement).value.trim();
@@ -247,51 +280,45 @@ const Profile = ({ userDto }: ProfileProps) => {
             user.Policy.EnableContentDeletionFromFolders = user.Policy.EnableContentDeletion ? [] : getCheckedElementDataIds(page.querySelectorAll('.chkFolder'));
             user.Policy.SyncPlayAccess = (page.querySelector('#selectSyncPlayAccess') as HTMLSelectElement).value as SyncPlayUserAccessType;
 
-            updateUser.mutate({ userId: user.Id, userDto: user }, {
-                onSuccess: () => {
-                    if (user.Id) {
-                        updateUserPolicy.mutate({
-                            userId: user.Id,
-                            userPolicy: user.Policy || { PasswordResetProviderId: '', AuthenticationProviderId: '' }
-                        }, {
-                            onSuccess: () => {
-                                loading.hide();
-                                navigate('/dashboard/users', {
-                                    state: { openSavedToast: true }
-                                });
-                            }
-                        });
-                    }
-                },
-                onError: () => {
-                    loading.hide();
-                    setIsErrorToastOpen(true);
-                }
-            });
+            isSaving.current = true;
+            setSaveError(undefined);
+            loading.show();
+            let errorKey = 'ErrorDefault';
+
+            try {
+                await updateUser.mutateAsync({ userId, userDto: user });
+                errorKey = 'ErrorSavingUserPolicy';
+                await updateUserPolicy.mutateAsync({ userId, userPolicy: policy });
+                navigate('/dashboard/users', { state: { openSavedToast: true } });
+            } catch {
+                setSaveError(errorKey);
+            } finally {
+                isSaving.current = false;
+                loading.hide();
+            }
         };
 
         const onSubmit = (e: Event) => {
-            loading.show();
-            if (userDto) {
-                saveUser(userDto);
-            }
             e.preventDefault();
             e.stopPropagation();
-            return false;
+            void saveUser();
         };
 
         const onBtnCancelClick = () => {
             window.history.back();
         };
 
-        (page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement).addEventListener('change', function (this: HTMLInputElement) {
-            (page.querySelector('.deleteAccess') as HTMLDivElement).classList.toggle('hide', this.checked);
-        });
+        const deleteAllFolders = page.querySelector('.chkEnableDeleteAllFolders') as HTMLInputElement;
+        const onDeleteAllFoldersChange = () => {
+            (page.querySelector('.deleteAccess') as HTMLDivElement).classList.toggle('hide', deleteAllFolders.checked);
+        };
+        deleteAllFolders.addEventListener('change', onDeleteAllFoldersChange);
 
         (page.querySelector('.editUserProfileForm') as HTMLFormElement).addEventListener('submit', onSubmit);
         (page.querySelector('#btnCancel') as HTMLButtonElement).addEventListener('click', onBtnCancelClick);
 
         return () => {
+            deleteAllFolders.removeEventListener('change', onDeleteAllFoldersChange);
             (page.querySelector('.editUserProfileForm') as HTMLFormElement).removeEventListener('submit', onSubmit);
             (page.querySelector('#btnCancel') as HTMLButtonElement).removeEventListener('click', onBtnCancelClick);
         };
@@ -318,9 +345,9 @@ const Profile = ({ userDto }: ProfileProps) => {
     return (
         <div ref={element}>
             <Toast
-                open={isErrorToastOpen}
+                open={!!saveError}
                 onClose={handleToastClose}
-                message={globalize.translate('ErrorDefault')}
+                message={globalize.translate(saveError || 'ErrorDefault')}
             />
             <div
                 className='lnkEditUserPreferencesContainer'
@@ -582,10 +609,31 @@ const Profile = ({ userDto }: ProfileProps) => {
                         </div>
                     </div>
                 </div>
+                {supportsVideoStreamLimit && (
+                    <div className='verticalSection'>
+                        <div className='inputContainer'>
+                            <Input
+                                ref={videoStreamLimitInput}
+                                type='number'
+                                id='txtMaxActiveVideoStreams'
+                                label={globalize.translate('LabelUserMaxActiveVideoStreams')}
+                                aria-describedby='maxActiveVideoStreamsHelp'
+                                min={0}
+                                max={MAX_VIDEO_STREAM_LIMIT}
+                                step={1}
+                                required
+                            />
+                            <div className='fieldDescription' id='maxActiveVideoStreamsHelp'>
+                                {globalize.translate('OptionMaxActiveVideoStreamsHelp')}
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <br />
                 <div>
                     <Button
                         type='submit'
+                        disabled={updateUser.isPending || updateUserPolicy.isPending}
                         className='raised button-submit block'
                         title={globalize.translate('Save')}
                     />
