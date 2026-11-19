@@ -213,10 +213,10 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
     const onLibraryChanged = useCallback(
         ({ Data }: { Data?: LibraryUpdateInfo }) => {
-            const eventsToMonitor = eventsToMonitorRef.current;
-            const parentId = parentIdRef.current;
+            const events = eventsToMonitorRef.current;
+            const folderId = parentIdRef.current;
 
-            if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
+            if (events.includes('seriestimers') || events.includes('timers')) {
                 // yes this is an assumption
                 return;
             }
@@ -227,15 +227,15 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
                 return;
             }
 
-            if (parentId) {
+            if (folderId) {
                 const foldersAddedTo = Data?.FoldersAddedTo ?? [];
                 const foldersRemovedFrom = Data?.FoldersRemovedFrom ?? [];
                 const collectionFolders = Data?.CollectionFolders ?? [];
 
                 if (
-                    foldersAddedTo.indexOf(parentId) === -1
-                    && foldersRemovedFrom.indexOf(parentId) === -1
-                    && collectionFolders.indexOf(parentId) === -1
+                    foldersAddedTo.indexOf(folderId) === -1
+                    && foldersRemovedFrom.indexOf(folderId) === -1
+                    && collectionFolders.indexOf(folderId) === -1
                 ) {
                     return;
                 }
@@ -249,18 +249,18 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     const onPlaybackStopped = useCallback(
         (_e: Event, stopInfo: PlaybackStopInfo) => {
             const state = stopInfo.state;
-            const eventsToMonitor = eventsToMonitorRef.current;
+            const events = eventsToMonitorRef.current;
 
             if (
                 state.NowPlayingItem?.MediaType === MediaType.Video
             ) {
-                if (eventsToMonitor.includes('videoplayback')) {
+                if (events.includes('videoplayback')) {
                     notifyRefreshNeeded(true);
                     return;
                 }
             } else if (
                 state.NowPlayingItem?.MediaType === MediaType.Audio
-                && eventsToMonitor.includes('audioplayback')
+                && events.includes('audioplayback')
             ) {
                 notifyRefreshNeeded(true);
                 return;
