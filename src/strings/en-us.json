@@ -1431,6 +1431,7 @@
     "PlaybackError.NO_MEDIA_ERROR": "Unable to find a valid media source to play.",
     "PlaybackError.PLAYER_ERROR": "Playback failed due to a fatal player error.",
     "PlaybackError.SERVER_ERROR": "Playback failed due to a server error.",
+    "PlaybackError.MaxActiveVideoStreamsReached": "You have reached the limit for simultaneous video streams. Stop another video before trying again.",
     "PlaybackError.NotAllowed": "Playback of this media is not allowed.",
     "PlaybackError.RateLimitExceeded": "This media cannot be played at this time due to rate limits.",
     "PlaybackErrorNoCompatibleStream": "This client isn't compatible with the media and the server isn't sending a compatible media format.",

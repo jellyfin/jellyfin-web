@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { MediaError } from 'types/mediaError';
 import Events from 'utils/events';
+import { PLAYBACK_LIMIT_ERROR_CODE, PlaybackLimitError } from 'utils/playbackLimit';
 
 import { PlaybackManager } from './playbackmanager';
 
@@ -77,6 +79,17 @@ function response(playbackInstanceId, alias, source = {}) {
     } };
 }
 
+const limitMessage = `PlaybackError.${PLAYBACK_LIMIT_ERROR_CODE}`;
+
+function quotaResponse() {
+    return {
+        response: {
+            status: 403,
+            data: { ErrorCode: PLAYBACK_LIMIT_ERROR_CODE }
+        }
+    };
+}
+
 function queueResponse(alias, source) {
     playbackInfo.mockImplementationOnce(({ playbackInfoDto }) => Promise.resolve(response(playbackInfoDto.PlaybackInstanceId, alias, source)));
 }
@@ -126,6 +139,7 @@ describe('video playback identity', () => {
     let player;
 
     beforeEach(() => {
+        alert.mockClear();
         playbackInfo.mockReset();
         openLiveStream.mockReset();
         closeLiveStream.mockReset().mockResolvedValue(undefined);
@@ -337,6 +351,7 @@ describe('video playback identity', () => {
         );
         expect(manager.playSessionId(player)).toBe('new-encoding');
     });
+
     it('does not load a stream if stopped while its metadata is pending', async () => {
         const late = deferred();
         playbackInfo.mockReturnValueOnce(late.promise);
@@ -349,5 +364,149 @@ describe('video playback identity', () => {
 
         expect(player.play).not.toHaveBeenCalled();
         expect(client.reportPlaybackStart).not.toHaveBeenCalled();
+    });
+
+    it.each(['HTTP 403', 'PlaybackInfo response'])('shows one quota message when negotiation returns %s', async (failure) => {
+        if (failure === 'HTTP 403') {
+            playbackInfo.mockRejectedValueOnce(quotaResponse());
+        } else {
+            playbackInfo.mockResolvedValueOnce({ data: { ErrorCode: PLAYBACK_LIMIT_ERROR_CODE } });
+        }
+
+        await playItem(manager);
+
+        expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: limitMessage }));
+        expect(playbackInfo).toHaveBeenCalledOnce();
+        expect(player.play).not.toHaveBeenCalled();
+        expect(client.reportPlaybackStart).not.toHaveBeenCalled();
+        expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
+    });
+
+    it('shows one quota message when a Live TV source is denied', async () => {
+        queueResponse('live-attempt', { Id: 'channel', RequiresOpening: true, OpenToken: 'live-open-token' });
+        openLiveStream.mockRejectedValueOnce(quotaResponse());
+
+        await playItem(manager, { Id: 'channel', Type: 'TvChannel' });
+
+        expect(openLiveStream).toHaveBeenCalledOnce();
+        expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: limitMessage }));
+        expect(player.play).not.toHaveBeenCalled();
+        expect(client.reportPlaybackStart).not.toHaveBeenCalled();
+        expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
+    });
+
+    it('does not report a start, retry, or write a stop for a denied player load', async () => {
+        queueResponse('denied-alias', { SupportsTranscoding: true });
+        player.play.mockImplementationOnce(async (streamInfo) => {
+            const error = new PlaybackLimitError();
+            Events.trigger(player, 'error', [{ streamInfo, type: MediaError.SERVER_ERROR, error }]);
+            throw error;
+        });
+
+        await playItem(manager);
+
+        expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: limitMessage }));
+        expect(playbackInfo).toHaveBeenCalledOnce();
+        expect(player.play).toHaveBeenCalledOnce();
+        expect(client.reportPlaybackStart).not.toHaveBeenCalled();
+        expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
+        expect(client.stopActiveEncodings).not.toHaveBeenCalled();
+    });
+
+    it('preserves the normal transcode fallback and reports only its successful start', async () => {
+        queueResponse('failed-alias', { SupportsTranscoding: true });
+        queueResponse('retry-alias', {
+            SupportsDirectPlay: false,
+            SupportsTranscoding: true,
+            TranscodingSubProtocol: 'hls',
+            TranscodingUrl: '/Videos/movie/master.m3u8?PlaySessionId=retry-alias'
+        });
+        player.play.mockRejectedValueOnce(new DOMException('Codec unavailable', 'NotSupportedError'));
+
+        await playItem(manager);
+
+        expect(playbackInfo).toHaveBeenCalledTimes(2);
+        expect(bodyAt(1)).toMatchObject({
+            PlaybackInstanceId: bodyAt(0).PlaybackInstanceId,
+            EnableDirectPlay: false
+        });
+        expect(client.reportPlaybackStart).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ PlaySessionId: 'retry-alias' }));
+        expect(alert).not.toHaveBeenCalled();
+    });
+
+    it.each([new Error('Network error'), { response: { status: 403, data: {} } }])(
+        'uses ordinary error handling for %s with no false start',
+        async (error) => {
+            queueResponse('failed-alias', { SupportsTranscoding: false });
+            player.play.mockRejectedValueOnce(error);
+
+            await playItem(manager);
+
+            expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: `PlaybackError.${MediaError.PLAYER_ERROR}` }));
+            expect(client.reportPlaybackStart).not.toHaveBeenCalled();
+        }
+    );
+
+    it('terminates the fallback after a confirmed quota response without reporting a start', async () => {
+        queueResponse('native-alias', { SupportsTranscoding: true });
+        queueResponse('hls-attempt', { SupportsTranscoding: true });
+        player.play.mockRejectedValueOnce(new DOMException('Native response is opaque', 'NotSupportedError'))
+            .mockRejectedValueOnce(new PlaybackLimitError());
+
+        await playItem(manager);
+
+        expect(playbackInfo).toHaveBeenCalledTimes(2);
+        expect(player.play).toHaveBeenCalledTimes(2);
+        expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: limitMessage }));
+        expect(client.reportPlaybackStart).not.toHaveBeenCalled();
+        expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
+        expect(client.stopActiveEncodings).not.toHaveBeenCalled();
+    });
+
+    it('keeps the current playback when negotiating a replacement is denied', async () => {
+        queueResponse('admitted-alias');
+        await playItem(manager);
+        playbackInfo.mockRejectedValueOnce(quotaResponse());
+
+        manager.setMaxStreamingBitrate({ maxBitrate: 1000000 }, player);
+        await vi.waitFor(() => expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: limitMessage })));
+
+        expect(manager.playSessionId(player)).toBe('admitted-alias');
+        expect(player.play).toHaveBeenCalledOnce();
+        expect(player.destroy).not.toHaveBeenCalled();
+        expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
+    });
+
+    it('does not advance the queue when a current stream encounters a confirmed denial', async () => {
+        queueResponse('admitted-alias', { SupportsTranscoding: true });
+        const items = ['movie', 'next'].map(id => ({
+            Id: id, Name: id, MediaType: 'Video', Type: 'Movie', ServerId: 'server'
+        }));
+        await manager.play({ fullscreen: false, items });
+        const streamInfo = player.play.mock.calls[0][0];
+
+        Events.trigger(player, 'error', [{ streamInfo, type: MediaError.SERVER_ERROR, error: new PlaybackLimitError() }]);
+        await vi.waitFor(() => expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: limitMessage })));
+
+        expect(playbackInfo).toHaveBeenCalledOnce();
+        expect(player.play).toHaveBeenCalledOnce();
+        expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
+    });
+
+    it('allows an explicit stop after the current item ended without sending a second stop report', async () => {
+        queueResponse('finished-alias');
+        const items = ['movie', 'next'].map(id => ({
+            Id: id, Name: id, MediaType: 'Video', Type: 'Movie', ServerId: 'server'
+        }));
+        await manager.play({ fullscreen: false, items });
+        const streamInfo = player.play.mock.calls[0][0];
+
+        Events.trigger(player, 'stopped', [{ streamInfo }]);
+        expect(client.reportPlaybackStopped).toHaveBeenCalledOnce();
+
+        await manager.stop();
+
+        expect(player.destroy).toHaveBeenCalledOnce();
+        expect(client.reportPlaybackStopped).toHaveBeenCalledOnce();
     });
 });

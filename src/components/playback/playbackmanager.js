@@ -35,10 +35,15 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
+import { isPlaybackLimitError, PLAYBACK_LIMIT_ERROR_CODE, PlaybackLimitError } from 'utils/playbackLimit';
 import { bindSkipSegment } from './skipsegment.ts';
 import * as bitrateTest from 'utils/bitrateTest';
 
 const UNLIMITED_ITEMS = -1;
+const PLAYBACK_LIMIT_MESSAGE = `PlaybackError.${PLAYBACK_LIMIT_ERROR_CODE}`;
+
+// Carries a localization key for errors returned inside successful PlaybackInfo responses.
+class PlaybackInfoError extends Error {}
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -523,8 +528,11 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     /** @type {PlaybackInfoRequest} */
     const playbackInfoDto = query;
-    const res = await getMediaInfoApi(api).getPostedPlaybackInfo({ itemId, playbackInfoDto });
-    return res.data;
+    const { data } = await getMediaInfoApi(api).getPostedPlaybackInfo({ itemId, playbackInfoDto });
+    if (data.ErrorCode === PLAYBACK_LIMIT_ERROR_CODE) {
+        throw new PlaybackLimitError();
+    }
+    return data;
 }
 
 function getOptimalMediaSource(apiClient, item, versions) {
@@ -655,22 +663,11 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     return Promise.resolve(false);
 }
 
-/**
- * @param {PlaybackManager} instance
- * @param {import('@jellyfin/sdk/lib/generated-client/index.js').PlaybackInfoResponse} result
- * @returns {boolean}
- */
-function validatePlaybackInfoResult(instance, result) {
-    if (result.ErrorCode) {
-        // NOTE: To avoid needing to retranslate the "NoCompatibleStream" message,
-        // we need to keep the key in the same format.
-        const errMessage = result.ErrorCode === PlaybackErrorCode.NoCompatibleStream ?
-            'PlaybackErrorNoCompatibleStream' : `PlaybackError.${result.ErrorCode}`;
-        showPlaybackInfoErrorMessage(instance, errMessage);
-        return false;
+function getPlaybackInfoErrorKey(result) {
+    if (result.ErrorCode === PlaybackErrorCode.NoCompatibleStream) {
+        return 'PlaybackErrorNoCompatibleStream';
     }
-
-    return true;
+    return result.ErrorCode ? `PlaybackError.${result.ErrorCode}` : null;
 }
 
 function showPlaybackInfoErrorMessage(instance, errorCode) {
@@ -757,7 +754,6 @@ export class PlaybackManager {
         let currentPairingId = null;
 
         this._playNextAfterEnded = true;
-        const playerStates = {};
 
         this._playQueueManager = new PlayQueueManager();
 
@@ -1808,11 +1804,9 @@ export class PlaybackManager {
                     }
                     return;
                 }
-                if (!validatePlaybackInfoResult(self, result)) {
-                    return;
-                }
-                if (!mediaSource) {
-                    showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+                const errorKey = getPlaybackInfoErrorKey(result);
+                if (errorKey || !mediaSource) {
+                    handleStreamChangeFailure(player, previousStream, errorKey || `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                     return;
                 }
 
@@ -1825,7 +1819,7 @@ export class PlaybackManager {
                 streamInfo.playbackStartTimeTicks = previousStream.playbackStartTimeTicks;
 
                 if (!streamInfo.url) {
-                    showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+                    handleStreamChangeFailure(player, previousStream, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
                     return;
                 }
 
@@ -1845,14 +1839,60 @@ export class PlaybackManager {
                 playerData.maxStreamingBitrate = maxBitrate;
                 await changeStreamToUrl(apiClient, player, previousStream, streamInfo);
             } catch (error) {
+                if (!isCurrent()) {
+                    return;
+                }
+                const limitReached = await isPlaybackLimitError(error);
                 if (isCurrent()) {
-                    console.error('[playbackmanager] Failed to change stream', error);
-                    showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.SERVER_ERROR}`);
+                    if (!limitReached) {
+                        console.error('[playbackmanager] Failed to change stream', error);
+                    }
+                    const errorKey = limitReached ? PLAYBACK_LIMIT_MESSAGE : `PlaybackError.${MediaError.SERVER_ERROR}`;
+                    handleStreamChangeFailure(player, previousStream, errorKey);
                 }
             } finally {
                 if (playerData.streamChange === change) {
                     playerData.streamChange = null;
                 }
+            }
+        }
+
+        function handleStreamChangeFailure(player, previousStream, errorKey) {
+            if (self.#startingPlayer?.streamInfo === previousStream) {
+                previousStream.limitRejected = errorKey === PLAYBACK_LIMIT_MESSAGE;
+                onPlaybackStopped.call(player, undefined, { streamInfo: previousStream, errorKey });
+            } else {
+                // Negotiation failed before the current source was replaced.
+                showPlaybackInfoErrorMessage(self, errorKey);
+            }
+        }
+
+        async function loadStream(player, streamInfo) {
+            const playerData = getPlayerData(player);
+            const isCurrent = () => playerData.streamInfo === streamInfo && !streamInfo.playbackController?.signal.aborted;
+
+            try {
+                await player.play(streamInfo);
+            } catch (error) {
+                if (isCurrent()) {
+                    return onPlaybackError.call(player, undefined, { error, type: getMediaError(error), streamInfo });
+                }
+                return;
+            }
+            if (!isCurrent()) {
+                return;
+            }
+
+            playerData.isChangingStream = false;
+            streamInfo.previousStream = null;
+
+            const startup = self.#startingPlayer;
+            if (startup?.streamInfo === streamInfo) {
+                self.#startingPlayer = null;
+                startup.onStarted(streamInfo);
+            } else {
+                streamInfo.started = true;
+                sendProgressUpdate(player, 'timeupdate');
             }
         }
 
@@ -1863,25 +1903,17 @@ export class PlaybackManager {
                 // A stop while the replacement is starting may still need the last admitted alias.
                 streamInfo.previousStream = previousStream;
             }
+            if (self.#startingPlayer?.streamInfo === previousStream) {
+                self.#startingPlayer.streamInfo = streamInfo;
+            }
 
             previousStream.playbackController?.abort();
             playerData.isChangingStream = true;
             playerData.streamInfo = streamInfo;
             try {
-                await player.play(streamInfo);
-                if (playerData.streamInfo === streamInfo && !streamInfo.playbackController?.signal.aborted) {
-                    playerData.isChangingStream = false;
-                    streamInfo.started = true;
-                    streamInfo.previousStream = null;
-                    sendProgressUpdate(player, 'timeupdate');
-                }
-            } catch (error) {
-                if (playerData.streamInfo === streamInfo && !streamInfo.playbackController?.signal.aborted) {
-                    playerData.isChangingStream = false;
-                    onPlaybackError.call(player, error, { type: getMediaError(error), streamInfo });
-                }
+                await loadStream(player, streamInfo);
             } finally {
-                if (previousAlias && (!streamInfo.playbackInstanceId || previousAlias !== streamInfo.playSessionId)) {
+                if (!streamInfo.limitRejected && previousAlias && (!streamInfo.playbackInstanceId || previousAlias !== streamInfo.playSessionId)) {
                     // A late cleanup is scoped to the alias captured before the change.
                     void apiClient.stopActiveEncodings(previousAlias)
                         .catch(error => console.warn('[playbackmanager] Failed to stop replaced encoding', error));
@@ -2277,14 +2309,6 @@ export class PlaybackManager {
             if (!player.name) {
                 throw new Error('player name cannot be null');
             }
-            let state = playerStates[player.name];
-
-            if (!state) {
-                playerStates[player.name] = {};
-                // eslint-disable-next-line sonarjs/no-dead-store
-                state = playerStates[player.name];
-            }
-
             return player;
         }
 
@@ -2446,8 +2470,7 @@ export class PlaybackManager {
 
             // If it's still null then there's nothing to play
             if (!firstItem) {
-                showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                return Promise.reject();
+                throw new PlaybackInfoError(`PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
             }
 
             if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
@@ -2533,7 +2556,7 @@ export class PlaybackManager {
                 .then((bitrate) => {
                     if (isCurrent()) {
                         return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource, isCurrent)
-                            .catch(error => isCurrent() ? onPlaybackRejection(error) : undefined);
+                            .catch(error => onPlaybackRejection(error, isCurrent));
                     }
                 })
                 .catch(() => {
@@ -2566,22 +2589,28 @@ export class PlaybackManager {
             return Promise.reject();
         }
 
-        function onPlaybackRejection(e) {
-            cancelPlayback();
-
-            let displayErrorCode = 'ErrorDefault';
-
-            if (e instanceof Response) {
-                if (e.status >= 500) {
-                    displayErrorCode = `PlaybackError.${MediaError.SERVER_ERROR}`;
-                } else if (e.status >= 400) {
-                    displayErrorCode = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
+        async function onPlaybackRejection(error, isCurrent) {
+            if (!isCurrent()) {
+                return;
+            }
+            let errorKey = 'ErrorDefault';
+            if (await isPlaybackLimitError(error)) {
+                errorKey = PLAYBACK_LIMIT_MESSAGE;
+            } else if (error instanceof PlaybackInfoError) {
+                errorKey = error.message;
+            } else if (error instanceof Response) {
+                if (error.status >= 500) {
+                    errorKey = `PlaybackError.${MediaError.SERVER_ERROR}`;
+                } else if (error.status >= 400) {
+                    errorKey = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
                 }
             }
 
-            showPlaybackInfoErrorMessage(self, displayErrorCode);
-
-            return Promise.reject();
+            if (isCurrent()) {
+                cancelPlayback();
+                showPlaybackInfoErrorMessage(self, errorKey);
+                loading.hide();
+            }
         }
 
         function destroyPlayer(player) {
@@ -2925,30 +2954,20 @@ export class PlaybackManager {
                     playerData.isChangingStream = false;
                     playerData.maxStreamingBitrate = maxBitrate;
                     playerData.streamInfo = streamInfo;
-                    self.#startingPlayer = { player, streamInfo };
-
-                    return player.play(streamInfo).then(function () {
-                        if (isCurrent()) {
-                            self.#startingPlayer = null;
+                    playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
+                    playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
+                    playerData.secondarySubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                    self.#startingPlayer = {
+                        player,
+                        streamInfo,
+                        onStarted: loadedStream => {
                             loading.hide();
                             onPlaybackStartedFn();
-                            onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
+                            onPlaybackStarted(player, playOptions, loadedStream, loadedStream.mediaSource);
                         }
-                    }, function (err) {
-                        if (!isCurrent()) {
-                            return;
-                        }
-                        self.#startingPlayer = null;
-                        // TODO: Improve this because it will report playback start on a failure
-                        onPlaybackStartedFn();
-                        onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
-                        setTimeout(function () {
-                            onPlaybackError.call(player, err, {
-                                type: getMediaError(err),
-                                streamInfo
-                            });
-                        }, 100);
-                    });
+                    };
+
+                    return loadStream(player, streamInfo);
                 });
             });
         }
@@ -3197,14 +3216,14 @@ export class PlaybackManager {
                 }
                 return;
             }
-            if (!validatePlaybackInfoResult(self, playbackInfo)) {
-                return Promise.reject();
+            const errorKey = getPlaybackInfoErrorKey(playbackInfo);
+            if (errorKey) {
+                throw new PlaybackInfoError(errorKey);
             }
 
             let mediaSource = await getOptimalMediaSource(apiClient, item, playbackInfo.MediaSources);
             if (!mediaSource) {
-                showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                return Promise.reject();
+                throw new PlaybackInfoError(`PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
             }
             if (!isCurrent()) {
                 closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
@@ -3660,62 +3679,61 @@ export class PlaybackManager {
 
         /**
          * @param {object} streamInfo
-         * @param {MediaError} errorType
          * @param {boolean} currentlyPreventsVideoStreamCopy
          * @param {boolean} currentlyPreventsAudioStreamCopy
          * @returns {boolean} Returns true if the stream should be retried by transcoding.
          */
-        function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
+        function enablePlaybackRetryWithTranscoding(streamInfo, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
             return streamInfo.mediaSource.SupportsTranscoding
                 && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
         }
 
-        /**
-         * Playback error handler.
-         * @param {Error} e
-         * @param {object} error
-         * @param {object} error.streamInfo
-         * @param {MediaError} error.type
-         */
-        function onPlaybackError(e, error) {
+        async function onPlaybackError(e, details) {
             const player = this;
-            error = error || {};
-
-            if (error.streamInfo && error.streamInfo !== getPlayerData(player).streamInfo) {
+            const playerData = getPlayerData(player);
+            const streamInfo = details?.streamInfo || playerData.streamInfo;
+            if (!streamInfo || streamInfo !== playerData.streamInfo || streamInfo.ended) {
                 return;
             }
-            const errorType = error.type;
 
-            console.warn('[playbackmanager] onPlaybackError:', e, error);
+            const limitReached = details?.type === PLAYBACK_LIMIT_ERROR_CODE
+                || await isPlaybackLimitError(details?.error ?? e);
+            if (playerData.streamInfo !== streamInfo || streamInfo.ended || streamInfo.playbackController?.signal.aborted) {
+                return;
+            }
 
-            const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
+            const errorType = limitReached ? PLAYBACK_LIMIT_ERROR_CODE : details?.type || MediaError.PLAYER_ERROR;
+            if (limitReached) {
+                streamInfo.limitRejected = true;
+            } else if (streamInfo.retrying) {
+                return;
+            } else if (streamInfo.url) {
+                const url = streamInfo.url.toLowerCase();
+                const preventsVideoStreamCopy = url.includes('allowvideostreamcopy=false');
+                const preventsAudioStreamCopy = url.includes('allowaudiostreamcopy=false');
 
-            if (streamInfo?.url) {
-                const isAlreadyFallbacking = streamInfo.url.toLowerCase().includes('transcodereasons');
-                const currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
-                const currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
-
-                // Auto switch to transcoding
-                if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
+                if (enablePlaybackRetryWithTranscoding(streamInfo, preventsVideoStreamCopy, preventsAudioStreamCopy)) {
                     const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
-                    const isRemoteSource = streamInfo.item.LocationType === 'Remote';
-                    // force transcoding and only allow remuxing for remote source like liveTV, but only for initial trial
-                    const tryVideoStreamCopy = isRemoteSource && !isAlreadyFallbacking;
+                    const tryVideoStreamCopy = streamInfo.item.LocationType === 'Remote' && !url.includes('transcodereasons');
 
-                    changeStream(player, startTime, {
-                        EnableDirectPlay: false,
-                        EnableDirectStream: tryVideoStreamCopy,
-                        AllowVideoStreamCopy: tryVideoStreamCopy,
-                        AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
-                    });
-
+                    streamInfo.retrying = true;
+                    try {
+                        await changeStream(player, startTime, {
+                            EnableDirectPlay: false,
+                            EnableDirectStream: tryVideoStreamCopy,
+                            AllowVideoStreamCopy: tryVideoStreamCopy,
+                            AllowAudioStreamCopy: preventsAudioStreamCopy || preventsVideoStreamCopy ? false : null
+                        });
+                    } finally {
+                        streamInfo.retrying = false;
+                    }
                     return;
                 }
             }
 
+            playerData.isChangingStream = false;
             Events.trigger(self, 'playbackerror', [errorType]);
-
-            onPlaybackStopped.call(player, e, `.${errorType}`);
+            onPlaybackStopped.call(player, e, { streamInfo, errorKey: `PlaybackError.${errorType}` });
         }
 
         function reportStreamStopped(player, state, streamInfo) {
@@ -3745,12 +3763,13 @@ export class PlaybackManager {
             const player = this;
             const data = getPlayerData(player);
             const streamInfo = data.streamInfo;
-            const displayErrorCode = typeof stopInfo === 'string' ? stopInfo : null;
+            const errorKey = stopInfo?.errorKey;
+            const alreadyEnded = streamInfo?.ended;
 
-            if (!streamInfo && stopInfo?.isUserStop && player !== self._currentPlayer) {
+            if ((alreadyEnded && !stopInfo?.isUserStop) || (!streamInfo && stopInfo?.isUserStop && player !== self._currentPlayer)) {
                 return;
             }
-            if (!stopInfo?.isUserStop && (data.isChangingStream
+            if (!stopInfo?.isUserStop && ((data.isChangingStream && !errorKey)
                 || (stopInfo?.streamInfo && stopInfo.streamInfo !== streamInfo))) {
                 return;
             }
@@ -3760,14 +3779,19 @@ export class PlaybackManager {
             data.bitrateChange = null;
             data.isChangingStream = false;
             streamInfo?.playbackController?.abort();
+            if (streamInfo && self.#startingPlayer?.streamInfo === streamInfo) {
+                self.#startingPlayer = null;
+                loading.hide();
+            }
             stopPlaybackProgressTimer(player);
 
             // User clicked stop or content ended
             const state = self.getPlayerState(player);
 
-            const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
-
-            const nextItem = self._playNextAfterEnded && !errorOccurred ? self._playQueueManager.getNextItemInfo() : null;
+            if (errorKey) {
+                self._playNextAfterEnded = false;
+            }
+            const nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
             const nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3780,14 +3804,20 @@ export class PlaybackManager {
 
             state.NextMediaType = nextMediaType;
 
-            if (streamInfo && isServerItem(streamInfo.item)) {
+            if (streamInfo) {
+                streamInfo.ended = true;
+            }
+            // The server only rejects unadmitted logical playbacks. Reporting Stopped for
+            // a denied alias can clear the shared device session's now-playing state.
+            if (streamInfo && !alreadyEnded && errorKey !== PLAYBACK_LIMIT_MESSAGE && isServerItem(streamInfo.item)
+                && (streamInfo.started || streamInfo.playSessionId)) {
                 if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
                     state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                 }
 
-                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
-                streamInfo.ended = true;
-
+                if (errorKey) {
+                    state.PlayState.Failed = true;
+                }
                 reportStreamStopped(player, state, streamInfo);
             }
 
@@ -3809,8 +3839,8 @@ export class PlaybackManager {
                 removeCurrentPlayer(player);
             }
 
-            if (errorOccurred) {
-                showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
+            if (errorKey) {
+                showPlaybackInfoErrorMessage(self, errorKey);
             } else if (newPlayer) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
