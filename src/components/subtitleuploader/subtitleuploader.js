@@ -1,7 +1,6 @@
 import escapeHtml from 'escape-html';
-
 import { getSubtitleApi } from '@jellyfin/sdk/lib/utils/api/subtitle-api';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+
 import dialogHelper from '../../components/dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import loading from '../../components/loading/loading';
@@ -80,11 +79,12 @@ function setFiles(page, files) {
 }
 
 async function onSubmit(e) {
+    e.preventDefault();
+
     const file = currentFile;
 
     if (!isValidSubtitleFile(file)) {
         toast(globalize.translate('MessageSubtitleFileTypeAllowed'));
-        e.preventDefault();
         return;
     }
 
@@ -95,12 +95,16 @@ async function onSubmit(e) {
     const isForced = dlg.querySelector('#chkIsForced').checked;
     const isHearingImpaired = dlg.querySelector('#chkIsHearingImpaired').checked;
 
-    const subtitleApi = getSubtitleApi(toApi(ServerConnections.getApiClient(currentServerId)));
+    const api = ServerConnections.getApi(currentServerId);
+    if (!api) {
+        console.error('[SubtitleUploader] No Api instance available for server', currentServerId);
+        return;
+    }
 
     const data = await readFileAsBase64(file);
     const format = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase();
 
-    subtitleApi.uploadSubtitle({
+    getSubtitleApi(api).uploadSubtitle({
         itemId: currentItemId,
         uploadSubtitleDto: { Data: data, Language: language, IsForced: isForced, Format: format, IsHearingImpaired: isHearingImpaired }
     }).then(function () {
@@ -109,8 +113,6 @@ async function onSubmit(e) {
         hasChanges = true;
         dialogHelper.close(dlg);
     });
-
-    e.preventDefault();
 }
 
 function initEditor(page) {

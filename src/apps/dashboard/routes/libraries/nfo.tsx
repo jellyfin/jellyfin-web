@@ -1,4 +1,4 @@
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -26,7 +26,7 @@ import type { XbmcMetadataOptions } from '@jellyfin/sdk/lib/generated-client/mod
 const CONFIG_KEY = 'xbmcmetadata';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();
@@ -40,7 +40,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         EnableExtraThumbsDuplication: data.EnableExtraThumbsDuplication?.toString() === 'on'
     };
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateNamedConfiguration({ key: CONFIG_KEY, body: newConfig });
 
     void queryClient.invalidateQueries({

@@ -4,7 +4,6 @@ import eslint from '@eslint/js';
 import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import compat from 'eslint-plugin-compat';
 import globals from 'globals';
-// @ts-expect-error Missing type definition
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactPlugin from 'eslint-plugin-react';
@@ -59,8 +58,7 @@ export default tseslint.config(
             'new-cap': [
                 'error',
                 {
-                    'capIsNewExceptions': ['jQuery.Deferred'],
-                    'newIsCapExceptionPattern': '\\.default$'
+                    'newIsCapExceptionPattern': String.raw`\.default$`
                 }
             ],
             'no-duplicate-imports': 'error',
@@ -71,6 +69,13 @@ export default tseslint.config(
             'no-redeclare': 'off',
             '@typescript-eslint/no-redeclare': ['error', { builtinGlobals: false }],
             'no-restricted-globals': ['error'].concat(restrictedGlobals),
+            'no-restricted-properties': [
+                'error',
+                {
+                    property: 'replaceChildren',
+                    message: 'replaceChildren is not supported in all target browsers'
+                }
+            ],
             'no-return-assign': 'error',
             'no-return-await': 'error',
             'no-sequences': ['error', { 'allowInParentheses': false }],
@@ -88,24 +93,38 @@ export default tseslint.config(
             '@typescript-eslint/no-useless-constructor': 'error',
             'no-var': 'error',
             'no-void': ['error', { 'allowAsStatement': true }],
-            'no-warning-comments': ['warn', { 'terms': ['hack', 'xxx'] }],
             'one-var': ['error', 'never'],
             'prefer-const': ['error', { 'destructuring': 'all' }],
-            'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
+            'prefer-promise-reject-errors': ['error', { 'allowEmptyReject': true }],
             '@typescript-eslint/prefer-for-of': 'error',
             'radix': 'error',
             'yoda': 'error',
 
+            'import/no-unresolved': [
+                'error',
+                {
+                    ignore: [
+                        // Swiper does not have supported module definitions
+                        'swiper/css',
+                        'swiper/modules',
+                        'swiper/react'
+                    ]
+                }
+            ],
+
             'sonarjs/fixme-tag': 'warn',
             'sonarjs/todo-tag': 'off',
             'sonarjs/deprecation': 'off',
-            'sonarjs/no-alphabetical-sort': 'warn',
+            'sonarjs/no-alphabetical-sort': 'error',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
+            'sonarjs/aws-restricted-ip-admin-access': 'off',
             // TODO: Enable the following sonarjs rules and fix issues
             'sonarjs/no-duplicate-string': 'off',
             'sonarjs/no-nested-functions': 'warn',
+            // NOTE: This rule is currently blowing up `TypeError: secretSignatures[fqn].forEach is not a function`
+            'sonarjs/hardcoded-secret-signatures': 'off',
 
             // TODO: Replace with stylistic.configs.customize()
             '@stylistic/block-spacing': 'error',
@@ -199,29 +218,20 @@ export default tseslint.config(
             },
             globals: {
                 ...globals.browser,
+                // Chromecast globals
+                'chrome': 'readonly',
                 // Tizen globals
-                'tizen': false,
-                'webapis': false,
+                'tizen': 'readonly',
+                'webapis': 'readonly',
                 // WebOS globals
-                'webOS': false,
-                // Dependency globals
-                '$': false,
-                'jQuery': false,
-                // Jellyfin globals
-                'ApiClient': true,
-                'Events': true,
-                'chrome': true,
-                'Emby': false,
-                'Hls': true,
-                'LibraryMenu': true,
-                'Windows': false,
+                'webOS': 'readonly',
                 // Build time definitions
-                __COMMIT_SHA__: false,
-                __JF_BUILD_VERSION__: false,
-                __PACKAGE_JSON_NAME__: false,
-                __PACKAGE_JSON_VERSION__: false,
-                __USE_SYSTEM_FONTS__: false,
-                __WEBPACK_SERVE__: false
+                __COMMIT_SHA__: 'readonly',
+                __JF_BUILD_VERSION__: 'readonly',
+                __PACKAGE_JSON_NAME__: 'readonly',
+                __PACKAGE_JSON_VERSION__: 'readonly',
+                __USE_SYSTEM_FONTS__: 'readonly',
+                __WEBPACK_SERVE__: 'readonly'
             }
         },
         settings: {
@@ -237,16 +247,20 @@ export default tseslint.config(
                         'node_modules',
                         'src'
                     ]
+                },
+                typescript: {
+                    project: 'tsconfig.json'
                 }
             },
             polyfills: [
                 'Promise',
                 // whatwg-fetch
                 'fetch',
+                'Response',
+                'Response.headers',
+                'Response.json',
                 // document-register-element
                 'document.registerElement',
-                // resize-observer-polyfill
-                'ResizeObserver',
                 // fast-text-encoding
                 'TextEncoder',
                 // intersection-observer
@@ -298,6 +312,8 @@ export default tseslint.config(
                 'String.strike',
                 'String.sub',
                 'String.sup',
+                'URL',
+                'URLSearchParams',
                 'RegExp',
                 'Number',
                 'Math',
@@ -375,21 +391,10 @@ export default tseslint.config(
         },
         rules: {
             'react/jsx-filename-extension': ['error', { 'extensions': ['.jsx', '.tsx'] }],
-            'react/jsx-no-bind': 'error',
             'react/jsx-no-useless-fragment': 'error',
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',
-            'react-hooks/exhaustive-deps': 'warn'
-        }
-    },
-
-    // Service worker
-    {
-        files: [ 'src/serviceworker.js' ],
-        languageOptions: {
-            globals: {
-                ...globals.serviceworker
-            }
+            'react-hooks/exhaustive-deps': 'error'
         }
     },
 

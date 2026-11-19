@@ -1,5 +1,5 @@
 import { ImageResolution } from '@jellyfin/sdk/lib/generated-client/models/image-resolution';
-import { getConfigurationApi } from '@jellyfin/sdk/lib/utils/api/configuration-api';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -21,20 +21,20 @@ import { ActionData } from 'types/actionData';
 import { queryClient } from 'utils/query/queryClient';
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    const api = ServerConnections.getCurrentApi();
+    const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
 
-    const { data: config } = await getConfigurationApi(api).getConfiguration();
+    const { data: config } = await getSystemApi(api).getConfiguration();
 
     config.PreferredMetadataLanguage = data.Language.toString();
     config.MetadataCountryCode = data.Country.toString();
     config.DummyChapterDuration = parseInt(data.DummyChapterDuration.toString(), 10);
     config.ChapterImageResolution = data.ChapterImageResolution.toString() as ImageResolution;
 
-    await getConfigurationApi(api)
+    await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
 
     void queryClient.invalidateQueries({

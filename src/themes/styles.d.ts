@@ -1,0 +1,23 @@
+import '@mui/material/styles';
+
+/** Extend MUI types to include our customizations. */
+declare module '@mui/material/styles' {
+    interface ColorSchemeOverrides {
+        appletv: true;
+        blueradiance: true;
+        'catppuccin-frappe': true;
+        'catppuccin-latte': true;
+        'catppuccin-macchiato': true;
+        'catppuccin-mocha': true;
+        purplehaze: true;
+        wmc: true;
+    }
+
+    interface Palette {
+        starIcon: Palette['primary'];
+    }
+
+    interface PaletteOptions {
+        starIcon?: PaletteOptions['primary'];
+    }
+}

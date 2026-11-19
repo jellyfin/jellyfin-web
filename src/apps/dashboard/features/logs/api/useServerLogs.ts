@@ -16,6 +16,7 @@ export const useServerLogs = () => {
     return useQuery({
         queryKey: [ 'ServerLogs' ],
         queryFn: ({ signal }) => fetchServerLogs(api!, { signal }),
-        enabled: !!api
+        enabled: !!api,
+        staleTime: 0 // ensure we load the latest log entries
     });
 };

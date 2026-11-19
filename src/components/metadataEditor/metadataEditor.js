@@ -1,4 +1,9 @@
 import escapeHtml from 'escape-html';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
+import { getItemUpdateApi } from '@jellyfin/sdk/lib/utils/api/item-update-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
 import dom from '../../utils/dom';
 import layoutManager from '../layoutManager';
 import dialogHelper from '../dialogHelper/dialogHelper';
@@ -22,8 +27,6 @@ import './style.scss';
 import toast from '../toast/toast';
 import { appRouter } from '../router/appRouter';
 import template from './metadataEditor.template.html';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { SeriesStatus } from '@jellyfin/sdk/lib/generated-client/models/series-status';
 
 let currentContext;
 let metadataEditorInfo;
@@ -39,35 +42,24 @@ function closeDialog() {
     }
 }
 
-function submitUpdatedItem(form, item) {
-    function afterContentTypeUpdated() {
-        toast(globalize.translate('MessageItemSaved'));
+async function submitUpdatedItem(form, baseItemDto) {
+    const api = ServerConnections.getApi(currentItem.ServerId);
+    await getItemUpdateApi(api).updateItem({
+        itemId: baseItemDto.Id,
+        baseItemDto
+    });
 
-        loading.hide();
-        closeDialog();
+    const newContentType = form.querySelector('#selectContentType').value || '';
+    if ((metadataEditorInfo.ContentType || '') !== newContentType) {
+        await getItemUpdateApi(api).updateItemContentType({
+            itemId: baseItemDto.Id,
+            contentType: newContentType
+        });
     }
 
-    const apiClient = getApiClient();
-
-    apiClient.updateItem(item).then(function () {
-        const newContentType = form.querySelector('#selectContentType').value || '';
-
-        if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-            apiClient.ajax({
-
-                url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
-                    ContentType: newContentType
-                }),
-
-                type: 'POST'
-
-            }).then(function () {
-                afterContentTypeUpdated();
-            });
-        } else {
-            afterContentTypeUpdated();
-        }
-    });
+    toast(globalize.translate('MessageItemSaved'));
+    loading.hide();
+    closeDialog();
 }
 
 function getSelectedAirDays(form) {
@@ -129,6 +121,7 @@ function onSubmit(e) {
         Id: currentItem.Id,
         Name: form.querySelector('#txtName').value,
         OriginalTitle: form.querySelector('#txtOriginalName').value,
+        OriginalLanguage: form.querySelector('#selectOriginalLanguage').value,
         ForcedSortName: form.querySelector('#txtSortName').value,
         CommunityRating: form.querySelector('#txtCommunityRating').value,
         CriticRating: form.querySelector('#txtCriticRating').value,
@@ -141,6 +134,7 @@ function onSubmit(e) {
         Album: form.querySelector('#txtAlbum').value,
         AlbumArtists: getAlbumArtists(form),
         ArtistItems: getArtists(form),
+        SeriesName: form.querySelector('#txtseriesName').value,
         Overview: form.querySelector('#txtOverview').value,
         Status: form.querySelector('#selectStatus').value,
         AirDays: getSelectedAirDays(form),
@@ -290,10 +284,6 @@ function onEditorClick(e) {
     }
 }
 
-function getApiClient() {
-    return ServerConnections.getApiClient(currentItem.ServerId);
-}
-
 function bindAll(elems, eventName, fn) {
     for (let i = 0, length = elems.length; i < length; i++) {
         elems[i].addEventListener(eventName, fn);
@@ -301,8 +291,8 @@ function bindAll(elems, eventName, fn) {
 }
 
 function onResetClick() {
-    const resetElementId = ['#txtName', '#txtOriginalName', '#txtSortName', '#txtCommunityRating', '#txtCriticRating', '#txtIndexNumber',
-        '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
+    const resetElementId = ['#txtName', '#txtOriginalName', '#selectOriginalLanguage', '#txtSortName', '#txtCommunityRating', '#txtCriticRating',
+        '#txtIndexNumber', '#txtAirsBeforeSeason', '#txtAirsAfterSeason', '#txtAirsBeforeEpisode', '#txtParentIndexNumber', '#txtAlbum',
         '#txtAlbumArtist', '#txtArtist', '#txtOverview', '#selectStatus', '#txtAirTime', '#txtPremiereDate', '#txtDateAdded', '#txtEndDate',
         '#txtProductionYear', '#selectHeight', '#txtOriginalAspectRatio', '#select3dFormat', '#selectOfficialRating', '#selectCustomRating',
         '#txtSeriesRuntime', '#txtTagline'];
@@ -350,9 +340,11 @@ function init(context) {
     });
 
     context.querySelector('.btnMore').addEventListener('click', function (e) {
-        getApiClient().getCurrentUser().then(function (user) {
-            showMoreMenu(context, e.target, user);
-        });
+        ServerConnections.getApiClient(currentItem.ServerId)
+            .getCurrentUser()
+            .then(function (user) {
+                showMoreMenu(context, e.target, user);
+            });
     });
 
     context.querySelector('.btnHeaderSave').addEventListener('click', function () {
@@ -397,24 +389,24 @@ function init(context) {
     });
 }
 
-function getItem(itemId, serverId) {
-    const apiClient = ServerConnections.getApiClient(serverId);
+async function getItem(itemId, serverId) {
+    const api = ServerConnections.getApi(serverId);
 
     if (itemId) {
-        return apiClient.getItem(apiClient.getCurrentUserId(), itemId);
+        return (await getLibraryApi(api).getItem({ itemId })).data;
     }
 
-    return apiClient.getRootFolder(apiClient.getCurrentUserId());
+    return (await getLibraryApi(api).getRootFolder()).data;
 }
 
-function getEditorConfig(itemId, serverId) {
-    const apiClient = ServerConnections.getApiClient(serverId);
+async function getEditorConfig(itemId, serverId) {
+    const api = ServerConnections.getApi(serverId);
 
     if (itemId) {
-        return apiClient.getJSON(apiClient.getUrl('Items/' + itemId + '/MetadataEditor'));
+        return (await getItemUpdateApi(api).getMetadataEditorInfo({ itemId })).data;
     }
 
-    return Promise.resolve({});
+    return {};
 }
 
 function populateCountries(select, allCountries) {
@@ -549,6 +541,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldOriginalName', context);
     }
 
+    if (item.Type === 'Series' || item.MediaType === 'Video') {
+        showElement('#fldOriginalLanguage', context);
+    } else {
+        hideElement('#fldOriginalLanguage', context);
+    }
+
     if (item.Type === 'Series') {
         showElement('#fldSeriesRuntime', context);
     } else {
@@ -573,6 +571,12 @@ function setFieldVisibilities(context, item) {
         hideElement('#fldCriticRating', context);
     }
 
+    if (item.Type === BaseItemKind.Book) {
+        showElement('#seriesName', context);
+    } else {
+        hideElement('#seriesName', context);
+    }
+
     if (item.Type === 'Series') {
         showElement('#fldStatus', context);
         showElement('#fldAirDays', context);
@@ -589,17 +593,17 @@ function setFieldVisibilities(context, item) {
         hideElement('#fld3dFormat', context);
     }
 
-    if (item.Type === 'Audio') {
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicAlbum || item.Type === BaseItemKind.MusicVideo) {
+        showElement('#fldArtist', context);
         showElement('#fldAlbumArtist', context);
     } else {
+        hideElement('#fldArtist', context);
         hideElement('#fldAlbumArtist', context);
     }
 
-    if (item.Type === 'Audio' || item.Type === 'MusicVideo') {
-        showElement('#fldArtist', context);
+    if (item.Type === BaseItemKind.Audio || item.Type === BaseItemKind.MusicVideo) {
         showElement('#fldAlbum', context);
     } else {
-        hideElement('#fldArtist', context);
         hideElement('#fldAlbum', context);
     }
 
@@ -789,6 +793,7 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     context.querySelector('#txtPath').value = item.Path || '';
     context.querySelector('#txtName').value = item.Name || '';
     context.querySelector('#txtOriginalName').value = item.OriginalTitle || '';
+    context.querySelector('#selectOriginalLanguage').value = item.OriginalLanguage || '';
     context.querySelector('#txtOverview').value = item.Overview || '';
     context.querySelector('#txtTagline').value = (item.Taglines?.length ? item.Taglines[0] : '');
     context.querySelector('#txtSortName').value = item.ForcedSortName || '';
@@ -810,6 +815,10 @@ function fillItemInfo(context, item, parentalRatingOptions) {
     }).join(';');
 
     context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+
+    if (item.Type == 'Book') {
+        context.querySelector('#txtseriesName').value = item.SeriesName || '';
+    }
 
     context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
         return a.Name;
@@ -970,7 +979,7 @@ function populatePeople(context, people) {
         html += '</div>';
 
         if (person.Role && person.Role !== lastType) {
-            html += '<div class="secondary">' + person.Role + '</div>';
+            html += '<div class="secondary">' + escapeHtml(person.Role) + '</div>';
         } else {
             html += '<div class="secondary">' + globalize.translate(person.Type) + '</div>';
         }
@@ -1049,6 +1058,7 @@ function reload(context, itemId, serverId) {
 
         loadExternalIds(context, item, metadataEditorInfo.ExternalIdInfos);
 
+        populateLanguages(context.querySelector('#selectOriginalLanguage'), languages);
         populateLanguages(context.querySelector('#selectLanguage'), languages);
         populateCountries(context.querySelector('#selectCountry'), countries);
 
@@ -1142,4 +1152,3 @@ export default {
         });
     }
 };
-

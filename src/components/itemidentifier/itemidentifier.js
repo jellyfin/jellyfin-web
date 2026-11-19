@@ -1,10 +1,7 @@
-
-/**
- * Module for itemidentifier media item.
- * @module components/itemidentifier/itemidentifier
- */
-
 import escapeHtml from 'escape-html';
+import { getItemLookupApi } from '@jellyfin/sdk/lib/utils/api/item-lookup-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
@@ -22,6 +19,7 @@ import '../cardbuilder/card.scss';
 import toast from '../toast/toast';
 import template from './itemidentifier.template.html';
 import datetime from '../../scripts/datetime';
+import { remoteSearch } from '@/utils/remoteSearch';
 
 const enableFocusTransform = !browser.slow && !browser.edge;
 
@@ -33,11 +31,7 @@ let currentReject;
 let hasChanges = false;
 let currentSearchResult;
 
-function getApiClient() {
-    return ServerConnections.getApiClient(currentServerId);
-}
-
-function searchForIdentificationResults(page) {
+async function searchForIdentificationResults(page) {
     let lookupInfo = {
         ProviderIds: {}
     };
@@ -87,19 +81,11 @@ function searchForIdentificationResults(page) {
 
     loading.show();
 
-    const apiClient = getApiClient();
+    const api = ServerConnections.getApi(currentServerId);
+    const { data: results } = await remoteSearch(api, currentItemType, lookupInfo);
 
-    apiClient.ajax({
-        type: 'POST',
-        url: apiClient.getUrl(`Items/RemoteSearch/${currentItemType}`),
-        data: JSON.stringify(lookupInfo),
-        contentType: 'application/json',
-        dataType: 'json'
-
-    }).then(results => {
-        loading.hide();
-        showIdentificationSearchResults(page, results);
-    });
+    loading.hide();
+    showIdentificationSearchResults(page, results);
 }
 
 function showIdentificationSearchResults(page, results) {
@@ -255,156 +241,80 @@ function getSearchResultHtml(result, index) {
     return html;
 }
 
-function submitIdentficationResult(page) {
+async function submitIdentficationResult(page) {
     loading.show();
 
-    const options = {
-        ReplaceAllImages: page.querySelector('#chkIdentifyReplaceImages').checked
-    };
+    const replaceAllImages = page.querySelector('#chkIdentifyReplaceImages').checked;
 
-    const apiClient = getApiClient();
-
-    apiClient.ajax({
-        type: 'POST',
-        url: apiClient.getUrl(`Items/RemoteSearch/Apply/${currentItem.Id}`, options),
-        data: JSON.stringify(currentSearchResult),
-        contentType: 'application/json'
-
-    }).then(() => {
+    const api = ServerConnections.getApi(currentServerId);
+    try {
+        await getItemLookupApi(api).applySearchCriteria({
+            itemId: currentItem.Id,
+            remoteSearchResult: currentSearchResult,
+            replaceAllImages
+        });
         hasChanges = true;
-        loading.hide();
+    } catch (e) {
+        console.error('Failed to submit identification result', e);
+    }
 
-        dialogHelper.close(page);
-    }, () => {
-        loading.hide();
-
-        dialogHelper.close(page);
-    });
+    loading.hide();
+    dialogHelper.close(page);
 }
 
-function showIdentificationForm(page, item) {
-    const apiClient = getApiClient();
+async function showIdentificationForm(page, item) {
+    const api = ServerConnections.getApi(currentServerId);
+    const { data: idList } = await getItemLookupApi(api).getExternalIdInfos({ itemId: item.Id });
 
-    apiClient.getJSON(apiClient.getUrl(`Items/${item.Id}/ExternalIdInfos`)).then(idList => {
-        let html = '';
+    let html = '';
+    for (let i = 0, length = idList.length; i < length; i++) {
+        const idInfo = idList[i];
 
-        for (let i = 0, length = idList.length; i < length; i++) {
-            const idInfo = idList[i];
+        const id = `txtLookup${idInfo.Key}`;
 
-            const id = `txtLookup${idInfo.Key}`;
+        html += '<div class="inputContainer">';
 
-            html += '<div class="inputContainer">';
-
-            let fullName = idInfo.Name;
-            if (idInfo.Type) {
-                fullName = `${idInfo.Name} ${globalize.translate(idInfo.Type)}`;
-            }
-
-            const idLabel = globalize.translate('LabelDynamicExternalId', escapeHtml(fullName));
-
-            html += `<input is="emby-input" class="txtLookupId" data-providerkey="${idInfo.Key}" id="${id}" label="${idLabel}"/>`;
-
-            html += '</div>';
+        let fullName = idInfo.Name;
+        if (idInfo.Type) {
+            fullName = `${idInfo.Name} ${globalize.translate(idInfo.Type)}`;
         }
 
-        page.querySelector('#txtLookupName').value = '';
+        const idLabel = globalize.translate('LabelDynamicExternalId', escapeHtml(fullName));
 
-        if (item.Type === 'Person' || item.Type === 'BoxSet') {
-            page.querySelector('.fldLookupYear').classList.add('hide');
-            page.querySelector('#txtLookupYear').value = '';
-        } else {
-            page.querySelector('.fldLookupYear').classList.remove('hide');
-            page.querySelector('#txtLookupYear').value = '';
-        }
+        html += `<input is="emby-input" class="txtLookupId" data-providerkey="${idInfo.Key}" id="${id}" label="${idLabel}"/>`;
 
-        page.querySelector('.identifyProviderIds').innerHTML = html;
+        html += '</div>';
+    }
 
-        page.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Identify');
-    });
+    page.querySelector('#txtLookupName').value = '';
+
+    if (item.Type === 'Person' || item.Type === 'BoxSet') {
+        page.querySelector('.fldLookupYear').classList.add('hide');
+        page.querySelector('#txtLookupYear').value = '';
+    } else {
+        page.querySelector('.fldLookupYear').classList.remove('hide');
+        page.querySelector('#txtLookupYear').value = '';
+    }
+
+    page.querySelector('.identifyProviderIds').innerHTML = html;
+    page.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Identify');
 }
 
-function showEditor(itemId) {
+async function showEditor(itemId) {
     loading.show();
 
-    const apiClient = getApiClient();
+    const api = ServerConnections.getApi(currentServerId);
+    const { data: item } = await getLibraryApi(api).getItem({ itemId });
 
-    apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(item => {
-        currentItem = item;
-        currentItemType = currentItem.Type;
-
-        const dialogOptions = {
-            size: 'small',
-            removeOnClose: true,
-            scrollY: false
-        };
-
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        }
-
-        const dlg = dialogHelper.createDialog(dialogOptions);
-
-        dlg.classList.add('formDialog');
-        dlg.classList.add('recordingDialog');
-
-        let html = '';
-        html += globalize.translateHtml(template, 'core');
-
-        dlg.innerHTML = html;
-
-        // Has to be assigned a z-index after the call to .open()
-        dlg.addEventListener('close', onDialogClosed);
-
-        if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-        }
-
-        if (item.Path) {
-            dlg.querySelector('.fldPath').classList.remove('hide');
-        } else {
-            dlg.querySelector('.fldPath').classList.add('hide');
-        }
-
-        dlg.querySelector('.txtPath').innerText = item.Path || '';
-
-        dialogHelper.open(dlg);
-
-        dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
-            e.preventDefault();
-            searchForIdentificationResults(dlg);
-            return false;
-        });
-
-        dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
-            e.preventDefault();
-            submitIdentficationResult(dlg);
-            return false;
-        });
-
-        dlg.querySelector('.btnCancel').addEventListener('click', () => {
-            dialogHelper.close(dlg);
-        });
-
-        dlg.classList.add('identifyDialog');
-
-        showIdentificationForm(dlg, item);
+    if (item.LockData) {
         loading.hide();
-    });
-}
-
-function onDialogClosed() {
-    loading.hide();
-    if (hasChanges) {
-        currentResolve();
-    } else {
+        toast(globalize.translate('MessageItemMetadataLocked'));
         currentReject();
+        return;
     }
-}
 
-// TODO investigate where this was used
-function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
-    currentItem = null;
-    currentItemType = itemType;
+    currentItem = item;
+    currentItemType = currentItem.Type;
 
     const dialogOptions = {
         size: 'small',
@@ -426,15 +336,22 @@ function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
 
     dlg.innerHTML = html;
 
+    // Has to be assigned a z-index after the call to .open()
+    dlg.addEventListener('close', onDialogClosed);
+
     if (layoutManager.tv) {
         scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
     }
 
-    dialogHelper.open(dlg);
+    if (item.Path) {
+        dlg.querySelector('.fldPath').classList.remove('hide');
+    } else {
+        dlg.querySelector('.fldPath').classList.add('hide');
+    }
 
-    dlg.querySelector('.btnCancel').addEventListener('click', () => {
-        dialogHelper.close(dlg);
-    });
+    dlg.querySelector('.txtPath').innerText = item.Path || '';
+
+    dialogHelper.open(dlg);
 
     dlg.querySelector('.popupIdentifyForm').addEventListener('submit', e => {
         e.preventDefault();
@@ -442,30 +359,29 @@ function showEditorFindNew(itemName, itemYear, itemType, resolveFunc) {
         return false;
     });
 
-    dlg.addEventListener('close', () => {
-        loading.hide();
-        const foundItem = hasChanges ? currentSearchResult : null;
+    dlg.querySelector('.identifyOptionsForm').addEventListener('submit', e => {
+        e.preventDefault();
+        submitIdentficationResult(dlg);
+        return false;
+    });
 
-        resolveFunc(foundItem);
+    dlg.querySelector('.btnCancel').addEventListener('click', () => {
+        dialogHelper.close(dlg);
     });
 
     dlg.classList.add('identifyDialog');
 
-    showIdentificationFormFindNew(dlg, itemName, itemYear, itemType);
+    showIdentificationForm(dlg, item);
+    loading.hide();
 }
 
-function showIdentificationFormFindNew(dlg, itemName, itemYear, itemType) {
-    dlg.querySelector('#txtLookupName').value = itemName;
-
-    if (itemType === 'Person' || itemType === 'BoxSet') {
-        dlg.querySelector('.fldLookupYear').classList.add('hide');
-        dlg.querySelector('#txtLookupYear').value = '';
+function onDialogClosed() {
+    loading.hide();
+    if (hasChanges) {
+        currentResolve();
     } else {
-        dlg.querySelector('.fldLookupYear').classList.remove('hide');
-        dlg.querySelector('#txtLookupYear').value = itemYear;
+        currentReject();
     }
-
-    dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Search');
 }
 
 export function show(itemId, serverId) {
@@ -479,16 +395,6 @@ export function show(itemId, serverId) {
     });
 }
 
-export function showFindNew(itemName, itemYear, itemType, serverId) {
-    return new Promise((resolve) => {
-        currentServerId = serverId;
-
-        hasChanges = false;
-        showEditorFindNew(itemName, itemYear, itemType, resolve);
-    });
-}
-
 export default {
-    show: show,
-    showFindNew: showFindNew
+    show: show
 };

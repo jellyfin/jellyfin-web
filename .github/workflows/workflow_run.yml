@@ -1,0 +1,66 @@
+name: Workflow Run
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+on:
+  workflow_run:
+    workflows:
+    - Pull Request
+    types:
+    - completed
+
+jobs:
+  metadata:
+    name: Metadata
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ steps.pr_number.outputs.pr_number }}
+    steps:
+    - name: Get Pull Request Number
+      id: pr_number
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+      run: |
+        API_RESPONSE=$(gh pr list --repo "${GITHUB_REPOSITORY}" --search "${HEAD_SHA}" --state open --json number)
+        PR_NUMBER=$(echo "${API_RESPONSE}" | jq '.[0].number')
+
+        echo "repository: ${GITHUB_REPOSITORY}"
+        echo "sha: ${HEAD_SHA}"
+        echo "response: ${API_RESPONSE}"
+        echo "pr: ${PR_NUMBER}"
+
+        echo "pr_number=${PR_NUMBER}" >> "${GITHUB_OUTPUT}"
+
+  automation:
+    name: Automation
+    uses: ./.github/workflows/__automation.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+
+  deploy:
+    name: Deploy
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    uses: ./.github/workflows/__deploy.yml
+    permissions:
+      contents: read
+      issues: write
+      deployments: write
+    secrets:
+      JF_BOT_TOKEN: ${{ secrets.JF_BOT_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    needs:
+    - metadata
+    with:
+      branch: ${{ format('{0}/{1}', github.event.workflow_run.head_repository.full_name, github.event.workflow_run.head_branch) }}
+      commit: ${{ github.event.workflow_run.head_sha }}
+      workflow_run_id: ${{ github.event.workflow_run.id }}
+      pr_number: ${{ needs.metadata.outputs.pr_number }}
+      comment: true

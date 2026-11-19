@@ -22,6 +22,7 @@ import './style.scss';
 import toast from '../toast/toast';
 import alert from '../alert';
 import template from './mediaLibraryCreator.template.html';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 function onAddLibrary(e) {
     e.preventDefault();
@@ -63,7 +64,7 @@ function onAddLibrary(e) {
 
     const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions.PathInfos = pathInfos;
-    ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
+    ServerConnections.currentApiClient().addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
         hasChanges = true;
         isCreating = false;
         loading.hide();
@@ -122,9 +123,9 @@ function onAddButtonClick() {
     import('../directorybrowser/directorybrowser').then(({ default: DirectoryBrowser }) => {
         const picker = new DirectoryBrowser();
         picker.show({
-            callback: function (path, networkSharePath) {
+            callback: function (path) {
                 if (path) {
-                    addMediaLocation(page, path, networkSharePath);
+                    addMediaLocation(page, path);
                 }
 
                 picker.close();
@@ -161,23 +162,18 @@ function renderPaths(page) {
     }
 }
 
-function addMediaLocation(page, path, networkSharePath) {
-    const pathLower = path.toLowerCase();
-    const pathFilter = pathInfos.filter(p => {
-        return p.Path.toLowerCase() == pathLower;
-    });
+async function addMediaLocation(page, path) {
+    // If the path already exists in the library, don't add it again.
+    const isPathInLibrary = pathInfos.some(p => p.Path === path);
+    if (isPathInLibrary) return;
 
-    if (!pathFilter.length) {
-        const pathInfo = {
-            Path: path
-        };
-
-        if (networkSharePath) {
-            pathInfo.NetworkPath = networkSharePath;
-        }
-
-        pathInfos.push(pathInfo);
+    try {
+        const apiClient = await ServerConnections.getCurrentApiClientAsync();
+        await apiClient.getDirectoryContents(path);
+        pathInfos.push({ Path: path });
         renderPaths(page);
+    } catch {
+        // invalid paths handled by directorybrowser
     }
 }
 

@@ -3,8 +3,12 @@ import type { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-
 import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
 import type { BaseItemDtoImageBlurHashes } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto-image-blur-hashes';
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { CardShape } from 'utils/card';
-import type { NullableString } from './base/common/shared/types';
+import type { QueryKey } from '@tanstack/react-query';
+
+import type { CardShape } from 'components/cardbuilder/utils/shape';
+import type { ItemAction } from 'constants/itemAction';
+import type { Nullable } from '@/types/nullable';
+
 import type { ItemDto } from './base/models/item-dto';
 import type { ParentId } from './library';
 
@@ -24,6 +28,7 @@ export interface CardOptions {
     preferThumb?: boolean | string | null;
     preferDisc?: boolean;
     preferLogo?: boolean;
+    preferParentPoster?: boolean;
     scalable?: boolean;
     shape?: CardShape;
     defaultShape?: CardShape;
@@ -43,8 +48,8 @@ export interface CardOptions {
     showUnplayedIndicator?: boolean;
     showChildCountIndicator?: boolean;
     lines?: number;
-    context?: CollectionType;
-    action?: string | null;
+    context?: CollectionType | string;
+    action?: ItemAction | null;
     indexBy?: string;
     parentId?: ParentId;
     showMenu?: boolean;
@@ -74,7 +79,7 @@ export interface CardOptions {
     widths?: any;
     showChannelLogo?: boolean;
     showLogo?: boolean;
-    serverId?: NullableString;
+    serverId?: Nullable<string>;
     collectionId?: string | null;
     playlistId?: string | null;
     defaultCardImageIcon?: string;
@@ -123,6 +128,5 @@ export interface CardOptions {
     primaryImageAspectRatio?: number | null;
     rows?: number | null;
     imageType?: ImageType;
-    queryKey?: string[]
+    queryKey?: QueryKey
 }
-

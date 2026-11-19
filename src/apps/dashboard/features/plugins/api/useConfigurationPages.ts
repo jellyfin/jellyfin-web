@@ -1,6 +1,6 @@
 import type { Api } from '@jellyfin/sdk';
-import type { DashboardApiGetConfigurationPagesRequest } from '@jellyfin/sdk/lib/generated-client/api/dashboard-api';
-import { getDashboardApi } from '@jellyfin/sdk/lib/utils/api/dashboard-api';
+import type { PluginApiGetConfigurationPagesRequest } from '@jellyfin/sdk/lib/generated-client/api/plugin-api';
+import { getPluginApi } from '@jellyfin/sdk/lib/utils/api/plugin-api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -10,17 +10,17 @@ import { QueryKey } from './queryKey';
 
 const fetchConfigurationPages = async (
     api: Api,
-    params?: DashboardApiGetConfigurationPagesRequest,
+    params?: PluginApiGetConfigurationPagesRequest,
     options?: AxiosRequestConfig
 ) => {
-    const response = await getDashboardApi(api)
+    const response = await getPluginApi(api)
         .getConfigurationPages(params, options);
     return response.data;
 };
 
 const getConfigurationPagesQuery = (
     api?: Api,
-    params?: DashboardApiGetConfigurationPagesRequest
+    params?: PluginApiGetConfigurationPagesRequest
 ) => queryOptions({
     queryKey: [ QueryKey.ConfigurationPages, params?.enableInMainMenu ],
     queryFn: ({ signal }) => fetchConfigurationPages(api!, params, { signal }),
@@ -28,7 +28,7 @@ const getConfigurationPagesQuery = (
 });
 
 export const useConfigurationPages = (
-    params?: DashboardApiGetConfigurationPagesRequest
+    params?: PluginApiGetConfigurationPagesRequest
 ) => {
     const { api } = useApi();
     return useQuery(getConfigurationPagesQuery(api, params));

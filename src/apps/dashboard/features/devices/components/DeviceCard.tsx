@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import type { SessionInfo } from '@jellyfin/sdk/lib/generated-client/models/session-info';
+import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack';
 import getNowPlayingName from '../../sessions/utils/getNowPlayingName';
 import getSessionNowPlayingTime from '../../sessions/utils/getSessionNowPlayingTime';
 import getNowPlayingImageUrl from '../../sessions/utils/getNowPlayingImageUrl';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/cardBuilderUtils';
+import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
 import Comment from '@mui/icons-material/Comment';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import Pause from '@mui/icons-material/Pause';
@@ -18,7 +18,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import SimpleAlert from 'components/SimpleAlert';
-import playmethodhelper from 'components/playback/playmethodhelper';
+import playMethodHelper from 'components/playback/playMethodHelper';
 import globalize from 'lib/globalize';
 import getSessionNowPlayingStreamInfo from '../../sessions/utils/getSessionNowPlayingStreamInfo';
 import { useSendPlayStateCommand } from '../../sessions/api/usePlayPauseSession';
@@ -27,7 +27,7 @@ import InputDialog from 'components/InputDialog';
 import { useSendMessage } from '../../sessions/api/useSendMessage';
 
 type DeviceCardProps = {
-    device: SessionInfo;
+    device: SessionInfoDto;
 };
 
 const DeviceCard = ({ device }: DeviceCardProps) => {
@@ -82,7 +82,7 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
     }, []);
 
     const showPlaybackInfo = useCallback(() => {
-        const displayPlayMethod = playmethodhelper.getDisplayPlayMethod(device);
+        const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(device);
 
         switch (displayPlayMethod) {
             case 'Remux':

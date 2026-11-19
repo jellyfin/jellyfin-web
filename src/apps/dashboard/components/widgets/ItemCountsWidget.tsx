@@ -5,13 +5,14 @@ import MusicNote from '@mui/icons-material/MusicNote';
 import MusicVideo from '@mui/icons-material/MusicVideo';
 import Tv from '@mui/icons-material/Tv';
 import VideoLibrary from '@mui/icons-material/VideoLibrary';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import SvgIcon from '@mui/material/SvgIcon';
 import React, { useMemo } from 'react';
 
 import { useItemCounts } from 'apps/dashboard/features/metrics/api/useItemCounts';
 import MetricCard, { type MetricCardProps } from 'apps/dashboard/features/metrics/components/MetricCard';
 import globalize from 'lib/globalize';
+import Box from '@mui/material/Box';
 
 interface MetricDefinition {
     key: keyof ItemCounts
@@ -75,23 +76,27 @@ const ItemCountsWidget = () => {
     }, [ counts, isPending ]);
 
     return (
-        <Grid
-            container
-            spacing={2}
-            sx={{
-                alignItems: 'stretch',
-                marginTop: 2
-            }}
-        >
-            {cards.map(card => (
-                <Grid
-                    key={card.metrics.map(metric => metric.label).join('-')}
-                    size={{ xs: 12, sm: 6, lg: 4 }}
-                >
-                    <MetricCard {...card} />
-                </Grid>
-            ))}
-        </Grid>
+        <Box>
+            <Grid
+                container
+                spacing={2}
+                sx={{
+                    alignItems: 'stretch'
+                }}
+            >
+                {cards.map(card => (
+                    <Grid
+                        key={card.metrics.map(metric => metric.label).join('-')}
+                        item
+                        xs={12}
+                        sm={6}
+                        lg={4}
+                    >
+                        <MetricCard {...card} />
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
     );
 };
 

@@ -1,8 +1,13 @@
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
+import { AppFeature } from 'constants/appFeature';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import browser from '../scripts/browser';
 import { copy } from '../scripts/clipboard';
 import dom from '../utils/dom';
 import globalize from '../lib/globalize';
-import { ServerConnections } from 'lib/jellyfin-apiclient';
 import actionsheet from './actionSheet/actionSheet';
 import { appHost } from './apphost';
 import { appRouter } from './router/appRouter';
@@ -10,8 +15,16 @@ import itemHelper, { canEditPlaylist } from './itemHelper';
 import { playbackManager } from './playback/playbackmanager';
 import toast from './toast/toast';
 import * as userSettings from '../scripts/settings/userSettings';
-import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
-import { AppFeature } from 'constants/appFeature';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
+import { getCollectionApi } from '@jellyfin/sdk/lib/utils/api/collection-api';
+
+/** Item types that support downloading all children. */
+const DOWNLOAD_ALL_TYPES = [
+    BaseItemKind.BoxSet,
+    BaseItemKind.MusicAlbum,
+    BaseItemKind.Season,
+    BaseItemKind.Series
+];
 
 function getDeleteLabel(type) {
     switch (type) {
@@ -172,7 +185,7 @@ export async function getCommands(options) {
 
     if (appHost.supports(AppFeature.FileDownload)) {
         // CanDownload should probably be updated to return true for these items?
-        if (user.Policy.EnableContentDownloading && (item.Type === 'Season' || item.Type == 'Series')) {
+        if (user.Policy.EnableContentDownloading && DOWNLOAD_ALL_TYPES.includes(item.Type)) {
             commands.push({
                 name: globalize.translate('DownloadAll'),
                 id: 'downloadall',
@@ -295,28 +308,29 @@ export async function getCommands(options) {
         });
     }
 
+    // Only show playlist edit actions if the user can modify the playlist
     if (item.PlaylistItemId && options.playlistId && options.canEditPlaylist) {
         commands.push({
             name: globalize.translate('RemoveFromPlaylist'),
             id: 'removefromplaylist',
             icon: 'playlist_remove'
         });
-    }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex > 0) {
-        commands.push({
-            name: globalize.translate('MoveToTop'),
-            id: 'movetotop',
-            icon: 'vertical_align_top'
-        });
-    }
+        if (item.PlaylistIndex > 0) {
+            commands.push({
+                name: globalize.translate('MoveToTop'),
+                id: 'movetotop',
+                icon: 'vertical_align_top'
+            });
+        }
 
-    if (item.PlaylistItemId && options.playlistId && item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
-        commands.push({
-            name: globalize.translate('MoveToBottom'),
-            id: 'movetobottom',
-            icon: 'vertical_align_bottom'
-        });
+        if (item.PlaylistIndex < (item.PlaylistItemCount - 1)) {
+            commands.push({
+                name: globalize.translate('MoveToBottom'),
+                id: 'movetobottom',
+                icon: 'vertical_align_bottom'
+            });
+        }
     }
 
     if (options.collectionId) {
@@ -378,6 +392,7 @@ function executeCommand(item, id, options) {
     const itemId = item.Id;
     const serverId = item.ServerId;
     const apiClient = ServerConnections.getApiClient(serverId);
+    const api = ServerConnections.getApi(serverId);
 
     return new Promise(function (resolve, reject) {
         // eslint-disable-next-line sonarjs/max-switch-cases
@@ -402,9 +417,9 @@ function executeCommand(item, id, options) {
                 break;
             case 'download':
                 import('../scripts/fileDownloader').then((fileDownloader) => {
-                    const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                    const url = getLibraryApi(api).getDownloadUrl({ itemId });
                     fileDownloader.download([{
-                        url: downloadHref,
+                        url,
                         item,
                         itemId,
                         serverId,
@@ -415,19 +430,21 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'downloadall': {
-                const downloadEpisodes = episodes => {
+                const downloadItems = items => {
                     import('../scripts/fileDownloader').then((fileDownloader) => {
-                        const downloads = episodes.map(episode => {
-                            const downloadHref = apiClient.getItemDownloadUrl(episode.Id);
-                            return {
-                                url: downloadHref,
-                                item: episode,
-                                itemId: episode.Id,
-                                serverId: serverId,
-                                title: episode.Name,
-                                filename: episode.Path.replace(/^.*[\\/]/, '')
-                            };
-                        });
+                        const downloads = items
+                            .filter(i => i.CanDownload)
+                            .map(i => {
+                                const url = getLibraryApi(api).getDownloadUrl({ itemId: i.Id });
+                                return {
+                                    url,
+                                    item: i,
+                                    itemId: i.Id,
+                                    serverId,
+                                    title: i.Name,
+                                    filename: i.Path.replace(/^.*[\\/]/, '')
+                                };
+                            });
 
                         fileDownloader.download(downloads);
                     });
@@ -441,24 +458,33 @@ function executeCommand(item, id, options) {
                         });
                     }
                     )).then(seasonData => {
-                        downloadEpisodes(seasonData.map(season => season.Items).flat());
+                        downloadItems(seasonData.map(season => season.Items).flat());
                     });
                 };
 
-                if (item.Type === 'Season') {
-                    downloadSeasons([item]);
-                } else if (item.Type === 'Series') {
-                    apiClient.getSeasons(item.Id, {
-                        userId: options.user.Id,
-                        Fields: 'ItemCounts'
-                    }).then(seasons => downloadSeasons(seasons.Items));
+                switch (item.Type) {
+                    case BaseItemKind.BoxSet:
+                    case BaseItemKind.MusicAlbum:
+                        apiClient.getItems(options.user.Id, {
+                            ParentId: item.Id,
+                            Fields: 'CanDownload,Path'
+                        }).then(({ Items }) => downloadItems(Items));
+                        break;
+                    case BaseItemKind.Season:
+                        downloadSeasons([item]);
+                        break;
+                    case BaseItemKind.Series:
+                        apiClient.getSeasons(item.Id, {
+                            userId: options.user.Id,
+                            Fields: 'ItemCounts'
+                        }).then(seasons => downloadSeasons(seasons.Items));
                 }
 
                 getResolveFunction(getResolveFunction(resolve, id), id)();
                 break;
             }
             case 'copy-stream': {
-                const downloadHref = apiClient.getItemDownloadUrl(itemId);
+                const downloadHref = getLibraryApi(api).getDownloadUrl({ itemId });
                 copy(downloadHref).then(() => {
                     toast(globalize.translate('CopyStreamURLSuccess'));
                 }).catch(() => {
@@ -478,7 +504,7 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'edit':
-                editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                editItem(item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                 break;
             case 'editplaylist':
                 import('./playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
@@ -514,7 +540,7 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'refresh':
-                refresh(apiClient, item);
+                refresh(item);
                 getResolveFunction(resolve, id)();
                 break;
             case 'open':
@@ -557,13 +583,13 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'delete':
-                deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
+                deleteItem(item).then(getResolveFunction(resolve, id, true, true, itemId), getResolveFunction(resolve, id));
                 break;
             case 'share':
                 navigator.share({
                     title: item.Name,
                     text: item.Overview,
-                    url: `${apiClient.serverAddress()}/web/${appRouter.getRouteUrl(item)}`
+                    url: `${api.getUri('/web/')}${appRouter.getRouteUrl(item)}`
                 });
                 break;
             case 'album':
@@ -590,47 +616,44 @@ function executeCommand(item, id, options) {
                 getResolveFunction(resolve, id)();
                 break;
             case 'removefromplaylist':
-                apiClient.ajax({
-                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items', {
-                        EntryIds: [item.PlaylistItemId].join(',')
-                    }),
-                    type: 'DELETE'
+                getPlaylistApi(api).removeItemFromPlaylist({
+                    playlistId: options.playlistId,
+                    entryIds: [item.PlaylistItemId]
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
             case 'movetotop':
-                apiClient.ajax({
-                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/0'),
-                    type: 'POST'
+                getPlaylistApi(api).moveItem({
+                    playlistId: options.playlistId,
+                    itemId: item.PlaylistItemId,
+                    newIndex: 0
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
             case 'movetobottom':
-                apiClient.ajax({
-                    url: apiClient.getUrl('Playlists/' + options.playlistId + '/Items/' + item.PlaylistItemId + '/Move/' + (item.PlaylistItemCount - 1)),
-                    type: 'POST'
+                getPlaylistApi(api).moveItem({
+                    playlistId: options.playlistId,
+                    itemId: item.PlaylistItemId,
+                    newIndex: item.PlaylistItemCount - 1
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
             case 'removefromcollection':
-                apiClient.ajax({
-                    type: 'DELETE',
-                    url: apiClient.getUrl('Collections/' + options.collectionId + '/Items', {
-
-                        Ids: [item.Id].join(',')
-                    })
+                getCollectionApi(api).removeFromCollection({
+                    collectionId: options.collectionId,
+                    ids: [item.Id]
                 }).then(function () {
                     getResolveFunction(resolve, id, true)();
                 });
                 break;
             case 'canceltimer':
-                deleteTimer(apiClient, item, resolve, id);
+                deleteTimer(item, resolve, id);
                 break;
             case 'cancelseriestimer':
-                deleteSeriesTimer(apiClient, item, resolve, id);
+                deleteSeriesTimer(item, resolve, id);
                 break;
             default:
                 reject();
@@ -639,7 +662,7 @@ function executeCommand(item, id, options) {
     });
 }
 
-function deleteTimer(apiClient, item, resolve, command) {
+function deleteTimer(item, resolve, command) {
     import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
         const timerId = item.TimerId || item.Id;
         recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
@@ -648,7 +671,7 @@ function deleteTimer(apiClient, item, resolve, command) {
     });
 }
 
-function deleteSeriesTimer(apiClient, item, resolve, command) {
+function deleteSeriesTimer(item, resolve, command) {
     import('./recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
         recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
             getResolveFunction(resolve, command, true)();
@@ -692,27 +715,25 @@ function play(item, resume, queue, queueNext) {
     }
 }
 
-function editItem(apiClient, item) {
+function editItem(item) {
     return new Promise(function (resolve, reject) {
-        const serverId = apiClient.serverInfo().Id;
-
         if (item.Type === 'Timer') {
             import('./recordingcreator/recordingeditor').then(({ default: recordingEditor }) => {
-                recordingEditor.show(item.Id, serverId).then(resolve, reject);
+                recordingEditor.show(item.Id, item.ServerId).then(resolve, reject);
             });
         } else if (item.Type === 'SeriesTimer') {
             import('./recordingcreator/seriesrecordingeditor').then(({ default: recordingEditor }) => {
-                recordingEditor.show(item.Id, serverId).then(resolve, reject);
+                recordingEditor.show(item.Id, item.ServerId).then(resolve, reject);
             });
         } else {
             import('./metadataEditor/metadataEditor').then(({ default: metadataEditor }) => {
-                metadataEditor.show(item.Id, serverId).then(resolve, reject);
+                metadataEditor.show(item.Id, item.ServerId).then(resolve, reject);
             });
         }
     });
 }
 
-function deleteItem(apiClient, item) {
+function deleteItem(item) {
     return new Promise(function (resolve, reject) {
         import('../scripts/deleteHelper').then((deleteHelper) => {
             deleteHelper.deleteItem({
@@ -725,11 +746,11 @@ function deleteItem(apiClient, item) {
     });
 }
 
-function refresh(apiClient, item) {
+function refresh(item) {
     import('./refreshdialog/refreshdialog').then(({ default: RefreshDialog }) => {
         new RefreshDialog({
             itemIds: [item.Id],
-            serverId: apiClient.serverInfo().Id,
+            serverId: item.ServerId,
             mode: item.Type === 'CollectionFolder' ? 'scan' : null
         }).show();
     });

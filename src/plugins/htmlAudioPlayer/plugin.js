@@ -1,4 +1,5 @@
 import { AppFeature } from 'constants/appFeature';
+import { PluginType } from 'constants/pluginType';
 import { MediaError } from 'types/mediaError';
 
 import browser from '../../scripts/browser';
@@ -6,7 +7,6 @@ import { appHost } from '../../components/apphost';
 import * as htmlMediaHelper from '../../components/htmlMediaHelper';
 import profileBuilder from '../../scripts/browserDeviceProfile';
 import { getIncludeCorsCredentials } from '../../scripts/settings/webSettings';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
 
 function getDefaultProfile() {
@@ -50,13 +50,14 @@ function supportsFade() {
     return !browser.tv;
 }
 
-function requireHlsPlayer(callback) {
-    import('hls.js/dist/hls.js').then(({ default: hls }) => {
+function requireHlsPlayer() {
+    return import('hls.js/dist/hls.js').then(({ default: hls }) => {
         hls.DefaultConfig.lowLatencyMode = false;
         hls.DefaultConfig.backBufferLength = Infinity;
+        // deprecated with no viable replacement
+        // eslint-disable-next-line @typescript-eslint/no-deprecated
         hls.DefaultConfig.liveBackBufferLength = 90;
-        window.Hls = hls;
-        callback();
+        return hls;
     });
 }
 
@@ -115,6 +116,11 @@ class HtmlAudioPlayer {
             let val = options.url;
             console.debug('playing url: ' + val);
             import('../../scripts/settings/userSettings').then((userSettings) => {
+                if (browser.iOS) {
+                    // createMediaElementSource breaks playbackRate and pitch on iOS WebKit
+                    return;
+                }
+
                 let normalizationGain;
                 if (userSettings.selectAudioNormalization() == 'TrackGain') {
                     normalizationGain = options.item.NormalizationGain
@@ -164,26 +170,30 @@ class HtmlAudioPlayer {
                 elem.crossOrigin = crossOrigin;
             }
 
-            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
+            // This avoids the AudioContext being suspended when Safari is put into background
+            if ('audioSession' in navigator) {
+                navigator.audioSession.type = 'playback';
+            }
+
+            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(async function () {
+                const Hls = await requireHlsPlayer();
+                const includeCorsCredentials = await getIncludeCorsCredentials();
+
                 return new Promise(function (resolve, reject) {
-                    requireHlsPlayer(async () => {
-                        const includeCorsCredentials = await getIncludeCorsCredentials();
-
-                        const hls = new Hls({
-                            manifestLoadingTimeOut: 20000,
-                            xhrSetup: function (xhr) {
-                                xhr.withCredentials = includeCorsCredentials;
-                            }
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
-
-                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
-
-                        self._hlsPlayer = hls;
-
-                        self._currentSrc = val;
+                    const hls = new Hls({
+                        manifestLoadingTimeOut: 20000,
+                        xhrSetup: function (xhr) {
+                            xhr.withCredentials = includeCorsCredentials;
+                        }
                     });
+                    hls.loadSource(val);
+                    hls.attachMedia(elem);
+
+                    htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                    self._hlsPlayer = hls;
+
+                    self._currentSrc = val;
                 });
             }, async () => {
                 elem.autoplay = true;
@@ -194,11 +204,9 @@ class HtmlAudioPlayer {
                     elem.crossOrigin = 'use-credentials';
                 }
 
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-                    self._currentSrc = val;
-
-                    return htmlMediaHelper.playWithPromise(elem, onError);
-                });
+                elem.src = val;
+                self._currentSrc = val;
+                return htmlMediaHelper.playWithPromise(elem, onError);
             });
         }
 

@@ -26,13 +26,13 @@ const RestoreConfirmationDialog: FunctionComponent<IProps> = ({ open, onClose, o
             </DialogTitle>
 
             <DialogContent>
-                <DialogContentText>
+                <DialogContentText sx={{ whiteSpace: 'pre-line' }}>
                     {globalize.translate('MessageRestoreDisclaimer')}
                 </DialogContentText>
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={onClose} color='error'>
+                <Button onClick={onClose} variant='text'>
                     {globalize.translate('ButtonCancel')}
                 </Button>
                 <Button onClick={onConfirm}>

@@ -1,15 +1,12 @@
 import escapeHtml from 'escape-html';
 import Headroom from 'headroom.js';
-// NOTE: Used for jsdoc
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ApiClient } from 'jellyfin-apiclient';
 
 import { AppFeature } from 'constants/appFeature';
-import { getUserViewsQuery } from 'hooks/useUserViews';
+import { PluginType } from 'constants/pluginType';
+import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { EventType } from 'types/eventType';
-import { toApi } from 'utils/jellyfin-apiclient/compat';
+import { EventType } from 'constants/eventType';
 import { queryClient } from 'utils/query/queryClient';
 
 import dom from '../utils/dom';
@@ -25,7 +22,6 @@ import browser from './browser';
 import imageHelper from '../utils/image';
 import { getMenuLinks } from '../scripts/settings/webSettings';
 import Dashboard, { pageClassOn } from '../utils/dashboard';
-import { PluginType } from '../types/plugin.ts';
 import Events from '../utils/events.ts';
 import { getParameterByName } from '../utils/url.ts';
 import datetime from '../scripts/datetime';
@@ -339,7 +335,7 @@ function refreshLibraryInfoInDrawer(user) {
         html += globalize.translate('HeaderAdmin');
         html += '</h3>';
         html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder lnkManageServer" data-itemid="dashboard" href="#/dashboard"><span class="material-icons navMenuOptionIcon dashboard" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('TabDashboard')}</span></a>`;
-        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('MetadataManager')}</span></a>`;
+        html += `<a is="emby-linkbutton" class="navMenuOption lnkMediaFolder editorViewMenu" data-itemid="editor" href="#/metadata"><span class="material-icons navMenuOptionIcon mode_edit" aria-hidden="true"></span><span class="navMenuOptionText">${globalize.translate('ManageMetadata')}</span></a>`;
         html += '</div>';
     }
 
@@ -394,8 +390,10 @@ function onSidebarLinkClick() {
 }
 
 function getUserViews(apiClient, userId) {
+    const api = ServerConnections.getApi(apiClient.serverId());
+
     return queryClient
-        .fetchQuery(getUserViewsQuery(toApi(apiClient), userId))
+        .fetchQuery(getUserViewsQuery(api, { userId }))
         .then(function (result) {
             const items = result.Items;
             const list = [];
@@ -722,7 +720,7 @@ function setTabs (type, selectedIndex, builder) {
 
 /**
  * Fetch the server name and update the document title.
- * @param {ApiClient} [_apiClient] The current api client.
+ * @param {import('jellyfin-apiclient').ApiClient} [_apiClient] The current api client.
  */
 const fetchServerName = (_apiClient) => {
     _apiClient

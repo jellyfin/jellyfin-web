@@ -49,7 +49,7 @@ class Measurement {
      * Get ping time, in milliseconds.
      */
     getPing() {
-        return this.getDelay() / 2;
+        return Math.round(this.getDelay() / 2);
     }
 }
 

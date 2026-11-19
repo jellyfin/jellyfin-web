@@ -100,7 +100,6 @@ function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
 
 function getViewEventDetail(view, { state, url, options = {} }, isRestored) {
     const index = url.indexOf('?');
-    // eslint-disable-next-line compat/compat
     const searchParams = new URLSearchParams(url.substring(index + 1));
     const params = {};
 
@@ -159,7 +158,7 @@ class ViewManager {
 
     tryRestoreView(options, onViewChanging) {
         if (options.cancel) {
-            return Promise.reject({ cancelled: true });
+            return Promise.reject(Object.assign(new Error('operation cancelled'), { cancelled: true }));
         }
 
         // Record the element that has focus

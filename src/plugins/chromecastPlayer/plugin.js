@@ -1,3 +1,7 @@
+import { LocationType } from '@jellyfin/sdk/lib/generated-client/models/location-type';
+
+import { PluginType } from 'constants/pluginType';
+
 import appSettings from '../../scripts/settings/appSettings';
 import * as userSettings from '../../scripts/settings/userSettings';
 import { playbackManager } from '../../components/playback/playbackmanager';
@@ -5,9 +9,8 @@ import globalize from '../../lib/globalize';
 import CastSenderApi from './castSenderApi';
 import alert from '../../components/alert';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from '../../types/plugin.ts';
 import Events from '../../utils/events.ts';
-import { getItems } from '../../utils/jellyfin-apiclient/getItems.ts';
+import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 
 // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
 
@@ -342,9 +345,8 @@ class CastPlayer {
 
         /* If serverAddress is localhost,this address can not be used for the cast receiver device.
          * Use the local address (ULA, Unique Local Address) in that case.
-	 */
+         */
         const serverAddress = apiClient.serverAddress();
-        // eslint-disable-next-line compat/compat
         const hostname = (new URL(serverAddress)).hostname;
         const isLocalhost = hostname === 'localhost' || hostname.startsWith('127.') || hostname === '[::1]';
         const serverLocalAddress = isLocalhost ? apiClient.serverInfo().LocalAddress : serverAddress;
@@ -387,18 +389,18 @@ class CastPlayer {
 
     /**
      * Callback function for loadMedia success
-     * @param {Object} mediaSession A new media object.
+     * @param {Object} media A new media object.
      */
-    onMediaDiscovered(how, mediaSession) {
-        console.debug('[chromecastPlayer] new media session ID:' + mediaSession.mediaSessionId + ' (' + how + ')');
-        this.currentMediaSession = mediaSession;
+    onMediaDiscovered(how, media) {
+        console.debug('[chromecastPlayer] new media session ID:' + media.mediaSessionId + ' (' + how + ')');
+        this.currentMediaSession = media;
 
         if (how === 'loadMedia') {
             this.castPlayerState = PLAYER_STATE.PLAYING;
         }
 
         if (how === 'activeSession') {
-            this.castPlayerState = mediaSession.playerState;
+            this.castPlayerState = media.playerState;
         }
 
         this.currentMediaSession.addUpdateListener(this.mediaStatusUpdateHandler);
@@ -484,22 +486,29 @@ function normalizeImages(state) {
     }
 }
 
+/**
+ * Gets the items to play.
+ * @param {import('jellyfin-apiclient').ApiClient} apiClient The legacy ApiClient for the server.
+ * @param {import('@jellyfin/sdk/lib/generated-client/api/library-api').LibraryApiGetItemsRequest} query The getItems request parameters.
+ */
 function getItemsForPlayback(apiClient, query) {
     const userId = apiClient.getCurrentUserId();
 
-    if (query.Ids && query.Ids.split(',').length === 1) {
-        return apiClient.getItem(userId, query.Ids.split(',')).then(function (item) {
+    if (query.ids?.length === 1) {
+        return apiClient.getItem(userId, query.ids[0]).then(function (item) {
             return {
                 Items: [item],
                 TotalRecordCount: 1
             };
         });
     } else {
-        query.Limit = query.Limit || 100;
-        query.ExcludeLocationTypes = 'Virtual';
-        query.EnableTotalRecordCount = false;
-
-        return getItems(apiClient, userId, query);
+        return getItems(ServerConnections.getApi(apiClient.serverId()), {
+            ...query,
+            userId,
+            limit: query.limit || 100,
+            excludeLocationTypes: [LocationType.Virtual],
+            enableTotalRecordCount: false
+        });
     }
 }
 
@@ -1064,7 +1073,7 @@ class ChromecastPlayer {
             const apiClient = ServerConnections.getApiClient(options.serverId);
 
             return getItemsForPlayback(apiClient, {
-                Ids: options.ids.join(',')
+                ids: options.ids
             }).then(function (result) {
                 options.items = result.Items;
                 return instance.playWithCommand(options, 'PlayNow');

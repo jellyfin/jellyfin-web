@@ -1,5 +1,7 @@
+import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { PluginType } from 'types/plugin.ts';
+import screenSaverManager from 'scripts/screensavermanager';
+import * as userSettings from 'scripts/settings/userSettings';
 
 export default class PhotoPlayer {
     constructor() {
@@ -24,10 +26,15 @@ export default class PhotoPlayer {
                         interval: 11000,
                         interactive: true,
                         // playbackManager.shuffle has no options. So treat 'shuffle' as a 'play' action
-                        autoplay: options.autoplay || options.shuffle,
-                        user: result
+                        autoplay: {
+                            delay: userSettings.slideshowInterval() * 1000,
+                            enabled: !!(options.autoplay || options.shuffle)
+                        },
+                        user: result,
+                        onClose: () => screenSaverManager.unblock()
                     });
 
+                    screenSaverManager.block();
                     newSlideShow.show();
                     resolve();
                 });

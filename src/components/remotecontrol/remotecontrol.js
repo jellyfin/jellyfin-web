@@ -1,8 +1,9 @@
 import escapeHtml from 'escape-html';
 
-import { getImageUrl } from 'apps/stable/features/playback/utils/image';
-import { getItemTextLines } from 'apps/stable/features/playback/utils/itemText';
+import { getImageUrl } from 'apps/legacy/features/playback/utils/image';
+import { getItemTextLines } from 'apps/legacy/features/playback/utils/itemText';
 import { AppFeature } from 'constants/appFeature';
+import { ItemAction } from 'constants/itemAction';
 
 import datetime from '../../scripts/datetime';
 import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
@@ -16,6 +17,9 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import layoutManager from '../layoutManager';
 import * as userSettings from '../../scripts/settings/userSettings';
 import itemContextMenu from '../itemContextMenu';
+import toast from '../toast/toast';
+import { appRouter } from '../router/appRouter';
+import { getDefaultBackgroundClass } from '../cardbuilder/utils/builder';
 
 import '../cardbuilder/card.scss';
 import '../../elements/emby-button/emby-button';
@@ -24,9 +28,6 @@ import '../../elements/emby-itemscontainer/emby-itemscontainer';
 import './remotecontrol.scss';
 import '../../elements/emby-ratingbutton/emby-ratingbutton';
 import '../../elements/emby-slider/emby-slider';
-import toast from '../toast/toast';
-import { appRouter } from '../router/appRouter';
-import { getDefaultBackgroundClass } from '../cardbuilder/cardBuilderUtils';
 
 let showMuteButton = true;
 let showVolumeSlider = true;
@@ -208,7 +209,7 @@ function setImageUrl(context, state, url) {
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImageAudio', item.Type === 'Audio');
         context.querySelector('.nowPlayingPageImage').classList.toggle('nowPlayingPageImagePoster', item.Type !== 'Audio');
     } else {
-        imgContainer.innerHTML = '<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="link" class="cardImageContainer coveredImage ' + getDefaultBackgroundClass(item.Name) + ' cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>';
+        imgContainer.innerHTML = `<div class="nowPlayingPageImageContainerNoAlbum"><button data-action="${ItemAction.Link}" class="cardImageContainer coveredImage ${getDefaultBackgroundClass(item.Name)} cardContent cardContent-shadow itemAction"><span class="cardImageIcon material-icons album" aria-hidden="true"></span></button></div>`;
     }
 }
 
@@ -664,7 +665,7 @@ export default function () {
     function savePlaylist() {
         import('../playlisteditor/playlisteditor').then(({ default: PlaylistEditor }) => {
             getSaveablePlaylistItems().then(function (items) {
-                const serverId = items.length ? items[0].ServerId : ApiClient.serverId();
+                const serverId = items.length ? items[0].ServerId : ServerConnections.currentApiClient().serverId();
                 const playlistEditor = new PlaylistEditor();
                 playlistEditor.show({
                     items: items.map(function (i) {
@@ -894,7 +895,6 @@ export default function () {
         bindEvents(context);
         context.querySelector('.sendMessageForm').addEventListener('submit', onMessageSubmit);
         context.querySelector('.typeTextForm').addEventListener('submit', onSendStringSubmit);
-        Events.on(playbackManager, 'playerchange', onPlayerChange);
 
         if (layoutManager.tv) {
             const positionSlider = context.querySelector('.nowPlayingPositionSlider');
@@ -910,6 +910,9 @@ export default function () {
     }
 
     function onShow(context) {
+        // Subscribe here, not in init(): init runs once per node but hide/show repeat.
+        Events.off(playbackManager, 'playerchange', onPlayerChange);
+        Events.on(playbackManager, 'playerchange', onPlayerChange);
         bindToPlayer(context, playbackManager.getCurrentPlayer());
     }
 

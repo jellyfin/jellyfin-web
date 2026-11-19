@@ -21,9 +21,9 @@ import { ItemKind } from 'types/base/models/item-kind';
 import { ItemMediaKind } from 'types/base/models/item-media-kind';
 import { ItemStatus } from 'types/base/models/item-status';
 
-import type { NullableString } from 'types/base/common/shared/types';
 import type { ItemDto } from 'types/base/models/item-dto';
 import type { ProgressOptions } from 'types/progressOptions';
+import type { Nullable } from '@/types/nullable';
 
 const TypeIcon = {
     Video: <VideocamIcon className='indicatorIcon' />,
@@ -32,7 +32,7 @@ const TypeIcon = {
     Photo: <PhotoIcon className='indicatorIcon' />
 };
 
-const getTypeIcon = (itemType: NullableString) => {
+const getTypeIcon = (itemType: Nullable<string>) => {
     return TypeIcon[itemType as keyof typeof TypeIcon];
 };
 
@@ -43,14 +43,13 @@ const enableProgressIndicator = (
     return (
         (itemMediaType === ItemMediaKind.Video && itemType !== ItemKind.TvChannel)
         || itemType === ItemKind.AudioBook
-        || itemType === ItemKind.AudioPodcast
     );
 };
 
 const enableAutoTimeProgressIndicator = (
     itemType: ItemKind,
-    itemStartDate: NullableString,
-    itemEndDate: NullableString
+    itemStartDate: Nullable<string>,
+    itemEndDate: Nullable<string>
 ) => {
     return (
         (itemType === ItemKind.Program
@@ -154,8 +153,8 @@ const useIndicator = (item: ItemDto) => {
 
     const getPlayedIndicator = () => {
         if (enablePlayedIndicator(item)) {
-            const userData = item.UserData || {};
-            if (userData.UnplayedItemCount) {
+            const userData = item.UserData;
+            if (userData?.UnplayedItemCount) {
                 return (
                     <Box className='countIndicator indicator unplayedItemCount'>
                         {formatCountIndicator(userData.UnplayedItemCount)}
@@ -164,9 +163,9 @@ const useIndicator = (item: ItemDto) => {
             }
 
             if (
-                (userData.PlayedPercentage
-                    && userData.PlayedPercentage >= 100)
-                || userData.Played
+                (userData?.PlayedPercentage
+                    && userData?.PlayedPercentage >= 100)
+                || userData?.Played
             ) {
                 return (
                     <Box className='playedIndicator indicator'>
