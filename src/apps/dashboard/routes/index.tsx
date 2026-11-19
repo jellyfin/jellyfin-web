@@ -106,7 +106,9 @@ export const Component = () => {
                 confirmButtonColor='error'
             />
             <Box className='content-primary'>
+                {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                 <Grid container spacing={3}>
+                    {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                     <Grid item xs={12} md={7} lg={7} xl={6}>
                         <Stack spacing={3}>
                             <ServerInfoWidget
@@ -120,9 +122,11 @@ export const Component = () => {
                             <DevicesWidget />
                         </Stack>
                     </Grid>
+                    {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                     <Grid item xs={12} md={5} lg={5} xl={3}>
                         <ActivityLogWidget />
                     </Grid>
+                    {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                     <Grid item xs={12} md={6} lg={12} xl={3}>
                         <Stack spacing={3}>
                             <AlertsLogWidget />

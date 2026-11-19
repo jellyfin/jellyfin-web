@@ -43,7 +43,7 @@ function getItemsToResumeFn(
         };
 
         return queryClient
-            .fetchQuery(getResumeItemsQuery(api, options));
+            .query(getResumeItemsQuery(api, options));
     };
 }
 

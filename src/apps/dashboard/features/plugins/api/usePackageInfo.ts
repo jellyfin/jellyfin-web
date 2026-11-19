@@ -16,7 +16,7 @@ const fetchPackageInfo = async (
     options?: AxiosRequestConfig
 ) => {
     if (params.assemblyGuid) {
-        const packages = await queryClient.fetchQuery(getPackagesQuery(api));
+        const packages = await queryClient.query(getPackagesQuery(api));
         const pkg = packages.find(v => v.guid === params.assemblyGuid);
 
         if (pkg) {

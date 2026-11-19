@@ -26,7 +26,7 @@ function getNextUpFetchFn(
         const oldestDateForNextUp = new Date();
         oldestDateForNextUp.setDate(oldestDateForNextUp.getDate() - userSettings.maxDaysForNextUp());
         return queryClient
-            .fetchQuery(getNextUpQuery(api, {
+            .query(getNextUpQuery(api, {
                 userId: apiClient.getCurrentUserId(),
                 limit: enableOverflow ? 24 : 15,
                 fields: [

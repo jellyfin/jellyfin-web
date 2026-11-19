@@ -21,7 +21,7 @@ function getOnNowFetchFn(
     return function () {
         const api = ServerConnections.getApi(apiClient.serverId());
         return queryClient
-            .fetchQuery(getRecommendedProgramsQuery(api, {
+            .query(getRecommendedProgramsQuery(api, {
                 userId: apiClient.getCurrentUserId(),
                 isAiring: true,
                 limit: 24,
@@ -180,7 +180,7 @@ export function loadLiveTV(
 
     const api = ServerConnections.getApi(apiClient.serverId());
     return queryClient
-        .fetchQuery(getRecommendedProgramsQuery(api, {
+        .query(getRecommendedProgramsQuery(api, {
             userId: apiClient.getCurrentUserId(),
             isAiring: true,
             limit: 1,

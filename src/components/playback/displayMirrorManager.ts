@@ -14,7 +14,7 @@ async function mirrorIfEnabled(serverId: string, itemId: string) {
             const userId = apiClient?.getCurrentUserId();
 
             try {
-                const item = await queryClient.fetchQuery(getItemQuery(
+                const item = await queryClient.query(getItemQuery(
                     api,
                     itemId,
                     userId));

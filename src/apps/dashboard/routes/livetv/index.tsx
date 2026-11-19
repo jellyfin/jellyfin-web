@@ -98,8 +98,10 @@ export const Component = () => {
                         </Button>
 
                         <Box>
+                            {/* eslint-disable-next-line @typescript-eslint/no-deprecated */}
                             <Grid container spacing={2}>
                                 {config.TunerHosts?.map(tunerHost => (
+                                    /* eslint-disable-next-line @typescript-eslint/no-deprecated */
                                     <Grid
                                         key={tunerHost.Id}
                                         item
