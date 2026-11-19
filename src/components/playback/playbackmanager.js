@@ -2051,6 +2051,8 @@ export class PlaybackManager {
                     }
                     if (!e.UserData.Played) {
                         episodesResult.StartIndex = index;
+                        // Continue a partly watched episode where it was left off
+                        options.startPositionTicks ||= e.UserData.PlaybackPositionTicks;
                         break;
                     }
                 }
