@@ -323,7 +323,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
     });
 }
 
-export function onEndedInternal(instance, elem, onErrorFn) {
+export function onEndedInternal(instance, elem, onErrorFn, isUserStop) {
     elem.removeEventListener('error', onErrorFn);
 
     resetSrc(elem);
@@ -333,7 +333,9 @@ export function onEndedInternal(instance, elem, onErrorFn) {
     destroyCastPlayer(instance);
 
     const stopInfo = {
-        src: instance._currentSrc
+        src: instance._currentSrc,
+        streamInfo: instance._currentPlayOptions,
+        isUserStop
     };
 
     Events.trigger(instance, 'stopped', [stopInfo]);

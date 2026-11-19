@@ -514,10 +514,16 @@ export class HtmlVideoPlayer {
         }
 
         const elem = await this.createMediaElement(options);
+        const signal = options.playbackController?.signal;
+        if (signal?.aborted) {
+            return;
+        }
         this.#applyAspectRatio(options.aspectRatio || this.getAspectRatio());
 
         await this.updateVideoUrl(options);
-        return this.setCurrentSrc(elem, options);
+        if (!signal?.aborted) {
+            return this.setCurrentSrc(elem, options);
+        }
     }
 
     /**
@@ -525,6 +531,9 @@ export class HtmlVideoPlayer {
      */
     setSrcWithFlvJs(elem, options, url) {
         return import('flv.js').then(({ default: flvjs }) => {
+            if (options.playbackController?.signal.aborted) {
+                return;
+            }
             const flvPlayer = flvjs.createPlayer({
                 type: 'flv',
                 url: url
@@ -552,6 +561,10 @@ export class HtmlVideoPlayer {
     async setSrcWithHlsJs(elem, options, url) {
         const Hls = await requireHlsPlayer();
         const includeCorsCredentials = await getIncludeCorsCredentials();
+        const signal = options.playbackController?.signal;
+        if (signal?.aborted) {
+            return;
+        }
 
         return new Promise((resolve, reject) => {
             let maxBufferLength = 30;
@@ -574,12 +587,20 @@ export class HtmlVideoPlayer {
                     xhr.withCredentials = includeCorsCredentials;
                 }
             });
-            hls.loadSource(url);
-            hls.attachMedia(elem);
-
-            bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
+            // A superseded start may destroy this HLS instance before a manifest arrives.
+            const onAbort = () => resolve();
+            signal?.addEventListener('abort', onAbort, { once: true });
+            bindEventsToHlsPlayer(this, hls, elem, this.onError, () => {
+                signal?.removeEventListener('abort', onAbort);
+                resolve();
+            }, error => {
+                signal?.removeEventListener('abort', onAbort);
+                reject(error);
+            });
 
             this._hlsPlayer = hls;
+            hls.loadSource(url);
+            hls.attachMedia(elem);
 
             // This is needed in setCurrentTrackElement
             this.#currentSrc = url;
@@ -651,6 +672,9 @@ export class HtmlVideoPlayer {
             elem.autoplay = true;
 
             const includeCorsCredentials = await getIncludeCorsCredentials();
+            if (options.playbackController?.signal.aborted) {
+                return;
+            }
             if (includeCorsCredentials) {
                 // Safari will not send cookies without this
                 elem.crossOrigin = 'use-credentials';
@@ -936,7 +960,7 @@ export class HtmlVideoPlayer {
         }
     }
 
-    stop(destroyPlayer) {
+    stop(destroyPlayer, isUserStop) {
         const elem = this.#mediaElement;
         const src = this.#currentSrc;
 
@@ -945,7 +969,9 @@ export class HtmlVideoPlayer {
                 elem.pause();
             }
 
-            onEndedInternal(this, elem, this.onError);
+            onEndedInternal(this, elem, this.onError, isUserStop);
+        } else if (isUserStop) {
+            Events.trigger(this, 'stopped', [{ isUserStop }]);
         }
 
         this.destroyCustomTrack(elem);
@@ -1791,6 +1817,9 @@ export class HtmlVideoPlayer {
 
         if (!dlg) {
             return import('./style.scss').then(() => {
+                if (options.playbackController?.signal.aborted) {
+                    return;
+                }
                 if (options.fullscreen) loading.show();
 
                 const playerDlg = document.createElement('div');
