@@ -127,11 +127,30 @@ export function isValidDuration(duration) {
             && duration !== Number.NEGATIVE_INFINITY;
 }
 
-export function setCurrentTimeIfNeeded(element, seconds) {
+function setCurrentTimeIfNeeded(element, seconds) {
     // If it's worth skipping (1 sec or less of a difference)
     if (Math.abs((element.currentTime || 0) - seconds) >= 1) {
         element.currentTime = seconds;
     }
+}
+
+/**
+ * Seeks to the start position as soon as the metadata of the current source is loaded,
+ * before WebKit shows the first frame. Only for static files: seeking this early restarts HLS transcodes.
+ */
+export function seekOnLoadedMetadata(element, ticks) {
+    const seconds = (ticks || 0) / 10000000;
+    if (!seconds) return;
+
+    const src = element.src;
+    const onLoadedMetadata = () => {
+        // `once` is not supported on legacy platforms
+        element.removeEventListener('loadedmetadata', onLoadedMetadata);
+        if (element.src === src && element.duration >= seconds) {
+            setCurrentTimeIfNeeded(element, seconds);
+        }
+    };
+    element.addEventListener('loadedmetadata', onLoadedMetadata);
 }
 
 export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {

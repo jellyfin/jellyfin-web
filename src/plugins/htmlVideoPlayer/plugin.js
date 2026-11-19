@@ -28,8 +28,8 @@ import {
     playWithPromise,
     onEndedInternal,
     saveVolume,
+    seekOnLoadedMetadata,
     seekOnPlaybackStart,
-    setCurrentTimeIfNeeded,
     onErrorInternal,
     handleHlsJsMediaError,
     getSavedVolume,
@@ -657,19 +657,14 @@ export class HtmlVideoPlayer {
                 elem.crossOrigin = 'use-credentials';
             }
 
-            // WebKit paints the frame at 0 before applying the #t= fragment.
-            // For static files, seeking once metadata is loaded lands before the first frame is shown.
-            // HLS is left alone: its video size is unknown at this point, and an early seek restarts transcodes.
-            if (seconds && options.playMethod !== 'Transcode' && !isHls(options.mediaSource)) {
-                elem.addEventListener('loadedmetadata', () => {
-                    if (this.#currentSrc === val && elem.duration >= seconds) {
-                        setCurrentTimeIfNeeded(elem, seconds);
-                    }
-                }, { once: true });
-            }
-
             elem.src = val;
             this.#currentSrc = val;
+
+            // WebKit paints the frame at 0 before applying the #t= fragment
+            if (options.playMethod !== 'Transcode' && !isHls(options.mediaSource)) {
+                seekOnLoadedMetadata(elem, options.playerStartPositionTicks);
+            }
+
             return playWithPromise(elem, this.onError);
         }
     }
