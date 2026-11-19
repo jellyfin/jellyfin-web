@@ -1,9 +1,6 @@
 import { getDisplayPreferenceApi } from '@jellyfin/sdk/lib/utils/api/display-preference-api';
-import { getUserApi } from '@jellyfin/sdk/lib/utils/api/user-api';
 
 import { getDisplayPreferencesQuery } from 'hooks/api/useDisplayPreferences';
-import { getUserQuery } from 'hooks/api/useUser';
-import { QUERY_KEY } from 'hooks/useUsers';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { StillWatchingOptions } from 'plugins/stillWatching/constants';
 import Events from 'utils/events';
@@ -145,31 +142,6 @@ export class UserSettings {
         }
 
         return appSettings.get(name, userId);
-    }
-
-    /**
-     * Get or set user config.
-     * @param {Object|undefined} userConfiguration - Configuration or undefined.
-     * @return {Object|Promise} Configuration or Promise.
-     */
-    serverConfig(userConfiguration) {
-        const api = ServerConnections.getApi(this.currentServerId);
-        if (userConfiguration) {
-            return getUserApi(api)
-                .updateUserConfiguration({
-                    userId: this.currentUserId,
-                    userConfiguration
-                })
-                .then(() => {
-                    queryClient.invalidateQueries({
-                        queryKey: [ QUERY_KEY, this.currentUserId ]
-                    });
-                });
-        }
-
-        return queryClient
-            .fetchQuery(getUserQuery(api, { userId: this.currentUserId }))
-            .then(user => user.Configuration);
     }
 
     /**
@@ -739,7 +711,6 @@ export const currentSettings = new UserSettings;
 export const setUserInfo = currentSettings.setUserInfo.bind(currentSettings);
 export const set = currentSettings.set.bind(currentSettings);
 export const get = currentSettings.get.bind(currentSettings);
-export const serverConfig = currentSettings.serverConfig.bind(currentSettings);
 export const allowedAudioChannels = currentSettings.allowedAudioChannels.bind(currentSettings);
 export const preferFmp4HlsContainer = currentSettings.preferFmp4HlsContainer.bind(currentSettings);
 export const limitSegmentLength = currentSettings.limitSegmentLength.bind(currentSettings);
