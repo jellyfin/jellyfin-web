@@ -9,6 +9,7 @@ import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { MediaError } from 'types/mediaError';
+import { isPlaybackLimitError, isPlaybackLimitResponse, PlaybackLimitError } from 'utils/playbackLimit';
 
 import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
@@ -489,10 +490,13 @@ export class HtmlVideoPlayer {
 
                 loading.hide();
                 streamInfo.url = hlsPlaylistUrl;
-            }, function () {
-                console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
-
+            }, async function (error) {
                 loading.hide();
+                if (await isPlaybackLimitError(error)) {
+                    throw new PlaybackLimitError();
+                }
+
+                console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
             });
         } else {
             return Promise.resolve();
@@ -585,18 +589,28 @@ export class HtmlVideoPlayer {
                 videoPreference: { preferHDR: true },
                 xhrSetup(xhr) {
                     xhr.withCredentials = includeCorsCredentials;
+                    const inspectResponse = () => {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            xhr.removeEventListener('readystatechange', inspectResponse);
+                            if (isPlaybackLimitResponse(xhr)) {
+                                reportPlaybackLimit();
+                            }
+                        }
+                    };
+                    // Register before hls.js processes the response and selects an alternate level.
+                    xhr.addEventListener('readystatechange', inspectResponse);
                 }
             });
             // A superseded start may destroy this HLS instance before a manifest arrives.
             const onAbort = () => resolve();
             signal?.addEventListener('abort', onAbort, { once: true });
-            bindEventsToHlsPlayer(this, hls, elem, this.onError, () => {
+            const reportPlaybackLimit = bindEventsToHlsPlayer(this, hls, elem, this.onError, () => {
                 signal?.removeEventListener('abort', onAbort);
                 resolve();
             }, error => {
                 signal?.removeEventListener('abort', onAbort);
                 reject(error);
-            });
+            }, options);
 
             this._hlsPlayer = hls;
             hls.loadSource(url);
@@ -682,7 +696,8 @@ export class HtmlVideoPlayer {
 
             elem.src = val;
             this.#currentSrc = val;
-            return playWithPromise(elem, this.onError);
+            return playWithPromise(elem, this.onError,
+                () => !options.playbackController?.signal.aborted && this._currentPlayOptions === options);
         }
     }
 
