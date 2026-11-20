@@ -17,7 +17,7 @@ const fetchQuickConnectEnabled = async (
 export const getQuickConnectEnabledQuery = (
     api?: Api
 ) => queryOptions({
-    queryKey: [ 'QuickConnect', 'Enabled' ],
+    queryKey: [ 'QuickConnect', 'Enabled', api?.basePath ],
     queryFn: ({ signal }) => fetchQuickConnectEnabled(api!, { signal }),
     enabled: !!api
 });

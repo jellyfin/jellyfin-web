@@ -13,7 +13,8 @@ type CustomPageProps = {
     isNowPlayingBarEnabled?: boolean,
     isThemeMediaSupported?: boolean,
     shouldAutoFocus?: boolean,
-    backDropType?: BaseItemKind[]
+    /** Item types to show as backdrops, or `['splashscreen']` to show the server splash screen */
+    backDropType?: BaseItemKind[] | [ 'splashscreen' ]
 };
 
 export type PageProps = CustomPageProps & HTMLAttributes<HTMLDivElement>;

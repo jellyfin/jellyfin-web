@@ -22,7 +22,7 @@ import Dashboard from 'utils/dashboard';
 import toast from 'components/toast/toast';
 import dialogHelper from 'components/dialogHelper/dialogHelper';
 import baseAlert from 'components/alert';
-import { getDefaultBackgroundClass } from 'components/cardbuilder/utils/builder';
+import { getUserAvatarBackgroundClass } from 'utils/userAvatar';
 import { queryClient } from '@/utils/query/queryClient';
 
 import './login.scss';
@@ -204,7 +204,8 @@ function loadUserList(context, serverId, users) {
         if (imgUrl) {
             html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
         } else {
-            html += `<div class="cardImage flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
+            // The color is picked by the user instead of at random, so it is the same as in the modern layout
+            html += `<div class="cardImage flex align-items-center justify-content-center ${getUserAvatarBackgroundClass(user)}">`;
             html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
             html += '</div>';
         }
