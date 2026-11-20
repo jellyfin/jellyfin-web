@@ -3,6 +3,7 @@ import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-field
 import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { getVideoApi } from '@jellyfin/sdk/lib/utils/api/video-api';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { intervalToDuration } from 'date-fns';
@@ -38,6 +39,7 @@ import datetime from 'scripts/datetime';
 import dom from 'utils/dom';
 import { renderComponent } from 'utils/reactUtils';
 import { download } from 'scripts/fileDownloader';
+import { getPlaylistResumePoint } from 'utils/playlistResume';
 import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import Dashboard from 'utils/dashboard';
@@ -343,12 +345,14 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
+        hideAll(page, 'btnResume');
     } else if (playbackManager.canPlay(item)) {
         hideAll(page, 'btnPlay', true);
         const enableInstantMix = ['Audio', 'MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnInstantMix', enableInstantMix);
         const enableShuffle = item.IsFolder || ['MusicAlbum', 'MusicGenre', 'MusicArtist'].indexOf(item.Type) !== -1;
         hideAll(page, 'btnShuffle', enableShuffle);
+        hideAll(page, 'btnResume', item.Type === BaseItemKind.Playlist);
         canPlay = true;
 
         const isResumable = (item.UserData?.PlaybackPositionTicks || 0) > 0;
@@ -366,6 +370,7 @@ function reloadPlayButtons(page, item) {
         hideAll(page, 'btnReplay');
         hideAll(page, 'btnInstantMix');
         hideAll(page, 'btnShuffle');
+        hideAll(page, 'btnResume');
     }
 
     return canPlay;
@@ -2017,6 +2022,37 @@ export default function (view, params) {
         playbackManager.shuffle(currentItem);
     }
 
+    function onResumeClick() {
+        const apiClient = getApiClient();
+        const api = ServerConnections.getApi(currentItem.ServerId);
+
+        return getPlaylistApi(api).getPlaylistItems({
+            playlistId: currentItem.Id,
+            userId: apiClient.getCurrentUserId(),
+            fields: [
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.MediaSourceCount,
+                ItemFields.Chapters,
+                ItemFields.Trickplay
+            ],
+            enableUserData: true
+        }).then(({ data }) => {
+            const items = data.Items || [];
+
+            if (!items.length) {
+                return;
+            }
+
+            const { index, startPositionTicks } = getPlaylistResumePoint(items);
+
+            return playbackManager.play({
+                items,
+                startIndex: index,
+                startPositionTicks
+            });
+        });
+    }
+
     function onCancelSeriesTimerClick() {
         import('components/recordingcreator/recordinghelper').then(({ default: recordingHelper }) => {
             recordingHelper.cancelSeriesTimerWithConfirmation(currentItem.Id, currentItem.ServerId).then(function () {
@@ -2117,6 +2153,7 @@ export default function (view, params) {
         bindAll(view, '.btnReplay', 'click', onPlayClick);
         bindAll(view, '.btnInstantMix', 'click', onInstantMixClick);
         bindAll(view, '.btnShuffle', 'click', onShuffleClick);
+        bindAll(view, '.btnResume', 'click', onResumeClick);
         bindAll(view, '.btnPlayTrailer', 'click', onPlayTrailerClick);
         bindAll(view, '.btnCancelSeriesTimer', 'click', onCancelSeriesTimerClick);
         bindAll(view, '.btnCancelTimer', 'click', onCancelTimerClick);
