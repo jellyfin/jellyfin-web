@@ -201,5 +201,14 @@
     "Bwdif": "Bob Weaver ապամիահյուսման զտիչ (BWDIF)",
     "CancelRecording": "Չեղարկել գրառումը",
     "CancelSeries": "Չեղարկել սերիալի ձայնագրումը",
-    "CardSettings": "Քարտերի կարգավորումներ"
+    "CardSettings": "Քարտերի կարգավորումներ",
+    "Casual": "Առօրյա",
+    "Categories": "Կատեգորիաներ",
+    "ChangingMetadataImageSettingsNewContent": "Մետադատաների կամ պատկերների ներբեռնման կարգավորումների փոփոխությունները կկիրառվեն միայն ձեր գրադարանում ավելացվող նոր բովանդակության վրա։ Փոփոխություններն արդեն առկա նյութերի վրա կիրառելու համար պետք է ձեռքով թարմացնել դրանց մետադատաները։",
+    "ChannelAccessHelp": "Ընտրեք ալիքները՝ այս օգտատիրոջ հետ կիսվելու համար։ Ադմինիստրատորները կկարողանան խմբագրել բոլոր ալիքները մետադատաների կառավարչի միջոցով։",
+    "ChannelResolutionSD": "SD",
+    "ChannelResolutionSDPAL": "SD (PAL)",
+    "ChannelResolutionHD": "HD",
+    "ChannelResolutionFullHD": "Full HD",
+    "ChannelResolutionUHD4K": "UHD (4K)"
 }
