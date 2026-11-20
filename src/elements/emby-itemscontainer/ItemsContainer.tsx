@@ -35,6 +35,8 @@ function getShortcutOptions() {
     };
 }
 
+const NO_EVENTS: string[] = [];
+
 export interface ItemsContainerProps {
     className?: string;
     isContextMenuEnabled?: boolean;
@@ -52,7 +54,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     isContextMenuEnabled,
     isMultiSelectEnabled,
     isDragreOrderEnabled,
-    eventsToMonitor = [],
+    eventsToMonitor = NO_EVENTS,
     parentId,
     queryKey,
     reloadItems,
@@ -68,6 +70,17 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const unsubscribeRef = useRef<Array<() => void>>([]);
 
+    // Callers commonly pass these props as inline arrays/functions. Keep the latest values in refs so
+    // handlers always see current props without their identity tearing down the effect below.
+    const eventsToMonitorRef = useRef(eventsToMonitor);
+    const parentIdRef = useRef(parentId);
+    const queryKeyRef = useRef(queryKey);
+    const reloadItemsRef = useRef(reloadItems);
+    eventsToMonitorRef.current = eventsToMonitor;
+    parentIdRef.current = parentId;
+    queryKeyRef.current = queryKey;
+    reloadItemsRef.current = reloadItems;
+
     const onClick = useCallback((e: MouseEvent) => {
         if (e.defaultPrevented) return;
 
@@ -75,8 +88,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         const multiSelect = multiSelectref.current;
 
         if (
-            multiSelect
-            && multiSelect.onContainerClick.call(itemsContainer, e) === false
+            multiSelect?.onContainerClick.call(itemsContainer, e) === false
         ) {
             return;
         }
@@ -151,11 +163,10 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
             } catch (error) {
                 console.error('[Drag-Drop] error playlists Move Item: ' + error);
                 loading.hide();
-                if (!reloadItems) return;
-                reloadItems();
+                reloadItemsRef.current?.();
             }
         },
-        [playlistsMoveItemMutation, reloadItems]
+        [playlistsMoveItemMutation]
     );
 
     const initDragReordering = useCallback((itemsContainer: HTMLDivElement) => {
@@ -177,25 +188,35 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         }
     }, []);
 
-    const invalidateQueries = useCallback(() => (
-        queryClient.invalidateQueries({ queryKey })
-    ), [queryClient, queryKey]);
+    const invalidateQueries = useCallback(() => {
+        // An undefined key would match (and refetch) every query in the cache
+        if (!queryKeyRef.current) return;
+
+        return queryClient.invalidateQueries({ queryKey: queryKeyRef.current });
+    }, [queryClient]);
 
     const notifyRefreshNeeded = useCallback(
         (isInForeground: boolean) => {
-            if (!reloadItems) return;
+            if (!reloadItemsRef.current) return;
             if (isInForeground === true) {
-                reloadItems();
+                reloadItemsRef.current();
             } else {
-                timerRef.current = setTimeout(() => reloadItems(), 10000);
+                if (timerRef.current) clearTimeout(timerRef.current);
+                timerRef.current = setTimeout(() => {
+                    timerRef.current = null;
+                    reloadItemsRef.current?.();
+                }, 10000);
             }
         },
-        [reloadItems]
+        []
     );
 
     const onLibraryChanged = useCallback(
         ({ Data }: { Data?: LibraryUpdateInfo }) => {
-            if (eventsToMonitor.includes('seriestimers') || eventsToMonitor.includes('timers')) {
+            const events = eventsToMonitorRef.current;
+            const folderId = parentIdRef.current;
+
+            if (events.includes('seriestimers') || events.includes('timers')) {
                 // yes this is an assumption
                 return;
             }
@@ -206,15 +227,15 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
                 return;
             }
 
-            if (parentId) {
+            if (folderId) {
                 const foldersAddedTo = Data?.FoldersAddedTo ?? [];
                 const foldersRemovedFrom = Data?.FoldersRemovedFrom ?? [];
                 const collectionFolders = Data?.CollectionFolders ?? [];
 
                 if (
-                    foldersAddedTo.indexOf(parentId) === -1
-                    && foldersRemovedFrom.indexOf(parentId) === -1
-                    && collectionFolders.indexOf(parentId) === -1
+                    foldersAddedTo.indexOf(folderId) === -1
+                    && foldersRemovedFrom.indexOf(folderId) === -1
+                    && collectionFolders.indexOf(folderId) === -1
                 ) {
                     return;
                 }
@@ -222,31 +243,30 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
 
             notifyRefreshNeeded(false);
         },
-        [eventsToMonitor, notifyRefreshNeeded, parentId]
+        [notifyRefreshNeeded]
     );
 
     const onPlaybackStopped = useCallback(
         (_e: Event, stopInfo: PlaybackStopInfo) => {
             const state = stopInfo.state;
+            const events = eventsToMonitorRef.current;
 
             if (
-                state.NowPlayingItem
-                && state.NowPlayingItem.MediaType === MediaType.Video
+                state.NowPlayingItem?.MediaType === MediaType.Video
             ) {
-                if (eventsToMonitor.includes('videoplayback')) {
+                if (events.includes('videoplayback')) {
                     notifyRefreshNeeded(true);
                     return;
                 }
             } else if (
-                state.NowPlayingItem
-                && state.NowPlayingItem.MediaType === MediaType.Audio
-                && eventsToMonitor.includes('audioplayback')
+                state.NowPlayingItem?.MediaType === MediaType.Audio
+                && events.includes('audioplayback')
             ) {
                 notifyRefreshNeeded(true);
                 return;
             }
         },
-        [eventsToMonitor, notifyRefreshNeeded]
+        [notifyRefreshNeeded]
     );
 
     const setFocus = useCallback(
@@ -360,6 +380,7 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
         return () => {
             if (timerRef.current) {
                 clearTimeout(timerRef.current);
+                timerRef.current = null;
             }
 
             destroyMultiSelect();

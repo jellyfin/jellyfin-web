@@ -1,6 +1,8 @@
 import { AppFeature } from 'constants/appFeature';
 import globalize from '../../lib/globalize';
+import { QUERY_KEY } from 'hooks/api/useUser';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from 'utils/query/queryClient';
 import { appHost } from '../apphost';
 import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';
@@ -100,7 +102,10 @@ function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient)
     user.Configuration.SubtitleLanguagePreference = context.querySelector('#selectSubtitleLanguage').value;
     user.Configuration.SubtitleMode = context.querySelector('#selectSubtitlePlaybackMode').value;
 
-    return apiClient.updateUserConfiguration(user.Id, user.Configuration);
+    return apiClient.updateUserConfiguration(user.Id, user.Configuration).then(() => {
+        // Refresh the cached user so later reads see the new configuration
+        void queryClient.invalidateQueries({ queryKey: [ QUERY_KEY, user.Id ], exact: true });
+    });
 }
 
 function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {

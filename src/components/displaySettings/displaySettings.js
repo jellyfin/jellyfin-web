@@ -2,7 +2,7 @@ import escapeHtml from 'escape-html';
 
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
-import { getUserQuery } from 'hooks/api/useUser';
+import { getUserQuery, QUERY_KEY } from 'hooks/api/useUser';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
 
@@ -186,7 +186,10 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
     }
 
     layoutManager.setLayout(context.querySelector('.selectLayout').value);
-    return apiClient.updateUserConfiguration(user.Id, user.Configuration);
+    return apiClient.updateUserConfiguration(user.Id, user.Configuration).then(() => {
+        // Refresh the cached user so later reads see the new configuration
+        void queryClient.invalidateQueries({ queryKey: [ QUERY_KEY, user.Id ], exact: true });
+    });
 }
 
 function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {

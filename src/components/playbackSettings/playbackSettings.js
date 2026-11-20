@@ -7,8 +7,10 @@ import { pluginManager } from 'components/pluginManager';
 import { AppFeature } from 'constants/appFeature';
 import { PluginType } from 'constants/pluginType';
 import { MILLISECONDS_PER_MINUTE } from 'constants/time';
+import { QUERY_KEY } from 'hooks/api/useUser';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { ID as STILL_WATCHING_ID, StillWatchingConfiguration, StillWatchingOptions } from 'plugins/stillWatching/constants';
+import { queryClient } from 'utils/query/queryClient';
 
 import appSettings from '../../scripts/settings/appSettings';
 import { appHost } from '../apphost';
@@ -344,7 +346,10 @@ function saveUser(context, user, userSettingsInstance, apiClient) {
         userSettingsInstance.set(actionEl.id, actionEl.value, false);
     });
 
-    return apiClient.updateUserConfiguration(user.Id, user.Configuration);
+    return apiClient.updateUserConfiguration(user.Id, user.Configuration).then(() => {
+        // Refresh the cached user so later reads see the new configuration
+        void queryClient.invalidateQueries({ queryKey: [ QUERY_KEY, user.Id ], exact: true });
+    });
 }
 
 function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
