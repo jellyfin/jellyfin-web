@@ -76,7 +76,7 @@
     "Label3DFormat": "3D ձևաչափ",
     "Artists": "Երաժիշտներ",
     "Default": "Լռելյայն",
-    "AddToPlaylist": "Ավելացնել  ցանկին",
+    "AddToPlaylist": "Ավելացնել ցանկին",
     "Favorites": "Ընտրյալ",
     "Genres": "Ոճ",
     "AddToPlayQueue": "Ավելացնել Հերդականութեան",
@@ -85,5 +85,7 @@
     "MusicVideos": "երաժշտական տեսահոլովակներ",
     "Alerts": "Զգուշացումներ",
     "AllowSubtitleManagement": "Թույլատրել այս օգտատերին փոփոխել ենթագրերը",
-    "Shows": "Սերիալ"
+    "Shows": "Սերիալ",
+    "ActivitiesLoadError": "Գործունեության բեռնման սխալ",
+    "AllowCollectionManagement": "Թույլատրել այս օգտատիրոջը կառավարել հավաքածուներ"
 }
