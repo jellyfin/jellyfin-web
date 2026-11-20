@@ -64,6 +64,7 @@ const studiosTabContent: LibraryTabContent = {
 const personsTabContent: LibraryTabContent = {
     viewType: LibraryTab.Persons,
     collectionType: CollectionType.Movies,
+    itemType: [BaseItemKind.Movie],
     isBtnSortEnabled: false
 };
 

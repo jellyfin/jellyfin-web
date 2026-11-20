@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig } from 'axios';
-import type { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemFilter } from '@jellyfin/sdk/lib/generated-client/models/item-filter';
@@ -10,7 +10,7 @@ import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
 import { useQuery } from '@tanstack/react-query';
-import { VIDEO_PERSON_KINDS } from 'apps/modern/features/libraries/constants/personKinds';
+import { getPersonKinds } from 'apps/modern/features/libraries/constants/personKinds';
 
 import { type JellyfinApiContext, useApi } from 'hooks/useApi';
 import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
@@ -99,7 +99,7 @@ const fetchGetItemsViewByType = async (
                         filters: libraryViewSettings?.Filters?.Status,
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
-                        personTypes: libraryViewSettings?.Filters?.PersonKinds?.length ? libraryViewSettings.Filters.PersonKinds : VIDEO_PERSON_KINDS,
+                        personTypes: libraryViewSettings?.Filters?.PersonKinds?.length ? libraryViewSettings.Filters.PersonKinds : getPersonKinds(itemType),
                         startIndex: libraryViewSettings.StartIndex
                     },
                     {

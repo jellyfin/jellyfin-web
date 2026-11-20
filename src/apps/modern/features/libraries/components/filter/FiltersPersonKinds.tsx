@@ -7,19 +7,22 @@ import Checkbox from '@mui/material/Checkbox';
 import globalize from 'lib/globalize';
 import { LibraryViewSettings } from 'types/library';
 
-import { VIDEO_PERSON_KINDS } from '../../constants/personKinds';
-
 interface FiltersPersonKindsProps {
+    availablePersonKinds: PersonKind[];
     libraryViewSettings: LibraryViewSettings;
     setLibraryViewSettings: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
 
+const isDefaultSelection = (selected: PersonKind[], available: PersonKind[]) =>
+    selected.length === available.length && available.every((personKind) => selected.includes(personKind));
+
 const FiltersPersonKinds: FC<FiltersPersonKindsProps> = ({
+    availablePersonKinds,
     libraryViewSettings,
     setLibraryViewSettings
 }) => {
     // all roles are enabled by default until the user makes an explicit selection
-    const selectedPersonKinds = libraryViewSettings?.Filters?.PersonKinds ?? VIDEO_PERSON_KINDS;
+    const selectedPersonKinds = libraryViewSettings?.Filters?.PersonKinds ?? availablePersonKinds;
 
     const onFiltersPersonKindsChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,16 +38,16 @@ const FiltersPersonKinds: FC<FiltersPersonKindsProps> = ({
                 StartIndex: 0,
                 Filters: {
                     ...prevState.Filters,
-                    PersonKinds: updatedPersonKinds.length === VIDEO_PERSON_KINDS.length ? undefined : updatedPersonKinds
+                    PersonKinds: isDefaultSelection(updatedPersonKinds, availablePersonKinds) ? undefined : updatedPersonKinds
                 }
             }));
         },
-        [setLibraryViewSettings, selectedPersonKinds]
+        [setLibraryViewSettings, selectedPersonKinds, availablePersonKinds]
     );
 
     return (
         <FormGroup>
-            {VIDEO_PERSON_KINDS.map((personKind) => (
+            {availablePersonKinds.map((personKind) => (
                 <FormControlLabel
                     key={personKind}
                     control={
