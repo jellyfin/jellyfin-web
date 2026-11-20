@@ -94,6 +94,16 @@ function canPlayHlsWithMSE() {
     return window.MediaSource != null; /* eslint-disable-line compat/compat */
 }
 
+function canPlayAacInHls() {
+    const type = 'audio/mp4; codecs="mp4a.40.2"';
+
+    if (canPlayNativeHls()) {
+        return !!document.createElement('audio').canPlayType(type).replace(/no/, '');
+    }
+
+    return !!window.MediaSource?.isTypeSupported(type); /* eslint-disable-line compat/compat */
+}
+
 function supportsAc3(videoTestElement) {
     if (browser.edgeUwp || browser.tizen || browser.web0s) {
         return true;
@@ -880,7 +890,7 @@ export default function (options) {
         enableFmp4Hls = false;
     }
 
-    if (canPlayHls() && browser.enableHlsAudio !== false) {
+    if (canPlayHls() && canPlayAacInHls() && browser.enableHlsAudio !== false) {
         profile.TranscodingProfiles.push({
             Container: enableFmp4Hls ? 'mp4' : 'ts',
             Type: 'Audio',
