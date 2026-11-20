@@ -235,9 +235,13 @@ export default class ConnectionManager {
                     updateServerInfo(server, systemInfo);
                     return Promise.resolve();
                 },
-                () => {
-                    server.UserId = null;
-                    server.AccessToken = null;
+                (err) => {
+                    // Only drop credentials when the server actually rejects the token.
+                    // Network errors, aborted requests (e.g. page refresh) or 5xx must not log the user out.
+                    if (err?.status === 401 || err?.status === 403) {
+                        server.UserId = null;
+                        server.AccessToken = null;
+                    }
                     return Promise.resolve();
                 }
             );
