@@ -192,5 +192,14 @@
     "ButtonSplit": "Բաժանել",
     "ButtonStop": "Կանգ առնել",
     "ButtonSubmit": "Ուղարկել",
-    "ButtonSyncPlay": "SyncPlay"
+    "ButtonSyncPlay": "SyncPlay",
+    "ButtonTogglePlaylist": "նվագացանկ",
+    "ButtonTrailer": "Թրեյլեր",
+    "ButtonUninstall": "Տեղահանել",
+    "ButtonUseQuickConnect": "Օգտագործել Արագ Միացում",
+    "ButtonWebsite": "Վեբ կայք",
+    "Bwdif": "Bob Weaver ապամիահյուսման զտիչ (BWDIF)",
+    "CancelRecording": "Չեղարկել գրառումը",
+    "CancelSeries": "Չեղարկել սերիալի ձայնագրումը",
+    "CardSettings": "Քարտերի կարգավորումներ"
 }
