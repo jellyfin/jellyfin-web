@@ -1,3 +1,4 @@
+import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import 'webcomponents.js/webcomponents-lite';
 import Sortable from 'sortablejs';
@@ -101,19 +102,17 @@ function onDrop(evt, itemsContainer) {
     }
 
     const serverId = el.getAttribute('data-serverid');
-    const apiClient = ServerConnections.getApiClient(serverId);
+    const api = ServerConnections.getApi(serverId);
 
     loading.show();
 
-    apiClient.ajax({
-        url: apiClient.getUrl('Playlists/' + playlistId + '/Items/' + itemId + '/Move/' + newIndex),
-        type: 'POST'
-    }).then(function () {
-        loading.hide();
-    }, function () {
-        loading.hide();
-        itemsContainer.refreshItems();
-    });
+    getPlaylistApi(api).moveItem({
+        playlistId,
+        itemId,
+        newIndex
+    })
+        .catch(itemsContainer.refreshItems)
+        .finally(loading.hide);
 }
 
 ItemsContainerPrototype.enableDragReordering = function (enabled) {
