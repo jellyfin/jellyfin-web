@@ -139,6 +139,9 @@ const ItemsView: FC = () => {
             cardOptions.overlayMoreButton = true;
             cardOptions.lines = 3;
         } else if (viewType === LibraryTab.Movies) {
+            if (libraryViewSettings.ImageType === ImageType.Primary) {
+                cardOptions.shape = CardShape.Portrait;
+            }
             cardOptions.overlayPlayButton = true;
         } else if (viewType === LibraryTab.Series || viewType === LibraryTab.Studios) {
             cardOptions.overlayMoreButton = true;
