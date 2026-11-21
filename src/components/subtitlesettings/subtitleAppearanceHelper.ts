@@ -1,10 +1,66 @@
 /**
  * Subtitle settings visual helper.
- * @module components/subtitleSettings/subtitleAppearanceHelper
+ * @module components/subtitlesettings/subtitleAppearanceHelper
  */
 
-function getTextStyles(settings, preview) {
-    const list = [];
+/**
+ * The subtitle appearance settings read by this helper.
+ * Values come from the settings form or from persisted JSON, so unknown values fall back to defaults.
+ */
+export interface SubtitleAppearanceSettings {
+    textSize?: string;
+    textWeight?: string;
+    dropShadow?: string;
+    textBackground?: string;
+    textColor?: string;
+    font?: string;
+    /** Line offset; a number from the defaults, a string from the form. */
+    verticalPosition?: number | string;
+}
+
+/**
+ * A single CSS declaration; an empty value clears the property.
+ */
+export interface SubtitleStyle {
+    name: string;
+    value: string;
+}
+
+/**
+ * The styles for the subtitle text and its containing window.
+ */
+export interface SubtitleStyles {
+    text: SubtitleStyle[];
+    window: SubtitleStyle[];
+}
+
+/**
+ * The elements to apply subtitle styles to.
+ */
+export interface SubtitleElements {
+    text?: HTMLElement | null;
+    window?: HTMLElement | null;
+    /** Skips the vertical positioning styles when set. */
+    preview?: boolean;
+}
+
+/**
+ * Parses the vertical position, in lines from the bottom when negative or from the top otherwise.
+ * @param settings The appearance settings.
+ * @returns The vertical position, or `NaN` when it is unset or invalid.
+ */
+function getVerticalPosition(settings: SubtitleAppearanceSettings): number {
+    return parseInt(String(settings.verticalPosition), 10);
+}
+
+/**
+ * Builds the styles for the subtitle text element.
+ * @param settings The appearance settings.
+ * @param preview Whether the styles are for the settings preview, which skips vertical positioning.
+ * @returns The text styles.
+ */
+function getTextStyles(settings: SubtitleAppearanceSettings, preview?: boolean): SubtitleStyle[] {
+    const list: SubtitleStyle[] = [];
 
     switch (settings.textSize || '') {
         case 'smaller':
@@ -99,7 +155,7 @@ function getTextStyles(settings, preview) {
     }
 
     if (!preview) {
-        const pos = parseInt(settings.verticalPosition, 10);
+        const pos = getVerticalPosition(settings);
         const lineHeight = 1.35; // FIXME: It is better to read this value from element
         if (pos < 0) {
             const margin = Math.abs(pos + 1) * lineHeight;
@@ -115,11 +171,17 @@ function getTextStyles(settings, preview) {
     return list;
 }
 
-function getWindowStyles(settings, preview) {
-    const list = [];
+/**
+ * Builds the styles for the subtitle window element.
+ * @param settings The appearance settings.
+ * @param preview Whether the styles are for the settings preview, which skips vertical positioning.
+ * @returns The window styles.
+ */
+function getWindowStyles(settings: SubtitleAppearanceSettings, preview?: boolean): SubtitleStyle[] {
+    const list: SubtitleStyle[] = [];
 
     if (!preview) {
-        const pos = parseInt(settings.verticalPosition, 10);
+        const pos = getVerticalPosition(settings);
         if (pos < 0) {
             list.push({ name: 'top', value: '' });
             list.push({ name: 'bottom', value: '0' });
@@ -132,22 +194,39 @@ function getWindowStyles(settings, preview) {
     return list;
 }
 
-export function getStyles(settings, preview) {
+/**
+ * Builds the subtitle text and window styles for the given appearance settings.
+ * @param settings The appearance settings.
+ * @param preview Whether the styles are for the settings preview, which skips vertical positioning.
+ * @returns The text and window styles.
+ */
+export function getStyles(settings: SubtitleAppearanceSettings, preview?: boolean): SubtitleStyles {
     return {
         text: getTextStyles(settings, preview),
         window: getWindowStyles(settings, preview)
     };
 }
 
-function applyStyleList(styles, elem) {
+/**
+ * Applies a list of styles to an element.
+ * @param styles The styles to apply.
+ * @param elem The element to style.
+ */
+function applyStyleList(styles: SubtitleStyle[], elem: HTMLElement): void {
     for (let i = 0, length = styles.length; i < length; i++) {
         const style = styles[i];
 
-        elem.style[style.name] = style.value;
+        // Equivalent to assigning the dashed property name, which CSSStyleDeclaration does not type
+        elem.style.setProperty(style.name, style.value);
     }
 }
 
-export function applyStyles(elements, appearanceSettings) {
+/**
+ * Applies the subtitle appearance settings to the given elements.
+ * @param elements The elements to style.
+ * @param appearanceSettings The appearance settings.
+ */
+export function applyStyles(elements: SubtitleElements, appearanceSettings: SubtitleAppearanceSettings): void {
     const styles = getStyles(appearanceSettings, !!elements.preview);
 
     if (elements.text) {
@@ -157,6 +236,7 @@ export function applyStyles(elements, appearanceSettings) {
         applyStyleList(styles.window, elements.window);
     }
 }
+
 export default {
     getStyles: getStyles,
     applyStyles: applyStyles
