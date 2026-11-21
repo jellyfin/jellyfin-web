@@ -48,7 +48,7 @@ export default function (view, params, tabContent) {
         isLoading = true;
         loading.show();
         const query = getQuery();
-        let newQuery = { ...query, StartIndex: 0, Limit: 300 };
+        let newQuery = { ...query, StartIndex: 0, Limit: 100 };
         if (type === 'Shuffle') newQuery = { ...newQuery, SortBy: 'Random' };
         const apiClient = ServerConnections.currentApiClient();
         return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
