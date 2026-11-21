@@ -29,6 +29,8 @@ const fetchUpdatePlayedState = async (
             return response.data.Played;
         }
     }
+
+    throw new Error('Unable to update played state without an API client and user');
 };
 
 export const useTogglePlayedMutation = () => {
