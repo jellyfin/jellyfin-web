@@ -18,9 +18,16 @@ import { useUpdateUser } from 'apps/dashboard/features/users/api/useUpdateUser';
 import { useUpdateUserPolicy } from 'apps/dashboard/features/users/api/useUpdateUserPolicy';
 import { useNetworkConfig } from 'apps/dashboard/features/users/api/useNetworkConfig';
 import Toast from 'apps/dashboard/components/Toast';
+import SimpleAlert from 'components/SimpleAlert';
+import { AxiosError } from 'axios';
 
 interface ProfileProps {
     userDto: UserDto;
+}
+
+interface PolicyErrorRes {
+    Code?: string;
+    Message?: string;
 }
 
 type ResetProvider = BaseItemDto & {
@@ -31,6 +38,13 @@ const getCheckedElementDataIds = (elements: NodeListOf<Element>) => (
     Array.prototype.filter.call(elements, e => e.checked)
         .map(e => e.getAttribute('data-id'))
 );
+
+const supportedErrorCodes = new Set([
+    'AtLeastOneAdminUserRequired',
+    'AdminPasswordRequired',
+    'CantDisableAdmin',
+    'AtLeastOneEnabledUserRequired'
+]);
 
 const Profile = ({ userDto }: ProfileProps) => {
     const navigate = useNavigate();
@@ -47,9 +61,17 @@ const Profile = ({ userDto }: ProfileProps) => {
     const { data: netConfig, isSuccess: isNetConfigSuccess } = useNetworkConfig();
 
     const [ isErrorToastOpen, setIsErrorToastOpen ] = useState(false);
+    const [ isErrorAlertOpen, setIsErrorAlertOpen ] = useState(false);
+
+    const [ globalizedPolicyError, setGlobalizedPolicyError ] = useState('');
 
     const handleToastClose = useCallback(() => {
         setIsErrorToastOpen(false);
+    }, []);
+
+    const handleAlertClose = useCallback(() => {
+        setIsErrorAlertOpen(false);
+        setGlobalizedPolicyError('');
     }, []);
 
     const updateUser = useUpdateUser();
@@ -259,6 +281,16 @@ const Profile = ({ userDto }: ProfileProps) => {
                                 navigate('/dashboard/users', {
                                     state: { openSavedToast: true }
                                 });
+                            },
+                            onError: (e) => {
+                                const errorCode = (e as AxiosError<PolicyErrorRes>).response?.data?.Code;
+
+                                if (!errorCode || !supportedErrorCodes.has(errorCode)) {
+                                    return;
+                                }
+
+                                setGlobalizedPolicyError(globalize.translate(errorCode));
+                                setIsErrorAlertOpen(true);
                             }
                         });
                     }
@@ -321,6 +353,11 @@ const Profile = ({ userDto }: ProfileProps) => {
                 open={isErrorToastOpen}
                 onClose={handleToastClose}
                 message={globalize.translate('ErrorDefault')}
+            />
+            <SimpleAlert
+                open={isErrorAlertOpen}
+                text={globalizedPolicyError}
+                onClose={handleAlertClose}
             />
             <div
                 className='lnkEditUserPreferencesContainer'
