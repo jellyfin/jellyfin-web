@@ -168,7 +168,8 @@ export class UserSettings {
         }
 
         // Enable it by default only for the platforms that play fMP4 for sure.
-        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium);
+        // webOS 6+ needs fMP4 to play remuxed Dolby Vision; in MPEG-TS the picture stays black.
+        return toBoolean(this.get('preferFmp4HlsContainer', false), browser.safari || browser.firefox || browser.chrome || browser.edgeChromium || browser.web0sVersion >= 6);
     }
 
     /**
