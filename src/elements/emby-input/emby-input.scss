@@ -70,3 +70,27 @@
 .emby-input-iconbutton {
     align-self: flex-end;
 }
+
+.emby-password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input.emby-input {
+        width: 100%;
+        padding-right: 2.5em;
+    }
+
+    .emby-input-iconbutton {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+    }
+}
+
+[dir="rtl"] .emby-password-input-wrapper .emby-input-iconbutton {
+    right: auto;
+    left: 0;
+}
