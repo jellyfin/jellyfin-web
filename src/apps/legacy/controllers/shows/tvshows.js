@@ -48,7 +48,7 @@ export default function (view, params, tabContent) {
         isLoading = true;
         loading.show();
         const query = getQuery();
-        const newQuery = { ...query, StartIndex:0, Limit:100 };
+        let newQuery = { ...query, StartIndex:0, Limit:100 };
         if (type === 'Shuffle') newQuery.SortBy = 'Random';
         const apiClient = ServerConnections.currentApiClient();
         return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
@@ -89,7 +89,6 @@ export default function (view, params, tabContent) {
         isLoading = true;
         const apiClient = ServerConnections.currentApiClient();
         const query = getQuery();
-        console.log(query);
         setFilterStatus(page, query);
 
         apiClient.getItems(apiClient.getCurrentUserId(), query).then((result) => {
