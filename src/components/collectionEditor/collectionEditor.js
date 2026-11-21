@@ -259,7 +259,7 @@ class CollectionEditor {
                 return Promise.resolve();
             }
 
-            return Promise.reject();
+            return Promise.reject(new Error('CollectionEditorError'));
         });
     }
 }

@@ -309,7 +309,7 @@ async function showEditor(itemId) {
     if (item.LockData) {
         loading.hide();
         toast(globalize.translate('MessageItemMetadataLocked'));
-        currentReject();
+        currentReject(new Error('ItemMetadataLocked'));
         return;
     }
 
@@ -380,7 +380,7 @@ function onDialogClosed() {
     if (hasChanges) {
         currentResolve();
     } else {
-        currentReject();
+        currentReject(new Error('OnDialogClosedError'));
     }
 }
 

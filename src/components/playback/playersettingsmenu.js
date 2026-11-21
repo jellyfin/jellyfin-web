@@ -149,7 +149,7 @@ function showAspectRatioMenu(player, btn) {
             return Promise.resolve();
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error('ShowAspectRatioMenuError'));
     });
 }
 
@@ -171,7 +171,7 @@ function showPlaybackRateMenu(player, btn) {
             return Promise.resolve();
         }
 
-        return Promise.reject();
+        return Promise.reject(new Error('ShowPlaybackRateMenuError'));
     });
 }
 
@@ -286,7 +286,7 @@ function handleSelectedOption(id, options, player) {
             break;
     }
 
-    return Promise.reject();
+    return Promise.reject(new Error('HandleSelectedOptionError'));
 }
 
 export default {
