@@ -32,7 +32,8 @@ class BackdropScreensaver {
                         items: result.Items,
                         autoplay: {
                             delay: userSettings.backdropScreensaverInterval() * 1000
-                        }
+                        },
+                        useFasterAnimations: userSettings.enableFastFadein()
                     });
 
                     newSlideShow.show();
