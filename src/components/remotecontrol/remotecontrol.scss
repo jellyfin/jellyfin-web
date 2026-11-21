@@ -475,3 +475,23 @@
         font-size: 4em;
     }
 }
+
+.btnRewind, .btnFastForward {
+    position: relative;
+}
+
+.btnFastForward .material-icons {
+    transform: scaleX(-1);
+}
+
+.skipButtonText {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.4em;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    pointer-events: none;
+}
