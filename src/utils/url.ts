@@ -55,18 +55,49 @@ export const safeDecodeURIComponent = (value: string) => {
 };
 
 /**
- * Test if a string is a valid http or https URL.
- * @param value The value to test.
- * @returns Whether the value is a URL or not.
+ * The URL protocols that are allowed for links pointing outside of the app.
+ * This is an allowlist; any other protocol (javascript:, data:, vbscript:, file:, etc.) is rejected.
  */
-export const isValidUrl = (value: string) => {
+const SAFE_EXTERNAL_PROTOCOLS: ReadonlySet<string> = new Set([ 'http:', 'https:' ]);
+
+/**
+ * Parses a value as an absolute URL, only if it uses an allowed (http or https) protocol.
+ * @param value The value to parse.
+ * @returns The parsed URL, or null if the value is not a string, not a valid absolute URL, or uses a disallowed protocol.
+ */
+const parseSafeExternalUrl = (value: unknown): URL | null => {
+    if (typeof value !== 'string') {
+        return null;
+    }
+
     let url;
 
     try {
         url = new URL(value);
     } catch {
-        return false;
+        return null;
     }
 
-    return url.protocol === 'http:' || url.protocol === 'https:';
+    return SAFE_EXTERNAL_PROTOCOLS.has(url.protocol) ? url : null;
 };
+
+/**
+ * Gets a normalized URL that is safe to use as the target of an external link.
+ * Only absolute http and https URLs are allowed, other values return null.
+ *
+ * NOTE: The returned value is safe to assign to an href DOM property or React prop, but it is NOT
+ * HTML escaped. URL serialization can leave characters such as `"` in place (e.g. in the host), so
+ * the value must still be HTML escaped when building markup strings.
+ * @param value The untrusted value to validate (e.g. a URL from item metadata).
+ * @returns The normalized URL, or null if the value is not a safe external URL.
+ */
+export const getSafeExternalUrl = (value: unknown): string | null => {
+    return parseSafeExternalUrl(value)?.href ?? null;
+};
+
+/**
+ * Test if a value is a valid http or https URL.
+ * @param value The value to test.
+ * @returns Whether the value is a URL or not.
+ */
+export const isValidUrl = (value: unknown) => parseSafeExternalUrl(value) !== null;
