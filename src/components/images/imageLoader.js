@@ -111,12 +111,19 @@ function fillImageElement(elem, url) {
     }
 
     const preloaderImg = new Image();
-    preloaderImg.src = url;
+    let imageApplied = false;
 
     elem.classList.add('lazy-hidden');
     elem.addEventListener('animationend', onAnimationEnd);
 
-    preloaderImg.addEventListener('load', () => {
+    const applyImage = () => {
+        // A cached image can be complete before its load event is dispatched.
+        if (imageApplied) {
+            return;
+        }
+        imageApplied = true;
+        preloaderImg.removeEventListener('load', applyImage);
+
         requestAnimationFrame(() => {
             if (elem.tagName !== 'IMG') {
                 elem.style.backgroundImage = "url('" + url + "')";
@@ -132,7 +139,15 @@ function fillImageElement(elem, url) {
             }
             elem.classList.remove('lazy-hidden');
         });
-    });
+    };
+
+    preloaderImg.addEventListener('load', applyImage);
+    preloaderImg.src = url;
+
+    // Failed images can also be complete; keep their placeholder visible.
+    if (preloaderImg.complete && preloaderImg.naturalWidth > 0) {
+        applyImage();
+    }
 }
 
 function emptyImageElement(elem) {
