@@ -7,6 +7,7 @@ import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
 import subtitleAppearanceHelper from './subtitleappearancehelper';
+import { hexToRgba, parseTextBackground } from './utils/textBackground';
 import settingsHelper from '../settingshelper';
 import dom from '../../utils/dom';
 import Events from '../../utils/events.ts';
@@ -26,6 +27,12 @@ import template from './subtitlesettings.template.html';
  * @module components/subtitleSettings/subtitleSettings
  */
 
+function getTextBackground(context) {
+    const color = layoutManager.tv ? context.querySelector('#selectTextBackground').value : context.querySelector('#inputTextBackground').value;
+    const opacity = Number(context.querySelector('#sliderTextBackgroundOpacity').value);
+    return hexToRgba(color, opacity);
+}
+
 function getSubtitleAppearanceObject(context) {
     return {
         aspectMode: context.querySelector('#selectBitmapSubtitleAspectMode').value,
@@ -34,7 +41,7 @@ function getSubtitleAppearanceObject(context) {
         textWeight: context.querySelector('#selectTextWeight').value,
         dropShadow: context.querySelector('#selectDropShadow').value,
         font: context.querySelector('#selectFont').value,
-        textBackground: context.querySelector('#inputTextBackground').value,
+        textBackground: getTextBackground(context),
         textColor: layoutManager.tv ? context.querySelector('#selectTextColor').value : context.querySelector('#inputTextColor').value,
         verticalPosition: context.querySelector('#sliderVerticalPosition').value
     };
@@ -69,7 +76,10 @@ function loadForm(context, user, userSettings, appearanceSettings, apiClient) {
         context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
         context.querySelector('#selectTextWeight').value = appearanceSettings.textWeight || 'normal';
         context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
-        context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
+        const textBackground = parseTextBackground(appearanceSettings.textBackground);
+        context.querySelector('#inputTextBackground').value = textBackground.hex;
+        context.querySelector('#selectTextBackground').value = textBackground.hex;
+        context.querySelector('#sliderTextBackgroundOpacity').value = textBackground.opacity;
         context.querySelector('#selectTextColor').value = appearanceSettings.textColor || '#ffffff';
         context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
         context.querySelector('#selectFont').value = appearanceSettings.font || '';
@@ -224,6 +234,7 @@ function embed(options, self) {
     options.element.querySelector('#selectTextColor').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
     options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
+    options.element.querySelector('#selectTextBackground').addEventListener('change', onAppearanceFieldChange);
 
     if (options.enableSaveButton) {
         options.element.querySelector('.btnSave').classList.remove('hide');
@@ -239,6 +250,10 @@ function embed(options, self) {
         sliderVerticalPosition.addEventListener('input', onAppearanceFieldChange);
         sliderVerticalPosition.addEventListener('input', () => showSubtitlePreview.call(self));
 
+        const sliderTextBackgroundOpacity = options.element.querySelector('#sliderTextBackgroundOpacity');
+        sliderTextBackgroundOpacity.addEventListener('input', onAppearanceFieldChange);
+        sliderTextBackgroundOpacity.addEventListener('input', () => showSubtitlePreview.call(self));
+
         const eventPrefix = window.PointerEvent ? 'pointer' : 'mouse';
         sliderVerticalPosition.addEventListener(`${eventPrefix}enter`, () => showSubtitlePreview.call(self, true));
         sliderVerticalPosition.addEventListener(`${eventPrefix}leave`, () => hideSubtitlePreview.call(self, true));
@@ -251,11 +266,15 @@ function embed(options, self) {
             setTimeout(() => {
                 sliderVerticalPosition.classList.add('focusable');
                 sliderVerticalPosition.enableKeyboardDragging();
+                sliderTextBackgroundOpacity.classList.add('focusable');
+                sliderTextBackgroundOpacity.enableKeyboardDragging();
             }, 0);
 
             // Replace color picker
             dom.parentWithTag(options.element.querySelector('#inputTextColor'), 'DIV').classList.add('hide');
             dom.parentWithTag(options.element.querySelector('#selectTextColor'), 'DIV').classList.remove('hide');
+            dom.parentWithTag(options.element.querySelector('#inputTextBackground'), 'DIV').classList.add('hide');
+            dom.parentWithTag(options.element.querySelector('#selectTextBackground'), 'DIV').classList.remove('hide');
         }
 
         options.element.querySelector('.chkPreview').addEventListener('change', (e) => {
