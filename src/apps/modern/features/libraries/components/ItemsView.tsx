@@ -20,6 +20,7 @@ import { LibraryTab } from 'types/libraryTab';
 import type { ListOptions } from 'types/listOptions';
 
 import AlphabetPicker from './AlphabetPicker';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const ItemsView: FC = () => {
     const {
@@ -32,11 +33,22 @@ const ItemsView: FC = () => {
     } = useLibrary();
     const viewType = content?.viewType ?? LibraryTab.Movies;
     const libraryViewSettings = viewSettings ?? getDefaultLibraryViewSettings(viewType);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const setLibraryViewSettings = setViewSettings ?? ((action: SetStateAction<LibraryViewSettings>) => { /* no-op */ });
+    const setLibraryViewSettings = useMemo(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        () => setViewSettings ?? ((action: SetStateAction<LibraryViewSettings>) => { /* no-op */ }),
+        [setViewSettings]
+    );
     const { isAlphabetPickerEnabled, noItemsMessage } = content ?? {};
+    // Check if the alphabet picker will fit in the current viewport
+    const isAlphabetPickerSupported = useMediaQuery(t => [
+        // Extra small screens have no padding around letters but larger AppBar
+        `${t.breakpoints.down('sm')} and (min-height: 575px)`,
+        // Small screens have padding around letters but smaller AppBar
+        // NOTE: Helper methods down/up add "@media" to the query string so use the value directly
+        `(min-width: ${t.breakpoints.values.sm}px) and (min-height: 610px)`
+    ].join(', '));
 
-    const { __legacyApiClient__, user } = useApi();
+    const { serverId, user } = useApi();
 
     // The query key for all items for the current user.
     // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
@@ -101,7 +113,7 @@ const ItemsView: FC = () => {
             overlayText: !libraryViewSettings.ShowTitle,
             imageType: libraryViewSettings.ImageType,
             queryKey: allViewsQueryKey,
-            serverId: __legacyApiClient__?.serverId()
+            serverId
         };
 
         if (
@@ -111,7 +123,7 @@ const ItemsView: FC = () => {
         ) {
             cardOptions.showParentTitle = libraryViewSettings.ShowTitle;
             cardOptions.overlayPlayButton = true;
-        } else if (viewType === LibraryTab.Artists || viewType === LibraryTab.Authors) {
+        } else if (viewType === LibraryTab.Artists || viewType === LibraryTab.Authors || viewType === LibraryTab.Persons) {
             cardOptions.lines = 1;
             cardOptions.showYear = false;
             cardOptions.overlayPlayButton = true;
@@ -134,13 +146,13 @@ const ItemsView: FC = () => {
 
         return cardOptions;
     }, [
-        __legacyApiClient__,
         libraryViewSettings.ShowTitle,
         libraryViewSettings.ImageType,
         libraryViewSettings.ShowYear,
         libraryViewSettings.CardLayout,
         collectionType,
         allViewsQueryKey,
+        serverId,
         viewType
     ]);
 
@@ -171,6 +183,14 @@ const ItemsView: FC = () => {
         noItemsMessage
     ]);
 
+    const handleAlphabetChange = useCallback((newValue: string | null | undefined) => {
+        setLibraryViewSettings((prevState) => ({
+            ...prevState,
+            StartIndex: 0,
+            Alphabet: newValue
+        }));
+    }, [setLibraryViewSettings]);
+
     const hasSortName = !libraryViewSettings.SortBy.includes(ItemSortBy.Random);
 
     const itemsContainerClass = classNames(
@@ -182,10 +202,10 @@ const ItemsView: FC = () => {
 
     return (
         <Box className='padded-bottom-page'>
-            {isAlphabetPickerEnabled && hasSortName && (
+            {isAlphabetPickerSupported && isAlphabetPickerEnabled && hasSortName && (
                 <AlphabetPicker
-                    libraryViewSettings={libraryViewSettings}
-                    setLibraryViewSettings={setLibraryViewSettings}
+                    value={libraryViewSettings.Alphabet}
+                    onChange={handleAlphabetChange}
                 />
             )}
 

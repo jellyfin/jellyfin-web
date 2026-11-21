@@ -1,5 +1,5 @@
-
 import escapeHtml from 'escape-html';
+import { getUserViewApi } from '@jellyfin/sdk/lib/utils/api/user-view-api';
 
 import { getUserViewsQuery } from 'hooks/api/useUserViews';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
@@ -246,6 +246,38 @@ function getLandingScreenOptions(type) {
                 value: LibraryTab.Playlists
             }
         );
+    } else if (type === 'books') {
+        list.push(
+            {
+                name: globalize.translate('Folders'),
+                value: LibraryTab.Folders,
+                isDefault: true
+            },
+            {
+                name: globalize.translate('Books'),
+                value: LibraryTab.Books
+            },
+            {
+                name: globalize.translate('Authors'),
+                value: LibraryTab.Authors
+            },
+            {
+                name: globalize.translate('Suggestions'),
+                value: LibraryTab.Suggestions
+            },
+            {
+                name: globalize.translate('Genres'),
+                value: LibraryTab.Genres
+            },
+            {
+                name: globalize.translate('Collections'),
+                value: LibraryTab.Collections
+            },
+            {
+                name: globalize.translate('Favorites'),
+                value: LibraryTab.Favorites
+            }
+        );
     }
 
     return list;
@@ -341,7 +373,7 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html = `<div class="checkboxListContainer">${html}</div>`;
     }
 
-    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos', 'musicvideos', 'mixed'];
+    const landingScreenTypes = ['movies', 'tvshows', 'music', 'livetv', 'homevideos', 'musicvideos', 'mixed', 'books'];
     if (landingScreenTypes.includes(collectionType)) {
         const idForLanding = collectionType === 'livetv' ? collectionType : item.Id;
         html += '<div class="selectContainer">';
@@ -386,15 +418,16 @@ function loadForm(context, user, userSettings, apiClient) {
 
     updateHomeSectionValues(context, userSettings);
 
+    const api = ServerConnections.getApi(apiClient.serverId());
     const promise1 = queryClient
         .fetchQuery(getUserViewsQuery(
-            ServerConnections.getApi(apiClient.serverId()),
+            api,
             {
                 userId: user.Id,
                 includeHidden: true
             }
         ));
-    const promise2 = apiClient.getJSON(apiClient.getUrl(`Users/${user.Id}/GroupingOptions`));
+    const promise2 = getUserViewApi(api).getGroupingOptions({ userId: user.Id }).then(({ data }) => data);
 
     Promise.all([promise1, promise2]).then(responses => {
         renderViewOrder(context, user, responses[0]);

@@ -3,9 +3,9 @@ import type { RecommendationDto } from '@jellyfin/sdk/lib/generated-client/model
 import { RecommendationType } from '@jellyfin/sdk/lib/generated-client/models/recommendation-type';
 import React, { type FC } from 'react';
 
+import { useGetSuggestionSectionsWithItems } from 'apps/modern/features/libraries/hooks/api/useSections';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
-import { useGetSuggestionSectionsWithItems } from 'hooks/useFetchItems';
 import { appRouter } from 'components/router/appRouter';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
@@ -28,7 +28,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
     sectionType,
     isMovieRecommendationEnabled = false
 }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const { isLoading, data: sectionsWithItems } =
         useGetSuggestionSectionsWithItems(parentId, sectionType);
 
@@ -55,10 +55,10 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
 
     const getRouteUrl = (section: Section) => {
         return appRouter.getRouteUrl('list', {
-            serverId: window.ApiClient.serverId(),
+            serverId,
             itemTypes: section.itemTypes,
             parentId: parentId
-        });
+        }).substring(1);
     };
 
     const getRecommendationTittle = (recommendation: RecommendationDto) => {
@@ -103,10 +103,8 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
             {sectionsWithItems?.map(({ section, items }) => (
                 <SectionContainer
                     key={section.type}
-                    sectionHeaderProps={{
-                        title: globalize.translate(section.name),
-                        url: getRouteUrl(section)
-                    }}
+                    title={globalize.translate(section.name)}
+                    url={getRouteUrl(section)}
                     itemsContainerProps={{
                         queryKey: ['SuggestionSectionWithItems']
                     }}
@@ -118,7 +116,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                         centerText: true,
                         cardLayout: false,
                         overlayText: false,
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}
@@ -127,9 +125,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                 <SectionContainer
                     // eslint-disable-next-line react/no-array-index-key
                     key={`${recommendation.CategoryId}-${index}`} // use a unique id return value may have duplicate id
-                    sectionHeaderProps={{
-                        title: getRecommendationTittle(recommendation)
-                    }}
+                    title={getRecommendationTittle(recommendation)}
                     itemsContainerProps={{
                         queryKey: ['MovieRecommendations']
                     }}
@@ -143,7 +139,7 @@ const SuggestionsSectionView: FC<SuggestionsSectionViewProps> = ({
                         showTitle: true,
                         centerText: true,
                         cardLayout: false,
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}

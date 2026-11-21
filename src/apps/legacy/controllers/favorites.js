@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { PersonKind } from '@jellyfin/sdk/lib/generated-client/models/person-kind';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 
 import cardBuilder from 'components/cardbuilder/cardBuilder';
@@ -221,11 +222,11 @@ function getFetchDataFn(section) {
         }
 
         if (section.types === 'MusicArtist') {
-            return apiClient.getArtists(userId, options);
+            return apiClient.getPeople(userId, { ...options, PersonTypes: PersonKind.Artist });
         }
 
         if (section.types === 'Person') {
-            return apiClient.getPeople(userId, options);
+            return apiClient.getPeople(userId, { ...options, ExcludePersonTypes: [PersonKind.Artist, PersonKind.AlbumArtist] });
         }
 
         options.IncludeItemTypes = section.types;

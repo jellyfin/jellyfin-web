@@ -69,7 +69,7 @@ const BookOsd: FC<BookOsdProps> = ({
         if (Screenfull.isEnabled && Screenfull.isFullscreen !== state) {
             void Screenfull.toggle();
         } else if (window.NativeShell) {
-            state ? window.NativeShell.enableFullscreen() : window.NativeShell.disableFullscreen();
+            state ? window.NativeShell.enableFullscreen?.() : window.NativeShell.disableFullscreen?.();
         }
     }, []);
 

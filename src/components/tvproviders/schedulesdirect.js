@@ -1,6 +1,14 @@
-import 'jquery';
+import $ from 'jquery';
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
+import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
+
+import { ConfigurationKey } from '@/constants/configurationKey';
 import loading from '../loading/loading';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import Dashboard from '../../utils/dashboard';
+import Events from '../../utils/events.ts';
+
 import '../../elements/emby-checkbox/emby-checkbox';
 import '../../elements/emby-input/emby-input';
 import '../listview/listview.scss';
@@ -9,8 +17,6 @@ import '../../elements/emby-select/emby-select';
 import '../../elements/emby-button/emby-button';
 import '../../styles/flexstyles.scss';
 import './style.scss';
-import Dashboard from '../../utils/dashboard';
-import Events from '../../utils/events.ts';
 
 function getTunerName(providerId) {
     switch (providerId.toLowerCase()) {
@@ -50,39 +56,45 @@ function refreshTunerDevices(page, providerInfo, devices) {
 }
 
 export default function (page, providerId, options) {
-    function reload() {
+    async function reload() {
         loading.show();
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.ListingProviders.filter(function (i) {
-                return i.Id === providerId;
-            })[0] || {};
-            listingsId = info.ListingsId;
-            page.querySelector('#selectListing').value = info.ListingsId || '';
-            page.querySelector('.txtUser').value = info.Username || '';
-            page.querySelector('.txtPass').value = '';
-            page.querySelector('.txtZipCode').value = info.ZipCode || '';
 
-            if (info.Username && info.Password) {
-                page.querySelector('.listingsSection').classList.remove('hide');
-            } else {
-                page.querySelector('.listingsSection').classList.add('hide');
-            }
+        const api = ServerConnections.getApi();
+        const { data: config } = await getSystemApi(api).getNamedConfiguration({ key: ConfigurationKey.LiveTv });
 
-            page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
+        const info = config.ListingProviders.filter(function (i) {
+            return i.Id === providerId;
+        })[0] || {};
+        listingsId = info.ListingsId;
+        page.querySelector('#selectListing').value = info.ListingsId || '';
+        page.querySelector('.txtUser').value = info.Username || '';
+        page.querySelector('.txtPass').value = '';
+        page.querySelector('.txtZipCode').value = info.ZipCode || '';
 
-            if (info.EnableAllTuners) {
-                page.querySelector('.selectTunersSection').classList.add('hide');
-            } else {
-                page.querySelector('.selectTunersSection').classList.remove('hide');
-            }
+        if (info.Username && info.Password) {
+            page.querySelector('.listingsSection').classList.remove('hide');
+        } else {
+            page.querySelector('.listingsSection').classList.add('hide');
+        }
 
-            setCountry(info);
-            refreshTunerDevices(page, info, config.TunerHosts);
-        });
+        page.querySelector('.chkAllTuners').checked = info.EnableAllTuners;
+
+        if (info.EnableAllTuners) {
+            page.querySelector('.selectTunersSection').classList.add('hide');
+        } else {
+            page.querySelector('.selectTunersSection').classList.remove('hide');
+        }
+
+        setCountry(info);
+        refreshTunerDevices(page, info, config.TunerHosts);
     }
 
-    function setCountry(info) {
-        ApiClient.getJSON(ApiClient.getUrl('LiveTv/ListingProviders/SchedulesDirect/Countries')).then(function (result) {
+    async function setCountry(info) {
+        const api = ServerConnections.getApi();
+
+        try {
+            const { data: result } = await getLiveTvApi(api).getSchedulesDirectCountries();
+
             let i;
             let length;
             const countryList = [];
@@ -115,16 +127,19 @@ export default function (page, providerId, options) {
                 return '<option value="' + c.value + '">' + c.name + '</option>';
             }).join('')).val(info.Country || '');
             page.querySelector('.txtZipCode').dispatchEvent(new Event('change'));
-        }, function () { // ApiClient.getJSON() error handler
+        } catch {
             Dashboard.alert({
                 message: globalize.translate('ErrorGettingTvLineups')
             });
-        });
+        }
+
         loading.hide();
     }
 
-    function submitLoginForm() {
+    async function submitLoginForm() {
         loading.show();
+
+        const api = ServerConnections.getApi();
         const info = {
             Type: 'SchedulesDirect',
             Username: page.querySelector('.txtUser').value,
@@ -132,31 +147,28 @@ export default function (page, providerId, options) {
             Password: page.querySelector('.txtPass').value
         };
         const id = providerId;
-
         if (id) {
             info.Id = id;
         }
 
-        ApiClient.ajax({
-            type: 'POST',
-            url: ApiClient.getUrl('LiveTv/ListingProviders', {
-                ValidateLogin: true
-            }),
-            data: JSON.stringify(info),
-            contentType: 'application/json',
-            dataType: 'json'
-        }).then(function (result) {
+        try {
+            const { data: result } = await getLiveTvApi(api).addListingProvider({
+                validateLogin: true,
+                listingsProviderInfo: info
+            });
+
             Dashboard.processServerConfigurationUpdateResult();
             providerId = result.Id;
             reload();
-        }, function () {
+        } catch {
+            loading.hide();
             Dashboard.alert({
                 message: globalize.translate('ErrorSavingTvProvider')
             });
-        });
+        }
     }
 
-    function submitListingsForm() {
+    async function submitListingsForm() {
         const selectedListingsId = page.querySelector('#selectListing').value;
 
         if (!selectedListingsId) {
@@ -167,60 +179,61 @@ export default function (page, providerId, options) {
         }
 
         loading.show();
+
+        const api = ServerConnections.getApi();
+        const { data: config } = await getSystemApi(api).getNamedConfiguration({ key: ConfigurationKey.LiveTv });
+
         const id = providerId;
-        ApiClient.getNamedConfiguration('livetv').then(function (config) {
-            const info = config.ListingProviders.filter(function (i) {
-                return i.Id === id;
-            })[0];
-            info.ZipCode = page.querySelector('.txtZipCode').value;
-            info.Country = page.querySelector('#selectCountry').value;
-            info.ListingsId = selectedListingsId;
-            info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
-            info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (i) {
-                return i.checked;
-            }).map(function (i) {
-                return i.getAttribute('data-id');
-            });
-            ApiClient.ajax({
-                type: 'POST',
-                url: ApiClient.getUrl('LiveTv/ListingProviders', {
-                    ValidateListings: true
-                }),
-                data: JSON.stringify(info),
-                contentType: 'application/json'
-            }).then(function () {
-                loading.hide();
-
-                if (options.showConfirmation) {
-                    Dashboard.processServerConfigurationUpdateResult();
-                }
-
-                Events.trigger(self, 'submitted');
-            }, function () {
-                loading.hide();
-                Dashboard.alert({
-                    message: globalize.translate('ErrorAddingListingsToSchedulesDirect')
-                });
-            });
+        const info = config.ListingProviders.filter(function (i) {
+            return i.Id === id;
+        })[0];
+        info.ZipCode = page.querySelector('.txtZipCode').value;
+        info.Country = page.querySelector('#selectCountry').value;
+        info.ListingsId = selectedListingsId;
+        info.EnableAllTuners = page.querySelector('.chkAllTuners').checked;
+        info.EnabledTuners = info.EnableAllTuners ? [] : $('.chkTuner', page).get().filter(function (i) {
+            return i.checked;
+        }).map(function (i) {
+            return i.getAttribute('data-id');
         });
+
+        try {
+            await getLiveTvApi(api).addListingProvider({
+                validateListings: true,
+                listingsProviderInfo: info
+            });
+
+            loading.hide();
+
+            if (options.showConfirmation) {
+                Dashboard.processServerConfigurationUpdateResult();
+            }
+
+            Events.trigger(self, 'submitted');
+        } catch {
+            loading.hide();
+            Dashboard.alert({
+                message: globalize.translate('ErrorAddingListingsToSchedulesDirect')
+            });
+        }
     }
 
-    function refreshListings(value) {
+    async function refreshListings(value) {
         if (!value) {
             page.querySelector('#selectListing').innerHTML = '';
             return;
         }
 
         loading.show();
-        ApiClient.ajax({
-            type: 'GET',
-            url: ApiClient.getUrl('LiveTv/ListingProviders/Lineups', {
-                Id: providerId,
-                Location: value,
-                Country: page.querySelector('#selectCountry').value
-            }),
-            dataType: 'json'
-        }).then(function (result) {
+
+        const api = ServerConnections.getApi();
+        try {
+            const { data: result } = await getLiveTvApi(api).getLineups({
+                id: providerId,
+                location: value,
+                country: page.querySelector('#selectCountry').value
+            });
+
             page.querySelector('#selectListing').innerHTML = result.map(function (o) {
                 return '<option value="' + o.Id + '">' + o.Name + '</option>';
             }).join('');
@@ -228,15 +241,14 @@ export default function (page, providerId, options) {
             if (listingsId) {
                 page.querySelector('#selectListing').value = listingsId;
             }
-
-            loading.hide();
-        }, function () {
+        } catch {
             Dashboard.alert({
                 message: globalize.translate('ErrorGettingTvLineups')
             });
             refreshListings('');
-            loading.hide();
-        });
+        }
+
+        loading.hide();
     }
 
     let listingsId;

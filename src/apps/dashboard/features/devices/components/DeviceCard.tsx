@@ -18,7 +18,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import SimpleAlert from 'components/SimpleAlert';
-import playmethodhelper from 'components/playback/playmethodhelper';
+import playMethodHelper from 'components/playback/playMethodHelper';
 import globalize from 'lib/globalize';
 import getSessionNowPlayingStreamInfo from '../../sessions/utils/getSessionNowPlayingStreamInfo';
 import { useSendPlayStateCommand } from '../../sessions/api/usePlayPauseSession';
@@ -82,7 +82,7 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
     }, []);
 
     const showPlaybackInfo = useCallback(() => {
-        const displayPlayMethod = playmethodhelper.getDisplayPlayMethod(device);
+        const displayPlayMethod = playMethodHelper.getDisplayPlayMethod(device);
 
         switch (displayPlayMethod) {
             case 'Remux':

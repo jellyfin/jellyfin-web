@@ -1,52 +1,51 @@
 import type { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import type { UserItemDataDto } from '@jellyfin/sdk/lib/generated-client/models/user-item-data-dto';
 
-import { ItemAction } from 'constants/itemAction';
-
-import type { NullableBoolean, NullableNumber, NullableString } from './base/common/shared/types';
+import type { ItemAction } from '@/constants/itemAction';
+import type { Nullable } from '@/types/nullable';
 
 export type AttributesOpts = {
     context?: CollectionType | string,
-    parentId?: NullableString,
-    collectionId?: NullableString,
-    playlistId?: NullableString,
-    prefix?: NullableString,
+    parentId?: Nullable<string>,
+    collectionId?: Nullable<string>,
+    playlistId?: Nullable<string>,
+    prefix?: Nullable<string>,
     action?: ItemAction | null,
-    itemServerId?: NullableString,
-    itemId?: NullableString,
-    itemTimerId?: NullableString,
-    itemSeriesTimerId?: NullableString,
-    itemChannelId?: NullableString,
-    itemPlaylistItemId?: NullableString,
-    itemType?: NullableString,
-    itemMediaType?: NullableString,
-    itemCollectionType?: NullableString,
-    itemIsFolder?: NullableBoolean,
-    itemPath?: NullableString,
-    itemStartDate?: NullableString,
-    itemEndDate?: NullableString,
+    itemServerId?: Nullable<string>,
+    itemId?: Nullable<string>,
+    itemTimerId?: Nullable<string>,
+    itemSeriesTimerId?: Nullable<string>,
+    itemChannelId?: Nullable<string>,
+    itemPlaylistItemId?: Nullable<string>,
+    itemType?: Nullable<string>,
+    itemMediaType?: Nullable<string>,
+    itemCollectionType?: Nullable<string>,
+    itemIsFolder?: Nullable<boolean>,
+    itemPath?: Nullable<string>,
+    itemStartDate?: Nullable<string>,
+    itemEndDate?: Nullable<string>,
     itemUserData?: UserItemDataDto
 };
 
 export type DataAttributes = {
-    'data-playlistitemid'?: NullableString;
-    'data-timerid'?: NullableString;
-    'data-seriestimerid'?: NullableString;
-    'data-serverid'?: NullableString;
-    'data-id'?: NullableString;
-    'data-type'?: NullableString;
-    'data-collectionid'?: NullableString;
-    'data-playlistid'?: NullableString;
-    'data-mediatype'?: NullableString;
-    'data-channelid'?: NullableString;
-    'data-path'?: NullableString;
-    'data-collectiontype'?: NullableString;
-    'data-context'?: NullableString;
-    'data-parentid'?: NullableString;
-    'data-startdate'?: NullableString;
-    'data-enddate'?: NullableString;
-    'data-prefix'?: NullableString;
+    'data-playlistitemid'?: Nullable<string>;
+    'data-timerid'?: Nullable<string>;
+    'data-seriestimerid'?: Nullable<string>;
+    'data-serverid'?: Nullable<string>;
+    'data-id'?: Nullable<string>;
+    'data-type'?: Nullable<string>;
+    'data-collectionid'?: Nullable<string>;
+    'data-playlistid'?: Nullable<string>;
+    'data-mediatype'?: Nullable<string>;
+    'data-channelid'?: Nullable<string>;
+    'data-path'?: Nullable<string>;
+    'data-collectiontype'?: Nullable<string>;
+    'data-context'?: Nullable<string>;
+    'data-parentid'?: Nullable<string>;
+    'data-startdate'?: Nullable<string>;
+    'data-enddate'?: Nullable<string>;
+    'data-prefix'?: Nullable<string>;
     'data-action'?: ItemAction | null;
-    'data-positionticks'?: NullableNumber;
-    'data-isfolder'?: NullableBoolean;
+    'data-positionticks'?: Nullable<number>;
+    'data-isfolder'?: Nullable<boolean>;
 };

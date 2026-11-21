@@ -290,5 +290,8 @@
     "LabelSlideshowIntervalHelp": "Masa dalam saat, setiap gambar dipaparkan dalam persembahan slaid.",
     "LabelBindToLocalNetworkAddress": "Pautkan ke alamat rangkaian tempatan",
     "LabelBirthYear": "Tahun kelahiran",
-    "ActivitiesLoadError": "Gagal untuk memuatkan aktiviti"
+    "ActivitiesLoadError": "Gagal untuk memuatkan aktiviti",
+    "BitmapSubtitleAspectModeContain": "Mengandungi",
+    "Alternate": "Silih berganti",
+    "AlwaysBurnInSubtitleWhenTranscoding": "Sentiasa terapkan sarikata secara kekal semasa melakukan transkod"
 }

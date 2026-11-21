@@ -7,8 +7,8 @@ import Box from '@mui/material/Box';
 import Sortable from 'sortablejs';
 import { type QueryKey, useQueryClient } from '@tanstack/react-query';
 
+import { usePlaylistsMoveItemMutation } from 'apps/modern/features/libraries/hooks/api/useMovePlaylistItem';
 import { useApi } from 'hooks/useApi';
-import { usePlaylistsMoveItemMutation } from 'hooks/useFetchItems';
 import Events, { type Event } from 'utils/events';
 import inputManager from 'scripts/inputManager';
 import dom from 'utils/dom';
@@ -69,6 +69,8 @@ const ItemsContainer: FC<PropsWithChildren<ItemsContainerProps>> = ({
     const unsubscribeRef = useRef<Array<() => void>>([]);
 
     const onClick = useCallback((e: MouseEvent) => {
+        if (e.defaultPrevented) return;
+
         const itemsContainer = itemsContainerRef.current as HTMLDivElement;
         const multiSelect = multiSelectref.current;
 

@@ -7,16 +7,18 @@ const useCurrentTab = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const searchParamsTab = searchParams.get('tab');
     const libraryId = searchParams.get('topParentId');
-    const settingsKey = location.pathname === '/livetv' ? 'livetv' : libraryId;
+    const collectionType = searchParams.get('collectionType');
+    const settingsKey = collectionType === 'livetv' ? 'livetv' : libraryId;
     const activeTab: number =
         searchParamsTab !== null ?
             parseInt(searchParamsTab, 10) :
-            getDefaultViewIndex(location.pathname, libraryId);
+            getDefaultViewIndex(location.pathname, settingsKey);
 
     return {
         searchParams,
         setSearchParams,
         libraryId,
+        collectionType,
         settingsKey,
         activeTab
     };

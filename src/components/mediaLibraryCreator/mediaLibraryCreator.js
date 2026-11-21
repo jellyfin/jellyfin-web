@@ -64,7 +64,7 @@ function onAddLibrary(e) {
 
     const libraryOptions = libraryoptionseditor.getLibraryOptions(dlg.querySelector('.libraryOptions'));
     libraryOptions.PathInfos = pathInfos;
-    ApiClient.addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
+    ServerConnections.currentApiClient().addVirtualFolder(name, type, currentOptions.refresh, libraryOptions).then(() => {
         hasChanges = true;
         isCreating = false;
         loading.hide();

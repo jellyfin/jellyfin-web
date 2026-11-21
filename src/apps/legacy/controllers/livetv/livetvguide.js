@@ -1,4 +1,5 @@
 import Guide from 'components/guide/guide';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 
 export default function (view, params, tabContent) {
     let guideInstance;
@@ -8,7 +9,7 @@ export default function (view, params, tabContent) {
         if (!guideInstance) {
             guideInstance = new Guide({
                 element: tabContent,
-                serverId: ApiClient.serverId()
+                serverId: ServerConnections.currentApiClient().serverId()
             });
         }
     };

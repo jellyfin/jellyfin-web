@@ -6,7 +6,7 @@ import { getReadableSize } from 'utils/file';
 
 import layoutManager from '../layoutManager';
 import { playbackManager } from '../playback/playbackmanager';
-import playMethodHelper from '../playback/playmethodhelper';
+import playMethodHelper from '../playback/playMethodHelper';
 import { pluginManager } from '../pluginManager';
 
 import 'elements/emby-button/paper-icon-button-light';

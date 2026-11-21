@@ -858,5 +858,6 @@
     "ActivitiesLoadError": "Kon nie aktiwiteite laai nie",
     "LabelExternalServerUri": "Eksterne URI",
     "ApiKeysLoadError": "Kon nie aktiwiteite laai nie",
-    "Authors": "Skrywers"
+    "Authors": "Skrywers",
+    "MessageItemMetadataLocked": "Hierdie item se metadata is gesluit. Ontsluit dit voordat jy die Identifiseer-funksie gebruik."
 }

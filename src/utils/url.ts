@@ -53,3 +53,20 @@ export const safeDecodeURIComponent = (value: string) => {
         return value;
     }
 };
+
+/**
+ * Test if a string is a valid http or https URL.
+ * @param value The value to test.
+ * @returns Whether the value is a URL or not.
+ */
+export const isValidUrl = (value: string) => {
+    let url;
+
+    try {
+        url = new URL(value);
+    } catch {
+        return false;
+    }
+
+    return url.protocol === 'http:' || url.protocol === 'https:';
+};

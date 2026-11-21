@@ -1,4 +1,9 @@
 import escapeHtml from 'escape-html';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { getCollectionApi } from '@jellyfin/sdk/lib/utils/api/collection-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
 import dom from '../../utils/dom';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import loading from '../loading/loading';
@@ -29,106 +34,93 @@ function onSubmit(e) {
 
     const collectionId = panel.querySelector('#selectCollectionToAddTo').value;
 
-    const apiClient = ServerConnections.getApiClient(currentServerId);
-
     if (collectionId) {
-        addToCollection(apiClient, panel, collectionId);
+        addToCollection(panel, collectionId);
     } else {
-        createCollection(apiClient, panel);
+        createCollection(panel);
     }
 
     e.preventDefault();
     return false;
 }
 
-function createCollection(apiClient, dlg) {
-    const url = apiClient.getUrl('Collections', {
-        Name: dlg.querySelector('#txtNewCollectionName').value,
-        IsLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
-        Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
+async function createCollection(dlg) {
+    const api = ServerConnections.getApi(currentServerId);
+    const ids = (dlg.querySelector('.fldSelectedItemIds').value || '').split(',');
+
+    const { data: result } = await getCollectionApi(api).createCollection({
+        name: dlg.querySelector('#txtNewCollectionName').value,
+        isLocked: !dlg.querySelector('#chkEnableInternetMetadata').checked,
+        ids
     });
 
-    apiClient.ajax({
-        type: 'POST',
-        url,
-        dataType: 'json'
-    }).then(result => {
-        loading.hide();
+    loading.hide();
 
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
+    dlg.submitted = true;
+    dialogHelper.close(dlg);
 
-        // The collection user view is only available after a collection is created.
-        // Ideally we would only invalidate if there are no other collections.
-        void queryClient.invalidateQueries({
-            queryKey: ['User', apiClient.getCurrentUserId(), 'Views']
-        });
-        // If a new collection is created, then trigger a refresh of the library views
-        Events.trigger(document, EventType.REFRESH_NEEDED);
-
-        redirectToCollection(apiClient, result.Id);
+    // The collection user view is only available after a collection is created.
+    // Ideally we would only invalidate if there are no other collections.
+    void queryClient.invalidateQueries({
+        queryKey: ['User', ServerConnections.getApiClient(currentServerId).getCurrentUserId(), 'Views']
     });
+    // If a new collection is created, then trigger a refresh of the library views
+    Events.trigger(document, EventType.REFRESH_NEEDED);
+
+    redirectToCollection(result.Id);
 }
 
-function redirectToCollection(apiClient, id) {
-    appRouter.showItem(id, apiClient.serverId());
+function redirectToCollection(id) {
+    appRouter.showItem(id, currentServerId);
 }
 
-function addToCollection(apiClient, dlg, id) {
-    const url = apiClient.getUrl(`Collections/${id}/Items`, {
+async function addToCollection(dlg, id) {
+    const api = ServerConnections.getApi(currentServerId);
+    const ids = (dlg.querySelector('.fldSelectedItemIds').value || '').split(',');
 
-        Ids: dlg.querySelector('.fldSelectedItemIds').value || ''
+    await getCollectionApi(api).addToCollection({
+        collectionId: id,
+        ids
     });
 
-    apiClient.ajax({
-        type: 'POST',
-        url: url
+    loading.hide();
 
-    }).then(() => {
-        loading.hide();
+    dlg.submitted = true;
+    dialogHelper.close(dlg);
 
-        dlg.submitted = true;
-        dialogHelper.close(dlg);
-
-        toast(globalize.translate('MessageItemsAdded'));
-    });
+    toast(globalize.translate('MessageItemsAdded'));
 }
 
 function triggerChange(select) {
     select.dispatchEvent(new CustomEvent('change', {}));
 }
 
-function populateCollections(panel) {
+async function populateCollections(panel) {
     loading.show();
 
     const select = panel.querySelector('#selectCollectionToAddTo');
-
     panel.querySelector('.newCollectionInfo').classList.add('hide');
 
-    const options = {
-
-        Recursive: true,
-        IncludeItemTypes: 'BoxSet',
-        SortBy: 'SortName',
-        EnableTotalRecordCount: false
-    };
-
-    const apiClient = ServerConnections.getApiClient(currentServerId);
-    apiClient.getItems(apiClient.getCurrentUserId(), options).then(result => {
-        let html = '';
-
-        html += `<option value="">${globalize.translate('OptionNew')}</option>`;
-
-        html += result.Items.map(i => {
-            return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
-        });
-
-        select.innerHTML = html;
-        select.value = '';
-        triggerChange(select);
-
-        loading.hide();
+    const api = ServerConnections.getApi(currentServerId);
+    const { data: result } = await getLibraryApi(api).getItems({
+        enableTotalRecordCount: false,
+        includeItemTypes: [BaseItemKind.BoxSet],
+        recursive: true,
+        sortBy: [ItemSortBy.SortName]
     });
+
+    let html = '';
+    html += `<option value="">${globalize.translate('OptionNew')}</option>`;
+
+    html += result.Items.map(i => {
+        return `<option value="${i.Id}">${escapeHtml(i.Name)}</option>`;
+    });
+
+    select.innerHTML = html;
+    select.value = '';
+    triggerChange(select);
+
+    loading.hide();
 }
 
 function getEditorHtml() {

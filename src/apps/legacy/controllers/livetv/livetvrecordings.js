@@ -2,6 +2,7 @@ import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
 import loading from 'components/loading/loading';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
 
 import 'scripts/livetvcomponents';
@@ -70,7 +71,7 @@ function onMoreClick() {
     const type = this.getAttribute('data-type');
 
     if (type === 'latest') {
-        Dashboard.navigate('list?type=Recordings&serverId=' + ApiClient.serverId());
+        Dashboard.navigate('list?type=Recordings&serverId=' + ServerConnections.currentApiClient().serverId());
     }
 }
 
@@ -91,14 +92,15 @@ export default function (view, params, tabContent) {
 
     self.preRender = function () {
         if (enableFullRender()) {
-            latestPromise = ApiClient.getLiveTvRecordings({
+            const apiClient = ServerConnections.currentApiClient();
+            latestPromise = apiClient.getLiveTvRecordings({
                 UserId: Dashboard.getCurrentUserId(),
                 Limit: 12,
                 Fields: 'CanDelete,PrimaryImageAspectRatio',
                 EnableTotalRecordCount: false,
                 EnableImageTypes: 'Primary,Thumb,Backdrop'
             });
-            foldersPromise = ApiClient.getRecordingFolders(Dashboard.getCurrentUserId());
+            foldersPromise = apiClient.getRecordingFolders(Dashboard.getCurrentUserId());
         }
     };
 

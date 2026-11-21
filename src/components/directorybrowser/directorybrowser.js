@@ -1,8 +1,12 @@
 import escapeHtml from 'escape-html';
+import { getEnvironmentApi } from '@jellyfin/sdk/lib/utils/api/environment-api';
+
 import loading from '../loading/loading';
 import dialogHelper from '../dialogHelper/dialogHelper';
 import dom from '../../utils/dom';
 import globalize from '../../lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+
 import '../listview/listview.scss';
 import '../../elements/emby-input/emby-input';
 import '../../elements/emby-button/paper-icon-button-light';
@@ -22,19 +26,22 @@ function refreshDirectoryBrowser(page, path, fileOptions, updatePathOnError) {
 
     loading.show();
 
+    const api = ServerConnections.getApi();
     const promises = [];
 
     if (path) {
-        promises.push(ApiClient.getDirectoryContents(path, fileOptions));
-        promises.push(ApiClient.getParentPath(path));
+        promises.push(
+            getEnvironmentApi(api).getDirectoryContents({ path, ...fileOptions }).then(({ data }) => data),
+            getEnvironmentApi(api).getParentPath({ path }).then(({ data }) => data)
+        );
     } else {
-        promises.push(ApiClient.getDrives());
+        promises.push(getEnvironmentApi(api).getDrives().then(({ data }) => data));
     }
 
     Promise.all(promises).then(
         responses => {
             const folders = responses[0];
-            const parentPath = (responses[1] ? JSON.parse(responses[1]) : '') || '';
+            const parentPath = responses[1] || '';
             let html = '';
 
             page.querySelector('.results').scrollTop = 0;
@@ -124,32 +131,31 @@ function alertTextWithOptions(options) {
     alert(options);
 }
 
-function validatePath(path, validateWriteable, apiClient) {
-    return apiClient.ajax({
-        type: 'POST',
-        url: apiClient.getUrl('Environment/ValidatePath'),
-        data: JSON.stringify({
-            ValidateWriteable: validateWriteable,
-            Path: path
-        }),
-        contentType: 'application/json'
-    }).catch(response => {
-        if (response) {
-            if (response.status === 404) {
-                alertText(globalize.translate('PathNotFound'));
-                return Promise.reject();
+async function validatePath(path, validateWriteable) {
+    const api = ServerConnections.getApi();
+    try {
+        await getEnvironmentApi(api).validatePath({
+            validatePathDto: {
+                ValidateWritable: validateWriteable,
+                Path: path
             }
-            if (response.status === 500) {
+        });
+    } catch (e) {
+        if (e.response) {
+            if (e.response.status === 404) {
+                alertText(globalize.translate('PathNotFound'));
+                throw e;
+            }
+            if (e.response.status === 500) {
                 if (validateWriteable) {
                     alertText(globalize.translate('WriteAccessRequired'));
                 } else {
                     alertText(globalize.translate('PathNotFound'));
                 }
-                return Promise.reject();
+                throw e;
             }
         }
-        return Promise.resolve();
-    });
+    }
 }
 
 function initEditor(content, options, fileOptions) {
@@ -182,7 +188,7 @@ function initEditor(content, options, fileOptions) {
     content.querySelector('form').addEventListener('submit', function(e) {
         if (options.callback) {
             const path = this.querySelector('#txtDirectoryPickerPath').value;
-            validatePath(path, options.validateWriteable, ApiClient)
+            validatePath(path, options.validateWriteable)
                 .then(options.callback(path))
                 .catch(() => { /* no-op */ });
         }
@@ -192,17 +198,17 @@ function initEditor(content, options, fileOptions) {
     });
 }
 
-function getDefaultPath(options) {
+async function getDefaultPath(options) {
     if (options.path) {
-        return Promise.resolve(options.path);
+        return options.path;
     } else {
-        return ApiClient.getJSON(ApiClient.getUrl('Environment/DefaultDirectoryBrowser')).then(
-            result => {
-                return result.Path || '';
-            }, () => {
-                return '';
-            }
-        );
+        const api = ServerConnections.getApi();
+        try {
+            const { data } = await getEnvironmentApi(api).getDefaultDirectoryBrowser();
+            return data.Path || '';
+        } catch {
+            return '';
+        }
     }
 }
 

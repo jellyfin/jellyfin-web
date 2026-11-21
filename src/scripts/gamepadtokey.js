@@ -50,6 +50,7 @@ const _GAMEPAD_LEFT_THUMBSTICK_LEFT_KEYCODE = 37;
 const _GAMEPAD_LEFT_THUMBSTICK_RIGHT_KEYCODE = 39;
 const _THUMB_STICK_THRESHOLD = 0.75;
 
+let _lastGamepad = -1;
 let _leftThumbstickUpPressed = false;
 let _leftThumbstickDownPressed = false;
 let _leftThumbstickLeftPressed = false;
@@ -257,22 +258,38 @@ let inputLoopTimer;
 function runInputLoop() {
     // Get the latest gamepad state.
     const gamepads = navigator.getGamepads(); /* eslint-disable-line compat/compat */
+
+    let lastGamepad = _lastGamepad;
+    _lastGamepad = -1;
+
+    if (!gamepads[lastGamepad]) lastGamepad = -1;
+
     for (let i = 0, len = gamepads.length; i < len; i++) {
+        if (lastGamepad >= 0 && i !== lastGamepad) {
+            continue;
+        }
+
         const gamepad = gamepads[i];
+
         if (!gamepad) {
             continue;
         }
+
         // Iterate through the axes
         const axes = gamepad.axes;
         const leftStickX = axes[0];
         const leftStickY = axes[1];
         if (leftStickX > _THUMB_STICK_THRESHOLD) { // Right
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickRight(true);
         } else if (leftStickX < -_THUMB_STICK_THRESHOLD) { // Left
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickLeft(true);
         } else if (leftStickY < -_THUMB_STICK_THRESHOLD) { // Up
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickUp(true);
         } else if (leftStickY > _THUMB_STICK_THRESHOLD) { // Down
+            _lastGamepad = i;
             _ButtonPressedState.setleftThumbstickDown(true);
         } else {
             _ButtonPressedState.setleftThumbstickLeft(false);
@@ -285,6 +302,8 @@ function runInputLoop() {
         for (let j = 0, buttonsLen = buttons.length; j < buttonsLen; j++) {
             if (ProcessedButtons.indexOf(j) !== -1) {
                 if (buttons[j].pressed) {
+                    _lastGamepad = i;
+
                     switch (j) {
                         case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
                             _ButtonPressedState.setdPadUp(true);
@@ -347,6 +366,8 @@ function runInputLoop() {
                 }
             }
         }
+
+        if (_lastGamepad >= 0) break;
     }
 }
 

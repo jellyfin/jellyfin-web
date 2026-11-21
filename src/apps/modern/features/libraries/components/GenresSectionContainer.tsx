@@ -6,9 +6,9 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
 
+import { useItems } from 'apps/modern/features/libraries/hooks/api/useItems';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
-import { useGetItems } from 'hooks/useFetchItems';
 import Loading from 'components/loading/LoadingComponent';
 import { appRouter } from 'components/router/appRouter';
 import SectionContainer from 'components/common/SectionContainer';
@@ -28,7 +28,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     itemType,
     genre
 }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const getParametersOptions = () => {
         return {
             sortBy: [ItemSortBy.Random],
@@ -48,13 +48,13 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         };
     };
 
-    const { isLoading, data: itemsResult } = useGetItems(getParametersOptions());
+    const { isLoading, data: itemsResult } = useItems(getParametersOptions());
 
     const getRouteUrl = (item: ItemDto) => {
         return appRouter.getRouteUrl(item, {
             context: collectionType,
-            parentId: parentId
-        });
+            parentId
+        }).substring(1);
     };
 
     if (isLoading) {
@@ -63,10 +63,8 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
 
     return <SectionContainer
         key={genre.Name}
-        sectionHeaderProps={{
-            title: genre.Name || '',
-            url: getRouteUrl(genre)
-        }}
+        title={genre.Name || ''}
+        url={getRouteUrl(genre)}
         items={itemsResult?.Items}
         cardOptions={{
             scalable: true,
@@ -77,7 +75,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             shape: collectionType === CollectionType.Music ? CardShape.SquareOverflow : CardShape.PortraitOverflow,
             showParentTitle: collectionType === CollectionType.Music,
             showYear: collectionType !== CollectionType.Music,
-            serverId: __legacyApiClient__?.serverId()
+            serverId
         }}
     />;
 };

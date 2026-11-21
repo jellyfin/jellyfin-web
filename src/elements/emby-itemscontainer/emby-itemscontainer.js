@@ -1,17 +1,18 @@
+import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import 'webcomponents.js/webcomponents-lite';
 import Sortable from 'sortablejs';
 
-import itemShortcuts from '../../components/shortcuts';
-import inputManager from '../../scripts/inputManager';
-import { playbackManager } from '../../components/playback/playbackmanager';
-import imageLoader from '../../components/images/imageLoader';
-import layoutManager from '../../components/layoutManager';
-import browser from '../../scripts/browser';
-import dom from '../../utils/dom';
-import loading from '../../components/loading/loading';
-import focusManager from '../../components/focusManager';
+import focusManager from 'components/focusManager';
+import imageLoader from 'components/images/imageLoader';
+import layoutManager from 'components/layoutManager';
+import loading from 'components/loading/loading';
+import { playbackManager } from 'components/playback/playbackmanager';
+import itemShortcuts from 'components/shortcuts';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
-import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import browser from 'scripts/browser';
+import inputManager from 'scripts/inputManager';
+import dom from 'utils/dom';
+import Events from 'utils/events';
 
 const ItemsContainerPrototype = Object.create(HTMLDivElement.prototype);
 
@@ -290,19 +291,16 @@ ItemsContainerPrototype.attachedCallback = function () {
 
     itemShortcuts.on(this, getShortcutOptions());
 
-    const subscribeToApiClient = (apiClient) => [
+    const subscribeToApiClient = apiClient => apiClient ? [
         apiClient.subscribe([OutboundWebSocketMessageType.UserDataChanged], (msg) => onUserDataChanged(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.TimerCreated], (msg) => onTimerCreated(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCreated], (msg) => onSeriesTimerCreated(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.TimerCancelled], (msg) => onTimerCancelled(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.SeriesTimerCancelled], (msg) => onSeriesTimerCancelled(msg, this)),
         apiClient.subscribe([OutboundWebSocketMessageType.LibraryChanged], (msg) => onLibraryChanged(msg, this))
-    ].filter(Boolean);
+    ].filter(Boolean) : [];
 
-    this._wsApiClientCreatedHandler = (e, newApiClient) => {
-        this._wsUnsubscribers = (this._wsUnsubscribers ?? []).concat(subscribeToApiClient(newApiClient));
-    };
-    this._wsUnsubscribers = ServerConnections.getApiClients().flatMap(subscribeToApiClient);
+    this._wsUnsubscribers = subscribeToApiClient(ServerConnections.currentApiClient());
 
     addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 
@@ -326,9 +324,6 @@ ItemsContainerPrototype.detachedCallback = function () {
         unsub();
     });
     this._wsUnsubscribers = [];
-    if (this._wsApiClientCreatedHandler) {
-        this._wsApiClientCreatedHandler = null;
-    }
 
     removeNotificationEvent(this, 'playbackstop', playbackManager);
 

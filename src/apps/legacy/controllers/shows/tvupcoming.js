@@ -1,3 +1,8 @@
+import { isYesterday } from 'date-fns';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
+
+import { getUpcomingEpisodesQuery } from '@/apps/modern/features/libraries/hooks/api/useUpcomingEpisodes';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
@@ -5,6 +10,8 @@ import layoutManager from 'components/layoutManager';
 import loading from 'components/loading/loading';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
+import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from '@/utils/query/queryClient';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -12,22 +19,21 @@ import 'styles/scrollstyles.scss';
 
 function getUpcomingPromise(context, params) {
     loading.show();
-    const query = {
-        Limit: 48,
-        Fields: 'AirTime',
-        UserId: ApiClient.getCurrentUserId(),
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-        EnableTotalRecordCount: false
-    };
-    query.ParentId = params.topParentId;
-    return ApiClient.getJSON(ApiClient.getUrl('Shows/Upcoming', query));
+    const api = ServerConnections.getApi();
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
+
+    return queryClient.query(getUpcomingEpisodesQuery(api, {
+        userId,
+        parentId: params.topParentId,
+        limit: 48,
+        fields: [ItemFields.AirTime],
+        imageTypeLimit: 1,
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Thumb]
+    }));
 }
 
 function loadUpcoming(context, params, promise) {
-    promise.then(function (result) {
-        const items = result.Items;
-
+    promise.then(items => {
         if (items.length) {
             context.querySelector('.noItemsMessage').style.display = 'none';
         } else {
@@ -55,7 +61,7 @@ function renderUpcoming(elem, items) {
         if (item.PremiereDate) {
             try {
                 const premiereDate = datetime.parseISO8601Date(item.PremiereDate, true);
-                dateText = datetime.isRelativeDay(premiereDate, -1) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
+                dateText = isYesterday(premiereDate) ? globalize.translate('Yesterday') : datetime.toLocaleDateString(premiereDate, {
                     weekday: 'long',
                     month: 'short',
                     day: 'numeric'
@@ -135,4 +141,3 @@ export default function (view, params, tabContent) {
         loadUpcoming(tabContent, params, upcomingPromise);
     };
 }
-

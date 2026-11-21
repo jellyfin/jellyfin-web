@@ -1,4 +1,5 @@
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getVideoApi } from '@jellyfin/sdk/lib/utils/api/video-api';
 
 import { AppFeature } from 'constants/appFeature';
 import { EventType } from 'constants/eventType';
@@ -312,7 +313,7 @@ function showMenuForSelectedItems(e) {
                                 dispatchNeedsRefresh();
                                 break;
                             case 'groupvideos':
-                                combineVersions(apiClient, items);
+                                combineVersions(items);
                                 break;
                             case 'markplayed':
                                 items.forEach(itemId => {
@@ -366,8 +367,8 @@ function dispatchNeedsRefresh() {
     Events.trigger(document, EventType.REFRESH_NEEDED);
 }
 
-function combineVersions(apiClient, selection) {
-    if (selection.length < 2) {
+async function combineVersions(ids) {
+    if (ids.length < 2) {
         alert({
             text: globalize.translate('PleaseSelectTwoItems')
         });
@@ -377,16 +378,12 @@ function combineVersions(apiClient, selection) {
 
     loading.show();
 
-    apiClient.ajax({
+    const api = ServerConnections.getApi();
+    await getVideoApi(api).mergeVersions({ ids });
 
-        type: 'POST',
-        url: apiClient.getUrl('Videos/MergeVersions', { Ids: selection.join(',') })
-
-    }).then(() => {
-        loading.hide();
-        hideSelections();
-        dispatchNeedsRefresh();
-    });
+    loading.hide();
+    hideSelections();
+    dispatchNeedsRefresh();
 }
 
 function showSelections(initialCard, addInitialCheck) {

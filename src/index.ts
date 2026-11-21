@@ -1,0 +1,270 @@
+// Load the polyfills before anything else. This file must stay free of JSX: TypeScript hoists the
+// synthetic `react/jsx-runtime` import above every other import of a module that uses JSX, and
+// React 18 calls `Symbol.for` as soon as it loads, which throws in browsers without a native Symbol
+// (Chrome < 38) when core-js has not run yet.
+import '@/lib/legacy';
+
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+// NOTE: We need to import this first to initialize the connection
+import { ServerConnections } from '@/lib/jellyfin-apiclient';
+
+import { appHost } from '@/components/apphost';
+import autoFocuser from '@/components/autoFocuser';
+import loading from '@/components/loading/loading';
+import { pluginManager } from '@/components/pluginManager';
+import { appRouter } from '@/components/router/appRouter';
+import { AppFeature } from '@/constants/appFeature';
+import { EventType } from '@/constants/eventType';
+import globalize from '@/lib/globalize';
+import { loadCoreDictionary } from '@/lib/globalize/loader';
+import getServerAddress from '@/lib/jellyfin-apiclient/utils/getServerAddress';
+import { initialize as initializeAutoCast } from '@/scripts/autocast';
+import browser from '@/scripts/browser';
+import keyboardNavigation from '@/scripts/keyboardNavigation';
+import { getPlugins } from '@/scripts/settings/webSettings';
+import taskButton from '@/scripts/taskbutton';
+import { pageClassOn, serverAddress } from '@/utils/dashboard';
+import Events from '@/utils/events';
+import { updateApiClientSdk } from '@/lib/jellyfin-apiclient/utils/compat';
+import { unregisterServiceWorkers } from '@/utils/serviceWorker';
+import { initializeServerConnections } from '@/scripts/serverNotifications';
+
+import RootApp from '@/RootApp';
+
+// Import the button webcomponent for use throughout the site
+// NOTE: This is a bit of a hack, files should ensure the component is imported before use
+import '@/elements/emby-button/emby-button';
+
+// Import auto-running components
+// NOTE: This is an anti-pattern
+import '@/components/playback/displayMirrorManager';
+import '@/components/playback/playerSelectionMenu';
+import '@/components/themeMediaPlayer';
+import '@/scripts/mouseManager';
+import '@/scripts/screensavermanager';
+
+// Import site styles
+import '@/styles/site.scss';
+import '@/styles/livetv.scss';
+import '@/styles/dashboard.scss';
+import '@/styles/detailtable.scss';
+import '@/styles/librarybrowser.scss';
+
+let root: ReturnType<typeof createRoot> | undefined;
+
+async function init() {
+    // TODO: Remove this cleanup after users have migrated away from the service worker.
+    void unregisterServiceWorkers();
+
+    // Log current version to console to help out with issue triage and debugging
+    console.info(
+        `[${__PACKAGE_JSON_NAME__}]
+version: ${__PACKAGE_JSON_VERSION__}
+commit: ${__COMMIT_SHA__}
+build: ${__JF_BUILD_VERSION__}`);
+
+    // Register globals used in plugins
+    window.Events = Events;
+    window.TaskButton = taskButton;
+
+    // Register handlers to update header classes
+    pageClassOn('viewshow', 'standalonePage', function () {
+        document.querySelector('.skinHeader')?.classList.add('noHeaderRight');
+    });
+    pageClassOn('viewhide', 'standalonePage', function () {
+        document.querySelector('.skinHeader')?.classList.remove('noHeaderRight');
+    });
+
+    // Initialize app host
+    await appHost.init();
+
+    // Find the correct server URL
+    const lastServer = ServerConnections.getLastUsedServer();
+    let serverUrl;
+    if (lastServer) {
+        serverUrl = getServerAddress(lastServer);
+    } else {
+        serverUrl = await serverAddress();
+    }
+    // Initialize the api client
+    if (serverUrl) ServerConnections.initApiClient(serverUrl);
+
+    // Initialize automatic (default) cast target
+    initializeAutoCast();
+
+    // Load the translation dictionary
+    await loadCoreDictionary();
+    // Update localization on user changes
+    Events.on(ServerConnections, 'localusersignedin', globalize.updateCurrentCulture);
+    Events.on(ServerConnections, 'localusersignedout', globalize.updateCurrentCulture);
+    // Update sdk language on language changes
+    Events.on(document, EventType.LANGUAGE_CHANGE, () => {
+        ServerConnections.getCurrentApiClientAsync()
+            .then(updateApiClientSdk)
+            .catch(err => {
+                console.error('Failed to update ApiClient SDK on language change', err);
+            });
+    });
+
+    // Load the font styles
+    await loadFonts();
+
+    // Load iOS specific styles
+    if (browser.iOS) {
+        await import('@/styles/ios.scss');
+    }
+
+    // Load frontend plugins
+    await loadPlugins();
+
+    // Register API request error handlers
+    ServerConnections.getApiClients().forEach(apiClient => {
+        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
+        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
+    });
+    Events.on(ServerConnections, 'apiclientcreated', (_e, apiClient) => {
+        Events.off(apiClient, 'requestfail', appRouter.onRequestFail);
+        Events.on(apiClient, 'requestfail', appRouter.onRequestFail);
+    });
+
+    // Start server notifications
+    initializeServerConnections();
+
+    // Render the app
+    await renderApp();
+
+    // Load platform specific features
+    await loadPlatformFeatures();
+
+    // Enable navigation controls
+    keyboardNavigation.enable();
+    autoFocuser.enable();
+}
+
+async function loadFonts() {
+    if (browser.tv && !browser.android) {
+        console.debug('using system fonts with explicit sizes');
+        await import('@/styles/fonts.sized.scss');
+    } else if (__USE_SYSTEM_FONTS__) {
+        console.debug('using system fonts');
+        await import('@/styles/fonts.scss');
+    } else {
+        console.debug('using default fonts');
+        await Promise.all([
+            import('@/styles/fonts.scss'),
+            import('@/styles/fonts.noto.scss')
+        ]);
+    }
+}
+
+async function loadPlugins() {
+    console.groupCollapsed('loading installed plugins');
+    console.dir(pluginManager);
+
+    let list = await getPlugins();
+    if (!appHost.supports(AppFeature.RemoteControl)) {
+        // Disable remote player plugins if not supported
+        list = list.filter(plugin => !plugin.startsWith('sessionPlayer')
+            && !plugin.startsWith('chromecastPlayer'));
+    } else if (!browser.chrome && !browser.edgeChromium && !browser.opera) {
+        // Disable chromecast player in unsupported browsers
+        list = list.filter(plugin => !plugin.startsWith('chromecastPlayer'));
+    }
+
+    // add any native plugins
+    if (window.NativeShell) {
+        list = list.concat(window.NativeShell.getPlugins());
+    }
+
+    try {
+        await Promise.all(list.map(plugin => pluginManager.loadPlugin(plugin)));
+        console.debug('finished loading plugins');
+    } catch (e) {
+        console.warn('failed loading plugins', e);
+    }
+
+    console.groupEnd();
+}
+
+async function loadPlatformFeatures() {
+    if (!browser.tv && !browser.xboxOne && !browser.ps4) {
+        await import('@/components/nowPlayingBar/nowPlayingBar');
+    }
+
+    if (appHost.supports(AppFeature.RemoteControl)) {
+        await Promise.all([
+            import('@/components/playback/playerSelectionMenu'),
+            import('@/components/playback/remotecontrolautoplay')
+        ]);
+    }
+
+    if (!appHost.supports(AppFeature.PhysicalVolumeControl) || browser.touch) {
+        await import('@/components/playback/volumeosd');
+    }
+
+    if (!browser.tv && !browser.xboxOne) {
+        await import('@/components/playback/playbackorientation');
+
+        if (window.Notification) {
+            await import('@/components/notifications/notifications');
+        }
+    }
+}
+
+async function renderApp() {
+    const container = document.getElementById('reactRoot');
+    if (!container) {
+        throw new Error('reactRoot element not found');
+    }
+
+    // Remove the splash logo
+    container.innerHTML = '';
+
+    loading.show();
+
+    root = createRoot(container);
+    root.render(React.createElement(RootApp));
+}
+
+init().catch(error => {
+    console.error('Fatal error during initialization', error);
+
+    loading.hide();
+    root?.unmount();
+    root = undefined;
+
+    const container = document.getElementById('reactRoot') ?? document.body;
+    container.innerHTML = '';
+
+    const errorPage = document.createElement('main');
+    errorPage.className = 'page mainAnimatedPage standalonePage';
+    errorPage.dataset.role = 'page';
+    errorPage.setAttribute('role', 'alert');
+
+    const errorContent = document.createElement('div');
+    errorContent.className = 'padded-left padded-right';
+
+    const title = document.createElement('h1');
+    title.textContent = 'Jellyfin Web failed to start';
+
+    const description = document.createElement('p');
+    description.textContent = 'The application could not finish starting. Reload the page to try again.';
+
+    const errorDetails = document.createElement('pre');
+    errorDetails.textContent = error instanceof Error ? `${error.name}: ${error.message || error.toString()}` : String(error);
+
+    const reloadButton = document.createElement('button');
+    reloadButton.type = 'button';
+    reloadButton.className = 'emby-button raised';
+    reloadButton.textContent = 'Reload';
+    reloadButton.addEventListener('click', () => window.location.reload());
+
+    errorContent.appendChild(title);
+    errorContent.appendChild(description);
+    errorContent.appendChild(errorDetails);
+    errorContent.appendChild(reloadButton);
+    errorPage.appendChild(errorContent);
+    container.appendChild(errorPage);
+});

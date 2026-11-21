@@ -158,7 +158,7 @@ class ViewManager {
 
     tryRestoreView(options, onViewChanging) {
         if (options.cancel) {
-            return Promise.reject({ cancelled: true });
+            return Promise.reject(Object.assign(new Error('operation cancelled'), { cancelled: true }));
         }
 
         // Record the element that has focus
