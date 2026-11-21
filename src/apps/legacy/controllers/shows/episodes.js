@@ -8,6 +8,7 @@ import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Events from 'utils/events';
 import { setFilterStatus } from 'components/filterdialog/filterIndicator';
+import { playbackManager } from 'components/playback/playbackmanager';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -41,6 +42,23 @@ export default function (view, params, tabContent) {
         }
 
         return pageData;
+    }
+
+    function play(type) {
+        isLoading = true;
+        loading.show();
+        const query = getQuery();
+        let newQuery = { ...query, StartIndex: 0, Limit: 100 };
+        if (type === 'Shuffle') newQuery = { ...newQuery, SortBy: 'Random' };
+        const apiClient = ServerConnections.currentApiClient();
+        return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
+            playbackManager.play({
+                items: Items,
+                autoplay: true
+            });
+        }).finally(() => {
+            isLoading = false;
+        });
     }
 
     function getQuery() {
@@ -157,6 +175,10 @@ export default function (view, params, tabContent) {
             itemsContainer.innerHTML = html;
             imageLoader.lazyChildren(itemsContainer);
             userSettings.saveQuerySettings(getSavedQueryKey(), query);
+
+            tabContent.querySelector('.btnPlayAll')?.classList.toggle('hide', result.TotalRecordCount < 1);
+            tabContent.querySelector('.btnShuffle')?.classList.toggle('hide', result.TotalRecordCount < 1);
+
             loading.hide();
             isLoading = false;
 
@@ -237,6 +259,13 @@ export default function (view, params, tabContent) {
             userSettings.saveViewSetting(getSavedQueryKey(), viewStyle);
             onViewStyleChange();
             reloadItems(tabElement);
+        });
+
+        tabElement.querySelector('.btnPlayAll')?.addEventListener('click', () => {
+            play('PlayAll');
+        });
+        tabElement.querySelector('.btnShuffle')?.addEventListener('click', () => {
+            play('Shuffle');
         });
     }
 
