@@ -5,14 +5,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1000;
-    text-align: center;
+    // above video OSD overlays (skip button: 10000, icon OSD: 100000), below dialogs (999998+)
+    z-index: 900000;
 }
 
 .logoScreenSaverImage {
+    width: 120px;
     height: 120px;
     position: absolute;
     top: 50%;
+    left: 50%;
     margin-top: -60px;
-    margin-left: -197px;
+    margin-left: -60px;
 }
