@@ -629,6 +629,7 @@ export default function (view) {
         if (loadingTimeout) {
             clearTimeout(loadingTimeout);
             loadingTimeout = null;
+            loading.hide();
         }
 
         destroyStats();
