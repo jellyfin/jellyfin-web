@@ -45,7 +45,7 @@ function init(instance) {
             let inputOffset = /[-+]?\d+\.?\d*/g.exec(this.textContent);
             if (inputOffset) {
                 inputOffset = inputOffset[0];
-                inputOffset = parseFloat(inputOffset);
+                inputOffset = Number.parseFloat(inputOffset);
 
                 subtitleSyncSlider.updateOffset(inputOffset);
             } else {
@@ -73,7 +73,7 @@ function init(instance) {
     };
 
     function updateSubtitleOffset() {
-        const value = parseFloat(subtitleSyncSlider.value);
+        const value = Number.parseFloat(subtitleSyncSlider.value);
         // set new offset
         playbackManager.setSubtitleOffset(value, player);
         // synchronize with textField value
@@ -91,7 +91,7 @@ function init(instance) {
 
     subtitleSyncSlider.getBubbleHtml = function (_, value) {
         return '<h1 class="sliderBubbleText">'
-            + (value > 0 ? '+' : '') + parseFloat(value) + 's'
+            + (value > 0 ? '+' : '') + Number.parseFloat(value) + 's'
             + '</h1>';
     };
 
@@ -155,7 +155,7 @@ class SubtitleSync {
     update(offset) {
         this.toggle();
 
-        const value = parseFloat(subtitleSyncSlider.value) + offset;
+        const value = Number.parseFloat(subtitleSyncSlider.value) + offset;
         subtitleSyncSlider.updateOffset(value);
     }
 

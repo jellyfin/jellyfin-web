@@ -23,7 +23,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const formData = await request.formData();
 
     const bitrateLimit = formData.get('StreamingBitrateLimit')?.toString();
-    config.RemoteClientBitrateLimit = Math.trunc(1e6 * parseFloat(bitrateLimit || '0'));
+    config.RemoteClientBitrateLimit = Math.trunc(1e6 * Number.parseFloat(bitrateLimit || '0'));
 
     await getSystemApi(api)
         .updateConfiguration({ serverConfiguration: config });
