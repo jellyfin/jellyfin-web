@@ -744,6 +744,8 @@
     "LabelChapterImageResolution": "Resolution",
     "LabelChapterImageResolutionHelp": "The resolution of the extracted chapter images. Changing this will have no effect on existing dummy chapters.",
     "LabelDynamicExternalId": "{0} Id",
+    "LabelEnableAlbumSpecificImageExtraction": "Allow different covers for albums with the same name",
+    "LabelEnableAlbumSpecificImageExtractionHelp": "Keep embedded covers separate for albums with the same name and artist. This may slow down library scans. Refresh metadata with image replacement to update existing covers.",
     "LabelEnableAudioVbr": "Enable VBR audio encoding",
     "LabelEnableAudioVbrHelp": "Variable bitrate offers better quality to average bitrate ratio, but in some rare cases may cause buffering and compatibility issues.",
     "LabelEnableHardwareDecodingFor": "Enable hardware decoding for",
