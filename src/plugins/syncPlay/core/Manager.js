@@ -37,6 +37,7 @@ class Manager {
         this.queuedCommand = null; // Queued playback command, applied when SyncPlay is ready.
         this.followingGroupPlayback = true; // Follow or ignore group playback.
         this.lastPlaybackCommand = null; // Last received playback command from server, tracks state of group.
+        this.awaitingGroupJoin = false; // This client asked to create or join a group and awaits the reply.
 
         this.currentPlayer = null;
         this.playerWrapper = null;
@@ -183,12 +184,32 @@ class Manager {
     }
 
     /**
+     * Marks this client as the one that asked to create or join a group.
+     * @param {Promise} request The create or join request.
+     */
+    expectGroupJoin(request) {
+        this.awaitingGroupJoin = true;
+
+        Promise.resolve(request).catch(() => {
+            this.awaitingGroupJoin = false;
+        });
+    }
+
+    /**
      * Handles a group update from the server.
      * @param {Object} cmd The group update.
      * @param {Object} apiClient The ApiClient.
      */
     processGroupUpdate(cmd, apiClient) {
         console.debug('[SyncPlay.Manager] processGroupUpdate:', cmd);
+
+        // Every client of a session (e.g. other tabs sharing the device id) gets the group's updates,
+        // so only the client that is in the group, or that asked to join one, may act on them.
+        if (!this.isSyncPlayEnabled() && !this.awaitingGroupJoin) {
+            console.debug('[SyncPlay.Manager] processGroupUpdate: not in a group, ignoring update.', cmd);
+            return;
+        }
+
         switch (cmd.Type) {
             case 'PlayQueue':
                 this.queueCore.updatePlayQueue(apiClient, cmd.Data);
@@ -210,11 +231,13 @@ class Manager {
                 Events.trigger(this, 'group-update', [{ ...this.groupInfo }]);
                 break;
             case 'GroupJoined':
+                this.awaitingGroupJoin = false;
                 cmd.Data.LastUpdatedAt = new Date(cmd.Data.LastUpdatedAt);
                 this.enableSyncPlay(apiClient, cmd.Data, true);
                 Events.trigger(this, 'group-update', [ cmd.Data ]);
                 break;
             case 'SyncPlayIsDisabled':
+                this.awaitingGroupJoin = false;
                 toast(globalize.translate('MessageSyncPlayIsDisabled'));
                 break;
             case 'NotInGroup':
@@ -231,15 +254,19 @@ class Manager {
                 Events.trigger(this, 'group-state-update', [cmd.Data.State, cmd.Data.Reason]);
                 break;
             case 'GroupDoesNotExist':
+                this.awaitingGroupJoin = false;
                 toast(globalize.translate('MessageSyncPlayGroupDoesNotExist'));
                 break;
             case 'CreateGroupDenied':
+                this.awaitingGroupJoin = false;
                 toast(globalize.translate('MessageSyncPlayCreateGroupDenied'));
                 break;
             case 'JoinGroupDenied':
+                this.awaitingGroupJoin = false;
                 toast(globalize.translate('MessageSyncPlayJoinGroupDenied'));
                 break;
             case 'LibraryAccessDenied':
+                this.awaitingGroupJoin = false;
                 toast(globalize.translate('MessageSyncPlayLibraryAccessDenied'));
                 break;
             default:
