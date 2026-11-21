@@ -8,6 +8,7 @@ import layoutManager from '../../../components/layoutManager';
 import Page from '../../../components/Page';
 import { EventType } from 'constants/eventType';
 import Events from 'utils/events';
+import { importLegacyController } from 'utils/moduleLoaders';
 
 import '../../../elements/emby-tabs/emby-tabs';
 import '../../../elements/emby-button/emby-button';
@@ -71,7 +72,7 @@ const Home = () => {
                 depends = 'favorites';
         }
 
-        return import(/* webpackChunkName: "[request]" */ `../../../apps/legacy/controllers/${depends}`).then(({ default: ControllerFactory }) => {
+        return importLegacyController(depends).then(({ default: ControllerFactory }) => {
             let controller = tabControllers[index];
 
             if (!controller) {

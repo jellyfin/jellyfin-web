@@ -10,6 +10,7 @@ import inputManager from 'scripts/inputManager';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
+import { importLegacyController } from 'utils/moduleLoaders';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-tabs/emby-tabs';
@@ -265,7 +266,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../livetv/${depends}`).then(({ default: ControllerFactory }) => {
+        importLegacyController(`livetv/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 0) {

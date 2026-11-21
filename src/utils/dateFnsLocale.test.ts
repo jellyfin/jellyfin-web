@@ -2,6 +2,19 @@ import { describe, expect, it } from 'vitest';
 import * as dateFnsLocale from './dateFnsLocale';
 
 describe('Utils: dateFnsLocale', () => {
+    describe('Constant: LOCALE_MAP', () => {
+        it.each([ ...new Set(Object.values(dateFnsLocale.LOCALE_MAP)) ])('Should have an importer for "%s"', async (localeName) => {
+            const { code } = await dateFnsLocale.fetchLocale(localeName);
+            expect(code).toEqual(localeName);
+        });
+    });
+
+    describe('Function: fetchLocale', () => {
+        it('Should reject a locale that has no importer', async () => {
+            await expect(dateFnsLocale.fetchLocale('xx-XX')).rejects.toThrow('Unsupported date-fns locale: xx-XX');
+        });
+    });
+
     describe('Function: getLocale', () => {
         it('Should return "en-US" by default', () => {
             const { code } = dateFnsLocale.getLocale();

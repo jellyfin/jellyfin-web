@@ -14,6 +14,7 @@ import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
+import { importLegacyController } from 'utils/moduleLoaders';
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 
@@ -269,7 +270,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../shows/${depends}`).then(({ default: ControllerFactory }) => {
+        importLegacyController(`shows/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === 1) {
