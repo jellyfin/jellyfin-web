@@ -162,6 +162,10 @@ function disconnectFromPlayer(currentDeviceName) {
             // dialog closed
         });
     } else {
+        const player = playbackManager.getCurrentPlayer();
+        if (player && !player.isLocalPlayer) {
+            playbackManager.stop(player);
+        }
         playbackManager.setDefaultPlayerActive();
     }
 }
