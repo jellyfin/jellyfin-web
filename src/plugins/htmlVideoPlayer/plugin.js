@@ -43,6 +43,7 @@ import { setBackdropTransparency, TRANSPARENCY_LEVEL } from '../../components/ba
 import Events from '../../utils/events.ts';
 import { includesAny } from '../../utils/container.ts';
 import { isHls } from '../../utils/mediaSource.ts';
+import { findAudioTrackPosition } from '../../utils/audioTracks.ts';
 
 const NATIVE_UNSUPPORTED_SUBTITLE_CODECS = ['ssa', 'ass', 'pgssub', 'dvdsub', 'vobsub'];
 const ASS_SUBTITLE_CODECS = ['ssa', 'ass'];
@@ -898,20 +899,6 @@ export class HtmlVideoPlayer {
             return;
         }
 
-        let audioIndex = -1;
-
-        for (const stream of streams) {
-            audioIndex++;
-
-            if (stream.Index === index) {
-                break;
-            }
-        }
-
-        if (audioIndex === -1) {
-            return;
-        }
-
         const elem = this.#mediaElement;
         if (!elem) {
             return;
@@ -924,6 +911,11 @@ export class HtmlVideoPlayer {
          */
         const elemAudioTracks = elem.audioTracks || [];
         console.debug(`found ${elemAudioTracks.length} audio tracks`);
+
+        const audioIndex = findAudioTrackPosition(elemAudioTracks, streams, index);
+        if (audioIndex === -1) {
+            return;
+        }
 
         for (const [i, audioTrack] of Array.from(elemAudioTracks).entries()) {
             if (audioIndex === i) {
