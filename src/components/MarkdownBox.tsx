@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box/Box';
-import DOMPurify from 'dompurify';
-import markdownIt from 'markdown-it';
 import React, { type FC } from 'react';
+
+import { markdownToHtml } from 'utils/markdown';
 
 interface MarkdownBoxProps {
     markdown?: string | null
@@ -16,8 +16,7 @@ const MarkdownBox: FC<MarkdownBoxProps> = ({
     <Box
         dangerouslySetInnerHTML={
             markdown ?
-                // eslint-disable-next-line sonarjs/disabled-auto-escaping
-                { __html: DOMPurify.sanitize(markdownIt({ html: true }).render(markdown)) } :
+                { __html: markdownToHtml(markdown) } :
                 undefined
         }
         sx={{
