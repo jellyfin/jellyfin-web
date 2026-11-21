@@ -1,8 +1,25 @@
-import { QueryCache, QueryClient } from '@tanstack/react-query';
+import { defaultShouldDehydrateQuery, type Query, QueryCache, QueryClient } from '@tanstack/react-query';
 import type { PersistedClient, Persister } from '@tanstack/react-query-persist-client';
 import { get, set, del } from 'idb-keyval';
 
 // TODO: Move this file to lib/query
+
+/** Custom metadata supported by queries. */
+export interface QueryMeta extends Record<string, unknown> {
+    /** Set to false to exclude a query from the persisted cache, e.g. if its key or data contains secrets. */
+    persist?: boolean
+    /**
+     * Set to false to keep the error of a query that fails with 401 instead of replacing its data, e.g. for a
+     * query made before signing in, where 401 is an answer rather than an expired session.
+     */
+    clearOnUnauthorized?: boolean
+}
+
+declare module '@tanstack/react-query' {
+    interface Register {
+        queryMeta: QueryMeta
+    }
+}
 
 /** HTTP status code for unauthorized requests. */
 const HTTP_UNAUTHORIZED = 401;
@@ -19,8 +36,8 @@ export let queryClient: QueryClient;
 
 /** Query cache for handling query errors and side effects. */
 const queryCache = new QueryCache({
-    onError: (error, { queryKey }) => {
-        if (!queryClient) return;
+    onError: (error, { queryKey, meta }) => {
+        if (!queryClient || meta?.clearOnUnauthorized === false) return;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const requestError = error as any;
@@ -59,6 +76,11 @@ queryClient = new QueryClient({
         }
     }
 });
+
+/** Determines if a query should be persisted. Queries opt out with `meta: { persist: false }`. */
+export const shouldDehydrateQuery = (query: Query) => (
+    query.meta?.persist !== false && defaultShouldDehydrateQuery(query)
+);
 
 /** Create an IndexedDB persister for react-query-persist-client. Uses idb-keyval for simplicity. */
 const createIDBPersister = (idbValidKey: IDBValidKey = 'query-cache') => ({
