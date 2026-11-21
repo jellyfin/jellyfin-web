@@ -10,6 +10,7 @@ import { clearBackdrop, setBackdrops } from '../backdrop/backdrop';
 import listView from '../listview/listview';
 import imageLoader from '../images/imageLoader';
 import { playbackManager } from '../playback/playbackmanager';
+import { showPlaybackRateMenu } from '../playback/playbackRateMenu';
 import Events from '../../utils/events.ts';
 import { appHost } from '../apphost';
 import globalize from '../../lib/globalize';
@@ -281,6 +282,7 @@ export default function () {
         }
 
         buttonVisible(context.querySelector('.btnLyrics'), item?.Type === 'Audio' && !layoutManager.mobile);
+        buttonVisible(context.querySelector('.showPlaybackRateMenuButton'), item != null && supportedCommands.indexOf('PlaybackRate') !== -1);
         buttonVisible(context.querySelector('.btnStop'), item != null);
         buttonVisible(context.querySelector('.btnNextTrack'), item != null);
         buttonVisible(context.querySelector('.btnPreviousTrack'), item != null);
@@ -704,6 +706,13 @@ export default function () {
         context.querySelector('.btnSubtitles').addEventListener('click', function (e) {
             if (currentPlayer && lastPlayerState?.NowPlayingItem) {
                 showSubtitleMenu(context, currentPlayer, e.target);
+            }
+        });
+        const playbackRateButton = context.querySelector('.showPlaybackRateMenuButton');
+        playbackRateButton.addEventListener('click', function () {
+            if (currentPlayer) {
+                showPlaybackRateMenu(currentPlayer, playbackRateButton)
+                    .catch(() => { /* no rate selected */ });
             }
         });
         context.querySelector('.btnStop').addEventListener('click', function () {
