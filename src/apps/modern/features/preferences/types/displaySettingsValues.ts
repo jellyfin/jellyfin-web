@@ -10,6 +10,7 @@ export interface DisplaySettingsValues {
     enableLibraryBackdrops: boolean;
     enableLibraryThemeSongs: boolean;
     enableLibraryThemeVideos: boolean;
+    enableSlideshowAnimation: boolean;
     enableRewatchingInNextUp: boolean;
     episodeImagesInNextUp: boolean;
     language: string;
