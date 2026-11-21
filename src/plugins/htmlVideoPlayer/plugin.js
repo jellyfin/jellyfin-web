@@ -160,6 +160,7 @@ function zoomIn(elem) {
 function normalizeTrackEventText(text, useHtml) {
     const result = text
         .replace(/\\N/gi, '\n') // Correct newline characters
+        .replace(/\\h/g, '\u00A0') // Convert hard spaces to non-breaking spaces
         .replace(/\r/gi, '') // Remove carriage return characters
         .replace(/{\\.*?}/gi, '') // Remove ass/ssa tags
         // Force LTR as the default direction
