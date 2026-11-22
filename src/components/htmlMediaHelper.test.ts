@@ -9,10 +9,21 @@ import { bindEventsToHlsPlayer } from './htmlMediaHelper';
 
 vi.mock('scripts/settings/appSettings', () => ({ default: {} }));
 
+interface HlsTestHandlers {
+    [HlsEvents.MANIFEST_PARSED]: () => void;
+    [HlsEvents.ERROR]: (event: HlsEvents.ERROR, data: {
+        type: ErrorTypes;
+        response: { code: number };
+        networkDetails: Response;
+    }) => Promise<void>;
+}
+
 function setup() {
-    const handlers = new Map();
+    const handlers: Partial<HlsTestHandlers> = {};
     const hls = {
-        on: (event, callback) => handlers.set(event, callback),
+        on: <T extends keyof HlsTestHandlers>(event: T, callback: HlsTestHandlers[T]) => {
+            handlers[event] = callback;
+        },
         destroy: vi.fn(),
         startLoad: vi.fn()
     };
@@ -26,10 +37,16 @@ function setup() {
     const reportLimit = bindEventsToHlsPlayer(player, hls, elem, vi.fn(), resolve, reject, streamInfo);
     Events.on(player, 'error', onError);
 
+    const parseManifest = handlers[HlsEvents.MANIFEST_PARSED];
+    const onHlsError = handlers[HlsEvents.ERROR];
+    if (!parseManifest || !onHlsError) {
+        throw new Error('Expected HLS manifest and error handlers');
+    }
+
     return {
         hls, reject, resolve, onError, streamInfo, reportLimit,
-        parseManifest: () => handlers.get(HlsEvents.MANIFEST_PARSED)(),
-        respondForbidden: (networkDetails) => handlers.get(HlsEvents.ERROR)(HlsEvents.ERROR, {
+        parseManifest,
+        respondForbidden: (networkDetails: Response) => onHlsError(HlsEvents.ERROR, {
             type: ErrorTypes.NETWORK_ERROR,
             response: { code: 403 },
             networkDetails

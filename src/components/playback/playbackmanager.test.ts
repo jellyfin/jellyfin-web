@@ -1,10 +1,22 @@
+import type { BaseItemDto, MediaSourceInfo, PlaybackInfoDto, PlaybackStopInfo } from '@jellyfin/sdk/lib/generated-client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { StreamInfo } from 'apps/legacy/features/playback/types/streamInfo';
 import { MediaError } from 'types/mediaError';
 import Events from 'utils/events';
 import { PLAYBACK_LIMIT_ERROR_CODE, PlaybackLimitError } from 'utils/playbackLimit';
 
 import { PlaybackManager } from './playbackmanager';
+
+type PlaybackInfoRequest = { playbackInfoDto: PlaybackInfoDto & { PlaybackInstanceId?: string } };
+type PlaybackInfoResult = { data: {
+    PlaybackInstanceId?: string;
+    PlaySessionId?: string;
+    MediaSources?: MediaSourceInfo[];
+    ErrorCode?: typeof PLAYBACK_LIMIT_ERROR_CODE;
+} };
+
+type TestStreamInfo = StreamInfo & { url: string; playbackInstanceId?: string };
 
 const { alert, client, getUri, openLiveStream, closeLiveStream, playbackInfo, plugins } = vi.hoisted(() => ({
     alert: vi.fn(),
@@ -12,20 +24,20 @@ const { alert, client, getUri, openLiveStream, closeLiveStream, playbackInfo, pl
         serverId: () => 'server',
         getCurrentUserId: () => 'user',
         getCurrentUser: () => Promise.resolve({ Configuration: {} }),
-        getItem: (_, id) => Promise.resolve({ Id: id }),
+        getItem: (_userId: string, id: string) => Promise.resolve({ Id: id }),
         getEndpointInfo: () => Promise.resolve({ IsInNetwork: true }),
         getSavedEndpointInfo: () => ({ IsInNetwork: true }),
         getLiveStreamMediaInfo: () => Promise.resolve({ MediaStreams: [] }),
         reportPlaybackStart: vi.fn(),
         reportPlaybackProgress: vi.fn(),
-        reportPlaybackStopped: vi.fn(),
+        reportPlaybackStopped: vi.fn<(payload: PlaybackStopInfo) => Promise<void>>(),
         stopActiveEncodings: vi.fn()
     },
-    getUri: vi.fn(),
+    getUri: vi.fn<(path: string, params?: Record<string, string | number | boolean>) => string>(),
     openLiveStream: vi.fn(),
     closeLiveStream: vi.fn(),
-    playbackInfo: vi.fn(),
-    plugins: { ofType: vi.fn(() => []) }
+    playbackInfo: vi.fn<(request: PlaybackInfoRequest) => Promise<PlaybackInfoResult>>(),
+    plugins: { ofType: vi.fn<(type: string) => object[]>(() => []) }
 }));
 
 vi.mock('@jellyfin/sdk/lib/utils/api/media-info-api', () => ({
@@ -42,7 +54,7 @@ vi.mock('components/pluginManager', () => ({ pluginManager: plugins }));
 vi.mock('components/apphost', () => ({ appHost: { supports: () => false } }));
 vi.mock('components/alert', () => ({ default: alert }));
 vi.mock('components/loading/loading', () => ({ default: { show: vi.fn(), hide: vi.fn() } }));
-vi.mock('lib/globalize', () => ({ default: { translate: key => key } }));
+vi.mock('lib/globalize', () => ({ default: { translate: (key: string) => key } }));
 vi.mock('scripts/settings/appSettings', () => ({
     default: {
         alwaysBurnInSubtitleWhenTranscoding: () => false,
@@ -56,15 +68,15 @@ vi.mock('apps/legacy/features/playback/utils/mediaSegmentManager', () => ({ bind
 vi.mock('apps/legacy/features/playback/utils/mediaSessionSubscriber', () => ({ bindMediaSessionSubscriber: vi.fn() }));
 vi.mock('./skipsegment.ts', () => ({ bindSkipSegment: vi.fn() }));
 
-function deferred() {
-    let resolve;
-    const promise = new Promise(done => {
+function deferred<T>() {
+    let resolve!: (value: T | PromiseLike<T>) => void;
+    const promise = new Promise<T>(done => {
         resolve = done;
     });
     return { promise, resolve };
 }
 
-function response(playbackInstanceId, alias, source = {}) {
+function response(playbackInstanceId: string | undefined, alias: string, source: MediaSourceInfo = {}): PlaybackInfoResult {
     return { data: {
         PlaybackInstanceId: playbackInstanceId,
         PlaySessionId: alias,
@@ -90,15 +102,15 @@ function quotaResponse() {
     };
 }
 
-function queueResponse(alias, source) {
+function queueResponse(alias: string, source?: MediaSourceInfo) {
     playbackInfo.mockImplementationOnce(({ playbackInfoDto }) => Promise.resolve(response(playbackInfoDto.PlaybackInstanceId, alias, source)));
 }
 
-function bodyAt(index) {
-    return playbackInfo.mock.calls[index]?.[0].playbackInfoDto;
+function bodyAt(index: number) {
+    return playbackInfo.mock.calls[index][0].playbackInfoDto;
 }
 
-function playItem(manager, item = {}) {
+function playItem(manager: PlaybackManager, item: Partial<BaseItemDto> = {}) {
     return manager.play({
         fullscreen: false,
         items: [{ Id: 'movie', Name: 'Movie', MediaType: 'Video', Type: 'Movie', ServerId: 'server', ...item }]
@@ -106,13 +118,13 @@ function playItem(manager, item = {}) {
 }
 
 function setupPlayer() {
-    let streamInfo;
+    let streamInfo: TestStreamInfo | undefined;
     const player = {
         type: 'mediaplayer',
         name: 'Browser video',
         id: 'browser-video',
         isLocalPlayer: true,
-        canPlayMediaType: type => type === 'Video',
+        canPlayMediaType: (type: string) => type === 'Video',
         canSetAudioStreamIndex: () => false,
         supports: () => false,
         currentTime: vi.fn(() => 1000),
@@ -124,8 +136,10 @@ function setupPlayer() {
         paused: () => false,
         seekable: () => false,
         setSubtitleStreamIndex: vi.fn(),
-        play: vi.fn(async info => { streamInfo = info; }),
-        stop: vi.fn(async (_, isUserStop) => { Events.trigger(player, 'stopped', [{ streamInfo, isUserStop }]); }),
+        play: vi.fn(async (info: TestStreamInfo) => { streamInfo = info; }),
+        stop: vi.fn(async (_destroyPlayer: boolean, isUserStop?: boolean) => {
+            Events.trigger(player, 'stopped', [{ streamInfo, isUserStop }]);
+        }),
         destroy: vi.fn()
     };
     plugins.ofType.mockImplementation(type => type === 'mediaplayer' ? [player] : []);
@@ -135,8 +149,8 @@ function setupPlayer() {
 }
 
 describe('video playback identity', () => {
-    let manager;
-    let player;
+    let manager: PlaybackManager;
+    let player: ReturnType<typeof setupPlayer>['player'];
 
     beforeEach(() => {
         alert.mockClear();
@@ -148,7 +162,7 @@ describe('video playback identity', () => {
         }
         getUri.mockImplementation((path, params) => {
             const url = new URL(path, 'https://jellyfin.test/');
-            for (const [key, value] of Object.entries(params || {})) url.searchParams.set(key, value);
+            for (const [key, value] of Object.entries(params || {})) url.searchParams.set(key, String(value));
             return url.toString();
         });
         ({ manager, player } = setupPlayer());
@@ -207,7 +221,7 @@ describe('video playback identity', () => {
     });
 
     it('retains the logical ID for server seek, audio, subtitles and a quality change to HLS', async () => {
-        const subtitleSource = { MediaStreams: [{ Type: 'Subtitle', Index: 2, DeliveryMethod: 'Encode' }] };
+        const subtitleSource: MediaSourceInfo = { MediaStreams: [{ Type: 'Subtitle', Index: 2, DeliveryMethod: 'Encode' }] };
         queueResponse('direct-alias', subtitleSource);
         await playItem(manager);
         const logicalId = bodyAt(0).PlaybackInstanceId;
@@ -246,7 +260,7 @@ describe('video playback identity', () => {
     it('uses the same logical identity and opened Live TV input during a quality change', async () => {
         queueResponse('live-alias', { Id: 'channel', RequiresOpening: true, OpenToken: 'live-open-token' });
         openLiveStream.mockResolvedValueOnce({ data: { MediaSource: {
-            Id: 'channel', Container: 'ts', Protocol: 'Http', RequiredHttpHeaders: [],
+            Id: 'channel', Container: 'ts', Protocol: 'Http', RequiredHttpHeaders: {},
             Path: 'https://jellyfin.test/Videos/channel/stream.ts?Static=true&PlaySessionId=live-alias&LiveStreamId=live-input',
             SupportsDirectPlay: true, LiveStreamId: 'live-input', MediaStreams: []
         } } });
@@ -262,7 +276,7 @@ describe('video playback identity', () => {
             Id: 'channel',
             Container: 'ts',
             Protocol: 'Http',
-            RequiredHttpHeaders: [],
+            RequiredHttpHeaders: {},
             Path: 'https://jellyfin.test/Videos/channel/stream.ts?Static=true&PlaySessionId=new-live-alias&LiveStreamId=live-input',
             LiveStreamId: 'live-input'
         });
@@ -278,7 +292,7 @@ describe('video playback identity', () => {
         queueResponse('first-encoding');
         await playItem(manager);
 
-        const stop = deferred();
+        const stop = deferred<void>();
         client.reportPlaybackStopped.mockReturnValueOnce(stop.promise);
         queueResponse('second-encoding');
         const nextPlay = playItem(manager);
@@ -295,7 +309,7 @@ describe('video playback identity', () => {
         queueResponse('first-encoding');
         await playItem(manager);
         const originalStream = player.play.mock.calls[0][0];
-        const late = deferred();
+        const late = deferred<PlaybackInfoResult>();
         playbackInfo.mockReturnValueOnce(late.promise);
 
         manager.setAudioStreamIndex(1, player);
@@ -318,7 +332,7 @@ describe('video playback identity', () => {
     it('reports the pending and previously admitted aliases if stopped before a replacement loads', async () => {
         queueResponse('first-encoding');
         await playItem(manager);
-        const opening = deferred();
+        const opening = deferred<void>();
         player.play.mockImplementationOnce(() => opening.promise);
         queueResponse('pending-encoding');
 
@@ -335,7 +349,7 @@ describe('video playback identity', () => {
     });
 
     it('closes a superseded live start by its own alias without loading it', async () => {
-        const late = deferred();
+        const late = deferred<PlaybackInfoResult>();
         playbackInfo.mockReturnValueOnce(late.promise);
         const old = playItem(manager, { Id: 'channel', Type: 'TvChannel' });
         await vi.waitFor(() => expect(playbackInfo).toHaveBeenCalledOnce());
@@ -353,7 +367,7 @@ describe('video playback identity', () => {
     });
 
     it('does not load a stream if stopped while its metadata is pending', async () => {
-        const late = deferred();
+        const late = deferred<PlaybackInfoResult>();
         playbackInfo.mockReturnValueOnce(late.promise);
         const start = playItem(manager);
         await vi.waitFor(() => expect(playbackInfo).toHaveBeenCalledOnce());
