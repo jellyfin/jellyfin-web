@@ -409,6 +409,30 @@ describe('video playback identity', () => {
         expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
     });
 
+    it('keeps the admitted playback when a second player for the same user receives HTTP 403', async () => {
+        const second = setupPlayer();
+        queueResponse('admitted-alias');
+        await playItem(manager);
+        playbackInfo.mockRejectedValueOnce(quotaResponse());
+
+        try {
+            await playItem(second.manager);
+
+            expect(playbackInfo).toHaveBeenCalledTimes(2);
+            expect(bodyAt(1).PlaybackInstanceId).toEqual(expect.any(String));
+            expect(bodyAt(1).PlaybackInstanceId).not.toBe(bodyAt(0).PlaybackInstanceId);
+            expect(second.player.play).not.toHaveBeenCalled();
+            expect(alert).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ text: limitMessage }));
+            expect(client.reportPlaybackStart).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ PlaySessionId: 'admitted-alias' }));
+            expect(client.reportPlaybackStopped).not.toHaveBeenCalled();
+            expect(client.stopActiveEncodings).not.toHaveBeenCalled();
+            expect(manager.playSessionId(player)).toBe('admitted-alias');
+            expect(player.destroy).not.toHaveBeenCalled();
+        } finally {
+            await second.manager.stop();
+        }
+    });
+
     it('does not report a start, retry, or write a stop for a denied player load', async () => {
         queueResponse('denied-alias', { SupportsTranscoding: true });
         player.play.mockImplementationOnce(async (streamInfo) => {

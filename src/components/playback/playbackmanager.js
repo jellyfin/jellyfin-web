@@ -45,6 +45,31 @@ const PLAYBACK_LIMIT_MESSAGE = `PlaybackError.${PLAYBACK_LIMIT_ERROR_CODE}`;
 // Carries a localization key for errors returned inside successful PlaybackInfo responses.
 class PlaybackInfoError extends Error {}
 
+function getPlayerData(player) {
+    if (!player) {
+        throw new Error('player cannot be null');
+    }
+    if (!player.name) {
+        throw new Error('player name cannot be null');
+    }
+    return player;
+}
+
+function getCurrentTicks(player) {
+    if (!player) {
+        throw new Error('player cannot be null');
+    }
+
+    let playerTime = Math.floor(10000 * (player).currentTime());
+
+    const streamInfo = getPlayerData(player).streamInfo;
+    if (streamInfo) {
+        playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
+    }
+
+    return playerTime;
+}
+
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
         return false;
@@ -670,6 +695,54 @@ function getPlaybackInfoErrorKey(result) {
     return result.ErrorCode ? `PlaybackError.${result.ErrorCode}` : null;
 }
 
+async function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options, isCurrent = () => true) {
+    options.isPlayback = true;
+
+    const playbackInfo = await getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options);
+    if (!isCurrent()) {
+        for (const source of playbackInfo.MediaSources || []) {
+            closeUnusedLiveStream(item.ServerId, playbackInfo, source);
+        }
+        return;
+    }
+    const errorKey = getPlaybackInfoErrorKey(playbackInfo);
+    if (errorKey) {
+        throw new PlaybackInfoError(errorKey);
+    }
+
+    let mediaSource = await getOptimalMediaSource(apiClient, item, playbackInfo.MediaSources);
+    if (!mediaSource) {
+        throw new PlaybackInfoError(`PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+    }
+    if (!isCurrent()) {
+        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
+        return;
+    }
+
+    const hasAlternateVersions = playbackInfo.MediaSources.length > 1
+        || item.MediaSources?.length > 1
+        || (!!mediaSourceId && mediaSourceId !== item.Id);
+
+    if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
+        options.audioStreamIndex = null;
+        options.subtitleStreamIndex = null;
+
+        const openedStream = await getLiveStream(player, item, playbackInfo.PlaySessionId, deviceProfile, mediaSource, options);
+        mediaSource = openedStream.MediaSource;
+        mediaSource.enableDirectPlay = await supportsDirectPlay(apiClient, item, mediaSource);
+    } else if (item.AlbumId != null) {
+        const album = await apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId);
+        mediaSource.albumNormalizationGain = album.NormalizationGain;
+    }
+    if (!isCurrent()) {
+        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
+        return;
+    }
+
+    mediaSource.hasAlternateVersions = hasAlternateVersions;
+    return { mediaSource, playbackInfo };
+}
+
 function showPlaybackInfoErrorMessage(instance, errorCode) {
     alert({
         text: globalize.translate(errorCode),
@@ -739,6 +812,17 @@ function sortPlayerTargets(a, b) {
     bVal = bVal.toString() + b.name;
 
     return aVal.localeCompare(bVal);
+}
+
+/**
+ * @param {object} streamInfo
+ * @param {boolean} currentlyPreventsVideoStreamCopy
+ * @param {boolean} currentlyPreventsAudioStreamCopy
+ * @returns {boolean} Returns true if the stream should be retried by transcoding.
+ */
+function enablePlaybackRetryWithTranscoding(streamInfo, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
+    return streamInfo.mediaSource.SupportsTranscoding
+        && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
 }
 
 export class PlaybackManager {
@@ -1780,7 +1864,7 @@ export class PlaybackManager {
                 const subtitleStreamIndex = change.SubtitleStreamIndex ?? playerData.subtitleStreamIndex;
                 const secondarySubtitleStreamIndex = change.SecondarySubtitleStreamIndex ?? playerData.secondarySubtitleStreamIndex;
                 const maxBitrate = change.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
-                const startPosition = ticks ? parseInt(ticks, 10) : ticks;
+                const startPosition = ticks ? Number.parseInt(ticks, 10) : ticks;
                 const options = {
                     maxBitrate,
                     startPosition,
@@ -2302,16 +2386,6 @@ export class PlaybackManager {
             }
         };
 
-        function getPlayerData(player) {
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-            if (!player.name) {
-                throw new Error('player name cannot be null');
-            }
-            return player;
-        }
-
         self.getPlayerState = function (player, item, mediaSource) {
             player = player || self._currentPlayer;
 
@@ -2402,21 +2476,6 @@ export class PlaybackManager {
 
             return playerDuration;
         };
-
-        function getCurrentTicks(player) {
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-
-            let playerTime = Math.floor(10000 * (player).currentTime());
-
-            const streamInfo = getPlayerData(player).streamInfo;
-            if (streamInfo) {
-                playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
-            }
-
-            return playerTime;
-        }
 
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
@@ -3206,54 +3265,6 @@ export class PlaybackManager {
             });
         }
 
-        async function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options, isCurrent = () => true) {
-            options.isPlayback = true;
-
-            const playbackInfo = await getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options);
-            if (!isCurrent()) {
-                for (const source of playbackInfo.MediaSources || []) {
-                    closeUnusedLiveStream(item.ServerId, playbackInfo, source);
-                }
-                return;
-            }
-            const errorKey = getPlaybackInfoErrorKey(playbackInfo);
-            if (errorKey) {
-                throw new PlaybackInfoError(errorKey);
-            }
-
-            let mediaSource = await getOptimalMediaSource(apiClient, item, playbackInfo.MediaSources);
-            if (!mediaSource) {
-                throw new PlaybackInfoError(`PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-            }
-            if (!isCurrent()) {
-                closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
-                return;
-            }
-
-            const hasAlternateVersions = playbackInfo.MediaSources.length > 1
-                || item.MediaSources?.length > 1
-                || (!!mediaSourceId && mediaSourceId !== item.Id);
-
-            if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
-                options.audioStreamIndex = null;
-                options.subtitleStreamIndex = null;
-
-                const openedStream = await getLiveStream(player, item, playbackInfo.PlaySessionId, deviceProfile, mediaSource, options);
-                mediaSource = openedStream.MediaSource;
-                mediaSource.enableDirectPlay = await supportsDirectPlay(apiClient, item, mediaSource);
-            } else if (item.AlbumId != null) {
-                const album = await apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId);
-                mediaSource.albumNormalizationGain = album.NormalizationGain;
-            }
-            if (!isCurrent()) {
-                closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
-                return;
-            }
-
-            mediaSource.hasAlternateVersions = hasAlternateVersions;
-            return { mediaSource, playbackInfo };
-        }
-
         function getPlayer(item, playOptions, forceLocalPlayers) {
             const serverItem = isServerItem(item);
             return getAutomaticPlayers(self, forceLocalPlayers).filter(function (p) {
@@ -3675,17 +3686,6 @@ export class PlaybackManager {
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
             }
-        }
-
-        /**
-         * @param {object} streamInfo
-         * @param {boolean} currentlyPreventsVideoStreamCopy
-         * @param {boolean} currentlyPreventsAudioStreamCopy
-         * @returns {boolean} Returns true if the stream should be retried by transcoding.
-         */
-        function enablePlaybackRetryWithTranscoding(streamInfo, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
-            return streamInfo.mediaSource.SupportsTranscoding
-                && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
         }
 
         async function onPlaybackError(e, details) {
