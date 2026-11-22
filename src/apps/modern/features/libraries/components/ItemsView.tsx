@@ -1,9 +1,11 @@
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
+import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
-import React, { type FC, SetStateAction, useCallback, useMemo } from 'react';
+import React, { type FC, SetStateAction, useCallback, useEffect, useMemo, useRef } from 'react';
 
+import { fetchGetItemsViewByType } from 'apps/modern/features/libraries/hooks/api/useItemsViewByType';
 import { useLibrary } from 'apps/modern/features/libraries/hooks/useLibrary';
 import { getDefaultLibraryViewSettings } from 'apps/modern/features/libraries/utils/settings';
 import Cards from 'components/cardbuilder/Card/Cards';
@@ -14,6 +16,7 @@ import Loading from 'components/loading/LoadingComponent';
 import { ItemAction } from 'constants/itemAction';
 import ItemsContainer from 'elements/emby-itemscontainer/ItemsContainer';
 import { useApi } from 'hooks/useApi';
+import * as userSettings from 'scripts/settings/userSettings';
 import type { CardOptions } from 'types/cardOptions';
 import { type LibraryViewSettings, ViewMode } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
@@ -48,7 +51,8 @@ const ItemsView: FC = () => {
         `(min-width: ${t.breakpoints.values.sm}px) and (min-height: 610px)`
     ].join(', '));
 
-    const { serverId, user } = useApi();
+    const currentApi = useApi();
+    const { serverId, user } = currentApi;
 
     // The query key for all items for the current user.
     // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
@@ -183,13 +187,83 @@ const ItemsView: FC = () => {
         noItemsMessage
     ]);
 
+    const isAlphabetJumpMode = userSettings.libraryAlphabetPickerMode(undefined) === 'jump';
+    const rootRef = useRef<HTMLDivElement>(null);
+    const pendingJumpIndex = useRef<number | null>(null);
+
+    const scrollToItemIndex = useCallback((index: number) => {
+        // Each item can contain several [data-id] elements, so keep the first element per item id
+        const seen = new Set<string>();
+        const elements = Array.from(rootRef.current?.querySelectorAll<HTMLElement>('.itemsContainer [data-id]') ?? [])
+            .filter(el => {
+                const id = el.dataset.id ?? '';
+                if (seen.has(id)) return false;
+                seen.add(id);
+                return true;
+            });
+        const target = elements[Math.min(index, elements.length - 1)];
+        if (!target) return;
+        // Scroll so the item lands just below the fixed app bar instead of underneath it
+        const appBar = document.querySelector('.MuiAppBar-root');
+        const offset = (appBar?.getBoundingClientRect().bottom ?? 0) + 8;
+        window.scrollTo({
+            top: window.scrollY + target.getBoundingClientRect().top - offset,
+            behavior: 'smooth'
+        });
+    }, []);
+
+    useEffect(() => {
+        if (pendingJumpIndex.current !== null && itemsResult?.data && !itemsResult.isFetching) {
+            scrollToItemIndex(pendingJumpIndex.current);
+            pendingJumpIndex.current = null;
+        }
+    }, [itemsResult?.data, itemsResult?.isFetching, scrollToItemIndex]);
+
+    const jumpToLetter = useCallback(async (letter: string) => {
+        // Count the items sorted before the letter (with the current filters) to find where it starts
+        const countBefore = async (nameLessThan?: string) => {
+            const result = await fetchGetItemsViewByType(
+                currentApi, viewType, parentId, content?.itemType ?? [],
+                { ...libraryViewSettings, StartIndex: 0 },
+                undefined,
+                { nameLessThan, limit: 0, startIndex: 0, enableTotalRecordCount: true }
+            );
+            return result.TotalRecordCount ?? 0;
+        };
+        const isDescending = libraryViewSettings.SortOrder === SortOrder.Descending;
+        let index = 0;
+        if (!isDescending) {
+            index = letter === '#' ? 0 : await countBefore(letter);
+        } else {
+            const total = await countBefore();
+            const next = letter === '#' ? 'A' : String.fromCodePoint(letter.codePointAt(0)! + 1);
+            index = letter === 'Z' ? 0 : total - await countBefore(next);
+        }
+
+        const pageSize = userSettings.libraryPageSize(undefined);
+        const startIndex = pageSize > 0 ? Math.floor(index / pageSize) * pageSize : 0;
+        if (startIndex !== (libraryViewSettings.StartIndex ?? 0)) {
+            pendingJumpIndex.current = index - startIndex;
+            setLibraryViewSettings((prevState) => ({ ...prevState, StartIndex: startIndex, Alphabet: null }));
+        } else {
+            scrollToItemIndex(index - startIndex);
+        }
+    }, [currentApi, viewType, parentId, content?.itemType, libraryViewSettings, setLibraryViewSettings, scrollToItemIndex]);
+
     const handleAlphabetChange = useCallback((newValue: string | null | undefined) => {
+        if (isAlphabetJumpMode) {
+            if (newValue) {
+                jumpToLetter(newValue).catch(err => console.error('[ItemsView] failed to jump to letter', err));
+            }
+            return;
+        }
+
         setLibraryViewSettings((prevState) => ({
             ...prevState,
             StartIndex: 0,
             Alphabet: newValue
         }));
-    }, [setLibraryViewSettings]);
+    }, [isAlphabetJumpMode, jumpToLetter, setLibraryViewSettings]);
 
     const hasSortName = !libraryViewSettings.SortBy.includes(ItemSortBy.Random);
 
@@ -201,10 +275,10 @@ const ItemsView: FC = () => {
     );
 
     return (
-        <Box className='padded-bottom-page'>
+        <Box ref={rootRef} className='padded-bottom-page'>
             {isAlphabetPickerSupported && isAlphabetPickerEnabled && hasSortName && (
                 <AlphabetPicker
-                    value={libraryViewSettings.Alphabet}
+                    value={isAlphabetJumpMode ? null : libraryViewSettings.Alphabet}
                     onChange={handleAlphabetChange}
                 />
             )}

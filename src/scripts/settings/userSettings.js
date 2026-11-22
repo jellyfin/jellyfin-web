@@ -516,6 +516,19 @@ export class UserSettings {
     }
 
     /**
+     * Get or set what the letter picker in library views does.
+     * @param {string|undefined} [val] - 'filter' to only show items starting with the letter, 'jump' to scroll to them.
+     * @return {string} The letter picker mode.
+     */
+    libraryAlphabetPickerMode(val) {
+        if (val !== undefined) {
+            return this.set('libraryAlphabetPickerMode', val === 'jump' ? 'jump' : 'filter', false);
+        }
+
+        return this.get('libraryAlphabetPickerMode', false) === 'jump' ? 'jump' : 'filter';
+    }
+
+    /**
      * Get or set max days for next up list.
      * @param {number|undefined} [val] - Max days for next up.
      * @return {number} Max days for a show to stay in next up without being watched.
@@ -737,6 +750,7 @@ export const backdropScreensaverInterval = currentSettings.backdropScreensaverIn
 export const slideshowInterval = currentSettings.slideshowInterval.bind(currentSettings);
 export const screensaverTime = currentSettings.screensaverTime.bind(currentSettings);
 export const libraryPageSize = currentSettings.libraryPageSize.bind(currentSettings);
+export const libraryAlphabetPickerMode = currentSettings.libraryAlphabetPickerMode.bind(currentSettings);
 export const maxDaysForNextUp = currentSettings.maxDaysForNextUp.bind(currentSettings);
 export const enableRewatchingInNextUp = currentSettings.enableRewatchingInNextUp.bind(currentSettings);
 export const soundEffects = currentSettings.soundEffects.bind(currentSettings);

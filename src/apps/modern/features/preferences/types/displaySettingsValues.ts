@@ -14,6 +14,7 @@ export interface DisplaySettingsValues {
     episodeImagesInNextUp: boolean;
     language: string;
     layout: string;
+    libraryAlphabetPickerMode: string;
     libraryPageSize: number;
     maxDaysForNextUp: number;
     screensaver: string;
