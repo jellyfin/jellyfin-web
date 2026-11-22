@@ -9,13 +9,16 @@ import { bindEventsToHlsPlayer } from './htmlMediaHelper';
 
 vi.mock('scripts/settings/appSettings', () => ({ default: {} }));
 
+interface HlsTestError {
+    type: ErrorTypes;
+    fatal?: boolean;
+    response?: { code: number };
+    networkDetails?: Response;
+}
+
 interface HlsTestHandlers {
     [HlsEvents.MANIFEST_PARSED]: () => void;
-    [HlsEvents.ERROR]: (event: HlsEvents.ERROR, data: {
-        type: ErrorTypes;
-        response: { code: number };
-        networkDetails: Response;
-    }) => Promise<void>;
+    [HlsEvents.ERROR]: (event: HlsEvents.ERROR, data: HlsTestError) => Promise<void>;
 }
 
 function setup() {
@@ -25,7 +28,8 @@ function setup() {
             handlers[event] = callback;
         },
         destroy: vi.fn(),
-        startLoad: vi.fn()
+        startLoad: vi.fn(),
+        recoverMediaError: vi.fn()
     };
     const player = { _hlsPlayer: hls };
     const elem = document.createElement('video');
@@ -46,6 +50,7 @@ function setup() {
     return {
         hls, reject, resolve, onError, streamInfo, reportLimit,
         parseManifest,
+        reportError: (data: HlsTestError) => onHlsError(HlsEvents.ERROR, data),
         respondForbidden: (networkDetails: Response) => onHlsError(HlsEvents.ERROR, {
             type: ErrorTypes.NETWORK_ERROR,
             response: { code: 403 },
@@ -103,5 +108,56 @@ describe('HLS playback quota', () => {
 
         expect(playback.reject).not.toHaveBeenCalled();
         expect(playback.onError).not.toHaveBeenCalled();
+    });
+});
+
+describe('HLS fatal error recovery', () => {
+    it('rejects startup with the network error when the response code is zero', async () => {
+        const playback = setup();
+        await playback.reportError({ type: ErrorTypes.NETWORK_ERROR, fatal: true, response: { code: 0 } });
+
+        expect(playback.hls.destroy).toHaveBeenCalledOnce();
+        expect(playback.reject).toHaveBeenCalledExactlyOnceWith(MediaError.NETWORK_ERROR);
+        expect(playback.onError).not.toHaveBeenCalled();
+    });
+
+    it('emits the network error when the response code is zero after startup', async () => {
+        const playback = setup();
+        playback.parseManifest();
+        await vi.waitFor(() => expect(playback.resolve).toHaveBeenCalledOnce());
+        await playback.reportError({ type: ErrorTypes.NETWORK_ERROR, fatal: true, response: { code: 0 } });
+
+        expect(playback.hls.destroy).toHaveBeenCalledOnce();
+        expect(playback.onError).toHaveBeenCalledExactlyOnceWith(expect.anything(), { type: MediaError.NETWORK_ERROR });
+        expect(playback.reject).not.toHaveBeenCalled();
+    });
+
+    it('restarts loading for a fatal network error without a response code', async () => {
+        const playback = setup();
+        await playback.reportError({ type: ErrorTypes.NETWORK_ERROR, fatal: true });
+
+        expect(playback.hls.startLoad).toHaveBeenCalledOnce();
+        expect(playback.hls.destroy).not.toHaveBeenCalled();
+        expect(playback.reject).not.toHaveBeenCalled();
+    });
+
+    it('tries to recover a fatal media error', async () => {
+        const playback = setup();
+        await playback.reportError({ type: ErrorTypes.MEDIA_ERROR, fatal: true });
+
+        expect(playback.hls.recoverMediaError).toHaveBeenCalledOnce();
+        expect(playback.hls.destroy).not.toHaveBeenCalled();
+        expect(playback.reject).not.toHaveBeenCalled();
+    });
+
+    it('emits the fatal error and destroys HLS when the error cannot be recovered after startup', async () => {
+        const playback = setup();
+        playback.parseManifest();
+        await vi.waitFor(() => expect(playback.resolve).toHaveBeenCalledOnce());
+        await playback.reportError({ type: ErrorTypes.OTHER_ERROR, fatal: true });
+
+        expect(playback.hls.destroy).toHaveBeenCalledOnce();
+        expect(playback.onError).toHaveBeenCalledExactlyOnceWith(expect.anything(), { type: MediaError.FATAL_HLS_ERROR });
+        expect(playback.reject).not.toHaveBeenCalled();
     });
 });

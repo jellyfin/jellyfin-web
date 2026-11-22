@@ -268,6 +268,55 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         }
     }
 
+    function handleFatalHlsError(data) {
+        switch (data.type) {
+            case HlsErrorTypes.NETWORK_ERROR:
+
+                if (data.response && data.response.code === 0) {
+                    // This could be a CORS error related to access control response headers
+
+                    console.debug('hls.js response error code: ' + data.response.code);
+
+                    // Trigger failure differently depending on whether this is prior to start of playback, or after
+                    hls.destroy();
+
+                    if (reject) {
+                        reject(MediaError.NETWORK_ERROR);
+                        reject = null;
+                    } else {
+                        onErrorInternal(instance, MediaError.NETWORK_ERROR);
+                    }
+                } else {
+                    console.debug('fatal network error encountered, try to recover');
+                    hls.startLoad();
+                }
+
+                break;
+            case HlsErrorTypes.MEDIA_ERROR:
+                console.debug('fatal media error encountered, try to recover');
+                handleHlsJsMediaError(instance, reject && (() => {
+                    failed = true;
+                    reject();
+                    reject = null;
+                }));
+                break;
+            default:
+
+                console.debug('Cannot recover from hls error - destroy and trigger error');
+                // cannot recover
+                // Trigger failure differently depending on whether this is prior to start of playback, or after
+                hls.destroy();
+
+                if (reject) {
+                    reject();
+                    reject = null;
+                } else {
+                    onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
+                }
+                break;
+        }
+    }
+
     hls.on(HlsEvents.MANIFEST_PARSED, function () {
         if (!isCurrent() || checkingResponse) {
             return;
@@ -308,52 +357,7 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         }
 
         if (data.fatal) {
-            switch (data.type) {
-                case HlsErrorTypes.NETWORK_ERROR:
-
-                    if (data.response && data.response.code === 0) {
-                        // This could be a CORS error related to access control response headers
-
-                        console.debug('hls.js response error code: ' + data.response.code);
-
-                        // Trigger failure differently depending on whether this is prior to start of playback, or after
-                        hls.destroy();
-
-                        if (reject) {
-                            reject(MediaError.NETWORK_ERROR);
-                            reject = null;
-                        } else {
-                            onErrorInternal(instance, MediaError.NETWORK_ERROR);
-                        }
-                    } else {
-                        console.debug('fatal network error encountered, try to recover');
-                        hls.startLoad();
-                    }
-
-                    break;
-                case HlsErrorTypes.MEDIA_ERROR:
-                    console.debug('fatal media error encountered, try to recover');
-                    handleHlsJsMediaError(instance, reject && (() => {
-                        failed = true;
-                        reject();
-                        reject = null;
-                    }));
-                    break;
-                default:
-
-                    console.debug('Cannot recover from hls error - destroy and trigger error');
-                    // cannot recover
-                    // Trigger failure differently depending on whether this is prior to start of playback, or after
-                    hls.destroy();
-
-                    if (reject) {
-                        reject();
-                        reject = null;
-                    } else {
-                        onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
-                    }
-                    break;
-            }
+            handleFatalHlsError(data);
         }
     });
 
