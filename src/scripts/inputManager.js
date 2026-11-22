@@ -20,6 +20,12 @@ export function idleTime() {
     return new Date().getTime() - lastInputTime;
 }
 
+document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) {
+        lastInputTime = new Date().getTime();
+    }
+});
+
 export function select(sourceElement) {
     sourceElement.click();
 }
