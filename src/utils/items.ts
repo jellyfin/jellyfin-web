@@ -126,6 +126,11 @@ export const getLimitQuery = () => {
 };
 
 export const getAlphaPickerQuery = (libraryViewSettings: LibraryViewSettings) => {
+    // In "jump" mode the letter picker scrolls to the letter instead of filtering the list
+    if (userSettings.libraryAlphabetPickerMode(undefined) === 'jump') {
+        return {};
+    }
+
     const alphabetValue = libraryViewSettings.Alphabet !== null ?
         libraryViewSettings.Alphabet : undefined;
 

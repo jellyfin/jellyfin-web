@@ -97,6 +97,7 @@ async function loadDisplaySettings({
         episodeImagesInNextUp: Boolean(settings.useEpisodeImagesInNextUpAndResume()),
         language: settings.language() || 'auto',
         layout: layoutManager.getSavedLayout() || 'auto',
+        libraryAlphabetPickerMode: settings.libraryAlphabetPickerMode(),
         libraryPageSize: settings.libraryPageSize(),
         maxDaysForNextUp: settings.maxDaysForNextUp(),
         screensaver: settings.screensaver() || 'none',
@@ -142,6 +143,7 @@ async function saveDisplaySettings({
     userSettings.enableThemeVideos(newDisplaySettings.enableLibraryThemeVideos);
     userSettings.enableRewatchingInNextUp(newDisplaySettings.enableRewatchingInNextUp);
     userSettings.useEpisodeImagesInNextUpAndResume(newDisplaySettings.episodeImagesInNextUp);
+    userSettings.libraryAlphabetPickerMode(newDisplaySettings.libraryAlphabetPickerMode);
     userSettings.libraryPageSize(newDisplaySettings.libraryPageSize);
     userSettings.maxDaysForNextUp(newDisplaySettings.maxDaysForNextUp);
     userSettings.screensaver(normalizeValue(newDisplaySettings.screensaver));

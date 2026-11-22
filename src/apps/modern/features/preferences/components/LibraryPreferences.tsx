@@ -2,6 +2,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
+import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -20,6 +21,23 @@ export function LibraryPreferences({ onChange, values }: Readonly<LibraryPrefere
     return (
         <Stack spacing={3}>
             <Typography variant='h2'>{globalize.translate('HeaderLibraries')}</Typography>
+
+            <FormControl fullWidth>
+                <TextField
+                    select
+                    aria-describedby='display-settings-lib-alphabet-picker-description'
+                    value={values.libraryAlphabetPickerMode}
+                    label={globalize.translate('LabelLibraryAlphabetPickerMode')}
+                    name='libraryAlphabetPickerMode'
+                    onChange={onChange}
+                >
+                    <MenuItem value='filter'>{globalize.translate('LibraryAlphabetPickerModeFilter')}</MenuItem>
+                    <MenuItem value='jump'>{globalize.translate('LibraryAlphabetPickerModeJump')}</MenuItem>
+                </TextField>
+                <FormHelperText id='display-settings-lib-alphabet-picker-description'>
+                    {globalize.translate('LabelLibraryAlphabetPickerModeHelp')}
+                </FormHelperText>
+            </FormControl>
 
             <FormControl fullWidth>
                 <TextField

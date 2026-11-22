@@ -19,13 +19,22 @@ import type { LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
 
-const fetchGetItemsViewByType = async (
+/** Query parameters that can override the ones derived from the library view settings. */
+export interface ItemsViewQueryOverrides {
+    nameLessThan?: string;
+    limit?: number;
+    startIndex?: number;
+    enableTotalRecordCount?: boolean;
+}
+
+export const fetchGetItemsViewByType = async (
     currentApi: JellyfinApiContext,
     viewType: LibraryTab | undefined,
     parentId: ParentId,
     itemType: BaseItemKind[],
     libraryViewSettings: LibraryViewSettings,
-    options?: AxiosRequestConfig
+    options?: AxiosRequestConfig,
+    overrides?: ItemsViewQueryOverrides
 ) => {
     const { api, user } = currentApi;
     if (api && user?.Id && viewType) {
@@ -43,7 +52,8 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: [PersonKind.AlbumArtist],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex: libraryViewSettings.StartIndex,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -62,7 +72,8 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: [PersonKind.Artist],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex: libraryViewSettings.StartIndex,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -81,7 +92,8 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: [PersonKind.Author],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex: libraryViewSettings.StartIndex,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -100,7 +112,8 @@ const fetchGetItemsViewByType = async (
                         ...getLimitQuery(),
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: libraryViewSettings?.Filters?.PersonKinds?.length ? libraryViewSettings.Filters.PersonKinds : VIDEO_PERSON_KINDS,
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex: libraryViewSettings.StartIndex,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -119,7 +132,8 @@ const fetchGetItemsViewByType = async (
                         includeItemTypes: itemType,
                         isFavorite,
                         enableImageTypes: [ImageType.Thumb],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex: libraryViewSettings.StartIndex,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -133,7 +147,8 @@ const fetchGetItemsViewByType = async (
                         fields: [ItemFields.PrimaryImageAspectRatio],
                         startIndex: libraryViewSettings.StartIndex,
                         isFavorite,
-                        enableImageTypes: [ImageType.Primary]
+                        enableImageTypes: [ImageType.Primary],
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -156,7 +171,8 @@ const fetchGetItemsViewByType = async (
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex: libraryViewSettings.StartIndex,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -168,7 +184,8 @@ const fetchGetItemsViewByType = async (
                 response = await getLiveTvApi(api).getSeriesTimers(
                     {
                         sortBy: 'SortName',
-                        sortOrder: SortOrder.Ascending
+                        sortOrder: SortOrder.Ascending,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
@@ -191,7 +208,8 @@ const fetchGetItemsViewByType = async (
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex: libraryViewSettings.StartIndex,
+                        ...overrides
                     },
                     {
                         signal: options?.signal
