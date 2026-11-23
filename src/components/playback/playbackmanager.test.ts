@@ -366,6 +366,50 @@ describe('video playback identity', () => {
         expect(manager.playSessionId(player)).toBe('new-encoding');
     });
 
+    it('closes a superseded explicit Live TV open on a server without playback identity', async () => {
+        const opening = deferred<{ data: { MediaSource: MediaSourceInfo } }>();
+        playbackInfo.mockResolvedValueOnce(response(undefined, 'legacy-live-alias', {
+            Id: 'channel',
+            RequiresOpening: true,
+            OpenToken: 'live-open-token'
+        }));
+        openLiveStream.mockReturnValueOnce(opening.promise);
+        const old = manager.play({
+            fullscreen: false,
+            audioStreamIndex: 1,
+            subtitleStreamIndex: 2,
+            items: [{ Id: 'channel', Name: 'Channel', MediaType: 'Video', Type: 'TvChannel', ServerId: 'server' }]
+        });
+        await vi.waitFor(() => expect(openLiveStream).toHaveBeenCalledOnce());
+        expect(bodyAt(0).AutoOpenLiveStream).toBe(false);
+        expect(openLiveStream).toHaveBeenCalledWith({
+            openLiveStreamDto: expect.objectContaining({ AudioStreamIndex: 1, SubtitleStreamIndex: 2 })
+        });
+
+        queueResponse('new-encoding');
+        await playItem(manager);
+        opening.resolve({ data: { MediaSource: { Id: 'channel', LiveStreamId: 'abandoned-live-input' } } });
+        await old;
+
+        expect(player.play).toHaveBeenCalledOnce();
+        expect(closeLiveStream).toHaveBeenCalledExactlyOnceWith({ liveStreamId: 'abandoned-live-input' }, undefined);
+    });
+
+    it('leaves an existing legacy Live TV input alone when only its metadata was requested', async () => {
+        const late = deferred<PlaybackInfoResult>();
+        playbackInfo.mockReturnValueOnce(late.promise);
+        const old = playItem(manager, { Id: 'channel', Type: 'TvChannel' });
+        await vi.waitFor(() => expect(playbackInfo).toHaveBeenCalledOnce());
+
+        queueResponse('new-encoding');
+        await playItem(manager);
+        late.resolve(response(undefined, 'legacy-live-alias', { LiveStreamId: 'existing-live-input' }));
+        await old;
+
+        expect(openLiveStream).not.toHaveBeenCalled();
+        expect(closeLiveStream).not.toHaveBeenCalled();
+    });
+
     it('does not load a stream if stopped while its metadata is pending', async () => {
         const late = deferred<PlaybackInfoResult>();
         playbackInfo.mockReturnValueOnce(late.promise);

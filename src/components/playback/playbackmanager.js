@@ -496,7 +496,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     if (options.isPlayback) {
         query.IsPlayback = true;
-        query.AutoOpenLiveStream = true;
+        query.AutoOpenLiveStream = options.autoOpenLiveStream ?? true;
     } else {
         query.IsPlayback = false;
         query.AutoOpenLiveStream = false;
@@ -605,7 +605,10 @@ async function getLiveStream(player, item, playSessionId, deviceProfile, mediaSo
         OpenToken: mediaSource.OpenToken,
         StartTimeTicks: options.startPosition || 0,
         ItemId: item.Id,
-        PlaySessionId: playSessionId
+        PlaySessionId: playSessionId,
+        EnableDirectPlay: options.enableDirectPlay,
+        EnableDirectStream: options.enableDirectStream,
+        AlwaysBurnInSubtitleWhenTranscoding: appSettings.alwaysBurnInSubtitleWhenTranscoding()
     };
 
     if (options.maxBitrate) {
@@ -631,16 +634,17 @@ async function getLiveStream(player, item, playSessionId, deviceProfile, mediaSo
     return data;
 }
 
-function closeUnusedLiveStream(serverId, playbackInfo, mediaSource) {
-    if (!mediaSource.LiveStreamId || !playbackInfo.PlaybackInstanceId || !playbackInfo.PlaySessionId) {
+function closeUnusedLiveStream(serverId, playbackInfo, mediaSource, openedHere = false) {
+    const canCloseByAlias = playbackInfo.PlaybackInstanceId && playbackInfo.PlaySessionId;
+    if (!mediaSource.LiveStreamId || (!canCloseByAlias && !openedHere)) {
         return;
     }
 
     const api = ServerConnections.getApi(serverId);
     // The generated client has not picked up the close endpoint's optional alias yet.
-    void getMediaInfoApi(api).closeLiveStream({ liveStreamId: mediaSource.LiveStreamId }, {
-        params: { playSessionId: playbackInfo.PlaySessionId }
-    }).catch(error => console.warn('[playbackmanager] Failed to close unused live stream', error));
+    const config = canCloseByAlias ? { params: { playSessionId: playbackInfo.PlaySessionId } } : undefined;
+    void getMediaInfoApi(api).closeLiveStream({ liveStreamId: mediaSource.LiveStreamId }, config)
+        .catch(error => console.warn('[playbackmanager] Failed to close unused live stream', error));
 }
 
 function isHostReachable(mediaSource, apiClient) {
@@ -696,9 +700,11 @@ function getPlaybackInfoErrorKey(result) {
 }
 
 async function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options, isCurrent = () => true) {
-    options.isPlayback = true;
+    // Open cancellable video starts explicitly so a legacy server's consumer can be released.
+    const autoOpenLiveStream = !options.playbackInstanceId;
+    const playbackOptions = { ...options, isPlayback: true, autoOpenLiveStream };
 
-    const playbackInfo = await getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options);
+    const playbackInfo = await getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, playbackOptions);
     if (!isCurrent()) {
         for (const source of playbackInfo.MediaSources || []) {
             closeUnusedLiveStream(item.ServerId, playbackInfo, source);
@@ -710,7 +716,9 @@ async function getPlaybackMediaSource(player, apiClient, deviceProfile, item, me
         throw new PlaybackInfoError(errorKey);
     }
 
-    let mediaSource = await getOptimalMediaSource(apiClient, item, playbackInfo.MediaSources);
+    const firstSource = playbackInfo.MediaSources[0];
+    const openFirstSource = !autoOpenLiveStream && firstSource?.RequiresOpening && !firstSource.LiveStreamId;
+    let mediaSource = openFirstSource ? firstSource : await getOptimalMediaSource(apiClient, item, playbackInfo.MediaSources);
     if (!mediaSource) {
         throw new PlaybackInfoError(`PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
     }
@@ -719,28 +727,38 @@ async function getPlaybackMediaSource(player, apiClient, deviceProfile, item, me
         return;
     }
 
-    const hasAlternateVersions = playbackInfo.MediaSources.length > 1
+    const hasAlternateVersions = (!openFirstSource && playbackInfo.MediaSources.length > 1)
         || item.MediaSources?.length > 1
         || (!!mediaSourceId && mediaSourceId !== item.Id);
 
+    let openedHere = false;
     if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
-        options.audioStreamIndex = null;
-        options.subtitleStreamIndex = null;
-
-        const openedStream = await getLiveStream(player, item, playbackInfo.PlaySessionId, deviceProfile, mediaSource, options);
+        if (!openFirstSource) {
+            playbackOptions.audioStreamIndex = null;
+            playbackOptions.subtitleStreamIndex = null;
+        }
+        const openedStream = await getLiveStream(player, item, playbackInfo.PlaySessionId, deviceProfile, mediaSource, playbackOptions);
         mediaSource = openedStream.MediaSource;
-        mediaSource.enableDirectPlay = await supportsDirectPlay(apiClient, item, mediaSource);
+        openedHere = true;
+        if (isCurrent()) {
+            try {
+                mediaSource.enableDirectPlay = await supportsDirectPlay(apiClient, item, mediaSource);
+            } catch (error) {
+                closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource, openedHere);
+                throw error;
+            }
+        }
     } else if (item.AlbumId != null) {
         const album = await apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId);
         mediaSource.albumNormalizationGain = album.NormalizationGain;
     }
     if (!isCurrent()) {
-        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
+        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource, openedHere);
         return;
     }
 
     mediaSource.hasAlternateVersions = hasAlternateVersions;
-    return { mediaSource, playbackInfo };
+    return { mediaSource, playbackInfo, openedHere };
 }
 
 function showPlaybackInfoErrorMessage(instance, errorCode) {
@@ -2978,7 +2996,7 @@ export class PlaybackManager {
                     if (!result) {
                         return;
                     }
-                    const { mediaSource, playbackInfo } = result;
+                    const { mediaSource, playbackInfo, openedHere } = result;
                     if (trackOptions.DefaultSecondarySubtitleStreamIndex != null) {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = trackOptions.DefaultSecondarySubtitleStreamIndex;
                     }
@@ -3000,7 +3018,7 @@ export class PlaybackManager {
 
                     const playedItem = await getItemOfMediaSource(apiClient, item, mediaSource, sourceItem);
                     if (!isCurrent()) {
-                        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
+                        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource, openedHere);
                         return;
                     }
 
