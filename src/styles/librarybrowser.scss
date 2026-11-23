@@ -830,9 +830,16 @@
     max-width: 25vw;
     max-height: 80vh;
     z-index: 3;
+    cursor: pointer;
 
     .cardBox {
         margin: 0;
+    }
+
+    // The poster card has no click handler of its own, so the overlay covers
+    // the whole poster and resumes playback instead of letting clicks fall through.
+    .cardOverlayContainer {
+        pointer-events: auto;
     }
 
     .layout-mobile & {

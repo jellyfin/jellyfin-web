@@ -772,6 +772,12 @@ function renderDetailImage(apiClient, elem, item, loader) {
     );
 
     elem.innerHTML = html;
+
+    // The poster card is not part of an items container, so the item actions
+    // have to be bound to its container explicitly.
+    itemShortcuts.off(elem);
+    itemShortcuts.on(elem);
+
     loader.lazyChildren(elem);
 }
 
