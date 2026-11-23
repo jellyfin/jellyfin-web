@@ -37,6 +37,8 @@ Jellyfin Web is the frontend used for most of the clients available for end user
 <img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/multi-auto.svg" alt="Detailed Translation Status"/>
 </a>
 
+Browser video downloads also include external SRT subtitle files, preserving their filenames. Your browser may require permission to download multiple files. Native apps handle downloads separately.
+
 ## Build Process
 
 ### Dependencies
