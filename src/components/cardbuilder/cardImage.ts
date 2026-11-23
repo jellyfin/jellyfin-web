@@ -2,10 +2,14 @@ import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import type { ApiClient } from 'jellyfin-apiclient';
 
+import layoutManager from 'components/layoutManager';
+import { playbackManager } from 'components/playback/playbackmanager';
+import itemShortcuts from 'components/shortcuts';
+import { ItemAction } from 'constants/itemAction';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import type { CardOptions } from 'types/cardOptions';
 
-import { getDefaultText } from './cardBuilder';
+import { getDefaultText, getHoverMenuPlayButtonHtml } from './cardBuilder';
 import { CardShape } from './utils/shape';
 import { getCardImageUrl } from './utils/url';
 
@@ -56,8 +60,22 @@ export function buildCardImage(
         blurhashAttrib = `data-blurhash="${blurhash}"`;
     }
 
+    const positionTicksData = item.UserData?.PlaybackPositionTicks ?
+        ` data-positionticks="${item.UserData.PlaybackPositionTicks}"` :
+        '';
+
+    // The overlay buttons resolve the item from the closest ancestor carrying
+    // the item data attributes, so they are set on the card itself.
+    const dataAttributes = ` ${itemShortcuts.getShortcutAttributesHtml(item, options.serverId)}${positionTicksData}`;
+
+    let hoverMenu = '';
+
+    if (layoutManager.desktop && playbackManager.canPlay(item)) {
+        hoverMenu = `<div class="cardOverlayContainer itemAction" data-action="${ItemAction.Resume}">${getHoverMenuPlayButtonHtml()}</div>`;
+    }
+
     return (
-        `<div class="card ${shape}Card">
+        `<div class="card ${shape}Card${layoutManager.desktop ? ' card-hoverable' : ''}"${dataAttributes}>
     <div class="cardBox">
         <div class="cardScalable">
             <div class="cardPadder cardPadder-${shape}">
@@ -69,6 +87,7 @@ export function buildCardImage(
                 data-src="${imgUrl || ''}"
                 ${blurhashAttrib}
             ></div>
+            ${hoverMenu}
         </div>
     </div>
 </div>`
