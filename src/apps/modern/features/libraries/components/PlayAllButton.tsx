@@ -32,7 +32,7 @@ const PlayAllButton: FC<PlayAllButtonProps> = ({
 }) => {
     const { itemsResult } = useLibrary();
     const isPending = itemsResult?.isPending ?? true;
-    const totalRecordCount = itemsResult?.data?.TotalRecordCount ?? 0;
+    const totalRecordCount = itemsResult?.data?.pages[0]?.TotalRecordCount ?? 0;
 
     const play = useCallback(() => {
         // For the Homevideos library Videos tab, pass items directly to playback since
