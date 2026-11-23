@@ -1002,7 +1002,7 @@ function getHoverMenuHtml(item, action) {
     const btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light';
 
     if (playbackManager.canPlay(item)) {
-        html += `<button is="paper-icon-button-light" class="${btnCssClass} cardOverlayFab-primary" data-action="${ItemAction.Resume}" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
+        html += getHoverMenuPlayButtonHtml();
     }
 
     html += '<div class="cardOverlayButton-br flex">';
@@ -1026,6 +1026,14 @@ function getHoverMenuHtml(item, action) {
     html += '</div>';
 
     return html;
+}
+
+/**
+ * Generates the markup of the play button used in the card hover menu.
+ * @returns {string} HTML markup of the play button.
+ */
+export function getHoverMenuPlayButtonHtml() {
+    return `<button is="paper-icon-button-light" class="cardOverlayButton cardOverlayButton-hover itemAction paper-icon-button-light cardOverlayFab-primary" data-action="${ItemAction.Resume}" title="${globalize.translate('Play')}"><span class="material-icons cardOverlayButtonIcon cardOverlayButtonIcon-hover play_arrow" aria-hidden="true"></span></button>`;
 }
 
 /**
