@@ -1,5 +1,5 @@
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
-import { UseQueryResult } from '@tanstack/react-query';
+import { type InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 import React, { type FC, type PropsWithChildren, createContext, useContext, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
@@ -21,7 +21,7 @@ interface LibraryState {
     content?: LibraryTabContent;
     isLibraryPath: boolean;
     id?: string;
-    itemsResult?: UseQueryResult<ItemDtoQueryResult | undefined, Error>;
+    itemsResult?: UseInfiniteQueryResult<InfiniteData<ItemDtoQueryResult>, Error>;
     viewSettings?: LibraryViewSettings;
     setViewSettings?: React.Dispatch<React.SetStateAction<LibraryViewSettings>>;
 }
