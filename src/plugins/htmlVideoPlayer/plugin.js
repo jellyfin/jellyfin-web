@@ -694,6 +694,8 @@ export class HtmlVideoPlayer {
                 elem.crossOrigin = 'use-credentials';
             }
 
+            // Native playback, including Safari, can report a generic error without exposing the quota response.
+            // A separate media request could reserve a playback slot.
             elem.src = val;
             this.#currentSrc = val;
             return playWithPromise(elem, this.onError,

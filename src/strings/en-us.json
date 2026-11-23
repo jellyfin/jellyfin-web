@@ -1370,7 +1370,7 @@
     "OptionMax": "Max",
     "OptionMaxActiveSessions": "Set the maximum number of simultaneous user sessions.",
     "OptionMaxActiveSessionsHelp": "A value of 0 will disable the feature.",
-    "OptionMaxActiveVideoStreamsHelp": "Use 0 for unlimited video streams, 1 for one stream, or a higher number to allow more simultaneous streams.",
+    "OptionMaxActiveVideoStreamsHelp": "Use 0 for unlimited video streams. With older clients sharing the same access token, simultaneous playbacks of the same video may count as one stream.",
     "OptionMissingEpisode": "Missing Episodes",
     "OptionNew": "New…",
     "OptionOnInterval": "On an interval",
