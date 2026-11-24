@@ -1,4 +1,5 @@
 export interface DisplaySettingsValues {
+    backdropParentalRatingLimit: boolean;
     customCss: string;
     dashboardTheme: string;
     dateTimeLocale: string;

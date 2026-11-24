@@ -76,6 +76,8 @@
     "Auto": "Auto",
     "AutoSubtitleStylingHelp": "This mode will automatically switch between the native and custom subtitle styling mechanisms based on your device type.",
     "Backdrop": "Backdrop",
+    "BackdropParentalRatingLimit": "Limit home screen backdrop rating",
+    "BackdropParentalRatingLimitHelp": "When enabled, the home screen background will only use backdrops from items rated PG-13 or lower (or the local equivalent).",
     "Backdrops": "Backdrops",
     "BackdropScreensaver": "Backdrop Screensaver",
     "BackupsPageLoadError": "Failed to load backups page",
