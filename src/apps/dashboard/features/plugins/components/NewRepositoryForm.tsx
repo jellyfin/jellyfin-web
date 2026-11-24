@@ -6,18 +6,22 @@ import globalize from 'lib/globalize';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
 type IProps = {
     open: boolean;
+    isPending: boolean;
+    hasError: boolean;
     onClose: () => void;
     onAdd: (repository: RepositoryInfo) => void;
 };
 
-const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
+const NewRepositoryForm = ({ open, onClose, onAdd, isPending, hasError }: IProps) => {
     const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (isPending) return;
 
         const formData = new FormData(e.currentTarget);
         const data = Object.fromEntries(formData.entries());
@@ -29,7 +33,7 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
         };
 
         onAdd(repository);
-    }, [ onAdd ]);
+    }, [ onAdd, isPending ]);
 
     return (
         <Dialog
@@ -48,7 +52,9 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
 
             <DialogContent>
                 <Stack spacing={3}>
+                    {hasError && <Alert severity='error'>{globalize.translate('RepositoryAddError')}</Alert>}
                     <TextField
+                        disabled={isPending}
                         name='Name'
                         label={globalize.translate('LabelRepositoryName')}
                         helperText={globalize.translate('LabelRepositoryNameHelp')}
@@ -60,6 +66,8 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
                     />
 
                     <TextField
+                        disabled={isPending}
+                        required
                         name='Url'
                         label={globalize.translate('LabelRepositoryUrl')}
                         helperText={globalize.translate('LabelRepositoryUrlHelp')}
@@ -70,10 +78,11 @@ const NewRepositoryForm = ({ open, onClose, onAdd }: IProps) => {
 
             <DialogActions>
                 <Button
+                    disabled={isPending}
                     onClick={onClose}
                     variant='text'
                 >{globalize.translate('ButtonCancel')}</Button>
-                <Button type='submit'>{globalize.translate('Add')}</Button>
+                <Button type='submit' loading={isPending}>{globalize.translate('Add')}</Button>
             </DialogActions>
         </Dialog>
     );
