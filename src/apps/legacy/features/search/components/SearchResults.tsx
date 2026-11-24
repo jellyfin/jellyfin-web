@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React, { type FC, useMemo } from 'react';
 import { useSearchItems } from '../api/useSearchItems';
 import globalize from 'lib/globalize';
 import Loading from 'components/loading/LoadingComponent';
@@ -22,11 +22,26 @@ const SearchResults: FC<SearchResultsProps> = ({
     collectionType,
     query
 }) => {
-    const { data, isPending } = useSearchItems(parentId, collectionType, query?.trim());
+    const { data, isPending, isPlaceholderData } = useSearchItems(parentId, collectionType, query?.trim());
 
-    if (isPending) return <Loading />;
+    // Build the card options once per result set so rows are not rebuilt on every render
+    const sections = useMemo(() => (data || []).map(section => ({
+        ...section,
+        cardOptions: {
+            shape: CardShape.AutoOverflow,
+            scalable: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true,
+            allowBottomPadding: false,
+            ...section.cardOptions
+        }
+    })), [ data ]);
 
-    if (!data?.length) {
+    // Show the spinner without unmounting the previous results while a new search is loading
+    if (isPending || (isPlaceholderData && !sections.length)) return <Loading />;
+
+    if (!sections.length) {
         return (
             <div className='noItemsMessage centerMessage'>
                 {globalize.translate('SearchResultsEmpty', query)}
@@ -48,22 +63,15 @@ const SearchResults: FC<SearchResultsProps> = ({
                 key={`${section.title}-${index}`}
                 title={globalize.translate(section.title)}
                 items={section.items}
-                cardOptions={{
-                    shape: CardShape.AutoOverflow,
-                    scalable: true,
-                    showTitle: true,
-                    overlayText: false,
-                    centerText: true,
-                    allowBottomPadding: false,
-                    ...section.cardOptions
-                }}
+                cardOptions={section.cardOptions}
             />
         );
     };
 
     return (
         <div className={'searchResults padded-top padded-bottom-page'}>
-            {data.map((section, index) => renderSection(section, index))}
+            {isPlaceholderData && <Loading />}
+            {sections.map((section, index) => renderSection(section, index))}
         </div>
     );
 };
