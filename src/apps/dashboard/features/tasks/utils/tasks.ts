@@ -25,3 +25,31 @@ export function getTasksByCategory(tasks: TaskInfo[] | undefined, category: stri
         }
     });
 }
+
+/**
+ * Merges task updates received from the WebSocket with the existing task data.
+ *
+ * The server localizes task names, descriptions, and categories using the
+ * `Accept-Language` header of the request. Browsers do not allow setting custom
+ * headers for WebSocket connections, so WebSocket payloads are localized using
+ * the device language instead of the configured display language. Preserve the
+ * values from the REST API, which uses the display language, to prevent the UI
+ * language from changing when task updates are received.
+ */
+export function mergeTaskUpdates(updatedTasks: TaskInfo[], currentTasks?: TaskInfo[]) {
+    if (!currentTasks) return updatedTasks;
+
+    const currentTasksById = new Map(currentTasks.map(task => [ task.Id, task ]));
+
+    return updatedTasks.map(updatedTask => {
+        const currentTask = updatedTask.Id ? currentTasksById.get(updatedTask.Id) : undefined;
+        if (!currentTask) return updatedTask;
+
+        return {
+            ...updatedTask,
+            Name: currentTask.Name ?? updatedTask.Name,
+            Description: currentTask.Description ?? updatedTask.Description,
+            Category: currentTask.Category ?? updatedTask.Category
+        };
+    });
+}
