@@ -924,6 +924,8 @@
     "LabelReleaseDate": "Release date",
     "LabelRemoteClientBitrateLimit": "Internet streaming bitrate limit (Mbps)",
     "LabelRemoteClientBitrateLimitHelp": "An optional per-stream bitrate limit for all out of network devices. This is useful to prevent devices from requesting a higher bitrate than your internet connection can handle. This may result in increased CPU load on your server in order to transcode videos on the fly to a lower bitrate.",
+    "LabelMaxTranscodingVideoBitrate": "Transcoding video bitrate limit (Mbps)",
+    "LabelMaxTranscodingVideoBitrateHelp": "An optional bitrate limit for video that the server re-encodes. A lower limit also lowers the output resolution, which reduces the load on your server. Direct play and stream copied video are not affected, so devices can still play files above this limit when they support them. Leave empty to disable.",
     "LabelRepository": "Repository",
     "LabelRepositoryName": "Repository Name",
     "LabelRepositoryNameHelp": "A custom name to distinguish this repository from any others added to your server.",

@@ -32,6 +32,10 @@ import SimpleAlert from 'components/SimpleAlert';
 
 const CONFIG_KEY = 'encoding';
 
+type TranscodingOptions = EncodingOptions & {
+    MaxTranscodingVideoBitrate?: number;
+};
+
 export const action = async ({ request }: ActionFunctionArgs) => {
     const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
@@ -51,8 +55,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 };
 
 export const Component = () => {
-    const { data: initialConfig, isPending, isError } = useNamedConfiguration<EncodingOptions>(CONFIG_KEY);
-    const [ config, setConfig ] = useState<EncodingOptions | null>(null);
+    const { data: initialConfig, isPending, isError } = useNamedConfiguration<TranscodingOptions>(CONFIG_KEY);
+    const [ config, setConfig ] = useState<TranscodingOptions | null>(null);
+    const [ maxTranscodingVideoBitrate, setMaxTranscodingVideoBitrate ] = useState('');
     const navigation = useNavigation();
     const actionData = useActionData() as ActionData | undefined;
     const submit = useSubmit();
@@ -62,6 +67,7 @@ export const Component = () => {
     useEffect(() => {
         if (initialConfig && config == null) {
             setConfig(initialConfig);
+            setMaxTranscodingVideoBitrate(initialConfig.MaxTranscodingVideoBitrate ? String(initialConfig.MaxTranscodingVideoBitrate / 1e6) : '');
         }
     }, [ initialConfig, config ]);
 
@@ -69,6 +75,14 @@ export const Component = () => {
         setConfig({
             ...config,
             [e.target.name]: e.target.value
+        });
+    }, [ config ]);
+
+    const onMaxTranscodingVideoBitrateChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setMaxTranscodingVideoBitrate(e.target.value);
+        setConfig({
+            ...config,
+            MaxTranscodingVideoBitrate: Math.trunc(1e6 * Number.parseFloat(e.target.value || '0')) || 0
         });
     }, [ config ]);
 
@@ -892,6 +906,23 @@ export const Component = () => {
                                         min: 10,
                                         max: 3600,
                                         step: 1
+                                    }
+                                }}
+                            />
+
+                            <TextField
+                                name='MaxTranscodingVideoBitrate'
+                                value={maxTranscodingVideoBitrate}
+                                onChange={onMaxTranscodingVideoBitrateChange}
+                                label={globalize.translate('LabelMaxTranscodingVideoBitrate')}
+                                helperText={globalize.translate('LabelMaxTranscodingVideoBitrateHelp')}
+                                type='number'
+                                inputMode='decimal'
+                                slotProps={{
+                                    htmlInput: {
+                                        min: 0,
+                                        step: 0.25,
+                                        max: 2147.25
                                     }
                                 }}
                             />
