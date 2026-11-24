@@ -3,30 +3,44 @@
  * @module components/subtitleSettings/subtitleAppearanceHelper
  */
 
+/**
+ * Multipliers equivalent to the legacy discrete text size options,
+ * expressed as a scale factor relative to 1em.
+ */
+export const LEGACY_TEXT_SIZE_SCALES = {
+    smaller: 0.8,
+    small: 1,
+    medium: 1.36,
+    large: 1.72,
+    larger: 2,
+    extralarge: 2.2
+};
+
+export const DEFAULT_TEXT_SCALE = LEGACY_TEXT_SIZE_SCALES.medium;
+
+const MIN_TEXT_SCALE = 0.1;
+const MAX_TEXT_SCALE = 10;
+
+/**
+ * Resolves the effective text scale factor from appearance settings.
+ * Prefers the continuous textScale value; falls back to legacy discrete values.
+ * @param {object} settings - Subtitle appearance settings.
+ * @returns {number} Text scale factor in em units.
+ */
+export function resolveTextScale(settings) {
+    const scale = Number(settings?.textScale);
+
+    if (Number.isFinite(scale) && scale > 0) {
+        return Math.min(Math.max(scale, MIN_TEXT_SCALE), MAX_TEXT_SCALE);
+    }
+
+    return LEGACY_TEXT_SIZE_SCALES[settings?.textSize || 'medium'] ?? DEFAULT_TEXT_SCALE;
+}
+
 function getTextStyles(settings, preview) {
     const list = [];
 
-    switch (settings.textSize || '') {
-        case 'smaller':
-            list.push({ name: 'font-size', value: '.8em' });
-            break;
-        case 'small':
-            list.push({ name: 'font-size', value: 'inherit' });
-            break;
-        case 'larger':
-            list.push({ name: 'font-size', value: '2em' });
-            break;
-        case 'extralarge':
-            list.push({ name: 'font-size', value: '2.2em' });
-            break;
-        case 'large':
-            list.push({ name: 'font-size', value: '1.72em' });
-            break;
-        case 'medium':
-        default:
-            list.push({ name: 'font-size', value: '1.36em' });
-            break;
-    }
+    list.push({ name: 'font-size', value: `${resolveTextScale(settings)}em` });
 
     switch (settings.textWeight || '') {
         case 'bold':
