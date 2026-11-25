@@ -134,7 +134,7 @@ function setCurrentTimeIfNeeded(element, seconds) {
     }
 }
 
-export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
+export function seekOnPlaybackStart(instance, element, ticks) {
     const seconds = (ticks || 0) / 10000000;
 
     if (seconds) {
@@ -144,7 +144,6 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
         if (element.duration >= seconds) {
             // media is ready, seek immediately
             setCurrentTimeIfNeeded(element, seconds);
-            if (onMediaReady) onMediaReady();
         } else {
             // update video player position when media is ready to be sought
             const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
@@ -159,7 +158,6 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
                     events.forEach(name => {
                         element.removeEventListener(name, onMediaChange);
                     });
-                    if (onMediaReady) onMediaReady();
                 }
             };
             events.forEach(name => {
@@ -167,6 +165,39 @@ export function seekOnPlaybackStart(instance, element, ticks, onMediaReady) {
             });
         }
     }
+}
+
+/**
+ * Wait for the video to be ready.
+ * @param {HTMLVideoElement} element Video element.
+ */
+export async function waitVideoReady(element) {
+    // In mobile Chrome `readyState` is unreliable.
+    // It can change from `HAVE_ENOUGH_DATA` (4) at startup to `HAVE_METADATA` (1) at `durationchange` event.
+    // So wait for the valid `videoWidth`.
+
+    if (element.videoWidth > 0) {
+        // media is ready
+        return;
+    }
+
+    return new Promise(resolve => {
+        const events = ['durationchange', 'loadeddata', 'play', 'loadedmetadata'];
+
+        const onMediaChange = () => {
+            if (element.videoWidth > 0) {
+                events.forEach(name => {
+                    element.removeEventListener(name, onMediaChange);
+                });
+
+                resolve();
+            }
+        };
+
+        events.forEach(name => {
+            element.addEventListener(name, onMediaChange);
+        });
+    });
 }
 
 export function resetSrc(elem) {
