@@ -2966,6 +2966,7 @@ export class PlaybackManager {
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
+                                options.videoStreamIndex = null;
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
 
