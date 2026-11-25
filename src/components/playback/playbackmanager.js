@@ -1719,6 +1719,7 @@ export class PlaybackManager {
             player.getDeviceProfile(currentItem, {
                 isRetry: params.EnableDirectPlay === false
             }).then(function (deviceProfile) {
+                const videoStreamIndex = getPlayerData(player).videoStreamIndex;
                 const audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
                 const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
                 const secondarySubtitleStreamIndex = params.SecondarySubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.SecondarySubtitleStreamIndex;
@@ -1738,6 +1739,7 @@ export class PlaybackManager {
                     maxBitrate,
                     startPosition: ticks,
                     isPlayback: true,
+                    videoStreamIndex,
                     audioStreamIndex,
                     subtitleStreamIndex,
                     enableDirectPlay: params.EnableDirectPlay,
@@ -3288,6 +3290,8 @@ export class PlaybackManager {
             playerData.streamInfo = streamInfo;
 
             streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
+
+            playerData.videoStreamIndex = playOptions.videoStreamIndex;
 
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
