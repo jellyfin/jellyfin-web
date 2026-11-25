@@ -120,6 +120,50 @@ function isAbortError(error: unknown): boolean {
     return typeof error === 'object' && error !== null && (error as { name?: string }).name === 'AbortError';
 }
 
+function isActionSheetCancel(error: unknown): boolean {
+    return error instanceof Error && error.message === 'ActionSheet closed without resolving';
+}
+
+export async function showActionSheetOrCancel(
+    options: Parameters<typeof actionsheet.show>[0]
+): Promise<string | undefined> {
+    try {
+        const result: unknown = await actionsheet.show(options);
+        return typeof result === 'string' ? result : undefined;
+    } catch (error) {
+        if (isActionSheetCancel(error)) return undefined;
+        throw error;
+    }
+}
+
+export function showDialogSafely(dialog: HTMLDialogElement): void {
+    if (typeof dialog.showModal === 'function') {
+        if (!dialog.open) dialog.showModal();
+    } else {
+        dialog.setAttribute('open', '');
+    }
+}
+
+export function closeDialogSafely(dialog: HTMLDialogElement): void {
+    if (typeof dialog.close === 'function') {
+        if (dialog.open) dialog.close();
+    } else {
+        dialog.removeAttribute('open');
+    }
+}
+
+export async function discardServerDownload(
+    api: OfflineApiClient,
+    itemId: string,
+    jobId: string
+): Promise<void> {
+    const root = `Videos/${encodeURIComponent(itemId)}/OfflineDownloads`;
+    const response = await fetch(api.getUrl(`${root}/${encodeURIComponent(jobId)}`), requestOptions(api, 'DELETE'));
+    if (!response.ok && response.status !== 404) {
+        throw new Error(`Could not discard temporary download (HTTP ${response.status}).`);
+    }
+}
+
 export async function startResumableDownload(
     api: OfflineApiClient,
     item: OfflineMediaItem,
@@ -165,28 +209,30 @@ export async function startResumableDownload(
     });
     dialog.append(title, progress, pause, remove);
     document.body.appendChild(dialog);
-    dialog.showModal();
-    let job: OfflineDownloadJob | undefined;
+    showDialogSafely(dialog);
+    let activeJobId: string | undefined;
     let key: string | undefined;
     let record: OfflineResumeRecord | undefined;
     let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
     let writable: store.PartialWritableStream | undefined;
     let handle: SaveFileHandle | undefined;
     let offset = 0;
+    let writeFailed = false;
     let owner: string | undefined;
     let heartbeat: ReturnType<typeof setInterval> | undefined;
     let ownershipLost = false;
     let succeeded = false;
     const discardServer = async () => {
-        if (!job) return;
+        if (!activeJobId) return;
         // If offline, server TTL still bounds retention. Never put tokens in a URL.
-        await fetch(api.getUrl(`${root}/${job.Id}`), requestOptions(api, 'DELETE')).catch(() => undefined);
+        await fetch(api.getUrl(`${root}/${activeJobId}`), requestOptions(api, 'DELETE')).catch(() => undefined);
     };
     try {
-        job = await json(api, api.getUrl(root, query), 'POST', controller.signal);
+        let job: OfflineDownloadJob = await json(api, api.getUrl(root, query), 'POST', controller.signal);
         if (!/^(?:[a-f0-9]{32}|[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})$/i.test(job.Id || '')) {
             throw new Error('Invalid temporary download id.');
         }
+        activeJobId = job.Id;
         key = `${api.getUrl('System/Info/Public')}|${user}|${job.Id}`;
         owner = randomOwner();
         const activeKey = key;
@@ -198,19 +244,46 @@ export async function startResumableDownload(
                 controller.abort();
             });
         }, 5000);
+        let prepareError: Error | undefined;
         if (job.Status === 'Queued') {
             // Deliberately do not await: poll progress while the server keeps its Prepare request scope alive.
-            json(api, api.getUrl(`${root}/${job.Id}/Prepare`), 'POST', controller.signal).catch(() => undefined);
+            // Surface immediate HTTP rejections (4xx/5xx) so polling does not spin on a permanently Queued job.
+            fetch(api.getUrl(`${root}/${job.Id}/Prepare`), requestOptions(api, 'POST', controller.signal))
+                .then(async (response) => {
+                    if (!response.ok) {
+                        const rawDetail = (await response.text().catch(() => '')).trim();
+                        let detail = rawDetail;
+                        if (rawDetail.startsWith('"') && rawDetail.endsWith('"')) {
+                            try {
+                                const parsed: unknown = JSON.parse(rawDetail);
+                                if (typeof parsed === 'string') {
+                                    detail = parsed.trim();
+                                }
+                            } catch {
+                                // Keep rawDetail if it is not a valid JSON string literal.
+                            }
+                        }
+                        prepareError = new Error(detail || `Offline preparation failed (HTTP ${response.status}).`);
+                    }
+                })
+                .catch((error: unknown) => {
+                    // Tolerate user aborts and transient network disconnects while the server may still be preparing.
+                    if (!isAbortError(error) && !(error instanceof TypeError)) {
+                        prepareError = error instanceof Error ? error : new Error('Offline preparation failed.');
+                    }
+                });
         }
         const deadline = Date.now() + 2 * 60 * 60 * 1000 + 60000;
         while (job.Status !== 'Ready') {
             if (job.Status === 'Failed') throw new Error(job.Error || 'Offline preparation failed. Discard it before retrying.');
+            if (prepareError) throw prepareError;
             if (Date.now() > deadline) throw new Error('Preparation did not finish in time. It remains subject to automatic expiry.');
             progress.textContent = `Preparing the selected tracks: ${(Number(job.BytesProduced || 0) / 1048576).toFixed(1)} MiB. You can pause and return using the same choices.`;
             await delay(controller.signal);
+            if (prepareError) throw prepareError;
             job = await json(api, api.getUrl(`${root}/${job.Id}`), 'GET', controller.signal);
         }
-        if (typeof job.Size !== 'number' || !Number.isSafeInteger(job.Size) || job.Size <= 0 || job.Size > 2 * MAX_BUFFERED_BYTES || typeof job.ETag !== 'string' || !/^"[a-f0-9]{64}"$/i.test(job.ETag)) {
+        if (typeof job.Size !== 'number' || !Number.isSafeInteger(job.Size) || job.Size <= 0 || typeof job.ETag !== 'string' || !/^"[a-f0-9]{64}"$/i.test(job.ETag)) {
             throw new Error('Invalid completed file metadata.');
         }
         const jobSize = job.Size;
@@ -237,8 +310,8 @@ export async function startResumableDownload(
         }
         if (native && pickerWindow.showSaveFilePicker && (!record.offset || record.handle)) {
             // Restore transient user activation after metadata/polling network waits.
-            dialog.close();
-            const save = await actionsheet.show({
+            closeDialogSafely(dialog);
+            const save = await showActionSheetOrCancel({
                 title: record.handle ? 'Resume your saved partial MP4' : 'Save your offline MP4',
                 items: [{ id: 'save', name: record.handle ? 'Continue saving the same file' : 'Choose where to save' }]
             });
@@ -261,7 +334,7 @@ export async function startResumableDownload(
             writable = await handle.createWritable({ keepExistingData: !!record.offset });
             await writable.seek(record.offset);
             record = { ...record, handle };
-            dialog.showModal();
+            showDialogSafely(dialog);
         }
         await store.renew(activeKey, activeOwner);
         await store.put(record, activeOwner);
@@ -275,12 +348,20 @@ export async function startResumableDownload(
             while (true) {
                 const part = await reader.read();
                 if (part.done) break;
+                if (ownershipLost) {
+                    throw new Error('This download was resumed in another tab. This tab will stop without overwriting it.');
+                }
                 if (offset + part.value.byteLength > jobSize) {
+                    writeFailed = true;
                     throw new Error('The response exceeded its promised size. No excess bytes were saved.');
                 }
                 if (writable) {
-                    await store.renew(activeKey, activeOwner);
-                    await writable.write(part.value);
+                    try {
+                        await writable.write(part.value);
+                    } catch (writeError) {
+                        writeFailed = true;
+                        throw writeError;
+                    }
                 } else {
                     record = await store.append(record, part.value, activeOwner);
                 }
@@ -312,20 +393,23 @@ export async function startResumableDownload(
         controller.abort();
         if (reader) await reader.cancel().catch(() => undefined);
         if (writable && record && key && owner) {
-            if (discard || ownershipLost || offset === record.offset || !handle) {
-                await writable.abort().catch(() => undefined);
+            const activeWritable = writable;
+            writable = undefined;
+            if (discard || ownershipLost || writeFailed || offset === record.offset || !handle) {
+                await activeWritable.abort().catch(() => undefined);
             } else {
+                let closed = false;
                 try {
                     await store.renew(key, owner);
-                    await writable.close();
+                    await activeWritable.close();
+                    closed = true;
                     const partial = await handle.getFile();
                     await store.renew(key, owner);
                     await store.put({ ...record, handle, offset, fileModified: partial.lastModified }, owner);
                 } catch {
-                    await writable.abort().catch(() => undefined);
+                    if (!closed) await activeWritable.abort().catch(() => undefined);
                 }
             }
-            writable = undefined;
         }
         if (discard) {
             if (key) await store.drop(key).catch(() => undefined);
@@ -338,7 +422,7 @@ export async function startResumableDownload(
         if (heartbeat) clearInterval(heartbeat);
         if (key && owner) await store.release(key, owner).catch(() => undefined);
         if (!succeeded && reader) await reader.cancel().catch(() => undefined);
-        dialog.close();
+        closeDialogSafely(dialog);
         dialog.remove();
     }
 }

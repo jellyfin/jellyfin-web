@@ -1,5 +1,5 @@
 // Local partial bytes only; never persist access tokens. Server expiry is authoritative.
-let database: Promise<IDBDatabase> | undefined;
+let database: Promise<IDBDatabase> | null = null;
 const LEASE_MS = 120000;
 
 export interface SaveFilePickerAcceptOption {
@@ -49,17 +49,34 @@ interface OfflineResumeLease {
 
 function db(): Promise<IDBDatabase> {
     if (!database) {
-        database = new Promise((resolve, reject) => {
+        const opened = new Promise<IDBDatabase>((resolve, reject) => {
             const request = indexedDB.open('jellyfin-offline-resume-v2', 1);
             request.onupgradeneeded = () => {
                 request.result.createObjectStore('records', { keyPath: 'key' });
                 request.result.createObjectStore('chunks', { keyPath: ['key', 'offset'] });
                 request.result.createObjectStore('leases', { keyPath: 'key' });
             };
-            request.onsuccess = () => resolve(request.result);
-            request.onerror = () => reject(new Error('Browser storage is unavailable; resumable downloads need IndexedDB.'));
-            request.onblocked = () => reject(new Error('Close other Jellyfin tabs and retry browser storage.'));
+            request.onsuccess = () => {
+                const connection = request.result;
+                connection.onversionchange = () => {
+                    connection.close();
+                    if (database === opened) database = null;
+                };
+                connection.onclose = () => {
+                    if (database === opened) database = null;
+                };
+                resolve(connection);
+            };
+            request.onerror = () => {
+                if (database === opened) database = null;
+                reject(new Error('Browser storage is unavailable; resumable downloads need IndexedDB.'));
+            };
+            request.onblocked = () => {
+                if (database === opened) database = null;
+                reject(new Error('Close other Jellyfin tabs and retry browser storage.'));
+            };
         });
+        database = opened;
     }
     return database;
 }

@@ -1,6 +1,9 @@
 /* eslint-disable sonarjs/cognitive-complexity -- Track selection and streamed download management are sequential UI steps. */
-import actionsheet from './actionSheet/actionSheet';
 import {
+    closeDialogSafely,
+    discardServerDownload,
+    showActionSheetOrCancel,
+    showDialogSafely,
     startResumableDownload,
     type OfflineApiClient,
     type OfflineDownloadJob,
@@ -111,8 +114,7 @@ export async function chooseOfflineTracks(
                 name: track.DisplayTitle || track.Language || `Audio ${track.Index}`
             }))
         ];
-        const rawAudioChoice: unknown = await actionsheet.show({ title: 'Choose offline audio', items: choices });
-        const picked = typeof rawAudioChoice === 'string' ? rawAudioChoice : '';
+        const picked = await showActionSheetOrCancel({ title: 'Choose offline audio', items: choices }) ?? '';
         if (!choices.some(choice => choice.id === picked)) return null;
         if (picked !== 'default') selection.audioStreamIndex = Number(picked);
     } else if (audio.length === 1) {
@@ -126,8 +128,7 @@ export async function chooseOfflineTracks(
         if (track.CanBurn) choices.push({ id: `burn:${track.Index}`, name: `${label} - burned in (always visible)` });
     }
     if (choices.length > 1) {
-        const rawSubtitleChoice: unknown = await actionsheet.show({ title: 'Choose offline subtitles', items: choices });
-        const picked = typeof rawSubtitleChoice === 'string' ? rawSubtitleChoice : '';
+        const picked = await showActionSheetOrCancel({ title: 'Choose offline subtitles', items: choices }) ?? '';
         if (!choices.some(choice => choice.id === picked)) return null;
         if (picked !== 'none') {
             const [mode, index] = picked.split(':');
@@ -159,18 +160,33 @@ export async function showOfflineDownload(
         authenticatedOptions(apiClient)
     );
     if (!response.ok) throw new Error(`Cannot list resumable downloads (HTTP ${response.status}).`);
+    if (!/^application\/json(?:;|$)/i.test(response.headers.get('Content-Type') || '')) {
+        throw new Error('The server did not return resumable download metadata.');
+    }
     const jobs = (await response.json()) as OfflineDownloadJob[];
     const pending = Array.isArray(jobs) ? jobs.filter(job => ['Queued', 'Preparing', 'Ready'].includes(job.Status)) : [];
-    if (pending.length) {
+    const failed = Array.isArray(jobs) ? jobs.filter(job => job.Status === 'Failed') : [];
+    if (pending.length || failed.length) {
         const choices = [
             { id: 'new', name: 'Prepare a different quality or track selection' },
             ...pending.map(job => ({
                 id: job.Id,
                 name: `Resume ${job.Quality}, audio ${job.AudioStreamIndex ?? 'default'}, subtitles ${job.SubtitleMode} (${job.Status})`
+            })),
+            ...failed.map(job => ({
+                id: `discard:${job.Id}`,
+                name: `Discard failed ${job.Quality}, audio ${job.AudioStreamIndex ?? 'default'}, subtitles ${job.SubtitleMode}`
             }))
         ];
-        const picked = await actionsheet.show({ title: 'Resume or prepare an offline download', items: choices });
-        if (!choices.some(choice => choice.id === picked)) return;
+        const picked = await showActionSheetOrCancel({ title: 'Resume or prepare an offline download', items: choices });
+        if (!picked || !choices.some(choice => choice.id === picked)) return;
+        if (picked.startsWith('discard:')) {
+            const jobId = picked.slice('discard:'.length);
+            const failedJob = failed.find(entry => entry.Id === jobId);
+            if (!failedJob) return;
+            await discardServerDownload(apiClient, item.Id, failedJob.Id);
+            return { status: 'discarded' };
+        }
         if (picked !== 'new') {
             const job = pending.find(entry => entry.Id === picked);
             if (!job) return;
@@ -187,7 +203,7 @@ export async function showOfflineDownload(
             );
         }
     }
-    const quality = await actionsheet.show({
+    const quality = await showActionSheetOrCancel({
         title: 'Download for offline viewing',
         items: [
             { id: '540p', name: '540p - smaller file (H.264 / stereo AAC)' },
@@ -206,7 +222,7 @@ export async function showLegacyOfflineDownload(
     apiClient: OfflineApiClient,
     item: OfflineMediaItem
 ): Promise<void> {
-    const quality = await actionsheet.show({
+    const quality = await showActionSheetOrCancel({
         title: 'Download for offline viewing',
         items: [
             { id: '540p', name: '540p - smaller file (H.264 / stereo AAC)' },
@@ -258,7 +274,7 @@ export async function showLegacyOfflineDownload(
     });
     dialog.append(title, progress, cancel);
     document.body.appendChild(dialog);
-    dialog.showModal();
+    showDialogSafely(dialog);
 
     let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
     try {
@@ -307,7 +323,7 @@ export async function showLegacyOfflineDownload(
         if (writable) await writable.abort().catch(() => { /* The writable may have already closed. */ });
         if (!isAbortError(error)) throw error;
     } finally {
-        dialog.close();
+        closeDialogSafely(dialog);
         dialog.remove();
     }
 }
