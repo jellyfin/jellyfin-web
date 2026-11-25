@@ -1540,8 +1540,10 @@ export default function (view) {
         const offsetX = -(tileOffsetX * trickplayInfo.Width);
         const offsetY = -(tileOffsetY * trickplayInfo.Height);
 
-        const imgSrc = apiClient.getUrl('Videos/' + item.Id + '/Trickplay/' + trickplayInfo.Width + '/' + index + '.jpg', {
-            ApiKey: apiClient.accessToken(),
+        const api = ServerConnections.getApi(item.ServerId);
+        // TODO: Support for this should be added to the SDK
+        const imgSrc = api.getUri(`Videos/${item.Id}/Trickplay/${trickplayInfo.Width}/${index}.jpg`, {
+            ApiKey: api.accessToken,
             MediaSourceId: mediaSourceId
         });
 

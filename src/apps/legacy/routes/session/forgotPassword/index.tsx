@@ -1,4 +1,5 @@
 import { ForgotPasswordAction } from '@jellyfin/sdk/lib/generated-client/models/forgot-password-action';
+import { getAuthenticationApi } from '@jellyfin/sdk/lib/utils/api/authentication-api';
 import { useMutation } from '@tanstack/react-query';
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +10,6 @@ import Button from 'elements/emby-button/Button';
 import Input from 'elements/emby-input/Input';
 import globalize from 'lib/globalize';
 import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
-import { getAuthenticationApi } from 'utils/sdk/authentication-api';
 import { isValidUrl } from 'utils/url';
 import shell from 'scripts/shell';
 

@@ -4,8 +4,8 @@ import React, { type FC, type PropsWithChildren, createContext, useContext, useM
 import { useLocation } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 
+import { useGetItemsViewByType } from 'apps/modern/features/libraries/hooks/api/useItemsViewByType';
 import useCurrentTab from 'hooks/useCurrentTab';
-import { useGetItemsViewByType } from 'hooks/useFetchItems';
 import { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
 import { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';

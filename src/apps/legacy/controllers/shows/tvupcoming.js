@@ -1,5 +1,8 @@
 import { isYesterday } from 'date-fns';
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 
+import { getUpcomingEpisodesQuery } from '@/apps/modern/features/libraries/hooks/api/useUpcomingEpisodes';
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape } from 'components/cardbuilder/utils/shape';
 import imageLoader from 'components/images/imageLoader';
@@ -8,6 +11,7 @@ import loading from 'components/loading/loading';
 import datetime from 'scripts/datetime';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { queryClient } from '@/utils/query/queryClient';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 
@@ -15,23 +19,21 @@ import 'styles/scrollstyles.scss';
 
 function getUpcomingPromise(context, params) {
     loading.show();
-    const apiClient = ServerConnections.currentApiClient();
-    const query = {
-        Limit: 48,
-        Fields: 'AirTime',
-        UserId: apiClient.getCurrentUserId(),
-        ImageTypeLimit: 1,
-        EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-        EnableTotalRecordCount: false
-    };
-    query.ParentId = params.topParentId;
-    return apiClient.getJSON(apiClient.getUrl('Shows/Upcoming', query));
+    const api = ServerConnections.getApi();
+    const userId = ServerConnections.currentApiClient().getCurrentUserId();
+
+    return queryClient.query(getUpcomingEpisodesQuery(api, {
+        userId,
+        parentId: params.topParentId,
+        limit: 48,
+        fields: [ItemFields.AirTime],
+        imageTypeLimit: 1,
+        enableImageTypes: [ImageType.Primary, ImageType.Backdrop, ImageType.Banner, ImageType.Thumb]
+    }));
 }
 
 function loadUpcoming(context, params, promise) {
-    promise.then(function (result) {
-        const items = result.Items;
-
+    promise.then(items => {
         if (items.length) {
             context.querySelector('.noItemsMessage').style.display = 'none';
         } else {

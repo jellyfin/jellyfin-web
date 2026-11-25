@@ -16,7 +16,7 @@ import { useUpcomingEpisodes } from '../hooks/api/useUpcomingEpisodes';
 import { groupsUpcomingEpisodes } from '../utils/upcomingEpisodes';
 
 const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
-    const { __legacyApiClient__ } = useApi();
+    const { serverId } = useApi();
     const {
         isLoading,
         data,
@@ -65,10 +65,8 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
             {groups.map((group) => (
                 <SectionContainer
                     key={group.name}
-                    isScrollerMode={false}
-                    sectionHeaderProps={{
-                        title: group.name
-                    }}
+                    variant='grid'
+                    title={group.name}
                     itemsContainerProps={{
                         className: 'vertical-wrap padded-left padded-right',
                         queryKey: ['UpcomingEpisodes']
@@ -85,7 +83,7 @@ const UpcomingView: FC<LibraryViewProps> = ({ parentId }) => {
                         missingIndicator: false,
                         cardLayout: false,
                         queryKey: ['UpcomingEpisodes'],
-                        serverId: __legacyApiClient__?.serverId()
+                        serverId
                     }}
                 />
             ))}

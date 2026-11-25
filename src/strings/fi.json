@@ -1945,5 +1945,7 @@
     "Screenplay": "Käsikirjoitus",
     "HlsAudioSeekStrategy": "HLS-virroissa siirtymiseen käytettävä strategia.",
     "LabelHlsAudioSeekStrategy": "Äänen siirtymisstrategia.",
-    "MessageForgotPasswordRedirect": "Sinut on ohjattu ulkoiselle palveluntarjoajalle salasanan palauttamista varten."
+    "MessageForgotPasswordRedirect": "Sinut on ohjattu ulkoiselle palveluntarjoajalle salasanan palauttamista varten.",
+    "ManageMetadata": "Metatietojen hallinta",
+    "ManageServer": "Palvelimen hallinta"
 }

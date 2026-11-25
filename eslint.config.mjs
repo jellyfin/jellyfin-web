@@ -4,7 +4,6 @@ import eslint from '@eslint/js';
 import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import compat from 'eslint-plugin-compat';
 import globals from 'globals';
-// @ts-expect-error Missing type definition
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import reactPlugin from 'eslint-plugin-react';
@@ -96,15 +95,27 @@ export default tseslint.config(
             'no-void': ['error', { 'allowAsStatement': true }],
             'one-var': ['error', 'never'],
             'prefer-const': ['error', { 'destructuring': 'all' }],
-            'prefer-promise-reject-errors': ['warn', { 'allowEmptyReject': true }],
+            'prefer-promise-reject-errors': ['error', { 'allowEmptyReject': true }],
             '@typescript-eslint/prefer-for-of': 'error',
             'radix': 'error',
             'yoda': 'error',
 
+            'import/no-unresolved': [
+                'error',
+                {
+                    ignore: [
+                        // Swiper does not have supported module definitions
+                        'swiper/css',
+                        'swiper/modules',
+                        'swiper/react'
+                    ]
+                }
+            ],
+
             'sonarjs/fixme-tag': 'warn',
             'sonarjs/todo-tag': 'off',
             'sonarjs/deprecation': 'off',
-            'sonarjs/no-alphabetical-sort': 'warn',
+            'sonarjs/no-alphabetical-sort': 'error',
             'sonarjs/no-inverted-boolean-check': 'error',
             'sonarjs/no-selector-parameter': 'off',
             'sonarjs/pseudo-random': 'warn',
@@ -236,6 +247,9 @@ export default tseslint.config(
                         'node_modules',
                         'src'
                     ]
+                },
+                typescript: {
+                    project: 'tsconfig.json'
                 }
             },
             polyfills: [
@@ -380,17 +394,7 @@ export default tseslint.config(
             'react/jsx-no-useless-fragment': 'error',
             'react/no-array-index-key': 'error',
             'react-hooks/rules-of-hooks': 'error',
-            'react-hooks/exhaustive-deps': 'warn'
-        }
-    },
-
-    // Service worker
-    {
-        files: [ 'src/serviceworker.js' ],
-        languageOptions: {
-            globals: {
-                ...globals.serviceworker
-            }
+            'react-hooks/exhaustive-deps': 'error'
         }
     },
 

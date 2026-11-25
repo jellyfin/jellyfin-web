@@ -1945,5 +1945,7 @@
     "HlsAudioSeekStrategy": "Stratégia používaná pri pretáčaní v HLS streamoch.",
     "LabelHlsAudioSeekStrategy": "Stratégia pretáčania vo zvuku.",
     "MessageForgotPasswordRedirect": "Boli ste presmerovaní na externého poskytovateľa na obnovenie hesla.",
-    "MessageItemMetadataLocked": "Metadáta tejto položky sú uzamknuté. Pred použitím identifikačnej funkcie ich odomknite."
+    "MessageItemMetadataLocked": "Metadáta tejto položky sú uzamknuté. Pred použitím identifikačnej funkcie ich odomknite.",
+    "ManageMetadata": "Spravovať metadáta",
+    "ManageServer": "Spravovať server"
 }

@@ -130,7 +130,6 @@ const LibraryToolbar: FC = () => {
                                 variant='text'
                                 color='primary'
                                 startIcon={<FilterAltOff />}
-                                // eslint-disable-next-line react/jsx-no-bind
                                 onClick={() => setLibraryViewSettings(prevState => ({
                                     ...prevState,
                                     StartIndex: 0,
