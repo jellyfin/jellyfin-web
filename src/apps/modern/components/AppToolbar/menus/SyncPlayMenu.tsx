@@ -56,14 +56,14 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
     }, [serverId]);
 
     const onGroupAddClick = useCallback(() => {
-        createSyncPlayGroup.mutate({
+        syncPlay?.Manager.expectGroupJoin(createSyncPlayGroup.mutateAsync({
             newGroupRequestDto: {
                 GroupName: globalize.translate('SyncPlayGroupDefaultTitle', user?.Name ?? '')
             }
         }, {
             onSettled: onMenuClose
-        });
-    }, [ createSyncPlayGroup, onMenuClose, user ]);
+        }));
+    }, [ createSyncPlayGroup, onMenuClose, syncPlay, user ]);
 
     const onGroupLeaveClick = useCallback(() => {
         leaveSyncPlayGroup.mutate(undefined, {
@@ -72,14 +72,14 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
     }, [ leaveSyncPlayGroup, onMenuClose ]);
 
     const onGroupJoinClick = useCallback((GroupId: string) => {
-        joinSyncPlayGroup.mutate({
+        syncPlay?.Manager.expectGroupJoin(joinSyncPlayGroup.mutateAsync({
             joinGroupRequestDto: {
                 GroupId
             }
         }, {
             onSettled: onMenuClose
-        });
-    }, [ joinSyncPlayGroup, onMenuClose ]);
+        }));
+    }, [ joinSyncPlayGroup, onMenuClose, syncPlay ]);
 
     const onGroupSettingsClick = useCallback(async () => {
         if (!syncPlay) return;
