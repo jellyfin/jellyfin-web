@@ -1,5 +1,6 @@
 import actionsheet from '../actionSheet/actionSheet';
 import { playbackManager } from '../playback/playbackmanager';
+import { showPlaybackRateMenu } from '../playback/playbackRateMenu';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import qualityoptions from '../qualityOptions';
@@ -146,28 +147,6 @@ function showAspectRatioMenu(player, btn) {
     }).then(function (id) {
         if (id) {
             playbackManager.setAspectRatio(id, player);
-            return Promise.resolve();
-        }
-
-        return Promise.reject();
-    });
-}
-
-function showPlaybackRateMenu(player, btn) {
-    // each has a name and id
-    const currentId = playbackManager.getPlaybackRate(player);
-    const menuItems = playbackManager.getSupportedPlaybackRates(player).map(i => ({
-        id: i.id,
-        name: i.name,
-        selected: i.id === currentId
-    }));
-
-    return actionsheet.show({
-        items: menuItems,
-        positionTo: btn
-    }).then(function (id) {
-        if (id) {
-            playbackManager.setPlaybackRate(id, player);
             return Promise.resolve();
         }
 
