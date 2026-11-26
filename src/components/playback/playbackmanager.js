@@ -451,6 +451,9 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
         query.AutoOpenLiveStream = false;
     }
 
+    if (options.videoStreamIndex != null) {
+        query.VideoStreamIndex = options.videoStreamIndex;
+    }
     if (options.audioStreamIndex != null) {
         query.AudioStreamIndex = options.audioStreamIndex;
     }
@@ -555,6 +558,9 @@ async function getLiveStream(player, item, playSessionId, deviceProfile, mediaSo
     if (options.maxBitrate) {
         query.MaxStreamingBitrate = options.maxBitrate;
     }
+    if (options.videoStreamIndex != null) {
+        query.VideoStreamIndex = options.videoStreamIndex;
+    }
     if (options.audioStreamIndex != null) {
         query.AudioStreamIndex = options.audioStreamIndex;
     }
@@ -654,6 +660,7 @@ function truncatePlayOptions(playOptions) {
         aspectRatio: playOptions.aspectRatio,
         fullscreen: playOptions.fullscreen,
         mediaSourceId: playOptions.mediaSourceId,
+        videoStreamIndex: playOptions.videoStreamIndex,
         audioStreamIndex: playOptions.audioStreamIndex,
         subtitleStreamIndex: playOptions.subtitleStreamIndex,
         startPositionTicks: playOptions.startPositionTicks
@@ -1718,6 +1725,7 @@ export class PlaybackManager {
             player.getDeviceProfile(currentItem, {
                 isRetry: params.EnableDirectPlay === false
             }).then(function (deviceProfile) {
+                const videoStreamIndex = getPlayerData(player).videoStreamIndex;
                 const audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
                 const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
                 const secondarySubtitleStreamIndex = params.SecondarySubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.SecondarySubtitleStreamIndex;
@@ -1737,6 +1745,7 @@ export class PlaybackManager {
                     maxBitrate,
                     startPosition: ticks,
                     isPlayback: true,
+                    videoStreamIndex,
                     audioStreamIndex,
                     subtitleStreamIndex,
                     enableDirectPlay: params.EnableDirectPlay,
@@ -2516,6 +2525,7 @@ export class PlaybackManager {
                     items,
                     startPositionTicks: options.startPosition || 0,
                     mediaSourceId,
+                    videoStreamIndex: options.videoStreamIndex,
                     audioStreamIndex: options.audioStreamIndex,
                     subtitleStreamIndex: options.subtitleStreamIndex,
                     startIndex: options.startIndex
@@ -2713,6 +2723,7 @@ export class PlaybackManager {
 
                 const mediaStreams = versionSource?.MediaStreams || sourceItem?.MediaStreams || [];
 
+                const videoStreamIndex = playOptions.videoStreamIndex;
                 const audioStreamIndex = playOptions.audioStreamIndex;
                 const subtitleStreamIndex = playOptions.subtitleStreamIndex;
                 const options = {
@@ -2720,6 +2731,7 @@ export class PlaybackManager {
                     maxBitrate,
                     startPosition,
                     isPlayback: null,
+                    videoStreamIndex,
                     audioStreamIndex,
                     subtitleStreamIndex,
                     startIndex: playOptions.startIndex,
@@ -3042,6 +3054,7 @@ export class PlaybackManager {
                                 || (!!mediaSourceId && mediaSourceId !== item.Id);
 
                             if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
+                                options.videoStreamIndex = null;
                                 options.audioStreamIndex = null;
                                 options.subtitleStreamIndex = null;
 
@@ -3391,6 +3404,8 @@ export class PlaybackManager {
             playerData.streamInfo = streamInfo;
 
             streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
+
+            playerData.videoStreamIndex = playOptions.videoStreamIndex;
 
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
