@@ -236,6 +236,23 @@ export function DisplayPreferences({ onChange, values }: Readonly<DisplayPrefere
 
             <FormControl fullWidth>
                 <FormControlLabel
+                    aria-describedby='display-settings-slideshow-animation-description'
+                    control={
+                        <Checkbox
+                            checked={values.enableSlideshowAnimation}
+                            onChange={onChange}
+                        />
+                    }
+                    label={globalize.translate('EnableSlideshowAnimation')}
+                    name='enableSlideshowAnimation'
+                />
+                <FormHelperText id='display-settings-slideshow-animation-description'>
+                    {globalize.translate('EnableSlideshowAnimationHelp')}
+                </FormHelperText>
+            </FormControl>
+
+            <FormControl fullWidth>
+                <FormControlLabel
                     aria-describedby='display-settings-blurhash-description'
                     control={
                         <Checkbox
