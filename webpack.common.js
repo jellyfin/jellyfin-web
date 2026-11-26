@@ -5,7 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { DefinePlugin, IgnorePlugin } = require('webpack');
+const { ContextReplacementPlugin, DefinePlugin, IgnorePlugin } = require('webpack');
 const packageJson = require('./package.json');
 
 const Assets = [
@@ -32,6 +32,8 @@ try {
 }
 
 const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
+// Test files and directories that must never be included in the bundle.
+const TEST_FILES_REGEX = /(?:[\\/]__(?:tests|mocks|snapshots)__(?:[\\/]|$))|(?:\.(?:test|spec)\.[cm]?[jt]sx?$)/;
 
 const THEMES = fg.globSync('themes/**/*.scss', { cwd: path.resolve(__dirname, 'src') });
 const THEMES_BY_ID = THEMES.reduce((acc, theme) => {
@@ -105,6 +107,13 @@ const config = {
         new IgnorePlugin({
             resourceRegExp: /worker-bundle\.js$/,
             contextRegExp: /libarchive.js/
+        }),
+        // Dynamic imports using template strings (e.g. import(`../routes/${page}`)) create a context module that
+        // bundles every file in the directory, including colocated tests. Exclude test files from these contexts.
+        new ContextReplacementPlugin(/[\\/]src[\\/]/, context => {
+            context.exclude = context.exclude ?
+                new RegExp(`${context.exclude.source}|${TEST_FILES_REGEX.source}`) :
+                TEST_FILES_REGEX;
         }),
         new ForkTsCheckerWebpackPlugin({
             typescript: {
