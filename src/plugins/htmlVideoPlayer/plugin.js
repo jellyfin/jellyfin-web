@@ -28,6 +28,7 @@ import {
     playWithPromise,
     onEndedInternal,
     saveVolume,
+    seekOnLoadedMetadata,
     seekOnPlaybackStart,
     onErrorInternal,
     handleHlsJsMediaError,
@@ -658,6 +659,12 @@ export class HtmlVideoPlayer {
 
             elem.src = val;
             this.#currentSrc = val;
+
+            // WebKit paints the frame at 0 before applying the #t= fragment
+            if (options.playMethod !== 'Transcode' && !isHls(options.mediaSource)) {
+                seekOnLoadedMetadata(elem, options.playerStartPositionTicks);
+            }
+
             return playWithPromise(elem, this.onError);
         }
     }
