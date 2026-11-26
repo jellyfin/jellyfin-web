@@ -8,6 +8,19 @@ interface MarkdownBoxProps {
     fallback?: string
 }
 
+// eslint-disable-next-line sonarjs/disabled-auto-escaping
+const md = markdownIt({ html: true });
+const renderLinkOpen = md.renderer.rules.link_open
+    ?? ((tokens, idx, options, _env, self) => self.renderToken(tokens, idx, options));
+
+md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+    // External links in a changelog must leave the app. Without a target the
+    // Android WebView navigates in place and the user cannot go back.
+    tokens[idx]?.attrSet('target', '_blank');
+    tokens[idx]?.attrSet('rel', 'noopener noreferrer');
+    return renderLinkOpen(tokens, idx, options, env, self);
+};
+
 /** A component to render Markdown content within a MUI Box component. */
 const MarkdownBox: FC<MarkdownBoxProps> = ({
     markdown,
@@ -16,8 +29,8 @@ const MarkdownBox: FC<MarkdownBoxProps> = ({
     <Box
         dangerouslySetInnerHTML={
             markdown ?
-                // eslint-disable-next-line sonarjs/disabled-auto-escaping
-                { __html: DOMPurify.sanitize(markdownIt({ html: true }).render(markdown)) } :
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                { __html: DOMPurify.sanitize(md.render(markdown), { ADD_ATTR: ['target'] }) } :
                 undefined
         }
         sx={{
