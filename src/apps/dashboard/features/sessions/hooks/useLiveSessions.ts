@@ -1,46 +1,41 @@
 import type { SessionInfoDto } from '@jellyfin/sdk/lib/generated-client/models/session-info-dto';
-import { useApi } from 'hooks/useApi';
-import { useCallback, useEffect } from 'react';
-import { QUERY_KEY, useSessions } from '../api/useSessions';
-import { queryClient } from 'utils/query/queryClient';
-import filterSessions from '../utils/filterSessions';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
+import { useEffect } from 'react';
+
+import { useApi } from 'hooks/useApi';
+import { queryClient } from 'utils/query/queryClient';
+
+import { QUERY_KEY, useSessions } from '../api/useSessions';
+import filterSessions from '../utils/filterSessions';
 
 const QUERY_PARAMS = {
     activeWithinSeconds: 960
 };
+const QUERY_KEY_WITH_PARAMS = [ QUERY_KEY, QUERY_PARAMS ];
+
+function preserveSessionOrder(sessions: SessionInfoDto[], previous: SessionInfoDto[] = []) {
+    // Keep existing cards in place as the server reorders sessions by activity.
+    const orderById = new Map(previous.map((session, index) => [ session.Id, index ]));
+    return sessions.sort((a, b) => (orderById.get(a.Id) ?? previous.length)
+        - (orderById.get(b.Id) ?? previous.length));
+}
 
 const useLiveSessions = () => {
     const { api } = useApi();
 
     const sessionsQuery = useSessions(QUERY_PARAMS);
 
-    const updateSessions = useCallback((sessions: SessionInfoDto[]) => {
-        const newSessions = filterSessions(sessions);
-        const data = queryClient.getQueryData([ QUERY_KEY, QUERY_PARAMS ]) as SessionInfoDto[];
-        if (data) {
-            const currentSessions = [ ...data ];
-
-            for (const session of newSessions) {
-                const sessionIndex = currentSessions.findIndex((value) => value.DeviceId === session.DeviceId);
-                if (sessionIndex == -1) {
-                    currentSessions.push(session);
-                } else {
-                    currentSessions[sessionIndex] = session;
-                }
-            }
-            return currentSessions;
-        } else {
-            return newSessions;
-        }
-    }, []);
-
     useEffect(() => {
-        // Return function for unsubscribing
-        return api?.subscribe([OutboundWebSocketMessageType.Sessions], ({ Data }) => {
-            queryClient.setQueryData([ QUERY_KEY, QUERY_PARAMS ], updateSessions(Data ?? []));
+        return api?.subscribe([ OutboundWebSocketMessageType.Sessions ], ({ Data }) => {
+            if (!Data) return;
+
+            // Give the live snapshot precedence over an in-flight REST request.
+            void queryClient.cancelQueries({ queryKey: QUERY_KEY_WITH_PARAMS, exact: true });
+            const sessions = filterSessions(Data, QUERY_PARAMS.activeWithinSeconds);
+            queryClient.setQueryData<SessionInfoDto[]>(QUERY_KEY_WITH_PARAMS, previous =>
+                preserveSessionOrder(sessions, previous ?? undefined));
         });
-    }, [api, updateSessions]);
+    }, [ api ]);
 
     return sessionsQuery;
 };
