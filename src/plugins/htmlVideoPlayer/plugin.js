@@ -33,7 +33,8 @@ import {
     handleHlsJsMediaError,
     getSavedVolume,
     isValidDuration,
-    getBufferedRanges
+    getBufferedRanges,
+    waitVideoReady
 } from '../../components/htmlMediaHelper';
 import itemHelper from '../../components/itemHelper';
 import globalize from '../../lib/globalize';
@@ -1108,7 +1109,9 @@ export class HtmlVideoPlayer {
 
             loading.hide();
 
-            seekOnPlaybackStart(this, e.target, this._currentPlayOptions.playerStartPositionTicks, () => {
+            seekOnPlaybackStart(this, elem, this._currentPlayOptions.playerStartPositionTicks);
+
+            waitVideoReady(elem).then(() => {
                 if (this.#currentAssRenderer) {
                     this.#currentAssRenderer.timeOffset = getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset);
                     this.#currentAssRenderer.resize();
@@ -1414,7 +1417,7 @@ export class HtmlVideoPlayer {
                         onErrorInternal(this, MediaError.ASS_RENDER_ERROR);
                     }, 0);
                 },
-                timeOffset: (this._currentPlayOptions.transcodingOffsetTicks || 0) / 10000000,
+                timeOffset: getSubtitleTimeOffset(this._currentPlayOptions, this.#currentTrackOffset),
 
                 // new octopus options; override all, even defaults
                 renderMode: 'wasm-blend',
