@@ -79,6 +79,15 @@ function onMouseDown(e) {
     }
 }
 
+function onClick(e) {
+    // Clicks from element.click() (e.g. the remote "select" command) have detail 0.
+    // Real pointer clicks are already handled in onMouseDown.
+    if (e.detail === 0 && !enableNativeMenu()) {
+        e.preventDefault();
+        showActionSheet(this);
+    }
+}
+
 function onKeyDown(e) {
     // Xbox controller for UWP WebView2 uses keycode 195 to select.
     if ((e.keyCode === 13 || e.keyCode === 195) && !enableNativeMenu()) {
@@ -102,6 +111,7 @@ EmbySelectPrototype.createdCallback = function () {
     }
 
     this.addEventListener('mousedown', onMouseDown);
+    this.addEventListener('click', onClick);
     this.addEventListener('keydown', onKeyDown);
 
     this.addEventListener('focus', onFocus);
