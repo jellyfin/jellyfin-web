@@ -4,6 +4,7 @@ import 'elements/emby-tabs/emby-tabs';
 import 'elements/emby-button/emby-button';
 import 'elements/emby-scroller/emby-scroller';
 import LibraryMenu from 'scripts/libraryMenu';
+import { importLegacyController } from 'utils/moduleLoaders';
 
 class HomeView extends TabbedView {
     setTitle() {
@@ -49,7 +50,7 @@ class HomeView extends TabbedView {
         }
 
         const instance = this;
-        return import(/* webpackChunkName: "[request]" */ `../controllers/${depends}`).then(({ default: ControllerFactory }) => {
+        return importLegacyController(depends).then(({ default: ControllerFactory }) => {
             let controller = instance.tabControllers[index];
 
             if (!controller) {

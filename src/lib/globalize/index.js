@@ -4,6 +4,7 @@ import { EventType } from 'constants/eventType';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import Events from 'utils/events';
 import { updateLocale } from 'utils/dateFnsLocale';
+import { importStrings } from 'utils/moduleLoaders';
 
 const Direction = {
     rtl: 'rtl',
@@ -214,7 +215,7 @@ function loadTranslation(translations, lang) {
 
         const url = filtered[0].path;
 
-        import(/* webpackChunkName: "[request]" */ `../../strings/${url}`).then((fileContent) => {
+        importStrings(url).then((fileContent) => {
             resolve(fileContent);
         }).catch(() => {
             resolve({});

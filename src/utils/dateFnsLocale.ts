@@ -1,6 +1,7 @@
+import type { Locale } from 'date-fns';
 import enUS from 'date-fns/locale/en-US';
 
-const LOCALE_MAP: Record<string, string> = {
+export const LOCALE_MAP: Readonly<Record<string, string>> = {
     'af': 'af',
     'ar': 'ar-DZ',
     'be-by': 'be',
@@ -64,11 +65,75 @@ const LOCALE_MAP: Record<string, string> = {
 
 const DEFAULT_LOCALE = 'en-US';
 
+// One explicit import per LOCALE_MAP target (keep both in sync): the bundler emits one chunk per
+// locale instead of one for every locale date-fns ships, and the dev server can pre-bundle them.
+/* eslint-disable @typescript-eslint/naming-convention -- keys are date-fns locale codes */
+const LOCALE_IMPORTERS: Record<string, () => Promise<{ default: Locale }>> = {
+    af: () => import('date-fns/locale/af/index.js'),
+    'ar-DZ': () => import('date-fns/locale/ar-DZ/index.js'),
+    be: () => import('date-fns/locale/be/index.js'),
+    bg: () => import('date-fns/locale/bg/index.js'),
+    bn: () => import('date-fns/locale/bn/index.js'),
+    ca: () => import('date-fns/locale/ca/index.js'),
+    cs: () => import('date-fns/locale/cs/index.js'),
+    cy: () => import('date-fns/locale/cy/index.js'),
+    da: () => import('date-fns/locale/da/index.js'),
+    de: () => import('date-fns/locale/de/index.js'),
+    el: () => import('date-fns/locale/el/index.js'),
+    'en-GB': () => import('date-fns/locale/en-GB/index.js'),
+    // The default locale is already bundled through the static import above.
+    'en-US': () => Promise.resolve({ default: enUS }),
+    eo: () => import('date-fns/locale/eo/index.js'),
+    es: () => import('date-fns/locale/es/index.js'),
+    et: () => import('date-fns/locale/et/index.js'),
+    eu: () => import('date-fns/locale/eu/index.js'),
+    'fa-IR': () => import('date-fns/locale/fa-IR/index.js'),
+    fi: () => import('date-fns/locale/fi/index.js'),
+    fr: () => import('date-fns/locale/fr/index.js'),
+    'fr-CA': () => import('date-fns/locale/fr-CA/index.js'),
+    gl: () => import('date-fns/locale/gl/index.js'),
+    he: () => import('date-fns/locale/he/index.js'),
+    hi: () => import('date-fns/locale/hi/index.js'),
+    hr: () => import('date-fns/locale/hr/index.js'),
+    hu: () => import('date-fns/locale/hu/index.js'),
+    id: () => import('date-fns/locale/id/index.js'),
+    is: () => import('date-fns/locale/is/index.js'),
+    it: () => import('date-fns/locale/it/index.js'),
+    ja: () => import('date-fns/locale/ja/index.js'),
+    kk: () => import('date-fns/locale/kk/index.js'),
+    ko: () => import('date-fns/locale/ko/index.js'),
+    lt: () => import('date-fns/locale/lt/index.js'),
+    lv: () => import('date-fns/locale/lv/index.js'),
+    ms: () => import('date-fns/locale/ms/index.js'),
+    nb: () => import('date-fns/locale/nb/index.js'),
+    nl: () => import('date-fns/locale/nl/index.js'),
+    nn: () => import('date-fns/locale/nn/index.js'),
+    pl: () => import('date-fns/locale/pl/index.js'),
+    pt: () => import('date-fns/locale/pt/index.js'),
+    'pt-BR': () => import('date-fns/locale/pt-BR/index.js'),
+    ro: () => import('date-fns/locale/ro/index.js'),
+    ru: () => import('date-fns/locale/ru/index.js'),
+    sk: () => import('date-fns/locale/sk/index.js'),
+    sl: () => import('date-fns/locale/sl/index.js'),
+    sv: () => import('date-fns/locale/sv/index.js'),
+    ta: () => import('date-fns/locale/ta/index.js'),
+    th: () => import('date-fns/locale/th/index.js'),
+    tr: () => import('date-fns/locale/tr/index.js'),
+    uk: () => import('date-fns/locale/uk/index.js'),
+    vi: () => import('date-fns/locale/vi/index.js'),
+    'zh-CN': () => import('date-fns/locale/zh-CN/index.js'),
+    'zh-HK': () => import('date-fns/locale/zh-HK/index.js'),
+    'zh-TW': () => import('date-fns/locale/zh-TW/index.js')
+};
+/* eslint-enable @typescript-eslint/naming-convention */
+
 let localeString = DEFAULT_LOCALE;
 let locale = enUS;
 
-export function fetchLocale(localeName: string) {
-    return import(`date-fns/locale/${localeName}/index.js`);
+export async function fetchLocale(localeName: string): Promise<Locale> {
+    const importLocale = LOCALE_IMPORTERS[localeName];
+    if (!importLocale) throw new Error(`Unsupported date-fns locale: ${localeName}`);
+    return (await importLocale()).default;
 }
 
 export function normalizeLocale(localeName: string) {

@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 
 import { AppType } from 'constants/appType';
+import { importDashboardRoute, importLegacyRoute, importModernRoute } from 'utils/moduleLoaders';
 
 export interface AsyncRoute {
     /** The URL path for this route. */
@@ -17,11 +18,13 @@ export interface AsyncRoute {
 const importRoute = (page: string, type: AppType) => {
     switch (type) {
         case AppType.Dashboard:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/dashboard/routes/${page}`);
+            return importDashboardRoute(page);
         case AppType.Modern:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/modern/routes/${page}`);
+            return importModernRoute(page);
         case AppType.Legacy:
-            return import(/* webpackChunkName: "[request]" */ `../../apps/legacy/routes/${page}`);
+            return importLegacyRoute(page);
+        default:
+            throw new Error(`Unsupported app type for async route: ${type}`);
     }
 };
 

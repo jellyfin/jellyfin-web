@@ -25,6 +25,7 @@ import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
 import Events from 'utils/events';
+import { importLegacyController } from 'utils/moduleLoaders';
 import { queryClient } from '@/utils/query/queryClient';
 
 import 'elements/emby-scroller/emby-scroller';
@@ -297,7 +298,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../movies/${depends}`).then(({ default: ControllerFactory }) => {
+        importLegacyController(`movies/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index === suggestionsTabIndex) {

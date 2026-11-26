@@ -23,6 +23,7 @@ import libraryMenu from 'scripts/libraryMenu';
 import * as userSettings from 'scripts/settings/userSettings';
 import { LibraryTab } from 'types/libraryTab';
 import Dashboard from 'utils/dashboard';
+import { importLegacyController } from 'utils/moduleLoaders';
 import { queryClient } from '@/utils/query/queryClient';
 
 import 'elements/emby-itemscontainer/emby-itemscontainer';
@@ -310,7 +311,7 @@ export default function (view, params) {
                 break;
         }
 
-        import(`../music/${depends}`).then(({ default: ControllerFactory }) => {
+        importLegacyController(`music/${depends}`).then(({ default: ControllerFactory }) => {
             let tabContent;
 
             if (index == 1) {
