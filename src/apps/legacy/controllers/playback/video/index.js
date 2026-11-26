@@ -1241,6 +1241,8 @@ export default function (view) {
     }
 
     function onKeyDown(e) {
+        if (e.defaultPrevented) return;
+
         clickedElement = e.target;
 
         const isKeyModified = e.ctrlKey || e.altKey || e.metaKey;
