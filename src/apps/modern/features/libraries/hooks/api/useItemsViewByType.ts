@@ -235,6 +235,11 @@ export const useGetItemsViewByType = (
                 libraryViewSettings!,
                 { signal }
             ),
+        // Keep the fetched list cached briefly so navigating away and back reuses
+        // the same items instead of refetching. Without a staleTime the query is
+        // stale immediately and refetches on every remount, which for Random sort
+        // returns a different order each time and makes the list unusable (#8892).
+        staleTime: 5 * 60 * 1000, // 5 minutes
         refetchOnWindowFocus: false,
         enabled: !!currentApi.api && !!currentApi.user?.Id
             && viewType
