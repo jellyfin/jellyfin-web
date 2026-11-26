@@ -35,10 +35,40 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { OutboundWebSocketMessageType } from '@jellyfin/sdk/lib/websocket';
 import { MediaError } from 'types/mediaError';
 import { getMediaError } from 'utils/mediaError';
+import { isPlaybackLimitError, PLAYBACK_LIMIT_ERROR_CODE, PlaybackLimitError } from 'utils/playbackLimit';
 import { bindSkipSegment } from './skipsegment.ts';
 import * as bitrateTest from 'utils/bitrateTest';
 
 const UNLIMITED_ITEMS = -1;
+const PLAYBACK_LIMIT_MESSAGE = `PlaybackError.${PLAYBACK_LIMIT_ERROR_CODE}`;
+
+// Carries a localization key for errors returned inside successful PlaybackInfo responses.
+class PlaybackInfoError extends Error {}
+
+function getPlayerData(player) {
+    if (!player) {
+        throw new Error('player cannot be null');
+    }
+    if (!player.name) {
+        throw new Error('player name cannot be null');
+    }
+    return player;
+}
+
+function getCurrentTicks(player) {
+    if (!player) {
+        throw new Error('player cannot be null');
+    }
+
+    let playerTime = Math.floor(10000 * (player).currentTime());
+
+    const streamInfo = getPlayerData(player).streamInfo;
+    if (streamInfo) {
+        playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
+    }
+
+    return playerTime;
+}
 
 function enableLocalPlaylistManagement(player) {
     if (player.getPlaylist) {
@@ -99,7 +129,7 @@ function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, 
     const apiClient = ServerConnections.getApiClient(serverId);
     const reportPlaybackPromise = apiClient[method](info);
     // Notify that report has been sent
-    reportPlaybackPromise.then(() => {
+    return reportPlaybackPromise.then(() => {
         Events.trigger(playbackManagerInstance, 'reportplayback', [true]);
     });
 }
@@ -415,6 +445,26 @@ function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositio
     });
 }
 
+// A client ID belongs to one video playback, including its replacement encodings.
+function createPlaybackInstanceId() {
+    // eslint-disable-next-line compat/compat -- Older webviews use the correlation ID fallback below.
+    const random = window.crypto;
+    if (!random?.getRandomValues) {
+        // eslint-disable-next-line sonarjs/pseudo-random -- This value correlates playback requests and carries no authority.
+        return `${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+    }
+    const bytes = random.getRandomValues(new Uint8Array(16));
+    return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * These fields are available on Jellyfin servers with logical playback identity.
+ * Remove the extensions when the generated SDK models expose them.
+ * @typedef {import('@jellyfin/sdk/lib/generated-client/models/playback-info-dto').PlaybackInfoDto & { PlaybackInstanceId?: string }} PlaybackInfoRequest
+ * @typedef {import('@jellyfin/sdk/lib/generated-client/models/playback-info-response').PlaybackInfoResponse & { PlaybackInstanceId?: string | null }} PlaybackInfoResult
+ */
+
+/** @returns {Promise<PlaybackInfoResult>} */
 async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, liveStreamId, options) {
     if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && !player.useServerPlaybackInfoForAudio) {
         return {
@@ -438,14 +488,15 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     const query = {
         UserId: apiClient.getCurrentUserId(),
-        StartTimeTicks: options.startPosition || 0
+        StartTimeTicks: options.startPosition || 0,
+        PlaybackInstanceId: options.playbackInstanceId
     };
 
     const api = ServerConnections.getApi(apiClient.serverId());
 
     if (options.isPlayback) {
         query.IsPlayback = true;
-        query.AutoOpenLiveStream = true;
+        query.AutoOpenLiveStream = options.autoOpenLiveStream ?? true;
     } else {
         query.IsPlayback = false;
         query.AutoOpenLiveStream = false;
@@ -500,8 +551,13 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     query.DeviceProfile = deviceProfile;
 
-    const res = await getMediaInfoApi(api).getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
-    return res.data;
+    /** @type {PlaybackInfoRequest} */
+    const playbackInfoDto = query;
+    const { data } = await getMediaInfoApi(api).getPostedPlaybackInfo({ itemId, playbackInfoDto });
+    if (data.ErrorCode === PLAYBACK_LIMIT_ERROR_CODE) {
+        throw new PlaybackLimitError();
+    }
+    return data;
 }
 
 function getOptimalMediaSource(apiClient, item, versions) {
@@ -549,7 +605,10 @@ async function getLiveStream(player, item, playSessionId, deviceProfile, mediaSo
         OpenToken: mediaSource.OpenToken,
         StartTimeTicks: options.startPosition || 0,
         ItemId: item.Id,
-        PlaySessionId: playSessionId
+        PlaySessionId: playSessionId,
+        EnableDirectPlay: options.enableDirectPlay,
+        EnableDirectStream: options.enableDirectStream,
+        AlwaysBurnInSubtitleWhenTranscoding: appSettings.alwaysBurnInSubtitleWhenTranscoding()
     };
 
     if (options.maxBitrate) {
@@ -573,6 +632,19 @@ async function getLiveStream(player, item, playSessionId, deviceProfile, mediaSo
     const { data } = await getMediaInfoApi(api).openLiveStream({ openLiveStreamDto: query });
 
     return data;
+}
+
+function closeUnusedLiveStream(serverId, playbackInfo, mediaSource, openedHere = false) {
+    const canCloseByAlias = playbackInfo.PlaybackInstanceId && playbackInfo.PlaySessionId;
+    if (!mediaSource.LiveStreamId || (!canCloseByAlias && !openedHere)) {
+        return;
+    }
+
+    const api = ServerConnections.getApi(serverId);
+    // The generated client has not picked up the close endpoint's optional alias yet.
+    const config = canCloseByAlias ? { params: { playSessionId: playbackInfo.PlaySessionId } } : undefined;
+    void getMediaInfoApi(api).closeLiveStream({ liveStreamId: mediaSource.LiveStreamId }, config)
+        .catch(error => console.warn('[playbackmanager] Failed to close unused live stream', error));
 }
 
 function isHostReachable(mediaSource, apiClient) {
@@ -620,22 +692,73 @@ function supportsDirectPlay(apiClient, item, mediaSource) {
     return Promise.resolve(false);
 }
 
-/**
- * @param {PlaybackManager} instance
- * @param {import('@jellyfin/sdk/lib/generated-client/index.js').PlaybackInfoResponse} result
- * @returns {boolean}
- */
-function validatePlaybackInfoResult(instance, result) {
-    if (result.ErrorCode) {
-        // NOTE: To avoid needing to retranslate the "NoCompatibleStream" message,
-        // we need to keep the key in the same format.
-        const errMessage = result.ErrorCode === PlaybackErrorCode.NoCompatibleStream ?
-            'PlaybackErrorNoCompatibleStream' : `PlaybackError.${result.ErrorCode}`;
-        showPlaybackInfoErrorMessage(instance, errMessage);
-        return false;
+function getPlaybackInfoErrorKey(result) {
+    if (result.ErrorCode === PlaybackErrorCode.NoCompatibleStream) {
+        return 'PlaybackErrorNoCompatibleStream';
+    }
+    return result.ErrorCode ? `PlaybackError.${result.ErrorCode}` : null;
+}
+
+async function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options, isCurrent = () => true) {
+    // Open cancellable video starts explicitly so a legacy server's consumer can be released.
+    const autoOpenLiveStream = !options.playbackInstanceId;
+    const playbackOptions = { ...options, isPlayback: true, autoOpenLiveStream };
+
+    const playbackInfo = await getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, playbackOptions);
+    if (!isCurrent()) {
+        for (const source of playbackInfo.MediaSources || []) {
+            closeUnusedLiveStream(item.ServerId, playbackInfo, source);
+        }
+        return;
+    }
+    const errorKey = getPlaybackInfoErrorKey(playbackInfo);
+    if (errorKey) {
+        throw new PlaybackInfoError(errorKey);
     }
 
-    return true;
+    const firstSource = playbackInfo.MediaSources[0];
+    const openFirstSource = !autoOpenLiveStream && firstSource?.RequiresOpening && !firstSource.LiveStreamId;
+    let mediaSource = openFirstSource ? firstSource : await getOptimalMediaSource(apiClient, item, playbackInfo.MediaSources);
+    if (!mediaSource) {
+        throw new PlaybackInfoError(`PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+    }
+    if (!isCurrent()) {
+        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource);
+        return;
+    }
+
+    const hasAlternateVersions = (!openFirstSource && playbackInfo.MediaSources.length > 1)
+        || item.MediaSources?.length > 1
+        || (!!mediaSourceId && mediaSourceId !== item.Id);
+
+    let openedHere = false;
+    if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
+        if (!openFirstSource) {
+            playbackOptions.audioStreamIndex = null;
+            playbackOptions.subtitleStreamIndex = null;
+        }
+        const openedStream = await getLiveStream(player, item, playbackInfo.PlaySessionId, deviceProfile, mediaSource, playbackOptions);
+        mediaSource = openedStream.MediaSource;
+        openedHere = true;
+        if (isCurrent()) {
+            try {
+                mediaSource.enableDirectPlay = await supportsDirectPlay(apiClient, item, mediaSource);
+            } catch (error) {
+                closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource, openedHere);
+                throw error;
+            }
+        }
+    } else if (item.AlbumId != null) {
+        const album = await apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId);
+        mediaSource.albumNormalizationGain = album.NormalizationGain;
+    }
+    if (!isCurrent()) {
+        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource, openedHere);
+        return;
+    }
+
+    mediaSource.hasAlternateVersions = hasAlternateVersions;
+    return { mediaSource, playbackInfo, openedHere };
 }
 
 function showPlaybackInfoErrorMessage(instance, errorCode) {
@@ -709,16 +832,30 @@ function sortPlayerTargets(a, b) {
     return aVal.localeCompare(bVal);
 }
 
+/**
+ * @param {object} streamInfo
+ * @param {boolean} currentlyPreventsVideoStreamCopy
+ * @param {boolean} currentlyPreventsAudioStreamCopy
+ * @returns {boolean} Returns true if the stream should be retried by transcoding.
+ */
+function enablePlaybackRetryWithTranscoding(streamInfo, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
+    return streamInfo.mediaSource.SupportsTranscoding
+        && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
+}
+
 export class PlaybackManager {
+    #playbackRequest;
+    #startingPlayer;
+
     constructor() {
         const self = this;
 
         const players = [];
+        let playbackStop = Promise.resolve();
         let currentTargetInfo;
         let currentPairingId = null;
 
         this._playNextAfterEnded = true;
-        const playerStates = {};
 
         this._playQueueManager = new PlayQueueManager();
 
@@ -1339,8 +1476,15 @@ export class PlaybackManager {
                 changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
                 getPlayerData(player).audioStreamIndex = index;
             } else {
-                // See if the player supports the track without transcoding
-                player.getDeviceProfile(self.currentItem(player)).then(function (profile) {
+                // See if the player supports the track without transcoding.
+                const data = getPlayerData(player);
+                const streamInfo = data.streamInfo;
+                const request = {};
+                data.audioChange = request;
+                player.getDeviceProfile(streamInfo.item).then(function (profile) {
+                    if (data.audioChange !== request || data.streamInfo !== streamInfo) {
+                        return;
+                    }
                     if (isAudioStreamSupported(self.currentMediaSource(player), index, profile)) {
                         player.setAudioStreamIndex(index);
                         getPlayerData(player).audioStreamIndex = index;
@@ -1404,12 +1548,18 @@ export class PlaybackManager {
                 return player.setMaxStreamingBitrate(options);
             }
 
-            const api = ServerConnections.getApi(self.currentItem(player).ServerId);
-            const apiClient = ServerConnections.getApiClient(self.currentItem(player).ServerId);
+            const playerData = getPlayerData(player);
+            const streamInfo = playerData.streamInfo;
+            if (!streamInfo) {
+                return;
+            }
+            const request = {};
+            playerData.bitrateChange = request;
+            const api = ServerConnections.getApi(streamInfo.item.ServerId);
+            const apiClient = ServerConnections.getApiClient(streamInfo.item.ServerId);
 
             apiClient.getEndpointInfo().then(function (endpointInfo) {
-                const playerData = getPlayerData(player);
-                const mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
+                const mediaType = streamInfo.mediaType;
 
                 let promise;
                 if (options.enableAutomaticBitrateDetection) {
@@ -1421,6 +1571,9 @@ export class PlaybackManager {
                 }
 
                 promise.then(function (bitrate) {
+                    if (playerData.bitrateChange !== request || playerData.streamInfo !== streamInfo) {
+                        return;
+                    }
                     appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
 
                     changeStream(player, getCurrentTicks(player), {
@@ -1700,116 +1853,174 @@ export class PlaybackManager {
             return player.duration();
         }
 
-        function changeStream(player, ticks, params) {
+        async function changeStream(player, ticks, params) {
+            const playerData = player && getPlayerData(player);
+            const previousStream = playerData?.streamInfo;
+            if (!previousStream) {
+                return;
+            }
             if (canPlayerSeek(player) && params == null) {
                 player.currentTime(parseInt(ticks / 10000, 10));
                 return;
             }
 
-            params = params || {};
+            const change = { ...playerData.streamChange, ...params };
+            playerData.streamChange = change;
+            const isCurrent = () => playerData.streamChange === change && playerData.streamInfo === previousStream;
+            const currentItem = previousStream.item;
+            const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
 
-            const liveStreamId = getPlayerData(player).streamInfo.liveStreamId;
-            const lastMediaInfoQuery = getPlayerData(player).streamInfo.lastMediaInfoQuery;
-
-            const playSessionId = self.playSessionId(player);
-
-            const currentItem = self.currentItem(player);
-
-            player.getDeviceProfile(currentItem, {
-                isRetry: params.EnableDirectPlay === false
-            }).then(function (deviceProfile) {
-                const audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
-                const subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
-                const secondarySubtitleStreamIndex = params.SecondarySubtitleStreamIndex == null ? getPlayerData(player).secondarySubtitleStreamIndex : params.SecondarySubtitleStreamIndex;
-
-                let currentMediaSource = self.currentMediaSource(player);
-                const apiClient = ServerConnections.getApiClient(currentItem.ServerId);
-
-                if (ticks) {
-                    ticks = parseInt(ticks, 10);
+            try {
+                const deviceProfile = await player.getDeviceProfile(currentItem, {
+                    isRetry: change.EnableDirectPlay === false
+                });
+                if (!isCurrent()) {
+                    return;
                 }
 
-                const maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
-
-                const currentPlayOptions = currentItem.playOptions || getDefaultPlayOptions();
-
+                const audioStreamIndex = change.AudioStreamIndex ?? playerData.audioStreamIndex;
+                const subtitleStreamIndex = change.SubtitleStreamIndex ?? playerData.subtitleStreamIndex;
+                const secondarySubtitleStreamIndex = change.SecondarySubtitleStreamIndex ?? playerData.secondarySubtitleStreamIndex;
+                const maxBitrate = change.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
+                const startPosition = ticks ? Number.parseInt(ticks, 10) : ticks;
                 const options = {
                     maxBitrate,
-                    startPosition: ticks,
+                    startPosition,
                     isPlayback: true,
+                    playbackInstanceId: previousStream.playbackInstanceId,
                     audioStreamIndex,
                     subtitleStreamIndex,
-                    enableDirectPlay: params.EnableDirectPlay,
-                    enableDirectStream: params.EnableDirectStream,
-                    allowVideoStreamCopy: params.AllowVideoStreamCopy,
-                    allowAudioStreamCopy: params.AllowAudioStreamCopy
+                    secondarySubtitleStreamIndex,
+                    enableDirectPlay: change.EnableDirectPlay,
+                    enableDirectStream: change.EnableDirectStream,
+                    allowVideoStreamCopy: change.AllowVideoStreamCopy,
+                    allowAudioStreamCopy: change.AllowAudioStreamCopy
                 };
 
-                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, currentMediaSource.Id, liveStreamId, options).then(function (result) {
-                    if (validatePlaybackInfoResult(self, result)) {
-                        // Changing streams requests only the active source; keep the version availability flag.
-                        result.MediaSources[0].hasAlternateVersions = currentMediaSource.hasAlternateVersions;
-                        currentMediaSource = result.MediaSources[0];
-
-                        const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks, player);
-                        streamInfo.fullscreen = currentPlayOptions.fullscreen;
-                        streamInfo.lastMediaInfoQuery = lastMediaInfoQuery;
-                        streamInfo.resetSubtitleOffset = false;
-
-                        if (!streamInfo.url) {
-                            cancelPlayback();
-                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                            return;
-                        }
-
-                        getPlayerData(player).subtitleStreamIndex = subtitleStreamIndex;
-                        getPlayerData(player).secondarySubtitleStreamIndex = secondarySubtitleStreamIndex;
-                        getPlayerData(player).audioStreamIndex = audioStreamIndex;
-                        getPlayerData(player).maxStreamingBitrate = maxBitrate;
-
-                        changeStreamToUrl(apiClient, player, playSessionId, streamInfo);
+                const result = await getPlaybackInfo(player, apiClient, currentItem, deviceProfile, previousStream.mediaSource.Id, previousStream.liveStreamId, options);
+                const mediaSource = result.MediaSources?.[0];
+                if (!isCurrent()) {
+                    if (mediaSource?.LiveStreamId && mediaSource.LiveStreamId !== playerData.streamInfo?.liveStreamId
+                        && mediaSource.LiveStreamId !== previousStream.liveStreamId) {
+                        closeUnusedLiveStream(currentItem.ServerId, result, mediaSource);
                     }
-                });
-            });
-        }
+                    return;
+                }
+                const errorKey = getPlaybackInfoErrorKey(result);
+                if (errorKey || !mediaSource) {
+                    handleStreamChangeFailure(player, previousStream, errorKey || `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+                    return;
+                }
 
-        function changeStreamToUrl(apiClient, player, playSessionId, streamInfo) {
-            const playerData = getPlayerData(player);
+                // Changing streams requests only the active source; keep the version availability flag.
+                mediaSource.hasAlternateVersions = previousStream.mediaSource.hasAlternateVersions;
+                const streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, mediaSource, startPosition, player, result);
+                streamInfo.fullscreen = (currentItem.playOptions || getDefaultPlayOptions()).fullscreen;
+                streamInfo.lastMediaInfoQuery = previousStream.lastMediaInfoQuery;
+                streamInfo.resetSubtitleOffset = false;
+                streamInfo.playbackStartTimeTicks = previousStream.playbackStartTimeTicks;
 
-            playerData.isChangingStream = true;
+                if (!streamInfo.url) {
+                    handleStreamChangeFailure(player, previousStream, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
+                    return;
+                }
 
-            if (playerData.streamInfo && playSessionId) {
-                apiClient.stopActiveEncodings(playSessionId).then(function () {
-                    // Stop the first transcoding afterwards because the player may still send requests to the original url
-                    const afterSetSrc = function () {
-                        apiClient.stopActiveEncodings(playSessionId);
-                    };
-                    setSrcIntoPlayer(apiClient, player, streamInfo).then(afterSetSrc, afterSetSrc);
-                });
-            } else {
-                setSrcIntoPlayer(apiClient, player, streamInfo);
+                const previousAlias = previousStream.playSessionId;
+                if (!streamInfo.playbackInstanceId && previousAlias) {
+                    // Preserve the old restart order for servers that lack playback identity.
+                    await apiClient.stopActiveEncodings(previousAlias);
+                    if (!isCurrent()) {
+                        return;
+                    }
+                }
+
+                playerData.streamChange = null;
+                playerData.subtitleStreamIndex = subtitleStreamIndex;
+                playerData.secondarySubtitleStreamIndex = secondarySubtitleStreamIndex;
+                playerData.audioStreamIndex = audioStreamIndex;
+                playerData.maxStreamingBitrate = maxBitrate;
+                await changeStreamToUrl(apiClient, player, previousStream, streamInfo);
+            } catch (error) {
+                if (!isCurrent()) {
+                    return;
+                }
+                const limitReached = await isPlaybackLimitError(error);
+                if (isCurrent()) {
+                    if (!limitReached) {
+                        console.error('[playbackmanager] Failed to change stream', error);
+                    }
+                    const errorKey = limitReached ? PLAYBACK_LIMIT_MESSAGE : `PlaybackError.${MediaError.SERVER_ERROR}`;
+                    handleStreamChangeFailure(player, previousStream, errorKey);
+                }
+            } finally {
+                if (playerData.streamChange === change) {
+                    playerData.streamChange = null;
+                }
             }
         }
 
-        function setSrcIntoPlayer(apiClient, player, streamInfo) {
+        function handleStreamChangeFailure(player, previousStream, errorKey) {
+            if (self.#startingPlayer?.streamInfo === previousStream) {
+                previousStream.limitRejected = errorKey === PLAYBACK_LIMIT_MESSAGE;
+                onPlaybackStopped.call(player, undefined, { streamInfo: previousStream, errorKey });
+            } else {
+                // Negotiation failed before the current source was replaced.
+                showPlaybackInfoErrorMessage(self, errorKey);
+            }
+        }
+
+        async function loadStream(player, streamInfo) {
             const playerData = getPlayerData(player);
+            const isCurrent = () => playerData.streamInfo === streamInfo && !streamInfo.playbackController?.signal.aborted;
 
-            playerData.streamInfo = streamInfo;
+            try {
+                await player.play(streamInfo);
+            } catch (error) {
+                if (isCurrent()) {
+                    return onPlaybackError.call(player, undefined, { error, type: getMediaError(error), streamInfo });
+                }
+                return;
+            }
+            if (!isCurrent()) {
+                return;
+            }
 
-            return player.play(streamInfo).then(function () {
-                playerData.isChangingStream = false;
+            playerData.isChangingStream = false;
+            streamInfo.previousStream = null;
+
+            const startup = self.#startingPlayer;
+            if (startup?.streamInfo === streamInfo) {
+                self.#startingPlayer = null;
+                startup.onStarted(streamInfo);
+            } else {
                 streamInfo.started = true;
-                streamInfo.ended = false;
-
                 sendProgressUpdate(player, 'timeupdate');
-            }, function (e) {
-                playerData.isChangingStream = false;
+            }
+        }
 
-                onPlaybackError.call(player, e, {
-                    type: getMediaError(e),
-                    streamInfo
-                });
-            });
+        async function changeStreamToUrl(apiClient, player, previousStream, streamInfo) {
+            const playerData = getPlayerData(player);
+            const previousAlias = previousStream.playSessionId;
+            if (streamInfo.playbackInstanceId) {
+                // A stop while the replacement is starting may still need the last admitted alias.
+                streamInfo.previousStream = previousStream;
+            }
+            if (self.#startingPlayer?.streamInfo === previousStream) {
+                self.#startingPlayer.streamInfo = streamInfo;
+            }
+
+            previousStream.playbackController?.abort();
+            playerData.isChangingStream = true;
+            playerData.streamInfo = streamInfo;
+            try {
+                await loadStream(player, streamInfo);
+            } finally {
+                if (!streamInfo.limitRejected && previousAlias && (!streamInfo.playbackInstanceId || previousAlias !== streamInfo.playSessionId)) {
+                    // A late cleanup is scoped to the alias captured before the change.
+                    void apiClient.stopActiveEncodings(previousAlias)
+                        .catch(error => console.warn('[playbackmanager] Failed to stop replaced encoding', error));
+                }
+            }
         }
 
         async function translateItemsForPlayback(items, options) {
@@ -2143,58 +2354,55 @@ export class PlaybackManager {
                 }
             }
 
+            const request = beginPlaybackRequest();
             if (options.fullscreen) {
                 loading.show();
             }
 
-            let { items } = options;
-            // If items were not passed directly, fetch them by ID
-            if (!items) {
-                if (!options.serverId) {
-                    throw new Error('serverId required!');
+            try {
+                let { items } = options;
+                // If items were not passed directly, fetch them by ID
+                if (!items) {
+                    if (!options.serverId) {
+                        throw new Error('serverId required!');
+                    }
+
+                    items = (await getItemsForPlayback(options.serverId, {
+                        ids: options.ids
+                    })).Items;
                 }
 
-                items = (await getItemsForPlayback(options.serverId, {
-                    ids: options.ids
-                })).Items;
-            }
-
-            // Prepare the list of items
-            items = await translateItemsForPlayback(items, options);
-            // Add any additional parts for movies or episodes
-            items = await getAdditionalParts(items, options.mediaSourceId, options.startIndex || 0);
-            // Adjust the start index for additional parts added to the queue
-            if (options.startIndex) {
-                let adjustedStartIndex = 0;
-                for (let i = 0; i < options.startIndex; i++) {
-                    adjustedStartIndex += items[i].length;
+                // Prepare the list of items
+                items = await translateItemsForPlayback(items, options);
+                if (self.#playbackRequest !== request) {
+                    return;
                 }
+                // Add any additional parts for movies or episodes
+                items = await getAdditionalParts(items, options.mediaSourceId, options.startIndex || 0);
+                // Adjust the start index for additional parts added to the queue
+                if (options.startIndex) {
+                    let adjustedStartIndex = 0;
+                    for (let i = 0; i < options.startIndex; i++) {
+                        adjustedStartIndex += items[i].length;
+                    }
 
-                options.startIndex = adjustedStartIndex;
+                    options.startIndex = adjustedStartIndex;
+                }
+                // getAdditionalParts returns an array of arrays of items, so flatten it
+                items = items.flat();
+
+                if (self.#playbackRequest === request) {
+                    return await playWithIntros(items, options, request);
+                }
+            } finally {
+                if (self.#playbackRequest === request) {
+                    self.#playbackRequest = null;
+                    if (options.fullscreen) {
+                        loading.hide();
+                    }
+                }
             }
-            // getAdditionalParts returns an array of arrays of items, so flatten it
-            items = items.flat();
-
-            return playWithIntros(items, options);
         };
-
-        function getPlayerData(player) {
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-            if (!player.name) {
-                throw new Error('player name cannot be null');
-            }
-            let state = playerStates[player.name];
-
-            if (!state) {
-                playerStates[player.name] = {};
-                // eslint-disable-next-line sonarjs/no-dead-store
-                state = playerStates[player.name];
-            }
-
-            return player;
-        }
 
         self.getPlayerState = function (player, item, mediaSource) {
             player = player || self._currentPlayer;
@@ -2287,21 +2495,6 @@ export class PlaybackManager {
             return playerDuration;
         };
 
-        function getCurrentTicks(player) {
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-
-            let playerTime = Math.floor(10000 * (player).currentTime());
-
-            const streamInfo = getPlayerData(player).streamInfo;
-            if (streamInfo) {
-                playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
-            }
-
-            return playerTime;
-        }
-
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
@@ -2342,7 +2535,7 @@ export class PlaybackManager {
             return Promise.all(items.map((item, index) => getItemAndParts(item, index === (startIndex || 0))));
         };
 
-        function playWithIntros(items, options) {
+        function playWithIntros(items, options, request) {
             let playStartIndex = options.startIndex || 0;
             let firstItem = items[playStartIndex];
 
@@ -2354,8 +2547,7 @@ export class PlaybackManager {
 
             // If it's still null then there's nothing to play
             if (!firstItem) {
-                showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                return Promise.reject();
+                throw new PlaybackInfoError(`PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
             }
 
             if (firstItem.MediaType === 'Photo' || firstItem.MediaType === 'Book') {
@@ -2365,6 +2557,9 @@ export class PlaybackManager {
             const apiClient = ServerConnections.getApiClient(firstItem.ServerId);
 
             return getIntros(firstItem, apiClient, options).then(function (introsResult) {
+                if (self.#playbackRequest !== request) {
+                    return;
+                }
                 const introItems = introsResult.Items;
                 let introPlayOptions;
 
@@ -2389,7 +2584,7 @@ export class PlaybackManager {
 
                     setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
                     loading.hide();
-                });
+                }, undefined, request);
             });
         }
 
@@ -2400,7 +2595,14 @@ export class PlaybackManager {
             }
         }
 
-        function playInternal(item, playOptions, onPlaybackStartedFn, prevSource) {
+        function beginPlaybackRequest() {
+            const request = {};
+            self.#playbackRequest = request;
+            self.#startingPlayer?.streamInfo.playbackController?.abort();
+            return request;
+        }
+
+        function playInternal(item, playOptions, onPlaybackStartedFn, prevSource, request = beginPlaybackRequest()) {
             if (item.IsPlaceHolder) {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaybackErrorPlaceHolder');
@@ -2415,31 +2617,44 @@ export class PlaybackManager {
             // TODO: This should be the media type requested, not the original media type
             const mediaType = item.MediaType;
 
+            const isCurrent = () => self.#playbackRequest === request;
+
             return runInterceptors(item, playOptions)
-                .catch(onInterceptorRejection)
+                .catch(() => isCurrent() ? onInterceptorRejection() : Promise.reject())
                 .then(() => {
+                    if (!isCurrent()) {
+                        return;
+                    }
                     if (playOptions.fullscreen) {
                         loading.show();
                     }
+                    return detectBitrate(item, mediaType);
                 })
-                .then(() => detectBitrate(item, mediaType))
                 .then((bitrate) => {
-                    return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource)
-                        .catch(onPlaybackRejection);
+                    if (isCurrent()) {
+                        return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn, prevSource, isCurrent)
+                            .catch(error => onPlaybackRejection(error, isCurrent));
+                    }
                 })
                 .catch(() => {
-                    if (playOptions.fullscreen) {
+                    if (isCurrent() && playOptions.fullscreen) {
                         loading.hide();
+                    }
+                })
+                .finally(() => {
+                    if (isCurrent()) {
+                        self.#playbackRequest = null;
                     }
                 });
         }
 
         function cancelPlayback() {
-            const player = self._currentPlayer;
-
+            const player = self._currentPlayer || self.#startingPlayer?.player;
             if (player) {
+                getPlayerData(player).streamInfo?.playbackController?.abort();
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
+                self.#startingPlayer = null;
             }
 
             Events.trigger(self, 'playbackcancelled');
@@ -2451,22 +2666,28 @@ export class PlaybackManager {
             return Promise.reject();
         }
 
-        function onPlaybackRejection(e) {
-            cancelPlayback();
-
-            let displayErrorCode = 'ErrorDefault';
-
-            if (e instanceof Response) {
-                if (e.status >= 500) {
-                    displayErrorCode = `PlaybackError.${MediaError.SERVER_ERROR}`;
-                } else if (e.status >= 400) {
-                    displayErrorCode = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
+        async function onPlaybackRejection(error, isCurrent) {
+            if (!isCurrent()) {
+                return;
+            }
+            let errorKey = 'ErrorDefault';
+            if (await isPlaybackLimitError(error)) {
+                errorKey = PLAYBACK_LIMIT_MESSAGE;
+            } else if (error instanceof PlaybackInfoError) {
+                errorKey = error.message;
+            } else if (error instanceof Response) {
+                if (error.status >= 500) {
+                    errorKey = `PlaybackError.${MediaError.SERVER_ERROR}`;
+                } else if (error.status >= 400) {
+                    errorKey = `PlaybackError.${MediaError.NO_MEDIA_ERROR}`;
                 }
             }
 
-            showPlaybackInfoErrorMessage(self, displayErrorCode);
-
-            return Promise.reject();
+            if (isCurrent()) {
+                cancelPlayback();
+                showPlaybackInfoErrorMessage(self, errorKey);
+                loading.hide();
+            }
         }
 
         function destroyPlayer(player) {
@@ -2650,11 +2871,11 @@ export class PlaybackManager {
                 .catch(() => getSavedMaxStreamingBitrate(apiClient, mediaType));
         }
 
-        function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn, prevSource) {
+        function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn, prevSource, isCurrent) {
             const startPosition = playOptions.startPositionTicks;
 
             const player = getPlayer(item, playOptions);
-            const activePlayer = self._currentPlayer;
+            const activePlayer = self._currentPlayer || self.#startingPlayer?.player;
 
             let promise;
 
@@ -2663,11 +2884,14 @@ export class PlaybackManager {
                 self._playNextAfterEnded = false;
                 promise = onPlaybackChanging(activePlayer, player, item);
             } else {
-                promise = Promise.resolve();
+                promise = playbackStop;
             }
 
             if (!player) {
                 return promise.then(() => {
+                    if (!isCurrent()) {
+                        return;
+                    }
                     cancelPlayback();
                     loading.hide();
                     console.error(`No player found for the requested media: ${item.Url}`);
@@ -2677,14 +2901,22 @@ export class PlaybackManager {
 
             if (!isServerItem(item) || item.MediaType === 'Book') {
                 return promise.then(function () {
+                    if (!isCurrent()) {
+                        return;
+                    }
                     const streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
                     getPlayerData(player).isChangingStream = false;
                     return player.play(streamInfo).then(() => {
-                        loading.hide();
-                        onPlaybackStartedFn();
-                        onPlaybackStarted(player, playOptions, streamInfo);
+                        if (isCurrent()) {
+                            loading.hide();
+                            onPlaybackStartedFn();
+                            onPlaybackStarted(player, playOptions, streamInfo);
+                        }
                     }).catch((errorCode) => {
+                        if (!isCurrent()) {
+                            return;
+                        }
                         self.stop(player);
                         loading.hide();
                         showPlaybackInfoErrorMessage(self, errorCode || 'ErrorDefault');
@@ -2699,6 +2931,9 @@ export class PlaybackManager {
             const getSourceItem = isLiveTv ? Promise.resolve(null) : apiClient.getItem(apiClient.getCurrentUserId(), mediaSourceId || item.Id);
 
             return Promise.all([promise, player.getDeviceProfile(item), apiClient.getCurrentUser(), getSourceItem]).then(function (responses) {
+                if (!isCurrent()) {
+                    return;
+                }
                 const deviceProfile = responses[1];
                 const user = responses[2];
                 const sourceItem = responses[3];
@@ -2736,6 +2971,10 @@ export class PlaybackManager {
                 // this reference was only needed by sendPlaybackListToPlayer
                 playOptions.items = null;
 
+                if (item.MediaType === MediaType.Video && !itemHelper.isLocalItem(item) && !item.PresetMediaSource) {
+                    options.playbackInstanceId = createPlaybackInstanceId();
+                }
+
                 const trackOptions = {};
                 let isIdFallbackNeeded = false;
 
@@ -2753,7 +2992,11 @@ export class PlaybackManager {
                     mediaSourceId ||= item.Id;
                 }
 
-                return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options).then(async (mediaSource) => {
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options, isCurrent).then(async (result) => {
+                    if (!result) {
+                        return;
+                    }
+                    const { mediaSource, playbackInfo, openedHere } = result;
                     if (trackOptions.DefaultSecondarySubtitleStreamIndex != null) {
                         mediaSource.DefaultSecondarySubtitleStreamIndex = trackOptions.DefaultSecondarySubtitleStreamIndex;
                     }
@@ -2774,8 +3017,12 @@ export class PlaybackManager {
                     }
 
                     const playedItem = await getItemOfMediaSource(apiClient, item, mediaSource, sourceItem);
+                    if (!isCurrent()) {
+                        closeUnusedLiveStream(item.ServerId, playbackInfo, mediaSource, openedHere);
+                        return;
+                    }
 
-                    const streamInfo = createStreamInfo(apiClient, item.MediaType, playedItem, mediaSource, startPosition, player);
+                    const streamInfo = createStreamInfo(apiClient, item.MediaType, playedItem, mediaSource, startPosition, player, playbackInfo);
                     streamInfo.aspectRatio = playOptions.aspectRatio;
                     streamInfo.fullscreen = playOptions.fullscreen;
 
@@ -2784,22 +3031,20 @@ export class PlaybackManager {
                     playerData.isChangingStream = false;
                     playerData.maxStreamingBitrate = maxBitrate;
                     playerData.streamInfo = streamInfo;
+                    playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
+                    playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
+                    playerData.secondarySubtitleStreamIndex = mediaSource.DefaultSecondarySubtitleStreamIndex;
+                    self.#startingPlayer = {
+                        player,
+                        streamInfo,
+                        onStarted: loadedStream => {
+                            loading.hide();
+                            onPlaybackStartedFn();
+                            onPlaybackStarted(player, playOptions, loadedStream, loadedStream.mediaSource);
+                        }
+                    };
 
-                    return player.play(streamInfo).then(function () {
-                        loading.hide();
-                        onPlaybackStartedFn();
-                        onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
-                    }, function (err) {
-                        // TODO: Improve this because it will report playback start on a failure
-                        onPlaybackStartedFn();
-                        onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
-                        setTimeout(function () {
-                            onPlaybackError.call(player, err, {
-                                type: getMediaError(err),
-                                streamInfo
-                            });
-                        }, 100);
-                    });
+                    return loadStream(player, streamInfo);
                 });
             });
         }
@@ -2829,8 +3074,8 @@ export class PlaybackManager {
                         allowAudioStreamCopy: null
                     };
 
-                    return getPlaybackMediaSource(player, apiClient, deviceProfile, item, options.mediaSourceId, mediaOptions).then(function (mediaSource) {
-                        return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player);
+                    return getPlaybackMediaSource(player, apiClient, deviceProfile, item, options.mediaSourceId, mediaOptions).then(function ({ mediaSource, playbackInfo }) {
+                        return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition, player, playbackInfo);
                     });
                 });
             });
@@ -2868,13 +3113,15 @@ export class PlaybackManager {
             });
         };
 
-        function createStreamInfo(apiClient, type, item, mediaSource, startPosition, player) {
+        function createStreamInfo(apiClient, type, item, mediaSource, startPosition, player, playbackInfo) {
             const api = ServerConnections.getApi(item.ServerId);
             let mediaUrl;
             let contentType;
             let transcodingOffsetTicks = 0;
             const playerStartPositionTicks = startPosition;
             const liveStreamId = mediaSource.LiveStreamId;
+            const playbackInstanceId = playbackInfo.PlaybackInstanceId;
+            const playSessionId = playbackInstanceId ? playbackInfo.PlaySessionId : undefined;
 
             let playMethod = 'Transcode';
 
@@ -2907,6 +3154,10 @@ export class PlaybackManager {
                         deviceId: api.deviceInfo.id,
                         ApiKey: api.accessToken
                     };
+
+                    if (type === 'Video' && playSessionId) {
+                        directOptions.PlaySessionId = playSessionId;
+                    }
 
                     if (mediaSource.ETag) {
                         directOptions.Tag = mediaSource.ETag;
@@ -2958,7 +3209,10 @@ export class PlaybackManager {
                 tracks: getTextTracks(item, mediaSource),
                 mediaType: type,
                 liveStreamId: liveStreamId,
-                playSessionId: getParam('playSessionId', mediaUrl),
+                // eslint-disable-next-line compat/compat -- The legacy entry point installs the AbortController polyfill.
+                playbackController: type === 'Video' ? new AbortController() : undefined,
+                playbackInstanceId,
+                playSessionId: playSessionId || getParam('playSessionId', mediaUrl),
                 title: item.Name
             };
 
@@ -3026,49 +3280,6 @@ export class PlaybackManager {
                     // Trickplay manifests are keyed by media source, so they can just be added
                     Trickplay: { ...item.Trickplay, ...versionItem.Trickplay }
                 };
-            });
-        }
-
-        function getPlaybackMediaSource(player, apiClient, deviceProfile, item, mediaSourceId, options) {
-            options.isPlayback = true;
-
-            return getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSourceId, null, options).then(function (playbackInfoResult) {
-                if (validatePlaybackInfoResult(self, playbackInfoResult)) {
-                    return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
-                        if (mediaSource) {
-                            // Remember whether alternate versions exists
-                            mediaSource.hasAlternateVersions = playbackInfoResult.MediaSources.length > 1
-                                || item.MediaSources?.length > 1
-                                || (!!mediaSourceId && mediaSourceId !== item.Id);
-
-                            if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
-                                options.audioStreamIndex = null;
-                                options.subtitleStreamIndex = null;
-
-                                return getLiveStream(player, item, playbackInfoResult.PlaySessionId, deviceProfile, mediaSource, options).then(function (openLiveStreamResult) {
-                                    return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
-                                        openLiveStreamResult.MediaSource.enableDirectPlay = result;
-                                        openLiveStreamResult.MediaSource.hasAlternateVersions = mediaSource.hasAlternateVersions;
-                                        return openLiveStreamResult.MediaSource;
-                                    });
-                                });
-                            } else {
-                                if (item.AlbumId != null) {
-                                    return apiClient.getItem(apiClient.getCurrentUserId(), item.AlbumId).then(function(result) {
-                                        mediaSource.albumNormalizationGain = result.NormalizationGain;
-                                        return mediaSource;
-                                    });
-                                }
-                                return mediaSource;
-                            }
-                        } else {
-                            showPlaybackInfoErrorMessage(self, `PlaybackError.${MediaError.NO_MEDIA_ERROR}`);
-                            return Promise.reject();
-                        }
-                    });
-                } else {
-                    return Promise.reject();
-                }
             });
         }
 
@@ -3495,80 +3706,110 @@ export class PlaybackManager {
             }
         }
 
-        /**
-         * @param {object} streamInfo
-         * @param {MediaError} errorType
-         * @param {boolean} currentlyPreventsVideoStreamCopy
-         * @param {boolean} currentlyPreventsAudioStreamCopy
-         * @returns {boolean} Returns true if the stream should be retried by transcoding.
-         */
-        function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
-            return streamInfo.mediaSource.SupportsTranscoding
-                && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy);
-        }
-
-        /**
-         * Playback error handler.
-         * @param {Error} e
-         * @param {object} error
-         * @param {object} error.streamInfo
-         * @param {MediaError} error.type
-         */
-        function onPlaybackError(e, error) {
+        async function onPlaybackError(e, details) {
             const player = this;
-            error = error || {};
+            const playerData = getPlayerData(player);
+            const streamInfo = details?.streamInfo || playerData.streamInfo;
+            if (!streamInfo || streamInfo !== playerData.streamInfo || streamInfo.ended) {
+                return;
+            }
 
-            const errorType = error.type;
+            const limitReached = details?.type === PLAYBACK_LIMIT_ERROR_CODE
+                || await isPlaybackLimitError(details?.error ?? e);
+            if (playerData.streamInfo !== streamInfo || streamInfo.ended || streamInfo.playbackController?.signal.aborted) {
+                return;
+            }
 
-            console.warn('[playbackmanager] onPlaybackError:', e, error);
+            const errorType = limitReached ? PLAYBACK_LIMIT_ERROR_CODE : details?.type || MediaError.PLAYER_ERROR;
+            if (limitReached) {
+                streamInfo.limitRejected = true;
+            } else if (streamInfo.retrying) {
+                return;
+            } else if (streamInfo.url) {
+                const url = streamInfo.url.toLowerCase();
+                const preventsVideoStreamCopy = url.includes('allowvideostreamcopy=false');
+                const preventsAudioStreamCopy = url.includes('allowaudiostreamcopy=false');
 
-            const streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
-
-            if (streamInfo?.url) {
-                const isAlreadyFallbacking = streamInfo.url.toLowerCase().includes('transcodereasons');
-                const currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
-                const currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
-
-                // Auto switch to transcoding
-                if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
+                if (enablePlaybackRetryWithTranscoding(streamInfo, preventsVideoStreamCopy, preventsAudioStreamCopy)) {
                     const startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
-                    const isRemoteSource = streamInfo.item.LocationType === 'Remote';
-                    // force transcoding and only allow remuxing for remote source like liveTV, but only for initial trial
-                    const tryVideoStreamCopy = isRemoteSource && !isAlreadyFallbacking;
+                    const tryVideoStreamCopy = streamInfo.item.LocationType === 'Remote' && !url.includes('transcodereasons');
 
-                    changeStream(player, startTime, {
-                        EnableDirectPlay: false,
-                        EnableDirectStream: tryVideoStreamCopy,
-                        AllowVideoStreamCopy: tryVideoStreamCopy,
-                        AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
-                    });
-
+                    streamInfo.retrying = true;
+                    try {
+                        await changeStream(player, startTime, {
+                            EnableDirectPlay: false,
+                            EnableDirectStream: tryVideoStreamCopy,
+                            AllowVideoStreamCopy: tryVideoStreamCopy,
+                            AllowAudioStreamCopy: preventsAudioStreamCopy || preventsVideoStreamCopy ? false : null
+                        });
+                    } finally {
+                        streamInfo.retrying = false;
+                    }
                     return;
                 }
             }
 
+            playerData.isChangingStream = false;
             Events.trigger(self, 'playbackerror', [errorType]);
-
-            onPlaybackStopped.call(player, e, `.${errorType}`);
+            onPlaybackStopped.call(player, e, { streamInfo, errorKey: `PlaybackError.${errorType}` });
         }
 
-        function onPlaybackStopped(e, displayErrorCode) {
-            const player = this;
+        function reportStreamStopped(player, state, streamInfo) {
+            const reports = [reportPlayback(self, state, player, true, streamInfo.item.ServerId, 'reportPlaybackStopped')];
+            const aliases = new Set([streamInfo.playSessionId]);
+            for (let previous = streamInfo.previousStream; previous; previous = previous.previousStream) {
+                if (previous.playSessionId && !aliases.has(previous.playSessionId)) {
+                    aliases.add(previous.playSessionId);
+                    const previousState = {
+                        ...state,
+                        PlayState: {
+                            ...state.PlayState,
+                            PlaySessionId: previous.playSessionId,
+                            MediaSourceId: previous.mediaSource.Id,
+                            LiveStreamId: previous.liveStreamId
+                        }
+                    };
+                    reports.push(reportPlayback(self, previousState, player, true, previous.item.ServerId, 'reportPlaybackStopped'));
+                }
+            }
 
-            if (getPlayerData(player).isChangingStream) {
+            playbackStop = Promise.allSettled([playbackStop, ...reports]).then(() => undefined);
+            return playbackStop;
+        }
+
+        function onPlaybackStopped(e, stopInfo) {
+            const player = this;
+            const data = getPlayerData(player);
+            const streamInfo = data.streamInfo;
+            const errorKey = stopInfo?.errorKey;
+            const alreadyEnded = streamInfo?.ended;
+
+            if ((alreadyEnded && !stopInfo?.isUserStop) || (!streamInfo && stopInfo?.isUserStop && player !== self._currentPlayer)) {
+                return;
+            }
+            if (!stopInfo?.isUserStop && ((data.isChangingStream && !errorKey)
+                || (stopInfo?.streamInfo && stopInfo.streamInfo !== streamInfo))) {
                 return;
             }
 
+            data.streamChange = null;
+            data.audioChange = null;
+            data.bitrateChange = null;
+            data.isChangingStream = false;
+            streamInfo?.playbackController?.abort();
+            if (streamInfo && self.#startingPlayer?.streamInfo === streamInfo) {
+                self.#startingPlayer = null;
+                loading.hide();
+            }
             stopPlaybackProgressTimer(player);
 
             // User clicked stop or content ended
             const state = self.getPlayerState(player);
-            const data = getPlayerData(player);
-            const streamInfo = data.streamInfo;
 
-            const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
-
-            const nextItem = self._playNextAfterEnded && !errorOccurred ? self._playQueueManager.getNextItemInfo() : null;
+            if (errorKey) {
+                self._playNextAfterEnded = false;
+            }
+            const nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
             const nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3581,15 +3822,21 @@ export class PlaybackManager {
 
             state.NextMediaType = nextMediaType;
 
-            if (streamInfo && isServerItem(streamInfo.item)) {
+            if (streamInfo) {
+                streamInfo.ended = true;
+            }
+            // The server only rejects unadmitted logical playbacks. Reporting Stopped for
+            // a denied alias can clear the shared device session's now-playing state.
+            if (streamInfo && !alreadyEnded && errorKey !== PLAYBACK_LIMIT_MESSAGE && isServerItem(streamInfo.item)
+                && (streamInfo.started || streamInfo.playSessionId)) {
                 if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
                     state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                 }
 
-                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
-                streamInfo.ended = true;
-
-                reportPlayback(self, state, player, true, streamInfo.item.ServerId, 'reportPlaybackStopped');
+                if (errorKey) {
+                    state.PlayState.Failed = true;
+                }
+                reportStreamStopped(player, state, streamInfo);
             }
 
             state.NextItem = playbackStopInfo.nextItem;
@@ -3610,8 +3857,8 @@ export class PlaybackManager {
                 removeCurrentPlayer(player);
             }
 
-            if (errorOccurred) {
-                showPlaybackInfoErrorMessage(self, 'PlaybackError' + displayErrorCode);
+            if (errorKey) {
+                showPlaybackInfoErrorMessage(self, errorKey);
             } else if (newPlayer) {
                 const apiClient = ServerConnections.getApiClient(nextItem.item.ServerId);
 
@@ -3633,32 +3880,35 @@ export class PlaybackManager {
         }
 
         function onPlaybackChanging(activePlayer, newPlayer, newItem) {
+            const playerData = getPlayerData(activePlayer);
+            if (playerData.stopTransition) {
+                return playerData.stopTransition;
+            }
+
+            const streamInfo = playerData.streamInfo;
+            if (enableLocalPlaylistManagement(activePlayer) && !streamInfo) {
+                return playbackStop;
+            }
+
             const state = self.getPlayerState(activePlayer);
-
-            const serverId = self.currentItem(activePlayer).ServerId;
-
-            // User started playing something new while existing content is playing
-            let promise;
+            playerData.streamChange = null;
+            playerData.audioChange = null;
+            playerData.bitrateChange = null;
+            playerData.isChangingStream = false;
+            streamInfo?.playbackController?.abort();
 
             stopPlaybackProgressTimer(activePlayer);
             unbindStopped(activePlayer);
 
-            if (activePlayer === newPlayer) {
-                // If we're staying with the same player, stop it
-                promise = activePlayer.stop(false);
-            } else {
-                // If we're switching players, tear down the current one
-                promise = activePlayer.stop(true);
-            }
+            playerData.stopTransition = activePlayer.stop(activePlayer !== newPlayer).then(function () {
+                playerData.streamInfo = null;
+                if (self.#startingPlayer?.player === activePlayer) {
+                    self.#startingPlayer = null;
+                }
 
-            return promise.then(function () {
-                // Clear the data since we were not listening 'stopped'
-                getPlayerData(activePlayer).streamInfo = null;
-
-                bindStopped(activePlayer);
-
-                if (enableLocalPlaylistManagement(activePlayer)) {
-                    reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
+                if (enableLocalPlaylistManagement(activePlayer) && streamInfo && !streamInfo.ended) {
+                    streamInfo.ended = true;
+                    reportStreamStopped(activePlayer, state, streamInfo);
                 }
 
                 Events.trigger(self, 'playbackstop', [{
@@ -3667,7 +3917,14 @@ export class PlaybackManager {
                     nextItem: newItem,
                     nextMediaType: newItem.MediaType
                 }]);
+
+                return playbackStop;
+            }).finally(() => {
+                playerData.stopTransition = null;
+                bindStopped(activePlayer);
             });
+
+            return playerData.stopTransition;
         }
 
         function bindStopped(player) {
@@ -3833,7 +4090,7 @@ export class PlaybackManager {
             // Try to report playback stopped before the app closes
             if (player && this.isPlaying(player)) {
                 this._playNextAfterEnded = false;
-                onPlaybackStopped.call(player);
+                onPlaybackStopped.call(player, undefined, { isUserStop: true });
             }
         };
 
@@ -4085,7 +4342,15 @@ export class PlaybackManager {
     }
 
     stop(player) {
-        player = player || this._currentPlayer;
+        player = player || this._currentPlayer || this.#startingPlayer?.player;
+        if (this.#playbackRequest) {
+            this.#playbackRequest = null;
+            loading.hide();
+        }
+        if (this.#startingPlayer?.player === player) {
+            this.#startingPlayer?.streamInfo.playbackController?.abort();
+            this.#startingPlayer = null;
+        }
         if (player) {
             if (enableLocalPlaylistManagement(player)) {
                 this._playNextAfterEnded = false;

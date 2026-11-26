@@ -4,6 +4,7 @@ import appSettings from '../scripts/settings/appSettings';
 import browser from '../scripts/browser';
 import Events from '../utils/events.ts';
 import { MediaError } from 'types/mediaError';
+import { isPlaybackLimitError, PlaybackLimitError } from 'utils/playbackLimit';
 
 export function getSavedVolume() {
     return appSettings.get('volume') || 1;
@@ -111,13 +112,13 @@ export function handleHlsJsMediaError(instance, reject) {
     }
 }
 
-export function onErrorInternal(instance, type) {
+export function onErrorInternal(instance, type, details) {
     // Needed for video
     if (instance.destroyCustomTrack) {
         instance.destroyCustomTrack(instance._mediaElement);
     }
 
-    Events.trigger(instance, 'error', [{ type }]);
+    Events.trigger(instance, 'error', [{ type, ...details }]);
 }
 
 export function isValidDuration(duration) {
@@ -179,7 +180,7 @@ function onSuccessfulPlay(elem, onErrorFn) {
     elem.addEventListener('error', onErrorFn);
 }
 
-export function playWithPromise(elem, onErrorFn) {
+export function playWithPromise(elem, onErrorFn, isCurrent = () => true) {
     try {
         return elem.play()
             .catch((e) => {
@@ -193,7 +194,9 @@ export function playWithPromise(elem, onErrorFn) {
                 return Promise.reject(e);
             })
             .then(() => {
-                onSuccessfulPlay(elem, onErrorFn);
+                if (isCurrent()) {
+                    onSuccessfulPlay(elem, onErrorFn);
+                }
                 return Promise.resolve();
             });
     } catch (err) {
@@ -243,17 +246,100 @@ export function destroyFlvPlayer(instance) {
     }
 }
 
-export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
+export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject, streamInfo) {
+    let failed = false;
+    let checkingResponse = false;
+    const isCurrent = () => !failed && instance._hlsPlayer === hls
+        && !streamInfo?.playbackController?.signal.aborted;
+
+    function reportHttpError(error) {
+        if (!isCurrent()) {
+            return;
+        }
+        failed = true;
+        elem.removeEventListener('error', onErrorFn);
+        destroyHlsPlayer(instance);
+
+        if (reject) {
+            reject(error ?? MediaError.SERVER_ERROR);
+            reject = null;
+        } else {
+            onErrorInternal(instance, MediaError.SERVER_ERROR, { error, streamInfo });
+        }
+    }
+
+    function handleFatalHlsError(data) {
+        switch (data.type) {
+            case HlsErrorTypes.NETWORK_ERROR:
+
+                if (data.response && data.response.code === 0) {
+                    // This could be a CORS error related to access control response headers
+
+                    console.debug('hls.js response error code: ' + data.response.code);
+
+                    // Trigger failure differently depending on whether this is prior to start of playback, or after
+                    hls.destroy();
+
+                    if (reject) {
+                        reject(MediaError.NETWORK_ERROR);
+                        reject = null;
+                    } else {
+                        onErrorInternal(instance, MediaError.NETWORK_ERROR);
+                    }
+                } else {
+                    console.debug('fatal network error encountered, try to recover');
+                    hls.startLoad();
+                }
+
+                break;
+            case HlsErrorTypes.MEDIA_ERROR:
+                console.debug('fatal media error encountered, try to recover');
+                handleHlsJsMediaError(instance, reject && (() => {
+                    failed = true;
+                    reject();
+                    reject = null;
+                }));
+                break;
+            default:
+
+                console.debug('Cannot recover from hls error - destroy and trigger error');
+                // cannot recover
+                // Trigger failure differently depending on whether this is prior to start of playback, or after
+                hls.destroy();
+
+                if (reject) {
+                    reject();
+                    reject = null;
+                } else {
+                    onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
+                }
+                break;
+        }
+    }
+
     hls.on(HlsEvents.MANIFEST_PARSED, function () {
-        playWithPromise(elem, onErrorFn).then(resolve, function () {
-            if (reject) {
+        if (!isCurrent() || checkingResponse) {
+            return;
+        }
+        playWithPromise(elem, onErrorFn, () => isCurrent() && !checkingResponse).then(() => {
+            if (isCurrent() && !checkingResponse) {
+                reject = null;
+                resolve();
+            }
+        }, function () {
+            if (isCurrent() && !checkingResponse && reject) {
+                failed = true;
                 reject();
                 reject = null;
             }
         });
     });
 
-    hls.on(HlsEvents.ERROR, function (event, data) {
+    hls.on(HlsEvents.ERROR, async function (event, data) {
+        if (!isCurrent() || checkingResponse) {
+            return;
+        }
+
         console.error('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
         // try to recover network error
@@ -262,68 +348,23 @@ export function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, r
         ) {
             console.debug('hls.js response error code: ' + data.response.code);
 
-            // Trigger failure differently depending on whether this is prior to start of playback, or after
-            hls.destroy();
-
-            if (reject) {
-                reject(MediaError.SERVER_ERROR);
-                reject = null;
-            } else {
-                onErrorInternal(instance, MediaError.SERVER_ERROR);
-            }
+            checkingResponse = true;
+            elem.removeEventListener('error', onErrorFn);
+            const limitError = streamInfo && data.response.code === 403 && await isPlaybackLimitError(data);
+            reportHttpError(limitError ? new PlaybackLimitError() : undefined);
 
             return;
         }
 
         if (data.fatal) {
-            switch (data.type) {
-                case HlsErrorTypes.NETWORK_ERROR:
-
-                    if (data.response && data.response.code === 0) {
-                        // This could be a CORS error related to access control response headers
-
-                        console.debug('hls.js response error code: ' + data.response.code);
-
-                        // Trigger failure differently depending on whether this is prior to start of playback, or after
-                        hls.destroy();
-
-                        if (reject) {
-                            reject(MediaError.NETWORK_ERROR);
-                            reject = null;
-                        } else {
-                            onErrorInternal(instance, MediaError.NETWORK_ERROR);
-                        }
-                    } else {
-                        console.debug('fatal network error encountered, try to recover');
-                        hls.startLoad();
-                    }
-
-                    break;
-                case HlsErrorTypes.MEDIA_ERROR:
-                    console.debug('fatal media error encountered, try to recover');
-                    handleHlsJsMediaError(instance, reject);
-                    reject = null;
-                    break;
-                default:
-
-                    console.debug('Cannot recover from hls error - destroy and trigger error');
-                    // cannot recover
-                    // Trigger failure differently depending on whether this is prior to start of playback, or after
-                    hls.destroy();
-
-                    if (reject) {
-                        reject();
-                        reject = null;
-                    } else {
-                        onErrorInternal(instance, MediaError.FATAL_HLS_ERROR);
-                    }
-                    break;
-            }
+            handleFatalHlsError(data);
         }
     });
+
+    return () => reportHttpError(new PlaybackLimitError());
 }
 
-export function onEndedInternal(instance, elem, onErrorFn) {
+export function onEndedInternal(instance, elem, onErrorFn, isUserStop) {
     elem.removeEventListener('error', onErrorFn);
 
     resetSrc(elem);
@@ -333,7 +374,9 @@ export function onEndedInternal(instance, elem, onErrorFn) {
     destroyCastPlayer(instance);
 
     const stopInfo = {
-        src: instance._currentSrc
+        src: instance._currentSrc,
+        streamInfo: instance._currentPlayOptions,
+        isUserStop
     };
 
     Events.trigger(instance, 'stopped', [stopInfo]);

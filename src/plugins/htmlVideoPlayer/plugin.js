@@ -9,6 +9,7 @@ import { PluginType } from 'constants/pluginType';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { currentSettings as userSettings } from 'scripts/settings/userSettings';
 import { MediaError } from 'types/mediaError';
+import { isPlaybackLimitError, isPlaybackLimitResponse, PlaybackLimitError } from 'utils/playbackLimit';
 
 import browser from '../../scripts/browser';
 import appSettings from '../../scripts/settings/appSettings';
@@ -489,10 +490,13 @@ export class HtmlVideoPlayer {
 
                 loading.hide();
                 streamInfo.url = hlsPlaylistUrl;
-            }, function () {
-                console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
-
+            }, async function (error) {
                 loading.hide();
+                if (await isPlaybackLimitError(error)) {
+                    throw new PlaybackLimitError();
+                }
+
+                console.error(`error prefetching hls playlist: ${hlsPlaylistUrl}`);
             });
         } else {
             return Promise.resolve();
@@ -514,10 +518,16 @@ export class HtmlVideoPlayer {
         }
 
         const elem = await this.createMediaElement(options);
+        const signal = options.playbackController?.signal;
+        if (signal?.aborted) {
+            return;
+        }
         this.#applyAspectRatio(options.aspectRatio || this.getAspectRatio());
 
         await this.updateVideoUrl(options);
-        return this.setCurrentSrc(elem, options);
+        if (!signal?.aborted) {
+            return this.setCurrentSrc(elem, options);
+        }
     }
 
     /**
@@ -525,6 +535,9 @@ export class HtmlVideoPlayer {
      */
     setSrcWithFlvJs(elem, options, url) {
         return import('flv.js').then(({ default: flvjs }) => {
+            if (options.playbackController?.signal.aborted) {
+                return;
+            }
             const flvPlayer = flvjs.createPlayer({
                 type: 'flv',
                 url: url
@@ -552,6 +565,10 @@ export class HtmlVideoPlayer {
     async setSrcWithHlsJs(elem, options, url) {
         const Hls = await requireHlsPlayer();
         const includeCorsCredentials = await getIncludeCorsCredentials();
+        const signal = options.playbackController?.signal;
+        if (signal?.aborted) {
+            return;
+        }
 
         return new Promise((resolve, reject) => {
             let maxBufferLength = 30;
@@ -572,14 +589,32 @@ export class HtmlVideoPlayer {
                 videoPreference: { preferHDR: true },
                 xhrSetup(xhr) {
                     xhr.withCredentials = includeCorsCredentials;
+                    const inspectResponse = () => {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            xhr.removeEventListener('readystatechange', inspectResponse);
+                            if (isPlaybackLimitResponse(xhr)) {
+                                reportPlaybackLimit();
+                            }
+                        }
+                    };
+                    // Register before hls.js processes the response and selects an alternate level.
+                    xhr.addEventListener('readystatechange', inspectResponse);
                 }
             });
-            hls.loadSource(url);
-            hls.attachMedia(elem);
-
-            bindEventsToHlsPlayer(this, hls, elem, this.onError, resolve, reject);
+            // A superseded start may destroy this HLS instance before a manifest arrives.
+            const onAbort = () => resolve();
+            signal?.addEventListener('abort', onAbort, { once: true });
+            const reportPlaybackLimit = bindEventsToHlsPlayer(this, hls, elem, this.onError, () => {
+                signal?.removeEventListener('abort', onAbort);
+                resolve();
+            }, error => {
+                signal?.removeEventListener('abort', onAbort);
+                reject(error);
+            }, options);
 
             this._hlsPlayer = hls;
+            hls.loadSource(url);
+            hls.attachMedia(elem);
 
             // This is needed in setCurrentTrackElement
             this.#currentSrc = url;
@@ -651,14 +686,20 @@ export class HtmlVideoPlayer {
             elem.autoplay = true;
 
             const includeCorsCredentials = await getIncludeCorsCredentials();
+            if (options.playbackController?.signal.aborted) {
+                return;
+            }
             if (includeCorsCredentials) {
                 // Safari will not send cookies without this
                 elem.crossOrigin = 'use-credentials';
             }
 
+            // Native playback, including Safari, can report a generic error without exposing the quota response.
+            // A separate media request could reserve a playback slot.
             elem.src = val;
             this.#currentSrc = val;
-            return playWithPromise(elem, this.onError);
+            return playWithPromise(elem, this.onError,
+                () => !options.playbackController?.signal.aborted && this._currentPlayOptions === options);
         }
     }
 
@@ -936,7 +977,7 @@ export class HtmlVideoPlayer {
         }
     }
 
-    stop(destroyPlayer) {
+    stop(destroyPlayer, isUserStop) {
         const elem = this.#mediaElement;
         const src = this.#currentSrc;
 
@@ -945,7 +986,9 @@ export class HtmlVideoPlayer {
                 elem.pause();
             }
 
-            onEndedInternal(this, elem, this.onError);
+            onEndedInternal(this, elem, this.onError, isUserStop);
+        } else if (isUserStop) {
+            Events.trigger(this, 'stopped', [{ isUserStop }]);
         }
 
         this.destroyCustomTrack(elem);
@@ -1791,6 +1834,9 @@ export class HtmlVideoPlayer {
 
         if (!dlg) {
             return import('./style.scss').then(() => {
+                if (options.playbackController?.signal.aborted) {
+                    return;
+                }
                 if (options.fullscreen) loading.show();
 
                 const playerDlg = document.createElement('div');

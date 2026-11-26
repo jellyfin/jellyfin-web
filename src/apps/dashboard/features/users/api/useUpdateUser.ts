@@ -5,7 +5,7 @@ import { useApi } from 'hooks/useApi';
 import { queryClient } from 'utils/query/queryClient';
 import { QUERY_KEY } from 'hooks/api/useUser';
 
-export const useUpdateUser = () => {
+export const useUpdateUser = ({ refetchOnSuccess = true } = {}) => {
     const { api } = useApi();
 
     return useMutation({
@@ -15,7 +15,8 @@ export const useUpdateUser = () => {
         ),
         onSuccess: (_, params) => {
             void queryClient.invalidateQueries({
-                queryKey: [QUERY_KEY, params.userId]
+                queryKey: [QUERY_KEY, params.userId],
+                refetchType: refetchOnSuccess ? 'active' : 'none'
             });
         }
     });
