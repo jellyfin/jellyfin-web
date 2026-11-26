@@ -9,15 +9,19 @@ import { getPersonApi } from '@jellyfin/sdk/lib/utils/api/person-api';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
 import { getLiveTvApi } from '@jellyfin/sdk/lib/utils/api/live-tv-api';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import { VIDEO_PERSON_KINDS } from 'apps/modern/features/libraries/constants/personKinds';
 
 import { type JellyfinApiContext, useApi } from 'hooks/useApi';
-import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery, getLimitQuery } from 'utils/items';
+import { getAlphaPickerQuery, getFieldsQuery, getFiltersQuery } from 'utils/items';
+import * as userSettings from 'scripts/settings/userSettings';
 
 import type { LibraryViewSettings, ParentId } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
 import type { ItemDtoQueryResult } from 'types/base/models/item-dto-query-result';
+
+const DEFAULT_LIBRARY_PAGE_SIZE = 100;
 
 const fetchGetItemsViewByType = async (
     currentApi: JellyfinApiContext,
@@ -25,8 +29,10 @@ const fetchGetItemsViewByType = async (
     parentId: ParentId,
     itemType: BaseItemKind[],
     libraryViewSettings: LibraryViewSettings,
+    pagination: { startIndex: number, limit: number },
     options?: AxiosRequestConfig
 ) => {
+    const { startIndex, limit } = pagination;
     const { api, user } = currentApi;
     if (api && user?.Id && viewType) {
         const isFavorite = libraryViewSettings.Filters?.Status?.includes(ItemFilter.IsFavorite) || undefined;
@@ -40,10 +46,10 @@ const fetchGetItemsViewByType = async (
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
-                        ...getLimitQuery(),
+                        limit,
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: [PersonKind.AlbumArtist],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex
                     },
                     {
                         signal: options?.signal
@@ -59,10 +65,10 @@ const fetchGetItemsViewByType = async (
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
-                        ...getLimitQuery(),
+                        limit,
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: [PersonKind.Artist],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex
                     },
                     {
                         signal: options?.signal
@@ -78,10 +84,10 @@ const fetchGetItemsViewByType = async (
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
                         fields: [ItemFields.PrimaryImageAspectRatio],
                         filters: libraryViewSettings?.Filters?.Status,
-                        ...getLimitQuery(),
+                        limit,
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: [PersonKind.Author],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex
                     },
                     {
                         signal: options?.signal
@@ -97,10 +103,10 @@ const fetchGetItemsViewByType = async (
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
                         fields: [ItemFields.PrimaryImageAspectRatio],
                         filters: libraryViewSettings?.Filters?.Status,
-                        ...getLimitQuery(),
+                        limit,
                         ...getAlphaPickerQuery(libraryViewSettings),
                         personTypes: libraryViewSettings?.Filters?.PersonKinds?.length ? libraryViewSettings.Filters.PersonKinds : VIDEO_PERSON_KINDS,
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex
                     },
                     {
                         signal: options?.signal
@@ -114,12 +120,12 @@ const fetchGetItemsViewByType = async (
                         userId: user.Id,
                         parentId: parentId ?? undefined,
                         ...getFieldsQuery(viewType, libraryViewSettings),
-                        ...getLimitQuery(),
+                        limit,
                         ...getAlphaPickerQuery(libraryViewSettings),
                         includeItemTypes: itemType,
                         isFavorite,
                         enableImageTypes: [ImageType.Thumb],
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex
                     },
                     {
                         signal: options?.signal
@@ -131,7 +137,7 @@ const fetchGetItemsViewByType = async (
                     {
                         userId: user.Id,
                         fields: [ItemFields.PrimaryImageAspectRatio],
-                        startIndex: libraryViewSettings.StartIndex,
+                        startIndex,
                         isFavorite,
                         enableImageTypes: [ImageType.Primary]
                     },
@@ -151,12 +157,12 @@ const fetchGetItemsViewByType = async (
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
-                        ...getLimitQuery(),
+                        limit,
                         ...getAlphaPickerQuery(libraryViewSettings),
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex
                     },
                     {
                         signal: options?.signal
@@ -185,13 +191,13 @@ const fetchGetItemsViewByType = async (
                         enableImageTypes: [libraryViewSettings.ImageType, ImageType.Backdrop],
                         ...getFieldsQuery(viewType, libraryViewSettings),
                         ...getFiltersQuery(viewType, libraryViewSettings),
-                        ...getLimitQuery(),
+                        limit,
                         ...getAlphaPickerQuery(libraryViewSettings),
                         isFavorite: viewType === LibraryTab.Favorites ? true : undefined,
                         sortBy: libraryViewSettings.SortBy,
                         sortOrder: [libraryViewSettings.SortOrder],
                         includeItemTypes: itemType,
-                        startIndex: libraryViewSettings.StartIndex
+                        startIndex
                     },
                     {
                         signal: options?.signal
@@ -213,7 +219,15 @@ export const useGetItemsViewByType = (
     libraryViewSettings: LibraryViewSettings
 ) => {
     const currentApi = useApi();
-    return useQuery({
+    const pageSize = userSettings.libraryPageSize(undefined) || DEFAULT_LIBRARY_PAGE_SIZE;
+    // StartIndex is tracked by the pages themselves now, so it is excluded from the
+    // query key to keep already fetched pages in the cache.
+    const settingsKey = useMemo(
+        () => ({ ...libraryViewSettings, StartIndex: undefined }),
+        [libraryViewSettings]
+    );
+
+    return useInfiniteQuery({
         queryKey: [
             'User',
             currentApi.user?.Id,
@@ -223,18 +237,24 @@ export const useGetItemsViewByType = (
             viewType,
             {
                 itemType,
-                libraryViewSettings
+                settingsKey
             }
         ],
-        queryFn: ({ signal }) =>
+        queryFn: ({ pageParam, signal }) =>
             fetchGetItemsViewByType(
                 currentApi,
                 viewType,
                 parentId,
                 itemType,
                 libraryViewSettings!,
+                { startIndex: pageParam, limit: pageSize },
                 { signal }
             ),
+        initialPageParam: libraryViewSettings.StartIndex ?? 0,
+        getNextPageParam: (lastPage) => {
+            const nextStartIndex = (lastPage.StartIndex ?? 0) + (lastPage.Items?.length ?? 0);
+            return nextStartIndex < (lastPage.TotalRecordCount ?? 0) ? nextStartIndex : undefined;
+        },
         refetchOnWindowFocus: false,
         enabled: !!currentApi.api && !!currentApi.user?.Id
             && viewType

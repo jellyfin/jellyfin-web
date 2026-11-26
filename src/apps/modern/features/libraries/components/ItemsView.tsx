@@ -2,7 +2,8 @@ import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type'
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import Box from '@mui/material/Box';
 import classNames from 'classnames';
-import React, { type FC, SetStateAction, useCallback, useMemo } from 'react';
+import React, { type FC, memo, SetStateAction, useCallback, useEffect, useMemo } from 'react';
+import { useIntersectionObserver } from 'usehooks-ts';
 
 import { useLibrary } from 'apps/modern/features/libraries/hooks/useLibrary';
 import { getDefaultLibraryViewSettings } from 'apps/modern/features/libraries/utils/settings';
@@ -21,6 +22,10 @@ import type { ListOptions } from 'types/listOptions';
 
 import AlphabetPicker from './AlphabetPicker';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+// Pages already rendered should not re-render when another page is appended,
+// so keep them memoized and pass each page's own item array.
+const MemoizedCards = memo(Cards);
 
 const ItemsView: FC = () => {
     const {
@@ -56,9 +61,27 @@ const ItemsView: FC = () => {
     // The query key for all views for the current parent item.
     const allViewsQueryKey = useMemo(() => [...allItemsQueryKey, parentId, 'ViewByType'], [allItemsQueryKey, parentId]);
 
+    const pages = itemsResult?.data?.pages;
+    const items = useMemo(
+        () => pages?.flatMap((page) => page?.Items ?? []) ?? [],
+        [pages]
+    );
+
+    const { ref: sentinelRef, isIntersecting } = useIntersectionObserver({
+        rootMargin: '600px'
+    });
+
+    const { hasNextPage, isFetchingNextPage, fetchNextPage } = itemsResult ?? {};
+
+    useEffect(() => {
+        if (isIntersecting && hasNextPage && !isFetchingNextPage) {
+            void fetchNextPage?.();
+        }
+    }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
     const getListOptions = useCallback(() => {
         const listOptions: ListOptions = {
-            items: itemsResult?.data?.Items ?? [],
+            items,
             context: collectionType
         };
 
@@ -76,7 +99,7 @@ const ItemsView: FC = () => {
         }
 
         return listOptions;
-    }, [itemsResult?.data?.Items, collectionType, viewType, libraryViewSettings.SortBy]);
+    }, [items, collectionType, viewType, libraryViewSettings.SortBy]);
 
     const getCardOptions = useCallback(() => {
         let shape;
@@ -156,30 +179,39 @@ const ItemsView: FC = () => {
         viewType
     ]);
 
+    const cardOptions = useMemo(() => getCardOptions(), [getCardOptions]);
+
     const getItems = useCallback(() => {
-        if (!itemsResult?.data?.Items?.length) {
+        if (!items.length) {
             return <NoItemsMessage message={noItemsMessage ?? 'MessageNoItemsAvailable'} />;
         }
 
         if (libraryViewSettings.ViewMode === ViewMode.ListView) {
             return (
                 <Lists
-                    items={itemsResult?.data?.Items ?? []}
+                    items={items}
                     listOptions={getListOptions()}
                 />
             );
         }
         return (
-            <Cards
-                items={itemsResult?.data?.Items ?? []}
-                cardOptions={getCardOptions()}
-            />
+            <Box sx={{ display: 'contents' }}>
+                {pages?.map((page, index) => (
+                    <MemoizedCards
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={index}
+                        items={page?.Items ?? []}
+                        cardOptions={cardOptions}
+                    />
+                ))}
+            </Box>
         );
     }, [
         libraryViewSettings.ViewMode,
-        itemsResult?.data?.Items,
+        items,
+        pages,
         getListOptions,
-        getCardOptions,
+        cardOptions,
         noItemsMessage
     ]);
 
@@ -212,14 +244,19 @@ const ItemsView: FC = () => {
             {(!itemsResult || itemsResult.isPending) ? (
                 <Loading />
             ) : (
-                <ItemsContainer
-                    className={itemsContainerClass}
-                    parentId={parentId}
-                    reloadItems={itemsResult?.refetch}
-                    queryKey={allItemsQueryKey}
-                >
-                    {getItems()}
-                </ItemsContainer>
+                <>
+                    <ItemsContainer
+                        className={itemsContainerClass}
+                        parentId={parentId}
+                        reloadItems={itemsResult?.refetch}
+                        queryKey={allItemsQueryKey}
+                    >
+                        {getItems()}
+                    </ItemsContainer>
+
+                    {hasNextPage && <Box ref={sentinelRef} sx={{ height: '1px' }} />}
+                    {isFetchingNextPage && <Loading />}
+                </>
             )}
         </Box>
     );

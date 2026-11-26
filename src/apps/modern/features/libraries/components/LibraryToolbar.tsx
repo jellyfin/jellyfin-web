@@ -11,7 +11,6 @@ import React, { type SetStateAction, useMemo, type FC } from 'react';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { useApi } from 'hooks/useApi';
 import { useItem } from 'hooks/useItem';
-import { useUserSettings } from 'hooks/useUserSettings';
 import globalize from 'lib/globalize';
 import type { LibraryViewSettings } from 'types/library';
 import { LibraryTab } from 'types/libraryTab';
@@ -20,7 +19,6 @@ import FilterButton from './filter/FilterButton';
 import LibraryViewMenu from './LibraryViewMenu';
 import NewCollectionButton from './NewCollectionButton';
 import NewPlaylistButton from './NewPlaylistButton';
-import Pagination from './Pagination';
 import PlayAllButton from './PlayAllButton';
 import QueueButton from './QueueButton';
 import ShuffleButton from './ShuffleButton';
@@ -55,15 +53,18 @@ const LibraryToolbar: FC = () => {
     const libraryViewSettings = viewSettings ?? getDefaultLibraryViewSettings(viewType);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const setLibraryViewSettings = setViewSettings ?? ((action: SetStateAction<LibraryViewSettings>) => { /* no-op */ });
-    const { itemType, isPaginationEnabled, isBtnPlayAllEnabled, isBtnQueueEnabled, isBtnShuffleEnabled, isBtnSortEnabled, isBtnFilterEnabled, isBtnNewCollectionEnabled, isBtnNewPlaylistEnabled, isBtnGridListEnabled } = content ?? {};
+    const { itemType, isBtnPlayAllEnabled, isBtnQueueEnabled, isBtnShuffleEnabled, isBtnSortEnabled, isBtnFilterEnabled, isBtnNewCollectionEnabled, isBtnNewPlaylistEnabled, isBtnGridListEnabled } = content ?? {};
 
     const isSmallScreen = useMediaQuery(t => t.breakpoints.up('sm'));
 
     const { data: item } = useItem(parentId || undefined);
 
     const isPending = itemsResult?.isPending ?? true;
-    const totalRecordCount = itemsResult?.data?.TotalRecordCount ?? 0;
-    const items = itemsResult?.data?.Items ?? [];
+    const totalRecordCount = itemsResult?.data?.pages[0]?.TotalRecordCount ?? 0;
+    const items = useMemo(
+        () => itemsResult?.data?.pages.flatMap((page) => page?.Items ?? []) ?? [],
+        [itemsResult?.data]
+    );
     const hasFilterOptions = Object.values(viewSettings?.Filters ?? {}).some(f => !!f);
     const hasFilters = !!viewSettings?.Alphabet || hasFilterOptions;
     const { user } = useApi();
@@ -73,24 +74,11 @@ const LibraryToolbar: FC = () => {
     // This should be used to invalidate queries that affect multiple parents, such as collections and playlists.
     const allItemsQueryKey = useMemo(() => ['User', user?.Id, 'Items'], [user?.Id]);
 
-    // Pagination
-    const startIndex = viewSettings?.StartIndex ?? 0;
-    const { libraryPageSize: paginationLimit } = useUserSettings();
-    const paginationStart = totalRecordCount ? startIndex + 1 : 0;
-    const paginationEnd = paginationLimit ?
-        Math.min(startIndex + paginationLimit, totalRecordCount) :
-        totalRecordCount;
-    const isUserPaginationEnabled = paginationLimit > 0;
-    /** True if the data is larger than the page limit */
-    const isPaginationRequired = isUserPaginationEnabled && paginationLimit < totalRecordCount;
-
-    const itemCountDisplay = useMemo(() => {
-        if (isPending) return '\u2219'; // Bullet "operator" character as a loading indicator
-
-        return isPaginationRequired ?
-            globalize.translate('ListPaging', paginationStart, paginationEnd, totalRecordCount) :
-            totalRecordCount;
-    }, [isPending, isPaginationRequired, paginationStart, paginationEnd, totalRecordCount]);
+    const itemCountDisplay = useMemo(
+        // Bullet "operator" character as a loading indicator
+        () => (isPending ? '\u2219' : totalRecordCount.toLocaleString()),
+        [isPending, totalRecordCount]
+    );
 
     if (!isLibraryPath) return null;
 
@@ -261,15 +249,6 @@ const LibraryToolbar: FC = () => {
                             )}
                         </ButtonGroup>
 
-                        {isPaginationEnabled && isUserPaginationEnabled && (
-                            <Pagination
-                                setLibraryViewSettings={setLibraryViewSettings}
-                                index={startIndex}
-                                pageSize={paginationLimit}
-                                total={totalRecordCount}
-                                disabled={isPending || !isPaginationRequired || itemsResult?.isPlaceholderData}
-                            />
-                        )}
                     </Stack>
                 </>
             )}
