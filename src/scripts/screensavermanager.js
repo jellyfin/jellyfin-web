@@ -128,7 +128,7 @@ function ScreenSaverManager() {
     };
 
     const onInterval = () => {
-        if (this.isShowing()) {
+        if (this.isShowing() || document.hidden) {
             return;
         }
 
