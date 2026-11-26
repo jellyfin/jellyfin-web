@@ -50,3 +50,26 @@ export abstract class PreplayInterceptPlugin implements Plugin {
      */
     abstract intercept(options: InterceptOptions): Promise<void>;
 }
+
+export abstract class ScreensaverPlugin implements Plugin {
+    type = PluginType.Screensaver;
+    /** The name of the plugin */
+    abstract name: string;
+    /** The unique identifier for the plugin */
+    abstract id: string;
+    /** The priority of the plugin, used to determine the order of execution */
+    priority?: number;
+    /** Indicates if the screensaver can be shown when no user is logged in */
+    abstract supportsAnonymous: boolean;
+    /** Set to false to keep the screensaver visible on click */
+    hideOnClick?: boolean;
+    /** Set to false to keep the screensaver visible on mouse movement */
+    hideOnMouse?: boolean;
+    /** Set to false to keep the screensaver visible on key press */
+    hideOnKey?: boolean;
+
+    /** Shows the screensaver */
+    abstract show(): void;
+    /** Hides the screensaver, resolving once it has been removed */
+    abstract hide(): Promise<void>;
+}
