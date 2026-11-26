@@ -6,7 +6,7 @@ import appSettings from '../../scripts/settings/appSettings';
 import focusManager from '../focusManager';
 import layoutManager from '../layoutManager';
 import loading from '../loading/loading';
-import subtitleAppearanceHelper from './subtitleappearancehelper';
+import subtitleAppearanceHelper from './subtitleAppearanceHelper';
 import settingsHelper from '../settingshelper';
 import dom from '../../utils/dom';
 import Events from '../../utils/events.ts';
