@@ -32,6 +32,16 @@
     flex: 1;
 }
 
+.bookOsdProgressRow {
+    height: 3vh;
+    margin-top: auto;
+}
+
+.bookOsdProgressText {
+    min-width: 4rem;
+    text-align: center;
+}
+
 .bookOsdTitle {
     font-size: 1.1rem;
     margin-left: 0.35rem;
