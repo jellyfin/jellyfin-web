@@ -255,7 +255,7 @@ function bindEvents(elem) {
 
     positionSlider.addEventListener('change', function () {
         if (currentPlayer) {
-            const newPercent = parseFloat(this.value);
+            const newPercent = Number.parseFloat(this.value);
 
             playbackManager.seekPercent(newPercent, currentPlayer);
         }

@@ -112,6 +112,7 @@
 - [shindouj](https://github.com/shindouj)
 - [TheDreadPirate](https://github.com/thedreaddpirate)
 - [bymoxb](https://github.com/bymoxb)
+- [Laura Kotalczyk](https://github.com/LauraKotalczyk)
 
 ## Emby Contributors
 

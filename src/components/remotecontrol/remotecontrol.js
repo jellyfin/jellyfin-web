@@ -776,7 +776,7 @@ export default function () {
             const value = this.value;
 
             if (currentPlayer) {
-                const newPercent = parseFloat(value);
+                const newPercent = Number.parseFloat(value);
                 playbackManager.seekPercent(newPercent, currentPlayer);
             }
         });

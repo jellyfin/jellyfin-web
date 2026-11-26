@@ -710,7 +710,7 @@ export class HtmlVideoPlayer {
      * @private
      */
     _setSubtitleOffset(offset) {
-        const offsetValue = parseFloat(offset);
+        const offsetValue = Number.parseFloat(offset);
 
         // if .ass currently rendering
         if (this.#currentAssRenderer) {
