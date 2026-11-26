@@ -44,7 +44,8 @@ export default function (view, params, tabContent, options) {
     function shuffle() {
         isLoading = true;
         loading.show();
-        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: 300, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
+        // 0 means no limit; a null limit is omitted from the request
+        const newQuery = { ...query, SortBy: 'Random', StartIndex: 0, Limit: userSettings.maxQueueItems() || null, Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay' };
         const apiClient = ServerConnections.currentApiClient();
         return apiClient.getItems(apiClient.getCurrentUserId(), newQuery).then(({ Items }) => {
             playbackManager.play({

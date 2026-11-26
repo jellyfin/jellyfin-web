@@ -21,6 +21,7 @@ import loading from '../loading/loading';
 import { appHost } from '../apphost';
 import alert from '../alert';
 import { includesAny } from '../../utils/container.ts';
+import { resolveQueueLimit } from '../../utils/queueLimit';
 import { getItems } from 'lib/jellyfin-apiclient/utils/getItems';
 import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropImage';
 import { toItemsRequest } from 'lib/jellyfin-apiclient/utils/legacyItemsQuery';
@@ -157,10 +158,15 @@ function getItemsForPlayback(serverId, query) {
             collapseBoxSetItems: false
         };
 
-        if (query.limit === UNLIMITED_ITEMS) {
-            delete request.limit;
+        let limit;
+        if (query.limit !== UNLIMITED_ITEMS) {
+            limit = resolveQueueLimit(query.limit, query.ids?.length ?? 0, userSettings.maxQueueItems());
+        }
+
+        if (limit) {
+            request.limit = limit;
         } else {
-            request.limit = query.limit || 300;
+            delete request.limit;
         }
 
         return getItems(ServerConnections.getApi(serverId), request);
