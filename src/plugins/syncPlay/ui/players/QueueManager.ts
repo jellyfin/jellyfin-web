@@ -3,18 +3,27 @@
  * @module components/syncPlay/ui/players/QueueManager
  */
 
+import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+
+import type { MovePlaylistItemResult, NextItemInfo } from '@/components/playback/PlayQueueManager';
+import type { Nullable } from '@/types/nullable';
+import type SyncPlayManager from '@/plugins/syncPlay/core/Manager';
+import type QueueCore from '@/plugins/syncPlay/core/QueueCore';
+
 /**
  * Class that replaces the PlaybackManager's queue.
  */
 class QueueManager {
-    constructor(syncPlayManager) {
+    private queueCore: QueueCore;
+
+    constructor(syncPlayManager: SyncPlayManager) {
         this.queueCore = syncPlayManager.getQueueCore();
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getPlaylist() {
+    getPlaylist(): BaseItemDto[] {
         return this.queueCore.getPlaylist();
     }
 
@@ -63,14 +72,14 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getCurrentPlaylistIndex() {
+    getCurrentPlaylistIndex(): number {
         return this.queueCore.getCurrentPlaylistIndex();
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getCurrentItem() {
+    getCurrentItem(): Nullable<BaseItemDto> {
         const index = this.getCurrentPlaylistIndex();
         if (index >= 0) {
             const playlist = this.getPlaylist();
@@ -83,7 +92,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getCurrentPlaylistItemId() {
+    getCurrentPlaylistItemId(): Nullable<string> {
         return this.queueCore.getCurrentPlaylistItemId();
     }
 
@@ -111,7 +120,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    movePlaylistItem() {
+    movePlaylistItem(): MovePlaylistItemResult {
         // Do nothing.
         return {
             result: 'noop'
@@ -135,7 +144,7 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getRepeatMode() {
+    getRepeatMode(): string {
         return this.queueCore.getRepeatMode();
     }
 
@@ -156,16 +165,16 @@ class QueueManager {
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getShuffleMode() {
+    getShuffleMode(): string {
         return this.queueCore.getShuffleMode();
     }
 
     /**
      * Placeholder for original PlayQueueManager method.
      */
-    getNextItemInfo() {
+    getNextItemInfo(): Nullable<NextItemInfo> {
         const playlist = this.getPlaylist();
-        let newIndex;
+        let newIndex: number;
 
         switch (this.getRepeatMode()) {
             case 'RepeatOne':
