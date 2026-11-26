@@ -16,9 +16,11 @@ const QueryClientEventHandler: FC = () => {
     ), [queryClient]);
 
     const invalidateItemQueries = useCallback(() => (
-        queryClient.invalidateQueries({
-            queryKey: ['User', user?.Id, 'Items']
-        })
+        Promise.all([
+            queryClient.invalidateQueries({ queryKey: ['User', user?.Id, 'Items'] }),
+            queryClient.invalidateQueries({ queryKey: ['User', user?.Id, 'ResumeItems'] }),
+            queryClient.invalidateQueries({ queryKey: ['User', user?.Id, 'NextUp'] })
+        ])
     ), [queryClient, user?.Id]);
 
     useEffect(() => {
