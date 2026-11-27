@@ -26,6 +26,7 @@ import { getItemBackdropImageUrl } from 'lib/jellyfin-apiclient/utils/backdropIm
 import { toItemsRequest } from 'lib/jellyfin-apiclient/utils/legacyItemsQuery';
 
 import { PlayerEvent } from 'apps/legacy/features/playback/constants/playerEvent';
+import { IntendedPosition } from 'apps/legacy/features/playback/utils/intendedPosition';
 import { bindMediaSegmentManager } from 'apps/legacy/features/playback/utils/mediaSegmentManager';
 import { bindMediaSessionSubscriber } from 'apps/legacy/features/playback/utils/mediaSessionSubscriber';
 import { AppFeature } from 'constants/appFeature';
@@ -1702,6 +1703,7 @@ export class PlaybackManager {
 
         function changeStream(player, ticks, params) {
             if (canPlayerSeek(player) && params == null) {
+                getIntendedPosition(player).moveTo(ticks);
                 player.currentTime(parseInt(ticks / 10000, 10));
                 return;
             }
@@ -1795,9 +1797,11 @@ export class PlaybackManager {
             const playerData = getPlayerData(player);
 
             playerData.streamInfo = streamInfo;
+            getIntendedPosition(player).expect(streamInfo.playerStartPositionTicks);
 
             return player.play(streamInfo).then(function () {
                 playerData.isChangingStream = false;
+                getIntendedPosition(player).accept();
                 streamInfo.started = true;
                 streamInfo.ended = false;
 
@@ -2196,6 +2200,16 @@ export class PlaybackManager {
             return player;
         }
 
+        function getIntendedPosition(player) {
+            const playerData = getPlayerData(player);
+
+            if (!playerData.intendedPosition) {
+                playerData.intendedPosition = new IntendedPosition();
+            }
+
+            return playerData.intendedPosition;
+        }
+
         self.getPlayerState = function (player, item, mediaSource) {
             player = player || self._currentPlayer;
 
@@ -2299,7 +2313,7 @@ export class PlaybackManager {
                 playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
             }
 
-            return playerTime;
+            return getIntendedPosition(player).resolve(playerTime);
         }
 
         // Only used internally
@@ -2784,8 +2798,10 @@ export class PlaybackManager {
                     playerData.isChangingStream = false;
                     playerData.maxStreamingBitrate = maxBitrate;
                     playerData.streamInfo = streamInfo;
+                    getIntendedPosition(player).expect(streamInfo.playerStartPositionTicks);
 
                     return player.play(streamInfo).then(function () {
+                        getIntendedPosition(player).accept();
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
@@ -3565,6 +3581,8 @@ export class PlaybackManager {
             const state = self.getPlayerState(player);
             const data = getPlayerData(player);
             const streamInfo = data.streamInfo;
+
+            getIntendedPosition(player).clear();
 
             const errorOccurred = displayErrorCode && typeof (displayErrorCode) === 'string';
 
