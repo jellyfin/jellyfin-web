@@ -1,9 +1,12 @@
-import Worker from './blurhash.worker.ts'; // eslint-disable-line import/default
 import * as lazyLoader from '../lazyLoader/lazyLoaderIntersectionObserver';
 import * as userSettings from '../../scripts/settings/userSettings';
 import './style.scss';
 
-const worker = new Worker();
+// The chunk name is excluded from splitChunks in webpack.common.js so the worker stays self-contained
+const worker = new Worker(new URL('./blurhash.worker.ts', import.meta.url), {
+    /* webpackChunkName: "blurhash.worker" */
+    type: 'module'
+});
 const targetDic = {};
 worker.addEventListener(
     'message',

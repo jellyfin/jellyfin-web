@@ -141,7 +141,9 @@ const config = {
         removeAvailableModules: false,
         removeEmptyChunks: false,
         splitChunks: {
-            chunks: 'all',
+            // The blurhash worker must stay self-contained: a split worker calls Promise.all before core-js
+            // has loaded, which breaks browsers without a native Promise (Chrome 27)
+            chunks: chunk => chunk.name !== 'blurhash.worker',
             maxInitialRequests: Infinity,
             cacheGroups: {
                 node_modules: {
@@ -268,20 +270,6 @@ const config = {
                         cacheDirectory: true
                     }
                 }]
-            },
-            {
-                test: /\.worker\.ts$/,
-                exclude: /node_modules/,
-                use: [
-                    'worker-loader',
-                    {
-                        loader: 'ts-loader',
-                        options: {
-                            transpileOnly: true,
-                            compilerOptions: { sourceMap: DEV_MODE }
-                        }
-                    }
-                ]
             },
             {
                 test: /\.(ts|tsx)$/,
