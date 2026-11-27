@@ -251,6 +251,13 @@ a[data-role="button"],
     background-color: transparent;
 }
 
+// The TV layout highlights focus with the primary colour, so a submit button
+// would look permanently focused. Keep it neutral until it has focus.
+.layout-tv .formDialogFooter .button-submit:not(:focus) {
+    background: var(--jf-palette-Button-inheritContainedBg, $button-inheritContainedBg);
+    color: var(--jf-palette-text-secondary, $text-secondary);
+}
+
 .cardText-secondary,
 .fieldDescription,
 .guide-programNameCaret,
