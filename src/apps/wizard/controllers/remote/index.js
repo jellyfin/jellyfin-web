@@ -1,3 +1,5 @@
+import { getSystemApi } from '@jellyfin/sdk/lib/utils/api/system-api';
+
 import loading from 'components/loading/loading';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 import Dashboard from 'utils/dashboard';
@@ -8,16 +10,11 @@ import 'elements/emby-select/emby-select';
 
 function save(page) {
     loading.show();
-    const apiClient = ServerConnections.currentApiClient();
-    const config = {
-        EnableRemoteAccess: page.querySelector('#chkRemoteAccess').checked
-    };
+    const systemApi = getSystemApi(ServerConnections.getApi());
 
-    apiClient.ajax({
-        type: 'POST',
-        data: JSON.stringify(config),
-        url: apiClient.getUrl('Startup/RemoteAccess'),
-        contentType: 'application/json'
+    systemApi.getNamedConfiguration({ key: 'network' }).then(function ({ data }) {
+        data.EnableRemoteAccess = page.querySelector('#chkRemoteAccess').checked;
+        return systemApi.updateNamedConfiguration({ key: 'network', body: data });
     }).then(function () {
         loading.hide();
         navigateToNextPage();
