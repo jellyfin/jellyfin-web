@@ -6,7 +6,7 @@ import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
 import React, { type FC } from 'react';
 
-import { useItems } from 'apps/modern/features/libraries/hooks/api/useItems';
+import { getItemsQueryKey, useItems } from 'apps/modern/features/libraries/hooks/api/useItems';
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import { useApi } from 'hooks/useApi';
 import Loading from 'components/loading/LoadingComponent';
@@ -28,7 +28,7 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
     itemType,
     genre
 }) => {
-    const { serverId } = useApi();
+    const { serverId, user } = useApi();
     const getParametersOptions = () => {
         return {
             sortBy: [ItemSortBy.Random],
@@ -44,11 +44,13 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
             limit: 25,
             genreIds: genre.Id ? [genre.Id] : undefined,
             enableTotalRecordCount: false,
-            parentId: parentId ?? undefined
+            parentId: parentId ?? undefined,
+            userId: user?.Id
         };
     };
 
-    const { isLoading, data: itemsResult } = useItems(getParametersOptions());
+    const parametersOptions = getParametersOptions();
+    const { isLoading, data: itemsResult } = useItems(parametersOptions);
 
     const getRouteUrl = (item: ItemDto) => {
         return appRouter.getRouteUrl(item, {
@@ -66,6 +68,9 @@ const GenresSectionContainer: FC<GenresSectionContainerProps> = ({
         title={genre.Name || ''}
         url={getRouteUrl(genre)}
         items={itemsResult?.Items}
+        itemsContainerProps={{
+            queryKey: getItemsQueryKey(parametersOptions)
+        }}
         cardOptions={{
             scalable: true,
             overlayPlayButton: true,

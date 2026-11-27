@@ -16,6 +16,8 @@ const fetchGetItems = async (
     return response.data;
 };
 
+export const getItemsQueryKey = (params: LibraryApiGetItemsRequest) => [ 'Items', params ];
+
 export const getItemsQuery = (
     api: Api | undefined,
     params: LibraryApiGetItemsRequest
@@ -23,7 +25,7 @@ export const getItemsQuery = (
     const isRandom = Boolean(params.sortBy?.includes(ItemSortBy.Random));
 
     return queryOptions({
-        queryKey: [ 'Items', params ],
+        queryKey: getItemsQueryKey(params),
         queryFn: ({ signal }) => fetchGetItems(api!, params, { signal }),
         gcTime: isRandom ? Infinity : undefined,
         refetchOnMount: isRandom ? false : undefined,

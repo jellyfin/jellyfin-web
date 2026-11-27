@@ -204,7 +204,7 @@ function subscribeToApiClient(apiClient) {
         })
     ];
 
-    return () => subscriptions.get(apiClient.serverId()).forEach((unsub) => {
+    return () => subscriptions.forEach((unsub) => {
         unsub();
     });
 }
