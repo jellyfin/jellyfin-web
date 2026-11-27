@@ -2,7 +2,9 @@ import { getDisplayVersion } from '@jellyfin/sdk/lib/utils/versioning';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import Skeleton from '@mui/material/Skeleton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -19,8 +21,20 @@ type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;
     onRestartClick?: () => void;
     onShutdownClick?: () => void;
-    onClearQueues?: () => void;
+    onClearQueues?: () => void | Promise<void>;
     isScanning?: boolean;
+};
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4
 };
 
 const ServerInfoWidget = ({
@@ -34,6 +48,15 @@ const ServerInfoWidget = ({
 
     const displayServerVersion = getDisplayVersion(systemInfo?.Version);
     const displayWebVersion = getDisplayVersion(__PACKAGE_JSON_VERSION__);
+
+    const [open, setOpen] = React.useState(false);
+    const handleModalOpen = () => setOpen(true);
+    const handleModalClose = () => setOpen(false);
+
+    const onClearQueuesHandler = async () => {
+        await onClearQueues?.();
+        handleModalClose();
+    };
 
     return (
         <Widget
@@ -88,14 +111,47 @@ const ServerInfoWidget = ({
                     </Button>
 
                     <Button
-                        onClick={onClearQueues}
+                        onClick={handleModalOpen}
                         startIcon={<CleaningServices />}
                         sx={{
                             fontWeight: 'bold'
                         }}
                     >
-                        Clear Continue Watching
+                        Clear Queues
                     </Button>
+                    <Modal
+                        open={open}
+                        onClose={handleModalClose}
+                        aria-labelledby='modal-modal-title'
+                        aria-describedby='modal-modal-description'
+                    >
+                        <Box sx={style}>
+                            <Typography id='modal-modal-title' variant='h6' component='h2'>
+                                Clear Queues
+                            </Typography>
+                            <Typography id='modal-modal-description' sx={{ mt: 2 }}>
+                                Are you sure you would like to clear the Continue Watching queue? This action cannot be undone.
+                            </Typography>
+                            <Button
+                                onClick={handleModalClose}
+                                sx={{
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={onClearQueuesHandler}
+                                startIcon={<CleaningServices />}
+                                color='error'
+                                sx={{
+                                    fontWeight: 'bold'
+                                }}
+                            >
+                                Clear
+                            </Button>
+                        </Box>
+                    </Modal>
 
                     <Button
                         onClick={onRestartClick}
