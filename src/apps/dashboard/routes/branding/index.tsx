@@ -19,11 +19,13 @@ import Loading from 'components/loading/LoadingComponent';
 import Image from 'components/Image';
 import Page from 'components/Page';
 import { SPLASHSCREEN_URL } from 'constants/branding';
+import { DomError } from '@/constants/domError';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
+import { readFileAsBase64 } from '@/utils/file';
 import { queryClient } from 'utils/query/queryClient';
-import { ActionData } from 'types/actionData';
+import type { ActionData } from 'types/actionData';
 
 const BRANDING_CONFIG_KEY = 'branding';
 const BrandingOption = {
@@ -107,7 +109,7 @@ export const Component = () => {
             });
     }, [ api ]);
 
-    const onSplashscreenUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const onSplashscreenUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
         setError(undefined);
 
         const files = event.target.files;
@@ -115,36 +117,32 @@ export const Component = () => {
         if (!api || !files) return false;
 
         const file = files[0];
-        const reader = new FileReader();
-        reader.onerror = e => {
+        let body: string | undefined;
+        try {
+            body = await readFileAsBase64(file);
+        } catch (e) {
             console.error('[BrandingPage] error reading file', e);
-            setError('ImageUploadFailed');
-        };
-        reader.onabort = e => {
-            console.warn('[BrandingPage] aborted reading file', e);
-            setError('ImageUploadCancelled');
-        };
-        reader.onload = () => {
-            if (!reader.result) return;
+            if (e instanceof DOMException && e.name === DomError.Abort) {
+                setError('ImageUploadCancelled');
+            } else {
+                setError('ImageUploadFailed');
+            }
+        }
+        if (!body) return;
 
-            const dataUrl = reader.result as string; // readAsDataURL produces a string
-            // FIXME: TypeScript SDK thinks body should be a File but in reality it is a Base64 string
-            const body = dataUrl.split(',')[1] as never;
-            getImageApi(api)
+        try {
+            await getImageApi(api)
                 .uploadCustomSplashscreen(
-                    { body },
+                    // NOTE: TypeScript SDK thinks body should be a File but in reality it requires a Base64 string
+                    { body: body as never as File },
                     { headers: { ['Content-Type']: file.type } }
-                )
-                .then(() => {
-                    setSplashscreenUrl(dataUrl);
-                })
-                .catch(e => {
-                    console.error('[BrandingPage] error uploading splashscreen', e);
-                    setError('ImageUploadFailed');
-                });
-        };
+                );
 
-        reader.readAsDataURL(file);
+            setSplashscreenUrl(URL.createObjectURL(file));
+        } catch (e) {
+            console.error('[BrandingPage] error uploading splashscreen', e);
+            setError('ImageUploadFailed');
+        }
     }, [ api ]);
 
     const setSplashscreenEnabled = useCallback(async (_: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {

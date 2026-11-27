@@ -4,12 +4,17 @@
 export function readFileAsBase64(file: File): Promise<string> {
     return new Promise(function (resolve, reject) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
             // Split by a comma to remove the url: prefix
             const data = (e.target?.result as string)?.split?.(',')[1];
             resolve(data);
         };
-        reader.onerror = reject;
+        reader.onabort = e => {
+            reject(e.target?.error);
+        };
+        reader.onerror = e => {
+            reject(e.target?.error);
+        };
         reader.readAsDataURL(file);
     });
 }
@@ -20,11 +25,16 @@ export function readFileAsBase64(file: File): Promise<string> {
 export function readFileAsText(file: File): Promise<string> {
     return new Promise(function (resolve, reject) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
             const data = e.target?.result as string;
             resolve(data);
         };
-        reader.onerror = reject;
+        reader.onabort = e => {
+            reject(e.target?.error);
+        };
+        reader.onerror = e => {
+            reject(e.target?.error);
+        };
         reader.readAsText(file);
     });
 }
