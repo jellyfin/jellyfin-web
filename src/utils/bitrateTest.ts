@@ -99,6 +99,7 @@ const getDownloadSpeed = (api: Api, bytes: number) => {
             reject(new Error('[bitratetest] timeout'));
         };
 
+        console.debug(`[bitratetest] requesting ${bytes} bytes; timeout ${BITRATETEST_TIMEOUT} ms`);
         xhr.send(null);
     });
 };
@@ -112,6 +113,7 @@ const getDownloadSpeed = (api: Api, bytes: number) => {
 const normalizeReturnBitrate = (bitrate: number) => {
     if (!bitrate) {
         if (lastDetectedBitrate) {
+            console.debug(`[bitratetest] no measurement; reusing ${lastDetectedBitrate} bps detected ${Date.now() - lastDetectedBitrateTime} ms ago without renewing cache`);
             return lastDetectedBitrate;
         }
     }
@@ -126,6 +128,7 @@ const normalizeReturnBitrate = (bitrate: number) => {
     lastDetectedBitrate = result;
     lastDetectedBitrateTime = Date.now();
 
+    console.debug(`[bitratetest] measured ${bitrate} bps; browser limit ${maxRate ?? 'none'} bps; normalized ${result} bps; cache duration ${BITRATE_CACHE_DURATION} ms`);
     return result;
 };
 
@@ -153,7 +156,10 @@ const detectBitrateInternal = (api: Api, tests: BitrateTest[], index: number, cu
                 return detectBitrateInternal(api, tests, index + 1, bitrate);
             }
         },
-        () => normalizeReturnBitrate(currentBitrate || 0)
+        error => {
+            console.debug(`[bitratetest] measurement failed (${error instanceof Error ? error.message : 'unknown error'}); using last successful test or cached bitrate`);
+            return normalizeReturnBitrate(currentBitrate || 0);
+        }
     );
 };
 
@@ -183,14 +189,14 @@ const detectBitrateWithEndpointInfo = (api: Api, endpointInfo: EndPointInfo) => 
         0,
         undefined
     ).then(result => {
-        const bitrateInMbps = (result / 1048576).toFixed(2);
-        console.debug(`[bitratetest] bitrate detected as ${bitrateInMbps} Mbps`);
         if (endpointInfo.IsInNetwork) {
             result = Math.max(result || 0, LAN_BITRATE);
 
             lastDetectedBitrate = result;
             lastDetectedBitrateTime = Date.now();
         }
+        const cacheAge = Date.now() - lastDetectedBitrateTime;
+        console.debug(`[bitratetest] selected ${result} bps; local network ${endpointInfo.IsInNetwork ?? 'unknown'}; cache age ${cacheAge} ms; expires in ${Math.max(0, BITRATE_CACHE_DURATION - cacheAge)} ms`);
         return result;
     });
 };
@@ -205,18 +211,24 @@ export const detectBitrate = (api: Api, force: boolean) => {
     if (!force
         && lastDetectedBitrate
         && Date.now() - (lastDetectedBitrateTime || 0) <= BITRATE_CACHE_DURATION) {
+        console.debug(`[bitratetest] using cached ${lastDetectedBitrate} bps; age ${Date.now() - lastDetectedBitrateTime} ms; expires in ${BITRATE_CACHE_DURATION - (Date.now() - lastDetectedBitrateTime)} ms`);
         return Promise.resolve(lastDetectedBitrate);
     }
 
     if (pendingBitrateDetection) {
+        console.debug('[bitratetest] waiting for pending detection');
         return pendingBitrateDetection;
     }
 
+    console.debug(`[bitratetest] starting detection; forced ${Boolean(force)}; previous cache age ${lastDetectedBitrateTime ? Date.now() - lastDetectedBitrateTime : 'unknown'} ms`);
     pendingBitrateDetection = getSystemApi(api)
         .getEndpointInfo()
         .then(
             (response) => detectBitrateWithEndpointInfo(api, response.data),
-            () => detectBitrateWithEndpointInfo(api, {})
+            () => {
+                console.debug('[bitratetest] endpoint classification unavailable');
+                return detectBitrateWithEndpointInfo(api, {});
+            }
         ).finally(() => {
             pendingBitrateDetection = null;
         });

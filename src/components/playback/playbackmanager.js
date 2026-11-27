@@ -500,6 +500,7 @@ async function getPlaybackInfo(player, apiClient, item, deviceProfile, mediaSour
 
     query.DeviceProfile = deviceProfile;
 
+    console.debug(`[playback] requesting PlaybackInfo; maximum streaming bitrate ${query.MaxStreamingBitrate ?? 'unspecified'} bps`);
     const res = await getMediaInfoApi(api).getPostedPlaybackInfo({ itemId: itemId, playbackInfoDto: query });
     return res.data;
 }
