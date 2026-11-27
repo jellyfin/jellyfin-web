@@ -27,10 +27,22 @@ function fallback(urls) {
     })();
 }
 
-function download(url) {
+function download(file) {
     const a = document.createElement('a');
-    a.download = '';
-    a.href = url;
+    a.download = typeof file === 'string' ? '' : file.filename;
+    a.href = typeof file === 'string' ? file : file.url;
+    if ((a.protocol === 'http:' || a.protocol === 'https:') && a.origin !== document.location.origin) {
+        // Cross-origin links navigate instead of honoring the download attribute.
+        // Each request needs its own frame so later downloads cannot cancel it.
+        const frame = document.createElement('iframe');
+        frame.style.display = 'none';
+        frame.src = a.href;
+        frame.onload = function () {
+            frame.parentNode?.removeChild(frame);
+        };
+        document.documentElement.appendChild(frame);
+        return;
+    }
     a.click();
 }
 
@@ -40,12 +52,17 @@ export default function (urls) {
     }
 
     if (typeof document.createElement('a').download === 'undefined' || browser.iOS) {
-        return fallback(urls);
+        return fallback(urls.map(file => typeof file === 'string' ? file : file.url));
     }
 
     let delay = 0;
 
-    urls.forEach(function (url) {
-        setTimeout(download.bind(null, url), 100 * ++delay);
-    });
+    return Promise.all(urls.map(function (url) {
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                download(url);
+                resolve();
+            }, 100 * ++delay);
+        });
+    }));
 }

@@ -483,7 +483,7 @@ export default function (options) {
     function download() {
         const imageInfo = getCurrentImageInfo();
 
-        import('../../scripts/fileDownloader').then((fileDownloader) => {
+        import('../../utils/fileDownloader').then((fileDownloader) => {
             fileDownloader.download([imageInfo]);
         });
     }

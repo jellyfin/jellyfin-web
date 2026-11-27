@@ -416,7 +416,7 @@ function executeCommand(item, id, options) {
                 });
                 break;
             case 'download':
-                import('../scripts/fileDownloader').then((fileDownloader) => {
+                import('../utils/fileDownloader').then((fileDownloader) => {
                     const url = getLibraryApi(api).getDownloadUrl({ itemId });
                     fileDownloader.download([{
                         url,
@@ -431,7 +431,7 @@ function executeCommand(item, id, options) {
                 break;
             case 'downloadall': {
                 const downloadItems = items => {
-                    import('../scripts/fileDownloader').then((fileDownloader) => {
+                    import('../utils/fileDownloader').then((fileDownloader) => {
                         const downloads = items
                             .filter(i => i.CanDownload)
                             .map(i => {
