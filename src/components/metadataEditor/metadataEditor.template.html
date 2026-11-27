@@ -17,11 +17,9 @@
     </div>
 </div>
 
-<div class="formDialogContent smoothScrollY" style="padding-top:2em;">
-
-    <form class="editItemMetadataForm editMetadataForm dialogContentInner dialog-content-centered">
+<div class="formDialogContent smoothScrollY">
+    <form id="metadataEditorForm" class="editItemMetadataForm editMetadataForm dialogContentInner dialog-content-centered">
         <div class="metadataFormFields">
-
             <div style="padding: 0 0 10px;">
                 <div id="fldContentType" class="selectContainer hide">
                     <select is="emby-select" id="selectContentType" label="${LabelContentType}"></select>
@@ -86,11 +84,13 @@
                 <div class="inputContainer overviewContainer hide">
                     <textarea is="emby-textarea" id="txtOverview" label="${LabelOverview}"></textarea>
                 </div>
-                <div id="fldPremiereDate" class="inputContainer">
-                    <input is="emby-input" id="txtPremiereDate" label="${LabelReleaseDate}" type="date" />
-                </div>
-                <div id="fldYear" class="hide inputContainer">
-                    <input is="emby-input" id="txtProductionYear" type="number" label="${LabelYear}" />
+                <div class="inlineForm">
+                    <div id="fldPremiereDate" class="inputContainer">
+                        <input is="emby-input" id="txtPremiereDate" label="${LabelReleaseDate}" type="date" />
+                    </div>
+                    <div id="fldYear" class="hide inputContainer">
+                        <input is="emby-input" id="txtProductionYear" type="number" label="${LabelYear}" />
+                    </div>
                 </div>
                 <div id="fldPlaceOfBirth" class="hide inputContainer">
                     <input is="emby-input" id="txtPlaceOfBirth" type="text" label="${LabelPlaceOfBirth}" />
@@ -132,7 +132,6 @@
                         </label>
                     </div>
                     <br />
-
                 </div>
                 <div id="fldAirTime" class="inputContainer hide">
                     <input is="emby-input" id="txtAirTime" type="text" label="${LabelAirTime}" />
@@ -252,8 +251,8 @@
                     </div>
                     <div class="selectContainer">
                         <select is="emby-select" id="selectCountry" label="${LabelCountry}"></select>
+                        <div class="fieldDescription editorfieldDescription">${MessageLeaveEmptyToInherit}</div>
                     </div>
-                    <div class="fieldDescription editorfieldDescription">${MessageLeaveEmptyToInherit}</div>
 
                     <br /><br />
                     <label class="checkboxContainer">
@@ -265,19 +264,18 @@
                     </div>
                 </div>
             </div>
-            <br />
-            <div class="formDialogFooter formDialogFooter-justifyEnd">
-                <button is="emby-button" type="button" class="raised button-cancel block btnCancel formDialogFooterItem">
-                    <span>${ButtonCancel}</span>
-                </button>
-                <button is="emby-button" type="button" class="raised button-reset block btnReset formDialogFooterItem">
-                    <span>${Reset}</span>
-                </button>
-                <button is="emby-button" type="submit" class="raised button-submit block btnSave formDialogFooterItem">
-                    <span>${Save}</span>
-                </button>
-            </div>
-
         </div>
     </form>
+</div>
+
+<div class="formDialogFooter formDialogFooter-justifyEnd">
+    <button is="emby-button" type="button" form="metadataEditorForm" class="raised button-cancel block btnCancel formDialogFooterItem">
+        <span>${ButtonCancel}</span>
+    </button>
+    <button is="emby-button" type="button" form="metadataEditorForm" class="raised button-reset block btnReset formDialogFooterItem">
+        <span>${Reset}</span>
+    </button>
+    <button is="emby-button" type="submit" form="metadataEditorForm" class="raised button-submit block btnSave formDialogFooterItem">
+        <span>${Save}</span>
+    </button>
 </div>
