@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import Skeleton from '@mui/material/Skeleton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import CleaningServices from '@mui/icons-material/CleaningServices';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import React from 'react';
 
@@ -18,6 +19,7 @@ type ServerInfoWidgetProps = {
     onScanLibrariesClick?: () => void;
     onRestartClick?: () => void;
     onShutdownClick?: () => void;
+    onClearQueues?: () => void;
     isScanning?: boolean;
 };
 
@@ -25,6 +27,7 @@ const ServerInfoWidget = ({
     onScanLibrariesClick,
     onRestartClick,
     onShutdownClick,
+    onClearQueues,
     isScanning
 }: ServerInfoWidgetProps) => {
     const { data: systemInfo, isPending } = useSystemInfo();
@@ -82,6 +85,16 @@ const ServerInfoWidget = ({
                         loadingPosition='start'
                     >
                         {globalize.translate('ButtonScanAllLibraries')}
+                    </Button>
+
+                    <Button
+                        onClick={onClearQueues}
+                        startIcon={<CleaningServices />}
+                        sx={{
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Clear Continue Watching
                     </Button>
 
                     <Button

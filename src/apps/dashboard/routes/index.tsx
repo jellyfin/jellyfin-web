@@ -11,6 +11,10 @@ import Page from 'components/Page';
 import { useApi } from 'hooks/useApi';
 import globalize from 'lib/globalize';
 
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getUserDataApi } from '@jellyfin/sdk/lib/utils/api/user-data-api';
+import { getLibraryApi } from '@jellyfin/sdk/lib/utils/api/library-api';
+
 import ServerPathWidget from '../components/widgets/ServerPathWidget';
 import ServerInfoWidget from '../components/widgets/ServerInfoWidget';
 import ActivityLogWidget from '../components/widgets/ActivityLogWidget';
@@ -24,7 +28,7 @@ import { useStartTask } from '../features/tasks/api/useStartTask';
 import ItemCountsWidget from '../components/widgets/ItemCountsWidget';
 
 export const Component = () => {
-    const { api } = useApi();
+    const { api, user } = useApi();
     const [ isRestartConfirmDialogOpen, setIsRestartConfirmDialogOpen ] = useState(false);
     const [ isShutdownConfirmDialogOpen, setIsShutdownConfirmDialogOpen ] = useState(false);
     const startTask = useStartTask();
@@ -53,6 +57,58 @@ export const Component = () => {
     const closeShutdownDialog = useCallback(() => {
         setIsShutdownConfirmDialogOpen(false);
     }, []);
+
+    const onClearQueues = useCallback(async () => {
+        if (!api || !user?.Id) return;
+
+        const userId = user.Id;
+        const limit = 100;
+        const itemIds = new Set<string>();
+        let startIndex = 0;
+
+        // Collect all pages before resetting positions, since each reset changes the results.
+        while (true) {
+            const { data } = await getLibraryApi(api).getResumeItems({
+                userId,
+                startIndex,
+                limit,
+                includeItemTypes: [
+                    BaseItemKind.Movie,
+                    BaseItemKind.Series,
+                    BaseItemKind.Episode
+                ],
+                enableTotalRecordCount: false
+            });
+
+            const items = data.Items ?? [];
+            if (items.length === 0) break;
+
+            for (const item of items) {
+                if (item.Id) itemIds.add(item.Id);
+            }
+
+            startIndex += items.length;
+        }
+
+        const userDataApi = getUserDataApi(api);
+
+        for (const itemId of itemIds) {
+            await userDataApi.updateItemUserData({
+                userId,
+                itemId,
+                updateUserItemDataDto: {
+                    PlaybackPositionTicks: 0
+                }
+            });
+        }
+
+        await queryClient.invalidateQueries({
+            queryKey: [ 'SuggestionSectionWithItems' ]
+        });
+        await queryClient.invalidateQueries({
+            queryKey: [ 'User', userId, 'ResumeItems' ]
+        });
+    }, [ api, user?.Id, queryClient ]);
 
     const onScanLibraries = useCallback(() => {
         const scanLibrariesTask = tasks?.find((value) => value.Key === 'RefreshLibrary');
@@ -114,6 +170,7 @@ export const Component = () => {
                                 onRestartClick={promptRestart}
                                 onShutdownClick={promptShutdown}
                                 isScanning={librariesTask?.State !== TaskState.Idle}
+                                onClearQueues={onClearQueues}
                             />
                             <ItemCountsWidget />
                             <RunningTasksWidget tasks={tasks} />
