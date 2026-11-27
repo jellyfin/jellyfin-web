@@ -276,7 +276,7 @@ const supportedFeatures = function () {
         if (enabled) features.push(AppFeature.MultiServer);
     });
 
-    if (!browser.orsay && (browser.firefox || browser.ps4 || browser.edge || supportsCue())) {
+    if (!browser.orsay && (browser.firefox || browser.ps4 || browser.edge || browser.safari || supportsCue())) {
         features.push(AppFeature.SubtitleAppearance);
     }
 
