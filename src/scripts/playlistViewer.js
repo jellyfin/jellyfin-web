@@ -1,16 +1,29 @@
+import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
+import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-fields';
 import { getPlaylistApi } from '@jellyfin/sdk/lib/utils/api/playlist-api';
 
 import listView from 'components/listview/listview';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
-function getFetchPlaylistItemsFn(apiClient, itemId) {
-    return function () {
-        const query = {
-            Fields: 'PrimaryImageAspectRatio,MediaSourceCount,Chapters,Trickplay',
-            EnableImageTypes: 'Primary,Backdrop,Banner,Thumb',
-            UserId: apiClient.getCurrentUserId()
-        };
-        return apiClient.getJSON(apiClient.getUrl(`Playlists/${itemId}/Items`, query));
+function getFetchPlaylistItemsFn(item) {
+    const api = ServerConnections.getApi(item.ServerId);
+    return async function () {
+        const { data } = await getPlaylistApi(api).getPlaylistItems({
+            playlistId: item.Id,
+            fields: [
+                ItemFields.PrimaryImageAspectRatio,
+                ItemFields.MediaSourceCount,
+                ItemFields.Chapters,
+                ItemFields.Trickplay
+            ],
+            enableImageTypes: [
+                ImageType.Primary,
+                ImageType.Backdrop,
+                ImageType.Banner,
+                ImageType.Thumb
+            ]
+        });
+        return data;
     };
 }
 
@@ -55,7 +68,7 @@ async function init(page, item) {
     elem.classList.add('vertical-list');
     elem.classList.remove('vertical-wrap');
     elem.enableDragReordering(isEditable);
-    elem.fetchData = getFetchPlaylistItemsFn(apiClient, item.Id);
+    elem.fetchData = getFetchPlaylistItemsFn(item);
     elem.getItemsHtml = getItemsHtmlFn(item.Id, isEditable);
 }
 

@@ -1,5 +1,6 @@
 
 import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
+import { getLyricApi } from '@jellyfin/sdk/lib/utils/api/lyric-api';
 
 import alert from 'components/alert';
 import confirm from 'components/confirm/confirm';
@@ -80,17 +81,13 @@ export function deleteLyrics (item) {
         confirmText: globalize.translate('Delete'),
         primary: 'delete'
     }).then(() => {
-        const apiClient = ServerConnections.getApiClient(item.ServerId);
-        return apiClient.ajax({
-            url: apiClient.getUrl('Audio/' + item.Id + '/Lyrics'),
-            type: 'DELETE'
-        }).catch((err) => {
-            const result = function () {
-                return Promise.reject(err);
-            };
+        const api = ServerConnections.getApi(item.ServerId);
+        return getLyricApi(api).deleteLyrics({ itemId: item.Id })
+            .catch(err => {
+                const result = () => Promise.reject(err);
 
-            return alertText(globalize.translate('ErrorDeletingLyrics')).then(result, result);
-        });
+                return alertText(globalize.translate('ErrorDeletingLyrics')).then(result, result);
+            });
     });
 }
 

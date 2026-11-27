@@ -117,11 +117,11 @@ export function logout() {
 }
 
 export function getPluginUrl(name) {
-    return 'configurationpage?name=' + encodeURIComponent(name);
+    return 'ConfigurationPage?name=' + encodeURIComponent(name);
 }
 
 export function getConfigurationResourceUrl(name) {
-    return ServerConnections.currentApiClient().getUrl('web/ConfigurationPage', { name });
+    return ServerConnections.getApi().getUri('/web/ConfigurationPage', { name });
 }
 
 /**
