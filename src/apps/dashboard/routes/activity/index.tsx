@@ -5,7 +5,7 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { useTheme } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { type MRT_ColumnDef, type MRT_Theme, type MRT_ColumnFiltersState, type MRT_SortingState, useMaterialReactTable } from 'material-react-table';
+import { MRT_ActionMenuItem, type MRT_ColumnDef, type MRT_Theme, type MRT_ColumnFiltersState, type MRT_ColumnFilterFnsState, type MRT_Localization, type MRT_SortingState, useMaterialReactTable } from 'material-react-table';
 import DateTimeCell from 'apps/dashboard/components/table/DateTimeCell';
 import TablePage, { DEFAULT_TABLE_OPTIONS } from 'apps/dashboard/components/table/TablePage';
 import { useLogEntries } from 'apps/dashboard/features/activity/api/useLogEntries';
@@ -31,11 +31,40 @@ const enum ActivityView {
 
 const VIEW_PARAM = 'useractivity';
 
+const TEXT_FILTER_MODES = [
+    { option: 'contains', symbol: '*', label: 'FilterContains' },
+    { option: 'notContains', symbol: '!*', label: 'FilterNotContains' }
+];
+const SELECT_FILTER_MODES = [ 'equals', 'notEquals' ];
+const EXCLUDE_FILTER_MODES = [ 'notContains', 'notEquals' ];
+
+const DEFAULT_FILTER_FNS: MRT_ColumnFilterFnsState = {
+    Severity: 'equals',
+    User: 'equals',
+    Name: 'contains',
+    Overview: 'contains',
+    Type: 'contains'
+};
+
 const getActivityView = (param: string | null) => {
     if (param === null) return ActivityView.All;
     if (toBoolean(param)) return ActivityView.User;
     return ActivityView.System;
 };
+
+// MRT only lists its built-in filter modes, so the text columns render their own menu to offer "not contains"
+const renderTextFilterModeMenuItems: MRT_ColumnDef<ActivityLogEntry>['renderColumnFilterModeMenuItems'] = ({ column, onSelectFilterMode, table }) => (
+    TEXT_FILTER_MODES.map(({ option, symbol, label }) => (
+        <MRT_ActionMenuItem
+            key={option}
+            icon={symbol}
+            label={globalize.translate(label)}
+            onClick={() => onSelectFilterMode(option)}
+            selected={table.getState().columnFilterFns[column.id] === option}
+            table={table}
+        />
+    ))
+);
 
 const getUserCell = (users: UsersRecords) => function UserCell({ row }: ActivityLogEntryCell) {
     return (
@@ -46,6 +75,7 @@ const getUserCell = (users: UsersRecords) => function UserCell({ row }: Activity
 export const Component = () => {
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ columnFilters, setColumnFilters ] = useState<MRT_ColumnFiltersState>([]);
+    const [ columnFilterFns, setColumnFilterFns ] = useState<MRT_ColumnFilterFnsState>(DEFAULT_FILTER_FNS);
     const [ activityView, setActivityView ] = useState(
         getActivityView(searchParams.get(VIEW_PARAM)));
 
@@ -69,6 +99,9 @@ export const Component = () => {
 
     const activityParams = useMemo(() => {
         const getFilter = (id: string) => columnFilters.find(f => f.id === id)?.value;
+        const isExcluded = (id: string) => EXCLUDE_FILTER_MODES.includes(columnFilterFns[id]);
+        const getIncludeFilter = (id: string) => isExcluded(id) ? undefined : getFilter(id);
+        const getExcludeFilter = (id: string) => isExcluded(id) ? getFilter(id) : undefined;
         const sortFields: ActivityLogSortBy[] = [];
         const sortOrders: SortOrder[] = [];
 
@@ -99,17 +132,22 @@ export const Component = () => {
             limit: pagination.pageSize,
             hasUserId: activityView !== ActivityView.All ? activityView === ActivityView.User : undefined,
 
-            name: getFilter('Name') as string || undefined,
-            type: getFilter('Type') as string || undefined,
-            shortOverview: getFilter('Overview') as string || undefined,
-            username: getFilter('User') as string || undefined,
-            severity: getFilter('Severity') as LogLevel || undefined,
+            name: getIncludeFilter('Name') as string || undefined,
+            type: getIncludeFilter('Type') as string || undefined,
+            shortOverview: getIncludeFilter('Overview') as string || undefined,
+            username: getIncludeFilter('User') as string || undefined,
+            severity: getIncludeFilter('Severity') as LogLevel || undefined,
+            excludeName: getExcludeFilter('Name') as string || undefined,
+            excludeType: getExcludeFilter('Type') as string || undefined,
+            excludeShortOverview: getExcludeFilter('Overview') as string || undefined,
+            excludeUsername: getExcludeFilter('User') as string || undefined,
+            excludeSeverity: getExcludeFilter('Severity') as LogLevel || undefined,
             minDate: (getFilter('Date') as string[] | undefined)?.[0] ?? undefined,
             maxDate: (getFilter('Date') as string[] | undefined)?.[1] ?? undefined,
             sortBy: sortFields,
             sortOrder: sortOrders
         };
-    }, [ pagination, columnFilters, sorting, activityView ]);
+    }, [ pagination, columnFilters, columnFilterFns, sorting, activityView ]);
 
     const {
         data,
@@ -137,7 +175,8 @@ export const Component = () => {
                 align: 'center'
             },
             filterVariant: 'select',
-            filterSelectOptions: userNames
+            filterSelectOptions: userNames,
+            columnFilterModeOptions: SELECT_FILTER_MODES
         }], [ activityView, userNames, users, UserCell ]);
 
     const columns = useMemo<MRT_ColumnDef<ActivityLogEntry>[]>(() => [
@@ -148,6 +187,7 @@ export const Component = () => {
             size: 160,
             Cell: DateTimeCell,
             filterVariant: 'datetime-range',
+            enableColumnFilterModes: false,
             grow: true,
             maxSize: 320
         },
@@ -164,14 +204,16 @@ export const Component = () => {
             filterSelectOptions: Object.values(LogLevel).map(level => ({
                 text: globalize.translate(`LogLevel.${level}`),
                 value: level
-            }))
+            })),
+            columnFilterModeOptions: SELECT_FILTER_MODES
         },
         ...userColumn,
         {
             accessorKey: 'Name',
             header: globalize.translate('LabelName'),
             size: 270,
-            grow: true
+            grow: true,
+            renderColumnFilterModeMenuItems: renderTextFilterModeMenuItems
         },
         {
             id: 'Overview',
@@ -180,14 +222,16 @@ export const Component = () => {
             size: 170,
             Cell: OverviewCell,
             grow: true,
-            maxSize: 220
+            maxSize: 220,
+            renderColumnFilterModeMenuItems: renderTextFilterModeMenuItems
         },
         {
             accessorKey: 'Type',
             header: globalize.translate('LabelType'),
             size: 150,
             grow: true,
-            maxSize: 220
+            maxSize: 220,
+            renderColumnFilterModeMenuItems: renderTextFilterModeMenuItems
         },
         {
             id: 'Actions',
@@ -226,6 +270,14 @@ export const Component = () => {
         baseBackgroundColor: theme.palette.background.paper
     }), [ theme ]);
 
+    // MRT looks up the active filter mode label as `filter${Mode}`, so the custom mode needs its own entry
+    const localization: Partial<MRT_Localization> & { filterNotContains: string } = {
+        filterContains: globalize.translate('FilterContains'),
+        filterEquals: globalize.translate('FilterEquals'),
+        filterNotContains: globalize.translate('FilterNotContains'),
+        filterNotEquals: globalize.translate('FilterNotEquals')
+    };
+
     const table = useMaterialReactTable({
         ...DEFAULT_TABLE_OPTIONS,
         mrtTheme,
@@ -241,6 +293,7 @@ export const Component = () => {
         state: {
             isLoading,
             columnFilters,
+            columnFilterFns,
             pagination,
             sorting
         },
@@ -248,6 +301,13 @@ export const Component = () => {
         manualFiltering: true,
         manualSorting: true,
         onColumnFiltersChange: setColumnFilters,
+        enableColumnFilterModes: true,
+        onColumnFilterFnsChange: setColumnFilterFns,
+        // Filtering is done by the server, so this only registers the mode with the table
+        filterFns: {
+            notContains: () => true
+        },
+        localization,
         onSortingChange: setSorting,
         enableMultiSort: true,
         enableGlobalFilter: false,
