@@ -604,6 +604,7 @@
     "ImageDeleteFailed": "Image deletion failed",
     "ImageUploadCancelled": "Image upload cancelled",
     "ImageUploadFailed": "Image upload failed",
+    "ImageUploadUnsupportedFormat": "This image format is not supported. Use a PNG, JPEG, WebP, GIF or BMP image.",
     "Images": "Images",
     "ImportFavoriteChannelsHelp": "Only channels that are marked as favorite on the tuner device will be imported.",
     "IndexNumber": "Index Number",
