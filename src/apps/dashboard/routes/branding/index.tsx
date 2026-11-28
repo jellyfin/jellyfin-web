@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { type ActionFunctionArgs, Form, useActionData, useNavigation } from 'react-router-dom';
 
 import { getBrandingOptionsQuery, QUERY_KEY, useBrandingOptions } from 'apps/dashboard/features/branding/api/useBrandingOptions';
+import { isSupportedSplashscreenFile, SPLASHSCREEN_ACCEPT } from 'apps/dashboard/features/branding/utils/splashscreen';
 import Loading from 'components/loading/LoadingComponent';
 import Image from 'components/Image';
 import Page from 'components/Page';
@@ -25,14 +26,17 @@ import { ServerConnections } from 'lib/jellyfin-apiclient';
 import { queryClient } from 'utils/query/queryClient';
 import { ActionData } from 'types/actionData';
 
-const BRANDING_CONFIG_KEY = 'branding';
 const BrandingOption = {
     CustomCss: 'CustomCss',
     LoginDisclaimer: 'LoginDisclaimer',
     SplashscreenEnabled: 'SplashscreenEnabled'
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+interface BrandingActionData extends ActionData {
+    error?: string;
+}
+
+export const action = async ({ request }: ActionFunctionArgs): Promise<BrandingActionData> => {
     const api = ServerConnections.getApi();
     if (!api) throw new Error('No Api instance available');
 
@@ -45,11 +49,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         SplashscreenEnabled: data.SplashscreenEnabled?.toString() === 'on'
     };
 
-    await getSystemApi(api)
-        .updateNamedConfiguration({
-            key: BRANDING_CONFIG_KEY,
-            body: JSON.stringify(brandingOptions)
-        });
+    try {
+        await getSystemApi(api)
+            .updateBrandingConfiguration({ brandingOptionsDto: brandingOptions });
+    } catch (e) {
+        // Return the error instead of throwing it, so a failed save shows a
+        // message on the form rather than replacing the page with the route
+        // error boundary.
+        console.error('[BrandingPage] error saving branding options', e);
+        return {
+            isSaved: false,
+            error: 'ErrorDefault'
+        };
+    }
 
     void queryClient.invalidateQueries({
         queryKey: [ QUERY_KEY ]
@@ -71,7 +83,7 @@ export const loader = async () => {
 export const Component = () => {
     const { api } = useApi();
     const navigation = useNavigation();
-    const actionData = useActionData() as ActionData | undefined;
+    const actionData = useActionData() as BrandingActionData | undefined;
     const isSubmitting = navigation.state === 'submitting';
 
     const {
@@ -110,11 +122,18 @@ export const Component = () => {
     const onSplashscreenUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setError(undefined);
 
-        const files = event.target.files;
+        const input = event.target;
+        const file = input.files?.[0];
+        // Clear the input so choosing the same file again still fires onChange.
+        input.value = '';
 
-        if (!api || !files) return false;
+        if (!api || !file) return;
 
-        const file = files[0];
+        if (!isSupportedSplashscreenFile(file)) {
+            setError('ImageUploadUnsupportedFormat');
+            return;
+        }
+
         const reader = new FileReader();
         reader.onerror = e => {
             console.error('[BrandingPage] error reading file', e);
@@ -148,16 +167,27 @@ export const Component = () => {
     }, [ api ]);
 
     const setSplashscreenEnabled = useCallback(async (_: React.ChangeEvent<HTMLInputElement>, isEnabled: boolean) => {
+        setError(undefined);
+
+        if (!api) return;
+
         setIsSplashscreenEnabled(isEnabled);
 
-        await getSystemApi(api!)
-            .updateNamedConfiguration({
-                key: BRANDING_CONFIG_KEY,
-                body: JSON.stringify({
-                    ...defaultBrandingOptions,
-                    SplashscreenEnabled: isEnabled
-                })
-            });
+        try {
+            await getSystemApi(api)
+                .updateBrandingConfiguration({
+                    brandingOptionsDto: {
+                        ...defaultBrandingOptions,
+                        SplashscreenEnabled: isEnabled
+                    }
+                });
+        } catch (e) {
+            console.error('[BrandingPage] error saving splashscreen setting', e);
+            // Put the switch back so it matches what the server has.
+            setIsSplashscreenEnabled(!isEnabled);
+            setError('ErrorDefault');
+            return;
+        }
 
         void queryClient.invalidateQueries({
             queryKey: [ QUERY_KEY ]
@@ -204,9 +234,9 @@ export const Component = () => {
                                 </Alert>
                             )}
 
-                            {error && (
+                            {(error || (!isSubmitting && actionData?.error)) && (
                                 <Alert severity='error'>
-                                    {globalize.translate(error)}
+                                    {globalize.translate(error || actionData?.error)}
                                 </Alert>
                             )}
 
@@ -255,7 +285,7 @@ export const Component = () => {
                                     >
                                         <input
                                             type='file'
-                                            accept='image/*'
+                                            accept={SPLASHSCREEN_ACCEPT}
                                             hidden
                                             onChange={onSplashscreenUpload}
                                         />
